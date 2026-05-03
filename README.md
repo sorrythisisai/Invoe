@@ -1,6 +1,6 @@
 # FreelanceFlow
 
-**[→ Open App](https://sorrythisisai.github.io/FreelanceFlow)**
+**[→ Open App](https://sorrythisisai.github.io/FreelanceFlow/)**
 
 No more notebooks, Excel spreadsheets, or phone notes. FreelanceFlow is a lightweight single-page web app for freelancers that helps you track orders, monitor payments, and see your stats in real time. Just open the HTML file in your browser — and it works. No sign-up, no server, no internet required.
 
