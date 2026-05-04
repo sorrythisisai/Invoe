@@ -1,4 +1,4 @@
-# FreelanceFlow
+# FreelanceFlow v1
 
 **[→ Open App](https://sorrythisisai.github.io/FreelanceFlow/)**
 
@@ -6,4 +6,6 @@ No more notebooks, Excel spreadsheets, or phone notes. FreelanceFlow is a lightw
 
 Add orders with amount, client, description, and date. Mark entries as paid or unpaid. See how much you're waiting on and how much has already come in. Work with multiple currencies and conversion rates. Copy an invoice with one click. Duplicate entries, bulk edit and delete. All data is stored locally in your browser — your data stays yours. Backup and restore via JSON. Works on mobile and desktop. Supports dark and light theme.
 
-To try the app, click **Deployments** on the right side of this page or go to the link below.
+FreelanceFlow uses no external APIs — everything runs locally in your browser. This means no automatic currency conversion (rates are set manually) and no sync between devices. Your data never leaves your machine.
+
+To try the app, use the link above or click **Deployments** on the right side of this page.
