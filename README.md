@@ -1,4 +1,4 @@
-# FreelanceFlow v1
+# FreelanceFlow v1.1
 
 **[→ Open App](https://sorrythisisai.github.io/FreelanceFlow/)**
 
