@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>FreelanceFlow</title>
+<title>Invoe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -70,9 +70,9 @@ body{font-family:'Geist',-apple-system,sans-serif;background:var(--bg);color:var
 .cc-sv.owe{color:var(--warning);}
 .cc-sv.got{color:var(--success);}
 /* Sparkline */
-.cc-spark{position:relative;}
-canvas#cc-cv{display:block;width:100%;height:44px;}
-.cc-spark-tip{position:absolute;pointer-events:none;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r);padding:4px 8px;font-size:10px;color:var(--text);white-space:nowrap;display:none;z-index:10;transform:translateX(-50%);}
+.cc-spark{position:relative;overflow:visible;margin-top:4px;}
+canvas#cc-cv{display:block;width:100%;height:56px;}
+.cc-spark-tip{position:absolute;pointer-events:none;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r);padding:4px 8px;font-size:10px;color:var(--text);white-space:nowrap;display:none;z-index:10;transform:translateX(-50%);top:-30px;}
 /* Period tabs */
 .period-tabs{display:flex;gap:2px;padding:20px var(--ps) 0;}
 .ptab{flex:1;height:26px;border:none;border-radius:var(--rf);background:transparent;cursor:pointer;font-size:11px;font-weight:500;color:var(--text3);font-family:'Geist',sans-serif;transition:all .12s;white-space:nowrap;}
@@ -145,6 +145,8 @@ canvas#cv{display:block;width:100%;height:80px;}
 .fsel:last-child{margin-bottom:0;}
 .fsel:focus{border-color:var(--border2);}
 .atags{display:flex;gap:5px;flex-wrap:wrap;align-items:center;flex-shrink:0;}
+.sel-all-btn{height:34px;padding:0 14px;font-size:12px;font-family:'Geist',sans-serif;border:1px solid var(--border);border-radius:var(--rf);background:transparent;cursor:pointer;color:var(--text2);transition:all .1s;white-space:nowrap;flex-shrink:0;}
+.sel-all-btn:hover{background:var(--bg3);color:var(--text);}
 .atag{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;background:var(--blue-dim);border:1px solid var(--blue);border-radius:var(--rf);font-size:11px;color:var(--blue);cursor:pointer;transition:opacity .1s;white-space:nowrap;}
 .atag:hover{opacity:.7;}
 /* Entries */
@@ -175,6 +177,8 @@ canvas#cv{display:block;width:100%;height:80px;}
 .badge:hover{opacity:.7;}
 .badge.u{background:var(--warning-bg);color:var(--warning);border-color:var(--warning);}
 .badge.p{background:transparent;color:var(--text3);border-color:transparent;}
+.sel-all-btn{height:30px;padding:0 12px;font-size:11px;font-family:'Geist',sans-serif;border:1px solid var(--border);border-radius:var(--rf);background:transparent;cursor:pointer;color:var(--text3);transition:all .1s;white-space:nowrap;flex-shrink:0;}
+.sel-all-btn:hover{background:var(--bg3);color:var(--text);border-color:var(--border2);}
 /* Empty state */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 32px;gap:14px;}
 .empty-ico{font-size:28px;opacity:.2;}
@@ -271,7 +275,7 @@ input[type=number]{-moz-appearance:textfield;}
 <div class="app">
 <div class="store-warn" id="sw"></div>
 <div class="topbar">
-  <span class="logo">FreelanceFlow</span>
+  <span class="logo">Invoe</span>
   <button class="icon-btn" onclick="openSettings()">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -360,6 +364,7 @@ input[type=number]{-moz-appearance:textfield;}
       <input type="text" id="search" placeholder="Search..." oninput="onSrch()"/>
     </div>
     <div class="atags" id="atags"></div>
+    <button class="sel-all-btn" id="btn-sel-all" onclick="togSelAll()">Select all</button>
   </div>
   <div class="elist"><div id="list"></div></div>
 </div>
@@ -420,8 +425,8 @@ function updateStor(){const b=getSB(),pct=Math.min(100,(b/SMAX)*100);const f=doc
 
 /* TRANSLATIONS */
 const T={
-en:{docTitle:'FreelanceFlow',
-  lAwait:'Awaiting',lRecv:'Received',lOrd:'Orders',lBest:'Best day',lYear:'Earned yr',
+en:{docTitle:'Invoe',
+  lAwait:'Awaiting',lRecv:'Received',lOrd:'Orders',lBest:'Best day',lYear:'Earned this yr',
   cpBase:'Base currency',cpRates:'Rate to base',
   lccOwe:'Owed',lccGot:'Received',lccCnt:'Orders',
   lName:'Client',lAmt:'Amount',lCur:'Currency',lDesc:'Work / Project',lNote:'Note',lDate:'Date',
@@ -435,6 +440,7 @@ en:{docTitle:'FreelanceFlow',
   lblToday:'Today',lblYest:'Yesterday',noDate:'No date',
   invLbl:'Invoice',invTrig:'Copy by client',invU:'Unpaid',invA:'All',invNone:'No clients',
   invNoE:'No unpaid entries.',invTot:'Total',invCli:'Client',
+  invTotLabel:'Total due:',invTotUnpaid:'Unpaid:    ',invTotPaid:'Paid:      ',
   sTitle:'Settings',sAppear:'Appearance',sLang:'Language',sData:'Data',sStor:'Storage',
   cLbl:'Chart',cEarned:'Earned',cOrders:'Orders',
   ptab:(o)=>o===0?'This mo':o===-1?'Last mo':`${Math.abs(o)} mo ago`,
@@ -449,8 +455,8 @@ en:{docTitle:'FreelanceFlow',
   tLight:'Light',tDark:'Dark',tAuto:'Auto',
   mabbr:['J','F','M','A','M','J','J','A','S','O','N','D'],
 },
-ru:{docTitle:'FreelanceFlow',
-  lAwait:'Ждём',lRecv:'Пришло',lOrd:'Заказов',lBest:'Лучший день',lYear:'Заработано',
+ru:{docTitle:'Invoe',
+  lAwait:'Ждём',lRecv:'Пришло',lOrd:'Заказов',lBest:'Лучший день',lYear:'Заработано за год',
   cpBase:'Базовая валюта',cpRates:'Курс к базовой',
   lccOwe:'Ждём',lccGot:'Получено',lccCnt:'Заказов',
   lName:'Заказчик',lAmt:'Сумма',lCur:'Валюта',lDesc:'Работа / Проект',lNote:'Описание',lDate:'Дата',
@@ -464,6 +470,7 @@ ru:{docTitle:'FreelanceFlow',
   lblToday:'Сегодня',lblYest:'Вчера',noDate:'Без даты',
   invLbl:'Инвойс',invTrig:'По заказчику',invU:'Неопл.',invA:'Все',invNone:'Нет заказчиков',
   invNoE:'Нет неоплаченных записей.',invTot:'Итого',invCli:'Заказчик',
+  invTotLabel:'Итого к оплате:',invTotUnpaid:'Не оплачено:  ',invTotPaid:'Оплачено:     ',
   sTitle:'Настройки',sAppear:'Оформление',sLang:'Язык',sData:'Данные',sStor:'Хранилище',
   cLbl:'График',cEarned:'Заработок',cOrders:'Заказы',
   ptab:(o)=>o===0?'Этот мес':o===-1?'Прошлый':`${Math.abs(o)} мес.`,
@@ -548,24 +555,23 @@ function buildPTabs(){const t=T[lang];document.querySelectorAll('.ptab').forEach
 /* BEST DAY */
 function bestDay(){const yr=new Date().getFullYear(),bd={};for(const e of entries){const d=e.createdAt||e.date;if(!d||!d.startsWith(String(yr)))continue;const day=d.slice(0,10);bd[day]=(bd[day]||0)+(toB(e.amount,e.currency)??e.amount);}let best=null,bs=-Infinity;for(const[d,s]of Object.entries(bd))if(s>bs){bs=s;best=d;}return best?{day:best,sum:bs}:null;}
 
-/* CLIENT SPARKLINE — last 6 months */
+/* CLIENT SPARKLINE — all 12 months of current year */
 function drawSparkline(clientName){
   const cv=document.getElementById('cc-cv');if(!cv)return;
-  const wrap=cv.parentElement,CW=Math.max(wrap.clientWidth||200,80),CH=44,dpr=window.devicePixelRatio||1;
+  const wrap=cv.parentElement,CW=Math.max(wrap.clientWidth||200,80),CH=56,dpr=window.devicePixelRatio||1;
   cv.style.width=CW+'px';cv.style.height=CH+'px';cv.width=CW*dpr;cv.height=CH*dpr;
   const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,CW,CH);
 
-  /* Build last 6 months of data */
+  const yr=new Date().getFullYear();
   const months=[];
-  for(let i=-5;i<=0;i++){
-    const d=new Date();d.setDate(1);d.setMonth(d.getMonth()+i);
-    const ym=`${d.getFullYear()}-${Z(d.getMonth()+1)}`;
+  for(let m=1;m<=12;m++){
+    const ym=`${yr}-${Z(m)}`;
     const loc=lang==='en'?'en-US':'ru-RU';
-    const lbl=d.toLocaleDateString(loc,{month:'short'});
-    const list=entries.filter(e=>e.name===clientName&&e.paid&&(e.paidAt||e.date||'').startsWith(ym));
+    const lbl=new Date(yr,m-1,1).toLocaleDateString(loc,{month:'short'});
+    const list=entries.filter(e=>e.name===clientName&&(e.date||'').startsWith(ym));
     const b=totB(list);
     const v=b!==null?b:list.reduce((s,e)=>s+e.amount,0);
-    months.push({ym,lbl,v});
+    months.push({ym,lbl,v,m});
   }
 
   const N=months.length,maxV=Math.max(...months.map(m=>m.v),1);
@@ -645,7 +651,37 @@ function drawChart(){
 function toggleInv(){const p=document.getElementById('inv-panel');const o=p.classList.contains('on');if(!o){bldInv();p.classList.add('on');}else p.classList.remove('on');document.getElementById('inv-arr').textContent=p.classList.contains('on')?'▴':'▾';}
 function closeInv(){document.getElementById('inv-panel').classList.remove('on');const a=document.getElementById('inv-arr');if(a)a.textContent='▾';}
 function bldInv(){const t=T[lang],ns=uNames(),p=document.getElementById('inv-panel');if(!ns.length){p.innerHTML=`<div class="inv-empty">${esc(t.invNone)}</div>`;return;}p.innerHTML=`<div class="inv-ptitle">${esc(t.invLbl)}</div>`+ns.map(n=>{const sf=esc(n).replace(/'/g,"\\'");return`<div class="inv-row"><span class="inv-rname">${esc(n)}</span><button class="inv-btn u" onclick="qInv('${sf}','unpaid')">${esc(t.invU)}</button><button class="inv-btn a" onclick="qInv('${sf}','all')">${esc(t.invA)}</button></div>`;}).join('');}
-function bldInvTxt(name,list,mode){const t=T[lang],loc=lang==='en'?'en-US':'ru-RU';const lines=list.map(e=>{const w=e.desc||'—',nt=e.note?` "${e.note}"`:'';;const mk=mode==='all'?(e.paid?'✓ ':'○ '):'';let dp='';if(e.date){const[y,m,d]=e.date.split('-').map(Number);if(!isNaN(y))dp=new Date(y,m-1,d).toLocaleDateString(loc,{day:'numeric',month:'short'})+' · ';}return`${mk}${dp}${w}${nt}   ${e.amount.toLocaleString(loc)}\u202f${e.currency}`;});let tot='';if(mode==='all'){const u=list.filter(e=>!e.paid),p=list.filter(e=>e.paid);if(u.length)tot+=`\n${t.invTot} (${t.bUnpaid}): ${sT(sBC(u),'—')}`;if(p.length)tot+=`\n${t.invTot} (${t.bPaid}): ${sT(sBC(p),'—')}`;}else tot=`\n\n${t.invTot}: ${sT(sBC(list),'—')}`;return`${name}\n\n${lines.join('\n')}${tot}`;}
+function bldInvTxt(name,list,mode){
+  const t=T[lang],loc=lang==='en'?'en-US':'ru-RU';
+  const DIV='─'.repeat(36);
+
+  /* Pad string to fixed width */
+  function pad(s,len){const str=String(s);return str.length>=len?str.slice(0,len):str+' '.repeat(len-str.length);}
+
+  const rows=list.map(e=>{
+    let dateStr='';
+    if(e.date){const[y,m,d]=e.date.split('-').map(Number);if(!isNaN(y))dateStr=new Date(y,m-1,d).toLocaleDateString(loc,{day:'numeric',month:'short'});}
+
+    const desc=pad(e.desc||e.name||'—',22);
+    const note=e.note?` (${e.note})`:'';
+    const date=pad(dateStr,8);
+    const amtStr=fmtT(e.amount,e.currency);
+    const mark=mode==='all'?(e.paid?'✓  ':'○  '):'';
+
+    return`${mark}${desc}${note.slice(0,16).padEnd(16,' ')}  ${date}  ${amtStr}`;
+  });
+
+  let totLine='';
+  if(mode==='all'){
+    const u=list.filter(e=>!e.paid),p=list.filter(e=>e.paid);
+    if(u.length)totLine+=`\n${t.invTotUnpaid}${sT(sBC(u),'—')}`;
+    if(p.length)totLine+=`\n${t.invTotPaid}${sT(sBC(p),'—')}`;
+  }else{
+    totLine=`\n${t.invTotLabel}   ${sT(sBC(list),'—')}`;
+  }
+
+  return`${name}\n${DIV}\n${rows.join('\n')}\n${DIV}${totLine}`;
+}
 function qInv(name,mode){const t=T[lang];const all=entries.filter(e=>e.name===name);const list=mode==='unpaid'?all.filter(e=>!e.paid):all;if(!list.length){alert(t.invNoE);return;}cpyTxt(bldInvTxt(name,list,mode),()=>closeInv());}
 function cpyTxt(text,cb){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(cb).catch(()=>fbCpy(text,cb));else fbCpy(text,cb);}
 function fbCpy(text,cb){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0;top:0;left:0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');cb();}catch(e){alert(T[lang].cpyErr);}document.body.removeChild(ta);}
@@ -683,6 +719,7 @@ function applyLang(){
   s('btn-new',t.btnNew);s('l-inv',t.invLbl);s('l-inv-trig',t.invTrig);
   s('l-fclient',t.fcClient);s('l-fstatus',t.fcStatus);
   s('l-chart',t.cLbl);s('cb-earn',t.cEarned);s('cb-ord',t.cOrders);
+  s('btn-sel-all',t.selAll);
   s('sb-edit',t.selEdit);s('sb-dup',t.selDup);s('sb-paid',t.selPaid);s('sb-unpaid',t.selUnpaid);s('sb-del',t.selDel);s('sb-clr',t.selClr);
   const p=(id,v)=>{const el=document.getElementById(id);if(el)el.placeholder=v;};
   p('search',t.phSearch);p('f-name',t.phName);p('f-desc',t.phDesc);p('f-note',t.phNote);
@@ -714,9 +751,17 @@ function clrCF(){clearCF();}
 function clrSF(){document.getElementById('fstatus').value='all';updFS();render();}
 
 /* MODAL */
+let _mdOnOverlay=false;
 function openModal(){document.getElementById('mov').classList.add('on');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('f-desc').focus(),180);}
 function closeModal(){document.getElementById('mov').classList.remove('on');document.body.style.overflow='';}
-function hOC(e){if(e.target===document.getElementById('mov'))cancelEdit();}
+function hOC(e){if(e.target===document.getElementById('mov')&&_mdOnOverlay)cancelEdit();}
+/* Track where mousedown started — only close if it started on the overlay background */
+document.addEventListener('DOMContentLoaded',()=>{
+  const ov=document.getElementById('mov');
+  if(ov){
+    ov.addEventListener('mousedown',e=>{_mdOnOverlay=e.target===ov;});
+  }
+});
 function onAI(){const v=document.getElementById('f-amt').value,h=document.getElementById('ahint');h.textContent=/[+\-*/]/.test(v)?(!isNaN(pAmt(v))?T[lang].amtH(Math.abs(pAmt(v))):'?'):'';}
 
 /* HELPERS */
@@ -734,8 +779,15 @@ function onSrch(){clearTimeout(srchTmr);srchTmr=setTimeout(render,180);}
 
 /* SELECTION */
 function togSel(id){if(selIds.has(id))selIds.delete(id);else selIds.add(id);const el=document.querySelector(`.entry[data-id="${CSS.escape(id)}"]`);if(el)el.classList.toggle('sel',selIds.has(id));rendSelBar();}
+function togSelAll(){const f=getFilt(),allSel=f.length>0&&f.every(e=>selIds.has(e.id));if(allSel)f.forEach(e=>selIds.delete(e.id));else f.forEach(e=>selIds.add(e.id));rendSelBar();render();}
 function clearSel(){selIds.clear();rendSelBar();document.querySelectorAll('.entry.sel').forEach(el=>el.classList.remove('sel'));}
-function rendSelBar(){const bar=document.getElementById('selbar'),cnt=document.getElementById('selcnt'),n=selIds.size;if(n>0){bar.classList.add('on');cnt.textContent=T[lang].selCnt(n);const e=document.getElementById('sb-edit');if(e)e.style.visibility=n===1?'visible':'hidden';}else bar.classList.remove('on');const ba=document.getElementById('btn-new');if(ba){}}
+function rendSelBar(){
+  const bar=document.getElementById('selbar'),cnt=document.getElementById('selcnt'),n=selIds.size;
+  if(n>0){bar.classList.add('on');cnt.textContent=T[lang].selCnt(n);const e=document.getElementById('sb-edit');if(e)e.style.visibility=n===1?'visible':'hidden';}
+  else bar.classList.remove('on');
+  const btn=document.getElementById('btn-sel-all');
+  if(btn){const f=getFilt(),a=f.length>0&&f.every(e=>selIds.has(e.id));btn.textContent=a?T[lang].selNone:T[lang].selAll;}
+}
 function editSel(){if(selIds.size!==1)return;const id=[...selIds][0];clearSel();startEdit(id);}
 
 /* BULK */
