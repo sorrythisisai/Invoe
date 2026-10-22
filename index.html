@@ -227,7 +227,7 @@ button:active:not(:disabled){transform:scale(0.97);}
   background:var(--text);color:var(--bg);
   padding:8px 16px;border-radius:var(--rf);
   font-size:13px;font-weight:500;
-   display:flex;align-items:center;gap:12px;
+  display:flex;align-items:center;gap:12px;
   pointer-events:none;opacity:0;
   transition:opacity .2s var(--ease),transform .2s var(--ease);
   z-index:9999;white-space:nowrap;
@@ -684,7 +684,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 <div class="topbar">
   <div class="topbar-left">
     <span class="logo">Invoe</span>
-    <button class="sync-pill" id="top-sync-btn" type="button" title="Нажми для синхронизации с облаком или открытия настроек">
+    <button class="sync-pill" id="top-sync-btn" type="button" title="Нажми для безопасной синхронизации с облаком или открытия настроек">
       <span class="sync-dot"></span>
       <span id="top-sync-lbl">Локальный сейф + ⌘S</span>
     </button>
@@ -696,7 +696,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     <button class="icon-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06-.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
       </svg>
     </button>
   </div>
@@ -908,12 +908,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <div class="slbl">☁️ Облако Firebase (Синхронизация)</div>
         <div class="cloud-box">
           <input type="url" class="cloud-inp" id="fb-url" placeholder="Ссылка https://...firebasedatabase.app" autocomplete="off"/>
-          <input type="password" class="cloud-inp" id="fb-sec" placeholder="Секретный пароль (например: my_secret_123)" autocomplete="off"/>
+          <input type="password" class="cloud-inp" id="fb-sec" placeholder="Секретный пароль из вкладки Rules" autocomplete="off"/>
           <div class="dbtns">
-            <button class="dbtn primary" id="btn-fb-save" type="button">Подключить и синхронизировать</button>
+            <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
           </div>
         </div>
-        <div class="s-hint">Все заказы автоматически сохраняются в ваше облако Google Firebase. Для принудительного обновления можно нажать на зеленый статус в шапке сайта.</div>
+        <div class="s-hint">Безопасная синхронизация: локальные и облачные записи автоматически объединяются без риска потери новых заказов.</div>
       </div>
 
       <div>
@@ -932,10 +932,11 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <div id="cp-rblock"></div>
       </div>
       <div>
-        <div class="slbl">Локальный файл (.json)</div>
+        <div class="slbl">Локальный файл и защита (.json)</div>
         <div class="dbtns">
           <button class="dbtn" id="btn-exp" type="button">Скачать JSON (⌘S)</button>
           <button class="dbtn" id="btn-imp" type="button">Загрузить JSON</button>
+          <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">🛟 Вернуть до синхронизации</button>
           <input type="file" id="imp-inp" accept=".json" style="display:none"/>
         </div>
         <div class="s-hint">Горячие клавиши: ⌘S (скачать файл), N (новая запись), / или ⌘K (поиск). Любой бэкап можно перетащить мышкой прямо на экран.</div>
@@ -946,7 +947,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
 <script>
 /* ══════════════════════════════════════════════
-   1. STORAGE: LOCALSTORAGE + INDEXEDDB + FIREBASE
+   1. STORAGE: LOCALSTORAGE + INDEXEDDB + SAFE FIREBASE
 ══════════════════════════════════════════════ */
 try {
   if (navigator.storage && navigator.storage.persist) {
@@ -1014,11 +1015,33 @@ async function restoreFromSafariVaultIfEmpty() {
   } catch(e) {}
 }
 
-// ── FIREBASE CLOUD SYNC ──
+// Сохранение теневой копии перед любой облачной операцией
+function saveEmergencySnapshot() {
+  if (entries && entries.length > 0) {
+    lsS('ff_pre_sync_snap', JSON.stringify(entries));
+    const btn = document.getElementById('btn-restore-snap');
+    if (btn) btn.style.display = '';
+  }
+}
+
+function restoreEmergencySnapshot() {
+  try {
+    const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
+    if (Array.isArray(raw) && raw.length > 0) {
+      entries = raw.map(e => ({...e, id: String(e.id)}));
+      save();
+      render();
+      closeSettings();
+      showToast(`🛟 Восстановлено записей: ${entries.length}`);
+    }
+  } catch(e) {}
+}
+
+// ── FIREBASE CLOUD SYNC (SAFE MERGE & DIAGNOSTICS) ──
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
+let _hasUnsynced = lsG('ff_unsynced') === '1';
 let _fbTimer = null;
-let _fbReady = !fbUrl; // Блокирует перезапись облака до первой загрузки
 
 function getFirebaseEndpoint() {
   if (!fbUrl) return null;
@@ -1044,50 +1067,94 @@ function updateSyncPill(state) {
   }
 }
 
+async function pushToFirebaseNow(showSuccessToast = false) {
+  const ep = getFirebaseEndpoint();
+  if (!ep) { updateSyncPill('local'); return false; }
+  updateSyncPill('syncing');
+  try {
+    const res = await fetch(ep, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        version: 2,
+        updatedAt: Date.now(),
+        baseCur,
+        rates,
+        entries
+      })
+    });
+    if (!res.ok) {
+      if (res.status === 401 || res.status === 403) {
+        showToast('⚠️ Ошибка: пароль в настройках не совпадает с .write в Rules Firebase');
+      } else {
+        showToast(`⚠️ Ошибка записи в облако (код ${res.status})`);
+      }
+      throw new Error('HTTP ' + res.status);
+    }
+    _hasUnsynced = false;
+    lsS('ff_unsynced', '0');
+    updateSyncPill('ok');
+    if (showSuccessToast) showToast('☁️ Все заказы успешно сохранены в облако!');
+    return true;
+  } catch(e) {
+    updateSyncPill('err');
+    return false;
+  }
+}
+
 function syncToFirebase() {
   const ep = getFirebaseEndpoint();
   if (!ep) { updateSyncPill('local'); return; }
-  if (!_fbReady) return;
+  _hasUnsynced = true;
+  lsS('ff_unsynced', '1');
   updateSyncPill('syncing');
   clearTimeout(_fbTimer);
-  _fbTimer = setTimeout(async () => {
-    try {
-      const res = await fetch(ep, {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          version: 2,
-          updatedAt: Date.now(),
-          baseCur,
-          rates,
-          entries
-        })
-      });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      updateSyncPill('ok');
-    } catch(e) {
-      updateSyncPill('err');
-    }
-  }, 550);
+  _fbTimer = setTimeout(() => { pushToFirebaseNow(false); }, 550);
 }
 
-async function pullFromFirebase(manual = false) {
+// Безопасная синхронизация: никогда не удаляет локальные несинхронизированные заказы
+async function safeSyncWithFirebase(manual = false) {
   const ep = getFirebaseEndpoint();
   if (!ep) {
-    if (manual) showToast('Сначала укажите ссылку Firebase');
+    if (manual) showToast('Сначала укажите ссылку Firebase в настройках');
     return;
   }
   updateSyncPill('syncing');
   try {
     const res = await fetch(ep);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+    if (!res.ok) {
+      if (res.status === 401 || res.status === 403) {
+        if (manual) showToast('⚠️ Доступ закрыт: проверьте пароль и вкладку Rules в Firebase');
+      } else {
+        if (manual) showToast('⚠️ Неверная ссылка Firebase или ошибка сети');
+      }
+      throw new Error('HTTP ' + res.status);
+    }
     const data = await res.json();
-    _fbReady = true;
+    const cloudEntries = (data && Array.isArray(data.entries)) ? data.entries.map(e => ({...e, id: String(e.id || gid())})) : [];
 
-    // Если в облаке уже инициализирована база (даже если entries пуст после удаления всех заказов)
+    // Если есть локальные несохраненные в облаке изменения (например, после Ошибки облака)
+    // МЫ ОБЪЕДИНЯЕМ локальные записи с облачными и ВЫГРУЖАЕМ их в облако!
+    if (_hasUnsynced || entries.length > cloudEntries.length) {
+      saveEmergencySnapshot();
+      const localIds = new Set(entries.map(e => String(e.id)));
+      const missingFromCloud = cloudEntries.filter(e => !localIds.has(String(e.id)));
+      if (missingFromCloud.length > 0) {
+        entries = [...entries, ...missingFromCloud];
+        lsS('ff_v1', JSON.stringify(entries));
+        saveToSafariVault();
+        _donutDirty = true;
+        render();
+      }
+      await pushToFirebaseNow(manual);
+      return;
+    }
+
+    // Обычная загрузка из облака (с сохранением страховки для кнопки Отменить)
     if (data && (Array.isArray(data.entries) || data.version === 2)) {
-      const cloudEntries = Array.isArray(data.entries) ? data.entries : [];
-      entries = cloudEntries.map(e => ({...e, id: String(e.id || gid())}));
+      const prevSnapshot = cloneEntries();
+      saveEmergencySnapshot();
+      entries = cloudEntries;
       if (data.baseCur && CURS.includes(data.baseCur)) baseCur = data.baseCur;
       if (data.rates && typeof data.rates === 'object') rates = data.rates;
       lsS('ff_v1', JSON.stringify(entries));
@@ -1098,16 +1165,16 @@ async function pullFromFirebase(manual = false) {
       buildCP();
       render();
       updateSyncPill('ok');
-      if (manual) showToast('☁️ Синхронизировано с облаком!');
+      if (manual) {
+        showToast('☁️ Синхронизировано с облаком', prevSnapshot.length ? () => {
+          entries = prevSnapshot; save(); render();
+        } : null);
+      }
     } else {
-      // В облаке совсем пусто (первое подключение) — выгружаем локальные записи
-      if (entries.length > 0) syncToFirebase();
-      else updateSyncPill('ok');
-      if (manual) showToast('☁️ Облако подключено!');
+      await pushToFirebaseNow(manual);
     }
   } catch(e) {
     updateSyncPill('err');
-    if (manual) showToast('Ошибка доступа к облаку (проверьте ссылку и пароль)');
   }
 }
 
@@ -1139,7 +1206,6 @@ try {
   if (typeof rates !== 'object' || Array.isArray(rates) || !rates) throw 0;
 } catch(e) { rates = {}; }
 
-// Динамический период: 'current' всегда указывает на текущий месяц
 let pYm = lsG('ff_period_ym') || 'current';
 let moTab = lsG('ff_motab') || 'earned';
 let unpaidFirst = lsG('ff_unpaid_first') === '1';
@@ -1209,7 +1275,7 @@ function showToast(msg, undoCb = null) {
   _toastTmr = setTimeout(() => {
     box.classList.remove('on');
     _undoAction = null;
-  }, undoCb ? 5000 : 2300);
+  }, undoCb ? 6000 : 3200);
 }
 
 function cloneEntries() {
@@ -1246,7 +1312,6 @@ function trySmartAutoPrice() {
   const name = (document.getElementById('f-name')?.value || '').trim().toLowerCase();
   if (!desc) return;
 
-  // Сначала ищем точное совпадение (Работа + Клиент), затем просто по Работе
   let match = null;
   if (name) {
     match = entries.find(e => (e.desc||'').toLowerCase() === desc && (e.name||'').toLowerCase() === name);
@@ -1429,7 +1494,6 @@ function buildPeriodDd() {
     lbl = lbl.charAt(0).toUpperCase() + lbl.slice(1);
     const isSelected = eff === ym;
     const item = el('div', {className:'period-dd-item'+(isSelected?' on':''), role:'option'}, [lbl]);
-    // Если выбран текущий месяц, сохраняем 'current', чтобы 1-го числа он переключился сам
     item.addEventListener('click', () => selectPeriod(ym === curYm ? 'current' : ym));
     dd.appendChild(item);
   });
@@ -1585,7 +1649,7 @@ function renderDonut() {
 }
 
 /* ══════════════════════════════════════════════
-   9. INVOICE GENERATOR (ПО КЛИЕНТУ И ПО ВЫДЕЛЕННЫМ)
+   9. INVOICE GENERATOR
 ══════════════════════════════════════════════ */
 function toggleInvDd() {
   invDdOpen = !invDdOpen;
@@ -1651,7 +1715,6 @@ function buildInvText(title, list, invLang) {
   const loc = invLang === 'en' ? 'en-US' : 'ru-RU';
   const totalLbl = invLang === 'en' ? 'Total due' : 'Итого к оплате';
   const DIV = '─'.repeat(34);
-  // Хронологическая сортировка (от старых к новым)
   const sorted = [...list].sort((a,b) => {
     if(!a.date&&!b.date) return 0;
     if(!a.date) return 1;
@@ -1694,6 +1757,9 @@ function openSettings() {
   updateSettingsUI();
   document.getElementById('fb-url').value = fbUrl;
   document.getElementById('fb-sec').value = fbSec;
+  const hasSnap = !!lsG('ff_pre_sync_snap');
+  const snapBtn = document.getElementById('btn-restore-snap');
+  if (snapBtn) snapBtn.style.display = hasSnap ? '' : 'none';
   document.getElementById('sov').classList.add('on');
 }
 function closeSettings() { document.getElementById('sov').classList.remove('on'); }
@@ -1755,7 +1821,6 @@ function toggleUnpaidFirst() {
 }
 
 function updateFilterState() {
-  // Защита от ловушки пустого экрана при удалении/переименовании клиента или работы
   if (activeClientFilter && !entries.some(e => e.name === activeClientFilter)) {
     activeClientFilter = '';
   }
@@ -2239,7 +2304,6 @@ function clearForm() {
   const dt = document.getElementById('f-date');
   if (dt) dt.value = today();
 
-  // Автоподстановка последнего клиента и валюты
   const recentClient = lastClient || (entries[0] && entries[0].name) || '';
   const recentCur = (CURS.includes(lastCur) && lastCur) || (entries[0] && CURS.includes(entries[0].currency) && entries[0].currency) || baseCur;
   const fn = document.getElementById('f-name');
@@ -2284,7 +2348,6 @@ function submitForm() {
   if (descEl) descEl.style.borderColor = '';
   if (amtEl) amtEl.style.borderColor = '';
 
-  // Запоминаем последнего клиента и валюту
   lastCur = currency;
   lsS('ff_last_cur', lastCur);
   if (name) {
@@ -2364,6 +2427,7 @@ function extractValidEntries(raw) {
 function applyImportedPayload(raw, replaceMode = true) {
   const valid = extractValidEntries(raw);
   if (!valid) throw new Error('Invalid');
+  saveEmergencySnapshot();
   if (!Array.isArray(raw) && raw.baseCur && CURS.includes(raw.baseCur)) {
     baseCur = raw.baseCur;
   }
@@ -2438,7 +2502,7 @@ function bindEvents() {
   });
 
   document.getElementById('top-sync-btn').addEventListener('click', () => {
-    if (fbUrl) pullFromFirebase(true);
+    if (fbUrl) safeSyncWithFirebase(true);
     else openSettings();
   });
 
@@ -2448,13 +2512,14 @@ function bindEvents() {
     lsS('ff_fb_url', fbUrl);
     lsS('ff_fb_sec', fbSec);
     if (!fbUrl) {
-      _fbReady = true;
       updateSyncPill('local');
       showToast('Облако отключено');
       return;
     }
-    pullFromFirebase(true);
+    safeSyncWithFirebase(true);
   });
+
+  document.getElementById('btn-restore-snap').addEventListener('click', restoreEmergencySnapshot);
 
   // Drag & Drop anywhere on window
   let dragCounter = 0;
@@ -2578,7 +2643,6 @@ function bindEvents() {
       document.getElementById('search').focus();
       return;
     }
-    // Не перехватываем системные сочетания (⌘N / Ctrl+N)
     if (!inInput && !modalOpen && !e.metaKey && !e.ctrlKey && !e.altKey) {
       if (k === 'n' || k === 'т') {
         e.preventDefault();
@@ -2602,11 +2666,11 @@ function bindEvents() {
 (function init() {
   document.getElementById('btn-unpaid-first').classList.toggle('on', unpaidFirst);
   applyTheme();
-  updateSyncPill(fbUrl ? 'ok' : 'local');
+  updateSyncPill(fbUrl ? (_hasUnsynced ? 'err' : 'ok') : 'local');
   bindEvents();
   render();
   restoreFromSafariVaultIfEmpty();
-  if (fbUrl) pullFromFirebase(false);
+  if (fbUrl) safeSyncWithFirebase(false);
 })();
 </script>
 </body>
