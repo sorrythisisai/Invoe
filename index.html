@@ -371,20 +371,32 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   font-weight:600;
 }
 .mo-content{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.mo-donut-wrap{position:relative;width:100px;height:100px;flex-shrink:0;}
+.mo-donut-wrap{position:relative;width:104px;height:104px;flex-shrink:0;}
 .mo-donut-wrap canvas{display:block;}
 .mo-donut-center{
   position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;pointer-events:none;
 }
-.mo-donut-val{font-size:12px;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1;text-align:center;max-width:74px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mo-donut-val{font-size:12px;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1;text-align:center;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .mo-donut-sub{font-size:9px;color:var(--text3);margin-top:3px;}
-.mo-legend{flex:1;min-width:160px;display:flex;flex-wrap:wrap;gap:6px 16px;align-content:center;}
-.mo-leg-row{display:inline-flex;align-items:center;gap:6px;cursor:pointer;border-radius:7px;padding:4px 7px;transition:background .12s,transform .12s;max-width:calc(50% - 10px);}
+.mo-legend{
+  flex:1;min-width:180px;
+  display:grid;grid-template-columns:repeat(auto-fill, minmax(175px, 1fr));
+  gap:4px 12px;max-height:112px;overflow-y:auto;padding-right:4px;
+}
+.mo-legend::-webkit-scrollbar{width:3px;}
+.mo-legend::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.mo-leg-row{
+  display:flex;align-items:center;gap:6px;cursor:pointer;
+  border-radius:7px;padding:4px 7px;transition:background .12s,transform .12s;
+}
 .mo-leg-row:hover{background:var(--surface2);transform:translateX(2px);}
-.mo-leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.mo-leg-lbl{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
+.mo-leg-row.active{background:var(--blue-bg);outline:1px solid var(--blue);}
+.mo-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.mo-leg-lbl{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;}
 .mo-leg-val{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;}
+.mo-leg-pct{font-size:10px;color:var(--text3);font-weight:500;margin-left:2px;}
+.mo-empty{font-size:12px;color:var(--text3);padding:8px 0;}
 
 /* Client Summary Banner */
 .client-banner{
@@ -448,7 +460,8 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .el{flex:1;min-width:0;}
 .etitle{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .emeta{font-size:12px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.eclient{color:var(--text2);font-weight:500;}
+.eclient{color:var(--text2);font-weight:500;cursor:pointer;}
+.eclient:hover{color:var(--blue);text-decoration:underline;}
 .enote-txt{font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;}
 .elink{
   display:inline-flex;align-items:center;gap:3px;
@@ -527,6 +540,16 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .ahint{font-size:11px;color:var(--text3);margin-top:3px;min-height:15px;}
 .ahint.err{color:var(--danger);}
 .ahint.smart{color:var(--blue);font-weight:500;}
+
+/* Quick Client Chips inside Modal */
+.quick-clients{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.qc-chip{
+  font-size:10px;font-weight:500;color:var(--text2);
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--rf);padding:2px 8px;cursor:pointer;
+}
+.qc-chip:hover{background:var(--text);color:var(--bg);border-color:var(--text);}
+
 .fbtns{display:flex;gap:10px;margin-top:6px;}
 .bsubmit{flex:1;height:40px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rf);cursor:pointer;font-size:13px;font-weight:600;}
 .bsubmit:hover{opacity:.86;}
@@ -645,7 +668,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .main{padding:12px 0;}
   .month-overview{padding:14px 16px;}
   .mo-content{gap:16px;}
-  .mo-donut-wrap{width:90px;height:90px;}
+  .mo-donut-wrap{width:92px;height:92px;}
   .toolbar{gap:6px;}
   .entry-card{padding:12px 14px;}
   .fgrid.t3{grid-template-columns:1fr 1fr;}
@@ -696,7 +719,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     <button class="icon-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06-.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
       </svg>
     </button>
   </div>
@@ -713,7 +736,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <div class="bal-multi" id="val-await-multi"></div>
       </div>
       <div class="bal-card card-ok">
-        <div class="bal-label">Пришло</div>
+        <div class="bal-label" id="lbl-recv">Пришло</div>
         <div class="bal-amount success" id="val-recv">—</div>
         <div class="bal-multi" id="val-recv-multi"></div>
       </div>
@@ -784,7 +807,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
           <canvas id="donut-cv"></canvas>
           <div class="mo-donut-center">
             <div class="mo-donut-val" id="donut-val">—</div>
-            <div class="mo-donut-sub">итого</div>
+            <div class="mo-donut-sub" id="donut-sub">итого</div>
           </div>
         </div>
         <div class="mo-legend" id="mo-legend" role="list"></div>
@@ -850,6 +873,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <label for="f-name">Клиент</label>
         <input type="text" id="f-name" list="nl" placeholder="Имя / компания" autocomplete="off"/>
         <datalist id="nl"></datalist>
+        <div class="quick-clients" id="quick-clients"></div>
       </div>
       <div class="ff">
         <label for="f-note">Описание / Ссылка</label>
@@ -1000,9 +1024,9 @@ async function restoreFromSafariVaultIfEmpty() {
       const data = req.result;
       if (!data) return;
       if (entries.length === 0 && Array.isArray(data.entries) && data.entries.length > 0) {
-        entries = data.entries.map(e => ({...e, id: String(e.id)}));
+        entries = data.entries.map(normalizeEntry);
         if (data.baseCur && CURS.includes(data.baseCur)) baseCur = data.baseCur;
-        if (data.rates) rates = data.rates;
+        if (data.rates) rates = {...DEFAULT_RATES, ...data.rates};
         lsS('ff_v1', JSON.stringify(entries));
         lsS('ff_cur', baseCur);
         lsS('ff_rates', JSON.stringify(rates));
@@ -1015,7 +1039,6 @@ async function restoreFromSafariVaultIfEmpty() {
   } catch(e) {}
 }
 
-// Сохранение теневой копии перед любой облачной операцией
 function saveEmergencySnapshot() {
   if (entries && entries.length > 0) {
     lsS('ff_pre_sync_snap', JSON.stringify(entries));
@@ -1028,7 +1051,7 @@ function restoreEmergencySnapshot() {
   try {
     const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
     if (Array.isArray(raw) && raw.length > 0) {
-      entries = raw.map(e => ({...e, id: String(e.id)}));
+      entries = raw.map(normalizeEntry);
       save();
       render();
       closeSettings();
@@ -1037,7 +1060,7 @@ function restoreEmergencySnapshot() {
   } catch(e) {}
 }
 
-// ── FIREBASE CLOUD SYNC (SAFE MERGE & DIAGNOSTICS) ──
+// ── FIREBASE CLOUD SYNC ──
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
 let _hasUnsynced = lsG('ff_unsynced') === '1';
@@ -1094,7 +1117,7 @@ async function pushToFirebaseNow(showSuccessToast = false) {
     _hasUnsynced = false;
     lsS('ff_unsynced', '0');
     updateSyncPill('ok');
-    if (showSuccessToast) showToast('☁️ Все заказы успешно сохранены в облако!');
+    if (showSuccessToast) showToast('☁️ Все заказы сохранены в облако!');
     return true;
   } catch(e) {
     updateSyncPill('err');
@@ -1112,7 +1135,6 @@ function syncToFirebase() {
   _fbTimer = setTimeout(() => { pushToFirebaseNow(false); }, 550);
 }
 
-// Безопасная синхронизация: никогда не удаляет локальные несинхронизированные заказы
 async function safeSyncWithFirebase(manual = false) {
   const ep = getFirebaseEndpoint();
   if (!ep) {
@@ -1131,10 +1153,8 @@ async function safeSyncWithFirebase(manual = false) {
       throw new Error('HTTP ' + res.status);
     }
     const data = await res.json();
-    const cloudEntries = (data && Array.isArray(data.entries)) ? data.entries.map(e => ({...e, id: String(e.id || gid())})) : [];
+    const cloudEntries = (data && Array.isArray(data.entries)) ? data.entries.map(normalizeEntry) : [];
 
-    // Если есть локальные несохраненные в облаке изменения (например, после Ошибки облака)
-    // МЫ ОБЪЕДИНЯЕМ локальные записи с облачными и ВЫГРУЖАЕМ их в облако!
     if (_hasUnsynced || entries.length > cloudEntries.length) {
       saveEmergencySnapshot();
       const localIds = new Set(entries.map(e => String(e.id)));
@@ -1150,13 +1170,12 @@ async function safeSyncWithFirebase(manual = false) {
       return;
     }
 
-    // Обычная загрузка из облака (с сохранением страховки для кнопки Отменить)
     if (data && (Array.isArray(data.entries) || data.version === 2)) {
       const prevSnapshot = cloneEntries();
       saveEmergencySnapshot();
       entries = cloudEntries;
       if (data.baseCur && CURS.includes(data.baseCur)) baseCur = data.baseCur;
-      if (data.rates && typeof data.rates === 'object') rates = data.rates;
+      if (data.rates && typeof data.rates === 'object') rates = {...DEFAULT_RATES, ...data.rates};
       lsS('ff_v1', JSON.stringify(entries));
       lsS('ff_cur', baseCur);
       lsS('ff_rates', JSON.stringify(rates));
@@ -1185,11 +1204,32 @@ const MONTHS_GEN_RU=['январе','феврале','марте','апреле'
 const CURS = ['₽','$','€'];
 const CUR_PREFIX = ['$','€'];
 
+// Базовые курсы по умолчанию, чтобы заказы в $ и € никогда не пропадали из пончика и баланса
+const DEFAULT_RATES = {
+  '$_to_₽': 95,
+  '€_to_₽': 105,
+  '€_to_$': 1.1,
+  '$_to_€': 0.91
+};
+
+function normalizeEntry(e) {
+  return {
+    ...e,
+    id: String(e.id || gid()),
+    name: String(e.name || '').trim(),
+    desc: String(e.desc || '').trim(),
+    note: String(e.note || '').trim(),
+    amount: Number(e.amount) || 0,
+    currency: CURS.includes(e.currency) ? e.currency : '₽',
+    paid: Boolean(e.paid)
+  };
+}
+
 let entries;
 try {
-  entries = JSON.parse(lsG('ff_v1') || '[]');
-  if (!Array.isArray(entries)) throw 0;
-  entries = entries.map(e => ({...e, id: String(e.id)}));
+  const raw = JSON.parse(lsG('ff_v1') || '[]');
+  if (!Array.isArray(raw)) throw 0;
+  entries = raw.map(normalizeEntry).filter(e => e.amount > 0);
 } catch(e) { entries = []; }
 
 let editId = null;
@@ -1198,13 +1238,13 @@ let baseCur = lsG('ff_cur') || '₽';
 if (!CURS.includes(baseCur)) baseCur = '₽';
 let lastCur = lsG('ff_last_cur') || baseCur;
 if (!CURS.includes(lastCur)) lastCur = baseCur;
-let lastClient = lsG('ff_last_client') || '';
 
 let rates;
 try {
-  rates = JSON.parse(lsG('ff_rates') || '{}');
-  if (typeof rates !== 'object' || Array.isArray(rates) || !rates) throw 0;
-} catch(e) { rates = {}; }
+  const savedRates = JSON.parse(lsG('ff_rates') || '{}');
+  if (typeof savedRates !== 'object' || Array.isArray(savedRates) || !savedRates) throw 0;
+  rates = {...DEFAULT_RATES, ...savedRates};
+} catch(e) { rates = {...DEFAULT_RATES}; }
 
 let pYm = lsG('ff_period_ym') || 'current';
 let moTab = lsG('ff_motab') || 'earned';
@@ -1221,7 +1261,7 @@ let _amtManuallyTyped = false;
 let _donutDirty = true;
 
 /* ══════════════════════════════════════════════
-   3. UTILS & UNDO SYSTEM
+   3. UTILS & CLIENT GROUPING HELPERS
 ══════════════════════════════════════════════ */
 function Z(n) { return String(n).padStart(2,'0'); }
 function today() { const d=new Date(); return `${d.getFullYear()}-${Z(d.getMonth()+1)}-${Z(d.getDate())}`; }
@@ -1238,6 +1278,19 @@ function gid() {
   return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
 }
 function s2id(s) { return encodeURIComponent(s).replace(/%/g,'x'); }
+
+// Определяет отображаемое имя для пончика (если поле Клиент пустое, берет Работу/Проект, чтобы заказы не слипались в одно '—')
+function getEntryClientLabel(e) {
+  const n = (e.name || '').trim();
+  if (n) return n;
+  const d = (e.desc || '').trim();
+  if (d) return d;
+  return 'Без имени';
+}
+
+function sameClient(a, b) {
+  return String(a || '').trim().toLowerCase() === String(b || '').trim().toLowerCase();
+}
 
 function el(tag, props={}, children=[]) {
   const e = document.createElement(tag);
@@ -1333,42 +1386,66 @@ function trySmartAutoPrice() {
 }
 
 /* ══════════════════════════════════════════════
-   5. CURRENCY & CONVERSION
+   5. CURRENCY & SMART CONVERSION (NEVER RETURNS NULL)
 ══════════════════════════════════════════════ */
-function toB(a,c) {
-  if (c === baseCur) return a;
-  const r = rates[`${c}_to_${baseCur}`];
-  return (r && r > 0) ? a * r : null;
+function getRate(fromCur, toCur) {
+  if (fromCur === toCur) return 1;
+  const direct = rates[`${fromCur}_to_${toCur}`];
+  if (direct && direct > 0) return direct;
+  const inverse = rates[`${toCur}_to_${fromCur}`];
+  if (inverse && inverse > 0) return 1 / inverse;
+  // Кросс-курс через ₽
+  if (fromCur !== '₽' && toCur !== '₽') {
+    const r1 = getRate(fromCur, '₽');
+    const r2 = getRate('₽', toCur);
+    if (r1 && r2) return r1 * r2;
+  }
+  return DEFAULT_RATES[`${fromCur}_to_${toCur}`] || 1;
 }
+
+function toB(a, c) {
+  const num = Number(a) || 0;
+  if (c === baseCur) return num;
+  return num * getRate(c, baseCur);
+}
+
 function totB(list) {
-  if (!list.length) return null;
+  if (!list.length) return 0;
   let t = 0;
   for (const e of list) {
-    const r = toB(e.amount, e.currency);
-    if (r === null) return null;
-    t += r;
+    t += toB(e.amount, e.currency);
   }
-  return t;
+  return Math.round(t * 100) / 100;
 }
-function fmtCur(a,c,loc='ru-RU') {
-  const n = a.toLocaleString(loc, {minimumFractionDigits:0, maximumFractionDigits:2});
+
+function fmtCur(a, c, loc='ru-RU') {
+  const val = Math.round((Number(a) || 0) * 100) / 100;
+  const n = val.toLocaleString(loc, {minimumFractionDigits:0, maximumFractionDigits:2});
   return CUR_PREFIX.includes(c) ? c+n : n+'\u202f'+c;
 }
+
 function fmtB(v) {
-  const d = Number.isInteger(v) ? 0 : (Math.abs(v) < 1000 ? 2 : 0);
-  const n = v.toLocaleString('ru-RU', {minimumFractionDigits:0, maximumFractionDigits:d});
+  const val = Math.round((Number(v) || 0) * 100) / 100;
+  const d = Number.isInteger(val) ? 0 : 2;
+  const n = val.toLocaleString('ru-RU', {minimumFractionDigits:0, maximumFractionDigits:d});
   return CUR_PREFIX.includes(baseCur) ? baseCur+n : n+'\u202f'+baseCur;
 }
+
 function sBC(list) {
   const m = {};
-  list.forEach(e => { m[e.currency] = (m[e.currency]||0) + e.amount; });
+  list.forEach(e => {
+    const amt = Number(e.amount) || 0;
+    m[e.currency] = (m[e.currency] || 0) + amt;
+  });
   for (const c in m) m[c] = Math.round(m[c]*100)/100;
   return m;
 }
+
 function fmtMap(map, fb='—', loc='ru-RU') {
   const p = Object.entries(map).map(([c,v]) => fmtCur(v,c,loc));
   return p.length ? p.join(', ') : fb;
 }
+
 function multiChips(map) {
   const wrap = document.createDocumentFragment();
   for (const [c,v] of Object.entries(map)) {
@@ -1392,7 +1469,7 @@ function buildCP() {
   rb.innerHTML = '';
   const oth = CURS.filter(c => c !== baseCur);
   oth.forEach(sym => {
-    const v = rates[`${sym}_to_${baseCur}`] || '';
+    const v = Math.round(getRate(sym, baseCur) * 10000) / 10000;
     const row = el('div', {className:'cprrow'});
     const rid = `rate-${s2id(sym)}`;
     const lbl = el('label', {'for': rid}, [`1 ${sym} = ... ${baseCur}`]);
@@ -1407,6 +1484,7 @@ function buildCP() {
     rb.appendChild(row);
   });
 }
+
 function selCur(c) {
   baseCur = c;
   lsS('ff_cur', c);
@@ -1415,13 +1493,16 @@ function selCur(c) {
   save();
   render();
 }
+
 function saveRates() {
   for (const sym of CURS.filter(c => c !== baseCur)) {
     const inp = document.getElementById(`rate-${s2id(sym)}`);
     if (!inp) continue;
     const v = parseFloat(String(inp.value).replace(',','.'));
-    if (v > 0) rates[`${sym}_to_${baseCur}`] = v;
-    else delete rates[`${sym}_to_${baseCur}`];
+    if (v > 0) {
+      rates[`${sym}_to_${baseCur}`] = v;
+      rates[`${baseCur}_to_${sym}`] = Math.round((1 / v) * 1000000) / 1000000;
+    }
   }
   save();
 }
@@ -1521,55 +1602,77 @@ function selectPeriod(val) {
 }
 
 /* ══════════════════════════════════════════════
-   8. DONUT CHART
+   8. DONUT CHART (FIXED MULTI-CLIENT & AWAITING LOGIC)
 ══════════════════════════════════════════════ */
-const DONUT_COLORS = ['#2563eb','#f97316','#22c55e','#a855f7','#ef4444','#06b6d4','#eab308','#ec4899'];
+const DONUT_COLORS = [
+  '#2563eb','#f97316','#22c55e','#a855f7','#ef4444','#06b6d4',
+  '#eab308','#ec4899','#14b8a6','#6366f1','#84cc16','#f43f5e'
+];
 
-function drawDonut(segments) {
+function drawDonut(segments, emptyText) {
   const cv = document.getElementById('donut-cv');
   if (!cv) return;
-  const DPR = window.devicePixelRatio || 1, SZ = 100;
+  const DPR = window.devicePixelRatio || 1, SZ = 104;
   cv.width = SZ*DPR; cv.height = SZ*DPR;
   cv.style.width = SZ+'px'; cv.style.height = SZ+'px';
   const ctx = cv.getContext('2d');
   ctx.scale(DPR, DPR);
   ctx.clearRect(0,0,SZ,SZ);
-  const cx=SZ/2, cy=SZ/2, R=42, rInner=27;
+  const cx=SZ/2, cy=SZ/2, R=44, rInner=28, midR=(R+rInner)/2, thick=R-rInner;
   const total = segments.reduce((s,g) => s + g.value, 0);
   const valEl = document.getElementById('donut-val');
-  if (!total) {
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2);
+  const leg = document.getElementById('mo-legend');
+
+  if (!total || !segments.length) {
+    ctx.beginPath(); ctx.arc(cx,cy,midR,0,Math.PI*2);
     ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface3');
-    ctx.lineWidth = R-rInner; ctx.stroke();
+    ctx.lineWidth = thick; ctx.stroke();
     if (valEl) valEl.textContent = '—';
-    const leg = document.getElementById('mo-legend');
-    if (leg) leg.innerHTML = '';
+    if (leg) {
+      leg.innerHTML = '';
+      leg.appendChild(el('div', {className:'mo-empty'}, [emptyText || 'Нет записей в этой вкладке']));
+    }
     return;
   }
+
   let angle = -Math.PI/2;
+  const gap = segments.length > 1 ? 0.035 : 0; // Четкий зазор между секторами, когда клиентов > 1
   segments.forEach((seg,i) => {
-    const sweep = (seg.value/total)*Math.PI*2;
+    const fullSweep = (seg.value/total)*Math.PI*2;
+    const sweep = Math.max(0.02, fullSweep - gap);
     ctx.beginPath();
-    ctx.arc(cx,cy,R,angle,angle+sweep);
-    ctx.arc(cx,cy,rInner,angle+sweep,angle,true);
-    ctx.closePath();
-    ctx.fillStyle = DONUT_COLORS[i%DONUT_COLORS.length];
-    ctx.fill();
-    angle += sweep;
+    ctx.arc(cx, cy, midR, angle + gap/2, angle + gap/2 + sweep);
+    ctx.strokeStyle = DONUT_COLORS[i % DONUT_COLORS.length];
+    ctx.lineWidth = thick;
+    ctx.lineCap = 'butt';
+    ctx.stroke();
+    angle += fullSweep;
   });
 
-  const leg = document.getElementById('mo-legend');
   if (!leg) return;
   leg.innerHTML = '';
-  segments.slice(0,6).forEach((seg,i) => {
-    const row = el('div', {className:'mo-leg-row', role:'button', tabindex:'0'});
+  // Отображаем ВСЕХ клиентов без обрезки .slice(0,6)
+  segments.forEach((seg,i) => {
+    const isAct = activeClientFilter && sameClient(activeClientFilter, seg.rawClient);
+    const pct = Math.round((seg.value / total) * 100);
+    const row = el('div', {
+      className: 'mo-leg-row' + (isAct ? ' active' : ''),
+      role: 'button',
+      tabindex: '0',
+      title: `${seg.label}: ${seg.display} (${pct}%)`
+    });
     const dot = el('div', {className:'mo-leg-dot', style:`background:${DONUT_COLORS[i%DONUT_COLORS.length]}`});
-    const lbl = el('div', {className:'mo-leg-lbl', title:seg.label}, [seg.label]);
+    const lbl = el('div', {className:'mo-leg-lbl'}, [seg.label]);
     const val = el('div', {className:'mo-leg-val'}, [seg.display]);
+    const pctEl = el('span', {className:'mo-leg-pct'}, [`${pct}%`]);
+    val.appendChild(pctEl);
     row.appendChild(dot); row.appendChild(lbl); row.appendChild(val);
-    const _name = seg.label;
-    row.addEventListener('click', () => filterByClient(_name));
-    row.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') filterByClient(_name); });
+
+    const _filterTarget = seg.rawClient;
+    if (_filterTarget) {
+      row.addEventListener('click', () => filterByClient(_filterTarget));
+      row.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') filterByClient(_filterTarget); });
+    }
     leg.appendChild(row);
   });
 }
@@ -1587,39 +1690,56 @@ function setMoTab(tab) {
 }
 
 function buildMoneyDonutSegments(list) {
-  const curs = [...new Set(list.map(e => e.currency))];
-  const singleFallbackCur = curs.length === 1 ? curs[0] : null;
-  const byClient = {};
-  const rawByClient = {};
+  if (!list.length) return { segments: [], centerVal: '—' };
+  const groups = new Map();
 
   list.forEach(e => {
-    const n = e.name || '—';
+    const label = getEntryClientLabel(e);
+    const key = label.toLowerCase();
     const conv = toB(e.amount, e.currency);
-    if (conv !== null) {
-      byClient[n] = (byClient[n] || 0) + conv;
-    } else if (singleFallbackCur) {
-      rawByClient[n] = (rawByClient[n] || 0) + e.amount;
+    if (!groups.has(key)) {
+      groups.set(key, { label, rawClient: e.name || '', sumBase: 0, byCur: {} });
     }
+    const g = groups.get(key);
+    g.sumBase += conv;
+    g.byCur[e.currency] = (g.byCur[e.currency] || 0) + (Number(e.amount) || 0);
   });
 
-  if (Object.keys(byClient).length > 0) {
-    const sorted = Object.entries(byClient).sort((a,b) => b[1] - a[1]);
-    const segments = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtB(sum) }));
-    const tot = sorted.reduce((acc, r) => acc + r[1], 0);
-    return { segments, centerVal: fmtB(tot) };
-  } else if (singleFallbackCur && Object.keys(rawByClient).length > 0) {
-    const sorted = Object.entries(rawByClient).sort((a,b) => b[1] - a[1]);
-    const segments = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtCur(sum, singleFallbackCur) }));
-    const tot = sorted.reduce((acc, r) => acc + r[1], 0);
-    return { segments, centerVal: fmtCur(tot, singleFallbackCur) };
-  }
-  return { segments: [], centerVal: '—' };
+  const sorted = [...groups.values()].sort((a,b) => b.sumBase - a.sumBase);
+  const cursInList = [...new Set(list.map(e => e.currency))];
+  const singleCur = cursInList.length === 1 ? cursInList[0] : null;
+
+  const segments = sorted.map(g => {
+    const gCurs = Object.keys(g.byCur);
+    const disp = (gCurs.length === 1 && gCurs[0] !== baseCur && singleCur)
+      ? fmtCur(g.byCur[gCurs[0]], gCurs[0])
+      : fmtB(g.sumBase);
+    return {
+      label: g.label,
+      rawClient: g.rawClient,
+      value: g.sumBase,
+      display: disp
+    };
+  });
+
+  const totBase = sorted.reduce((acc, g) => acc + g.sumBase, 0);
+  const centerVal = (singleCur && singleCur !== baseCur)
+    ? fmtCur(list.reduce((s,e) => s + (Number(e.amount)||0), 0), singleCur)
+    : fmtB(totBase);
+
+  return { segments, centerVal };
 }
 
 function renderDonut() {
   const eff = effectiveYm();
   let periodTitle;
-  if (eff === 'all') {
+
+  // В режиме «Ожидаем» при выбранном текущем месяце показываем ВСЕ активные долги, чтобы совпадало с карточкой «Ожидаем»
+  const showAllUnpaid = (moTab === 'awaiting' && pYm === 'current');
+
+  if (showAllUnpaid) {
+    periodTitle = 'Ожидаем оплаты (все активные)';
+  } else if (eff === 'all') {
     periodTitle = 'Операции за всё время';
   } else {
     const [y,m] = eff.split('-').map(Number);
@@ -1627,24 +1747,38 @@ function renderDonut() {
   }
   setText('mo-title', periodTitle);
 
-  let segments = [], centerVal = '—';
+  let segments = [], centerVal = '—', emptyText = '';
+
   if (moTab === 'earned') {
     const period = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
     const res = buildMoneyDonutSegments(period);
     segments = res.segments; centerVal = res.centerVal;
+    emptyText = 'Нет оплаченных заказов за выбранный период';
+    setText('donut-sub', 'пришло');
   } else if (moTab === 'orders') {
     const ord = entries.filter(e => matchesPeriod(e.date));
-    const byClient = {};
-    ord.forEach(e => { const n = e.name||'—'; byClient[n] = (byClient[n]||0)+1; });
-    segments = Object.entries(byClient).sort((a,b)=>b[1]-a[1]).map(([name,cnt])=>({label:name,value:cnt,display:String(cnt)}));
-    centerVal = String(ord.length);
+    const groups = new Map();
+    ord.forEach(e => {
+      const label = getEntryClientLabel(e);
+      const key = label.toLowerCase();
+      if (!groups.has(key)) groups.set(key, { label, rawClient: e.name || '', count: 0 });
+      groups.get(key).count += 1;
+    });
+    segments = [...groups.values()]
+      .sort((a,b) => b.count - a.count)
+      .map(g => ({ label: g.label, rawClient: g.rawClient, value: g.count, display: `${g.count} шт.` }));
+    centerVal = ord.length ? String(ord.length) : '—';
+    emptyText = 'Нет заказов за выбранный период';
+    setText('donut-sub', 'заказов');
   } else {
-    const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
+    const period = entries.filter(e => !e.paid && (showAllUnpaid ? true : matchesPeriod(e.date)));
     const res = buildMoneyDonutSegments(period);
     segments = res.segments; centerVal = res.centerVal;
+    emptyText = 'Нет неоплаченных заказов';
+    setText('donut-sub', 'ожидаем');
   }
   setText('donut-val', centerVal);
-  drawDonut(segments);
+  drawDonut(segments, emptyText);
   _donutDirty = false;
 }
 
@@ -1665,7 +1799,7 @@ function buildInvDd() {
   const dd = document.getElementById('inv-dd');
   dd.innerHTML = '';
   if (!names.length) {
-    dd.appendChild(el('div', {className:'inv-empty-msg'}, ['Нет неоплаченных заказов.']));
+    dd.appendChild(el('div', {className:'inv-empty-msg'}, ['Нет неоплаченных заказов с именем клиента.']));
     return;
   }
   dd.appendChild(el('div', {className:'inv-dd-title'}, ['ИНВОЙС (КЛИК — КОПИРОВАТЬ)']));
@@ -1690,7 +1824,7 @@ function buildInvDd() {
 }
 
 function copyInv(name, invLang = 'ru') {
-  const list = entries.filter(e => e.name === name && !e.paid);
+  const list = entries.filter(e => sameClient(e.name, name) && !e.paid);
   if (!list.length) { showToast('У клиента нет неоплаченных заказов'); closeInvDd(); return; }
   const text = buildInvText(name, list, invLang);
   cpyText(text, () => {
@@ -1811,7 +1945,7 @@ function closeFP() {
   document.getElementById('filter-btn').classList.remove('on');
   document.getElementById('filter-btn').setAttribute('aria-expanded','false');
 }
-function onFilter() { pruneHiddenSelections(); updateFilterState(); render(); }
+function onFilter() { pruneHiddenSelections(); _donutDirty = true; updateFilterState(); render(); }
 function onSearch() { clearTimeout(srchTmr); srchTmr = setTimeout(() => { pruneHiddenSelections(); render(); }, 120); }
 function toggleUnpaidFirst() {
   unpaidFirst = !unpaidFirst;
@@ -1821,10 +1955,10 @@ function toggleUnpaidFirst() {
 }
 
 function updateFilterState() {
-  if (activeClientFilter && !entries.some(e => e.name === activeClientFilter)) {
+  if (activeClientFilter && !entries.some(e => sameClient(e.name, activeClientFilter))) {
     activeClientFilter = '';
   }
-  if (activeWorkFilter && !entries.some(e => e.desc === activeWorkFilter)) {
+  if (activeWorkFilter && !entries.some(e => sameClient(e.desc, activeWorkFilter))) {
     activeWorkFilter = '';
   }
   const st = document.getElementById('f-status').value;
@@ -1843,7 +1977,7 @@ function renderClientBanner() {
     banner.classList.remove('on');
     return;
   }
-  const clientEntries = entries.filter(e => e.name === activeClientFilter);
+  const clientEntries = entries.filter(e => sameClient(e.name, activeClientFilter));
   if (!clientEntries.length) {
     banner.classList.remove('on');
     return;
@@ -1886,11 +2020,17 @@ function updateTags() {
     w.appendChild(tag);
   }
 }
-function clearClientFilter(){ activeClientFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); render(); }
+function clearClientFilter(){ activeClientFilter=''; pruneHiddenSelections(); _donutDirty=true; buildFilterTags(); updateFilterState(); render(); }
 function clearStatusFilter(){ document.getElementById('f-status').value='all'; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); render(); }
 function clearWorkFilter(){ activeWorkFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); render(); }
-function filterByClient(name){ activeClientFilter = (activeClientFilter===name)?'':name; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); render(); }
-function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); render(); }
+function filterByClient(name){
+  activeClientFilter = sameClient(activeClientFilter, name) ? '' : name;
+  pruneHiddenSelections(); _donutDirty = true; buildFilterTags(); updateFilterState(); render();
+}
+function filterByWork(desc){
+  activeWorkFilter = sameClient(activeWorkFilter, desc) ? '' : desc;
+  pruneHiddenSelections(); buildFilterTags(); updateFilterState(); render();
+}
 
 function buildFilterTags() {
   const clients = [...new Set(entries.map(e=>e.name).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));
@@ -1900,7 +2040,7 @@ function buildFilterTags() {
   if (tc) {
     tc.innerHTML = '';
     clients.forEach(n => {
-      const btn = el('button', {className:'ftag'+(activeClientFilter===n?' on':''), type:'button'}, [n]);
+      const btn = el('button', {className:'ftag'+(sameClient(activeClientFilter,n)?' on':''), type:'button'}, [n]);
       btn.addEventListener('click', () => filterByClient(n));
       tc.appendChild(btn);
     });
@@ -1908,7 +2048,7 @@ function buildFilterTags() {
   if (tw) {
     tw.innerHTML = '';
     works.forEach(d => {
-      const btn = el('button', {className:'ftag'+(activeWorkFilter===d?' on':''), type:'button'}, [d]);
+      const btn = el('button', {className:'ftag'+(sameClient(activeWorkFilter,d)?' on':''), type:'button'}, [d]);
       btn.addEventListener('click', () => filterByWork(d));
       tw.appendChild(btn);
     });
@@ -1919,8 +2059,8 @@ function getFiltered() {
   const s = document.getElementById('search').value.toLowerCase();
   const st = document.getElementById('f-status').value;
   return entries.filter(e => {
-    if (activeClientFilter && e.name !== activeClientFilter) return false;
-    if (activeWorkFilter && e.desc !== activeWorkFilter) return false;
+    if (activeClientFilter && !sameClient(e.name, activeClientFilter)) return false;
+    if (activeWorkFilter && !sameClient(e.desc, activeWorkFilter)) return false;
     if (st === 'unpaid' && e.paid) return false;
     if (st === 'paid' && !e.paid) return false;
     if (s && !(e.desc||'').toLowerCase().includes(s) && !(e.name||'').toLowerCase().includes(s) && !(e.note||'').toLowerCase().includes(s)) return false;
@@ -2003,7 +2143,11 @@ function renderEntry(e) {
   const { text: noteText, url: noteUrl } = extractUrlFromNote(e.note);
   if (e.name || noteText || noteUrl) {
     const meta = el('div', {className:'emeta'});
-    if (e.name) meta.appendChild(el('span', {className:'eclient'}, [e.name]));
+    if (e.name) {
+      const clSpan = el('span', {className:'eclient', title:'Фильтр по клиенту'}, [e.name]);
+      clSpan.addEventListener('click', ev => { ev.stopPropagation(); filterByClient(e.name); });
+      meta.appendChild(clSpan);
+    }
     if (noteText) {
       if (e.name) meta.appendChild(document.createTextNode('·'));
       meta.appendChild(el('span', {className:'enote-txt'}, [noteText]));
@@ -2049,38 +2193,66 @@ function renderEntry(e) {
 }
 
 function rebuildClientSel() {
-  const names = [...new Set(entries.map(e=>e.name).filter(Boolean))].sort();
-  const descs = [...new Set(entries.map(e=>e.desc).filter(Boolean))].sort();
+  const names = [...new Set(entries.map(e=>e.name).filter(Boolean))];
+  const descs = [...new Set(entries.map(e=>e.desc).filter(Boolean))];
   const nl = document.getElementById('nl');
   const dl = document.getElementById('dl');
-  if (nl) { nl.innerHTML=''; names.forEach(n => { const o=document.createElement('option'); o.value=n; nl.appendChild(o); }); }
-  if (dl) { dl.innerHTML=''; descs.forEach(d => { const o=document.createElement('option'); o.value=d; dl.appendChild(o); }); }
+  if (nl) { nl.innerHTML=''; [...names].sort().forEach(n => { const o=document.createElement('option'); o.value=n; nl.appendChild(o); }); }
+  if (dl) { dl.innerHTML=''; [...descs].sort().forEach(d => { const o=document.createElement('option'); o.value=d; dl.appendChild(o); }); }
+
+  // Быстрые кнопки выбора последних 5 клиентов в модальном окне (вместо принудительного автозаполнения)
+  const qc = document.getElementById('quick-clients');
+  if (qc) {
+    qc.innerHTML = '';
+    names.slice(0, 5).forEach(n => {
+      const chip = el('button', {className:'qc-chip', type:'button'}, [n]);
+      chip.addEventListener('click', () => {
+        const fn = document.getElementById('f-name');
+        if (fn) { fn.value = n; trySmartAutoPrice(); }
+      });
+      qc.appendChild(chip);
+    });
+  }
 }
 
 function render() {
   rebuildClientSel();
   updateFilterState();
 
+  // 1. Карточка «Ожидаем»
   const ua = entries.filter(e => !e.paid);
   const uaMap = sBC(ua);
-  const uaTot = totB(ua);
-  setText('val-await', uaTot !== null ? fmtB(uaTot) : (Object.keys(uaMap).length === 1 ? fmtMap(uaMap) : '—'));
+  const uaKeys = Object.keys(uaMap);
+  if (!ua.length) {
+    setText('val-await', '0\u202f' + baseCur);
+  } else if (uaKeys.length === 1 && uaKeys[0] !== baseCur) {
+    setText('val-await', fmtCur(uaMap[uaKeys[0]], uaKeys[0]));
+  } else {
+    setText('val-await', fmtB(totB(ua)));
+  }
   const awMulti = document.getElementById('val-await-multi');
   if (awMulti) {
     awMulti.innerHTML = '';
-    if (Object.keys(uaMap).length > 1 || (uaTot === null && Object.keys(uaMap).length > 0)) {
+    if (uaKeys.length > 1 || (uaKeys.length === 1 && uaKeys[0] !== baseCur)) {
       awMulti.appendChild(multiChips(uaMap));
     }
   }
 
+  // 2. Карточка «Пришло» (с учетом выбранного периода)
   const recv = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
   const recvMap = sBC(recv);
-  const recvTot = totB(recv);
-  setText('val-recv', recvTot !== null ? fmtB(recvTot) : (Object.keys(recvMap).length === 1 ? fmtMap(recvMap) : '—'));
+  const recvKeys = Object.keys(recvMap);
+  if (!recv.length) {
+    setText('val-recv', '0\u202f' + baseCur);
+  } else if (recvKeys.length === 1 && recvKeys[0] !== baseCur) {
+    setText('val-recv', fmtCur(recvMap[recvKeys[0]], recvKeys[0]));
+  } else {
+    setText('val-recv', fmtB(totB(recv)));
+  }
   const recvMulti = document.getElementById('val-recv-multi');
   if (recvMulti) {
     recvMulti.innerHTML = '';
-    if (Object.keys(recvMap).length > 1 || (recvTot === null && Object.keys(recvMap).length > 0)) {
+    if (recvKeys.length > 1 || (recvKeys.length === 1 && recvKeys[0] !== baseCur)) {
       recvMulti.appendChild(multiChips(recvMap));
     }
   }
@@ -2298,16 +2470,18 @@ function setFormPaid(paid) {
 }
 
 function clearForm() {
-  ['f-desc','f-note'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
+  // Очищаем ВСЕ текстовые поля (включая f-name!), чтобы заказы разных клиентов не смешивались
+  ['f-name','f-desc','f-note'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
   const amt = document.getElementById('f-amt'); if(amt) amt.value='';
   const h = document.getElementById('ahint'); if(h) { h.textContent=''; h.className='ahint'; }
   const dt = document.getElementById('f-date');
   if (dt) dt.value = today();
 
-  const recentClient = lastClient || (entries[0] && entries[0].name) || '';
-  const recentCur = (CURS.includes(lastCur) && lastCur) || (entries[0] && CURS.includes(entries[0].currency) && entries[0].currency) || baseCur;
+  // Если сейчас включен фильтр по конкретному клиенту — удобно подставить его, иначе поле чистое
   const fn = document.getElementById('f-name');
-  if (fn) fn.value = recentClient;
+  if (fn && activeClientFilter) fn.value = activeClientFilter;
+
+  const recentCur = (CURS.includes(lastCur) && lastCur) || baseCur;
   const fc = document.getElementById('f-cur');
   if (fc) fc.value = recentCur;
 
@@ -2333,13 +2507,13 @@ function submitForm() {
   const parsedAmt = pAmt(rawAmt);
   const currency = document.getElementById('f-cur').value;
   const note = document.getElementById('f-note').value.trim();
-  const date = document.getElementById('f-date').value;
+  const date = document.getElementById('f-date').value || today();
   const descEl = document.getElementById('f-desc');
   const amtEl = document.getElementById('f-amt');
   const h = document.getElementById('ahint');
 
-  if (!desc || isNaN(parsedAmt) || parsedAmt <= 0) {
-    if (descEl) descEl.style.borderColor = !desc ? 'var(--danger)' : '';
+  if ((!desc && !name) || isNaN(parsedAmt) || parsedAmt <= 0) {
+    if (descEl) descEl.style.borderColor = (!desc && !name) ? 'var(--danger)' : '';
     if (amtEl) amtEl.style.borderColor = (isNaN(parsedAmt) || parsedAmt <= 0) ? 'var(--danger)' : '';
     if (h && parsedAmt <= 0) { h.textContent = 'Сумма должна быть больше нуля'; h.className = 'ahint err'; }
     return;
@@ -2350,16 +2524,12 @@ function submitForm() {
 
   lastCur = currency;
   lsS('ff_last_cur', lastCur);
-  if (name) {
-    lastClient = name;
-    lsS('ff_last_client', lastClient);
-  }
 
   if (editId !== null) {
     const e = entries.find(x => x.id === editId);
     if (e) {
       e.name = name; e.amount = amount; e.currency = currency;
-      e.desc = desc; e.note = note; e.date = date;
+      e.desc = desc || name; e.note = note; e.date = date;
       const paVal = document.getElementById('f-paidat')?.value || today();
       if (formPaidStatus) { e.paid = true; e.paidAt = paVal; }
       else { e.paid = false; delete e.paidAt; }
@@ -2367,7 +2537,17 @@ function submitForm() {
     editId = null;
   } else {
     const paValNew = document.getElementById('f-paidat')?.value || today();
-    const newEntry = { id: gid(), name, amount, currency, desc, note, date, paid: formPaidStatus, createdAt: today() };
+    const newEntry = {
+      id: gid(),
+      name,
+      amount,
+      currency,
+      desc: desc || name,
+      note,
+      date,
+      paid: formPaidStatus,
+      createdAt: today()
+    };
     if (formPaidStatus) newEntry.paidAt = paValNew;
     entries.unshift(newEntry);
   }
@@ -2421,7 +2601,7 @@ function trigImport() { document.getElementById('imp-inp').click(); }
 function extractValidEntries(raw) {
   const arr = Array.isArray(raw) ? raw : (raw && Array.isArray(raw.entries) ? raw.entries : null);
   if (!arr) return null;
-  return arr.filter(x => x && typeof x === 'object' && typeof x.amount === 'number' && x.amount > 0 && isFinite(x.amount) && typeof x.currency === 'string' && x.currency);
+  return arr.filter(x => x && typeof x === 'object' && Number(x.amount) > 0 && isFinite(Number(x.amount)));
 }
 
 function applyImportedPayload(raw, replaceMode = true) {
@@ -2432,14 +2612,14 @@ function applyImportedPayload(raw, replaceMode = true) {
     baseCur = raw.baseCur;
   }
   if (!Array.isArray(raw) && raw.rates && typeof raw.rates === 'object') {
-    rates = {...rates, ...raw.rates};
+    rates = {...DEFAULT_RATES, ...rates, ...raw.rates};
   }
   if (replaceMode) {
-    entries = valid.map(x => ({...x, id: String(x.id || gid())}));
+    entries = valid.map(normalizeEntry);
   } else {
     const ex = new Set(entries.map(x => String(x.id)));
     const newItems = valid
-      .map(x => ({...x, id: String(x.id || gid())}))
+      .map(normalizeEntry)
       .filter(x => !ex.has(x.id));
     entries = [...newItems, ...entries];
   }
@@ -2665,6 +2845,9 @@ function bindEvents() {
 ══════════════════════════════════════════════ */
 (function init() {
   document.getElementById('btn-unpaid-first').classList.toggle('on', unpaidFirst);
+  document.getElementById('mo-tab-earn').classList.toggle('on', moTab==='earned');
+  document.getElementById('mo-tab-ord').classList.toggle('on', moTab==='orders');
+  document.getElementById('mo-tab-await').classList.toggle('on', moTab==='awaiting');
   applyTheme();
   updateSyncPill(fbUrl ? (_hasUnsynced ? 'err' : 'ok') : 'local');
   bindEvents();
