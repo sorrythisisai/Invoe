@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Invoe"/>
 <title>Invoe</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='280' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%233ba55d'/%3E%3C/svg%3E"/>
-<link rel="apple-touch-icon" href="data:image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='280' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%233ba55d'/%3E%3C/svg%3E"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='280' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%233ba55d'/%3E%3C/svg%3E"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
   --shadow-md:0 8px 24px rgba(0,0,0,0.07);
   --r:10px;--rl:14px;--rxl:18px;--rf:9999px;
   --topbar:52px;
-  --sidebar:284px;
+  --sidebar:280px;
   --ease:cubic-bezier(0.22, 1, 0.36, 1);
 }
 html[data-theme="dark"]{
@@ -70,9 +70,9 @@ body{
   transition:background-color .2s var(--ease),color .2s var(--ease);
 }
 
-@keyframes cardFadeIn{
-  from{opacity:0;transform:translateY(4px);}
-  to{opacity:1;transform:translateY(0);}
+@keyframes popIn{
+  from{opacity:0;transform:translateY(4px) scale(0.98);}
+  to{opacity:1;transform:translateY(0) scale(1);}
 }
 
 button{
@@ -81,6 +81,21 @@ button{
   transition:transform .12s var(--ease),background-color .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease),opacity .15s var(--ease),box-shadow .15s var(--ease);
 }
 button:active:not(:disabled){transform:scale(0.97);}
+
+/* ── FINDER LASSO SELECTION BOX ── */
+.lasso-box{
+  position:fixed;
+  border:1.5px solid var(--blue);
+  background:rgba(37,99,235,0.12);
+  border-radius:6px;
+  pointer-events:none;
+  z-index:9990;
+  display:none;
+  box-shadow:0 4px 16px rgba(37,99,235,0.12);
+}
+html[data-theme="dark"] .lasso-box{
+  background:rgba(59,130,246,0.16);
+}
 
 /* ── DRAG & DROP OVERLAY ── */
 .drop-zone{
@@ -136,20 +151,20 @@ button:active:not(:disabled){transform:scale(0.97);}
 /* Body */
 .body{display:flex;flex:1;overflow:hidden;max-width:1240px;width:100%;margin:0 auto;padding:0 24px;gap:24px;}
 
-/* ── SIDEBAR (Вся сводка и аналитика в одном месте) ── */
+/* ── SIDEBAR ── */
 .sidebar{
   width:var(--sidebar);
   min-width:var(--sidebar);
   display:flex;flex-direction:column;
-  gap:12px;
+  gap:10px;
   padding:18px 0;
   overflow-y:auto;overflow-x:hidden;
   flex-shrink:0;
 }
 .sidebar::-webkit-scrollbar{width:0;}
 
-/* Sidebar primary actions at top for instant reach */
-.sb-actions{display:grid;grid-template-columns:1.2fr 1fr;gap:8px;}
+/* Sidebar primary actions */
+.sb-actions{display:grid;grid-template-columns:1.15fr 1fr;gap:8px;position:relative;z-index:50;}
 .btn-primary{
   height:38px;
   background:var(--text);color:var(--bg);
@@ -168,15 +183,16 @@ button:active:not(:disabled){transform:scale(0.97);}
 }
 .btn-secondary:hover{background:var(--surface2);color:var(--text);border-color:var(--border2);transform:translateY(-1px);}
 
-/* Invoice dropdown */
+/* Invoice dropdown (Выровнено по правому краю без обрезки сайдбаром) */
 .inv-wrap{position:relative;}
 .inv-dropdown{
-  position:absolute;top:calc(100% + 6px);left:-60px;right:0;
+  position:absolute;top:calc(100% + 6px);right:0;left:auto;
+  width:264px;
   background:var(--surface);border:1px solid var(--border2);
   border-radius:var(--rl);box-shadow:var(--shadow-md);
-  padding:6px;z-index:450;display:none;min-width:230px;
+  padding:6px;z-index:450;display:none;
   max-height:260px;overflow-y:auto;
-  animation:cardFadeIn .15s var(--ease);
+  animation:popIn .15s var(--ease);
 }
 .inv-dropdown.on{display:block;}
 .inv-dd-title{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:6px 10px 8px;}
@@ -185,7 +201,7 @@ button:active:not(:disabled){transform:scale(0.97);}
   padding:6px 8px 6px 10px;border-radius:8px;transition:background .12s;
 }
 .inv-client-row:hover{background:var(--surface2);}
-.inv-client-name{font-size:13px;font-weight:500;color:var(--text);cursor:pointer;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.inv-client-name{font-size:13px;font-weight:500;color:var(--text);cursor:pointer;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 .inv-lang-btns{display:flex;gap:4px;flex-shrink:0;}
 .inv-lbtn{
   padding:2px 7px;font-size:10px;font-weight:600;border-radius:6px;
@@ -195,33 +211,42 @@ button:active:not(:disabled){transform:scale(0.97);}
 .inv-lbtn:hover{background:var(--text);color:var(--bg);border-color:var(--text);}
 .inv-empty-msg{font-size:12px;color:var(--text3);padding:8px 10px;}
 
-/* Balance cards */
-.balance-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+/* Balance cards (Просторные карточки без обрезки длинных сумм) */
+.balance-cards{display:flex;flex-direction:column;gap:8px;}
 .bal-card{
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:var(--rl);
-  padding:13px 14px;
+  padding:12px 15px;
   position:relative;
   overflow:hidden;
   box-shadow:var(--shadow-sm);
-  transition:transform .2s var(--ease),border-color .2s var(--ease);
+  transition:border-color .2s var(--ease);
 }
 .bal-card:hover{border-color:var(--border2);}
 .bal-card::before{
-  content:'';position:absolute;left:0;top:0;right:0;height:3px;
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3.5px;
   background:var(--text3);opacity:0.3;
 }
 .bal-card.card-warn::before{background:var(--warning);opacity:1;}
 .bal-card.card-ok::before{background:var(--success);opacity:1;}
-.bal-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
-.bal-amount{font-size:17px;font-weight:700;letter-spacing:-.03em;color:var(--text);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bal-hdr{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px;}
+.bal-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.bal-trend{
+  font-size:10px;font-weight:700;padding:1px 7px;border-radius:var(--rf);
+  white-space:nowrap;display:none;
+}
+.bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
+.bal-trend.down{display:inline-block;background:var(--warning-bg);color:var(--warning);}
+.bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
+.bal-amount{font-size:20px;font-weight:700;letter-spacing:-.03em;color:var(--text);line-height:1.15;}
 .bal-amount.warning{color:var(--warning);}
 .bal-amount.success{color:var(--success);}
-.bal-multi{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
-.bal-chip{font-size:10px;font-weight:500;color:var(--text2);background:var(--surface2);padding:1px 6px;border-radius:var(--rf);}
+.bal-multi{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.bal-multi:empty{display:none;}
+.bal-chip{font-size:11px;font-weight:500;color:var(--text2);background:var(--surface2);padding:1px 7px;border-radius:var(--rf);}
 
-/* Sidebar Analytics Card (Donut + Period) */
+/* Sidebar Analytics Card */
 .month-overview{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);
   padding:14px 15px;
@@ -244,7 +269,7 @@ button:active:not(:disabled){transform:scale(0.97);}
   border-radius:var(--rl);padding:5px;
   box-shadow:var(--shadow-md);z-index:400;
   display:none;max-height:250px;overflow-y:auto;
-  animation:cardFadeIn .15s var(--ease);
+  animation:popIn .15s var(--ease);
 }
 .period-dd.on{display:block;}
 .period-dd-item{
@@ -290,18 +315,19 @@ button:active:not(:disabled){transform:scale(0.97);}
 .mo-leg-lbl{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .mo-leg-val{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;}
 
-/* Toast with Undo */
+/* Toast with Undo (Автоматически поднимается над открытым selbar) */
 .toast{
-  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(14px);
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(14px);
   background:var(--text);color:var(--bg);
   padding:8px 16px;border-radius:var(--rf);
   font-size:13px;font-weight:500;
   display:flex;align-items:center;gap:12px;
   pointer-events:none;opacity:0;
-  transition:opacity .2s var(--ease),transform .2s var(--ease);
+  transition:opacity .2s var(--ease),transform .2s var(--ease),bottom .2s var(--ease);
   z-index:9999;white-space:nowrap;
   box-shadow:0 10px 30px rgba(0,0,0,0.22);
 }
+.toast.above-bar{bottom:64px;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
 .toast-undo{
   background:rgba(255,255,255,0.18);color:var(--bg);
@@ -312,7 +338,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .toast-undo:hover{opacity:.85;}
 
-/* ── MAIN (100% высоты под заказы) ── */
+/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;padding:18px 0;}
 
 /* Toolbar */
@@ -358,7 +384,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   background:var(--surface);border:1px solid var(--border2);
   border-radius:var(--rl);padding:14px;width:248px;
   z-index:300;display:none;box-shadow:var(--shadow-md);
-  animation:cardFadeIn .15s var(--ease);
+  animation:popIn .15s var(--ease);
 }
 .fpanel.on{display:block;}
 .flbl{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
@@ -375,7 +401,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .ftag{
   padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;
   cursor:pointer;border:1px solid var(--border);color:var(--text2);
-  background:transparent;white-space:nowrap;
+  background:transparent;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
 }
 .ftag:hover{border-color:var(--text3);color:var(--text);}
 .ftag.on{background:var(--text);color:var(--bg);border-color:var(--text);}
@@ -387,7 +413,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 }
 .atag:hover{opacity:.75;}
 
-/* Quick Client Pills Bar (1-click filtering) */
+/* Quick Client Pills Bar */
 .quick-clients{
   display:flex;align-items:center;gap:6px;
   overflow-x:auto;padding-bottom:8px;margin-bottom:4px;
@@ -398,22 +424,22 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   height:27px;padding:0 11px;border-radius:var(--rf);
   border:1px solid var(--border);background:var(--surface);
   color:var(--text2);font-size:11px;font-weight:500;
-  cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
+  cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;
 }
 .qchip:hover{border-color:var(--border2);color:var(--text);}
 .qchip.on{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:600;}
-.qchip-dot{width:5px;height:5px;border-radius:50%;background:var(--warning);}
+.qchip-color{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 
 /* Client Summary Banner */
 .client-banner{
   display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  background:var(--surface);border:1px solid var(--blue);
+  background:var(--surface);border:1px solid var(--border2);
   border-radius:var(--rl);padding:10px 15px;margin-bottom:10px;
-  box-shadow:var(--shadow-sm);animation:cardFadeIn .18s var(--ease);
+  box-shadow:var(--shadow-sm);animation:popIn .18s var(--ease);
 }
 .client-banner.on{display:flex;}
 .cb-info{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--text2);}
-.cb-name{font-size:13px;font-weight:700;color:var(--text);}
+.cb-name{font-size:13px;font-weight:700;color:var(--text);display:inline-flex;align-items:center;gap:7px;}
 .cb-stat b{color:var(--text);font-weight:600;}
 .cb-stat.warn b{color:var(--warning);}
 .cb-stat.ok b{color:var(--success);}
@@ -426,8 +452,13 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .cb-btn:hover{background:var(--text);color:var(--bg);border-color:var(--text);}
 
 /* Entries list */
-.elist{flex:1;overflow-y:auto;padding-bottom:16px;transition:padding-bottom .18s;}
-.elist.has-selbar{padding-bottom:72px;}
+.elist{
+  flex:1;overflow-y:auto;padding:2px 2px 24px;
+  transition:padding-bottom .18s;
+  user-select:none;-webkit-user-select:none;
+  position:relative;
+}
+.elist.has-selbar{padding-bottom:76px;}
 .elist::-webkit-scrollbar{width:3px;}
 .elist::-webkit-scrollbar-thumb{background:transparent;border-radius:2px;}
 .elist:hover::-webkit-scrollbar-thumb{background:var(--border2);}
@@ -448,7 +479,6 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   display:flex;align-items:center;gap:12px;
   user-select:none;
   position:relative;overflow:hidden;
-  animation:cardFadeIn .2s var(--ease) backwards;
 }
 .entry-card:not(.paid)::before{
   content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
@@ -460,9 +490,11 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   transform:translateY(-1px);
   box-shadow:var(--shadow-sm);
 }
-.entry-card:hover.paid{background:var(--surface);}
+.entry-card.paid:not(.sel):hover{background:var(--surface);}
 .entry-card.sel{border-color:var(--blue);background:var(--blue-bg);}
-.entry-card.paid{opacity:.58;}
+.entry-card.sel:hover{border-color:var(--blue);background:var(--blue-bg);}
+.entry-card.paid{opacity:.6;}
+.entry-card.paid.sel{opacity:.92;}
 .entry-card.paid:hover{opacity:.88;border-color:var(--border2);}
 .entry-card.paid .etitle{color:var(--text2);text-decoration:line-through;text-decoration-color:var(--text3);}
 .entry-card.paid .emeta{color:var(--text3);}
@@ -471,6 +503,8 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .el{flex:1;min-width:0;}
 .etitle{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .emeta{font-size:12px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.eclient-wrap{display:inline-flex;align-items:center;gap:5px;}
+.eclient-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .eclient{color:var(--text2);font-weight:500;}
 .enote-txt{font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;}
 .elink{
@@ -532,6 +566,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .mclose:hover{background:var(--surface2);color:var(--text);}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 .fgrid.t3{grid-template-columns:2fr 1.2fr 0.8fr;}
+.fgrid.single-col{grid-template-columns:1fr;}
 
 .ff label{font-size:10px;color:var(--text2);font-weight:600;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;text-transform:uppercase;cursor:pointer;}
 .modal input,.modal select,.cloud-inp{
@@ -590,7 +625,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .confirm-cancel{height:34px;padding:0 14px;background:none;border:1px solid var(--border);border-radius:var(--rf);cursor:pointer;font-size:12px;color:var(--text2);}
 .confirm-cancel:hover{background:var(--surface2);}
 
-/* ── SELBAR ── */
+/* ── SELBAR (С ЖИВЫМ КАЛЬКУЛЯТОРОМ) ── */
 .selbar{
   position:fixed;bottom:0;left:0;right:0;
   background:var(--surface);border-top:1px solid var(--border);
@@ -602,7 +637,17 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   -webkit-backdrop-filter:blur(12px);
 }
 .selbar.on{transform:none;}
-.selcnt{font-size:12px;font-weight:600;flex:1;min-width:70px;color:var(--text2);}
+.selcnt{
+  font-size:12px;font-weight:600;flex:1;min-width:140px;color:var(--text2);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.selsum{
+  display:inline-flex;align-items:center;
+  background:var(--blue-bg);color:var(--blue);
+  border:1px solid rgba(37,99,235,0.25);
+  padding:2px 10px;border-radius:var(--rf);
+  font-size:12px;font-weight:700;letter-spacing:-.02em;
+}
 .sbtn{
   height:30px;padding:0 12px;font-size:11px;font-weight:600;
   border-radius:var(--rf);cursor:pointer;
@@ -691,6 +736,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 <body>
 <div class="app">
 
+<!-- Finder Lasso Selection Box -->
+<div class="lasso-box" id="lasso-box"></div>
+
 <!-- Drag and Drop Overlay -->
 <div class="drop-zone" id="drop-zone">
   <div class="drop-zone-title">Перетащи файл базы (.json) сюда</div>
@@ -727,10 +775,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
 <div class="body">
 
-  <!-- ── SIDEBAR (Действия, Баланс и Компактная аналитика) ── -->
+  <!-- ── SIDEBAR ── -->
   <div class="sidebar" id="sidebar">
 
-    <!-- Быстрые действия сразу сверху -->
+    <!-- Быстрые действия -->
     <div class="sb-actions">
       <button class="btn-primary" id="btn-add" type="button" title="Горячая клавиша: N">+ Добавить</button>
       <div class="inv-wrap">
@@ -742,21 +790,26 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- Баланс -->
+    <!-- Баланс + Сравнение с прошлым месяцем -->
     <div class="balance-cards">
       <div class="bal-card card-warn">
-        <div class="bal-label">Ожидаем</div>
+        <div class="bal-hdr">
+          <div class="bal-label">Ожидаем</div>
+        </div>
         <div class="bal-amount warning" id="val-await">—</div>
         <div class="bal-multi" id="val-await-multi"></div>
       </div>
       <div class="bal-card card-ok">
-        <div class="bal-label">Пришло</div>
+        <div class="bal-hdr">
+          <div class="bal-label">Пришло</div>
+          <span class="bal-trend" id="val-recv-trend"></span>
+        </div>
         <div class="bal-amount success" id="val-recv">—</div>
         <div class="bal-multi" id="val-recv-multi"></div>
       </div>
     </div>
 
-    <!-- Аналитика и выбор периода прямо в сайдбаре -->
+    <!-- Аналитика и выбор периода -->
     <div class="month-overview" id="month-overview">
       <div class="mo-header">
         <div class="mo-title-wrap">
@@ -786,7 +839,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
   </div>
 
-  <!-- ── MAIN (Весь экран под список заказов) ── -->
+  <!-- ── MAIN ── -->
   <div class="main">
     <div class="toolbar">
       <div class="search-wrap">
@@ -817,7 +870,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
     </div>
 
-    <!-- Быстрая лента клиентов (фильтр в 1 клик) -->
+    <!-- Быстрая лента клиентов (С цветными точками клиентов) -->
     <div class="quick-clients" id="quick-clients"></div>
 
     <!-- Быстрая сводка по выбранному клиенту -->
@@ -829,16 +882,19 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- Список заказов на всю высоту -->
-    <div class="elist" role="main">
+    <!-- Список заказов -->
+    <div class="elist" id="elist" role="main">
       <div id="list"></div>
     </div>
   </div>
 </div>
 
-<!-- Selection bar -->
+<!-- Selection bar with Live Calculator -->
 <div class="selbar" id="selbar" role="toolbar" aria-label="Действия с выбранными">
-  <span class="selcnt" id="selcnt"></span>
+  <div class="selcnt">
+    <span id="selcnt-txt"></span>
+    <span class="selsum" id="selcnt-sum"></span>
+  </div>
   <button class="sbtn clr" id="btn-sel-all" type="button">Выбрать все</button>
   <button class="sbtn inv" id="sb-inv-ru" type="button" title="Скопировать счет только по выбранным заказам">📄 Инвойс RU</button>
   <button class="sbtn inv" id="sb-inv-en" type="button" title="Copy invoice for selected items in English">EN</button>
@@ -886,7 +942,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <input type="text" id="f-note" placeholder="Уточнение или https://..."/>
       </div>
     </div>
-    <div class="fgrid" style="grid-template-columns:1fr 1fr;">
+    <div class="fgrid single-col" id="f-dates-grid">
       <div class="ff">
         <label for="f-date">Дата</label>
         <input type="date" id="f-date"/>
@@ -969,7 +1025,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
           <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">🛟 Вернуть до синхронизации</button>
           <input type="file" id="imp-inp" accept=".json" style="display:none"/>
         </div>
-        <div class="s-hint">Горячие клавиши: ⌘S (скачать файл), N (новая запись), / или ⌘K (поиск). Любой бэкап можно перетащить мышкой прямо на экран.</div>
+        <div class="s-hint">Горячие клавиши: ⌘S (скачать файл), N (новая запись), / или ⌘K (поиск). Зажмите левую кнопку мыши и тяните по списку для выделения областью.</div>
       </div>
     </div>
   </div>
@@ -992,7 +1048,6 @@ function lsS(k, v) {
   try { localStorage.setItem(k, v); } catch(e) {}
 }
 
-// Безопасные ключи для Firebase (Firebase запрещает символ '$' в ключах JSON!)
 const CUR_CODE = { '₽': 'RUB', '$': 'USD', '€': 'EUR' };
 function rateKey(fromCur, toCur) {
   return `${CUR_CODE[fromCur] || fromCur}_to_${CUR_CODE[toCur] || toCur}`;
@@ -1228,11 +1283,12 @@ async function safeSyncWithFirebase(manual = false) {
 }
 
 /* ══════════════════════════════════════════════
-   2. STATE & CONSTANTS
+   2. STATE, CONSTANTS & CLIENT COLOR SYSTEM
 ══════════════════════════════════════════════ */
 const MONTHS_GEN_RU=['январе','феврале','марте','апреле','мае','июне','июле','августе','сентябре','октябре','ноябре','декабре'];
 const CURS = ['₽','$','€'];
 const CUR_PREFIX = ['$','€'];
+const CLIENT_PALETTE = ['#2563eb','#f97316','#16a34a','#9333ea','#e11d48','#0891b2','#d97706','#db2777','#4f46e5','#0d9488'];
 
 let entries;
 try {
@@ -1268,15 +1324,40 @@ let activeWorkFilter = '';
 let formPaidStatus = false;
 let _amtManuallyTyped = false;
 let _donutDirty = true;
+let _justLassoed = false;
+
+// Постоянный цвет для каждого клиента (одинаковый на графике, в фильтрах и в списке заказов)
+const _clientColorCache = new Map();
+function getClientColor(name) {
+  if (!name || name === '—') return '#9e9e95';
+  if (_clientColorCache.has(name)) return _clientColorCache.get(name);
+  const allClients = [...new Set(entries.map(e => e.name).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'ru'));
+  const idx = allClients.indexOf(name);
+  if (idx !== -1) {
+    const col = CLIENT_PALETTE[idx % CLIENT_PALETTE.length];
+    _clientColorCache.set(name, col);
+    return col;
+  }
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  const col = CLIENT_PALETTE[hash % CLIENT_PALETTE.length];
+  _clientColorCache.set(name, col);
+  return col;
+}
 
 /* ══════════════════════════════════════════════
-   3. UTILS & UNDO SYSTEM
+   3. UTILS, SMOOTH ODOMETER & UNDO SYSTEM
 ══════════════════════════════════════════════ */
 function Z(n) { return String(n).padStart(2,'0'); }
 function today() { const d=new Date(); return `${d.getFullYear()}-${Z(d.getMonth()+1)}-${Z(d.getDate())}`; }
 function yest() { const d=new Date(); d.setDate(d.getDate()-1); return `${d.getFullYear()}-${Z(d.getMonth()+1)}-${Z(d.getDate())}`; }
 function cmYM() { const d=new Date(); return `${d.getFullYear()}-${Z(d.getMonth()+1)}`; }
 function effectiveYm() { return pYm === 'current' ? cmYM() : pYm; }
+function prevMonthYm(ym) {
+  const [y, m] = ym.split('-').map(Number);
+  const d = new Date(y, m - 2, 1);
+  return `${d.getFullYear()}-${Z(d.getMonth() + 1)}`;
+}
 function matchesPeriod(dateStr) {
   const ym = effectiveYm();
   if (ym === 'all') return true;
@@ -1306,6 +1387,46 @@ function el(tag, props={}, children=[]) {
 
 function setText(id, v) { const e=document.getElementById(id); if(e) e.textContent=v; }
 
+// Плавный счетчик цифр (эффект одометра)
+const _animMap = new Map();
+function animateNumberText(id, targetNum, formatFn, fallbackStr = '—', unitKey = '') {
+  const node = document.getElementById(id);
+  if (!node) return;
+  if (_animMap.has(id)) {
+    cancelAnimationFrame(_animMap.get(id));
+    _animMap.delete(id);
+  }
+  if (targetNum === null || targetNum === undefined || isNaN(targetNum)) {
+    node._lastVal = undefined;
+    node._lastUnit = unitKey;
+    node.textContent = fallbackStr;
+    return;
+  }
+  const prevVal = (node._lastUnit === unitKey && typeof node._lastVal === 'number') ? node._lastVal : null;
+  node._lastVal = targetNum;
+  node._lastUnit = unitKey;
+
+  if (prevVal === null || Math.abs(prevVal - targetNum) < 0.01) {
+    node.textContent = formatFn(targetNum);
+    return;
+  }
+
+  const dur = 360;
+  const t0 = performance.now();
+  function step(now) {
+    const p = Math.min(1, (now - t0) / dur);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const cur = prevVal + (targetNum - prevVal) * ease;
+    node.textContent = formatFn(p >= 1 ? targetNum : Math.round(cur));
+    if (p < 1) {
+      _animMap.set(id, requestAnimationFrame(step));
+    } else {
+      _animMap.delete(id);
+    }
+  }
+  _animMap.set(id, requestAnimationFrame(step));
+}
+
 let _toastTmr = null;
 let _undoAction = null;
 function showToast(msg, undoCb = null) {
@@ -1317,6 +1438,7 @@ function showToast(msg, undoCb = null) {
   msgEl.textContent = msg;
   _undoAction = undoCb;
   undoBtn.style.display = undoCb ? 'inline-block' : 'none';
+  box.classList.toggle('above-bar', selIds.size > 0);
 
   box.classList.add('on');
   clearTimeout(_toastTmr);
@@ -1381,7 +1503,7 @@ function trySmartAutoPrice() {
 }
 
 /* ══════════════════════════════════════════════
-   5. CURRENCY & CONVERSION
+   5. CURRENCY, CONVERSION & MONTH COMPARISON
 ══════════════════════════════════════════════ */
 function toB(a,c) {
   if (c === baseCur) return a;
@@ -1423,6 +1545,58 @@ function multiChips(map) {
     wrap.appendChild(el('span', {className:'bal-chip'}, [fmtCur(v,c)]));
   }
   return wrap;
+}
+
+function getComparableMonthSum(ym) {
+  const list = entries.filter(e => e.paid && (e.paidAt || e.date || '').startsWith(ym));
+  if (!list.length) return 0;
+  const full = totB(list);
+  if (full !== null) return full;
+  const curs = [...new Set(list.map(e => e.currency))];
+  if (curs.length === 1) return list.reduce((s, e) => s + e.amount, 0);
+  return list.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0);
+}
+
+function renderMonthTrend() {
+  const trendEl = document.getElementById('val-recv-trend');
+  if (!trendEl) return;
+  const eff = effectiveYm();
+  const targetYm = eff === 'all' ? cmYM() : eff;
+  const prevYm = prevMonthYm(targetYm);
+
+  const curSum = getComparableMonthSum(targetYm);
+  const prevSum = getComparableMonthSum(prevYm);
+
+  const [py, pm] = prevYm.split('-').map(Number);
+  const prevMonthName = MONTHS_GEN_RU[(pm || 1) - 1];
+
+  if (prevSum <= 0 && curSum <= 0) {
+    trendEl.className = 'bal-trend';
+    trendEl.textContent = '';
+    return;
+  }
+  if (prevSum <= 0 && curSum > 0) {
+    trendEl.className = 'bal-trend up';
+    trendEl.textContent = '↑ +100%';
+    trendEl.title = `В ${prevMonthName} было 0`;
+    return;
+  }
+
+  const pct = Math.round(((curSum - prevSum) / prevSum) * 100);
+  const prevFormatted = fmtB(prevSum);
+  if (pct > 0) {
+    trendEl.className = 'bal-trend up';
+    trendEl.textContent = `↑ +${pct}%`;
+    trendEl.title = `К прошлому месяцу (в ${prevMonthName}: ${prevFormatted})`;
+  } else if (pct < 0) {
+    trendEl.className = 'bal-trend down';
+    trendEl.textContent = `↓ ${pct}%`;
+    trendEl.title = `К прошлому месяцу (в ${prevMonthName}: ${prevFormatted})`;
+  } else {
+    trendEl.className = 'bal-trend flat';
+    trendEl.textContent = '0%';
+    trendEl.title = `На уровне прошлого месяца (в ${prevMonthName}: ${prevFormatted})`;
+  }
 }
 
 function buildCP() {
@@ -1572,10 +1746,8 @@ function selectPeriod(val) {
 }
 
 /* ══════════════════════════════════════════════
-   8. DONUT CHART (В САЙДБАРЕ)
+   8. DONUT CHART (С ПОСТОЯННЫМИ ЦВЕТАМИ КЛИЕНТОВ)
 ══════════════════════════════════════════════ */
-const DONUT_COLORS = ['#2563eb','#f97316','#22c55e','#a855f7','#ef4444','#06b6d4','#eab308','#ec4899'];
-
 function drawDonut(segments) {
   const cv = document.getElementById('donut-cv');
   if (!cv) return;
@@ -1587,24 +1759,22 @@ function drawDonut(segments) {
   ctx.clearRect(0,0,SZ,SZ);
   const cx=SZ/2, cy=SZ/2, R=47, rInner=31;
   const total = segments.reduce((s,g) => s + g.value, 0);
-  const valEl = document.getElementById('donut-val');
   if (!total) {
     ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2);
     ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface3');
     ctx.lineWidth = R-rInner; ctx.stroke();
-    if (valEl) valEl.textContent = '—';
     const leg = document.getElementById('mo-legend');
     if (leg) leg.innerHTML = '';
     return;
   }
   let angle = -Math.PI/2;
-  segments.forEach((seg,i) => {
+  segments.forEach((seg) => {
     const sweep = (seg.value/total)*Math.PI*2;
     ctx.beginPath();
     ctx.arc(cx,cy,R,angle,angle+sweep);
     ctx.arc(cx,cy,rInner,angle+sweep,angle,true);
     ctx.closePath();
-    ctx.fillStyle = DONUT_COLORS[i%DONUT_COLORS.length];
+    ctx.fillStyle = getClientColor(seg.label);
     ctx.fill();
     angle += sweep;
   });
@@ -1612,10 +1782,11 @@ function drawDonut(segments) {
   const leg = document.getElementById('mo-legend');
   if (!leg) return;
   leg.innerHTML = '';
-  segments.slice(0,6).forEach((seg,i) => {
+  segments.slice(0,6).forEach((seg) => {
+    const col = getClientColor(seg.label);
     const row = el('div', {className:'mo-leg-row', role:'button', tabindex:'0'});
     const left = el('div', {className:'mo-leg-left'});
-    const dot = el('div', {className:'mo-leg-dot', style:`background:${DONUT_COLORS[i%DONUT_COLORS.length]}`});
+    const dot = el('div', {className:'mo-leg-dot', style:`background:${col}`});
     const lbl = el('div', {className:'mo-leg-lbl', title:seg.label}, [seg.label]);
     left.appendChild(dot); left.appendChild(lbl);
     const val = el('div', {className:'mo-leg-val'}, [seg.display]);
@@ -1659,14 +1830,14 @@ function buildMoneyDonutSegments(list) {
     const sorted = Object.entries(byClient).sort((a,b) => b[1] - a[1]);
     const segments = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtB(sum) }));
     const tot = sorted.reduce((acc, r) => acc + r[1], 0);
-    return { segments, centerVal: fmtB(tot) };
+    return { segments, totalNum: tot, unit: baseCur, formatFn: fmtB };
   } else if (singleFallbackCur && Object.keys(rawByClient).length > 0) {
     const sorted = Object.entries(rawByClient).sort((a,b) => b[1] - a[1]);
     const segments = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtCur(sum, singleFallbackCur) }));
     const tot = sorted.reduce((acc, r) => acc + r[1], 0);
-    return { segments, centerVal: fmtCur(tot, singleFallbackCur) };
+    return { segments, totalNum: tot, unit: singleFallbackCur, formatFn: v => fmtCur(v, singleFallbackCur) };
   }
-  return { segments: [], centerVal: '—' };
+  return { segments: [], totalNum: null, unit: '', formatFn: () => '—' };
 }
 
 function renderDonut() {
@@ -1680,23 +1851,24 @@ function renderDonut() {
   }
   setText('mo-title', periodTitle);
 
-  let segments = [], centerVal = '—';
+  let segments = [];
   if (moTab === 'earned') {
     const period = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
     const res = buildMoneyDonutSegments(period);
-    segments = res.segments; centerVal = res.centerVal;
+    segments = res.segments;
+    animateNumberText('donut-val', res.totalNum, res.formatFn, '—', 'earn_' + res.unit);
   } else if (moTab === 'orders') {
     const ord = entries.filter(e => matchesPeriod(e.date));
     const byClient = {};
     ord.forEach(e => { const n = e.name||'—'; byClient[n] = (byClient[n]||0)+1; });
     segments = Object.entries(byClient).sort((a,b)=>b[1]-a[1]).map(([name,cnt])=>({label:name,value:cnt,display:String(cnt)}));
-    centerVal = String(ord.length);
+    animateNumberText('donut-val', ord.length || null, v => String(Math.round(v)), '—', 'ord_cnt');
   } else {
     const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
     const res = buildMoneyDonutSegments(period);
-    segments = res.segments; centerVal = res.centerVal;
+    segments = res.segments;
+    animateNumberText('donut-val', res.totalNum, res.formatFn, '—', 'await_' + res.unit);
   }
-  setText('donut-val', centerVal);
   drawDonut(segments);
   _donutDirty = false;
 }
@@ -1725,7 +1897,8 @@ function buildInvDd() {
 
   names.forEach(n => {
     const row = el('div', {className:'inv-client-row', role:'menuitem'});
-    const nm = el('span', {className:'inv-client-name', title: n}, [n]);
+    const dot = el('span', {className:'eclient-dot', style:`background:${getClientColor(n)}`});
+    const nm = el('span', {className:'inv-client-name', title: n}, [dot, n]);
     nm.addEventListener('click', () => copyInv(n, 'ru'));
 
     const lbtns = el('div', {className:'inv-lang-btns'});
@@ -1905,14 +2078,13 @@ function renderQuickClientBar() {
     return b[1].count - a[1].count;
   });
 
-  sortedClients.forEach(([name, st]) => {
-    const children = [];
-    if (st.hasUnpaid) children.push(el('span', {className:'qchip-dot', title:'Есть неоплаченные заказы'}));
-    children.push(name);
+  sortedClients.forEach(([name]) => {
+    const col = getClientColor(name);
+    const dot = el('span', {className:'qchip-color', style:`background:${col}`});
     const chip = el('button', {
       className: 'qchip' + (activeClientFilter === name ? ' on' : ''),
       type: 'button'
-    }, children);
+    }, [dot, name]);
     chip.addEventListener('click', () => filterByClient(name));
     bar.appendChild(chip);
   });
@@ -1951,9 +2123,12 @@ function renderClientBanner() {
   const unpaidList = clientEntries.filter(e => !e.paid);
   const paidStr = fmtMap(sBC(paidList), '0 ' + baseCur);
   const unpaidStr = fmtMap(sBC(unpaidList), '0 ' + baseCur);
+  const col = getClientColor(activeClientFilter);
+  banner.style.borderColor = col;
 
   info.innerHTML = '';
-  info.appendChild(el('span', {className:'cb-name'}, [`👤 ${activeClientFilter}`]));
+  const dot = el('span', {className:'eclient-dot', style:`background:${col};width:8px;height:8px;`});
+  info.appendChild(el('span', {className:'cb-name'}, [dot, activeClientFilter]));
   const st1 = el('span', {className:'cb-stat'}, ['Заказов: ', el('b', {}, [String(clientEntries.length)])]);
   const st2 = el('span', {className:'cb-stat ok'}, ['Оплачено: ', el('b', {}, [paidStr])]);
   const st3 = el('span', {className:'cb-stat warn'}, ['Долг: ', el('b', {}, [unpaidStr])]);
@@ -1968,6 +2143,12 @@ function updateTags() {
   const w = document.getElementById('atags');
   if (!w) return;
   w.innerHTML = '';
+  const uniqueClientsCount = new Set(entries.map(e => e.name).filter(Boolean)).size;
+  if (activeClientFilter && uniqueClientsCount < 2) {
+    const tag = el('div', {className:'atag', role:'button', tabindex:'0'}, [activeClientFilter+' ×']);
+    tag.addEventListener('click', clearClientFilter);
+    w.appendChild(tag);
+  }
   if (activeWorkFilter) {
     const tag = el('div', {className:'atag', role:'button', tabindex:'0'}, [activeWorkFilter+' ×']);
     tag.addEventListener('click', clearWorkFilter);
@@ -1994,7 +2175,8 @@ function buildFilterTags() {
   if (tc) {
     tc.innerHTML = '';
     clients.forEach(n => {
-      const btn = el('button', {className:'ftag'+(activeClientFilter===n?' on':''), type:'button'}, [n]);
+      const dot = el('span', {className:'eclient-dot', style:`background:${getClientColor(n)}`});
+      const btn = el('button', {className:'ftag'+(activeClientFilter===n?' on':''), type:'button'}, [dot, n]);
       btn.addEventListener('click', () => filterByClient(n));
       tc.appendChild(btn);
     });
@@ -2085,7 +2267,10 @@ function renderEntry(e) {
   card.setAttribute('tabindex', '0');
   card.setAttribute('role', 'button');
   card.setAttribute('aria-pressed', String(isSel));
-  card.addEventListener('click', () => togSel(e.id));
+  card.addEventListener('click', () => {
+    if (_justLassoed) return;
+    togSel(e.id);
+  });
   card.addEventListener('dblclick', () => { clearSel(); startEdit(e.id); });
   card.addEventListener('keydown', ev => {
     if (ev.key==='Enter' || ev.key===' ') { ev.preventDefault(); togSel(e.id); }
@@ -2097,7 +2282,13 @@ function renderEntry(e) {
   const { text: noteText, url: noteUrl } = extractUrlFromNote(e.note);
   if (e.name || noteText || noteUrl) {
     const meta = el('div', {className:'emeta'});
-    if (e.name) meta.appendChild(el('span', {className:'eclient'}, [e.name]));
+    if (e.name) {
+      const col = getClientColor(e.name);
+      const cWrap = el('span', {className:'eclient-wrap'});
+      cWrap.appendChild(el('span', {className:'eclient-dot', style:`background:${col}`}));
+      cWrap.appendChild(el('span', {className:'eclient'}, [e.name]));
+      meta.appendChild(cWrap);
+    }
     if (noteText) {
       if (e.name) meta.appendChild(document.createTextNode('·'));
       meta.appendChild(el('span', {className:'enote-txt'}, [noteText]));
@@ -2143,6 +2334,7 @@ function renderEntry(e) {
 }
 
 function rebuildClientSel() {
+  _clientColorCache.clear();
   const names = [...new Set(entries.map(e=>e.name).filter(Boolean))].sort();
   const descs = [...new Set(entries.map(e=>e.desc).filter(Boolean))].sort();
   const nl = document.getElementById('nl');
@@ -2155,30 +2347,49 @@ function render() {
   rebuildClientSel();
   updateFilterState();
 
+  // Плавный счетчик для "Ожидаем"
   const ua = entries.filter(e => !e.paid);
   const uaMap = sBC(ua);
   const uaTot = totB(ua);
-  setText('val-await', uaTot !== null ? fmtB(uaTot) : (Object.keys(uaMap).length === 1 ? fmtMap(uaMap) : '—'));
+  const uaKeys = Object.keys(uaMap);
+  if (uaTot !== null) {
+    animateNumberText('val-await', uaTot, fmtB, '—', baseCur);
+  } else if (uaKeys.length === 1) {
+    const c = uaKeys[0];
+    animateNumberText('val-await', uaMap[c], v => fmtCur(v, c), '—', c);
+  } else {
+    animateNumberText('val-await', null, () => '—', '—', 'none');
+  }
   const awMulti = document.getElementById('val-await-multi');
   if (awMulti) {
     awMulti.innerHTML = '';
-    if (Object.keys(uaMap).length > 1 || (uaTot === null && Object.keys(uaMap).length > 0)) {
+    if (uaKeys.length > 1 || (uaTot === null && uaKeys.length > 0)) {
       awMulti.appendChild(multiChips(uaMap));
     }
   }
 
+  // Плавный счетчик для "Пришло"
   const recv = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
   const recvMap = sBC(recv);
   const recvTot = totB(recv);
-  setText('val-recv', recvTot !== null ? fmtB(recvTot) : (Object.keys(recvMap).length === 1 ? fmtMap(recvMap) : '—'));
+  const recvKeys = Object.keys(recvMap);
+  if (recvTot !== null) {
+    animateNumberText('val-recv', recvTot, fmtB, '—', baseCur);
+  } else if (recvKeys.length === 1) {
+    const c = recvKeys[0];
+    animateNumberText('val-recv', recvMap[c], v => fmtCur(v, c), '—', c);
+  } else {
+    animateNumberText('val-recv', null, () => '—', '—', 'none');
+  }
   const recvMulti = document.getElementById('val-recv-multi');
   if (recvMulti) {
     recvMulti.innerHTML = '';
-    if (Object.keys(recvMap).length > 1 || (recvTot === null && Object.keys(recvMap).length > 0)) {
+    if (recvKeys.length > 1 || (recvTot === null && recvKeys.length > 0)) {
       recvMulti.appendChild(multiChips(recvMap));
     }
   }
 
+  renderMonthTrend();
   if (_donutDirty) renderDonut();
 
   const filt = getFiltered();
@@ -2224,7 +2435,7 @@ function render() {
 }
 
 /* ══════════════════════════════════════════════
-   13. SELECTION, BULK ACTIONS & UNDO
+   13. SELECTION, LIVE CALCULATOR & FINDER LASSO
 ══════════════════════════════════════════════ */
 function togSel(id) {
   if (selIds.has(id)) selIds.delete(id); else selIds.add(id);
@@ -2256,13 +2467,30 @@ function clearSel() {
   });
   rendSelBar();
 }
+
 function rendSelBar() {
   const bar = document.getElementById('selbar'), n = selIds.size;
-  const elist = document.querySelector('.elist');
+  const elist = document.getElementById('elist');
+  const toastEl = document.getElementById('toast');
+  if (toastEl) toastEl.classList.toggle('above-bar', n > 0);
+
   if (n > 0) {
     bar.classList.add('on');
     if (elist) elist.classList.add('has-selbar');
-    setText('selcnt', `Выбрано: ${n}`);
+    setText('selcnt-txt', `Выбрано: ${n}`);
+
+    const selList = entries.filter(e => selIds.has(e.id));
+    const sMap = sBC(selList);
+    const sTot = totB(selList);
+    const sKeys = Object.keys(sMap);
+    if (sKeys.length === 1) {
+      const c = sKeys[0];
+      animateNumberText('selcnt-sum', sMap[c], v => fmtCur(v, c), '—', 'sel_' + c);
+    } else if (sTot !== null) {
+      animateNumberText('selcnt-sum', sTot, v => `${fmtB(v)} (${fmtMap(sMap)})`, '—', 'sel_multi_' + baseCur);
+    } else {
+      animateNumberText('selcnt-sum', null, () => fmtMap(sMap), fmtMap(sMap), 'sel_raw');
+    }
   } else {
     bar.classList.remove('on');
     if (elist) elist.classList.remove('has-selbar');
@@ -2273,6 +2501,120 @@ function rendSelBar() {
     btn.textContent = a ? 'Снять все' : 'Выбрать все';
   }
 }
+
+function initFinderLasso() {
+  const elist = document.getElementById('elist');
+  const lasso = document.getElementById('lasso-box');
+  if (!elist || !lasso) return;
+
+  let isDown = false;
+  let isDragging = false;
+  let startX = 0, startY = 0;
+  let curX = 0, curY = 0;
+  let initialSel = new Set();
+  let additiveMode = false;
+  let scrollRaf = null;
+
+  function updateLassoSelection() {
+    const left = Math.min(startX, curX);
+    const top = Math.min(startY, curY);
+    const width = Math.abs(curX - startX);
+    const height = Math.abs(curY - startY);
+
+    lasso.style.left = left + 'px';
+    lasso.style.top = top + 'px';
+    lasso.style.width = width + 'px';
+    lasso.style.height = height + 'px';
+
+    const boxRight = left + width;
+    const boxBottom = top + height;
+
+    const nextSel = additiveMode ? new Set(initialSel) : new Set();
+    const cards = elist.querySelectorAll('.entry-card');
+
+    cards.forEach(card => {
+      const r = card.getBoundingClientRect();
+      const hit = !(r.right < left || r.left > boxRight || r.bottom < top || r.top > boxBottom);
+      const id = card.dataset.id;
+      if (hit && id) {
+        if (additiveMode && initialSel.has(id)) nextSel.delete(id);
+        else nextSel.add(id);
+      }
+      const isSelected = nextSel.has(id);
+      card.classList.toggle('sel', isSelected);
+      card.setAttribute('aria-pressed', String(isSelected));
+    });
+
+    selIds = nextSel;
+    rendSelBar();
+  }
+
+  function autoScrollLoop() {
+    if (!isDragging) return;
+    const rect = elist.getBoundingClientRect();
+    const edgeZone = 42;
+    let delta = 0;
+    if (curY < rect.top + edgeZone) {
+      delta = -Math.max(4, Math.round((rect.top + edgeZone - curY) * 0.35));
+    } else if (curY > rect.bottom - edgeZone) {
+      delta = Math.max(4, Math.round((curY - (rect.bottom - edgeZone)) * 0.35));
+    }
+    if (delta !== 0) {
+      elist.scrollTop += delta;
+      updateLassoSelection();
+    }
+    scrollRaf = requestAnimationFrame(autoScrollLoop);
+  }
+
+  elist.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    if (e.target.closest('button, a, input, select')) return;
+
+    isDown = true;
+    isDragging = false;
+    startX = e.clientX;
+    startY = e.clientY;
+    curX = e.clientX;
+    curY = e.clientY;
+    additiveMode = e.shiftKey || e.metaKey || e.ctrlKey;
+    initialSel = new Set(selIds);
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    curX = e.clientX;
+    curY = e.clientY;
+
+    if (!isDragging) {
+      const dist = Math.hypot(curX - startX, curY - startY);
+      if (dist < 6) return;
+      isDragging = true;
+      lasso.style.display = 'block';
+      scrollRaf = requestAnimationFrame(autoScrollLoop);
+    }
+
+    e.preventDefault();
+    updateLassoSelection();
+  });
+
+  window.addEventListener('mouseup', e => {
+    if (!isDown) return;
+    isDown = false;
+    if (scrollRaf) { cancelAnimationFrame(scrollRaf); scrollRaf = null; }
+
+    if (isDragging) {
+      isDragging = false;
+      lasso.style.display = 'none';
+      _justLassoed = true;
+      setTimeout(() => { _justLassoed = false; }, 50);
+    } else {
+      if (!e.target.closest('.entry-card') && !additiveMode && selIds.size > 0) {
+        clearSel();
+      }
+    }
+  });
+}
+
 function dupSel() {
   if (!selIds.size) return;
   const td = today();
@@ -2381,7 +2723,9 @@ function setFormPaid(paid) {
   if (ub) ub.className = 'fst-btn' + (paid ? '' : ' active-unpaid');
   if (pb) pb.className = 'fst-btn' + (paid ? ' active-paid' : '');
   const pw = document.getElementById('f-paidat-wrap');
+  const dg = document.getElementById('f-dates-grid');
   if (pw) pw.style.display = paid ? '' : 'none';
+  if (dg) dg.classList.toggle('single-col', !paid);
   if (paid) {
     const pa = document.getElementById('f-paidat');
     if (pa && !pa.value) pa.value = today();
@@ -2747,6 +3091,8 @@ function bindEvents() {
     clearTimeout(window._rt);
     window._rt = setTimeout(() => { _donutDirty = true; renderDonut(); }, 120);
   });
+
+  initFinderLasso();
 }
 
 /* ══════════════════════════════════════════════
