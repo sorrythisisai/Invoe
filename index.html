@@ -202,6 +202,9 @@ button:active:not(:disabled){transform:scale(0.97);}
   border:1px solid rgba(22,121,59,0.22);background:var(--success-bg);
   color:var(--success);
 }
+.sync-pill.pending{
+  border-color:var(--border2);background:var(--surface2);color:var(--text2);
+}
 .sync-pill.warn{border-color:rgba(194,98,0,0.3);background:var(--warning-bg);color:var(--warning);}
 .sync-pill:hover{filter:brightness(0.95);transform:translateY(-1px);}
 .sync-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
@@ -277,7 +280,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 .inv-lbtn:hover{background:var(--text);color:var(--bg);border-color:var(--text);}
 .inv-empty-msg{font-size:12px;color:var(--text3);padding:8px 10px;}
 
-/* Balance cards (С переключением валюты по клику на сумму) */
+/* Balance cards */
 .balance-cards{display:flex;flex-direction:column;gap:8px;}
 .bal-card{
   background:var(--surface);
@@ -308,6 +311,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 .bal-amount{
   font-size:20px;font-weight:700;letter-spacing:-.03em;color:var(--text);line-height:1.15;
   cursor:pointer;display:inline-block;border-radius:6px;transition:opacity .12s;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .bal-amount:hover{opacity:.78;}
 .bal-amount.warning{color:var(--warning);}
@@ -316,7 +320,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 .bal-multi:empty{display:none;}
 .bal-chip{font-size:11px;font-weight:500;color:var(--text2);background:var(--surface2);padding:1px 7px;border-radius:var(--rf);}
 
-/* Sidebar Analytics Card (Сворачиваемая) */
+/* Sidebar Analytics Card */
 .month-overview{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);
   padding:13px 14px;
@@ -539,7 +543,6 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   user-select:none;
   position:relative;overflow:hidden;
 }
-/* Компактная плотность списка */
 html[data-density="compact"] .entry-card{
   padding:7px 13px;
   margin-bottom:4px;
@@ -703,7 +706,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .confirm-cancel{height:34px;padding:0 14px;background:none;border:1px solid var(--border);border-radius:var(--rf);cursor:pointer;font-size:12px;color:var(--text2);}
 .confirm-cancel:hover{background:var(--surface2);}
 
-/* ── SELBAR (С ЖИВЫМ КАЛЬКУЛЯТОРОМ) ── */
+/* ── SELBAR ── */
 .selbar{
   position:fixed;bottom:0;left:0;right:0;
   background:var(--surface);border-top:1px solid var(--border);
@@ -847,7 +850,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 <div class="topbar">
   <div class="topbar-left">
     <span class="logo">Invoe <span class="logo-dot"></span></span>
-    <button class="sync-pill" id="top-sync-btn" type="button" title="Нажми для безопасной синхронизации с облаком или открытия настроек">
+    <button class="sync-pill" id="top-sync-btn" type="button" title="Нажми для принудительной синхронизации с облаком или открытия настроек">
       <span class="sync-dot"></span>
       <span id="top-sync-lbl">Локальный сейф + ⌘S</span>
     </button>
@@ -888,7 +891,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <div class="bal-hdr">
           <div class="bal-label">Ожидаем</div>
         </div>
-        <div class="bal-amount warning" id="val-await" title="Нажми для быстрой смены базовой валюты (₽ / $ / €)">—</div>
+        <div class="bal-amount warning" id="val-await" title="Нажми для быстрой смены базовой валюты (₽ / $ / €)">0 ₽</div>
         <div class="bal-multi" id="val-await-multi"></div>
       </div>
       <div class="bal-card card-ok">
@@ -896,12 +899,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
           <div class="bal-label">Пришло</div>
           <span class="bal-trend" id="val-recv-trend"></span>
         </div>
-        <div class="bal-amount success" id="val-recv" title="Нажми для быстрой смены базовой валюты (₽ / $ / €)">—</div>
+        <div class="bal-amount success" id="val-recv" title="Нажми для быстрой смены базовой валюты (₽ / $ / €)">0 ₽</div>
         <div class="bal-multi" id="val-recv-multi"></div>
       </div>
     </div>
 
-    <!-- Аналитика и выбор периода (Сворачиваемая) -->
+    <!-- Аналитика и выбор периода -->
     <div class="month-overview" id="month-overview">
       <div class="mo-header">
         <div class="mo-top-row">
@@ -924,7 +927,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <div class="mo-donut-wrap" aria-hidden="true">
           <canvas id="donut-cv"></canvas>
           <div class="mo-donut-center">
-            <div class="mo-donut-val" id="donut-val">—</div>
+            <div class="mo-donut-val" id="donut-val">0 ₽</div>
             <div class="mo-donut-sub">итого</div>
           </div>
         </div>
@@ -1089,7 +1092,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
             <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
           </div>
         </div>
-        <div class="s-hint">Безопасная синхронизация: локальные и облачные записи автоматически объединяются без риска потери новых заказов.</div>
+        <div class="s-hint">Умная синхронизация: сайт ждет 3.5 сек тишины после ваших действий и отправляет данные только если они реально изменились.</div>
       </div>
 
       <div>
@@ -1154,7 +1157,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
 <script>
 /* ══════════════════════════════════════════════
-   1. STORAGE: LOCALSTORAGE + INDEXEDDB + SAFE FIREBASE
+   1. STORAGE: LOCALSTORAGE + INDEXEDDB + SMART FIREBASE
 ══════════════════════════════════════════════ */
 try {
   if (navigator.storage && navigator.storage.persist) {
@@ -1189,6 +1192,15 @@ function sanitizeRatesObject(rawRates) {
   return clean;
 }
 
+// Очистка служебных полей карточки перед сохранением или проверкой слепка
+function cleanEntriesForStorage(list) {
+  return list.map(e => {
+    const copy = {...e, id: String(e.id)};
+    delete copy._ rememberedPaidAt;
+    return copy;
+  });
+}
+
 let _idbPromise = null;
 function openSafariVault() {
   if (_idbPromise) return _idbPromise;
@@ -1213,7 +1225,8 @@ async function saveToSafariVault() {
     const db = await openSafariVault();
     const tx = db.transaction('vault', 'readwrite');
     tx.objectStore('vault').put({
-      entries, baseCur, rates, theme, accent, tone, density, updatedAt: Date.now()
+      entries: cleanEntriesForStorage(entries),
+      baseCur, rates, theme, accent, tone, density, updatedAt: Date.now()
     }, 'main_state');
   } catch(e) {}
 }
@@ -1230,7 +1243,7 @@ async function restoreFromSafariVaultIfEmpty() {
         entries = data.entries.map(e => ({...e, id: String(e.id)}));
         if (data.baseCur && CURS.includes(data.baseCur)) baseCur = data.baseCur;
         if (data.rates) rates = sanitizeRatesObject(data.rates);
-        lsS('ff_v1', JSON.stringify(entries));
+        lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
         lsS('ff_cur', baseCur);
         lsS('ff_rates', JSON.stringify(rates));
         _donutDirty = true;
@@ -1244,7 +1257,7 @@ async function restoreFromSafariVaultIfEmpty() {
 
 function saveEmergencySnapshot() {
   if (entries && entries.length > 0) {
-    lsS('ff_pre_sync_snap', JSON.stringify(entries));
+    lsS('ff_pre_sync_snap', JSON.stringify(cleanEntriesForStorage(entries)));
     const btn = document.getElementById('btn-restore-snap');
     if (btn) btn.style.display = '';
   }
@@ -1263,11 +1276,34 @@ function restoreEmergencySnapshot() {
   } catch(e) {}
 }
 
-// ── FIREBASE CLOUD SYNC ──
+// Реестр специально удаленных ID, чтобы они не возвращались при слиянии с облаком
+let deletedIds = new Set();
+try {
+  const rawDel = JSON.parse(lsG('ff_deleted_ids') || '[]');
+  if (Array.isArray(rawDel)) deletedIds = new Set(rawDel.map(String));
+} catch(e) {}
+function recordDeletedIds(ids) {
+  ids.forEach(id => deletedIds.add(String(id)));
+  const arr = [...deletedIds].slice(-300);
+  deletedIds = new Set(arr);
+  lsS('ff_deleted_ids', JSON.stringify(arr));
+}
+
+// ── SMART FIREBASE CLOUD SYNC (DEBOUNCE 3.5s + STATE DIFFING + EXIT FLUSH) ──
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
 let _hasUnsynced = lsG('ff_unsynced') === '1';
 let _fbTimer = null;
+let _lastSyncedFingerprint = lsG('ff_last_fp') || '';
+
+function computeStateFingerprint() {
+  return JSON.stringify({
+    baseCur,
+    rates: sanitizeRatesObject(rates),
+    theme, accent, tone, density,
+    entries: cleanEntriesForStorage(entries)
+  });
+}
 
 function getFirebaseEndpoint() {
   if (!fbUrl) return null;
@@ -1280,9 +1316,12 @@ function getFirebaseEndpoint() {
 function updateSyncPill(state) {
   const pill = document.getElementById('top-sync-btn');
   if (!pill) return;
-  pill.classList.remove('warn');
+  pill.classList.remove('warn', 'pending');
   if (!fbUrl) {
     setText('top-sync-lbl', 'Локальный сейф + ⌘S');
+  } else if (state === 'pending') {
+    pill.classList.add('pending');
+    setText('top-sync-lbl', '☁️ Ожидание паузы...');
   } else if (state === 'syncing') {
     setText('top-sync-lbl', '☁️ Синхронизация...');
   } else if (state === 'ok') {
@@ -1293,22 +1332,34 @@ function updateSyncPill(state) {
   }
 }
 
-async function pushToFirebaseNow(showSuccessToast = false) {
+async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false) {
   clearTimeout(_fbTimer);
+  _fbTimer = null;
   const ep = getFirebaseEndpoint();
   if (!ep) { updateSyncPill('local'); return false; }
+
+  const currentFp = computeStateFingerprint();
+  // Если состояние на 100% совпадает с тем, что уже в облаке (например, нажали оплачено -> ждём обратно)
+  // Не тратим лимиты и не отправляем запрос вообще!
+  if (!showSuccessToast && currentFp === _lastSyncedFingerprint && !_hasUnsynced) {
+    updateSyncPill('ok');
+    return true;
+  }
+
   updateSyncPill('syncing');
   rates = sanitizeRatesObject(rates);
   try {
     const res = await fetch(ep, {
       method: 'PUT',
+      keepalive: useKeepalive,
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         version: 2,
         updatedAt: Date.now(),
         baseCur,
         rates,
-        entries
+        theme, accent, tone, density,
+        entries: cleanEntriesForStorage(entries)
       })
     });
     if (!res.ok) {
@@ -1321,6 +1372,8 @@ async function pushToFirebaseNow(showSuccessToast = false) {
     }
     _hasUnsynced = false;
     lsS('ff_unsynced', '0');
+    _lastSyncedFingerprint = currentFp;
+    lsS('ff_last_fp', currentFp);
     updateSyncPill('ok');
     if (showSuccessToast) showToast('☁️ Все заказы сохранены в облако!');
     return true;
@@ -1330,18 +1383,34 @@ async function pushToFirebaseNow(showSuccessToast = false) {
   }
 }
 
-function syncToFirebase() {
+function scheduleSmartFirebaseSync() {
   const ep = getFirebaseEndpoint();
   if (!ep) { updateSyncPill('local'); return; }
+
+  const currentFp = computeStateFingerprint();
+  // Если пользователь вернул данные к состоянию, которое уже сохранено в облаке — отменяем таймер!
+  if (currentFp === _lastSyncedFingerprint) {
+    clearTimeout(_fbTimer);
+    _fbTimer = null;
+    _hasUnsynced = false;
+    lsS('ff_unsynced', '0');
+    updateSyncPill('ok');
+    return;
+  }
+
   _hasUnsynced = true;
   lsS('ff_unsynced', '1');
-  updateSyncPill('syncing');
+  updateSyncPill('pending');
   clearTimeout(_fbTimer);
-  _fbTimer = setTimeout(() => { pushToFirebaseNow(false); }, 550);
+  // Ждем 3.5 секунды тишины после последнего клика перед отправкой в облако
+  _fbTimer = setTimeout(() => {
+    pushToFirebaseNow(false);
+  }, 3500);
 }
 
 async function safeSyncWithFirebase(manual = false) {
   clearTimeout(_fbTimer);
+  _fbTimer = null;
   const ep = getFirebaseEndpoint();
   if (!ep) {
     if (manual) showToast('Сначала укажите ссылку Firebase в настройках');
@@ -1359,15 +1428,17 @@ async function safeSyncWithFirebase(manual = false) {
       throw new Error('HTTP ' + res.status);
     }
     const data = await res.json();
-    const cloudEntries = (data && Array.isArray(data.entries)) ? data.entries.map(e => ({...e, id: String(e.id || gid())})) : [];
+    const rawCloudEntries = (data && Array.isArray(data.entries)) ? data.entries.map(e => ({...e, id: String(e.id || gid())})) : [];
+    // Исключаем специально удаленные пользователем записи
+    const cloudEntries = rawCloudEntries.filter(e => !deletedIds.has(String(e.id)));
 
-    if (_hasUnsynced || entries.length > cloudEntries.length) {
+    if (_hasUnsynced) {
       saveEmergencySnapshot();
       const localIds = new Set(entries.map(e => String(e.id)));
       const missingFromCloud = cloudEntries.filter(e => !localIds.has(String(e.id)));
       if (missingFromCloud.length > 0) {
         entries = [...entries, ...missingFromCloud];
-        lsS('ff_v1', JSON.stringify(entries));
+        lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
         saveToSafariVault();
         _donutDirty = true;
         render();
@@ -1382,9 +1453,17 @@ async function safeSyncWithFirebase(manual = false) {
       entries = cloudEntries;
       if (data.baseCur && CURS.includes(data.baseCur)) baseCur = data.baseCur;
       if (data.rates && typeof data.rates === 'object') rates = sanitizeRatesObject(data.rates);
-      lsS('ff_v1', JSON.stringify(entries));
+      if (data.theme) { theme = data.theme; lsS('ff_theme', theme); }
+      if (data.accent) { accent = data.accent; lsS('ff_accent', accent); }
+      if (data.tone) { tone = data.tone; lsS('ff_tone', tone); }
+      if (data.density) { density = data.density; lsS('ff_density', density); }
+      applyAppearance();
+
+      lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
       lsS('ff_cur', baseCur);
       lsS('ff_rates', JSON.stringify(rates));
+      _lastSyncedFingerprint = computeStateFingerprint();
+      lsS('ff_last_fp', _lastSyncedFingerprint);
       saveToSafariVault();
       _donutDirty = true;
       buildCP();
@@ -1512,7 +1591,7 @@ function el(tag, props={}, children=[]) {
 function setText(id, v) { const e=document.getElementById(id); if(e) e.textContent=v; }
 
 const _animMap = new Map();
-function animateNumberText(id, targetNum, formatFn, fallbackStr = '—', unitKey = '') {
+function animateNumberText(id, targetNum, formatFn, fallbackStr = '0', unitKey = '') {
   const node = document.getElementById(id);
   if (!node) return;
   if (_animMap.has(id)) {
@@ -1634,7 +1713,7 @@ function toB(a,c) {
   return (r && r > 0) ? a * r : null;
 }
 function totB(list) {
-  if (!list.length) return null;
+  if (!list.length) return 0;
   let t = 0;
   for (const e of list) {
     const r = toB(e.amount, e.currency);
@@ -1658,9 +1737,9 @@ function sBC(list) {
   for (const c in m) m[c] = Math.round(m[c]*100)/100;
   return m;
 }
-function fmtMap(map, fb='—', loc='ru-RU') {
+function fmtMap(map, fb='', loc='ru-RU') {
   const p = Object.entries(map).map(([c,v]) => fmtCur(v,c,loc));
-  return p.length ? p.join(', ') : fb;
+  return p.length ? p.join(', ') : (fb || fmtB(0));
 }
 function multiChips(map) {
   const wrap = document.createDocumentFragment();
@@ -1957,6 +2036,9 @@ function setMoTab(tab) {
 }
 
 function buildMoneyDonutSegments(list) {
+  if (!list.length) {
+    return { segments: [], totalNum: 0, unit: baseCur, formatFn: fmtB };
+  }
   const curs = [...new Set(list.map(e => e.currency))];
   const singleFallbackCur = curs.length === 1 ? curs[0] : null;
   const byClient = {};
@@ -1983,7 +2065,7 @@ function buildMoneyDonutSegments(list) {
     const tot = sorted.reduce((acc, r) => acc + r[1], 0);
     return { segments, totalNum: tot, unit: singleFallbackCur, formatFn: v => fmtCur(v, singleFallbackCur) };
   }
-  return { segments: [], totalNum: null, unit: '', formatFn: () => '—' };
+  return { segments: [], totalNum: 0, unit: baseCur, formatFn: fmtB };
 }
 
 function renderDonut() {
@@ -2003,18 +2085,18 @@ function renderDonut() {
     const period = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
     const res = buildMoneyDonutSegments(period);
     segments = res.segments;
-    animateNumberText('donut-val', res.totalNum, res.formatFn, '—', 'earn_' + res.unit);
+    animateNumberText('donut-val', res.totalNum, res.formatFn, fmtB(0), 'earn_' + res.unit);
   } else if (moTab === 'orders') {
     const ord = entries.filter(e => matchesPeriod(e.date));
     const byClient = {};
     ord.forEach(e => { const n = e.name||'—'; byClient[n] = (byClient[n]||0)+1; });
     segments = Object.entries(byClient).sort((a,b)=>b[1]-a[1]).map(([name,cnt])=>({label:name,value:cnt,display:String(cnt)}));
-    animateNumberText('donut-val', ord.length || null, v => String(Math.round(v)), '—', 'ord_cnt');
+    animateNumberText('donut-val', ord.length, v => String(Math.round(v)), '0', 'ord_cnt');
   } else {
     const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
     const res = buildMoneyDonutSegments(period);
     segments = res.segments;
-    animateNumberText('donut-val', res.totalNum, res.formatFn, '—', 'await_' + res.unit);
+    animateNumberText('donut-val', res.totalNum, res.formatFn, fmtB(0), 'await_' + res.unit);
   }
   drawDonut(segments);
   _donutDirty = false;
@@ -2106,7 +2188,7 @@ function buildInvText(title, list, invLang) {
     return `${ds ? ds + ' · ' : ''}${desc}${noteStr} — ${fmtCur(e.amount, e.currency, loc)}`;
   });
   const totMap = sBC(sorted);
-  const totStr = fmtMap(totMap, '—', loc);
+  const totStr = fmtMap(totMap, fmtB(0), loc);
   return [title, DIV, rows.join('\n'), DIV, `${totalLbl}: ${totStr}`].join('\n');
 }
 
@@ -2154,10 +2236,10 @@ function updateSettingsUI() {
   });
 }
 
-function setTheme(v) { theme=v; lsS('ff_theme',v); applyAppearance(); updateSettingsUI(); renderDonut(); saveToSafariVault(); }
-function setTone(v) { tone=v; lsS('ff_tone',v); applyAppearance(); updateSettingsUI(); renderDonut(); saveToSafariVault(); }
-function setAccent(v) { accent=v; lsS('ff_accent',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
-function setDensity(v) { density=v; lsS('ff_density',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
+function setTheme(v) { theme=v; lsS('ff_theme',v); applyAppearance(); updateSettingsUI(); renderDonut(); save(); }
+function setTone(v) { tone=v; lsS('ff_tone',v); applyAppearance(); updateSettingsUI(); renderDonut(); save(); }
+function setAccent(v) { accent=v; lsS('ff_accent',v); applyAppearance(); updateSettingsUI(); save(); }
+function setDensity(v) { density=v; lsS('ff_density',v); applyAppearance(); updateSettingsUI(); save(); }
 
 function applyAppearance() {
   const dk = theme==='dark' || (theme==='auto' && window.matchMedia('(prefers-color-scheme:dark)').matches);
@@ -2174,12 +2256,12 @@ window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change', () =
 
 function save() {
   rates = sanitizeRatesObject(rates);
-  lsS('ff_v1', JSON.stringify(entries));
+  lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
   lsS('ff_cur', baseCur);
   lsS('ff_rates', JSON.stringify(rates));
   _donutDirty = true;
   saveToSafariVault();
-  syncToFirebase();
+  scheduleSmartFirebaseSync();
 }
 
 /* ══════════════════════════════════════════════
@@ -2238,8 +2320,8 @@ function renderClientBanner() {
   }
   const paidList = clientEntries.filter(e => e.paid);
   const unpaidList = clientEntries.filter(e => !e.paid);
-  const paidStr = fmtMap(sBC(paidList), '0 ' + baseCur);
-  const unpaidStr = fmtMap(sBC(unpaidList), '0 ' + baseCur);
+  const paidStr = fmtMap(sBC(paidList), fmtB(0));
+  const unpaidStr = fmtMap(sBC(unpaidList), fmtB(0));
   const col = getClientColor(activeClientFilter);
   banner.style.borderColor = col;
 
@@ -2359,7 +2441,7 @@ function grpLabel(k) {
 function formatGroupTotal(list) {
   const tot = totB(list);
   if (tot !== null) return fmtB(tot);
-  return fmtMap(sBC(list), '');
+  return fmtMap(sBC(list), fmtB(0));
 }
 
 function extractUrlFromNote(note) {
@@ -2467,17 +2549,19 @@ function render() {
   rebuildClientSel();
   updateFilterState();
 
+  // Баланс "Ожидаем" (0 вместо прочерка)
   const ua = entries.filter(e => !e.paid);
   const uaMap = sBC(ua);
   const uaTot = totB(ua);
   const uaKeys = Object.keys(uaMap);
   if (uaTot !== null) {
-    animateNumberText('val-await', uaTot, fmtB, '—', baseCur);
+    animateNumberText('val-await', uaTot, fmtB, fmtB(0), baseCur);
   } else if (uaKeys.length === 1) {
     const c = uaKeys[0];
-    animateNumberText('val-await', uaMap[c], v => fmtCur(v, c), '—', c);
+    animateNumberText('val-await', uaMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
   } else {
-    animateNumberText('val-await', null, () => '—', '—', 'none');
+    const partialBase = ua.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0);
+    animateNumberText('val-await', partialBase, fmtB, fmtB(0), baseCur);
   }
   const awMulti = document.getElementById('val-await-multi');
   if (awMulti) {
@@ -2487,17 +2571,19 @@ function render() {
     }
   }
 
+  // Баланс "Пришло" (0 вместо прочерка)
   const recv = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
   const recvMap = sBC(recv);
   const recvTot = totB(recv);
   const recvKeys = Object.keys(recvMap);
   if (recvTot !== null) {
-    animateNumberText('val-recv', recvTot, fmtB, '—', baseCur);
+    animateNumberText('val-recv', recvTot, fmtB, fmtB(0), baseCur);
   } else if (recvKeys.length === 1) {
     const c = recvKeys[0];
-    animateNumberText('val-recv', recvMap[c], v => fmtCur(v, c), '—', c);
+    animateNumberText('val-recv', recvMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
   } else {
-    animateNumberText('val-recv', null, () => '—', '—', 'none');
+    const partialBase = recv.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0);
+    animateNumberText('val-recv', partialBase, fmtB, fmtB(0), baseCur);
   }
   const recvMulti = document.getElementById('val-recv-multi');
   if (recvMulti) {
@@ -2609,9 +2695,9 @@ function rendSelBar() {
     const sKeys = Object.keys(sMap);
     if (sKeys.length === 1) {
       const c = sKeys[0];
-      animateNumberText('selcnt-sum', sMap[c], v => fmtCur(v, c), '—', 'sel_' + c);
+      animateNumberText('selcnt-sum', sMap[c], v => fmtCur(v, c), fmtCur(0, c), 'sel_' + c);
     } else if (sTot !== null) {
-      animateNumberText('selcnt-sum', sTot, v => `${fmtB(v)} (${fmtMap(sMap)})`, '—', 'sel_multi_' + baseCur);
+      animateNumberText('selcnt-sum', sTot, v => `${fmtB(v)} (${fmtMap(sMap)})`, fmtB(0), 'sel_multi_' + baseCur);
     } else {
       animateNumberText('selcnt-sum', null, () => fmtMap(sMap), fmtMap(sMap), 'sel_raw');
     }
@@ -2633,22 +2719,31 @@ function initFinderLasso() {
 
   let isDown = false;
   let isDragging = false;
-  let startX = 0, startY = 0;
+  let startX = 0, startY = 0, startScrollTop = 0;
   let curX = 0, curY = 0;
   let initialSel = new Set();
   let additiveMode = false;
   let scrollRaf = null;
 
   function updateLassoSelection() {
+    // Корректируем начальную точку по вертикали с учетом автопрокрутки списка
+    const scrollDelta = elist.scrollTop - startScrollTop;
+    const effectiveStartY = startY - scrollDelta;
+
     const left = Math.min(startX, curX);
-    const top = Math.min(startY, curY);
+    const top = Math.min(effectiveStartY, curY);
     const width = Math.abs(curX - startX);
-    const height = Math.abs(curY - startY);
+    const height = Math.abs(curY - effectiveStartY);
+
+    const listRect = elist.getBoundingClientRect();
+    const visTop = Math.max(top, listRect.top);
+    const visBottom = Math.min(top + height, listRect.bottom);
+    const visHeight = Math.max(0, visBottom - visTop);
 
     lasso.style.left = left + 'px';
-    lasso.style.top = top + 'px';
+    lasso.style.top = visTop + 'px';
     lasso.style.width = width + 'px';
-    lasso.style.height = height + 'px';
+    lasso.style.height = visHeight + 'px';
 
     const boxRight = left + width;
     const boxBottom = top + height;
@@ -2698,6 +2793,7 @@ function initFinderLasso() {
     isDragging = false;
     startX = e.clientX;
     startY = e.clientY;
+    startScrollTop = elist.scrollTop;
     curX = e.clientX;
     curY = e.clientY;
     additiveMode = e.shiftKey || e.metaKey || e.ctrlKey;
@@ -2748,6 +2844,7 @@ function dupSel() {
     if (e) {
       const c = {...e, id: gid(), paid: false, date: td, createdAt: td};
       delete c.paidAt;
+      delete c._rememberedPaidAt;
       toA.push(c);
     }
   }
@@ -2759,7 +2856,12 @@ async function markPaid() {
   const snapshot = cloneEntries();
   const cnt = selIds.size;
   const td = today();
-  entries.forEach(e => { if (selIds.has(e.id)) { e.paid = true; if (!e.paidAt) e.paidAt = td; } });
+  entries.forEach(e => {
+    if (selIds.has(e.id)) {
+      e.paid = true;
+      if (!e.paidAt) e.paidAt = e._rememberedPaidAt || td;
+    }
+  });
   save(); selIds.clear(); render();
   showToast(`Отмечено оплаченными: ${cnt}`, () => {
     entries = snapshot; save(); render();
@@ -2769,7 +2871,13 @@ async function markUnpaid() {
   if (!selIds.size) return;
   const snapshot = cloneEntries();
   const cnt = selIds.size;
-  entries.forEach(e => { if (selIds.has(e.id)) { e.paid = false; delete e.paidAt; } });
+  entries.forEach(e => {
+    if (selIds.has(e.id)) {
+      if (e.paidAt) e._rememberedPaidAt = e.paidAt;
+      e.paid = false;
+      delete e.paidAt;
+    }
+  });
   save(); selIds.clear(); render();
   showToast(`Снята оплата: ${cnt}`, () => {
     entries = snapshot; save(); render();
@@ -2781,10 +2889,14 @@ async function delSel() {
   const ok = await showConfirm('Удалить записи', `Удалить выбранные записи (${cnt} шт.)?`);
   if (!ok) return;
   const snapshot = cloneEntries();
+  const removedIds = [...selIds];
+  recordDeletedIds(removedIds);
   if (editId && selIds.has(editId)) { editId = null; clearForm(); }
   entries = entries.filter(e => !selIds.has(e.id));
   save(); selIds.clear(); render();
   showToast(`Удалено записей: ${cnt}`, () => {
+    removedIds.forEach(id => deletedIds.delete(String(id)));
+    lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
     entries = snapshot; save(); render();
   });
 }
@@ -2793,8 +2905,12 @@ function togPaid(id) {
   if (e) {
     const snapshot = cloneEntries();
     e.paid = !e.paid;
-    if (e.paid) { if (!e.paidAt) e.paidAt = today(); }
-    else delete e.paidAt;
+    if (e.paid) {
+      if (!e.paidAt) e.paidAt = e._rememberedPaidAt || today();
+    } else {
+      if (e.paidAt) e._rememberedPaidAt = e.paidAt;
+      delete e.paidAt;
+    }
     save(); render();
     showToast(e.paid ? 'Статус: Оплачено' : 'Статус: Ждём оплату', () => {
       entries = snapshot; save(); render();
@@ -2950,7 +3066,7 @@ function startEdit(id) {
   setText('m-title', `Редактирование: ${e.desc||e.name}`);
   setFormPaid(!!e.paid);
   const paEl = document.getElementById('f-paidat');
-  if (paEl) paEl.value = e.paidAt || e.date || today();
+  if (paEl) paEl.value = e.paidAt || e._rememberedPaidAt || e.date || today();
   render(); openModal();
 }
 
@@ -2963,7 +3079,8 @@ function exportData() {
     updatedAt: new Date().toISOString(),
     baseCur,
     rates: sanitizeRatesObject(rates),
-    entries
+    theme, accent, tone, density,
+    entries: cleanEntriesForStorage(entries)
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
@@ -3051,11 +3168,9 @@ function bindEvents() {
     document.getElementById('sidebar').classList.toggle('mobile-open');
   });
 
-  // Клик по балансу для быстрой смены базовой валюты
   document.getElementById('val-await').addEventListener('click', cycleBaseCur);
   document.getElementById('val-recv').addEventListener('click', cycleBaseCur);
 
-  // Сворачивание блока аналитики
   document.getElementById('mo-collapse-btn').addEventListener('click', toggleMoCollapsed);
 
   document.getElementById('toast-undo').addEventListener('click', () => {
@@ -3078,6 +3193,7 @@ function bindEvents() {
     lsS('ff_fb_url', fbUrl);
     lsS('ff_fb_sec', fbSec);
     if (!fbUrl) {
+      clearTimeout(_fbTimer);
       updateSyncPill('local');
       showToast('Облако отключено');
       return;
@@ -3086,6 +3202,18 @@ function bindEvents() {
   });
 
   document.getElementById('btn-restore-snap').addEventListener('click', restoreEmergencySnapshot);
+
+  // Мгновенная досылка несохраненных изменений при закрытии вкладки или сворачивании
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && _hasUnsynced && fbUrl) {
+      pushToFirebaseNow(false, true);
+    }
+  });
+  window.addEventListener('pagehide', () => {
+    if (_hasUnsynced && fbUrl) {
+      pushToFirebaseNow(false, true);
+    }
+  });
 
   let dragCounter = 0;
   const dz = document.getElementById('drop-zone');
@@ -3160,7 +3288,6 @@ function bindEvents() {
   document.getElementById('s-close').addEventListener('click', closeSettings);
   document.getElementById('sov').querySelector('.sback').addEventListener('click', closeSettings);
 
-  // Настройки внешнего вида
   document.getElementById('t-light').addEventListener('click', () => setTheme('light'));
   document.getElementById('t-dark').addEventListener('click', () => setTheme('dark'));
   document.getElementById('t-auto').addEventListener('click', () => setTheme('auto'));
@@ -3244,7 +3371,7 @@ function bindEvents() {
 (function init() {
   applyAppearance();
   applyMoCollapsedState();
-  updateSyncPill(fbUrl ? (_hasUnsynced ? 'err' : 'ok') : 'local');
+  updateSyncPill(fbUrl ? (_hasUnsynced ? 'pending' : 'ok') : 'local');
   bindEvents();
   render();
   restoreFromSafariVaultIfEmpty();
