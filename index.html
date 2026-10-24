@@ -9,9 +9,6 @@
 <title>Invoe</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='280' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%233ba55d'/%3E%3C/svg%3E"/>
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='280' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%233ba55d'/%3E%3C/svg%3E"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -65,74 +62,33 @@ html[data-theme="dark"]{
 
 /* ── SURFACE TONES ── */
 html[data-theme="light"][data-tone="cool"]{
-  --bg:#f1f4f9;
-  --surface:#ffffff;
-  --surface2:#e6ebf2;
-  --surface3:#dae1ec;
-  --text:#0f172a;
-  --text2:#475569;
-  --text3:#94a3b8;
+  --bg:#f1f4f9;--surface:#ffffff;--surface2:#e6ebf2;--surface3:#dae1ec;--text:#0f172a;--text2:#475569;--text3:#94a3b8;
 }
 html[data-theme="dark"][data-tone="cool"]{
-  --bg:#0b0f17;
-  --surface:#131924;
-  --surface2:#1c2433;
-  --surface3:#263042;
-  --text:#f1f5f9;
-  --text2:#94a3b8;
-  --text3:#475569;
+  --bg:#0b0f17;--surface:#131924;--surface2:#1c2433;--surface3:#263042;--text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
 }
 html[data-theme="light"][data-tone="oled"]{
-  --bg:#fafafa;
-  --surface:#ffffff;
-  --surface2:#f0f0f0;
-  --surface3:#e4e4e4;
-  --border:rgba(0,0,0,0.08);
+  --bg:#fafafa;--surface:#ffffff;--surface2:#f0f0f0;--surface3:#e4e4e4;--border:rgba(0,0,0,0.08);
 }
 html[data-theme="dark"][data-tone="oled"]{
-  --bg:#000000;
-  --surface:#0a0a0a;
-  --surface2:#141414;
-  --surface3:#1f1f1f;
-  --border:rgba(255,255,255,0.085);
-  --border2:rgba(255,255,255,0.16);
+  --bg:#000000;--surface:#0a0a0a;--surface2:#141414;--surface3:#1f1f1f;--border:rgba(255,255,255,0.085);--border2:rgba(255,255,255,0.16);
 }
 
 /* ── ACCENT COLORS ── */
-html[data-accent="indigo"]{
-  --blue:#6366f1;--blue-bg:rgba(99,102,241,0.09);--lasso-fill:rgba(99,102,241,0.13);
-}
-html[data-theme="dark"][data-accent="indigo"]{
-  --blue:#818cf8;--blue-bg:rgba(129,140,248,0.14);--lasso-fill:rgba(129,140,248,0.17);
-}
-html[data-accent="emerald"]{
-  --blue:#0d9488;--blue-bg:rgba(13,148,136,0.09);--lasso-fill:rgba(13,148,136,0.13);
-}
-html[data-theme="dark"][data-accent="emerald"]{
-  --blue:#2dd4bf;--blue-bg:rgba(45,212,191,0.13);--lasso-fill:rgba(45,212,191,0.16);
-}
-html[data-accent="amber"]{
-  --blue:#d97706;--blue-bg:rgba(217,119,6,0.09);--lasso-fill:rgba(217,119,6,0.13);
-}
-html[data-theme="dark"][data-accent="amber"]{
-  --blue:#fbbf24;--blue-bg:rgba(251,191,36,0.13);--lasso-fill:rgba(251,191,36,0.16);
-}
-html[data-accent="rose"]{
-  --blue:#e11d48;--blue-bg:rgba(225,29,72,0.085);--lasso-fill:rgba(225,29,72,0.12);
-}
-html[data-theme="dark"][data-accent="rose"]{
-  --blue:#fb7185;--blue-bg:rgba(251,113,133,0.13);--lasso-fill:rgba(251,113,133,0.16);
-}
-html[data-accent="mono"]{
-  --blue:#27272a;--blue-bg:rgba(39,39,42,0.08);--lasso-fill:rgba(39,39,42,0.11);
-}
-html[data-theme="dark"][data-accent="mono"]{
-  --blue:#e4e4e7;--blue-bg:rgba(228,228,231,0.12);--lasso-fill:rgba(228,228,231,0.15);
-}
+html[data-accent="indigo"]{--blue:#6366f1;--blue-bg:rgba(99,102,241,0.09);--lasso-fill:rgba(99,102,241,0.13);}
+html[data-theme="dark"][data-accent="indigo"]{--blue:#818cf8;--blue-bg:rgba(129,140,248,0.14);--lasso-fill:rgba(129,140,248,0.17);}
+html[data-accent="emerald"]{--blue:#0d9488;--blue-bg:rgba(13,148,136,0.09);--lasso-fill:rgba(13,148,136,0.13);}
+html[data-theme="dark"][data-accent="emerald"]{--blue:#2dd4bf;--blue-bg:rgba(45,212,191,0.13);--lasso-fill:rgba(45,212,191,0.16);}
+html[data-accent="amber"]{--blue:#d97706;--blue-bg:rgba(217,119,6,0.09);--lasso-fill:rgba(217,119,6,0.13);}
+html[data-theme="dark"][data-accent="amber"]{--blue:#fbbf24;--blue-bg:rgba(251,191,36,0.13);--lasso-fill:rgba(251,191,36,0.16);}
+html[data-accent="rose"]{--blue:#e11d48;--blue-bg:rgba(225,29,72,0.085);--lasso-fill:rgba(225,29,72,0.12);}
+html[data-theme="dark"][data-accent="rose"]{--blue:#fb7185;--blue-bg:rgba(251,113,133,0.13);--lasso-fill:rgba(251,113,133,0.16);}
+html[data-accent="mono"]{--blue:#27272a;--blue-bg:rgba(39,39,42,0.08);--lasso-fill:rgba(39,39,42,0.11);}
+html[data-theme="dark"][data-accent="mono"]{--blue:#e4e4e7;--blue-bg:rgba(228,228,231,0.12);--lasso-fill:rgba(228,228,231,0.15);}
 
 html,body{height:100%;}
 body{
-  font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:var(--bg);color:var(--text);
   -webkit-font-smoothing:antialiased;
   font-size:14px;line-height:1.5;
@@ -152,7 +108,19 @@ button{
 }
 button:active:not(:disabled){transform:scale(0.97);}
 
-/* ── FINDER LASSO SELECTION BOX ── */
+/* ── SKELETON LOADER ── */
+@keyframes pulseSkeleton{
+  0%{opacity:0.4;} 50%{opacity:0.8;} 100%{opacity:0.4;}
+}
+.skeleton{
+  background:var(--surface2)!important;
+  color:transparent!important;
+  animation:pulseSkeleton 1.2s infinite ease-in-out;
+  border-color:transparent!important;
+  pointer-events:none;
+}
+
+/* ── FINDER LASSO & CONTEXT MENU ── */
 .lasso-box{
   position:fixed;
   border:1.5px solid var(--blue);
@@ -162,6 +130,19 @@ button:active:not(:disabled){transform:scale(0.97);}
   z-index:9990;
   display:none;
 }
+
+.ctx-menu{
+  position:fixed;background:var(--surface);border:1px solid var(--border2);
+  border-radius:var(--rl);box-shadow:var(--shadow-md);padding:5px;
+  z-index:9999;display:none;min-width:180px;animation:popIn .12s var(--ease);
+}
+.ctx-item{
+  padding:7px 11px;border-radius:7px;font-size:12px;font-weight:500;
+  color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;
+  transition:background .1s;
+}
+.ctx-item:hover{background:var(--surface2);color:var(--blue);}
+.ctx-divider{height:1px;background:var(--border);margin:4px 6px;}
 
 /* ── DRAG & DROP OVERLAY ── */
 .drop-zone{
@@ -542,11 +523,14 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   display:flex;align-items:center;gap:12px;
   user-select:none;
   position:relative;overflow:hidden;
+  content-visibility:auto;
+  contain-intrinsic-size:auto 54px;
 }
 html[data-density="compact"] .entry-card{
   padding:7px 13px;
   margin-bottom:4px;
   border-radius:var(--r);
+  contain-intrinsic-size:auto 40px;
 }
 html[data-density="compact"] .el{
   display:flex;align-items:center;gap:10px;
@@ -607,14 +591,6 @@ html[data-density="compact"] .group-lbl{
 .badge.u{background:var(--warning-bg);color:var(--warning);}
 .badge.p{background:var(--success-bg);color:var(--success);opacity:.75;}
 .entry-card:not(.paid) .badge.u{background:rgba(194,98,0,0.13);}
-.eedit{
-  width:26px;height:26px;border-radius:var(--rf);border:none;
-  background:transparent;color:var(--text3);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-size:12px;
-  opacity:0;transition:opacity .15s,background .15s,color .15s;
-}
-.entry-card:hover .eedit{opacity:1;}
-.eedit:hover{background:var(--surface3);color:var(--text);}
 
 /* Empty */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 32px;gap:10px;}
@@ -669,8 +645,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .ahint.err{color:var(--danger);}
 .ahint.smart{color:var(--blue);font-weight:500;}
 .fbtns{display:flex;gap:10px;margin-top:6px;}
-.bsubmit{flex:1;height:40px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rf);cursor:pointer;font-size:13px;font-weight:600;}
+.bsubmit{flex:1;height:40px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rf);cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;}
 .bsubmit:hover{opacity:.86;}
+.bsub-hint{font-size:10px;opacity:0.5;font-weight:400;text-transform:none;}
 .bcancel{height:40px;padding:0 18px;background:none;border:1px solid var(--border);border-radius:var(--rf);cursor:pointer;font-size:13px;color:var(--text2);}
 .bcancel:hover{background:var(--surface2);}
 
@@ -810,7 +787,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .toolbar{gap:6px;}
   .entry-card{padding:12px 14px;}
   html[data-density="compact"] .el{flex-direction:column;align-items:flex-start;gap:2px;}
-  .eedit{opacity:0.75;}
   .fgrid.t3{grid-template-columns:1fr 1fr;}
   .fgrid.t3 .ff:first-child{grid-column:1/-1;}
   .fgrid{grid-template-columns:1fr;}
@@ -833,6 +809,15 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
 <!-- Finder Lasso Selection Box -->
 <div class="lasso-box" id="lasso-box"></div>
+
+<!-- Context Menu -->
+<div class="ctx-menu" id="ctx-menu" role="menu">
+  <div class="ctx-item" id="ctx-paid">✓ Изменить статус оплаты</div>
+  <div class="ctx-item" id="ctx-edit">✎ Редактировать</div>
+  <div class="ctx-item" id="ctx-dup">⧉ Дублировать</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" id="ctx-del" style="color:var(--danger)">🗑 Удалить</div>
+</div>
 
 <!-- Drag and Drop Overlay -->
 <div class="drop-zone" id="drop-zone">
@@ -862,7 +847,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     <button class="icon-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
       </svg>
     </button>
   </div>
@@ -885,7 +870,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- Баланс + Сравнение с прошлым месяцем + Смена валюты по клику -->
+    <!-- Баланс -->
     <div class="balance-cards">
       <div class="bal-card card-warn">
         <div class="bal-hdr">
@@ -966,7 +951,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- Быстрая сводка по выбранному в фильтре клиенту -->
+    <!-- Быстрая сводка по выбранному клиенту -->
     <div class="client-banner" id="client-banner">
       <div class="cb-info" id="cb-info"></div>
       <div class="cb-actions">
@@ -1055,7 +1040,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     </div>
 
     <div class="fbtns">
-      <button class="bsubmit" id="bsub" type="button">+ Добавить</button>
+      <button class="bsubmit" id="bsub" type="button">
+        <span>+ Добавить</span>
+        <span class="bsub-hint">(Shift + Enter для серии)</span>
+      </button>
       <button class="bcancel" id="bcan" type="button" style="display:none">Отмена</button>
     </div>
   </div>
@@ -1287,7 +1275,7 @@ function recordDeletedIds(ids) {
   lsS('ff_deleted_ids', JSON.stringify(arr));
 }
 
-// ── SMART FIREBASE CLOUD SYNC (DEBOUNCE 3.5s + STATE DIFFING + EXIT FLUSH) ──
+// ── SMART FIREBASE CLOUD SYNC ──
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
 let _hasUnsynced = lsG('ff_unsynced') === '1';
@@ -1522,6 +1510,35 @@ let formPaidStatus = false;
 let _amtManuallyTyped = false;
 let _donutDirty = true;
 let _justLassoed = false;
+
+// Сохранение черновика формы в памяти
+function saveFormDraft() {
+  const draft = {
+    name: document.getElementById('f-name').value,
+    desc: document.getElementById('f-desc').value,
+    amt: document.getElementById('f-amt').value,
+    cur: document.getElementById('f-cur').value,
+    note: document.getElementById('f-note').value,
+    date: document.getElementById('f-date').value
+  };
+  lsS('ff_form_draft', JSON.stringify(draft));
+}
+function restoreFormDraft() {
+  try {
+    const raw = lsG('ff_form_draft');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.name) document.getElementById('f-name').value = d.name;
+    if (d.desc) document.getElementById('f-desc').value = d.desc;
+    if (d.amt) document.getElementById('f-amt').value = d.amt;
+    if (d.cur) document.getElementById('f-cur').value = d.cur;
+    if (d.note) document.getElementById('f-note').value = d.note;
+    if (d.date) document.getElementById('f-date').value = d.date;
+  } catch(e) {}
+}
+function clearFormDraft() {
+  localStorage.removeItem('ff_form_draft');
+}
 
 const _clientColorCache = new Map();
 function getClientColor(name) {
@@ -1964,8 +1981,10 @@ function toggleMoCollapsed() {
 }
 
 /* ══════════════════════════════════════════════
-   8. DONUT CHART
+   8. DONUT CHART (ИНТЕРАКТИВНЫЙ БУБЛИК)
 ══════════════════════════════════════════════ */
+let _hoveredSegmentIndex = null;
+
 function drawDonut(segments) {
   const cv = document.getElementById('donut-cv');
   if (!cv) return;
@@ -1986,11 +2005,13 @@ function drawDonut(segments) {
     return;
   }
   let angle = -Math.PI/2;
-  segments.forEach((seg) => {
+  segments.forEach((seg, i) => {
     const sweep = (seg.value/total)*Math.PI*2;
     ctx.beginPath();
-    ctx.arc(cx,cy,R,angle,angle+sweep);
-    ctx.arc(cx,cy,rInner,angle+sweep,angle,true);
+    const isHovered = (_hoveredSegmentIndex === i);
+    const expandR = isHovered ? R + 3 : R;
+    ctx.arc(cx, cy, expandR, angle, angle + sweep);
+    ctx.arc(cx, cy, rInner, angle + sweep, angle, true);
     ctx.closePath();
     ctx.fillStyle = getClientColor(seg.label);
     ctx.fill();
@@ -2000,7 +2021,7 @@ function drawDonut(segments) {
   const leg = document.getElementById('mo-legend');
   if (!leg) return;
   leg.innerHTML = '';
-  segments.slice(0,6).forEach((seg) => {
+  segments.slice(0,6).forEach((seg, i) => {
     const col = getClientColor(seg.label);
     const row = el('div', {className:'mo-leg-row', role:'button', tabindex:'0'});
     const left = el('div', {className:'mo-leg-left'});
@@ -2009,9 +2030,21 @@ function drawDonut(segments) {
     left.appendChild(dot); left.appendChild(lbl);
     const val = el('div', {className:'mo-leg-val'}, [seg.display]);
     row.appendChild(left); row.appendChild(val);
+
+    row.addEventListener('mouseenter', () => {
+      _hoveredSegmentIndex = i;
+      drawDonut(segments);
+      const pct = Math.round((seg.value / total) * 100);
+      setText('donut-val', `${pct}%`);
+    });
+    row.addEventListener('mouseleave', () => {
+      _hoveredSegmentIndex = null;
+      drawDonut(segments);
+      renderDonut(); // сброс центрального текста
+    });
+
     const _name = seg.label;
     row.addEventListener('click', () => filterByClient(_name));
-    row.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') filterByClient(_name); });
     leg.appendChild(row);
   });
 }
@@ -2096,7 +2129,7 @@ function renderDonut() {
 }
 
 /* ══════════════════════════════════════════════
-   9. INVOICE GENERATOR
+   9. INVOICE GENERATOR & SMART LINKS
 ══════════════════════════════════════════════ */
 function toggleInvDd() {
   invDdOpen = !invDdOpen;
@@ -2444,7 +2477,16 @@ function extractUrlFromNote(note) {
   const rawUrl = m[0];
   const fullUrl = /^https?:\/\//i.test(rawUrl) ? rawUrl : 'https://' + rawUrl;
   const cleanText = note.replace(rawUrl, '').replace(/\s+/g, ' ').trim();
-  return { text: cleanText, url: fullUrl };
+
+  let label = '🔗 Ссылка';
+  const lower = rawUrl.toLowerCase();
+  if (lower.includes('figma.com')) label = '🔗 Figma';
+  else if (lower.includes('drive.google.com') || lower.includes('docs.google.com')) label = '🔗 Диск';
+  else if (lower.includes('t.me')) label = '🔗 Telegram';
+  else if (lower.includes('youtube.com') || lower.includes('youtu.be')) label = '🔗 YouTube';
+  else if (lower.includes('yandex')) label = '🔗 Яндекс';
+
+  return { text: cleanText, url: fullUrl, label };
 }
 
 function renderEntry(e) {
@@ -2467,6 +2509,11 @@ function renderEntry(e) {
     togSel(e.id);
   });
   card.addEventListener('dblclick', () => { clearSel(); startEdit(e.id); });
+  card.addEventListener('contextmenu', ev => {
+    ev.preventDefault();
+    if (!selIds.has(e.id)) { clearSel(); togSel(e.id); }
+    showContextMenu(ev.clientX, ev.clientY, e.id);
+  });
   card.addEventListener('keydown', ev => {
     if (ev.key==='Enter' || ev.key===' ') { ev.preventDefault(); togSel(e.id); }
   });
@@ -2474,7 +2521,7 @@ function renderEntry(e) {
   const left = el('div', {className:'el'});
   left.appendChild(el('div', {className:'etitle'}, [e.desc || e.name || '—']));
 
-  const { text: noteText, url: noteUrl } = extractUrlFromNote(e.note);
+  const { text: noteText, url: noteUrl, label: urlLbl } = extractUrlFromNote(e.note);
   if (e.name || noteText || noteUrl) {
     const meta = el('div', {className:'emeta'});
     if (e.name) {
@@ -2495,7 +2542,7 @@ function renderEntry(e) {
         target: '_blank',
         rel: 'noopener noreferrer',
         title: noteUrl
-      }, ['🔗 Ссылка']);
+      }, [urlLbl]);
       linkEl.addEventListener('click', ev => ev.stopPropagation());
       meta.appendChild(linkEl);
     }
@@ -2514,18 +2561,25 @@ function renderEntry(e) {
   badge.addEventListener('click', ev => { ev.stopPropagation(); togPaid(e.id); });
   right.appendChild(badge);
 
-  const editBtn = el('button', {
-    className: 'eedit',
-    type: 'button',
-    title: 'Редактировать',
-    'aria-label': 'Редактировать'
-  }, ['✎']);
-  editBtn.addEventListener('click', ev => { ev.stopPropagation(); clearSel(); startEdit(e.id); });
-  right.appendChild(editBtn);
-
   card.appendChild(left);
   card.appendChild(right);
   return card;
+}
+
+// Контекстное меню по клику правой кнопкой мыши
+let _ctxTargetId = null;
+function showContextMenu(x, y, id) {
+  _ctxTargetId = id;
+  const menu = document.getElementById('ctx-menu');
+  if (!menu) return;
+  menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
+  menu.style.top = Math.min(y, window.innerHeight - 220) + 'px';
+  menu.style.display = 'block';
+}
+function hideContextMenu() {
+  const menu = document.getElementById('ctx-menu');
+  if (menu) menu.style.display = 'none';
+  _ctxTargetId = null;
 }
 
 function rebuildClientSel() {
@@ -2715,6 +2769,7 @@ function initFinderLasso() {
   let initialSel = new Set();
   let additiveMode = false;
   let scrollRaf = null;
+  let lastClickedCardId = null;
 
   function updateLassoSelection() {
     const scrollDelta = elist.scrollTop - startScrollTop;
@@ -2778,6 +2833,32 @@ function initFinderLasso() {
   elist.addEventListener('mousedown', e => {
     if (e.button !== 0) return;
     if (e.target.closest('button, a, input, select')) return;
+
+    const card = e.target.closest('.entry-card');
+    const cardId = card ? card.dataset.id : null;
+
+    // Shift + Клик диапазона
+    if (e.shiftKey && lastClickedCardId && cardId && lastClickedCardId !== cardId) {
+      e.preventDefault();
+      const cardsArr = [...elist.querySelectorAll('.entry-card')];
+      let startIdx = -1, endIdx = -1;
+      cardsArr.forEach((c, idx) => {
+        if (c.dataset.id === lastClickedCardId) startIdx = idx;
+        if (c.dataset.id === cardId) endIdx = idx;
+      });
+      if (startIdx !== -1 && endIdx !== -1) {
+        const minIdx = Math.min(startIdx, endIdx);
+        const maxIdx = Math.max(startIdx, endIdx);
+        for (let i = minIdx; i <= maxIdx; i++) {
+          const cid = cardsArr[i].dataset.id;
+          if (cid) selIds.add(cid);
+        }
+        render();
+        return;
+      }
+    }
+
+    if (cardId) lastClickedCardId = cardId;
 
     isDown = true;
     isDragging = false;
@@ -2909,10 +2990,13 @@ function togPaid(id) {
 }
 
 /* ══════════════════════════════════════════════
-   14. MODAL & FORM
+   14. MODAL & FORM (С СЕРИЙНЫМ ВВОДОМ И ЧЕРНОВИКОМ)
 ══════════════════════════════════════════════ */
 function openModal() {
-  if (editId === null) clearForm();
+  if (editId === null) {
+    clearForm();
+    restoreFormDraft();
+  }
   document.getElementById('mov').classList.add('on');
   document.body.style.overflow = 'hidden';
   setTimeout(() => { const f=document.getElementById('f-desc'); if(f) f.focus(); }, 100);
@@ -2923,6 +3007,7 @@ function closeModal() {
 }
 function onAmtInput() {
   _amtManuallyTyped = true;
+  saveFormDraft();
   const v = document.getElementById('f-amt').value;
   const h = document.getElementById('ahint');
   if (!h) return;
@@ -2983,6 +3068,7 @@ function clearForm() {
   const pa = document.getElementById('f-paidat'); if(pa) pa.value='';
   _amtManuallyTyped = false;
   editId = null;
+  clearFormDraft();
 }
 
 function cancelEdit() {
@@ -2991,7 +3077,7 @@ function cancelEdit() {
   if (wasEditing) render();
 }
 
-function submitForm() {
+function submitForm(keepOpen = false) {
   const name = document.getElementById('f-name').value.trim();
   const desc = document.getElementById('f-desc').value.trim();
   const rawAmt = document.getElementById('f-amt').value;
@@ -3036,7 +3122,22 @@ function submitForm() {
     if (formPaidStatus) newEntry.paidAt = paValNew;
     entries.unshift(newEntry);
   }
-  save(); clearForm(); closeModal(); render();
+  save();
+  render();
+
+  if (keepOpen) {
+    // Серийный ввод: очищаем только проект и сумму, оставляя клиента, валюту и дату
+    document.getElementById('f-desc').value = '';
+    document.getElementById('f-amt').value = '';
+    document.getElementById('f-note').value = '';
+    _amtManuallyTyped = false;
+    clearFormDraft();
+    showToast('Заказ добавлен (серия продолжается)');
+    setTimeout(() => document.getElementById('f-desc').focus(), 50);
+  } else {
+    clearForm();
+    closeModal();
+  }
 }
 
 function startEdit(id) {
@@ -3231,17 +3332,28 @@ function bindEvents() {
     if (e.target === document.getElementById('mov') && _mdTarget === e.target) cancelEdit();
   });
   document.getElementById('m-close').addEventListener('click', cancelEdit);
-  document.getElementById('bsub').addEventListener('click', submitForm);
+
+  const subBtn = document.getElementById('bsub');
+  subBtn.addEventListener('click', e => {
+    submitForm(e.shiftKey);
+  });
+
   document.getElementById('bcan').addEventListener('click', cancelEdit);
   document.getElementById('f-amt').addEventListener('input', onAmtInput);
-  document.getElementById('f-desc').addEventListener('input', trySmartAutoPrice);
-  document.getElementById('f-name').addEventListener('input', trySmartAutoPrice);
+  document.getElementById('f-desc').addEventListener('input', () => { trySmartAutoPrice(); saveFormDraft(); });
+  document.getElementById('f-name').addEventListener('input', () => { trySmartAutoPrice(); saveFormDraft(); });
+  document.getElementById('f-note').addEventListener('input', saveFormDraft);
+  document.getElementById('f-date').addEventListener('change', saveFormDraft);
+
   document.getElementById('fst-unpaid').addEventListener('click', () => setFormPaid(false));
   document.getElementById('fst-paid').addEventListener('click', () => setFormPaid(true));
 
   document.querySelectorAll('#mov input').forEach(inp => {
     inp.addEventListener('keydown', e => {
-      if (e.key === 'Enter') { e.preventDefault(); submitForm(); }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitForm(e.shiftKey);
+      }
     });
   });
 
@@ -3292,6 +3404,46 @@ function bindEvents() {
     sw.addEventListener('click', () => setAccent(sw.dataset.acc));
   });
 
+  // Действия контекстного меню
+  document.getElementById('ctx-paid').addEventListener('click', () => {
+    if (_ctxTargetId) { togPaid(_ctxTargetId); hideContextMenu(); }
+  });
+  document.getElementById('ctx-edit').addEventListener('click', () => {
+    if (_ctxTargetId) { clearSel(); startEdit(_ctxTargetId); hideContextMenu(); }
+  });
+  document.getElementById('ctx-dup').addEventListener('click', () => {
+    if (_ctxTargetId) {
+      const e = entries.find(x => x.id === _ctxTargetId);
+      if (e) {
+        const c = {...e, id: gid(), paid: false, date: today(), createdAt: today()};
+        delete c.paidAt; delete c._rememberedPaidAt;
+        entries.unshift(c);
+        save(); render();
+        showToast('Заказ дублирован');
+      }
+      hideContextMenu();
+    }
+  });
+  document.getElementById('ctx-del').addEventListener('click', async () => {
+    if (_ctxTargetId) {
+      const id = _ctxTargetId;
+      hideContextMenu();
+      const ok = await showConfirm('Удалить запись', 'Удалить эту запись?');
+      if (ok) {
+        const snapshot = cloneEntries();
+        recordDeletedIds([id]);
+        if (editId === id) { editId = null; clearForm(); }
+        entries = entries.filter(e => e.id !== id);
+        save(); render();
+        showToast('Запись удалена', () => {
+          deletedIds.delete(String(id));
+          lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+          entries = snapshot; save(); render();
+        });
+      }
+    }
+  });
+
   document.getElementById('conf-ok').addEventListener('click', () => _confClose('ok'));
   document.getElementById('conf-alt').addEventListener('click', () => _confClose('alt'));
   document.getElementById('conf-cancel').addEventListener('click', () => _confClose(false));
@@ -3300,6 +3452,7 @@ function bindEvents() {
   });
 
   document.addEventListener('click', e => {
+    if (!e.target.closest('.ctx-menu')) hideContextMenu();
     if (!e.target.closest('.filter-wrap')) closeFP();
     if (!e.target.closest('.inv-wrap')) closeInvDd();
     if (!e.target.closest('.mo-title-wrap')) closePeriodDd();
@@ -3310,6 +3463,10 @@ function bindEvents() {
 
   document.addEventListener('keydown', e => {
     const k = e.key.toLowerCase();
+    const activeTag = document.activeElement ? document.activeElement.tagName : '';
+    const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
+    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('conf-overlay').classList.contains('on');
+
     if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) {
       e.preventDefault();
       exportData();
@@ -3317,6 +3474,7 @@ function bindEvents() {
     }
 
     if (e.key === 'Escape') {
+      hideContextMenu();
       if (document.getElementById('conf-overlay').classList.contains('on')) { _confClose(false); return; }
       closeFP(); closeInvDd(); closePeriodDd();
       document.getElementById('sidebar').classList.remove('mobile-open');
@@ -3326,9 +3484,24 @@ function bindEvents() {
       return;
     }
 
-    const activeTag = document.activeElement ? document.activeElement.tagName : '';
-    const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
-    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('conf-overlay').classList.contains('on');
+    // Горячие клавиши для выделенных карточек (Пробел, Del/Backspace, Cmd+C)
+    if (!inInput && !modalOpen && selIds.size > 0) {
+      if (e.key === ' ') {
+        e.preventDefault();
+        markPaid();
+        return;
+      }
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        e.preventDefault();
+        delSel();
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && k === 'c') {
+        e.preventDefault();
+        copySelectedInv('ru');
+        return;
+      }
+    }
 
     if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
       e.preventDefault();
