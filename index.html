@@ -63,7 +63,7 @@ html[data-theme="dark"]{
   --shadow-md:0 10px 28px rgba(0,0,0,0.4);
 }
 
-/* ── SURFACE TONES (Оттенки фона) ── */
+/* ── SURFACE TONES ── */
 html[data-theme="light"][data-tone="cool"]{
   --bg:#f1f4f9;
   --surface:#ffffff;
@@ -98,7 +98,7 @@ html[data-theme="dark"][data-tone="oled"]{
   --border2:rgba(255,255,255,0.16);
 }
 
-/* ── ACCENT COLORS (Акцентные цвета) ── */
+/* ── ACCENT COLORS ── */
 html[data-accent="indigo"]{
   --blue:#6366f1;--blue-bg:rgba(99,102,241,0.09);--lasso-fill:rgba(99,102,241,0.13);
 }
@@ -1192,11 +1192,10 @@ function sanitizeRatesObject(rawRates) {
   return clean;
 }
 
-// Очистка служебных полей карточки перед сохранением или проверкой слепка
 function cleanEntriesForStorage(list) {
   return list.map(e => {
     const copy = {...e, id: String(e.id)};
-    delete copy._ rememberedPaidAt;
+    delete copy._rememberedPaidAt;
     return copy;
   });
 }
@@ -1276,7 +1275,6 @@ function restoreEmergencySnapshot() {
   } catch(e) {}
 }
 
-// Реестр специально удаленных ID, чтобы они не возвращались при слиянии с облаком
 let deletedIds = new Set();
 try {
   const rawDel = JSON.parse(lsG('ff_deleted_ids') || '[]');
@@ -1339,8 +1337,6 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
   if (!ep) { updateSyncPill('local'); return false; }
 
   const currentFp = computeStateFingerprint();
-  // Если состояние на 100% совпадает с тем, что уже в облаке (например, нажали оплачено -> ждём обратно)
-  // Не тратим лимиты и не отправляем запрос вообще!
   if (!showSuccessToast && currentFp === _lastSyncedFingerprint && !_hasUnsynced) {
     updateSyncPill('ok');
     return true;
@@ -1388,7 +1384,6 @@ function scheduleSmartFirebaseSync() {
   if (!ep) { updateSyncPill('local'); return; }
 
   const currentFp = computeStateFingerprint();
-  // Если пользователь вернул данные к состоянию, которое уже сохранено в облаке — отменяем таймер!
   if (currentFp === _lastSyncedFingerprint) {
     clearTimeout(_fbTimer);
     _fbTimer = null;
@@ -1402,7 +1397,6 @@ function scheduleSmartFirebaseSync() {
   lsS('ff_unsynced', '1');
   updateSyncPill('pending');
   clearTimeout(_fbTimer);
-  // Ждем 3.5 секунды тишины после последнего клика перед отправкой в облако
   _fbTimer = setTimeout(() => {
     pushToFirebaseNow(false);
   }, 3500);
@@ -1429,7 +1423,6 @@ async function safeSyncWithFirebase(manual = false) {
     }
     const data = await res.json();
     const rawCloudEntries = (data && Array.isArray(data.entries)) ? data.entries.map(e => ({...e, id: String(e.id || gid())})) : [];
-    // Исключаем специально удаленные пользователем записи
     const cloudEntries = rawCloudEntries.filter(e => !deletedIds.has(String(e.id)));
 
     if (_hasUnsynced) {
@@ -2549,7 +2542,6 @@ function render() {
   rebuildClientSel();
   updateFilterState();
 
-  // Баланс "Ожидаем" (0 вместо прочерка)
   const ua = entries.filter(e => !e.paid);
   const uaMap = sBC(ua);
   const uaTot = totB(ua);
@@ -2571,7 +2563,6 @@ function render() {
     }
   }
 
-  // Баланс "Пришло" (0 вместо прочерка)
   const recv = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
   const recvMap = sBC(recv);
   const recvTot = totB(recv);
@@ -2726,7 +2717,6 @@ function initFinderLasso() {
   let scrollRaf = null;
 
   function updateLassoSelection() {
-    // Корректируем начальную точку по вертикали с учетом автопрокрутки списка
     const scrollDelta = elist.scrollTop - startScrollTop;
     const effectiveStartY = startY - scrollDelta;
 
@@ -3203,7 +3193,6 @@ function bindEvents() {
 
   document.getElementById('btn-restore-snap').addEventListener('click', restoreEmergencySnapshot);
 
-  // Мгновенная досылка несохраненных изменений при закрытии вкладки или сворачивании
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden' && _hasUnsynced && fbUrl) {
       pushToFirebaseNow(false, true);
