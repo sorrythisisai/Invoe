@@ -144,7 +144,6 @@ body.lasso-active .sel-txt{
   50%{transform:scale(1.05);}
   100%{transform:scale(1);}
 }
-/* Мягкое бесшовное свечение новой или отредактированной карточки */
 @keyframes cardFlashGlow{
   0%{
     background-color:var(--blue-bg);
@@ -272,7 +271,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 /* ── LAYOUT (BORDERLESS SPATIAL UI) ── */
 .app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
 
-/* Topbar (Без нижней линии) */
+/* Topbar */
 .topbar{
   height:var(--topbar);
   display:flex;align-items:center;justify-content:space-between;
@@ -316,7 +315,7 @@ button:active:not(:disabled){transform:scale(0.97);}
   gap:40px;
 }
 
-/* ── SIDEBAR (ВОЗДУХ И ТИПОГРАФИКА ВМЕСТО ЛИНИЙ) ── */
+/* ── SIDEBAR ── */
 .sidebar{
   width:var(--sidebar);
   min-width:var(--sidebar);
@@ -386,7 +385,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 .inv-lbtn:hover{background:var(--text);color:var(--bg);}
 .inv-empty-msg{font-size:12px;color:var(--text3);padding:8px;}
 
-/* Balance Metrics (Без рамок и перегородок) */
+/* Balance Metrics */
 .balance-cards{
   display:flex;flex-direction:column;gap:20px;
 }
@@ -544,16 +543,16 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 /* ── MAIN WORKSPACE ── */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
-/* Toolbar (Без рамок и нижних линий) */
+/* Toolbar */
 .toolbar{
   display:flex;align-items:center;gap:8px;
   padding:8px 0 10px;
   flex-shrink:0;flex-wrap:wrap;
 }
-.search-wrap{flex:1;min-width:160px;position:relative;display:flex;align-items:center;}
+.search-wrap{flex:1;min-width:180px;position:relative;display:flex;align-items:center;}
 .search-icon{position:absolute;left:11px;color:var(--text3);pointer-events:none;}
 #search{
-  width:100%;height:34px;padding:0 38px 0 33px;
+  width:100%;height:34px;padding:0 155px 0 33px;
   font-size:13px;border:none;border-radius:var(--r);
   background:var(--surface2);color:var(--text);
   font-family:inherit;outline:none;transition:background-color .14s, box-shadow .14s;
@@ -562,31 +561,31 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 #search:focus{background:var(--surface);box-shadow:0 0 0 1.5px var(--border2);}
 #search::placeholder{color:var(--text3);}
 .search-kbd{
-  position:absolute;right:9px;pointer-events:none;
+  position:absolute;right:10px;pointer-events:none;
   font-size:10px;font-weight:600;color:var(--text3);
-  opacity:0.75;
+  opacity:0.75;transition:opacity .12s;
 }
-#search:focus ~ .search-kbd{display:none;}
+#search:focus ~ .search-kbd,
+.search-wrap.has-sel .search-kbd{opacity:0;}
 
-/* Live Selection Pill in Toolbar */
+/* Встроенная в правый край поиска плашка калькулятора (не сдвигает верстку тулбара) */
 .sel-pill{
-  display:none;align-items:center;gap:6px;
-  height:34px;padding:0 11px;
-  background:var(--blue-bg);color:var(--blue);
-  border:none;
-  border-radius:var(--r);font-size:12px;font-weight:600;
-  cursor:pointer;white-space:nowrap;
-  animation:popIn .12s var(--ease);
+  position:absolute;right:4px;
+  display:none;align-items:center;gap:5px;
+  height:26px;padding:0 8px;
+  background:var(--surface);color:var(--blue);
+  box-shadow:var(--shadow-card);
+  border-radius:var(--r-xs);font-size:11.5px;font-weight:600;
+  cursor:pointer;white-space:nowrap;z-index:2;
 }
 .sel-pill.on{display:inline-flex;}
-.sel-pill:hover{filter:brightness(0.95);}
+.sel-pill:hover{background:var(--blue-bg);}
 .sel-pill-clr{
   display:inline-flex;align-items:center;justify-content:center;
-  width:16px;height:16px;border-radius:4px;
-  background:rgba(0,0,0,0.06);color:currentColor;font-size:11px;
+  width:15px;height:15px;border-radius:3px;
+  color:var(--text3);font-size:11px;
 }
-html[data-theme="dark"] .sel-pill-clr{background:rgba(255,255,255,0.12);}
-.sel-pill-clr:hover{opacity:.75;}
+.sel-pill-clr:hover{color:var(--text);background:var(--surface2);}
 
 .filter-wrap{position:relative;}
 .filter-btn{
@@ -658,7 +657,7 @@ html[data-theme="dark"] .sel-pill-clr{background:rgba(255,255,255,0.12);}
   letter-spacing:0;text-transform:none;
 }
 
-/* Borderless Entry Card (Things 3 / Mercury style) */
+/* Borderless Entry Card */
 .entry-card{
   background:var(--surface);
   border:none;
@@ -1043,16 +1042,16 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   <!-- ── MAIN ── -->
   <div class="main" id="main-area">
     <div class="toolbar">
-      <div class="search-wrap">
+      <div class="search-wrap" id="search-wrap">
         <svg class="search-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4"/><path d="m9 9 2.5 2.5"/></svg>
         <input type="text" id="search" placeholder="Поиск по проектам, клиентам, описанию..." aria-label="Поиск по записям"/>
         <span class="search-kbd">⌘K</span>
-      </div>
 
-      <!-- Компактный индикатор живого калькулятора при выделении -->
-      <div class="sel-pill" id="sel-pill" title="Нажми для открытия меню действий с выделенными заказами">
-        <span id="sel-pill-txt"></span>
-        <span class="sel-pill-clr" id="sel-pill-clr" title="Снять выделение (Esc)">×</span>
+        <!-- Встроенный индикатор выделения (не сдвигает поиск) -->
+        <div class="sel-pill" id="sel-pill" title="Нажми для открытия меню действий с выделенными заказами">
+          <span id="sel-pill-txt"></span>
+          <span class="sel-pill-clr" id="sel-pill-clr" title="Снять выделение (Esc)">×</span>
+        </div>
       </div>
 
       <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
@@ -1374,6 +1373,8 @@ function restoreEmergencySnapshot() {
   try {
     const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
     if (Array.isArray(raw) && raw.length > 0) {
+      editId = null;
+      clearSel();
       entries = normalizeLoadedEntries(raw);
       save();
       render();
@@ -1402,6 +1403,7 @@ let _hasUnsynced = lsG('ff_unsynced') === '1';
 let _fbTimer = null;
 let _lastSyncedFingerprint = lsG('ff_last_fp') || '';
 let _isInitialCloudLoading = false;
+let _syncInFlight = false;
 
 function computeDataFingerprint(targetEntries = entries, targetCur = baseCur, targetRates = rates) {
   return JSON.stringify({
@@ -1449,21 +1451,30 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     updateSyncPill('ok');
     return true;
   }
+  if (_syncInFlight && !showSuccessToast) return false;
 
+  _syncInFlight = true;
   updateSyncPill('syncing');
   rates = sanitizeRatesObject(rates);
+
+  const bodyStr = JSON.stringify({
+    version: 2,
+    updatedAt: Date.now(),
+    baseCur,
+    rates,
+    delIds: [...deletedIds].slice(-200),
+    entries: cleanEntriesForStorage(entries)
+  });
+
+  // Защита от падения браузера при превышении лимита 64 KB у флага keepalive
+  const safeKeepalive = Boolean(useKeepalive && bodyStr.length < 52000);
+
   try {
     const res = await fetch(ep, {
       method: 'PUT',
-      keepalive: useKeepalive,
+      keepalive: safeKeepalive,
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        version: 2,
-        updatedAt: Date.now(),
-        baseCur,
-        rates,
-        entries: cleanEntriesForStorage(entries)
-      })
+      body: bodyStr
     });
     if (!res.ok) {
       if (res.status === 401 || res.status === 403) {
@@ -1473,6 +1484,7 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
       }
       throw new Error('HTTP ' + res.status);
     }
+    _syncInFlight = false;
     _hasUnsynced = false;
     lsS('ff_unsynced', '0');
     _lastSyncedFingerprint = currentFp;
@@ -1481,6 +1493,7 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     if (showSuccessToast) showToast('☁️ Все заказы сохранены в облако!');
     return true;
   } catch(e) {
+    _syncInFlight = false;
     updateSyncPill('err');
     return false;
   }
@@ -1523,6 +1536,8 @@ async function safeSyncWithFirebase(manual = false) {
     if (manual) showToast('Сначала укажите ссылку Firebase в настройках');
     return;
   }
+  if (_syncInFlight && !manual) return;
+
   if (!manual && entries.length === 0) {
     setSkeletonLoading(true);
     render();
@@ -1542,13 +1557,23 @@ async function safeSyncWithFirebase(manual = false) {
     const wasSkel = _isInitialCloudLoading;
     setSkeletonLoading(false);
 
+    // Объединяем реестр удаленных ID между устройствами
+    if (data && Array.isArray(data.delIds)) {
+      recordDeletedIds(data.delIds);
+    }
+
     const rawCloudEntries = (data && Array.isArray(data.entries)) ? normalizeLoadedEntries(data.entries) : [];
     const cloudEntries = rawCloudEntries.filter(e => !deletedIds.has(String(e.id)));
 
-    if (_hasUnsynced) {
+    // Убираем из локальной базы записи, которые были удалены на другом устройстве
+    const beforeFilterLen = entries.length;
+    entries = entries.filter(e => !deletedIds.has(String(e.id)));
+    const localWasPruned = entries.length !== beforeFilterLen;
+
+    if (_hasUnsynced || localWasPruned) {
       const localIds = new Set(entries.map(e => String(e.id)));
       const missingFromCloud = cloudEntries.filter(e => !localIds.has(String(e.id)));
-      if (missingFromCloud.length > 0) {
+      if (missingFromCloud.length > 0 || localWasPruned) {
         saveEmergencySnapshot();
         entries = [...entries, ...missingFromCloud];
         lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
@@ -1658,6 +1683,7 @@ let activeClientFilter = '';
 let activeWorkFilter = '';
 let formPaidStatus = false;
 let _amtManuallyTyped = false;
+let _amtAutoFilled = false;
 let _donutDirty = true;
 let _justLassoed = false;
 
@@ -1799,11 +1825,20 @@ function pAmt(str) {
   function ex() { let l=tm(); while(p<s.length&&(s[p]==='+'||s[p]==='-')){const op=s[p++];l=op==='+'?l+tm():l-tm();} return l; }
   function tm() { let l=fc(); while(p<s.length&&(s[p]==='*'||s[p]==='/')){const op=s[p++];l=op==='*'?l*fc():l/fc();} return l; }
   function fc() {
-    if(s[p]==='('){p++;const v=ex();if(s[p]===')')p++;return v;}
+    if(s[p]==='('){
+      p++;
+      const v=ex();
+      if(s[p]!==')') return NaN;
+      p++;
+      return v;
+    }
     if(s[p]==='-'){p++;return -fc();}
     let st=p;
     while(p<s.length&&((s[p]>='0'&&s[p]<='9')||s[p]==='.'))p++;
-    const n=parseFloat(s.slice(st,p));
+    if(st===p) return NaN;
+    const rawNum=s.slice(st,p);
+    if((rawNum.match(/\./g)||[]).length>1) return NaN;
+    const n=parseFloat(rawNum);
     return isNaN(n)?NaN:n;
   }
   try {
@@ -1816,7 +1851,18 @@ function trySmartAutoPrice() {
   if (editId !== null || _amtManuallyTyped) return;
   const desc = (document.getElementById('f-desc')?.value || '').trim().toLowerCase();
   const name = (document.getElementById('f-name')?.value || '').trim().toLowerCase();
-  if (!desc) return;
+  const amtEl = document.getElementById('f-amt');
+  const curEl = document.getElementById('f-cur');
+  const h = document.getElementById('ahint');
+
+  if (!desc) {
+    if (_amtAutoFilled) {
+      if (amtEl) amtEl.value = '';
+      if (h) { h.textContent = ''; h.className = 'ahint'; }
+      _amtAutoFilled = false;
+    }
+    return;
+  }
 
   let match = null;
   if (name) {
@@ -1826,15 +1872,17 @@ function trySmartAutoPrice() {
     match = entries.find(e => (e.desc||'').toLowerCase() === desc);
   }
   if (match && match.amount > 0) {
-    const amtEl = document.getElementById('f-amt');
-    const curEl = document.getElementById('f-cur');
-    const h = document.getElementById('ahint');
     if (amtEl) amtEl.value = match.amount;
     if (curEl && CURS.includes(match.currency)) curEl.value = match.currency;
     if (h) {
       h.textContent = '⚡ Цена из истории';
       h.className = 'ahint smart';
     }
+    _amtAutoFilled = true;
+  } else if (_amtAutoFilled) {
+    if (amtEl) amtEl.value = '';
+    if (h) { h.textContent = ''; h.className = 'ahint'; }
+    _amtAutoFilled = false;
   }
 }
 
@@ -1844,7 +1892,7 @@ function trySmartAutoPrice() {
 function toB(a,c) {
   if (c === baseCur) return a;
   const r = rates[rateKey(c, baseCur)];
-  return (r && r > 0) ? a * r : null;
+  return (r && r > 0) ? Math.round(a * r * 100) / 100 : null;
 }
 function totB(list) {
   if (!list.length) return 0;
@@ -1854,15 +1902,17 @@ function totB(list) {
     if (r === null) return null;
     t += r;
   }
-  return t;
+  return Math.round(t * 100) / 100;
 }
 function fmtCur(a,c,loc='ru-RU') {
-  const n = a.toLocaleString(loc, {minimumFractionDigits:0, maximumFractionDigits:2});
+  const clean = Math.round(a * 100) / 100;
+  const n = clean.toLocaleString(loc, {minimumFractionDigits:0, maximumFractionDigits:2});
   return CUR_PREFIX.includes(c) ? c+n : n+'\u202f'+c;
 }
 function fmtB(v) {
-  const d = Number.isInteger(v) ? 0 : (Math.abs(v) < 1000 ? 2 : 0);
-  const n = v.toLocaleString('ru-RU', {minimumFractionDigits:0, maximumFractionDigits:d});
+  const clean = Math.round(v * 100) / 100;
+  const d = Number.isInteger(clean) ? 0 : (Math.abs(clean) < 1000 ? 2 : 0);
+  const n = clean.toLocaleString('ru-RU', {minimumFractionDigits:0, maximumFractionDigits:d});
   return CUR_PREFIX.includes(baseCur) ? baseCur+n : n+'\u202f'+baseCur;
 }
 function sBC(list) {
@@ -1914,8 +1964,8 @@ function getComparableMonthSum(ym) {
   const full = totB(list);
   if (full !== null) return full;
   const curs = [...new Set(list.map(e => e.currency))];
-  if (curs.length === 1) return list.reduce((s, e) => s + e.amount, 0);
-  return list.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0);
+  if (curs.length === 1) return Math.round(list.reduce((s, e) => s + e.amount, 0) * 100) / 100;
+  return Math.round(list.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0) * 100) / 100;
 }
 
 function renderMonthTrend() {
@@ -1960,6 +2010,14 @@ function renderMonthTrend() {
   }
 }
 
+function flushPendingRates() {
+  if (_rateTmr) {
+    clearTimeout(_rateTmr);
+    _rateTmr = null;
+    saveRates();
+  }
+}
+
 function buildCP() {
   const cc = document.getElementById('cp-curs');
   if (cc) {
@@ -1984,7 +2042,7 @@ function buildCP() {
     inp.value = v;
     inp.addEventListener('input', () => {
       clearTimeout(_rateTmr);
-      _rateTmr = setTimeout(() => { saveRates(); _donutDirty = true; render(); }, 350);
+      _rateTmr = setTimeout(() => { _rateTmr = null; saveRates(); _donutDirty = true; render(); }, 350);
     });
     row.appendChild(lbl);
     row.appendChild(inp);
@@ -1992,6 +2050,7 @@ function buildCP() {
   });
 }
 function selCur(c) {
+  flushPendingRates();
   if (baseCur === c) return;
   baseCur = c;
   lsS('ff_cur', c);
@@ -2049,6 +2108,7 @@ function closeCtxMenu() {
 }
 
 function openCtxMenu(clientX, clientY, targetId = null) {
+  if (typeof window._cancelLasso === 'function') window._cancelLasso();
   if (targetId && !selIds.has(targetId)) {
     clearSel();
     selIds.add(targetId);
@@ -2303,14 +2363,14 @@ function buildMoneySegments(list) {
 
   if (Object.keys(byClient).length > 0) {
     const sorted = Object.entries(byClient).sort((a,b) => b[1] - a[1]);
-    const tot = sorted.reduce((acc, r) => acc + r[1], 0);
+    const tot = Math.round(sorted.reduce((acc, r) => acc + r[1], 0) * 100) / 100;
     const items = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtB(sum) }));
     const pcts = computeExactPercentages(items, tot);
     items.forEach((it, idx) => it.pct = pcts[idx]);
     return { segments: items, totalNum: tot, unit: baseCur, formatFn: fmtB };
   } else if (singleFallbackCur && Object.keys(rawByClient).length > 0) {
     const sorted = Object.entries(rawByClient).sort((a,b) => b[1] - a[1]);
-    const tot = sorted.reduce((acc, r) => acc + r[1], 0);
+    const tot = Math.round(sorted.reduce((acc, r) => acc + r[1], 0) * 100) / 100;
     const items = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtCur(sum, singleFallbackCur) }));
     const pcts = computeExactPercentages(items, tot);
     items.forEach((it, idx) => it.pct = pcts[idx]);
@@ -2492,7 +2552,9 @@ function buildInvText(title, list, invLang) {
     let ds = '';
     if (e.date) {
       const [y,m,d] = e.date.split('-').map(Number);
-      if (!isNaN(y)) ds = new Date(y,m-1,d).toLocaleDateString(loc, {day:'numeric', month:'short'});
+      if (y && m && d && !isNaN(y) && !isNaN(m) && !isNaN(d)) {
+        ds = new Date(y,m-1,d).toLocaleDateString(loc, {day:'numeric', month:'short'});
+      }
     }
     const desc = e.desc || '—';
     const { text: cleanNote } = extractUrlFromNote(e.note);
@@ -2530,7 +2592,10 @@ function openSettings() {
   if (snapBtn) snapBtn.style.display = hasSnap ? '' : 'none';
   document.getElementById('sov').classList.add('on');
 }
-function closeSettings() { document.getElementById('sov').classList.remove('on'); }
+function closeSettings() {
+  flushPendingRates();
+  document.getElementById('sov').classList.remove('on');
+}
 function updateSettingsUI() {
   document.getElementById('t-light').classList.toggle('on', theme==='light');
   document.getElementById('t-dark').classList.toggle('on', theme==='dark');
@@ -2653,6 +2718,7 @@ function filterByClient(name){
   buildFilterTags();
   updateFilterState();
   renderList();
+  document.getElementById('sidebar').classList.remove('mobile-open');
 }
 function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
 
@@ -2706,11 +2772,11 @@ function grpKey(e) {
   return 'm:' + d.slice(0,7);
 }
 function grpSort(k) {
-  if (k === 'today') return today()+'_a';
-  if (k === 'yest') return yest()+'_b';
-  if (k === 'cm') return cmYM()+'-01_c';
-  if (k.startsWith('m:')) return k.slice(2)+'-00';
-  return '0000_z';
+  if (k === 'today') return '9999-99-99';
+  if (k === 'yest') return '9999-99-98';
+  if (k === 'cm') return cmYM()+'-32';
+  if (k.startsWith('m:')) return k.slice(2)+'-31';
+  return '0000-00-00';
 }
 function grpLabel(k) {
   if (k === 'x') return 'Без даты';
@@ -2738,9 +2804,13 @@ function extractUrlFromNote(note) {
   if (!note) return { text: '', url: null, label: '' };
   const m = note.match(/(https?:\/\/[^\s]+|(?:t\.me|telegram\.me|figma\.com|docs\.google\.com|drive\.google\.com|disk\.yandex\.[a-z]+|yadi\.sk|youtu\.be|youtube\.com|notion\.so|notion\.site|github\.com)\/[^\s]+)/i);
   if (!m) return { text: note, url: null, label: '' };
-  const rawUrl = m[0];
+  const rawUrl = m[0].replace(/[.,;:!?)]+$/, '');
   const fullUrl = /^https?:\/\//i.test(rawUrl) ? rawUrl : 'https://' + rawUrl;
-  const cleanText = note.replace(rawUrl, '').replace(/\s+/g, ' ').trim();
+  const cleanText = note
+    .replace(rawUrl, '')
+    .replace(/\(\s*\)/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
   const low = fullUrl.toLowerCase();
   let label = '🔗 Ссылка';
@@ -2759,12 +2829,14 @@ function renderEntry(e) {
   let ds = '';
   if (e.date) {
     const [y,m,d] = e.date.split('-').map(Number);
-    if (!isNaN(y)) ds = new Date(y,m-1,d).toLocaleDateString('ru-RU', {day:'numeric', month:'short'});
+    if (y && m && d && !isNaN(y) && !isNaN(m) && !isNaN(d)) {
+      ds = new Date(y,m-1,d).toLocaleDateString('ru-RU', {day:'numeric', month:'short'});
+    }
   }
   const isSel = selIds.has(e.id);
   const shouldFlash = _flashIds.has(e.id);
   if (shouldFlash) {
-    setTimeout(() => _flashIds.delete(e.id), 1550);
+    _flashIds.delete(e.id);
   }
 
   const card = el('div', {
@@ -3050,13 +3122,16 @@ function clearSel() {
 
 function updateSelectionUI() {
   const pill = document.getElementById('sel-pill');
+  const sWrap = document.getElementById('search-wrap');
   if (!pill) return;
   if (selIds.size > 0) {
     const { count, mainSum } = getSelectionSumInfo();
     setText('sel-pill-txt', `Выбрано: ${count} · ${mainSum}`);
     pill.classList.add('on');
+    if (sWrap) sWrap.classList.add('has-sel');
   } else {
     pill.classList.remove('on');
+    if (sWrap) sWrap.classList.remove('has-sel');
   }
 }
 
@@ -3080,6 +3155,16 @@ function initFinderLasso() {
   let additiveMode = false;
   let scrollRaf = null;
   let cachedCards = [];
+
+  function cancelLasso() {
+    isDown = false;
+    isDragging = false;
+    if (scrollRaf) { cancelAnimationFrame(scrollRaf); scrollRaf = null; }
+    document.body.classList.remove('lasso-active');
+    lasso.style.display = 'none';
+    cachedCards = [];
+  }
+  window._cancelLasso = cancelLasso;
 
   function cacheCardGeometry() {
     const st = elist.scrollTop;
@@ -3173,6 +3258,9 @@ function initFinderLasso() {
     if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, #ctx-menu, .fpanel, .sel-pill, button, a, input, select')) return;
 
     closeCtxMenu();
+    closeFP();
+    closeInvDd();
+    closePeriodDd();
 
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT')) {
       document.activeElement.blur();
@@ -3226,14 +3314,10 @@ function initFinderLasso() {
 
   window.addEventListener('mouseup', e => {
     if (!isDown) return;
-    isDown = false;
-    if (scrollRaf) { cancelAnimationFrame(scrollRaf); scrollRaf = null; }
-    document.body.classList.remove('lasso-active');
+    const wasDragging = isDragging;
+    cancelLasso();
 
-    if (isDragging) {
-      isDragging = false;
-      lasso.style.display = 'none';
-      cachedCards = [];
+    if (wasDragging) {
       clearNativeTextSelection();
       _justLassoed = true;
       setTimeout(() => { _justLassoed = false; }, 60);
@@ -3267,21 +3351,25 @@ function dupSel() {
 
 function applyBulkPaidStatus(paidStatus) {
   if (!selIds.size) return;
-  const snapshot = cloneEntries();
-  const cnt = selIds.size;
-  const td = today();
-  const targetIds = [...selIds];
+  const targetEntries = entries.filter(e => selIds.has(e.id) && e.paid !== paidStatus);
+  if (!targetEntries.length) {
+    clearSel();
+    return;
+  }
 
-  entries.forEach(e => {
-    if (selIds.has(e.id)) {
-      if (paidStatus) {
-        e.paid = true;
-        if (!e.paidAt) e.paidAt = e._rememberedPaidAt || td;
-      } else {
-        if (e.paidAt) e._rememberedPaidAt = e.paidAt;
-        e.paid = false;
-        delete e.paidAt;
-      }
+  const snapshot = cloneEntries();
+  const cnt = targetEntries.length;
+  const td = today();
+  const targetIds = targetEntries.map(e => e.id);
+
+  targetEntries.forEach(e => {
+    if (paidStatus) {
+      e.paid = true;
+      if (!e.paidAt) e.paidAt = e._rememberedPaidAt || td;
+    } else {
+      if (e.paidAt) e._rememberedPaidAt = e.paidAt;
+      e.paid = false;
+      delete e.paidAt;
     }
   });
 
@@ -3371,6 +3459,7 @@ function togPaid(id) {
    14. MODAL, DRAFTS & SERIAL ENTRY WITH HIGHLIGHT GLOW
 ══════════════════════════════════════════════ */
 function openModal() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
   if (editId === null && !_hasDraft) {
     clearForm();
   } else if (editId === null && _hasDraft) {
@@ -3409,11 +3498,12 @@ function closeModal() {
 }
 function onAmtInput() {
   _amtManuallyTyped = true;
+  _amtAutoFilled = false;
   const v = document.getElementById('f-amt').value;
   const h = document.getElementById('ahint');
   if (!h) return;
   const parsed = pAmt(v);
-  if (/[+\-*/]/.test(v)) {
+  if (/[+\-*/()]/.test(v)) {
     if (!isNaN(parsed)) {
       if (parsed <= 0) {
         h.textContent = 'Сумма должна быть больше нуля';
@@ -3468,6 +3558,7 @@ function clearForm() {
   setFormPaid(false);
   const pa = document.getElementById('f-paidat'); if(pa) pa.value='';
   _amtManuallyTyped = false;
+  _amtAutoFilled = false;
   _hasDraft = false;
   editId = null;
 }
@@ -3541,6 +3632,7 @@ function submitForm(keepOpen = false) {
     if (noteEl) noteEl.value = '';
     if (h) { h.textContent = ''; h.className = 'ahint'; }
     _amtManuallyTyped = false;
+    _amtAutoFilled = false;
     _hasDraft = false;
     setText('m-title', 'Новая запись');
     const bc = document.getElementById('bcan');
@@ -3565,6 +3657,7 @@ function startEdit(id) {
   if (card) card.classList.add('editing');
 
   _amtManuallyTyped = true;
+  _amtAutoFilled = false;
   const fn = document.getElementById('f-name'); if(fn) fn.value = e.name||'';
   const fa = document.getElementById('f-amt'); if(fa) fa.value = e.amount;
   const fc = document.getElementById('f-cur'); if(fc) fc.value = CURS.includes(e.currency) ? e.currency : baseCur;
@@ -3614,6 +3707,8 @@ function applyImportedPayload(raw, replaceMode = true) {
   const valid = extractValidEntries(raw);
   if (!valid) throw new Error('Invalid');
   saveEmergencySnapshot();
+  editId = null;
+  clearSel();
   if (!Array.isArray(raw) && raw.baseCur && CURS.includes(raw.baseCur)) {
     baseCur = raw.baseCur;
   }
@@ -3699,6 +3794,12 @@ function bindEvents() {
     }
   });
 
+  window.addEventListener('contextmenu', e => {
+    if (!e.target.closest('#main-area') && !e.target.closest('#ctx-menu')) {
+      closeCtxMenu();
+    }
+  });
+
   document.getElementById('toast-undo').addEventListener('click', () => {
     if (typeof _undoAction === 'function') {
       const fn = _undoAction;
@@ -3775,13 +3876,11 @@ function bindEvents() {
   document.getElementById('fst-unpaid').addEventListener('click', () => setFormPaid(false));
   document.getElementById('fst-paid').addEventListener('click', () => setFormPaid(true));
 
-  document.querySelectorAll('#mov input').forEach(inp => {
-    inp.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        submitForm(e.shiftKey || e.metaKey || e.ctrlKey);
-      }
-    });
+  document.getElementById('mov').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.target.closest('#bcan, #m-close')) {
+      e.preventDefault();
+      submitForm(e.shiftKey || e.metaKey || e.ctrlKey);
+    }
   });
 
   document.getElementById('search').addEventListener('input', onSearch);
@@ -3823,7 +3922,10 @@ function bindEvents() {
   });
 
   document.getElementById('elist').addEventListener('scroll', closeCtxMenu, {passive: true});
-  window.addEventListener('blur', closeCtxMenu);
+  window.addEventListener('blur', () => {
+    closeCtxMenu();
+    if (typeof window._cancelLasso === 'function') window._cancelLasso();
+  });
 
   document.addEventListener('click', e => {
     if (!e.target.closest('#ctx-menu') && !e.target.closest('#sel-pill')) closeCtxMenu();
@@ -3843,9 +3945,15 @@ function bindEvents() {
       return;
     }
 
+    if (document.getElementById('conf-overlay').classList.contains('on')) {
+      if (e.key === 'Escape') { e.preventDefault(); _confClose(false); }
+      else if (e.key === 'Enter') { e.preventDefault(); _confClose('ok'); }
+      return;
+    }
+
     if (e.key === 'Escape') {
+      if (typeof window._cancelLasso === 'function') window._cancelLasso();
       if (document.getElementById('ctx-menu').classList.contains('on')) { closeCtxMenu(); return; }
-      if (document.getElementById('conf-overlay').classList.contains('on')) { _confClose(false); return; }
       closeFP(); closeInvDd(); closePeriodDd();
       document.getElementById('sidebar').classList.remove('mobile-open');
       if (document.getElementById('sov').classList.contains('on')) closeSettings();
@@ -3859,7 +3967,7 @@ function bindEvents() {
 
     const activeTag = document.activeElement ? document.activeElement.tagName : '';
     const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
-    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('conf-overlay').classList.contains('on');
+    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('sov').classList.contains('on');
 
     if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
       e.preventDefault();
