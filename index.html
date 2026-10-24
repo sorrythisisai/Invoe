@@ -62,33 +62,57 @@ html[data-theme="dark"]{
 
 /* ── SURFACE TONES ── */
 html[data-theme="light"][data-tone="cool"]{
-  --bg:#f1f4f9;--surface:#ffffff;--surface2:#e6ebf2;--surface3:#dae1ec;--text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --bg:#f1f4f9;--surface:#ffffff;--surface2:#e6ebf2;--surface3:#dae1ec;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
 }
 html[data-theme="dark"][data-tone="cool"]{
-  --bg:#0b0f17;--surface:#131924;--surface2:#1c2433;--surface3:#263042;--text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
+  --bg:#0b0f17;--surface:#131924;--surface2:#1c2433;--surface3:#263042;
+  --text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
 }
 html[data-theme="light"][data-tone="oled"]{
-  --bg:#fafafa;--surface:#ffffff;--surface2:#f0f0f0;--surface3:#e4e4e4;--border:rgba(0,0,0,0.08);
+  --bg:#fafafa;--surface:#ffffff;--surface2:#f0f0f0;--surface3:#e4e4e4;
+  --border:rgba(0,0,0,0.08);
 }
 html[data-theme="dark"][data-tone="oled"]{
-  --bg:#000000;--surface:#0a0a0a;--surface2:#141414;--surface3:#1f1f1f;--border:rgba(255,255,255,0.085);--border2:rgba(255,255,255,0.16);
+  --bg:#000000;--surface:#0a0a0a;--surface2:#141414;--surface3:#1f1f1f;
+  --border:rgba(255,255,255,0.085);--border2:rgba(255,255,255,0.16);
 }
 
 /* ── ACCENT COLORS ── */
-html[data-accent="indigo"]{--blue:#6366f1;--blue-bg:rgba(99,102,241,0.09);--lasso-fill:rgba(99,102,241,0.13);}
-html[data-theme="dark"][data-accent="indigo"]{--blue:#818cf8;--blue-bg:rgba(129,140,248,0.14);--lasso-fill:rgba(129,140,248,0.17);}
-html[data-accent="emerald"]{--blue:#0d9488;--blue-bg:rgba(13,148,136,0.09);--lasso-fill:rgba(13,148,136,0.13);}
-html[data-theme="dark"][data-accent="emerald"]{--blue:#2dd4bf;--blue-bg:rgba(45,212,191,0.13);--lasso-fill:rgba(45,212,191,0.16);}
-html[data-accent="amber"]{--blue:#d97706;--blue-bg:rgba(217,119,6,0.09);--lasso-fill:rgba(217,119,6,0.13);}
-html[data-theme="dark"][data-accent="amber"]{--blue:#fbbf24;--blue-bg:rgba(251,191,36,0.13);--lasso-fill:rgba(251,191,36,0.16);}
-html[data-accent="rose"]{--blue:#e11d48;--blue-bg:rgba(225,29,72,0.085);--lasso-fill:rgba(225,29,72,0.12);}
-html[data-theme="dark"][data-accent="rose"]{--blue:#fb7185;--blue-bg:rgba(251,113,133,0.13);--lasso-fill:rgba(251,113,133,0.16);}
-html[data-accent="mono"]{--blue:#27272a;--blue-bg:rgba(39,39,42,0.08);--lasso-fill:rgba(39,39,42,0.11);}
-html[data-theme="dark"][data-accent="mono"]{--blue:#e4e4e7;--blue-bg:rgba(228,228,231,0.12);--lasso-fill:rgba(228,228,231,0.15);}
+html[data-accent="indigo"]{
+  --blue:#6366f1;--blue-bg:rgba(99,102,241,0.09);--lasso-fill:rgba(99,102,241,0.13);
+}
+html[data-theme="dark"][data-accent="indigo"]{
+  --blue:#818cf8;--blue-bg:rgba(129,140,248,0.14);--lasso-fill:rgba(129,140,248,0.17);
+}
+html[data-accent="emerald"]{
+  --blue:#0d9488;--blue-bg:rgba(13,148,136,0.09);--lasso-fill:rgba(13,148,136,0.13);
+}
+html[data-theme="dark"][data-accent="emerald"]{
+  --blue:#2dd4bf;--blue-bg:rgba(45,212,191,0.13);--lasso-fill:rgba(45,212,191,0.16);
+}
+html[data-accent="amber"]{
+  --blue:#d97706;--blue-bg:rgba(217,119,6,0.09);--lasso-fill:rgba(217,119,6,0.13);
+}
+html[data-theme="dark"][data-accent="amber"]{
+  --blue:#fbbf24;--blue-bg:rgba(251,191,36,0.13);--lasso-fill:rgba(251,191,36,0.16);
+}
+html[data-accent="rose"]{
+  --blue:#e11d48;--blue-bg:rgba(225,29,72,0.085);--lasso-fill:rgba(225,29,72,0.12);
+}
+html[data-theme="dark"][data-accent="rose"]{
+  --blue:#fb7185;--blue-bg:rgba(251,113,133,0.13);--lasso-fill:rgba(251,113,133,0.16);
+}
+html[data-accent="mono"]{
+  --blue:#27272a;--blue-bg:rgba(39,39,42,0.08);--lasso-fill:rgba(39,39,42,0.11);
+}
+html[data-theme="dark"][data-accent="mono"]{
+  --blue:#e4e4e7;--blue-bg:rgba(228,228,231,0.12);--lasso-fill:rgba(228,228,231,0.15);
+}
 
 html,body{height:100%;}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter',system-ui,sans-serif;
   background:var(--bg);color:var(--text);
   -webkit-font-smoothing:antialiased;
   font-size:14px;line-height:1.5;
@@ -100,6 +124,11 @@ body{
   from{opacity:0;transform:translateY(4px) scale(0.98);}
   to{opacity:1;transform:translateY(0) scale(1);}
 }
+@keyframes shimmer{
+  0%{opacity:0.45;}
+  50%{opacity:0.85;}
+  100%{opacity:0.45;}
+}
 
 button{
   font-family:inherit;
@@ -108,19 +137,61 @@ button{
 }
 button:active:not(:disabled){transform:scale(0.97);}
 
-/* ── SKELETON LOADER ── */
-@keyframes pulseSkeleton{
-  0%{opacity:0.4;} 50%{opacity:0.8;} 100%{opacity:0.4;}
-}
-.skeleton{
-  background:var(--surface2)!important;
+/* ── SKELETON LOADING STATE ── */
+.skel-loading .bal-amount{
   color:transparent!important;
-  animation:pulseSkeleton 1.2s infinite ease-in-out;
-  border-color:transparent!important;
+  background:var(--surface3);
+  border-radius:6px;
+  min-width:90px;
+  animation:shimmer 1.2s infinite ease-in-out;
   pointer-events:none;
 }
+.skel-card{
+  height:52px;border-radius:var(--rl);
+  background:var(--surface);border:1px solid var(--border);
+  margin-bottom:6px;padding:12px 15px;
+  display:flex;align-items:center;justify-content:space-between;
+  animation:shimmer 1.2s infinite ease-in-out;
+}
+.skel-line{height:12px;border-radius:6px;background:var(--surface3);}
 
-/* ── FINDER LASSO & CONTEXT MENU ── */
+/* ── MACOS RIGHT-CLICK CONTEXT MENU ── */
+.ctx-menu{
+  position:fixed;z-index:9995;
+  min-width:205px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  padding:5px;
+  box-shadow:0 12px 36px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  display:none;
+  animation:popIn .12s var(--ease);
+  user-select:none;
+}
+.ctx-menu.on{display:block;}
+.ctx-hdr{
+  font-size:10px;font-weight:600;color:var(--text3);
+  padding:4px 10px 3px;text-transform:uppercase;letter-spacing:.05em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px;
+}
+.ctx-item{
+  width:100%;border:none;background:transparent;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:6px 10px;border-radius:7px;
+  font-size:12.5px;font-weight:500;color:var(--text);
+  cursor:pointer;text-align:left;
+  transition:background-color .1s, color .1s;
+}
+.ctx-item:hover{background:var(--blue);color:#ffffff;}
+.ctx-item:hover .ctx-kbd{color:rgba(255,255,255,0.8);}
+.ctx-item.danger{color:var(--danger);}
+.ctx-item.danger:hover{background:var(--danger);color:#ffffff;}
+.ctx-kbd{font-size:10.5px;color:var(--text3);font-weight:500;}
+.ctx-sep{height:1px;background:var(--border);margin:4px 6px;}
+
+/* ── FINDER LASSO SELECTION BOX ── */
 .lasso-box{
   position:fixed;
   border:1.5px solid var(--blue);
@@ -130,19 +201,6 @@ button:active:not(:disabled){transform:scale(0.97);}
   z-index:9990;
   display:none;
 }
-
-.ctx-menu{
-  position:fixed;background:var(--surface);border:1px solid var(--border2);
-  border-radius:var(--rl);box-shadow:var(--shadow-md);padding:5px;
-  z-index:9999;display:none;min-width:180px;animation:popIn .12s var(--ease);
-}
-.ctx-item{
-  padding:7px 11px;border-radius:7px;font-size:12px;font-weight:500;
-  color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;
-  transition:background .1s;
-}
-.ctx-item:hover{background:var(--surface2);color:var(--blue);}
-.ctx-divider{height:1px;background:var(--border);margin:4px 6px;}
 
 /* ── DRAG & DROP OVERLAY ── */
 .drop-zone{
@@ -261,7 +319,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 .inv-lbtn:hover{background:var(--text);color:var(--bg);border-color:var(--text);}
 .inv-empty-msg{font-size:12px;color:var(--text3);padding:8px 10px;}
 
-/* Balance cards */
+/* Balance cards (With Inbox Zero micro-feedback) */
 .balance-cards{display:flex;flex-direction:column;gap:8px;}
 .bal-card{
   background:var(--surface);
@@ -271,31 +329,34 @@ button:active:not(:disabled){transform:scale(0.97);}
   position:relative;
   overflow:hidden;
   box-shadow:var(--shadow-sm);
-  transition:border-color .2s var(--ease);
+  transition:border-color .25s var(--ease), background-color .25s var(--ease);
 }
 .bal-card:hover{border-color:var(--border2);}
 .bal-card::before{
   content:'';position:absolute;left:0;top:0;bottom:0;width:3.5px;
-  background:var(--text3);opacity:0.3;
+  background:var(--text3);opacity:0.3;transition:background-color .25s var(--ease);
 }
 .bal-card.card-warn::before{background:var(--warning);opacity:1;}
+.bal-card.card-warn.all-clear::before{background:var(--success);opacity:0.85;}
 .bal-card.card-ok::before{background:var(--success);opacity:1;}
 .bal-hdr{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px;}
 .bal-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
-.bal-trend{
+.bal-trend,.bal-zero{
   font-size:10px;font-weight:700;padding:1px 7px;border-radius:var(--rf);
   white-space:nowrap;display:none;
 }
+.bal-zero.on{display:inline-block;background:var(--success-bg);color:var(--success);animation:popIn .2s var(--ease);}
 .bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
 .bal-trend.down{display:inline-block;background:var(--warning-bg);color:var(--warning);}
 .bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
 .bal-amount{
   font-size:20px;font-weight:700;letter-spacing:-.03em;color:var(--text);line-height:1.15;
-  cursor:pointer;display:inline-block;border-radius:6px;transition:opacity .12s;
+  cursor:pointer;display:inline-block;border-radius:6px;transition:opacity .12s, color .2s;
   max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .bal-amount:hover{opacity:.78;}
 .bal-amount.warning{color:var(--warning);}
+.bal-card.all-clear .bal-amount.warning{color:var(--text2);}
 .bal-amount.success{color:var(--success);}
 .bal-multi{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
 .bal-multi:empty{display:none;}
@@ -361,21 +422,22 @@ button:active:not(:disabled){transform:scale(0.97);}
   font-weight:600;
 }
 .mo-content{display:flex;flex-direction:column;align-items:center;gap:12px;}
-.mo-donut-wrap{position:relative;width:110px;height:110px;flex-shrink:0;margin:2px auto;}
-.mo-donut-wrap canvas{display:block;}
+.mo-donut-wrap{position:relative;width:116px;height:116px;flex-shrink:0;margin:2px auto;}
+.mo-donut-wrap canvas{display:block;cursor:pointer;}
 .mo-donut-center{
   position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;pointer-events:none;
+  padding:0 14px;
 }
-.mo-donut-val{font-size:12px;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1;text-align:center;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.mo-donut-sub{font-size:9px;color:var(--text3);margin-top:3px;}
+.mo-donut-val{font-size:12px;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1.1;text-align:center;max-width:86px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mo-donut-sub{font-size:9.5px;color:var(--text3);margin-top:3px;text-align:center;max-width:86px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .mo-legend{width:100%;display:flex;flex-direction:column;gap:3px;}
 .mo-leg-row{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
   cursor:pointer;border-radius:7px;padding:5px 7px;
   transition:background .12s,transform .12s;
 }
-.mo-leg-row:hover{background:var(--surface2);transform:translateX(2px);}
+.mo-leg-row:hover,.mo-leg-row.hl{background:var(--surface2);transform:translateX(2px);}
 .mo-leg-left{display:flex;align-items:center;gap:7px;min-width:0;flex:1;}
 .mo-leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .mo-leg-lbl{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -519,18 +581,16 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--rl);padding:11px 15px;
   margin-bottom:6px;cursor:pointer;
+  contain:layout style;
   transition:transform .16s var(--ease),box-shadow .16s var(--ease),border-color .16s var(--ease),background-color .16s var(--ease),opacity .16s var(--ease);
   display:flex;align-items:center;gap:12px;
   user-select:none;
   position:relative;overflow:hidden;
-  content-visibility:auto;
-  contain-intrinsic-size:auto 54px;
 }
 html[data-density="compact"] .entry-card{
   padding:7px 13px;
   margin-bottom:4px;
   border-radius:var(--r);
-  contain-intrinsic-size:auto 40px;
 }
 html[data-density="compact"] .el{
   display:flex;align-items:center;gap:10px;
@@ -645,11 +705,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .ahint.err{color:var(--danger);}
 .ahint.smart{color:var(--blue);font-weight:500;}
 .fbtns{display:flex;gap:10px;margin-top:6px;}
-.bsubmit{flex:1;height:40px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rf);cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;}
+.bsubmit{flex:1;height:40px;background:var(--text);color:var(--bg);border:none;border-radius:var(--rf);cursor:pointer;font-size:13px;font-weight:600;}
 .bsubmit:hover{opacity:.86;}
-.bsub-hint{font-size:10px;opacity:0.5;font-weight:400;text-transform:none;}
 .bcancel{height:40px;padding:0 18px;background:none;border:1px solid var(--border);border-radius:var(--rf);cursor:pointer;font-size:13px;color:var(--text2);}
 .bcancel:hover{background:var(--surface2);}
+.m-subtle-hint{
+  font-size:11px;color:var(--text3);text-align:center;
+  margin-top:10px;opacity:0.75;user-select:none;
+}
 
 .fstatus-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;gap:12px;}
 .fstatus-lbl{font-size:12px;font-weight:500;color:var(--text2);}
@@ -805,19 +868,13 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app" id="app-root">
+
+<!-- macOS Context Menu -->
+<div class="ctx-menu" id="ctx-menu" role="menu"></div>
 
 <!-- Finder Lasso Selection Box -->
 <div class="lasso-box" id="lasso-box"></div>
-
-<!-- Context Menu -->
-<div class="ctx-menu" id="ctx-menu" role="menu">
-  <div class="ctx-item" id="ctx-paid">✓ Изменить статус оплаты</div>
-  <div class="ctx-item" id="ctx-edit">✎ Редактировать</div>
-  <div class="ctx-item" id="ctx-dup">⧉ Дублировать</div>
-  <div class="ctx-divider"></div>
-  <div class="ctx-item" id="ctx-del" style="color:var(--danger)">🗑 Удалить</div>
-</div>
 
 <!-- Drag and Drop Overlay -->
 <div class="drop-zone" id="drop-zone">
@@ -847,7 +904,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     <button class="icon-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
       </svg>
     </button>
   </div>
@@ -870,11 +927,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- Баланс -->
+    <!-- Баланс + Inbox Zero + Сравнение с прошлым месяцем -->
     <div class="balance-cards">
-      <div class="bal-card card-warn">
+      <div class="bal-card card-warn" id="card-await">
         <div class="bal-hdr">
           <div class="bal-label">Ожидаем</div>
+          <span class="bal-zero" id="val-await-zero">✓ Всё закрыто</span>
         </div>
         <div class="bal-amount warning" id="val-await" title="Нажми для быстрой смены базовой валюты (₽ / $ / €)">0 ₽</div>
         <div class="bal-multi" id="val-await-multi"></div>
@@ -910,10 +968,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
       <div class="mo-content">
         <div class="mo-donut-wrap" aria-hidden="true">
-          <canvas id="donut-cv"></canvas>
+          <canvas id="donut-cv" title="Наведи для просмотра доли клиента, кликни для фильтрации"></canvas>
           <div class="mo-donut-center">
             <div class="mo-donut-val" id="donut-val">0 ₽</div>
-            <div class="mo-donut-sub">итого</div>
+            <div class="mo-donut-sub" id="donut-sub">итого</div>
           </div>
         </div>
         <div class="mo-legend" id="mo-legend" role="list"></div>
@@ -951,7 +1009,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- Быстрая сводка по выбранному клиенту -->
+    <!-- Быстрая сводка по выбранному в фильтре клиенту -->
     <div class="client-banner" id="client-banner">
       <div class="cb-info" id="cb-info"></div>
       <div class="cb-actions">
@@ -974,12 +1032,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     <span class="selsum" id="selcnt-sum"></span>
   </div>
   <button class="sbtn clr" id="btn-sel-all" type="button">Выбрать все</button>
-  <button class="sbtn inv" id="sb-inv-ru" type="button" title="Скопировать счет только по выбранным заказам">📄 Инвойс RU</button>
+  <button class="sbtn inv" id="sb-inv-ru" type="button" title="Скопировать счет по выбранным заказам (⌘C)">📄 Инвойс RU</button>
   <button class="sbtn inv" id="sb-inv-en" type="button" title="Copy invoice for selected items in English">EN</button>
   <button class="sbtn dup" id="sb-dup" type="button">Дублировать</button>
-  <button class="sbtn paid" id="sb-paid" type="button">Оплачено</button>
-  <button class="sbtn unpaid" id="sb-unpaid" type="button">Не оплачено</button>
-  <button class="sbtn del" id="sb-del" type="button">Удалить</button>
+  <button class="sbtn paid" id="sb-paid" type="button" title="Горячая клавиша: Пробел">Оплачено</button>
+  <button class="sbtn unpaid" id="sb-unpaid" type="button" title="Горячая клавиша: Пробел">Не оплачено</button>
+  <button class="sbtn del" id="sb-del" type="button" title="Горячая клавиша: Backspace">Удалить</button>
   <button class="sbtn clr" id="sb-clr" type="button">Снять</button>
 </div>
 
@@ -1040,12 +1098,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     </div>
 
     <div class="fbtns">
-      <button class="bsubmit" id="bsub" type="button">
-        <span>+ Добавить</span>
-        <span class="bsub-hint">(Shift + Enter для серии)</span>
-      </button>
+      <button class="bsubmit" id="bsub" type="button">+ Добавить</button>
       <button class="bcancel" id="bcan" type="button" style="display:none">Отмена</button>
     </div>
+    <div class="m-subtle-hint" id="m-subtle-hint">Enter — добавить · Shift + Enter — добавить и создать ещё</div>
   </div>
 </div>
 
@@ -1080,7 +1136,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
             <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
           </div>
         </div>
-        <div class="s-hint">Умная синхронизация: сайт ждет 3.5 сек тишины после ваших действий и отправляет данные только если они реально изменились.</div>
+        <div class="s-hint">Умная синхронизация: сайт ждет 5 секунд тишины после ваших действий и отправляет сжатый пакет только если данные реально изменились.</div>
       </div>
 
       <div>
@@ -1137,7 +1193,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
           <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">🛟 Вернуть до синхронизации</button>
           <input type="file" id="imp-inp" accept=".json" style="display:none"/>
         </div>
-        <div class="s-hint">Горячие клавиши: ⌘S (скачать файл), N (новая запись), / или ⌘K (поиск). Зажмите левую кнопку мыши и тяните по списку для выделения областью.</div>
+        <div class="s-hint">Правый клик по карточке — быстрое меню. Зажмите Shift для выделения диапазона, Пробел — смена оплаты, ⌘C — копировать инвойс.</div>
       </div>
     </div>
   </div>
@@ -1180,12 +1236,36 @@ function sanitizeRatesObject(rawRates) {
   return clean;
 }
 
+// Сжатие структуры JSON без потери обратной совместимости (#9)
 function cleanEntriesForStorage(list) {
   return list.map(e => {
-    const copy = {...e, id: String(e.id)};
-    delete copy._rememberedPaidAt;
-    return copy;
+    const out = {
+      id: String(e.id),
+      amount: e.amount,
+      currency: e.currency,
+      desc: e.desc || '',
+      date: e.date || '',
+      paid: !!e.paid
+    };
+    if (e.name) out.name = e.name;
+    if (e.note) out.note = e.note;
+    if (e.paid && e.paidAt) out.paidAt = e.paidAt;
+    if (e.createdAt && e.createdAt !== e.date) out.createdAt = e.createdAt;
+    return out;
   });
+}
+
+function normalizeLoadedEntries(list) {
+  if (!Array.isArray(list)) return [];
+  return list.map(e => ({
+    ...e,
+    id: String(e.id || gid()),
+    name: e.name || '',
+    desc: e.desc || '',
+    note: e.note || '',
+    date: e.date || '',
+    paid: !!e.paid
+  }));
 }
 
 let _idbPromise = null;
@@ -1227,7 +1307,7 @@ async function restoreFromSafariVaultIfEmpty() {
       const data = req.result;
       if (!data) return;
       if (entries.length === 0 && Array.isArray(data.entries) && data.entries.length > 0) {
-        entries = data.entries.map(e => ({...e, id: String(e.id)}));
+        entries = normalizeLoadedEntries(data.entries);
         if (data.baseCur && CURS.includes(data.baseCur)) baseCur = data.baseCur;
         if (data.rates) rates = sanitizeRatesObject(data.rates);
         lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
@@ -1254,7 +1334,7 @@ function restoreEmergencySnapshot() {
   try {
     const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
     if (Array.isArray(raw) && raw.length > 0) {
-      entries = raw.map(e => ({...e, id: String(e.id)}));
+      entries = normalizeLoadedEntries(raw);
       save();
       render();
       closeSettings();
@@ -1275,12 +1355,13 @@ function recordDeletedIds(ids) {
   lsS('ff_deleted_ids', JSON.stringify(arr));
 }
 
-// ── SMART FIREBASE CLOUD SYNC ──
+// ── SMART FIREBASE CLOUD SYNC (DEBOUNCE 5.0s + STATE DIFFING + EXIT FLUSH) ──
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
 let _hasUnsynced = lsG('ff_unsynced') === '1';
 let _fbTimer = null;
 let _lastSyncedFingerprint = lsG('ff_last_fp') || '';
+let _isInitialCloudLoading = false;
 
 function computeStateFingerprint() {
   return JSON.stringify({
@@ -1307,7 +1388,7 @@ function updateSyncPill(state) {
     setText('top-sync-lbl', 'Локальный сейф + ⌘S');
   } else if (state === 'pending') {
     pill.classList.add('pending');
-    setText('top-sync-lbl', '☁️ Ожидание паузы...');
+    setText('top-sync-lbl', '☁️ Ожидание (5с)...');
   } else if (state === 'syncing') {
     setText('top-sync-lbl', '☁️ Синхронизация...');
   } else if (state === 'ok') {
@@ -1385,9 +1466,16 @@ function scheduleSmartFirebaseSync() {
   lsS('ff_unsynced', '1');
   updateSyncPill('pending');
   clearTimeout(_fbTimer);
+  // Пауза 5 секунд тишины перед отправкой
   _fbTimer = setTimeout(() => {
     pushToFirebaseNow(false);
-  }, 3500);
+  }, 5000);
+}
+
+function setSkeletonLoading(on) {
+  _isInitialCloudLoading = on;
+  const root = document.getElementById('app-root');
+  if (root) root.classList.toggle('skel-loading', on);
 }
 
 async function safeSyncWithFirebase(manual = false) {
@@ -1397,6 +1485,10 @@ async function safeSyncWithFirebase(manual = false) {
   if (!ep) {
     if (manual) showToast('Сначала укажите ссылку Firebase в настройках');
     return;
+  }
+  if (!manual && entries.length === 0) {
+    setSkeletonLoading(true);
+    render();
   }
   updateSyncPill('syncing');
   try {
@@ -1410,7 +1502,8 @@ async function safeSyncWithFirebase(manual = false) {
       throw new Error('HTTP ' + res.status);
     }
     const data = await res.json();
-    const rawCloudEntries = (data && Array.isArray(data.entries)) ? data.entries.map(e => ({...e, id: String(e.id || gid())})) : [];
+    setSkeletonLoading(false);
+    const rawCloudEntries = (data && Array.isArray(data.entries)) ? normalizeLoadedEntries(data.entries) : [];
     const cloudEntries = rawCloudEntries.filter(e => !deletedIds.has(String(e.id)));
 
     if (_hasUnsynced) {
@@ -1457,8 +1550,11 @@ async function safeSyncWithFirebase(manual = false) {
       }
     } else {
       await pushToFirebaseNow(manual);
+      render();
     }
   } catch(e) {
+    setSkeletonLoading(false);
+    render();
     updateSyncPill('err');
   }
 }
@@ -1473,12 +1569,13 @@ const CLIENT_PALETTE = ['#2563eb','#f97316','#16a34a','#9333ea','#e11d48','#0891
 
 let entries;
 try {
-  entries = JSON.parse(lsG('ff_v1') || '[]');
-  if (!Array.isArray(entries)) throw 0;
-  entries = entries.map(e => ({...e, id: String(e.id)}));
+  const parsed = JSON.parse(lsG('ff_v1') || '[]');
+  if (!Array.isArray(parsed)) throw 0;
+  entries = normalizeLoadedEntries(parsed);
 } catch(e) { entries = []; }
 
 let editId = null;
+let _hasDraft = false;
 let theme = lsG('ff_theme') || 'auto';
 let accent = lsG('ff_accent') || 'blue';
 let tone = lsG('ff_tone') || 'warm';
@@ -1500,6 +1597,7 @@ try {
 let pYm = lsG('ff_period_ym') || 'current';
 let moTab = lsG('ff_motab') || 'earned';
 let selIds = new Set();
+let _lastClickedCardId = null;
 let srchTmr = null;
 let _rateTmr = null;
 let _mdTarget = null;
@@ -1510,35 +1608,6 @@ let formPaidStatus = false;
 let _amtManuallyTyped = false;
 let _donutDirty = true;
 let _justLassoed = false;
-
-// Сохранение черновика формы в памяти
-function saveFormDraft() {
-  const draft = {
-    name: document.getElementById('f-name').value,
-    desc: document.getElementById('f-desc').value,
-    amt: document.getElementById('f-amt').value,
-    cur: document.getElementById('f-cur').value,
-    note: document.getElementById('f-note').value,
-    date: document.getElementById('f-date').value
-  };
-  lsS('ff_form_draft', JSON.stringify(draft));
-}
-function restoreFormDraft() {
-  try {
-    const raw = lsG('ff_form_draft');
-    if (!raw) return;
-    const d = JSON.parse(raw);
-    if (d.name) document.getElementById('f-name').value = d.name;
-    if (d.desc) document.getElementById('f-desc').value = d.desc;
-    if (d.amt) document.getElementById('f-amt').value = d.amt;
-    if (d.cur) document.getElementById('f-cur').value = d.cur;
-    if (d.note) document.getElementById('f-note').value = d.note;
-    if (d.date) document.getElementById('f-date').value = d.date;
-  } catch(e) {}
-}
-function clearFormDraft() {
-  localStorage.removeItem('ff_form_draft');
-}
 
 const _clientColorCache = new Map();
 function getClientColor(name) {
@@ -1559,7 +1628,7 @@ function getClientColor(name) {
 }
 
 /* ══════════════════════════════════════════════
-   3. UTILS, SMOOTH ODOMETER & UNDO SYSTEM
+   3. UTILS, COMPACT ID (#9), SMOOTH ODOMETER & UNDO
 ══════════════════════════════════════════════ */
 function Z(n) { return String(n).padStart(2,'0'); }
 function today() { const d=new Date(); return `${d.getFullYear()}-${Z(d.getMonth()+1)}-${Z(d.getDate())}`; }
@@ -1576,9 +1645,11 @@ function matchesPeriod(dateStr) {
   if (ym === 'all') return true;
   return (dateStr||'').startsWith(ym);
 }
+// Компактный 8-символьный ID для новых записей (#9)
 function gid() {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
-  return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
+  const t = Date.now().toString(36).slice(-4);
+  const r = Math.random().toString(36).slice(2, 6);
+  return (t + r).padEnd(8, '0');
 }
 
 function el(tag, props={}, children=[]) {
@@ -1623,7 +1694,7 @@ function animateNumberText(id, targetNum, formatFn, fallbackStr = '0', unitKey =
     return;
   }
 
-  const dur = 360;
+  const dur = 340;
   const t0 = performance.now();
   function step(now) {
     const p = Math.min(1, (now - t0) / dur);
@@ -1871,7 +1942,7 @@ function saveRates() {
 }
 
 /* ══════════════════════════════════════════════
-   6. CUSTOM CONFIRM
+   6. CUSTOM CONFIRM & MACOS CONTEXT MENU
 ══════════════════════════════════════════════ */
 let _confResolve = null;
 function showConfirm(title, msg, okClass='', okText='Да', altText='') {
@@ -1899,6 +1970,95 @@ function showConfirm(title, msg, okClass='', okText='Да', altText='') {
 function _confClose(result) {
   document.getElementById('conf-overlay').classList.remove('on');
   if (_confResolve) { _confResolve(result); _confResolve = null; }
+}
+
+// Нативное контекстное меню по правому клику (Mini #1)
+function closeCtxMenu() {
+  const m = document.getElementById('ctx-menu');
+  if (m) m.classList.remove('on');
+}
+
+function openCtxMenu(clientX, clientY, targetId) {
+  const targetEntry = entries.find(x => x.id === targetId);
+  if (!targetEntry) return;
+
+  // Если кликнули правой кнопкой по невыделенной карточке — выделяем её одну (как в Finder)
+  if (!selIds.has(targetId)) {
+    clearSel();
+    selIds.add(targetId);
+    _lastClickedCardId = targetId;
+    const card = document.querySelector(`.entry-card[data-id="${CSS.escape(targetId)}"]`);
+    if (card) { card.classList.add('sel'); card.setAttribute('aria-pressed', 'true'); }
+    rendSelBar();
+  }
+
+  const isMulti = selIds.size > 1;
+  const selList = entries.filter(e => selIds.has(e.id));
+  const anyUnpaid = selList.some(e => !e.paid);
+
+  const menu = document.getElementById('ctx-menu');
+  if (!menu) return;
+  menu.innerHTML = '';
+
+  const hdrText = isMulti ? `Выбрано заказов: ${selIds.size}` : (targetEntry.desc || targetEntry.name || 'Заказ');
+  menu.appendChild(el('div', {className:'ctx-hdr'}, [hdrText]));
+
+  if (!isMulti) {
+    const btnEdit = el('button', {className:'ctx-item', type:'button'}, [
+      el('span', {}, ['✎ Редактировать']),
+      el('span', {className:'ctx-kbd'}, ['2×Клик'])
+    ]);
+    btnEdit.addEventListener('click', () => { closeCtxMenu(); clearSel(); startEdit(targetId); });
+    menu.appendChild(btnEdit);
+  }
+
+  const btnTogglePaid = el('button', {className:'ctx-item', type:'button'}, [
+    el('span', {}, [anyUnpaid ? '✓ Отметить оплаченным' : '⏳ Вернуть в «ждём»']),
+    el('span', {className:'ctx-kbd'}, ['Пробел'])
+  ]);
+  btnTogglePaid.addEventListener('click', () => {
+    closeCtxMenu();
+    if (anyUnpaid) markPaid(); else markUnpaid();
+  });
+  menu.appendChild(btnTogglePaid);
+
+  const btnDup = el('button', {className:'ctx-item', type:'button'}, [
+    el('span', {}, ['⧉ Дублировать'])
+  ]);
+  btnDup.addEventListener('click', () => { closeCtxMenu(); dupSel(); });
+  menu.appendChild(btnDup);
+
+  menu.appendChild(el('div', {className:'ctx-sep'}));
+
+  const btnInvRu = el('button', {className:'ctx-item', type:'button'}, [
+    el('span', {}, ['📄 Копировать инвойс (RU)']),
+    el('span', {className:'ctx-kbd'}, ['⌘C'])
+  ]);
+  btnInvRu.addEventListener('click', () => { closeCtxMenu(); copySelectedInv('ru'); });
+  menu.appendChild(btnInvRu);
+
+  const btnInvEn = el('button', {className:'ctx-item', type:'button'}, [
+    el('span', {}, ['📄 Copy Invoice (EN)'])
+  ]);
+  btnInvEn.addEventListener('click', () => { closeCtxMenu(); copySelectedInv('en'); });
+  menu.appendChild(btnInvEn);
+
+  menu.appendChild(el('div', {className:'ctx-sep'}));
+
+  const btnDel = el('button', {className:'ctx-item danger', type:'button'}, [
+    el('span', {}, ['🗑 Удалить']),
+    el('span', {className:'ctx-kbd'}, ['⌫'])
+  ]);
+  btnDel.addEventListener('click', () => { closeCtxMenu(); delSel(); });
+  menu.appendChild(btnDel);
+
+  menu.classList.add('on');
+  const mw = menu.offsetWidth || 215;
+  const mh = menu.offsetHeight || 220;
+  const left = Math.min(clientX, window.innerWidth - mw - 12);
+  const top = Math.min(clientY, window.innerHeight - mh - 12);
+  menu.style.left = Math.max(8, left) + 'px';
+  menu.style.top = Math.max(8, top) + 'px';
 }
 
 /* ══════════════════════════════════════════════
@@ -1981,71 +2141,123 @@ function toggleMoCollapsed() {
 }
 
 /* ══════════════════════════════════════════════
-   8. DONUT CHART (ИНТЕРАКТИВНЫЙ БУБЛИК)
+   8. INTERACTIVE DONUT CHART (#6 + MINI #4)
 ══════════════════════════════════════════════ */
-let _hoveredSegmentIndex = null;
+let _donutSegments = [];
+let _donutArcs = [];
+let _donutHoveredIdx = -1;
+let _donutDefaultCenterVal = '0 ₽';
 
-function drawDonut(segments) {
+function drawDonutCanvas(hoveredIdx = -1) {
   const cv = document.getElementById('donut-cv');
   if (!cv) return;
-  const DPR = window.devicePixelRatio || 1, SZ = 110;
+  const DPR = window.devicePixelRatio || 1, SZ = 116;
   cv.width = SZ*DPR; cv.height = SZ*DPR;
   cv.style.width = SZ+'px'; cv.style.height = SZ+'px';
   const ctx = cv.getContext('2d');
   ctx.scale(DPR, DPR);
   ctx.clearRect(0,0,SZ,SZ);
   const cx=SZ/2, cy=SZ/2, R=47, rInner=31;
-  const total = segments.reduce((s,g) => s + g.value, 0);
+  const total = _donutSegments.reduce((s,g) => s + g.value, 0);
+  _donutArcs = [];
+
   if (!total) {
     ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2);
     ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface3');
     ctx.lineWidth = R-rInner; ctx.stroke();
-    const leg = document.getElementById('mo-legend');
-    if (leg) leg.innerHTML = '';
     return;
   }
+
   let angle = -Math.PI/2;
-  segments.forEach((seg, i) => {
-    const sweep = (seg.value/total)*Math.PI*2;
+  _donutSegments.forEach((seg, i) => {
+    const sweep = (seg.value / total) * Math.PI * 2;
+    const isHov = (i === hoveredIdx);
+    const outerR = isHov ? R + 3 : R;
+    const innerR = isHov ? rInner - 1 : rInner;
+
+    ctx.save();
+    if (hoveredIdx !== -1 && !isHov) ctx.globalAlpha = 0.55;
     ctx.beginPath();
-    const isHovered = (_hoveredSegmentIndex === i);
-    const expandR = isHovered ? R + 3 : R;
-    ctx.arc(cx, cy, expandR, angle, angle + sweep);
-    ctx.arc(cx, cy, rInner, angle + sweep, angle, true);
+    ctx.arc(cx, cy, outerR, angle, angle + sweep);
+    ctx.arc(cx, cy, innerR, angle + sweep, angle, true);
     ctx.closePath();
     ctx.fillStyle = getClientColor(seg.label);
     ctx.fill();
+    ctx.restore();
+
+    const pct = Math.max(1, Math.round((seg.value / total) * 100));
+    _donutArcs.push({
+      start: angle,
+      end: angle + sweep,
+      label: seg.label,
+      display: seg.display,
+      pct
+    });
     angle += sweep;
   });
+}
 
-  const leg = document.getElementById('mo-legend');
-  if (!leg) return;
-  leg.innerHTML = '';
-  segments.slice(0,6).forEach((seg, i) => {
-    const col = getClientColor(seg.label);
-    const row = el('div', {className:'mo-leg-row', role:'button', tabindex:'0'});
-    const left = el('div', {className:'mo-leg-left'});
-    const dot = el('div', {className:'mo-leg-dot', style:`background:${col}`});
-    const lbl = el('div', {className:'mo-leg-lbl', title:seg.label}, [seg.label]);
-    left.appendChild(dot); left.appendChild(lbl);
-    const val = el('div', {className:'mo-leg-val'}, [seg.display]);
-    row.appendChild(left); row.appendChild(val);
+function setDonutHoverState(idx) {
+  if (_donutHoveredIdx === idx) return;
+  _donutHoveredIdx = idx;
+  drawDonutCanvas(idx);
 
-    row.addEventListener('mouseenter', () => {
-      _hoveredSegmentIndex = i;
-      drawDonut(segments);
-      const pct = Math.round((seg.value / total) * 100);
-      setText('donut-val', `${pct}%`);
-    });
-    row.addEventListener('mouseleave', () => {
-      _hoveredSegmentIndex = null;
-      drawDonut(segments);
-      renderDonut(); // сброс центрального текста
-    });
+  const valNode = document.getElementById('donut-val');
+  const subNode = document.getElementById('donut-sub');
+  const legRows = document.querySelectorAll('#mo-legend .mo-leg-row');
+  legRows.forEach((r, i) => r.classList.toggle('hl', i === idx));
 
-    const _name = seg.label;
-    row.addEventListener('click', () => filterByClient(_name));
-    leg.appendChild(row);
+  // Отменяем бегущий одометр при наведении, чтобы не было конфликта анимаций
+  if (_animMap.has('donut-val')) {
+    cancelAnimationFrame(_animMap.get('donut-val'));
+    _animMap.delete('donut-val');
+  }
+
+  if (idx !== -1 && _donutArcs[idx]) {
+    const arc = _donutArcs[idx];
+    if (valNode) valNode.textContent = `${arc.pct}%`;
+    if (subNode) subNode.textContent = `${arc.label} · ${arc.display}`;
+  } else {
+    if (valNode) valNode.textContent = _donutDefaultCenterVal;
+    if (subNode) subNode.textContent = 'итого';
+  }
+}
+
+function initDonutInteractivity() {
+  const cv = document.getElementById('donut-cv');
+  if (!cv) return;
+
+  function hitTestDonut(e) {
+    if (!_donutArcs.length) return -1;
+    const rect = cv.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = 58, cy = 58;
+    const dist = Math.hypot(x - cx, y - cy);
+    if (dist < 26 || dist > 53) return -1;
+
+    let ang = Math.atan2(y - cy, x - cx);
+    if (ang < -Math.PI / 2) ang += Math.PI * 2;
+    for (let i = 0; i < _donutArcs.length; i++) {
+      if (ang >= _donutArcs[i].start && ang <= _donutArcs[i].end) return i;
+    }
+    return -1;
+  }
+
+  cv.addEventListener('mousemove', e => {
+    const idx = hitTestDonut(e);
+    setDonutHoverState(idx);
+  });
+
+  cv.addEventListener('mouseleave', () => {
+    setDonutHoverState(-1);
+  });
+
+  cv.addEventListener('click', e => {
+    const idx = hitTestDonut(e);
+    if (idx !== -1 && _donutArcs[idx]) {
+      filterByClient(_donutArcs[idx].label);
+    }
   });
 }
 
@@ -2106,30 +2318,59 @@ function renderDonut() {
   setText('mo-title', periodTitle);
   if (moCollapsed) { _donutDirty = false; return; }
 
+  _donutHoveredIdx = -1;
+  setText('donut-sub', 'итого');
+
   let segments = [];
   if (moTab === 'earned') {
     const period = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
     const res = buildMoneyDonutSegments(period);
     segments = res.segments;
+    _donutDefaultCenterVal = res.formatFn(res.totalNum);
     animateNumberText('donut-val', res.totalNum, res.formatFn, fmtB(0), 'earn_' + res.unit);
   } else if (moTab === 'orders') {
     const ord = entries.filter(e => matchesPeriod(e.date));
     const byClient = {};
     ord.forEach(e => { const n = e.name||'—'; byClient[n] = (byClient[n]||0)+1; });
     segments = Object.entries(byClient).sort((a,b)=>b[1]-a[1]).map(([name,cnt])=>({label:name,value:cnt,display:String(cnt)}));
+    _donutDefaultCenterVal = String(ord.length);
     animateNumberText('donut-val', ord.length, v => String(Math.round(v)), '0', 'ord_cnt');
   } else {
     const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
     const res = buildMoneyDonutSegments(period);
     segments = res.segments;
+    _donutDefaultCenterVal = res.formatFn(res.totalNum);
     animateNumberText('donut-val', res.totalNum, res.formatFn, fmtB(0), 'await_' + res.unit);
   }
-  drawDonut(segments);
+
+  _donutSegments = segments;
+  drawDonutCanvas(-1);
+
+  const leg = document.getElementById('mo-legend');
+  if (leg) {
+    leg.innerHTML = '';
+    segments.slice(0,6).forEach((seg, i) => {
+      const col = getClientColor(seg.label);
+      const row = el('div', {className:'mo-leg-row', role:'button', tabindex:'0'});
+      const left = el('div', {className:'mo-leg-left'});
+      const dot = el('div', {className:'mo-leg-dot', style:`background:${col}`});
+      const lbl = el('div', {className:'mo-leg-lbl', title:seg.label}, [seg.label]);
+      left.appendChild(dot); left.appendChild(lbl);
+      const val = el('div', {className:'mo-leg-val'}, [seg.display]);
+      row.appendChild(left); row.appendChild(val);
+      const _name = seg.label;
+      row.addEventListener('mouseenter', () => setDonutHoverState(i));
+      row.addEventListener('mouseleave', () => setDonutHoverState(-1));
+      row.addEventListener('click', () => filterByClient(_name));
+      row.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') filterByClient(_name); });
+      leg.appendChild(row);
+    });
+  }
   _donutDirty = false;
 }
 
 /* ══════════════════════════════════════════════
-   9. INVOICE GENERATOR & SMART LINKS
+   9. INVOICE GENERATOR
 ══════════════════════════════════════════════ */
 function toggleInvDd() {
   invDdOpen = !invDdOpen;
@@ -2430,7 +2671,7 @@ function getFiltered() {
 }
 
 /* ══════════════════════════════════════════════
-   12. GROUPING, LINKS & RENDERING
+   12. GROUPING, SMART LINKS (#12) & RENDERING
 ══════════════════════════════════════════════ */
 function grpKey(e) {
   const d = e.date;
@@ -2470,21 +2711,24 @@ function formatGroupTotal(list) {
   return fmtMap(sBC(list), fmtB(0));
 }
 
+// Умное распознавание ссылок (#12)
 function extractUrlFromNote(note) {
-  if (!note) return { text: '', url: null };
-  const m = note.match(/(https?:\/\/[^\s]+|(?:t\.me|figma\.com|docs\.google\.com|drive\.google\.com|disk\.yandex\.[a-z]+|youtu\.be|youtube\.com)\/[^\s]+)/i);
-  if (!m) return { text: note, url: null };
+  if (!note) return { text: '', url: null, label: '' };
+  const m = note.match(/(https?:\/\/[^\s]+|(?:t\.me|telegram\.me|figma\.com|docs\.google\.com|drive\.google\.com|disk\.yandex\.[a-z]+|yadi\.sk|youtu\.be|youtube\.com|notion\.so|notion\.site|github\.com)\/[^\s]+)/i);
+  if (!m) return { text: note, url: null, label: '' };
   const rawUrl = m[0];
   const fullUrl = /^https?:\/\//i.test(rawUrl) ? rawUrl : 'https://' + rawUrl;
   const cleanText = note.replace(rawUrl, '').replace(/\s+/g, ' ').trim();
 
+  const low = fullUrl.toLowerCase();
   let label = '🔗 Ссылка';
-  const lower = rawUrl.toLowerCase();
-  if (lower.includes('figma.com')) label = '🔗 Figma';
-  else if (lower.includes('drive.google.com') || lower.includes('docs.google.com')) label = '🔗 Диск';
-  else if (lower.includes('t.me')) label = '🔗 Telegram';
-  else if (lower.includes('youtube.com') || lower.includes('youtu.be')) label = '🔗 YouTube';
-  else if (lower.includes('yandex')) label = '🔗 Яндекс';
+  if (low.includes('figma.com')) label = '🔗 Figma';
+  else if (low.includes('drive.google.') || low.includes('docs.google.')) label = '🔗 Google Диск';
+  else if (low.includes('disk.yandex.') || low.includes('yadi.sk')) label = '🔗 Яндекс.Диск';
+  else if (low.includes('t.me/') || low.includes('telegram.me/')) label = '🔗 Telegram';
+  else if (low.includes('youtube.com') || low.includes('youtu.be')) label = '🔗 YouTube';
+  else if (low.includes('notion.so') || low.includes('notion.site')) label = '🔗 Notion';
+  else if (low.includes('github.com')) label = '🔗 GitHub';
 
   return { text: cleanText, url: fullUrl, label };
 }
@@ -2504,24 +2748,25 @@ function renderEntry(e) {
   card.setAttribute('tabindex', '0');
   card.setAttribute('role', 'button');
   card.setAttribute('aria-pressed', String(isSel));
-  card.addEventListener('click', () => {
+
+  card.addEventListener('click', ev => {
     if (_justLassoed) return;
-    togSel(e.id);
+    handleCardClick(e.id, ev);
   });
   card.addEventListener('dblclick', () => { clearSel(); startEdit(e.id); });
   card.addEventListener('contextmenu', ev => {
     ev.preventDefault();
-    if (!selIds.has(e.id)) { clearSel(); togSel(e.id); }
-    showContextMenu(ev.clientX, ev.clientY, e.id);
+    ev.stopPropagation();
+    openCtxMenu(ev.clientX, ev.clientY, e.id);
   });
   card.addEventListener('keydown', ev => {
-    if (ev.key==='Enter' || ev.key===' ') { ev.preventDefault(); togSel(e.id); }
+    if (ev.key==='Enter') { ev.preventDefault(); handleCardClick(e.id, ev); }
   });
 
   const left = el('div', {className:'el'});
   left.appendChild(el('div', {className:'etitle'}, [e.desc || e.name || '—']));
 
-  const { text: noteText, url: noteUrl, label: urlLbl } = extractUrlFromNote(e.note);
+  const { text: noteText, url: noteUrl, label: linkLabel } = extractUrlFromNote(e.note);
   if (e.name || noteText || noteUrl) {
     const meta = el('div', {className:'emeta'});
     if (e.name) {
@@ -2542,7 +2787,7 @@ function renderEntry(e) {
         target: '_blank',
         rel: 'noopener noreferrer',
         title: noteUrl
-      }, [urlLbl]);
+      }, [linkLabel]);
       linkEl.addEventListener('click', ev => ev.stopPropagation());
       meta.appendChild(linkEl);
     }
@@ -2564,22 +2809,6 @@ function renderEntry(e) {
   card.appendChild(left);
   card.appendChild(right);
   return card;
-}
-
-// Контекстное меню по клику правой кнопкой мыши
-let _ctxTargetId = null;
-function showContextMenu(x, y, id) {
-  _ctxTargetId = id;
-  const menu = document.getElementById('ctx-menu');
-  if (!menu) return;
-  menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
-  menu.style.top = Math.min(y, window.innerHeight - 220) + 'px';
-  menu.style.display = 'block';
-}
-function hideContextMenu() {
-  const menu = document.getElementById('ctx-menu');
-  if (menu) menu.style.display = 'none';
-  _ctxTargetId = null;
 }
 
 function rebuildClientSel() {
@@ -2617,6 +2846,13 @@ function render() {
     }
   }
 
+  // Микро-отклик «✓ Всё закрыто» (Inbox Zero — Mini #5)
+  const isInboxZero = entries.length > 0 && ua.length === 0;
+  const zeroBadge = document.getElementById('val-await-zero');
+  const cardAwait = document.getElementById('card-await');
+  if (zeroBadge) zeroBadge.classList.toggle('on', isInboxZero);
+  if (cardAwait) cardAwait.classList.toggle('all-clear', isInboxZero);
+
   const recv = entries.filter(e => e.paid && matchesPeriod(e.paidAt||e.date));
   const recvMap = sBC(recv);
   const recvTot = totB(recv);
@@ -2641,11 +2877,23 @@ function render() {
   renderMonthTrend();
   if (_donutDirty) renderDonut();
 
-  const filt = getFiltered();
   const listEl = document.getElementById('list');
   if (!listEl) return;
   listEl.innerHTML = '';
 
+  // Экран скелетон-загрузки при холодном старте (#8)
+  if (_isInitialCloudLoading && entries.length === 0) {
+    for (let i = 0; i < 4; i++) {
+      const sk = el('div', {className:'skel-card'}, [
+        el('div', {className:'skel-line', style:`width:${45 + (i*11)%30}%`}),
+        el('div', {className:'skel-line', style:'width:76px'})
+      ]);
+      listEl.appendChild(sk);
+    }
+    return;
+  }
+
+  const filt = getFiltered();
   if (!filt.length) {
     const empty = el('div', {className:'empty'});
     empty.appendChild(el('div', {className:'empty-ico'}, ['📋']));
@@ -2690,8 +2938,32 @@ function render() {
 }
 
 /* ══════════════════════════════════════════════
-   13. SELECTION, LIVE CALCULATOR & FINDER LASSO
+   13. SELECTION, SHIFT+CLICK (#13) & CACHED LASSO (#10)
 ══════════════════════════════════════════════ */
+function handleCardClick(id, ev) {
+  // Выделение диапазона через Shift + Клик (#13)
+  if (ev && ev.shiftKey && _lastClickedCardId && _lastClickedCardId !== id) {
+    const cards = [...document.querySelectorAll('#elist .entry-card')];
+    const ids = cards.map(c => c.dataset.id);
+    const i1 = ids.indexOf(_lastClickedCardId);
+    const i2 = ids.indexOf(id);
+    if (i1 !== -1 && i2 !== -1) {
+      const start = Math.min(i1, i2);
+      const end = Math.max(i1, i2);
+      for (let i = start; i <= end; i++) {
+        selIds.add(ids[i]);
+        cards[i].classList.add('sel');
+        cards[i].setAttribute('aria-pressed', 'true');
+      }
+      _lastClickedCardId = id;
+      rendSelBar();
+      return;
+    }
+  }
+  _lastClickedCardId = id;
+  togSel(id);
+}
+
 function togSel(id) {
   if (selIds.has(id)) selIds.delete(id); else selIds.add(id);
   const card = document.querySelector(`.entry-card[data-id="${CSS.escape(id)}"]`);
@@ -2757,6 +3029,7 @@ function rendSelBar() {
   }
 }
 
+// Оптимизированное Лассо с кэшированием геометрии для 120 FPS (#10)
 function initFinderLasso() {
   const elist = document.getElementById('elist');
   const lasso = document.getElementById('lasso-box');
@@ -2769,10 +3042,27 @@ function initFinderLasso() {
   let initialSel = new Set();
   let additiveMode = false;
   let scrollRaf = null;
-  let lastClickedCardId = null;
+  let cachedCards = [];
+
+  function cacheCardGeometry() {
+    const st = elist.scrollTop;
+    cachedCards = [];
+    elist.querySelectorAll('.entry-card').forEach(node => {
+      const r = node.getBoundingClientRect();
+      cachedCards.push({
+        node,
+        id: node.dataset.id,
+        left: r.left,
+        right: r.right,
+        absTop: r.top + st,
+        absBottom: r.bottom + st
+      });
+    });
+  }
 
   function updateLassoSelection() {
-    const scrollDelta = elist.scrollTop - startScrollTop;
+    const st = elist.scrollTop;
+    const scrollDelta = st - startScrollTop;
     const effectiveStartY = startY - scrollDelta;
 
     const left = Math.min(startX, curX);
@@ -2791,23 +3081,24 @@ function initFinderLasso() {
     lasso.style.height = visHeight + 'px';
 
     const boxRight = left + width;
-    const boxBottom = top + height;
+    const boxAbsTop = top + st;
+    const boxAbsBottom = top + height + st;
 
     const nextSel = additiveMode ? new Set(initialSel) : new Set();
-    const cards = elist.querySelectorAll('.entry-card');
 
-    cards.forEach(card => {
-      const r = card.getBoundingClientRect();
-      const hit = !(r.right < left || r.left > boxRight || r.bottom < top || r.top > boxBottom);
-      const id = card.dataset.id;
-      if (hit && id) {
-        if (additiveMode && initialSel.has(id)) nextSel.delete(id);
-        else nextSel.add(id);
+    for (let i = 0; i < cachedCards.length; i++) {
+      const c = cachedCards[i];
+      const hit = !(c.right < left || c.left > boxRight || c.absBottom < boxAbsTop || c.absTop > boxAbsBottom);
+      if (hit && c.id) {
+        if (additiveMode && initialSel.has(c.id)) nextSel.delete(c.id);
+        else nextSel.add(c.id);
       }
-      const isSelected = nextSel.has(id);
-      card.classList.toggle('sel', isSelected);
-      card.setAttribute('aria-pressed', String(isSelected));
-    });
+      const isSelected = nextSel.has(c.id);
+      if (c.node.classList.contains('sel') !== isSelected) {
+        c.node.classList.toggle('sel', isSelected);
+        c.node.setAttribute('aria-pressed', String(isSelected));
+      }
+    }
 
     selIds = nextSel;
     rendSelBar();
@@ -2833,32 +3124,7 @@ function initFinderLasso() {
   elist.addEventListener('mousedown', e => {
     if (e.button !== 0) return;
     if (e.target.closest('button, a, input, select')) return;
-
-    const card = e.target.closest('.entry-card');
-    const cardId = card ? card.dataset.id : null;
-
-    // Shift + Клик диапазона
-    if (e.shiftKey && lastClickedCardId && cardId && lastClickedCardId !== cardId) {
-      e.preventDefault();
-      const cardsArr = [...elist.querySelectorAll('.entry-card')];
-      let startIdx = -1, endIdx = -1;
-      cardsArr.forEach((c, idx) => {
-        if (c.dataset.id === lastClickedCardId) startIdx = idx;
-        if (c.dataset.id === cardId) endIdx = idx;
-      });
-      if (startIdx !== -1 && endIdx !== -1) {
-        const minIdx = Math.min(startIdx, endIdx);
-        const maxIdx = Math.max(startIdx, endIdx);
-        for (let i = minIdx; i <= maxIdx; i++) {
-          const cid = cardsArr[i].dataset.id;
-          if (cid) selIds.add(cid);
-        }
-        render();
-        return;
-      }
-    }
-
-    if (cardId) lastClickedCardId = cardId;
+    closeCtxMenu();
 
     isDown = true;
     isDragging = false;
@@ -2880,6 +3146,7 @@ function initFinderLasso() {
       const dist = Math.hypot(curX - startX, curY - startY);
       if (dist < 6) return;
       isDragging = true;
+      cacheCardGeometry();
       lasso.style.display = 'block';
       scrollRaf = requestAnimationFrame(autoScrollLoop);
     }
@@ -2896,6 +3163,7 @@ function initFinderLasso() {
     if (isDragging) {
       isDragging = false;
       lasso.style.display = 'none';
+      cachedCards = [];
       _justLassoed = true;
       setTimeout(() => { _justLassoed = false; }, 50);
     } else {
@@ -2990,24 +3258,46 @@ function togPaid(id) {
 }
 
 /* ══════════════════════════════════════════════
-   14. MODAL & FORM (С СЕРИЙНЫМ ВВОДОМ И ЧЕРНОВИКОМ)
+   14. MODAL, DRAFTS (#4) & SERIAL ENTRY (#1)
 ══════════════════════════════════════════════ */
 function openModal() {
-  if (editId === null) {
+  if (editId === null && !_hasDraft) {
     clearForm();
-    restoreFormDraft();
+  } else if (editId === null && _hasDraft) {
+    const bc = document.getElementById('bcan');
+    if (bc) { bc.style.display = ''; bc.textContent = 'Сбросить'; }
+    setText('m-title', 'Новая запись (черновик)');
   }
+  const hint = document.getElementById('m-subtle-hint');
+  if (hint) hint.style.display = editId === null ? '' : 'none';
+
   document.getElementById('mov').classList.add('on');
   document.body.style.overflow = 'hidden';
-  setTimeout(() => { const f=document.getElementById('f-desc'); if(f) f.focus(); }, 100);
+  setTimeout(() => { const f=document.getElementById('f-desc'); if(f) f.focus(); }, 90);
 }
+
+// При случайном закрытии (клик мимо или Esc) черновик новой записи сохраняется (#4)
+function dismissModal() {
+  if (editId !== null) {
+    editId = null;
+    clearForm();
+    closeModal();
+    render();
+    return;
+  }
+  const desc = (document.getElementById('f-desc')?.value || '').trim();
+  const amt = (document.getElementById('f-amt')?.value || '').trim();
+  const note = (document.getElementById('f-note')?.value || '').trim();
+  _hasDraft = !!(desc || amt || note);
+  closeModal();
+}
+
 function closeModal() {
   document.getElementById('mov').classList.remove('on');
   document.body.style.overflow = '';
 }
 function onAmtInput() {
   _amtManuallyTyped = true;
-  saveFormDraft();
   const v = document.getElementById('f-amt').value;
   const h = document.getElementById('ahint');
   if (!h) return;
@@ -3048,8 +3338,8 @@ function setFormPaid(paid) {
 }
 
 function clearForm() {
-  ['f-desc','f-note'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
-  const amt = document.getElementById('f-amt'); if(amt) amt.value='';
+  ['f-desc','f-note'].forEach(id => { const e=document.getElementById(id); if(e) { e.value=''; e.style.borderColor=''; } });
+  const amt = document.getElementById('f-amt'); if(amt) { amt.value=''; amt.style.borderColor=''; }
   const h = document.getElementById('ahint'); if(h) { h.textContent=''; h.className='ahint'; }
   const dt = document.getElementById('f-date');
   if (dt) dt.value = today();
@@ -3062,13 +3352,13 @@ function clearForm() {
   if (fc) fc.value = recentCur;
 
   setText('bsub', '+ Добавить');
-  const bc = document.getElementById('bcan'); if(bc) bc.style.display='none';
+  const bc = document.getElementById('bcan'); if(bc) { bc.style.display='none'; bc.textContent='Отмена'; }
   setText('m-title', 'Новая запись');
   setFormPaid(false);
   const pa = document.getElementById('f-paidat'); if(pa) pa.value='';
   _amtManuallyTyped = false;
+  _hasDraft = false;
   editId = null;
-  clearFormDraft();
 }
 
 function cancelEdit() {
@@ -3077,6 +3367,7 @@ function cancelEdit() {
   if (wasEditing) render();
 }
 
+// Поддержка серийного ввода по Shift + Enter (keepOpen = true) (#1)
 function submitForm(keepOpen = false) {
   const name = document.getElementById('f-name').value.trim();
   const desc = document.getElementById('f-desc').value.trim();
@@ -3106,7 +3397,8 @@ function submitForm(keepOpen = false) {
     lsS('ff_last_client', lastClient);
   }
 
-  if (editId !== null) {
+  const wasEdit = editId !== null;
+  if (wasEdit) {
     const e = entries.find(x => x.id === editId);
     if (e) {
       e.name = name; e.amount = amount; e.currency = currency;
@@ -3122,18 +3414,24 @@ function submitForm(keepOpen = false) {
     if (formPaidStatus) newEntry.paidAt = paValNew;
     entries.unshift(newEntry);
   }
+
   save();
   render();
 
-  if (keepOpen) {
-    // Серийный ввод: очищаем только проект и сумму, оставляя клиента, валюту и дату
-    document.getElementById('f-desc').value = '';
-    document.getElementById('f-amt').value = '';
-    document.getElementById('f-note').value = '';
+  if (keepOpen && !wasEdit) {
+    // Оставляем окно открытым, сохраняем клиента, валюту и дату для следующей записи
+    if (descEl) descEl.value = '';
+    if (amtEl) amtEl.value = '';
+    const noteEl = document.getElementById('f-note');
+    if (noteEl) noteEl.value = '';
+    if (h) { h.textContent = ''; h.className = 'ahint'; }
     _amtManuallyTyped = false;
-    clearFormDraft();
-    showToast('Заказ добавлен (серия продолжается)');
-    setTimeout(() => document.getElementById('f-desc').focus(), 50);
+    _hasDraft = false;
+    setText('m-title', 'Новая запись');
+    const bc = document.getElementById('bcan');
+    if (bc) bc.style.display = 'none';
+    if (descEl) descEl.focus();
+    showToast(`✓ Добавлено: ${desc} (${fmtCur(amount, currency)})`);
   } else {
     clearForm();
     closeModal();
@@ -3153,7 +3451,7 @@ function startEdit(id) {
   const fdt = document.getElementById('f-date'); if (fdt) fdt.value = e.date || today();
   const ah = document.getElementById('ahint'); if(ah) { ah.textContent=''; ah.className='ahint'; }
   setText('bsub', 'Сохранить');
-  const bc = document.getElementById('bcan'); if(bc) bc.style.display='';
+  const bc = document.getElementById('bcan'); if(bc) { bc.style.display=''; bc.textContent='Отмена'; }
   setText('m-title', `Редактирование: ${e.desc||e.name}`);
   setFormPaid(!!e.paid);
   const paEl = document.getElementById('f-paidat');
@@ -3202,12 +3500,10 @@ function applyImportedPayload(raw, replaceMode = true) {
     rates = sanitizeRatesObject({...rates, ...raw.rates});
   }
   if (replaceMode) {
-    entries = valid.map(x => ({...x, id: String(x.id || gid())}));
+    entries = normalizeLoadedEntries(valid);
   } else {
     const ex = new Set(entries.map(x => String(x.id)));
-    const newItems = valid
-      .map(x => ({...x, id: String(x.id || gid())}))
-      .filter(x => !ex.has(x.id));
+    const newItems = normalizeLoadedEntries(valid).filter(x => !ex.has(x.id));
     entries = [...newItems, ...entries];
   }
   save();
@@ -3250,7 +3546,7 @@ function importData(ev) {
 }
 
 /* ══════════════════════════════════════════════
-   16. EVENT LISTENERS & SHORTCUTS
+   16. EVENT LISTENERS & SHORTCUTS (#5)
 ══════════════════════════════════════════════ */
 function bindEvents() {
   document.getElementById('btn-add').addEventListener('click', openModal);
@@ -3327,24 +3623,17 @@ function bindEvents() {
     }
   });
 
+  // Закрытие по фону сохраняет черновик (#4)
   document.getElementById('mov').addEventListener('mousedown', e => _mdTarget = e.target);
   document.getElementById('mov').addEventListener('click', e => {
-    if (e.target === document.getElementById('mov') && _mdTarget === e.target) cancelEdit();
+    if (e.target === document.getElementById('mov') && _mdTarget === e.target) dismissModal();
   });
-  document.getElementById('m-close').addEventListener('click', cancelEdit);
-
-  const subBtn = document.getElementById('bsub');
-  subBtn.addEventListener('click', e => {
-    submitForm(e.shiftKey);
-  });
-
+  document.getElementById('m-close').addEventListener('click', dismissModal);
+  document.getElementById('bsub').addEventListener('click', () => submitForm(false));
   document.getElementById('bcan').addEventListener('click', cancelEdit);
   document.getElementById('f-amt').addEventListener('input', onAmtInput);
-  document.getElementById('f-desc').addEventListener('input', () => { trySmartAutoPrice(); saveFormDraft(); });
-  document.getElementById('f-name').addEventListener('input', () => { trySmartAutoPrice(); saveFormDraft(); });
-  document.getElementById('f-note').addEventListener('input', saveFormDraft);
-  document.getElementById('f-date').addEventListener('change', saveFormDraft);
-
+  document.getElementById('f-desc').addEventListener('input', trySmartAutoPrice);
+  document.getElementById('f-name').addEventListener('input', trySmartAutoPrice);
   document.getElementById('fst-unpaid').addEventListener('click', () => setFormPaid(false));
   document.getElementById('fst-paid').addEventListener('click', () => setFormPaid(true));
 
@@ -3352,7 +3641,7 @@ function bindEvents() {
     inp.addEventListener('keydown', e => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        submitForm(e.shiftKey);
+        submitForm(e.shiftKey || e.metaKey || e.ctrlKey);
       }
     });
   });
@@ -3404,46 +3693,6 @@ function bindEvents() {
     sw.addEventListener('click', () => setAccent(sw.dataset.acc));
   });
 
-  // Действия контекстного меню
-  document.getElementById('ctx-paid').addEventListener('click', () => {
-    if (_ctxTargetId) { togPaid(_ctxTargetId); hideContextMenu(); }
-  });
-  document.getElementById('ctx-edit').addEventListener('click', () => {
-    if (_ctxTargetId) { clearSel(); startEdit(_ctxTargetId); hideContextMenu(); }
-  });
-  document.getElementById('ctx-dup').addEventListener('click', () => {
-    if (_ctxTargetId) {
-      const e = entries.find(x => x.id === _ctxTargetId);
-      if (e) {
-        const c = {...e, id: gid(), paid: false, date: today(), createdAt: today()};
-        delete c.paidAt; delete c._rememberedPaidAt;
-        entries.unshift(c);
-        save(); render();
-        showToast('Заказ дублирован');
-      }
-      hideContextMenu();
-    }
-  });
-  document.getElementById('ctx-del').addEventListener('click', async () => {
-    if (_ctxTargetId) {
-      const id = _ctxTargetId;
-      hideContextMenu();
-      const ok = await showConfirm('Удалить запись', 'Удалить эту запись?');
-      if (ok) {
-        const snapshot = cloneEntries();
-        recordDeletedIds([id]);
-        if (editId === id) { editId = null; clearForm(); }
-        entries = entries.filter(e => e.id !== id);
-        save(); render();
-        showToast('Запись удалена', () => {
-          deletedIds.delete(String(id));
-          lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
-          entries = snapshot; save(); render();
-        });
-      }
-    }
-  });
-
   document.getElementById('conf-ok').addEventListener('click', () => _confClose('ok'));
   document.getElementById('conf-alt').addEventListener('click', () => _confClose('alt'));
   document.getElementById('conf-cancel').addEventListener('click', () => _confClose(false));
@@ -3451,8 +3700,11 @@ function bindEvents() {
     if (e.target === document.getElementById('conf-overlay')) _confClose(false);
   });
 
+  document.getElementById('elist').addEventListener('scroll', closeCtxMenu, {passive: true});
+  window.addEventListener('blur', closeCtxMenu);
+
   document.addEventListener('click', e => {
-    if (!e.target.closest('.ctx-menu')) hideContextMenu();
+    if (!e.target.closest('#ctx-menu')) closeCtxMenu();
     if (!e.target.closest('.filter-wrap')) closeFP();
     if (!e.target.closest('.inv-wrap')) closeInvDd();
     if (!e.target.closest('.mo-title-wrap')) closePeriodDd();
@@ -3463,10 +3715,6 @@ function bindEvents() {
 
   document.addEventListener('keydown', e => {
     const k = e.key.toLowerCase();
-    const activeTag = document.activeElement ? document.activeElement.tagName : '';
-    const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
-    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('conf-overlay').classList.contains('on');
-
     if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) {
       e.preventDefault();
       exportData();
@@ -3474,21 +3722,41 @@ function bindEvents() {
     }
 
     if (e.key === 'Escape') {
-      hideContextMenu();
+      if (document.getElementById('ctx-menu').classList.contains('on')) { closeCtxMenu(); return; }
       if (document.getElementById('conf-overlay').classList.contains('on')) { _confClose(false); return; }
       closeFP(); closeInvDd(); closePeriodDd();
       document.getElementById('sidebar').classList.remove('mobile-open');
       if (document.getElementById('sov').classList.contains('on')) closeSettings();
-      else if (document.getElementById('mov').classList.contains('on')) cancelEdit();
+      else if (document.getElementById('mov').classList.contains('on')) dismissModal();
       else if (selIds.size > 0) clearSel();
       return;
     }
 
-    // Горячие клавиши для выделенных карточек (Пробел, Del/Backspace, Cmd+C)
+    const activeTag = document.activeElement ? document.activeElement.tagName : '';
+    const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
+    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('conf-overlay').classList.contains('on');
+
+    if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
+      e.preventDefault();
+      document.getElementById('search').focus();
+      return;
+    }
+
+    // Клавиатурные команды для выделенных карточек: ⌘C, Пробел, Backspace/Delete (#5)
     if (!inInput && !modalOpen && selIds.size > 0) {
-      if (e.key === ' ') {
+      if ((e.metaKey || e.ctrlKey) && (k === 'c' || k === 'с')) {
+        const textSel = window.getSelection ? window.getSelection().toString() : '';
+        if (!textSel) {
+          e.preventDefault();
+          copySelectedInv('ru');
+          return;
+        }
+      }
+      if (e.key === ' ' && activeTag !== 'BUTTON') {
         e.preventDefault();
-        markPaid();
+        const selList = entries.filter(x => selIds.has(x.id));
+        const hasUnpaid = selList.some(x => !x.paid);
+        if (hasUnpaid) markPaid(); else markUnpaid();
         return;
       }
       if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -3496,18 +3764,8 @@ function bindEvents() {
         delSel();
         return;
       }
-      if ((e.metaKey || e.ctrlKey) && k === 'c') {
-        e.preventDefault();
-        copySelectedInv('ru');
-        return;
-      }
     }
 
-    if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
-      e.preventDefault();
-      document.getElementById('search').focus();
-      return;
-    }
     if (!inInput && !modalOpen && !e.metaKey && !e.ctrlKey && !e.altKey) {
       if (k === 'n' || k === 'т') {
         e.preventDefault();
@@ -3520,11 +3778,13 @@ function bindEvents() {
   });
 
   window.addEventListener('resize', () => {
+    closeCtxMenu();
     clearTimeout(window._rt);
     window._rt = setTimeout(() => { _donutDirty = true; renderDonut(); }, 120);
   });
 
   initFinderLasso();
+  initDonutInteractivity();
 }
 
 /* ══════════════════════════════════════════════
