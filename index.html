@@ -31,7 +31,7 @@
   --lasso-fill:rgba(37,99,235,0.09);
   --shadow-card:0 1px 2px rgba(0,0,0,0.02);
   --shadow-md:0 12px 32px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.03);
-  --r-xs:6px;--r:8px;--rl:10px;--rxl:14px;
+  --r-xs:6px;--r:8px;--rl:10px;--rxl:14px;--rf:9999px;
   --topbar:48px;
   --sidebar:264px;
   --ease:cubic-bezier(0.22, 1, 0.36, 1);
@@ -568,7 +568,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 #search:focus ~ .search-kbd,
 .search-wrap.has-sel .search-kbd{opacity:0;}
 
-/* Встроенная в правый край поиска плашка калькулятора (не сдвигает верстку тулбара) */
+/* Live Selection Pill in Toolbar */
 .sel-pill{
   position:absolute;right:4px;
   display:none;align-items:center;gap:5px;
@@ -895,18 +895,19 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .cloud-box{display:flex;flex-direction:column;gap:7px;}
 .cloud-inp{height:32px;font-size:12px;}
 
+/* ── МОБИЛЬНАЯ АДАПТАЦИЯ (iOS / Android Drawer) ── */
 @media(max-width:768px){
   .topbar{padding:0 16px;}
   .body{padding:0 16px;gap:0;}
   .sidebar{
     display:none;
     position:fixed;inset:0;top:var(--topbar);z-index:500;
-    background:var(--bg);padding:16px;
-    width:100%;min-width:0;
+    background:var(--bg);padding:20px 16px;
+    width:100%;min-width:0;border-right:none;
   }
   .sidebar.mobile-open{display:flex;}
   .toolbar{padding:6px 0 10px;gap:6px;}
-  .elist{padding:2px 0 32px;}
+  .elist{padding:2px 0 40px;}
   .entry-card{padding:10px 12px;}
   html[data-density="compact"] .el{flex-direction:column;align-items:flex-start;gap:2px;}
   .fgrid.t3{grid-template-columns:1fr 1fr;}
@@ -914,6 +915,18 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .fgrid{grid-template-columns:1fr;}
   .btn-mobile-sidebar{display:flex!important;}
   .spanel{width:100%;max-width:100%;}
+
+  /* Плавающая кнопка быстрого добавления на мобильных */
+  .app::after{
+    content:'+';
+    position:fixed;bottom:24px;right:20px;z-index:250;
+    width:52px;height:52px;border-radius:50%;
+    background:var(--text);color:var(--bg);
+    font-size:26px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-md);cursor:pointer;
+  }
+  .app:active::after{transform:scale(0.93);}
 }
 .btn-mobile-sidebar{
   display:none;
@@ -956,7 +969,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     </button>
   </div>
   <div class="topbar-right">
-    <button class="btn-mobile-sidebar" id="btn-mobile-sb" type="button" aria-label="Баланс и статистика">
+    <button class="btn-mobile-sidebar" id="btn-mobile-sb" type="button" aria-label="Меню и статистика">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
     </button>
     <button class="icon-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
@@ -1047,7 +1060,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <input type="text" id="search" placeholder="Поиск по проектам, клиентам, описанию..." aria-label="Поиск по записям"/>
         <span class="search-kbd">⌘K</span>
 
-        <!-- Встроенный индикатор выделения (не сдвигает поиск) -->
+        <!-- Встроенный индикатор выделения -->
         <div class="sel-pill" id="sel-pill" title="Нажми для открытия меню действий с выделенными заказами">
           <span id="sel-pill-txt"></span>
           <span class="sel-pill-clr" id="sel-pill-clr" title="Снять выделение (Esc)">×</span>
@@ -1373,8 +1386,6 @@ function restoreEmergencySnapshot() {
   try {
     const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
     if (Array.isArray(raw) && raw.length > 0) {
-      editId = null;
-      clearSel();
       entries = normalizeLoadedEntries(raw);
       save();
       render();
@@ -1466,7 +1477,6 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     entries: cleanEntriesForStorage(entries)
   });
 
-  // Защита от падения браузера при превышении лимита 64 KB у флага keepalive
   const safeKeepalive = Boolean(useKeepalive && bodyStr.length < 52000);
 
   try {
@@ -1557,7 +1567,6 @@ async function safeSyncWithFirebase(manual = false) {
     const wasSkel = _isInitialCloudLoading;
     setSkeletonLoading(false);
 
-    // Объединяем реестр удаленных ID между устройствами
     if (data && Array.isArray(data.delIds)) {
       recordDeletedIds(data.delIds);
     }
@@ -1565,7 +1574,6 @@ async function safeSyncWithFirebase(manual = false) {
     const rawCloudEntries = (data && Array.isArray(data.entries)) ? normalizeLoadedEntries(data.entries) : [];
     const cloudEntries = rawCloudEntries.filter(e => !deletedIds.has(String(e.id)));
 
-    // Убираем из локальной базы записи, которые были удалены на другом устройстве
     const beforeFilterLen = entries.length;
     entries = entries.filter(e => !deletedIds.has(String(e.id)));
     const localWasPruned = entries.length !== beforeFilterLen;
@@ -2299,18 +2307,6 @@ function toggleMoCollapsed() {
 let _donutSegments = [];
 let _donutDefaultSubLbl = 'итого';
 
-function computeExactPercentages(items, total) {
-  if (!total || !items.length) return items.map(() => 0);
-  const raw = items.map(x => (x.value / total) * 100);
-  const floors = raw.map(v => Math.floor(v));
-  let rem = 100 - floors.reduce((a, b) => a + b, 0);
-  const order = raw.map((v, i) => ({ i, frac: v - floors[i] })).sort((a, b) => b.frac - a.frac);
-  for (let k = 0; k < rem && k < order.length; k++) {
-    floors[order[k].i]++;
-  }
-  return floors;
-}
-
 function setSpectrumHoverState(idx) {
   const bar = document.getElementById('spectrum-bar');
   const segNodes = bar ? bar.querySelectorAll('.spec-seg') : [];
@@ -2327,56 +2323,6 @@ function setSpectrumHoverState(idx) {
   } else {
     if (hoverLbl) hoverLbl.textContent = _donutDefaultSubLbl;
   }
-}
-
-function setMoTab(tab) {
-  if (moTab === tab) return;
-  moTab = tab; lsS('ff_motab', tab);
-  document.getElementById('mo-tab-earn').classList.toggle('on', tab==='earned');
-  document.getElementById('mo-tab-earn').setAttribute('aria-selected', tab==='earned');
-  document.getElementById('mo-tab-ord').classList.toggle('on', tab==='orders');
-  document.getElementById('mo-tab-ord').setAttribute('aria-selected', tab==='orders');
-  document.getElementById('mo-tab-await').classList.toggle('on', tab==='awaiting');
-  document.getElementById('mo-tab-await').setAttribute('aria-selected', tab==='awaiting');
-  _donutDirty = true;
-  renderAnalytics();
-}
-
-function buildMoneySegments(list) {
-  if (!list.length) {
-    return { segments: [], totalNum: 0, unit: baseCur, formatFn: fmtB };
-  }
-  const curs = [...new Set(list.map(e => e.currency))];
-  const singleFallbackCur = curs.length === 1 ? curs[0] : null;
-  const byClient = {};
-  const rawByClient = {};
-
-  list.forEach(e => {
-    const n = e.name || 'Без имени';
-    const conv = toB(e.amount, e.currency);
-    if (conv !== null) {
-      byClient[n] = (byClient[n] || 0) + conv;
-    } else if (singleFallbackCur) {
-      rawByClient[n] = (rawByClient[n] || 0) + e.amount;
-    }
-  });
-
-  if (Object.keys(byClient).length > 0) {
-    const sorted = Object.entries(byClient).sort((a,b) => b[1] - a[1]);
-    const tot = Math.round(sorted.reduce((acc, r) => acc + r[1], 0) * 100) / 100;
-    const items = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtB(sum) }));
-    const pcts = computeExactPercentages(items, tot);
-    items.forEach((it, idx) => it.pct = pcts[idx]);
-    return { segments: items, totalNum: tot, unit: baseCur, formatFn: fmtB };
-  } else if (singleFallbackCur && Object.keys(rawByClient).length > 0) {
-    const sorted = Object.entries(rawByClient).sort((a,b) => b[1] - a[1]);
-    const tot = Math.round(sorted.reduce((acc, r) => acc + r[1], 0) * 100) / 100;
-    const items = sorted.map(([name, sum]) => ({ label: name, value: sum, display: fmtCur(sum, singleFallbackCur) }));
-    const pcts = computeExactPercentages(items, tot);
-    items.forEach((it, idx) => it.pct = pcts[idx]);
-    return { segments: items, totalNum: tot, unit: singleFallbackCur, formatFn: v => fmtCur(v, singleFallbackCur) };
-  }
-  return { segments: [], totalNum: 0, unit: baseCur, formatFn: fmtB };
 }
 
 function renderAnalytics() {
@@ -3258,9 +3204,6 @@ function initFinderLasso() {
     if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, #ctx-menu, .fpanel, .sel-pill, button, a, input, select')) return;
 
     closeCtxMenu();
-    closeFP();
-    closeInvDd();
-    closePeriodDd();
 
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT')) {
       document.activeElement.blur();
