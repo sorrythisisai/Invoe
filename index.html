@@ -138,11 +138,6 @@ body.lasso-active .sel-txt{
   from{opacity:0;transform:translateY(4px) scale(0.985);}
   to{opacity:1;transform:translateY(0) scale(1);}
 }
-@keyframes shimmer{
-  0%{opacity:0.35;}
-  50%{opacity:0.75;}
-  100%{opacity:0.35;}
-}
 @keyframes badgePulse{
   0%{transform:scale(0.9);}
   50%{transform:scale(1.07);}
@@ -169,25 +164,6 @@ button{
   transition:transform .12s var(--ease),background-color .14s var(--ease),color .14s var(--ease),opacity .14s var(--ease);
 }
 button:active:not(:disabled){transform:scale(0.96);}
-
-/* ── SKELETON LOADING STATE ── */
-.skel-loading .bal-amount,
-.skel-loading .m-hero-val{
-  color:transparent!important;
-  background:var(--surface2);
-  border-radius:var(--r-xs);
-  min-width:90px;
-  animation:shimmer 1.2s infinite ease-in-out;
-  pointer-events:none;
-}
-.skel-card{
-  height:52px;border-radius:var(--rl);
-  background:var(--surface);
-  margin-bottom:6px;padding:10px 14px;
-  display:flex;align-items:center;justify-content:space-between;
-  animation:shimmer 1.2s infinite ease-in-out;
-}
-.skel-line{height:10px;border-radius:var(--r-xs);background:var(--surface2);}
 
 /* ── CONTEXT MENU WITH LIVE CALCULATOR ── */
 .ctx-menu{
@@ -1717,6 +1693,9 @@ function restoreEmergencySnapshot() {
     const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
     if (Array.isArray(raw) && raw.length > 0) {
       entries = normalizeLoadedEntries(raw);
+      // Очищаем черный список удаленных, чтобы восстановленный бэкап не затерся при синхронизации
+      raw.forEach(e => deletedIds.delete(String(e.id)));
+      lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
       save();
       render();
       closeSettings();
@@ -2014,7 +1993,7 @@ let selIds = new Set();
 let _lastClickedCardId = null;
 let _fastClickTime = 0;
 let _fastClickId = null;
-const FAST_DBLCLICK_MS = 240;
+const FAST_DBLCLICK_MS = 320; // Увеличено для надежного двойного тапа на сенсорных экранах
 
 let srchTmr = null;
 let _rateTmr = null;
@@ -2027,6 +2006,7 @@ let _amtManuallyTyped = false;
 let _amtAutoFilled = false;
 let _donutDirty = true;
 let _justLassoed = false;
+let _suppressNextClick = false; // Защита от ложного клика после долгого тапа на мобильных
 
 const _clientColorCache = new Map();
 function getClientColor(name) {
@@ -2060,7 +2040,6 @@ function prevMonthYm(ym) {
   return `${d.getFullYear()}-${Z(d.getMonth() + 1)}`;
 }
 
-// Доход считается СТРОГО по дате фактической оплаты (paidAt), чтобы заказ из прошлого месяца, закрытый в этом, шел в доход этого месяца
 function getEntryPaidDate(e) {
   return e.paidAt || e.date || '';
 }
@@ -2349,7 +2328,7 @@ function renderMonthTrend() {
   const curSum = getComparableMonthSum(eff, null);
   const prevFullSum = getComparableMonthSum(prevYm, null);
 
-  // Если в этом месяце дохода ещё 0 (например, 1-е число или старт месяца) — НЕ пугаем странным "-100%"
+  // Исправление: если в текущем месяце еще нет дохода (0), никогда не показываем ложные "-100%"
   if (curSum <= 0) {
     trendEl.className = 'bal-trend';
     trendEl.textContent = '';
@@ -2365,7 +2344,6 @@ function renderMonthTrend() {
     return;
   }
 
-  // Для текущего месяца сначала сравниваем с аналогичным днем прошлого месяца (честный темп), а если к этому дню было 0 — со всем прошлым месяцем
   const currentDay = new Date().getDate();
   const prevPacedSum = isCurrentMonth ? getComparableMonthSum(prevYm, currentDay) : prevFullSum;
   const basePrevSum = prevPacedSum > 0 ? prevPacedSum : prevFullSum;
@@ -2921,7 +2899,8 @@ function renderAnalytics() {
     segments = items;
     animateNumberText('an-total-val', tot, v => String(Math.round(v)), '0', 'ord_cnt');
   } else {
-    const period = entries.filter(e => !e.paid);
+    // Исправление: вкладка «Ожидаем» в аналитике теперь также строго фильтруется по выбранному периоду даты заказа
+    const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
     const res = buildMoneySegments(period);
     segments = res.segments;
     animateNumberText('an-total-val', res.totalNum, res.formatFn, fmtB(0), 'await_' + res.unit);
@@ -3416,7 +3395,7 @@ function renderEntry(e) {
   card.setAttribute('tabindex', '0');
   card.setAttribute('aria-pressed', String(isSel));
 
-  // Long press for mobile context menu
+  // Long press for mobile context menu with suppression of ghost click
   let touchTimer = null;
   let touchMoved = false;
   card.addEventListener('touchstart', ev => {
@@ -3426,7 +3405,10 @@ function renderEntry(e) {
     const tx = t.clientX, ty = t.clientY;
     touchTimer = setTimeout(() => {
       touchTimer = null;
-      if (!touchMoved) openCtxMenu(tx, ty, e.id);
+      if (!touchMoved) {
+        _suppressNextClick = true;
+        openCtxMenu(tx, ty, e.id);
+      }
     }, 440);
   }, {passive: true});
   card.addEventListener('touchmove', () => {
@@ -3438,6 +3420,10 @@ function renderEntry(e) {
   }, {passive: true});
 
   card.addEventListener('click', ev => {
+    if (_suppressNextClick) {
+      _suppressNextClick = false;
+      return;
+    }
     if (_justLassoed) return;
     const textSel = window.getSelection ? window.getSelection().toString() : '';
     if (textSel.length > 0) return;
@@ -3608,7 +3594,6 @@ function updateStatsAndAnalytics() {
   if (zeroBadge) zeroBadge.classList.toggle('on', isInboxZero);
   if (mZeroBadge) mZeroBadge.style.display = isInboxZero ? 'inline-block' : 'none';
 
-  // Пришло строго по дате оплаты (isPaidInPeriod)
   const recv = entries.filter(isPaidInPeriod);
   const recvMap = sBC(recv);
   const recvTot = totB(recv);
@@ -3647,17 +3632,6 @@ function renderList() {
   const listEl = document.getElementById('list');
   if (!listEl) return;
   listEl.innerHTML = '';
-
-  if (_isInitialCloudLoading && entries.length === 0) {
-    for (let i = 0; i < 4; i++) {
-      const sk = el('div', {className:'skel-card'}, [
-        el('div', {className:'skel-line', style:`width:${45 + (i*11)%30}%`}),
-        el('div', {className:'skel-line', style:'width:76px'})
-      ]);
-      listEl.appendChild(sk);
-    }
-    return;
-  }
 
   const filt = getFiltered();
   if (!filt.length) {
@@ -4018,8 +3992,7 @@ function applyBulkPaidStatus(paidStatus) {
   targetEntries.forEach(e => {
     if (paidStatus) {
       e.paid = true;
-      // При закрытии заказа деньгами всегда ставим сегодняшнюю дату оплаты, чтобы доход шел в текущий месяц
-      e.paidAt = td;
+      e.paidAt = e.paidAt || td;
     } else {
       e.paid = false;
       delete e.paidAt;
@@ -4030,7 +4003,7 @@ function applyBulkPaidStatus(paidStatus) {
   clearSel();
   render();
 
-  showToast(paidStatus ? `Оплачено сегодня: ${cnt}` : `Снята оплата: ${cnt}`, () => {
+  showToast(paidStatus ? `Отмечено оплаченными: ${cnt}` : `Снята оплата: ${cnt}`, () => {
     entries = snapshot; save(); render();
   });
 }
@@ -4062,15 +4035,14 @@ function togPaid(id) {
   const snapshot = cloneEntries();
   e.paid = !e.paid;
   if (e.paid) {
-    // Когда заказ закрывается сегодня — доход фиксируется сегодняшним числом (текущим месяцем)
-    e.paidAt = today();
+    e.paidAt = e.paidAt || today();
   } else {
     delete e.paidAt;
   }
   save();
   render();
 
-  showToast(e.paid ? 'Статус: Оплачено (доход учтён сегодня)' : 'Статус: Ждём оплату', () => {
+  showToast(e.paid ? 'Статус: Оплачено' : 'Статус: Ждём оплату', () => {
     entries = snapshot; save(); render();
   });
 }
@@ -4226,8 +4198,13 @@ function submitForm(keepOpen = false) {
       e.name = name; e.amount = amount; e.currency = currency;
       e.desc = desc; e.note = note; e.date = date;
       const paVal = document.getElementById('f-paidat')?.value || today();
-      if (formPaidStatus) { e.paid = true; e.paidAt = paVal; }
-      else { e.paid = false; delete e.paidAt; }
+      if (formPaidStatus) {
+        e.paid = true;
+        e.paidAt = e.paidAt || paVal;
+      } else {
+        e.paid = false;
+        delete e.paidAt;
+      }
       _flashIds.add(e.id);
     }
     editId = null;
@@ -4340,6 +4317,10 @@ function applyImportedPayload(raw, replaceMode = true) {
     const newItems = normalizeLoadedEntries(valid).filter(x => !ex.has(x.id));
     entries = [...newItems, ...entries];
   }
+  // Очищаем черный список для импортированных записей, чтобы облако их не удалило
+  entries.forEach(x => deletedIds.delete(String(x.id)));
+  lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+
   save();
   buildCP();
   render();
@@ -4398,7 +4379,6 @@ function bindEvents() {
   document.getElementById('btn-inv').addEventListener('click', toggleInvDd);
   document.getElementById('m-period-btn').addEventListener('click', openPeriodSheet);
 
-  // Mobile Hero Cards & Floating Dock
   document.getElementById('m-card-await').addEventListener('click', cycleBaseCur);
   document.getElementById('m-card-recv').addEventListener('click', () => {
     const sb = document.getElementById('sidebar');
