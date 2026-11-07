@@ -1442,7 +1442,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-day-btns{display:flex;align-items:center;gap:6px;margin-left:auto;}
 
 /* Скрытие мобильного FAB-плюса инвойсов, когда открыт X Planner */
-body.xp-mode .app::after{display:none!important;}
+body.xp-mode .app::after, body.xp-mode #m-bottom-nav, body.xp-mode #m-period-btn{display:none!important;}
 
 @media(max-width:768px){
   .xp-view{padding:6px 16px 40px;}
@@ -1507,36 +1507,7 @@ body.xp-mode .app::after{display:none!important;}
 
 <div class="body" id="workspace-body">
   
-  <!-- ── X (TWITTER) WEEKLY PLANNER VIEW ── -->
-<section class="xp-view" id="x-planner-view" aria-label="X Weekly Planner" style="display:none;">
-  <div class="xp-container">
-    
-    <!-- Верхняя панель управления неделей -->
-    <header class="xp-header">
-      <div class="xp-header-left">
-        <div class="xp-title-row">
-          <h2 class="xp-title">X Weekly Showcase</h2>
-          <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
-        </div>
-        <p class="xp-subtitle">Локальное хранилище IndexedDB (0 байт нагрузки на Firebase) · Экспорт 1920px sRGB · Кликни на слот и нажми ⌘V</p>
-      </div>
-      <div class="xp-header-actions">
-        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          <span>Очистить неделю</span>
-        </button>
-        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Последовательно скачать PNG всех заполненных дней">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Скачать всю неделю</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Сетка на 7 дней недели (генерируется JS-модулем) -->
-    <div class="xp-grid" id="xp-days-grid"></div>
-
-  </div>
-</section>
+  
 
   <!-- ── SIDEBAR ── -->
   <div class="sidebar" id="sidebar">
@@ -1677,6 +1648,37 @@ body.xp-mode .app::after{display:none!important;}
     </div>
   </div>
 </div>
+
+<!-- ── X (TWITTER) WEEKLY PLANNER VIEW ── -->
+<section class="xp-view" id="x-planner-view" aria-label="X Weekly Planner" style="display:none;">
+  <div class="xp-container">
+    
+    <!-- Верхняя панель управления неделей -->
+    <header class="xp-header">
+      <div class="xp-header-left">
+        <div class="xp-title-row">
+          <h2 class="xp-title">X Weekly Showcase</h2>
+          <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
+        </div>
+        <p class="xp-subtitle">Локальное хранилище IndexedDB (0 байт нагрузки на Firebase) · Экспорт 1920px sRGB · Кликни на слот и нажми ⌘V</p>
+      </div>
+      <div class="xp-header-actions">
+        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <span>Очистить неделю</span>
+        </button>
+        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Последовательно скачать PNG всех заполненных дней">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Скачать всю неделю</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Сетка на 7 дней недели (генерируется JS-модулем) -->
+    <div class="xp-grid" id="xp-days-grid"></div>
+
+  </div>
+</section>
 
 <!-- Парящий нижний док на телефонах -->
 <nav class="m-bottom-nav" id="m-bottom-nav" aria-label="Мобильная навигация">
