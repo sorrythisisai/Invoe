@@ -1231,9 +1231,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-btn-ghost{background:var(--surface2);color:var(--text2);}
 .xp-btn-ghost:hover{background:var(--surface3);color:var(--text);}
 .xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
-.xp-btn-sm{height:26px;padding:0 9px;font-size:11px;border-radius:var(--r-xs);}
+.xp-btn-sm{height:28px;padding:0 10px;font-size:11px;border-radius:6px;flex-shrink:0;}
 
-/* Сетка карточек на 7 дней (просторная студийная верстка) */
+/* Сетка карточек на 7 дней */
 .xp-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(380px, 1fr));
@@ -1259,18 +1259,18 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   border-color:rgba(37,99,235,0.28);
 }
 
-/* Верхняя строка карточки (День + Быстрые пилюли пресетов) */
+/* Верхняя строка карточки (День + Переключатель фона + Выбор пресета) */
 .xp-day-hdr{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
 }
 .xp-day-title{
   display:flex;align-items:center;gap:6px;
   font-size:13px;font-weight:600;color:var(--text);
-  letter-spacing:-.015em;
+  letter-spacing:-.015em;min-width:0;
 }
 .xp-day-dot{
   width:5.5px;height:5.5px;border-radius:50%;
-  background:var(--text3);opacity:.35;
+  background:var(--text3);opacity:.35;flex-shrink:0;
   transition:background-color .2s, opacity .2s, transform .2s;
 }
 .xp-day-card.is-ready .xp-day-dot{
@@ -1279,10 +1279,24 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-day-code{
   font-size:10px;font-weight:600;color:var(--text3);
   background:var(--bg);padding:1.5px 5.5px;border-radius:4px;
-  letter-spacing:.02em;
+  letter-spacing:.02em;flex-shrink:0;
 }
 
-/* Селектор пресета (чистый минимализм без лишнего шума) */
+.xp-hdr-controls{
+  display:flex;align-items:center;gap:5px;flex-shrink:0;
+}
+.xp-bg-toggle{
+  width:25px;height:25px;border-radius:6px;
+  border:1px solid var(--border);background:var(--bg);
+  color:var(--text2);font-size:11.5px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:border-color .14s, background-color .14s, color .14s;
+}
+.xp-bg-toggle:hover{border-color:var(--border2);color:var(--text);}
+.xp-bg-toggle.is-dark{
+  background:#181816;color:#f0f0ec;border-color:rgba(255,255,255,0.16);
+}
+
 .xp-preset-sel{
   height:25px;padding:0 22px 0 8px;
   font-size:11px;font-weight:500;color:var(--text2);
@@ -1291,12 +1305,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 7px center;
-  max-width:190px;text-overflow:ellipsis;
+  max-width:178px;text-overflow:ellipsis;
   transition:border-color .14s, color .14s;
 }
 .xp-preset-sel:hover{border-color:var(--border2);color:var(--text);}
 
-/* Сцена с точечной сеткой Apple Freeform */
+/* Сцена с точечной сеткой Apple Freeform и интерактивным кадрированием */
 .xp-canvas-stage{
   width:100%;
   background-color:var(--bg);
@@ -1315,10 +1329,38 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   display:block;
   border-radius:6px;
   box-shadow:0 2px 6px rgba(0,0,0,0.04), 0 10px 24px rgba(0,0,0,0.06);
-  transition:transform .16s var(--ease);
+  cursor:grab;
+  touch-action:none;
 }
+.xp-canvas:active{cursor:grabbing;}
 
-/* Компактная панель слотов загрузки изображений */
+/* Панель кадрирования и зума (Photoshop-style Crop Bar) */
+.xp-crop-bar{
+  display:none;
+  align-items:center;justify-content:space-between;gap:8px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:5px 8px;
+  font-size:10.5px;color:var(--text2);
+}
+.xp-crop-bar.on{display:flex;}
+.xp-crop-lbl{
+  font-weight:600;color:var(--text);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;max-width:95px;
+}
+.xp-crop-slider-wrap{
+  display:flex;align-items:center;gap:6px;flex:1;min-width:90px;
+}
+.xp-crop-range{
+  flex:1;height:4px;accent-color:var(--blue);cursor:pointer;
+}
+.xp-crop-pct{
+  font-size:10px;font-weight:600;color:var(--text3);min-width:30px;text-align:right;
+}
+.xp-crop-btns{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+
+/* Компактная панель слотов загрузки изображений (с поддержкой Swap перетаскиванием) */
 .xp-slots{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(68px, 1fr));
@@ -1333,7 +1375,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:1px;padding:3px;
-  transition:background-color .14s var(--ease), border-color .14s var(--ease), transform .12s var(--ease);
+  transition:background-color .14s var(--ease), border-color .14s var(--ease), transform .12s var(--ease), opacity .12s;
 }
 .xp-slot:hover{border-color:var(--border2);background:var(--surface2);}
 .xp-slot.is-armed,
@@ -1344,15 +1386,20 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   outline:none;
 }
 .xp-slot.drag-over{
-  border-color:var(--blue);
-  background:var(--blue-bg);
-  transform:scale(0.98);
+  border-color:var(--blue)!important;
+  background:var(--blue-bg)!important;
+  box-shadow:0 0 0 1.5px var(--blue)!important;
+  transform:scale(0.97);
+}
+.xp-slot.dragging-source{
+  opacity:0.4;
 }
 .xp-slot-thumb{
   position:absolute;inset:0;
   width:100%;height:100%;
   object-fit:cover;
   z-index:1;
+  pointer-events:none;
 }
 .xp-slot-overlay{
   position:relative;z-index:2;
@@ -1386,7 +1433,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-slot.has-img:hover .xp-slot-del{display:flex;}
 .xp-slot-del:hover{background:var(--danger);}
 
-/* Доп. контролы пресетов (Подписи Assets/Inspo и Палитра 5 цветов) */
+/* Доп. контролы пресетов (Бейджи A/B, Подписи Assets/Inspo и Палитра 5 цветов) */
 .xp-extra{
   display:none;
   background:var(--bg);
@@ -1431,34 +1478,38 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-mini-btn:hover{color:var(--text);border-color:var(--border2);}
 
-/* Лаконичная нижняя панель: однострочное поле поста + кнопка PNG в один ряд */
+/* Нижняя панель карточки: авто-расширяющееся поле для текста поста + кнопка PNG */
 .xp-card-bottom{
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:flex-end;gap:6px;
 }
 .xp-post-wrap{
-  position:relative;flex:1;min-width:0;display:flex;align-items:center;
+  position:relative;flex:1;min-width:0;display:flex;
 }
 .xp-caption{
-  width:100%;height:28px;padding:4px 26px 4px 9px;
-  font-size:11.5px;line-height:20px;color:var(--text);
+  width:100%;min-height:28px;max-height:130px;
+  padding:5px 26px 5px 9px;
+  font-size:11.5px;line-height:1.4;color:var(--text);
   background:var(--bg);border:1px solid var(--border);border-radius:6px;
   font-family:inherit;resize:none;outline:none;
-  white-space:nowrap;overflow:hidden;
+  overflow-y:auto;
   user-select:text;-webkit-user-select:text;
   transition:border-color .14s, background-color .14s;
 }
 .xp-caption:focus{background:var(--surface);border-color:var(--border2);}
 .xp-caption::placeholder{color:var(--text3);}
 .xp-copy-cap{
-  position:absolute;right:4px;
+  position:absolute;right:4px;bottom:4px;
   width:20px;height:20px;border:none;border-radius:4px;
   background:transparent;color:var(--text3);cursor:pointer;
   display:flex;align-items:center;justify-content:center;
 }
 .xp-copy-cap:hover{background:var(--surface2);color:var(--text);}
 
-/* Скрытие мобильного FAB-плюса инвойсов, когда открыт X Planner */
-body.xp-mode .app::after, body.xp-mode #m-bottom-nav, body.xp-mode #m-period-btn{display:none!important;}
+/* Скрытие мобильного FAB-плюса и дока инвойсов в режиме X Planner, но показ кнопки Настроек */
+body.xp-mode .app::after,
+body.xp-mode #m-bottom-nav,
+body.xp-mode #m-period-btn{display:none!important;}
+body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 @media(max-width:768px){
   .xp-view{padding:8px 16px 40px;}
@@ -1674,7 +1725,7 @@ body.xp-mode .app::after, body.xp-mode #m-bottom-nav, body.xp-mode #m-period-btn
           <h2 class="xp-title">X Weekly Showcase</h2>
           <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
         </div>
-        <p class="xp-subtitle">1920px sRGB · Локальная база · Кликни или наведи на слот и нажми ⌘V</p>
+        <p class="xp-subtitle">1920px sRGB · Тяни картинку на холсте для обрезки, колесико — зум · Наведи и нажми ⌘V</p>
       </div>
       <div class="xp-header-actions">
         <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
@@ -1838,6 +1889,22 @@ body.xp-mode .app::after, body.xp-mode #m-bottom-nav, body.xp-mode #m-period-btn
           </div>
         </div>
         <div class="s-hint">Умная синхронизация: в облако передаются только заказы и курсы валют после 5 секунд тишины.</div>
+      </div>
+
+      <div>
+        <div class="slbl">𝕏 Planner — Авторская подпись (Ник)</div>
+        <div class="cloud-box">
+          <input type="text" class="cloud-inp" id="xp-set-handle" placeholder="@v1lyr" autocomplete="off"/>
+          <select class="fsel" id="xp-set-pos" style="margin-bottom:0;height:34px;border-radius:var(--r);">
+            <option value="br">Позиция: Справа внизу</option>
+            <option value="bl">Позиция: Слева внизу</option>
+            <option value="bc">Позиция: По центру внизу</option>
+            <option value="tr">Позиция: Справа вверху</option>
+            <option value="tl">Позиция: Слева вверху</option>
+            <option value="off">Скрыть подпись</option>
+          </select>
+        </div>
+        <div class="s-hint">Отображается на всех карточках недели в отдельной безопасной зоне холста, не перекрывая превьюшки. Хранится строго локально.</div>
       </div>
 
       <div>
@@ -5041,7 +5108,7 @@ function bindEvents() {
 </script>
   <script id="xp-script">
 /* ══════════════════════════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (APPLE FREEFORM EDITION)
+   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (FREEFORM + CROP/ZOOM)
 ══════════════════════════════════════════════════════════════════ */
 const TwitterPlanner = (() => {
   const DB_NAME = 'InvoeXPlannerLocalDB';
@@ -5059,70 +5126,113 @@ const TwitterPlanner = (() => {
     { idx: 6, key: 'sun', num: '07', code: 'Sun', ru: 'Воскресенье' }
   ];
 
+  // Семантические ключи слотов: 'final' всегда хранит главное превью при переключении любого шаблона!
+  const ALL_SLOT_KEYS = ['s1', 's2', 's3', 'final'];
+
   const PRESETS = {
     stack2: {
       id: 'stack2',
       name: '1. Vertical Stack (2 × 16:9)',
-      slots: ['Top 16:9', 'Bottom 16:9']
+      slots: [
+        { key: 's1', label: 'Top 16:9' },
+        { key: 'final', label: 'Bottom 16:9' }
+      ]
     },
     sketch3_final: {
       id: 'sketch3_final',
       name: '2. 3 Sketches + Final',
-      slots: ['Sketch 1', 'Sketch 2', 'Sketch 3', 'Final 16:9'],
-      finalIdx: 3
+      slots: [
+        { key: 's1', label: 'Sketch 1' },
+        { key: 's2', label: 'Sketch 2' },
+        { key: 's3', label: 'Sketch 3' },
+        { key: 'final', label: 'Final 16:9' }
+      ]
     },
     sketch1_final: {
       id: 'sketch1_final',
       name: '3. 1 Sketch + Final',
-      slots: ['Sketch (72%)', 'Final 16:9'],
-      finalIdx: 1
+      slots: [
+        { key: 's1', label: 'Sketch (72%)' },
+        { key: 'final', label: 'Final 16:9' }
+      ]
     },
     assets_inspo: {
       id: 'assets_inspo',
       name: '4. Assets & Inspo + Final',
-      slots: ['Assets', 'Inspo', 'Final 16:9'],
-      finalIdx: 2
+      slots: [
+        { key: 's1', label: 'Assets' },
+        { key: 's2', label: 'Inspo' },
+        { key: 'final', label: 'Final 16:9' }
+      ]
     },
     palette_final: {
       id: 'palette_final',
       name: '5. Color Palette + Final',
-      slots: ['Final 16:9'],
-      finalIdx: 0
+      slots: [
+        { key: 'final', label: 'Final 16:9' }
+      ]
     },
     grid2x2: {
       id: 'grid2x2',
       name: '6. 2×2 Grid (4 × 16:9)',
-      slots: ['Top-Left', 'Top-Right', 'Bot-Left', 'Bot-Right']
+      slots: [
+        { key: 's1', label: 'Top-Left' },
+        { key: 's2', label: 'Top-Right' },
+        { key: 's3', label: 'Bot-Left' },
+        { key: 'final', label: 'Bot-Right' }
+      ]
     }
   };
 
-  // Константы геометрии в стиле Apple Freeform (плотная современная сетка и воздушные тени)
+  // Константы геометрии Apple Freeform (1920px рабочая зона)
   const CONTENT_W = 1920;
-  const PAD = 56;          // Аккуратная рамка вокруг композиции (вместо огромных 80px)
-  const GAP_ROW = 26;      // Отступ между верхним рядом и финальным превью
-  const GAP_TIGHT = 20;    // Плотный современный шаг между карточками в сетке 2×2 и ряду скетчей
+  const PAD = 56;
+  const HANDLE_BAND = 54;  // Дополнительная безопасная зона под ник, чтобы он никогда не налезал на превью
+  const GAP_ROW = 26;
+  const GAP_TIGHT = 20;
   const CANVAS_W = CONTENT_W + PAD * 2; // 2032px
-  const FULL_H = 1080;     // 1920 / 16 * 9
-  const R_LG = 22;         // Современное скругление крупных превью
-  const R_SM = 16;         // Скругление миниатюр и плашек
+  const FULL_H = 1080;
+  const R_LG = 22;
+  const R_SM = 16;
 
   let _dbPromise = null;
   let _activeView = 'invoe';
-  let _armedSlot = null;
-  let _hoveredSlot = null;
+  let _armedSlot = null;     // { dayIdx, slotKey }
+  let _hoveredSlot = null;   // { dayIdx, slotKey }
+  let _draggedSlot = null;   // { dayIdx, slotKey } для перетаскивания слотов местами (Swap)
+
+  // Глобальные настройки авторской подписи (ника) — хранятся строго локально
+  let userHandle = '';
+  let handlePos = 'br';
+  try {
+    userHandle = localStorage.getItem('xp_user_handle') || '';
+    handlePos = localStorage.getItem('xp_handle_pos') || 'br';
+  } catch (e) {}
 
   const state = DAYS.map(d => ({
     dayIdx: d.idx,
     preset: 'sketch1_final',
+    bgTheme: 'light', // 'light' (#FFFFFF) или 'dark' (#111110)
     caption: '',
     labelLeft: 'assets',
     labelRight: 'inspo',
+    badgeTop: '',
+    badgeBot: '',
     palette: ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'],
-    images: {},
-    thumbUrls: {}
+    images: {},      // slotKey -> HTMLImageElement
+    thumbUrls: {},   // slotKey -> ObjectURL
+    transforms: {},  // slotKey -> { scale: 1, panX: 0, panY: 0 }
+    hitRegions: []   // Координаты слотов на холсте для интерактивного кадрирования мышкой
   }));
 
-  /* ── 1. НАТИВНАЯ БАЗА INDEXEDDB ── */
+  function getSlotTransform(d, slotKey) {
+    if (!d.transforms[slotKey]) {
+      d.transforms[slotKey] = { scale: 1, panX: 0, panY: 0 };
+    }
+    return d.transforms[slotKey];
+  }
+
+  /* ── 1. НАТИВНАЯ БАЗА INDEXEDDB (0 БАЙТ В FIREBASE) ── */
   function openDB() {
     if (_dbPromise) return _dbPromise;
     _dbPromise = new Promise((resolve, reject) => {
@@ -5146,22 +5256,38 @@ const TwitterPlanner = (() => {
       const tx = db.transaction(STORE_DAYS, 'readwrite');
       tx.objectStore(STORE_DAYS).put({
         preset: d.preset,
+        bgTheme: d.bgTheme,
         caption: d.caption,
         labelLeft: d.labelLeft,
         labelRight: d.labelRight,
-        palette: d.palette
+        badgeTop: d.badgeTop,
+        badgeBot: d.badgeBot,
+        palette: d.palette,
+        transforms: d.transforms
       }, `day_${dayIdx}`);
     } catch (e) {}
   }
 
-  async function saveSlotBlob(dayIdx, slotIdx, blob) {
+  async function saveSlotBlob(dayIdx, slotKey, blob) {
     try {
       const db = await openDB();
       const tx = db.transaction(STORE_IMGS, 'readwrite');
-      const key = `d${dayIdx}_s${slotIdx}`;
+      const key = `d${dayIdx}_k_${slotKey}`;
       if (blob) tx.objectStore(STORE_IMGS).put(blob, key);
       else tx.objectStore(STORE_IMGS).delete(key);
     } catch (e) {}
+  }
+
+  async function getSlotBlob(dayIdx, slotKey) {
+    try {
+      const db = await openDB();
+      return await new Promise(res => {
+        const tx = db.transaction(STORE_IMGS, 'readonly');
+        const req = tx.objectStore(STORE_IMGS).get(`d${dayIdx}_k_${slotKey}`);
+        req.onsuccess = () => res(req.result || null);
+        req.onerror = () => res(null);
+      });
+    } catch (e) { return null; }
   }
 
   async function clearAllDB() {
@@ -5200,36 +5326,69 @@ const TwitterPlanner = (() => {
         r.onerror = () => res({ idx: d.idx, val: null });
       }));
 
-      const imgPromises = [];
-      for (let dIdx = 0; dIdx < 7; dIdx++) {
-        for (let sIdx = 0; sIdx < 4; sIdx++) {
-          imgPromises.push(new Promise(res => {
-            const r = imgsStore.get(`d${dIdx}_s${sIdx}`);
-            r.onsuccess = () => res({ dIdx, sIdx, blob: r.result });
-            r.onerror = () => res({ dIdx, sIdx, blob: null });
-          }));
-        }
-      }
-
       const metas = await Promise.all(metaPromises);
       metas.forEach(({ idx, val }) => {
         if (!val) return;
         const st = state[idx];
         if (val.preset && PRESETS[val.preset]) st.preset = val.preset;
+        if (val.bgTheme === 'dark' || val.bgTheme === 'light') st.bgTheme = val.bgTheme;
         if (typeof val.caption === 'string') st.caption = val.caption;
         if (typeof val.labelLeft === 'string') st.labelLeft = val.labelLeft;
         if (typeof val.labelRight === 'string') st.labelRight = val.labelRight;
+        if (typeof val.badgeTop === 'string') st.badgeTop = val.badgeTop;
+        if (typeof val.badgeBot === 'string') st.badgeBot = val.badgeBot;
         if (Array.isArray(val.palette) && val.palette.length === 5) st.palette = [...val.palette];
+        if (val.transforms && typeof val.transforms === 'object') st.transforms = val.transforms;
       });
+
+      // Загружаем картинки по семантическим ключам (плюс миграция со старых числовых ключей, если они были)
+      const imgPromises = [];
+      for (let dIdx = 0; dIdx < 7; dIdx++) {
+        ALL_SLOT_KEYS.forEach(sKey => {
+          imgPromises.push(new Promise(res => {
+            const r = imgsStore.get(`d${dIdx}_k_${sKey}`);
+            r.onsuccess = () => res({ dIdx, sKey, blob: r.result });
+            r.onerror = () => res({ dIdx, sKey, blob: null });
+          }));
+        });
+      }
 
       const blobs = await Promise.all(imgPromises);
       for (const item of blobs) {
         if (item.blob instanceof Blob) {
           try {
             const { img, url } = await loadImageFromBlob(item.blob);
-            state[item.dIdx].images[item.sIdx] = img;
-            state[item.dIdx].thumbUrls[item.sIdx] = url;
+            state[item.dIdx].images[item.sKey] = img;
+            state[item.dIdx].thumbUrls[item.sKey] = url;
           } catch (e) {}
+        }
+      }
+
+      // Обратная совместимость со старыми числовыми слотами (d0_s0..s3), если они были сохранены ранее
+      const legacyPromises = [];
+      for (let dIdx = 0; dIdx < 7; dIdx++) {
+        const pCfg = PRESETS[state[dIdx].preset] || PRESETS.sketch1_final;
+        pCfg.slots.forEach((slotObj, numIdx) => {
+          if (!state[dIdx].images[slotObj.key]) {
+            legacyPromises.push(new Promise(res => {
+              const r = imgsStore.get(`d${dIdx}_s${numIdx}`);
+              r.onsuccess = () => res({ dIdx, sKey: slotObj.key, blob: r.result });
+              r.onerror = () => res({ dIdx, sKey: slotObj.key, blob: null });
+            }));
+          }
+        });
+      }
+      if (legacyPromises.length) {
+        const legBlobs = await Promise.all(legacyPromises);
+        for (const item of legBlobs) {
+          if (item.blob instanceof Blob && !state[item.dIdx].images[item.sKey]) {
+            try {
+              const { img, url } = await loadImageFromBlob(item.blob);
+              state[item.dIdx].images[item.sKey] = img;
+              state[item.dIdx].thumbUrls[item.sKey] = url;
+              saveSlotBlob(item.dIdx, item.sKey, item.blob);
+            } catch (e) {}
+          }
         }
       }
 
@@ -5247,10 +5406,7 @@ const TwitterPlanner = (() => {
     const d = state[dayIdx];
     const presetCfg = PRESETS[d.preset];
     if (!presetCfg) return false;
-    for (let i = 0; i < presetCfg.slots.length; i++) {
-      if (d.images[i]) return true;
-    }
-    return false;
+    return presetCfg.slots.some(s => Boolean(d.images[s.key]));
   }
 
   function updateReadyBadge() {
@@ -5262,7 +5418,7 @@ const TwitterPlanner = (() => {
     }
   }
 
-  /* ── 3. МАТЕМАТИКА И РЕНДЕР 6 ПРЕСЕТОВ В СТИЛЕ APPLE FREEFORM (sRGB) ── */
+  /* ── 3. МАТЕМАТИКА И РЕНДЕР 6 ПРЕСЕТОВ В СТИЛЕ APPLE FREEFORM + PHOTOSHOP CROP + НИК ── */
   function getSrgbContext(canvas) {
     try {
       const ctx = canvas.getContext('2d', { colorSpace: 'srgb', alpha: false });
@@ -5286,12 +5442,10 @@ const TwitterPlanner = (() => {
     }
   }
 
-  // Двухслойная невесомая тень Apple Freeform (ambient + мягкое контактное касание)
-  function fillWithFreeformShadow(ctx, x, y, w, h, radius, fillColor) {
-    // 1. Мягкое рассеянное свечение-тень (Ambient)
+  function fillWithFreeformShadow(ctx, x, y, w, h, radius, fillColor, isDark) {
     ctx.save();
-    ctx.shadowColor = 'rgba(15, 17, 21, 0.065)';
-    ctx.shadowBlur = 24;
+    ctx.shadowColor = isDark ? 'rgba(0, 0, 0, 0.45)' : 'rgba(15, 17, 21, 0.065)';
+    ctx.shadowBlur = isDark ? 28 : 24;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 8;
     ctx.fillStyle = fillColor;
@@ -5299,9 +5453,8 @@ const TwitterPlanner = (() => {
     ctx.fill();
     ctx.restore();
 
-    // 2. Тонкая контактная тень у самого края (Contact elevation)
     ctx.save();
-    ctx.shadowColor = 'rgba(15, 17, 21, 0.04)';
+    ctx.shadowColor = isDark ? 'rgba(0, 0, 0, 0.3)' : 'rgba(15, 17, 21, 0.04)';
     ctx.shadowBlur = 5;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 2;
@@ -5311,8 +5464,48 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  function drawImageSlot(ctx, img, x, y, w, h, radius, placeholderLabel) {
-    fillWithFreeformShadow(ctx, x, y, w, h, radius, img ? '#ffffff' : '#f7f7f5');
+  // Стильный мини-бейдж поверх превью (для A/B или До/После в Vertical Stack)
+  function drawCornerBadge(ctx, text, slotX, slotY) {
+    const clean = (text || '').trim();
+    if (!clean) return;
+    ctx.save();
+    ctx.font = '600 28px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif';
+    const textW = ctx.measureText(clean).width;
+    const padX = 22;
+    const bw = Math.round(textW + padX * 2);
+    const bh = 50;
+    const bx = slotX + 28;
+    const by = slotY + 28;
+
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.22)';
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetY = 4;
+    ctx.fillStyle = 'rgba(18, 18, 17, 0.78)';
+    traceRoundRect(ctx, bx, by, bw, bh, 13);
+    ctx.fill();
+
+    ctx.shadowColor = 'transparent';
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+    ctx.stroke();
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(clean, bx + bw / 2, by + bh / 2 + 1);
+    ctx.restore();
+  }
+
+  // Отрисовка слота с учетом кадрирования/зума (Photoshop-style Pan & Scale)
+  function drawImageSlot(ctx, d, slotKey, x, y, w, h, radius, placeholderLabel) {
+    const img = d.images[slotKey];
+    const isDark = d.bgTheme === 'dark';
+    const baseFill = img ? (isDark ? '#181816' : '#f4f4f2') : (isDark ? '#191917' : '#f6f6f4');
+
+    // Запоминаем регион слота для интерактивного перетаскивания и зума мышкой на Canvas
+    d.hitRegions.push({ key: slotKey, label: placeholderLabel, x, y, w, h });
+
+    fillWithFreeformShadow(ctx, x, y, w, h, radius, baseFill, isDark);
 
     ctx.save();
     traceRoundRect(ctx, x, y, w, h, radius);
@@ -5321,24 +5514,33 @@ const TwitterPlanner = (() => {
     if (img && img.naturalWidth > 0 && img.naturalHeight > 0) {
       const iw = img.naturalWidth;
       const ih = img.naturalHeight;
-      const targetRatio = w / h;
+      const slotRatio = w / h;
       const imgRatio = iw / ih;
-      let sx = 0, sy = 0, sw = iw, sh = ih;
-      if (imgRatio > targetRatio) {
-        sw = ih * targetRatio;
-        sx = (iw - sw) / 2;
+
+      // Базовый размер Cover (при scale = 1.0)
+      let baseW = w, baseH = h;
+      if (imgRatio > slotRatio) {
+        baseH = h;
+        baseW = h * imgRatio;
       } else {
-        sh = iw / targetRatio;
-        sy = (ih - sh) / 2;
+        baseW = w;
+        baseH = w / imgRatio;
       }
+
+      const tr = getSlotTransform(d, slotKey);
+      const scale = Math.max(0.2, Math.min(4.0, tr.scale || 1));
+      const drawW = baseW * scale;
+      const drawH = baseH * scale;
+      const drawX = x + (w - drawW) / 2 + (tr.panX || 0);
+      const drawY = y + (h - drawH) / 2 + (tr.panY || 0);
+
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+      ctx.drawImage(img, 0, 0, iw, ih, drawX, drawY, drawW, drawH);
     } else {
-      // Чистый плейсхолдер в стиле Freeform
-      ctx.fillStyle = '#f6f6f4';
+      ctx.fillStyle = baseFill;
       ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = '#b2b2aa';
+      ctx.fillStyle = isDark ? '#5c5c54' : '#b2b2aa';
       const fontSize = Math.max(22, Math.min(38, Math.round(w * 0.032)));
       ctx.font = `500 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
       ctx.textAlign = 'center';
@@ -5347,69 +5549,114 @@ const TwitterPlanner = (() => {
     }
     ctx.restore();
 
-    // Тончайший микро-контур 1px поверх краев (как на карточках в Apple Freeform)
+    // Тонкий микро-контур 1px поверх краев
+    const isArmed = _armedSlot && _armedSlot.dayIdx === d.dayIdx && _armedSlot.slotKey === slotKey;
     ctx.save();
     traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.06)';
+    ctx.lineWidth = isArmed ? 3 : 1.2;
+    ctx.strokeStyle = isArmed
+      ? 'rgba(37, 99, 235, 0.75)'
+      : (isDark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(0, 0, 0, 0.06)');
     ctx.stroke();
     ctx.restore();
   }
 
-  function renderDayCanvas(dayIdx) {
+  // Отрисовка авторского ника в выделенной безопасной зоне (никогда не пересекается с превью)
+  function drawAuthorHandle(ctx, totalH, isDark) {
+    const cleanRaw = (userHandle || '').trim();
+    if (!cleanRaw || handlePos === 'off') return;
+    const handleText = cleanRaw.startsWith('@') ? cleanRaw : `@${cleanRaw}`;
+    const fullLabel = `𝕏  ${handleText}`;
+
+    ctx.save();
+    ctx.font = '600 27px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif';
+    ctx.fillStyle = isDark ? 'rgba(240, 240, 236, 0.46)' : 'rgba(18, 18, 17, 0.42)';
+    ctx.textBaseline = 'middle';
+
+    const isTop = handlePos === 'tl' || handlePos === 'tr';
+    const bandCenterY = isTop ? (PAD + 14) : (totalH - PAD - 14);
+
+    if (handlePos === 'tl' || handlePos === 'bl') {
+      ctx.textAlign = 'left';
+      ctx.fillText(fullLabel, PAD + 4, bandCenterY);
+    } else if (handlePos === 'tr' || handlePos === 'br') {
+      ctx.textAlign = 'right';
+      ctx.fillText(fullLabel, CANVAS_W - PAD - 4, bandCenterY);
+    } else {
+      ctx.textAlign = 'center';
+      ctx.fillText(fullLabel, CANVAS_W / 2, bandCenterY);
+    }
+    ctx.restore();
+  }
+
+  function renderDayCanvas(dayIdx, hideActiveOutline = false) {
     const d = state[dayIdx];
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     if (!canvas) return;
 
+    const prevArmed = _armedSlot;
+    if (hideActiveOutline) _armedSlot = null;
+
+    d.hitRegions = [];
+    const isDark = d.bgTheme === 'dark';
+    const hasHandle = Boolean((userHandle || '').trim()) && handlePos !== 'off';
+    const isHandleTop = hasHandle && (handlePos === 'tl' || handlePos === 'tr');
+    const isHandleBot = hasHandle && (handlePos === 'bl' || handlePos === 'br' || handlePos === 'bc');
+
+    // Выделяем безопасную зону сверху или снизу специально под ник, чтобы он не налезал на превьюшки
+    const padTop = PAD + (isHandleTop ? HANDLE_BAND : 0);
+    const padBot = PAD + (isHandleBot ? HANDLE_BAND : 0);
+
     const p = d.preset;
-    let totalH = 0;
+    let contentH = 0;
     let layoutFn = null;
 
     if (p === 'stack2') {
-      // 1. Vertical Stack (плотный шаг 24px между двумя 16:9 превью)
       const stackGap = 24;
-      totalH = PAD * 2 + FULL_H * 2 + stackGap;
+      contentH = FULL_H * 2 + stackGap;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d.images[0], PAD, PAD, CONTENT_W, FULL_H, R_LG, 'Top 16:9');
-        drawImageSlot(ctx, d.images[1], PAD, PAD + FULL_H + stackGap, CONTENT_W, FULL_H, R_LG, 'Bottom 16:9');
+        drawImageSlot(ctx, d, 's1', PAD, padTop, CONTENT_W, FULL_H, R_LG, 'Top 16:9');
+        drawCornerBadge(ctx, d.badgeTop, PAD, padTop);
+
+        const botY = padTop + FULL_H + stackGap;
+        drawImageSlot(ctx, d, 'final', PAD, botY, CONTENT_W, FULL_H, R_LG, 'Bottom 16:9');
+        drawCornerBadge(ctx, d.badgeBot, PAD, botY);
       };
     } else if (p === 'sketch3_final') {
-      // 2. 3 Sketches + Final (аккуратный шаг 20px между скетчами и 26px до финала)
-      const skW = (CONTENT_W - GAP_TIGHT * 2) / 3; // 626.66px
-      const skH = Math.round(skW * 9 / 16);        // 352px
-      totalH = PAD * 2 + skH + GAP_ROW + FULL_H;
+      const skW = (CONTENT_W - GAP_TIGHT * 2) / 3;
+      const skH = Math.round(skW * 9 / 16);
+      contentH = skH + GAP_ROW + FULL_H;
       layoutFn = ctx => {
+        const keys = ['s1', 's2', 's3'];
         for (let i = 0; i < 3; i++) {
           const sx = PAD + i * (skW + GAP_TIGHT);
-          drawImageSlot(ctx, d.images[i], sx, PAD, skW, skH, R_SM, `Sketch ${i + 1}`);
+          drawImageSlot(ctx, d, keys[i], sx, padTop, skW, skH, R_SM, `Sketch ${i + 1}`);
         }
-        drawImageSlot(ctx, d.images[3], PAD, PAD + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 'final', PAD, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'sketch1_final') {
-      // 3. 1 Sketch (72%) + Final
-      const skW = Math.round(CONTENT_W * 0.72); // 1382px
-      const skH = Math.round(skW * 9 / 16);     // 777px
+      const skW = Math.round(CONTENT_W * 0.72);
+      const skH = Math.round(skW * 9 / 16);
       const skX = PAD + Math.round((CONTENT_W - skW) / 2);
-      totalH = PAD * 2 + skH + GAP_ROW + FULL_H;
+      contentH = skH + GAP_ROW + FULL_H;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d.images[0], skX, PAD, skW, skH, R_SM, 'Sketch 16:9');
-        drawImageSlot(ctx, d.images[1], PAD, PAD + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 's1', skX, padTop, skW, skH, R_SM, 'Sketch 16:9');
+        drawImageSlot(ctx, d, 'final', PAD, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'assets_inspo') {
-      // 4. Assets & Inspo + Final
-      const groupW = Math.round(CONTENT_W * 0.86);      // 1651px
-      const slotW = Math.round((groupW - GAP_TIGHT) / 2); // 815px
-      const slotH = Math.round(slotW * 9 / 16);         // 458px
+      const groupW = Math.round(CONTENT_W * 0.86);
+      const slotW = Math.round((groupW - GAP_TIGHT) / 2);
+      const slotH = Math.round(slotW * 9 / 16);
       const startX = PAD + Math.round((CONTENT_W - (slotW * 2 + GAP_TIGHT)) / 2);
       const labelSpace = 48;
-      const topSlotY = PAD + labelSpace;
+      const topSlotY = padTop + labelSpace;
       const finalY = topSlotY + slotH + GAP_ROW;
-      totalH = finalY + FULL_H + PAD;
+      contentH = labelSpace + slotH + GAP_ROW + FULL_H;
 
       layoutFn = ctx => {
         ctx.save();
         ctx.font = '500 34px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif';
-        ctx.fillStyle = '#555550';
+        ctx.fillStyle = isDark ? '#b5b5ad' : '#555550';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         const lbl1 = (d.labelLeft || 'assets').trim();
@@ -5418,53 +5665,51 @@ const TwitterPlanner = (() => {
         ctx.fillText(lbl2, startX + slotW + GAP_TIGHT + slotW / 2, topSlotY - 14);
         ctx.restore();
 
-        drawImageSlot(ctx, d.images[0], startX, topSlotY, slotW, slotH, R_SM, lbl1 || 'assets');
-        drawImageSlot(ctx, d.images[1], startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, R_SM, lbl2 || 'inspo');
-        drawImageSlot(ctx, d.images[2], PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 's1', startX, topSlotY, slotW, slotH, R_SM, lbl1 || 'assets');
+        drawImageSlot(ctx, d, 's2', startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, R_SM, lbl2 || 'inspo');
+        drawImageSlot(ctx, d, 'final', PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'palette_final') {
-      // 5. Color Palette (5 аккуратных плашек с шагом 20px) + Final
-      const groupW = Math.round(CONTENT_W * 0.82); // 1574px
+      const groupW = Math.round(CONTENT_W * 0.82);
       const swGap = 20;
-      const swSize = Math.round((groupW - swGap * 4) / 5); // 299px
-      const swH = Math.round(swSize * 0.78); // Элегантная пропорция плашки (233px)
+      const swSize = Math.round((groupW - swGap * 4) / 5);
+      const swH = Math.round(swSize * 0.78);
       const realGroupW = swSize * 5 + swGap * 4;
       const startX = PAD + Math.round((CONTENT_W - realGroupW) / 2);
-      const finalY = PAD + swH + GAP_ROW;
-      totalH = finalY + FULL_H + PAD;
+      const finalY = padTop + swH + GAP_ROW;
+      contentH = swH + GAP_ROW + FULL_H;
 
       layoutFn = ctx => {
         for (let i = 0; i < 5; i++) {
           const sx = startX + i * (swSize + swGap);
           const col = d.palette[i] || '#cccccc';
 
-          fillWithFreeformShadow(ctx, sx, PAD, swSize, swH, R_SM, col);
+          fillWithFreeformShadow(ctx, sx, padTop, swSize, swH, R_SM, col, isDark);
 
-          // Тонкая деликатная обводка 1.5px, чтобы белый цвет читался на белом холсте
           ctx.save();
-          traceRoundRect(ctx, sx + 0.75, PAD + 0.75, swSize - 1.5, swH - 1.5, R_SM);
+          traceRoundRect(ctx, sx + 0.75, padTop + 0.75, swSize - 1.5, swH - 1.5, R_SM);
           ctx.lineWidth = 1.5;
-          ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
+          ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.08)';
           ctx.stroke();
           ctx.restore();
         }
-        drawImageSlot(ctx, d.images[0], PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 'final', PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'grid2x2') {
-      // 6. 2×2 Grid (плотный современный отступ 20px между 4 превьюшками вместо огромной дыры 40px)
       const gridGap = 20;
-      const cellW = (CONTENT_W - gridGap) / 2;   // 950px
-      const cellH = Math.round(cellW * 9 / 16);  // 534px
-      totalH = PAD * 2 + cellH * 2 + gridGap;
+      const cellW = (CONTENT_W - gridGap) / 2;
+      const cellH = Math.round(cellW * 9 / 16);
+      contentH = cellH * 2 + gridGap;
 
       layoutFn = ctx => {
-        drawImageSlot(ctx, d.images[0], PAD, PAD, cellW, cellH, R_SM, 'Top-Left');
-        drawImageSlot(ctx, d.images[1], PAD + cellW + gridGap, PAD, cellW, cellH, R_SM, 'Top-Right');
-        drawImageSlot(ctx, d.images[2], PAD, PAD + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Left');
-        drawImageSlot(ctx, d.images[3], PAD + cellW + gridGap, PAD + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Right');
+        drawImageSlot(ctx, d, 's1', PAD, padTop, cellW, cellH, R_SM, 'Top-Left');
+        drawImageSlot(ctx, d, 's2', PAD + cellW + gridGap, padTop, cellW, cellH, R_SM, 'Top-Right');
+        drawImageSlot(ctx, d, 's3', PAD, padTop + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Left');
+        drawImageSlot(ctx, d, 'final', PAD + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Right');
       };
     }
 
+    const totalH = padTop + contentH + padBot;
     if (canvas.width !== CANVAS_W || canvas.height !== totalH) {
       canvas.width = CANVAS_W;
       canvas.height = totalH;
@@ -5472,13 +5717,158 @@ const TwitterPlanner = (() => {
 
     const ctx = getSrgbContext(canvas);
     ctx.save();
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = isDark ? '#111110' : '#FFFFFF';
     ctx.fillRect(0, 0, CANVAS_W, totalH);
     if (layoutFn) layoutFn(ctx);
+    drawAuthorHandle(ctx, totalH, isDark);
     ctx.restore();
+
+    if (hideActiveOutline) _armedSlot = prevArmed;
   }
 
-  /* ── 4. АВТО-ПАЛИТРА ИЗ ПИКСЕЛЕЙ КАРТИНКИ И EYEDROPPER API ── */
+  /* ── 4. ИНТЕРАКТИВНОЕ КАДРИРОВАНИЕ И ЗУМ ПРЯМО НА CANVAS (КАК В PHOTOSHOP) ── */
+  function hitTestCanvasSlot(dayIdx, clientX, clientY) {
+    const canvas = document.getElementById(`xp-cv-${dayIdx}`);
+    const d = state[dayIdx];
+    if (!canvas || !d || !d.hitRegions.length) return null;
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    const cx = (clientX - rect.left) * (canvas.width / rect.width);
+    const cy = (clientY - rect.top) * (canvas.height / rect.height);
+
+    for (let i = d.hitRegions.length - 1; i >= 0; i--) {
+      const r = d.hitRegions[i];
+      if (cx >= r.x && cx <= r.x + r.w && cy >= r.y && cy <= r.y + r.h) {
+        return { region: r, scaleFactor: canvas.width / rect.width };
+      }
+    }
+    return null;
+  }
+
+  function bindCanvasCropEvents(dayIdx, canvas) {
+    let draggingKey = null;
+    let lastX = 0, lastY = 0;
+    let cScale = 1;
+
+    canvas.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+
+      const sKey = hit.region.key;
+      armSlot(dayIdx, sKey);
+
+      if (!state[dayIdx].images[sKey]) return;
+      e.preventDefault();
+      draggingKey = sKey;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      cScale = hit.scaleFactor;
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+
+    canvas.addEventListener('pointermove', e => {
+      if (!draggingKey) return;
+      e.preventDefault();
+      const dx = (e.clientX - lastX) * cScale;
+      const dy = (e.clientY - lastY) * cScale;
+      lastX = e.clientX;
+      lastY = e.clientY;
+
+      const tr = getSlotTransform(state[dayIdx], draggingKey);
+      tr.panX = Math.round((tr.panX || 0) + dx);
+      tr.panY = Math.round((tr.panY || 0) + dy);
+      renderDayCanvas(dayIdx);
+    });
+
+    const endDrag = e => {
+      if (!draggingKey) return;
+      draggingKey = null;
+      try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+      saveDayMeta(dayIdx);
+    };
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
+
+    // Зум колесиком мыши или трекпадом прямо над слотом
+    canvas.addEventListener('wheel', e => {
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+      const sKey = hit.region.key;
+      if (!state[dayIdx].images[sKey]) return;
+
+      e.preventDefault();
+      armSlot(dayIdx, sKey);
+      const tr = getSlotTransform(state[dayIdx], sKey);
+      const factor = e.deltaY < 0 ? 1.06 : 0.94;
+      tr.scale = Math.max(0.25, Math.min(3.5, Math.round((tr.scale || 1) * factor * 100) / 100));
+      renderDayCanvas(dayIdx);
+      updateCropBarUI(dayIdx);
+      saveDayMeta(dayIdx);
+    }, { passive: false });
+
+    // Двойной клик по слоту на холсте сбрасывает кадрирование в 100% центр
+    canvas.addEventListener('dblclick', e => {
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+      const sKey = hit.region.key;
+      if (!state[dayIdx].images[sKey]) return;
+      state[dayIdx].transforms[sKey] = { scale: 1, panX: 0, panY: 0 };
+      renderDayCanvas(dayIdx);
+      updateCropBarUI(dayIdx);
+      saveDayMeta(dayIdx);
+      notify('Кадрирование сброшено (100%)');
+    });
+  }
+
+  // Вычисление масштаба "Вписать целиком без обрезки" (Contain) для выбранного слота
+  function fitSlotContain(dayIdx, slotKey) {
+    const d = state[dayIdx];
+    const img = d.images[slotKey];
+    const reg = d.hitRegions.find(r => r.key === slotKey);
+    if (!img || !reg) return;
+    const iw = img.naturalWidth, ih = img.naturalHeight;
+    if (!iw || !ih) return;
+
+    const slotRatio = reg.w / reg.h;
+    const imgRatio = iw / ih;
+    const fitScale = imgRatio > slotRatio ? (slotRatio / imgRatio) : (imgRatio / slotRatio);
+    d.transforms[slotKey] = {
+      scale: Math.max(0.25, Math.round(fitScale * 100) / 100),
+      panX: 0,
+      panY: 0
+    };
+    renderDayCanvas(dayIdx);
+    updateCropBarUI(dayIdx);
+    saveDayMeta(dayIdx);
+  }
+
+  function updateCropBarUI(dayIdx) {
+    const bar = document.getElementById(`xp-crop-${dayIdx}`);
+    if (!bar) return;
+    const d = state[dayIdx];
+    const isThisDayArmed = _armedSlot && _armedSlot.dayIdx === dayIdx;
+    const sKey = isThisDayArmed ? _armedSlot.slotKey : null;
+    const presetCfg = PRESETS[d.preset];
+    const slotMeta = presetCfg && sKey ? presetCfg.slots.find(s => s.key === sKey) : null;
+
+    if (!slotMeta || !d.images[sKey]) {
+      bar.classList.remove('on');
+      return;
+    }
+
+    bar.classList.add('on');
+    const tr = getSlotTransform(d, sKey);
+    const pct = Math.round((tr.scale || 1) * 100);
+    const lblEl = bar.querySelector('.xp-crop-lbl');
+    const rngEl = bar.querySelector('.xp-crop-range');
+    const pctEl = bar.querySelector('.xp-crop-pct');
+    if (lblEl) lblEl.textContent = slotMeta.label;
+    if (rngEl) rngEl.value = String(pct);
+    if (pctEl) pctEl.textContent = `${pct}%`;
+  }
+
+  /* ── 5. АВТО-ПАЛИТРА ИЗ ПИКСЕЛЕЙ КАРТИНКИ И EYEDROPPER API ── */
   function rgbToHex(r, g, b) {
     const toH = n => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0');
     return `#${toH(r)}${toH(g)}${toH(b)}`;
@@ -5491,7 +5881,7 @@ const TwitterPlanner = (() => {
 
   function extractAutoPaletteFromFinal(dayIdx) {
     const d = state[dayIdx];
-    const img = d.images[0];
+    const img = d.images['final'];
     if (!img) {
       notify('Сначала загрузи финальное превью в слот');
       return;
@@ -5567,8 +5957,8 @@ const TwitterPlanner = (() => {
     } catch (e) {}
   }
 
-  /* ── 5. ЗАГРУЗКА ИЗОБРАЖЕНИЙ В СЛОТЫ ── */
-  async function assignFileToSlot(dayIdx, slotIdx, fileOrBlob) {
+  /* ── 6. ЗАГРУЗКА ИЗОБРАЖЕНИЙ В СЛОТЫ И ПЕРЕТАСКИВАНИЕ СЛОТОВ МЕСТАМИ (SWAP) ── */
+  async function assignFileToSlot(dayIdx, slotKey, fileOrBlob) {
     if (!fileOrBlob || !fileOrBlob.type || !fileOrBlob.type.startsWith('image/')) {
       notify('Выбери файл изображения (PNG, JPG, WebP)');
       return;
@@ -5576,60 +5966,104 @@ const TwitterPlanner = (() => {
     try {
       const { img, url } = await loadImageFromBlob(fileOrBlob);
       const d = state[dayIdx];
-      if (d.thumbUrls[slotIdx]) URL.revokeObjectURL(d.thumbUrls[slotIdx]);
-      d.images[slotIdx] = img;
-      d.thumbUrls[slotIdx] = url;
+      if (d.thumbUrls[slotKey]) URL.revokeObjectURL(d.thumbUrls[slotKey]);
+      d.images[slotKey] = img;
+      d.thumbUrls[slotKey] = url;
+      d.transforms[slotKey] = { scale: 1, panX: 0, panY: 0 };
 
-      await saveSlotBlob(dayIdx, slotIdx, fileOrBlob);
+      await saveSlotBlob(dayIdx, slotKey, fileOrBlob);
+      await saveDayMeta(dayIdx);
 
-      if (d.preset === 'palette_final' && slotIdx === 0) {
+      if (d.preset === 'palette_final' && slotKey === 'final') {
         extractAutoPaletteFromFinal(dayIdx);
       } else {
         refreshDayCardUI(dayIdx);
       }
       updateReadyBadge();
 
+      // Переводим фокус на следующий свободный слот карточки для удобной серийной вставки ⌘V
       const presetCfg = PRESETS[d.preset];
-      let nextEmpty = -1;
-      for (let i = slotIdx + 1; i < presetCfg.slots.length; i++) {
-        if (!d.images[i]) { nextEmpty = i; break; }
+      const curIdx = presetCfg.slots.findIndex(s => s.key === slotKey);
+      let nextKey = null;
+      for (let i = curIdx + 1; i < presetCfg.slots.length; i++) {
+        const k = presetCfg.slots[i].key;
+        if (!d.images[k]) { nextKey = k; break; }
       }
-      if (nextEmpty !== -1) armSlot(dayIdx, nextEmpty);
+      armSlot(dayIdx, nextKey || slotKey);
     } catch (e) {
       notify('Не удалось прочитать изображение');
     }
   }
 
-  async function removeSlotImage(dayIdx, slotIdx) {
+  async function swapSlots(dayIdx, keyA, keyB) {
+    if (keyA === keyB) return;
     const d = state[dayIdx];
-    if (d.thumbUrls[slotIdx]) URL.revokeObjectURL(d.thumbUrls[slotIdx]);
-    delete d.images[slotIdx];
-    delete d.thumbUrls[slotIdx];
-    await saveSlotBlob(dayIdx, slotIdx, null);
+    const blobA = await getSlotBlob(dayIdx, keyA);
+    const blobB = await getSlotBlob(dayIdx, keyB);
+
+    const imgA = d.images[keyA], imgB = d.images[keyB];
+    const urlA = d.thumbUrls[keyA], urlB = d.thumbUrls[keyB];
+    const trA = d.transforms[keyA] || { scale: 1, panX: 0, panY: 0 };
+    const trB = d.transforms[keyB] || { scale: 1, panX: 0, panY: 0 };
+
+    if (imgB) { d.images[keyA] = imgB; d.thumbUrls[keyA] = urlB; }
+    else { delete d.images[keyA]; delete d.thumbUrls[keyA]; }
+
+    if (imgA) { d.images[keyB] = imgA; d.thumbUrls[keyB] = urlA; }
+    else { delete d.images[keyB]; delete d.thumbUrls[keyB]; }
+
+    d.transforms[keyA] = trB;
+    d.transforms[keyB] = trA;
+
+    await saveSlotBlob(dayIdx, keyA, blobB);
+    await saveSlotBlob(dayIdx, keyB, blobA);
+    await saveDayMeta(dayIdx);
+
+    armSlot(dayIdx, keyB);
+    refreshDayCardUI(dayIdx);
+    notify('⇄ Слоты поменялись местами');
+  }
+
+  async function removeSlotImage(dayIdx, slotKey) {
+    const d = state[dayIdx];
+    if (d.thumbUrls[slotKey]) URL.revokeObjectURL(d.thumbUrls[slotKey]);
+    delete d.images[slotKey];
+    delete d.thumbUrls[slotKey];
+    delete d.transforms[slotKey];
+    await saveSlotBlob(dayIdx, slotKey, null);
+    await saveDayMeta(dayIdx);
     refreshDayCardUI(dayIdx);
     updateReadyBadge();
   }
 
-  function armSlot(dayIdx, slotIdx) {
-    _armedSlot = { dayIdx, slotIdx };
+  function armSlot(dayIdx, slotKey) {
+    const prevDay = _armedSlot ? _armedSlot.dayIdx : null;
+    _armedSlot = { dayIdx, slotKey };
     document.querySelectorAll('.xp-slot.is-armed').forEach(el => el.classList.remove('is-armed'));
-    const target = document.querySelector(`.xp-slot[data-day="${dayIdx}"][data-slot="${slotIdx}"]`);
+    const target = document.querySelector(`.xp-slot[data-day="${dayIdx}"][data-slot="${slotKey}"]`);
     if (target) target.classList.add('is-armed');
+
+    if (prevDay !== null && prevDay !== dayIdx) {
+      renderDayCanvas(prevDay);
+      updateCropBarUI(prevDay);
+    }
+    renderDayCanvas(dayIdx);
+    updateCropBarUI(dayIdx);
   }
 
-  function triggerFileDialog(dayIdx, slotIdx) {
-    armSlot(dayIdx, slotIdx);
+  function triggerFileDialog(dayIdx, slotKey) {
+    armSlot(dayIdx, slotKey);
     const inp = document.createElement('input');
     inp.type = 'file';
     inp.accept = 'image/*';
     inp.onchange = e => {
       const f = e.target.files && e.target.files[0];
-      if (f) assignFileToSlot(dayIdx, slotIdx, f);
+      if (f) assignFileToSlot(dayIdx, slotKey, f);
     };
     inp.click();
   }
 
-  /* ── 6. ЭКСПОРТ PNG ── */
+  /* ── 7. ЭКСПОРТ PNG (БЕЗ СЛУЖЕБНОЙ СИНЕЙ РАМКИ ВЫДЕЛЕННОГО СЛОТА) ── */
   function exportCanvasToBlob(canvas) {
     return new Promise(resolve => {
       canvas.toBlob(blob => resolve(blob), 'image/png', 1.0);
@@ -5638,10 +6072,11 @@ const TwitterPlanner = (() => {
 
   async function downloadSingleDay(dayIdx) {
     const dayMeta = DAYS[dayIdx];
-    renderDayCanvas(dayIdx);
+    renderDayCanvas(dayIdx, true); // Рендерим чистовой холст без синей обводки активного слота
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     if (!canvas) return;
     const blob = await exportCanvasToBlob(canvas);
+    renderDayCanvas(dayIdx, false);
     if (!blob) return;
 
     const url = URL.createObjectURL(blob);
@@ -5686,9 +6121,13 @@ const TwitterPlanner = (() => {
       Object.values(d.thumbUrls).forEach(u => URL.revokeObjectURL(u));
       d.images = {};
       d.thumbUrls = {};
+      d.transforms = {};
       d.caption = '';
       d.labelLeft = 'assets';
       d.labelRight = 'inspo';
+      d.badgeTop = '';
+      d.badgeBot = '';
+      d.bgTheme = 'light';
       d.palette = ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'];
     });
 
@@ -5698,7 +6137,16 @@ const TwitterPlanner = (() => {
     notify('Неделя полностью очищена');
   }
 
-  /* ── 7. ПОСТРОЕНИЕ И ОБНОВЛЕНИЕ DOM КАРТОЧЕК ДНЕЙ ── */
+  /* ── 8. ПОСТРОЕНИЕ И ОБНОВЛЕНИЕ DOM КАРТОЧЕК ДНЕЙ ── */
+  function autoResizeCaption(ta) {
+    if (!ta) return;
+    ta.style.height = '28px';
+    const sh = ta.scrollHeight;
+    if (sh > 30) {
+      ta.style.height = Math.min(130, sh) + 'px';
+    }
+  }
+
   function buildDaysGrid() {
     const grid = document.getElementById('xp-days-grid');
     if (!grid) return;
@@ -5720,6 +6168,21 @@ const TwitterPlanner = (() => {
       titleWrap.className = 'xp-day-title';
       titleWrap.innerHTML = `<span class="xp-day-dot"></span><span>${dayMeta.ru}</span><span class="xp-day-code">${dayMeta.num}_${dayMeta.code}</span>`;
 
+      const hdrControls = document.createElement('div');
+      hdrControls.className = 'xp-hdr-controls';
+
+      const bgBtn = document.createElement('button');
+      bgBtn.type = 'button';
+      bgBtn.className = 'xp-bg-toggle';
+      bgBtn.id = `xp-bg-${dIdx}`;
+      bgBtn.title = 'Фон карточки: Светлый (#FFFFFF) / Тёмный (#111110)';
+      bgBtn.textContent = dState.bgTheme === 'dark' ? '🌙' : '☀️';
+      bgBtn.addEventListener('click', () => {
+        dState.bgTheme = dState.bgTheme === 'dark' ? 'light' : 'dark';
+        saveDayMeta(dIdx);
+        refreshDayCardUI(dIdx);
+      });
+
       const sel = document.createElement('select');
       sel.className = 'xp-preset-sel';
       sel.id = `xp-pres-${dIdx}`;
@@ -5738,47 +6201,89 @@ const TwitterPlanner = (() => {
         updateReadyBadge();
       });
 
+      hdrControls.appendChild(bgBtn);
+      hdrControls.appendChild(sel);
       hdr.appendChild(titleWrap);
-      hdr.appendChild(sel);
+      hdr.appendChild(hdrControls);
       card.appendChild(hdr);
 
-      // 2. Сцена с интерактивным Canvas на точечном полотне Freeform
+      // 2. Сцена с интерактивным Canvas (Поддержка Pan мышкой и Zoom колесиком)
       const stage = document.createElement('div');
       stage.className = 'xp-canvas-stage';
       const cv = document.createElement('canvas');
       cv.className = 'xp-canvas';
       cv.id = `xp-cv-${dIdx}`;
+      cv.title = 'Зажми мышь на картинке для перемещения · Колесико — масштаб · Двойной клик — сброс';
       stage.appendChild(cv);
       card.appendChild(stage);
+      bindCanvasCropEvents(dIdx, cv);
 
-      // 3. Компактная панель слотов загрузки
+      // 3. Панель кадрирования и зума активного слота
+      const cropBar = document.createElement('div');
+      cropBar.className = 'xp-crop-bar';
+      cropBar.id = `xp-crop-${dIdx}`;
+      cropBar.innerHTML = `
+        <span class="xp-crop-lbl">Слот</span>
+        <div class="xp-crop-slider-wrap">
+          <input type="range" class="xp-crop-range" min="25" max="300" step="1" value="100" title="Масштаб внутри рамки"/>
+          <span class="xp-crop-pct">100%</span>
+        </div>
+        <div class="xp-crop-btns">
+          <button type="button" class="xp-mini-btn" data-act="fit" title="Вписать картинку целиком без обрезки">Вписать</button>
+          <button type="button" class="xp-mini-btn" data-act="reset" title="Сбросить масштаб и позицию (100%)">Сброс</button>
+        </div>
+      `;
+      const rng = cropBar.querySelector('.xp-crop-range');
+      rng.addEventListener('input', () => {
+        if (!_armedSlot || _armedSlot.dayIdx !== dIdx) return;
+        const tr = getSlotTransform(dState, _armedSlot.slotKey);
+        tr.scale = parseInt(rng.value, 10) / 100;
+        cropBar.querySelector('.xp-crop-pct').textContent = `${rng.value}%`;
+        renderDayCanvas(dIdx);
+        saveDayMeta(dIdx);
+      });
+      cropBar.querySelector('[data-act="fit"]').addEventListener('click', () => {
+        if (_armedSlot && _armedSlot.dayIdx === dIdx) fitSlotContain(dIdx, _armedSlot.slotKey);
+      });
+      cropBar.querySelector('[data-act="reset"]').addEventListener('click', () => {
+        if (!_armedSlot || _armedSlot.dayIdx !== dIdx) return;
+        dState.transforms[_armedSlot.slotKey] = { scale: 1, panX: 0, panY: 0 };
+        renderDayCanvas(dIdx);
+        updateCropBarUI(dIdx);
+        saveDayMeta(dIdx);
+      });
+      card.appendChild(cropBar);
+
+      // 4. Панель слотов загрузки (с поддержкой перетаскивания друг на друга Swap)
       const slotsBox = document.createElement('div');
       slotsBox.className = 'xp-slots';
       slotsBox.id = `xp-slots-${dIdx}`;
       card.appendChild(slotsBox);
 
-      // 4. Контейнер доп. настроек пресета (Assets/Inspo или Палитра цветов)
+      // 5. Контейнер доп. настроек пресета (Бейджи A/B, Assets/Inspo или Палитра цветов)
       const extraBox = document.createElement('div');
       extraBox.className = 'xp-extra';
       extraBox.id = `xp-extra-${dIdx}`;
       card.appendChild(extraBox);
 
-      // 5. Компактный нижний ряд: поле черновика поста + кнопка PNG
+      // 6. Нижний ряд: авто-расширяющееся поле <textarea> для поста + кнопка PNG
       const bottomRow = document.createElement('div');
       bottomRow.className = 'xp-card-bottom';
 
       const postWrap = document.createElement('div');
       postWrap.className = 'xp-post-wrap';
-      const ta = document.createElement('input');
-      ta.type = 'text';
+      const ta = document.createElement('textarea');
       ta.className = 'xp-caption';
       ta.id = `xp-cap-${dIdx}`;
+      ta.rows = 1;
       ta.placeholder = `Текст поста (${dayMeta.code})...`;
       ta.value = dState.caption;
       ta.addEventListener('input', () => {
         dState.caption = ta.value;
+        autoResizeCaption(ta);
         saveDayMeta(dIdx);
       });
+      ta.addEventListener('focus', () => autoResizeCaption(ta));
 
       const copyBtn = document.createElement('button');
       copyBtn.type = 'button';
@@ -5819,30 +6324,43 @@ const TwitterPlanner = (() => {
 
     const card = document.getElementById(`xp-card-${dayIdx}`);
     const sel = document.getElementById(`xp-pres-${dayIdx}`);
+    const bgBtn = document.getElementById(`xp-bg-${dayIdx}`);
     const slotsBox = document.getElementById(`xp-slots-${dayIdx}`);
     const extraBox = document.getElementById(`xp-extra-${dayIdx}`);
     const capEl = document.getElementById(`xp-cap-${dayIdx}`);
 
     if (sel && sel.value !== d.preset) sel.value = d.preset;
-    if (capEl && document.activeElement !== capEl) capEl.value = d.caption;
+    if (bgBtn) {
+      bgBtn.textContent = d.bgTheme === 'dark' ? '🌙' : '☀️';
+      bgBtn.classList.toggle('is-dark', d.bgTheme === 'dark');
+    }
+    if (capEl && document.activeElement !== capEl) {
+      capEl.value = d.caption;
+      autoResizeCaption(capEl);
+    }
 
     if (slotsBox) {
       slotsBox.innerHTML = '';
-      presetCfg.slots.forEach((slotLabel, sIdx) => {
-        const hasImg = Boolean(d.images[sIdx]);
-        const isArmed = _armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotIdx === sIdx;
+      presetCfg.slots.forEach(slotMeta => {
+        const sKey = slotMeta.key;
+        const slotLabel = slotMeta.label;
+        const hasImg = Boolean(d.images[sKey]);
+        const isArmed = _armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotKey === sKey;
 
         const slot = document.createElement('div');
         slot.className = `xp-slot${hasImg ? ' has-img' : ''}${isArmed ? ' is-armed' : ''}`;
         slot.dataset.day = String(dayIdx);
-        slot.dataset.slot = String(sIdx);
+        slot.dataset.slot = sKey;
         slot.tabIndex = 0;
-        slot.title = 'Кликни или наведи и нажми ⌘V · Поддерживается Drag & Drop';
+        slot.draggable = hasImg;
+        slot.title = hasImg
+          ? 'Перетащи на другой слот для замены местами · Кликни для загрузки другого файла'
+          : 'Кликни или наведи и нажми ⌘V · Поддерживается Drag & Drop';
 
-        if (hasImg && d.thumbUrls[sIdx]) {
+        if (hasImg && d.thumbUrls[sKey]) {
           const thumb = document.createElement('img');
           thumb.className = 'xp-slot-thumb';
-          thumb.src = d.thumbUrls[sIdx];
+          thumb.src = d.thumbUrls[sKey];
           thumb.alt = slotLabel;
           slot.appendChild(thumb);
 
@@ -5853,25 +6371,38 @@ const TwitterPlanner = (() => {
           delBtn.textContent = '×';
           delBtn.addEventListener('click', ev => {
             ev.stopPropagation();
-            removeSlotImage(dayIdx, sIdx);
+            removeSlotImage(dayIdx, sKey);
           });
           slot.appendChild(delBtn);
         }
 
         const ov = document.createElement('div');
         ov.className = 'xp-slot-overlay';
-        ov.innerHTML = `<span class="xp-slot-lbl">${slotLabel}</span><span class="xp-slot-sub">${hasImg ? 'Заменить' : '+ ⌘V'}</span>`;
+        ov.innerHTML = `<span class="xp-slot-lbl">${slotLabel}</span><span class="xp-slot-sub">${hasImg ? '⇄ / Заменить' : '+ ⌘V'}</span>`;
         slot.appendChild(ov);
 
-        slot.addEventListener('mouseenter', () => { _hoveredSlot = { dayIdx, slotIdx: sIdx }; });
+        slot.addEventListener('mouseenter', () => { _hoveredSlot = { dayIdx, slotKey: sKey }; });
         slot.addEventListener('mouseleave', () => {
-          if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx && _hoveredSlot.slotIdx === sIdx) {
+          if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx && _hoveredSlot.slotKey === sKey) {
             _hoveredSlot = null;
           }
         });
 
         slot.addEventListener('click', () => {
-          triggerFileDialog(dayIdx, sIdx);
+          triggerFileDialog(dayIdx, sKey);
+        });
+
+        // Перетаскивание слотов местами (Swap) + загрузка файлов из ОС
+        slot.addEventListener('dragstart', ev => {
+          if (!hasImg) { ev.preventDefault(); return; }
+          _draggedSlot = { dayIdx, slotKey: sKey };
+          slot.classList.add('dragging-source');
+          if (ev.dataTransfer) ev.dataTransfer.effectAllowed = 'move';
+        });
+        slot.addEventListener('dragend', () => {
+          _draggedSlot = null;
+          slot.classList.remove('dragging-source');
+          document.querySelectorAll('.xp-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
         });
 
         slot.addEventListener('dragover', ev => {
@@ -5888,8 +6419,16 @@ const TwitterPlanner = (() => {
           ev.preventDefault();
           ev.stopPropagation();
           slot.classList.remove('drag-over');
+
+          if (_draggedSlot && _draggedSlot.dayIdx === dayIdx) {
+            const fromKey = _draggedSlot.slotKey;
+            _draggedSlot = null;
+            swapSlots(dayIdx, fromKey, sKey);
+            return;
+          }
+
           const file = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
-          if (file) assignFileToSlot(dayIdx, sIdx, file);
+          if (file) assignFileToSlot(dayIdx, sKey, file);
         });
 
         slotsBox.appendChild(slot);
@@ -5898,7 +6437,37 @@ const TwitterPlanner = (() => {
 
     if (extraBox) {
       extraBox.innerHTML = '';
-      if (d.preset === 'assets_inspo') {
+      if (d.preset === 'stack2') {
+        extraBox.classList.add('on');
+        const lblRow = document.createElement('div');
+        lblRow.className = 'xp-lbl-inputs';
+
+        const inpTop = document.createElement('input');
+        inpTop.type = 'text';
+        inpTop.className = 'xp-inp-sm';
+        inpTop.placeholder = 'Бейдж сверху (напр. Option A / До)';
+        inpTop.value = d.badgeTop;
+        inpTop.addEventListener('input', () => {
+          d.badgeTop = inpTop.value;
+          saveDayMeta(dayIdx);
+          renderDayCanvas(dayIdx);
+        });
+
+        const inpBot = document.createElement('input');
+        inpBot.type = 'text';
+        inpBot.className = 'xp-inp-sm';
+        inpBot.placeholder = 'Бейдж снизу (напр. Option B / После)';
+        inpBot.value = d.badgeBot;
+        inpBot.addEventListener('input', () => {
+          d.badgeBot = inpBot.value;
+          saveDayMeta(dayIdx);
+          renderDayCanvas(dayIdx);
+        });
+
+        lblRow.appendChild(inpTop);
+        lblRow.appendChild(inpBot);
+        extraBox.appendChild(lblRow);
+      } else if (d.preset === 'assets_inspo') {
         extraBox.classList.add('on');
         const lblRow = document.createElement('div');
         lblRow.className = 'xp-lbl-inputs';
@@ -5986,20 +6555,20 @@ const TwitterPlanner = (() => {
       }
     }
 
-    const loadedCnt = presetCfg.slots.filter((_, i) => Boolean(d.images[i])).length;
+    const loadedCnt = presetCfg.slots.filter(s => Boolean(d.images[s.key])).length;
     if (card) card.classList.toggle('is-ready', loadedCnt > 0);
 
     renderDayCanvas(dayIdx);
+    updateCropBarUI(dayIdx);
   }
 
-  /* ── 8. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК И ПЕРЕХВАТ СОБЫТИЙ ── */
+  /* ── 9. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК И НАСТРОЙКИ НИКА ── */
   function switchView(mode) {
     _activeView = mode === 'planner' ? 'planner' : 'invoe';
     const invoeBody = document.getElementById('workspace-body');
     const plannerView = document.getElementById('x-planner-view');
     const tabInvoe = document.getElementById('xp-tab-invoe');
     const tabPlanner = document.getElementById('xp-tab-planner');
-    const mobSbBtn = document.getElementById('btn-mobile-sb');
 
     document.body.classList.toggle('xp-mode', _activeView === 'planner');
 
@@ -6008,14 +6577,12 @@ const TwitterPlanner = (() => {
       if (plannerView) plannerView.style.display = 'block';
       if (tabInvoe) { tabInvoe.classList.remove('on'); tabInvoe.setAttribute('aria-selected', 'false'); }
       if (tabPlanner) { tabPlanner.classList.add('on'); tabPlanner.setAttribute('aria-selected', 'true'); }
-      if (mobSbBtn) mobSbBtn.style.visibility = 'hidden';
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
     } else {
       if (plannerView) plannerView.style.display = 'none';
       if (invoeBody) invoeBody.style.display = '';
       if (tabInvoe) { tabInvoe.classList.add('on'); tabInvoe.setAttribute('aria-selected', 'true'); }
       if (tabPlanner) { tabPlanner.classList.remove('on'); tabPlanner.setAttribute('aria-selected', 'false'); }
-      if (mobSbBtn) mobSbBtn.style.visibility = '';
     }
   }
 
@@ -6025,6 +6592,26 @@ const TwitterPlanner = (() => {
     const btnDlWeek = document.getElementById('xp-btn-dl-week');
     const btnClearWeek = document.getElementById('xp-btn-clear-week');
     const plannerView = document.getElementById('x-planner-view');
+
+    const handleInp = document.getElementById('xp-set-handle');
+    const posSel = document.getElementById('xp-set-pos');
+
+    if (handleInp) {
+      handleInp.value = userHandle;
+      handleInp.addEventListener('input', () => {
+        userHandle = handleInp.value.trim();
+        try { localStorage.setItem('xp_user_handle', userHandle); } catch (e) {}
+        DAYS.forEach(d => renderDayCanvas(d.idx));
+      });
+    }
+    if (posSel) {
+      posSel.value = handlePos;
+      posSel.addEventListener('change', () => {
+        handlePos = posSel.value;
+        try { localStorage.setItem('xp_handle_pos', handlePos); } catch (e) {}
+        DAYS.forEach(d => renderDayCanvas(d.idx));
+      });
+    }
 
     if (tabInvoe) tabInvoe.addEventListener('click', () => switchView('invoe'));
     if (tabPlanner) tabPlanner.addEventListener('click', () => switchView('planner'));
@@ -6037,6 +6624,7 @@ const TwitterPlanner = (() => {
       });
     }
 
+    // Вставка картинки из буфера обмена (⌘V / Ctrl+V)
     window.addEventListener('paste', e => {
       if (_activeView !== 'planner') return;
       const items = e.clipboardData && e.clipboardData.items;
@@ -6052,37 +6640,47 @@ const TwitterPlanner = (() => {
       if (!imgFile) return;
 
       e.preventDefault();
-      const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotIdx: 0 };
-      assignFileToSlot(target.dayIdx, target.slotIdx, imgFile);
+      const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
+      assignFileToSlot(target.dayIdx, target.slotKey, imgFile);
     });
 
+    // Защита от глобального drop-zone JSON-файлов инвойсов БЕЗ блокировки подсветки дочерних слотов (.xp-slot)
     window.addEventListener('dragenter', e => {
       if (_activeView === 'planner') {
-        e.stopImmediatePropagation();
+        const dz = document.getElementById('drop-zone');
+        if (dz) dz.classList.remove('on');
       }
-    }, true);
+    }, false);
     window.addEventListener('dragover', e => {
       if (_activeView === 'planner') {
         e.preventDefault();
-        e.stopImmediatePropagation();
+        const dz = document.getElementById('drop-zone');
+        if (dz) dz.classList.remove('on');
       }
-    }, true);
+    }, false);
     window.addEventListener('drop', e => {
       if (_activeView === 'planner') {
-        e.preventDefault();
+        const dz = document.getElementById('drop-zone');
+        if (dz) dz.classList.remove('on');
         if (!e.target.closest('.xp-slot')) {
+          e.preventDefault();
           e.stopImmediatePropagation();
           const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
           if (file && file.type && file.type.startsWith('image/')) {
-            const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotIdx: 0 };
-            assignFileToSlot(target.dayIdx, target.slotIdx, file);
+            const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
+            assignFileToSlot(target.dayIdx, target.slotKey, file);
           }
         }
       }
     }, true);
 
+    // Изоляция горячих клавиш инвойсов с сохранением работы Enter в окне подтверждения (#conf-overlay)
     window.addEventListener('keydown', e => {
       if (_activeView !== 'planner') return;
+      const confOpen = document.getElementById('conf-overlay')?.classList.contains('on');
+      const sovOpen = document.getElementById('sov')?.classList.contains('on');
+      if (confOpen || sovOpen) return;
+
       const k = e.key.toLowerCase();
       if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) return;
       if (e.key === 'Escape') return;
