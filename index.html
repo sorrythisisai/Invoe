@@ -1160,7 +1160,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 </style>
   <style id="xp-styles">
 /* ══════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — ISOLATED STYLES
+   X (TWITTER) WEEKLY PLANNER — FREEFORM / MODERN UI
 ══════════════════════════════════════════════ */
 
 /* Переключатель вкладок в Topbar */
@@ -1185,145 +1185,162 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 /* Основной контейнер вкладки */
 .xp-view{
   flex:1;overflow-y:auto;overflow-x:hidden;
-  width:100%;padding:8px 28px 48px;
+  width:100%;padding:12px 28px 56px;
 }
 .xp-view::-webkit-scrollbar{width:4px;}
 .xp-view::-webkit-scrollbar-thumb{background:transparent;border-radius:2px;}
 .xp-view:hover::-webkit-scrollbar-thumb{background:var(--border2);}
 
 .xp-container{
-  max-width:1264px;width:100%;margin:0 auto;
-  display:flex;flex-direction:column;gap:20px;
+  max-width:1320px;width:100%;margin:0 auto;
+  display:flex;flex-direction:column;gap:18px;
 }
 
-/* Шапка планера */
+/* Чистая компактная шапка планера */
 .xp-header{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:16px;flex-wrap:wrap;padding-top:4px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;padding:2px 0;
 }
-.xp-header-left{display:flex;flex-direction:column;gap:3px;}
-.xp-title-row{display:flex;align-items:center;gap:9px;}
-.xp-title{font-size:16px;font-weight:700;letter-spacing:-.025em;color:var(--text);}
+.xp-header-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.xp-title-row{display:flex;align-items:center;gap:8px;}
+.xp-title{font-size:15px;font-weight:700;letter-spacing:-.025em;color:var(--text);}
 .xp-badge{
-  font-size:11px;font-weight:600;padding:2px 8px;
-  border-radius:var(--r-xs);background:var(--surface2);color:var(--text2);
+  font-size:10.5px;font-weight:600;padding:2px 7px;
+  border-radius:var(--rf);background:var(--surface2);color:var(--text3);
 }
 .xp-badge.has-ready{background:var(--blue-bg);color:var(--blue);}
-.xp-subtitle{font-size:12px;color:var(--text3);}
-.xp-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.xp-subtitle{
+  font-size:11.5px;color:var(--text3);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.xp-subtitle::before{
+  content:'·';opacity:.5;
+}
+.xp-header-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 
 /* Кнопки планера */
 .xp-btn{
-  height:34px;padding:0 13px;border:none;border-radius:var(--r);
-  font-size:12.5px;font-weight:500;cursor:pointer;
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:30px;padding:0 11px;border:none;border-radius:var(--r);
+  font-size:12px;font-weight:500;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
   white-space:nowrap;
+  transition:transform .12s var(--ease), background-color .14s var(--ease), color .14s var(--ease), opacity .14s var(--ease);
 }
 .xp-btn-primary{background:var(--text);color:var(--bg);font-weight:600;}
 .xp-btn-primary:hover{opacity:.88;}
 .xp-btn-ghost{background:var(--surface2);color:var(--text2);}
 .xp-btn-ghost:hover{background:var(--surface3);color:var(--text);}
 .xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
-.xp-btn-sm{height:28px;padding:0 10px;font-size:11.5px;border-radius:var(--r-xs);}
+.xp-btn-sm{height:26px;padding:0 9px;font-size:11px;border-radius:var(--r-xs);}
 
-/* Сетка карточек на 7 дней */
+/* Сетка карточек на 7 дней (просторная студийная верстка) */
 .xp-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
-  gap:16px;
+  grid-template-columns:repeat(auto-fill, minmax(380px, 1fr));
+  gap:14px;
   align-items:start;
 }
 
-/* Карточка одного дня */
+/* Карточка одного дня в стиле Apple Freeform */
 .xp-day-card{
   background:var(--surface);
-  border-radius:var(--rxl);
-  padding:15px;
-  box-shadow:var(--shadow-card);
-  display:flex;flex-direction:column;gap:12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:13px;
+  box-shadow:0 1px 2px rgba(0,0,0,0.02), 0 6px 16px rgba(0,0,0,0.015);
+  display:flex;flex-direction:column;gap:10px;
   position:relative;
-  transition:box-shadow .16s var(--ease);
+  transition:border-color .16s var(--ease), box-shadow .16s var(--ease);
+}
+.xp-day-card:hover{
+  border-color:var(--border2);
 }
 .xp-day-card.is-ready{
-  box-shadow:inset 0 0 0 1px rgba(37,99,235,0.22), var(--shadow-card);
+  border-color:rgba(37,99,235,0.28);
 }
 
-/* Верхняя строка карточки (День + Выбор пресета) */
+/* Верхняя строка карточки (День + Быстрые пилюли пресетов) */
 .xp-day-hdr{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
 }
 .xp-day-title{
-  display:flex;align-items:center;gap:7px;
-  font-size:13.5px;font-weight:600;color:var(--text);
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;color:var(--text);
+  letter-spacing:-.015em;
 }
 .xp-day-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--text3);opacity:.45;
+  width:5.5px;height:5.5px;border-radius:50%;
+  background:var(--text3);opacity:.35;
   transition:background-color .2s, opacity .2s, transform .2s;
 }
 .xp-day-card.is-ready .xp-day-dot{
-  background:var(--success);opacity:1;transform:scale(1.15);
+  background:var(--success);opacity:1;
 }
 .xp-day-code{
-  font-size:10.5px;font-weight:600;color:var(--text3);
-  text-transform:uppercase;letter-spacing:.04em;
+  font-size:10px;font-weight:600;color:var(--text3);
+  background:var(--bg);padding:1.5px 5.5px;border-radius:4px;
+  letter-spacing:.02em;
 }
 
+/* Селектор пресета (чистый минимализм без лишнего шума) */
 .xp-preset-sel{
-  height:28px;padding:0 24px 0 9px;
-  font-size:11.5px;font-weight:500;color:var(--text);
-  background:var(--surface2);border:none;border-radius:var(--r-xs);
+  height:25px;padding:0 22px 0 8px;
+  font-size:11px;font-weight:500;color:var(--text2);
+  background:var(--bg);border:1px solid var(--border);border-radius:6px;
   font-family:inherit;outline:none;cursor:pointer;
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 8px center;
-  max-width:205px;text-overflow:ellipsis;
+  background-repeat:no-repeat;background-position:right 7px center;
+  max-width:190px;text-overflow:ellipsis;
+  transition:border-color .14s, color .14s;
 }
-.xp-preset-sel:hover{background-color:var(--surface3);}
+.xp-preset-sel:hover{border-color:var(--border2);color:var(--text);}
 
-/* Превью холста (Интерактивный Canvas) */
+/* Сцена с точечной сеткой Apple Freeform */
 .xp-canvas-stage{
   width:100%;
-  background:var(--surface2);
-  border-radius:var(--rl);
-  padding:12px;
+  background-color:var(--bg);
+  background-image:radial-gradient(var(--border2) 1px, transparent 1px);
+  background-size:14px 14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
   display:flex;align-items:center;justify-content:center;
-  min-height:195px;
+  min-height:200px;
   position:relative;overflow:hidden;
 }
 .xp-canvas{
-  max-width:100%;max-height:260px;
+  max-width:100%;max-height:255px;
   width:auto;height:auto;
   display:block;
   border-radius:6px;
-  box-shadow:0 4px 16px rgba(0,0,0,0.1);
+  box-shadow:0 2px 6px rgba(0,0,0,0.04), 0 10px 24px rgba(0,0,0,0.06);
   transition:transform .16s var(--ease);
 }
 
-/* Панель слотов загрузки изображений */
+/* Компактная панель слотов загрузки изображений */
 .xp-slots{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(74px, 1fr));
-  gap:6px;
+  grid-template-columns:repeat(auto-fit, minmax(68px, 1fr));
+  gap:5px;
 }
 .xp-slot{
-  height:54px;
-  background:var(--surface2);
-  border:1.5px dashed transparent;
-  border-radius:var(--r);
+  height:42px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:7px;
   position:relative;overflow:hidden;
   cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;padding:4px;
-  transition:background-color .14s var(--ease), border-color .14s var(--ease), box-shadow .14s var(--ease);
+  gap:1px;padding:3px;
+  transition:background-color .14s var(--ease), border-color .14s var(--ease), transform .12s var(--ease);
 }
-.xp-slot:hover{background:var(--surface3);}
-/* Активный слот для вставки по ⌘V / Ctrl+V */
+.xp-slot:hover{border-color:var(--border2);background:var(--surface2);}
 .xp-slot.is-armed,
 .xp-slot:focus-visible{
-  border-style:solid;
   border-color:var(--blue);
   background:var(--blue-bg);
+  box-shadow:0 0 0 1px var(--blue);
   outline:none;
 }
 .xp-slot.drag-over{
@@ -1343,9 +1360,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   text-align:center;pointer-events:none;
 }
 .xp-slot.has-img .xp-slot-overlay{
-  background:rgba(0,0,0,0.52);
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
+  background:rgba(15,15,15,0.62);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
   padding:2px 6px;border-radius:4px;
   opacity:0;transition:opacity .14s;
 }
@@ -1356,14 +1373,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
 }
 .xp-slot.has-img .xp-slot-lbl{color:#ffffff;}
-.xp-slot-sub{font-size:9px;color:var(--text3);}
+.xp-slot-sub{font-size:8.5px;color:var(--text3);}
 .xp-slot.has-img .xp-slot-sub{color:rgba(255,255,255,0.8);}
 
 .xp-slot-del{
   position:absolute;top:3px;right:3px;z-index:3;
-  width:18px;height:18px;border-radius:4px;border:none;
+  width:16px;height:16px;border-radius:4px;border:none;
   background:rgba(0,0,0,0.65);color:#fff;
-  font-size:11px;line-height:1;cursor:pointer;
+  font-size:10px;line-height:1;cursor:pointer;
   display:none;align-items:center;justify-content:center;
 }
 .xp-slot.has-img:hover .xp-slot-del{display:flex;}
@@ -1372,84 +1389,81 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 /* Доп. контролы пресетов (Подписи Assets/Inspo и Палитра 5 цветов) */
 .xp-extra{
   display:none;
-  background:var(--surface2);
-  border-radius:var(--r);
-  padding:8px 10px;
-  flex-direction:column;gap:6px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:6px 8px;
+  flex-direction:column;gap:5px;
 }
 .xp-extra.on{display:flex;}
-.xp-extra-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.xp-extra-lbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;}
 
-.xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;}
+.xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;}
 .xp-inp-sm{
-  width:100%;height:26px;padding:0 8px;
-  font-size:11.5px;color:var(--text);
-  background:var(--surface);border:none;border-radius:4px;
+  width:100%;height:24px;padding:0 7px;
+  font-size:11px;color:var(--text);
+  background:var(--surface);border:1px solid var(--border);border-radius:5px;
   font-family:inherit;outline:none;
   user-select:text;-webkit-user-select:text;
 }
-.xp-inp-sm:focus{box-shadow:0 0 0 1.5px var(--blue);}
+.xp-inp-sm:focus{border-color:var(--blue);}
 
 /* Палитра цветов (Preset 5) */
 .xp-palette-bar{
   display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;
 }
-.xp-swatches{display:flex;align-items:center;gap:5px;}
+.xp-swatches{display:flex;align-items:center;gap:4px;}
 .xp-color-wrap{
-  position:relative;width:24px;height:24px;
+  position:relative;width:22px;height:22px;
   border-radius:5px;overflow:hidden;
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.18);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.14);
   cursor:pointer;flex-shrink:0;
 }
 .xp-color-inp{
-  position:absolute;inset:-6px;width:36px;height:36px;
+  position:absolute;inset:-6px;width:34px;height:34px;
   border:none;padding:0;background:none;cursor:pointer;
 }
 .xp-pal-actions{display:flex;align-items:center;gap:4px;}
 .xp-mini-btn{
-  height:24px;padding:0 8px;border:none;border-radius:4px;
+  height:22px;padding:0 7px;border:1px solid var(--border);border-radius:5px;
   background:var(--surface);color:var(--text2);
-  font-size:10.5px;font-weight:600;cursor:pointer;
+  font-size:10px;font-weight:600;cursor:pointer;
   display:inline-flex;align-items:center;gap:4px;
 }
-.xp-mini-btn:hover{color:var(--text);background:var(--surface3);}
+.xp-mini-btn:hover{color:var(--text);border-color:var(--border2);}
 
-/* Поле черновика поста и нижняя панель карточки */
-.xp-post-wrap{position:relative;display:flex;flex-direction:column;}
-.xp-caption{
-  width:100%;height:52px;padding:7px 30px 7px 10px;
-  font-size:12px;line-height:1.4;color:var(--text);
-  background:var(--surface2);border:none;border-radius:var(--r);
-  font-family:inherit;resize:none;outline:none;
-  user-select:text;-webkit-user-select:text;
-  transition:background-color .14s, box-shadow .14s;
+/* Лаконичная нижняя панель: однострочное поле поста + кнопка PNG в один ряд */
+.xp-card-bottom{
+  display:flex;align-items:center;gap:6px;
 }
-.xp-caption:focus{background:var(--surface);box-shadow:0 0 0 1.5px var(--border2);}
+.xp-post-wrap{
+  position:relative;flex:1;min-width:0;display:flex;align-items:center;
+}
+.xp-caption{
+  width:100%;height:28px;padding:4px 26px 4px 9px;
+  font-size:11.5px;line-height:20px;color:var(--text);
+  background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  font-family:inherit;resize:none;outline:none;
+  white-space:nowrap;overflow:hidden;
+  user-select:text;-webkit-user-select:text;
+  transition:border-color .14s, background-color .14s;
+}
+.xp-caption:focus{background:var(--surface);border-color:var(--border2);}
 .xp-caption::placeholder{color:var(--text3);}
 .xp-copy-cap{
-  position:absolute;top:5px;right:5px;
-  width:22px;height:22px;border:none;border-radius:4px;
+  position:absolute;right:4px;
+  width:20px;height:20px;border:none;border-radius:4px;
   background:transparent;color:var(--text3);cursor:pointer;
   display:flex;align-items:center;justify-content:center;
 }
-.xp-copy-cap:hover{background:var(--surface3);color:var(--text);}
-
-.xp-day-ftr{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-}
-.xp-day-status{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.xp-day-btns{display:flex;align-items:center;gap:6px;margin-left:auto;}
+.xp-copy-cap:hover{background:var(--surface2);color:var(--text);}
 
 /* Скрытие мобильного FAB-плюса инвойсов, когда открыт X Planner */
 body.xp-mode .app::after, body.xp-mode #m-bottom-nav, body.xp-mode #m-period-btn{display:none!important;}
 
 @media(max-width:768px){
-  .xp-view{padding:6px 16px 40px;}
+  .xp-view{padding:8px 16px 40px;}
   .xp-grid{grid-template-columns:1fr;}
-  .xp-header{align-items:flex-start;}
-  .xp-header-actions{width:100%;}
-  .xp-header-actions .xp-btn{flex:1;}
+  .xp-subtitle{display:none;}
 }
 </style>
 </head>
@@ -1660,7 +1674,7 @@ body.xp-mode .app::after, body.xp-mode #m-bottom-nav, body.xp-mode #m-period-btn
           <h2 class="xp-title">X Weekly Showcase</h2>
           <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
         </div>
-        <p class="xp-subtitle">Локальное хранилище IndexedDB (0 байт нагрузки на Firebase) · Экспорт 1920px sRGB · Кликни на слот и нажми ⌘V</p>
+        <p class="xp-subtitle">1920px sRGB · Локальная база · Кликни или наведи на слот и нажми ⌘V</p>
       </div>
       <div class="xp-header-actions">
         <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
@@ -5027,7 +5041,7 @@ function bindEvents() {
 </script>
   <script id="xp-script">
 /* ══════════════════════════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (ZERO FIREBASE LOAD)
+   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (APPLE FREEFORM EDITION)
 ══════════════════════════════════════════════════════════════════ */
 const TwitterPlanner = (() => {
   const DB_NAME = 'InvoeXPlannerLocalDB';
@@ -5049,7 +5063,7 @@ const TwitterPlanner = (() => {
     stack2: {
       id: 'stack2',
       name: '1. Vertical Stack (2 × 16:9)',
-      slots: ['Top Preview', 'Bottom Preview']
+      slots: ['Top 16:9', 'Bottom 16:9']
     },
     sketch3_final: {
       id: 'sketch3_final',
@@ -5066,7 +5080,7 @@ const TwitterPlanner = (() => {
     assets_inspo: {
       id: 'assets_inspo',
       name: '4. Assets & Inspo + Final',
-      slots: ['Left Slot', 'Right Slot', 'Final 16:9'],
+      slots: ['Assets', 'Inspo', 'Final 16:9'],
       finalIdx: 2
     },
     palette_final: {
@@ -5082,21 +5096,21 @@ const TwitterPlanner = (() => {
     }
   };
 
-  // Константы геометрии Apple-стиля (Retina 1920px рабочая зона + 80px поля)
+  // Константы геометрии в стиле Apple Freeform (плотная современная сетка и воздушные тени)
   const CONTENT_W = 1920;
-  const PAD = 80;
-  const GAP = 40;
-  const CANVAS_W = CONTENT_W + PAD * 2; // 2080px
-  const FULL_H = 1080; // 1920 / 16 * 9
-  const R_LG = 28;
-  const R_SM = 18;
+  const PAD = 56;          // Аккуратная рамка вокруг композиции (вместо огромных 80px)
+  const GAP_ROW = 26;      // Отступ между верхним рядом и финальным превью
+  const GAP_TIGHT = 20;    // Плотный современный шаг между карточками в сетке 2×2 и ряду скетчей
+  const CANVAS_W = CONTENT_W + PAD * 2; // 2032px
+  const FULL_H = 1080;     // 1920 / 16 * 9
+  const R_LG = 22;         // Современное скругление крупных превью
+  const R_SM = 16;         // Скругление миниатюр и плашек
 
   let _dbPromise = null;
   let _activeView = 'invoe';
-  let _armedSlot = null; // { dayIdx, slotIdx } для вставки по Cmd+V / Ctrl+V
+  let _armedSlot = null;
   let _hoveredSlot = null;
 
-  // Локальное состояние в памяти (только для вкладки планера)
   const state = DAYS.map(d => ({
     dayIdx: d.idx,
     preset: 'sketch1_final',
@@ -5104,11 +5118,11 @@ const TwitterPlanner = (() => {
     labelLeft: 'assets',
     labelRight: 'inspo',
     palette: ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'],
-    images: {},    // slotIdx -> HTMLImageElement
-    thumbUrls: {}  // slotIdx -> ObjectURL
+    images: {},
+    thumbUrls: {}
   }));
 
-  /* ── 1. НАТИВНАЯ БАЗА INDEXEDDB (ХРАНЕНИЕ BLOB БЕЗ НАГРУЗКИ НА FIREBASE) ── */
+  /* ── 1. НАТИВНАЯ БАЗА INDEXEDDB ── */
   function openDB() {
     if (_dbPromise) return _dbPromise;
     _dbPromise = new Promise((resolve, reject) => {
@@ -5239,16 +5253,6 @@ const TwitterPlanner = (() => {
     return false;
   }
 
-  function isDayComplete(dayIdx) {
-    const d = state[dayIdx];
-    const presetCfg = PRESETS[d.preset];
-    if (!presetCfg) return false;
-    for (let i = 0; i < presetCfg.slots.length; i++) {
-      if (!d.images[i]) return false;
-    }
-    return true;
-  }
-
   function updateReadyBadge() {
     const readyCnt = DAYS.filter(d => isDayReady(d.idx)).length;
     const badge = document.getElementById('xp-ready-badge');
@@ -5258,7 +5262,7 @@ const TwitterPlanner = (() => {
     }
   }
 
-  /* ── 3. МАТЕМАТИКА И РЕНДЕР 6 ПРЕСЕТОВ НА 2D CANVAS (sRGB) ── */
+  /* ── 3. МАТЕМАТИКА И РЕНДЕР 6 ПРЕСЕТОВ В СТИЛЕ APPLE FREEFORM (sRGB) ── */
   function getSrgbContext(canvas) {
     try {
       const ctx = canvas.getContext('2d', { colorSpace: 'srgb', alpha: false });
@@ -5282,17 +5286,33 @@ const TwitterPlanner = (() => {
     }
   }
 
-  // Отрисовка слота с мягкой тенью, object-fit: cover и тонкой рамкой 1px
-  function drawImageSlot(ctx, img, x, y, w, h, radius, placeholderLabel) {
+  // Двухслойная невесомая тень Apple Freeform (ambient + мягкое контактное касание)
+  function fillWithFreeformShadow(ctx, x, y, w, h, radius, fillColor) {
+    // 1. Мягкое рассеянное свечение-тень (Ambient)
     ctx.save();
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.14)';
-    ctx.shadowBlur = 32;
+    ctx.shadowColor = 'rgba(15, 17, 21, 0.065)';
+    ctx.shadowBlur = 24;
     ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 12;
-    ctx.fillStyle = img ? '#ffffff' : '#f4f4f2';
+    ctx.shadowOffsetY = 8;
+    ctx.fillStyle = fillColor;
     traceRoundRect(ctx, x, y, w, h, radius);
     ctx.fill();
     ctx.restore();
+
+    // 2. Тонкая контактная тень у самого края (Contact elevation)
+    ctx.save();
+    ctx.shadowColor = 'rgba(15, 17, 21, 0.04)';
+    ctx.shadowBlur = 5;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 2;
+    ctx.fillStyle = fillColor;
+    traceRoundRect(ctx, x, y, w, h, radius);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawImageSlot(ctx, img, x, y, w, h, radius, placeholderLabel) {
+    fillWithFreeformShadow(ctx, x, y, w, h, radius, img ? '#ffffff' : '#f7f7f5');
 
     ctx.save();
     traceRoundRect(ctx, x, y, w, h, radius);
@@ -5315,23 +5335,23 @@ const TwitterPlanner = (() => {
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
     } else {
-      // Спокойный минималистичный плейсхолдер, если слот еще пуст
-      ctx.fillStyle = '#f3f3f0';
+      // Чистый плейсхолдер в стиле Freeform
+      ctx.fillStyle = '#f6f6f4';
       ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = '#a6a69e';
-      const fontSize = Math.max(24, Math.min(44, Math.round(w * 0.036)));
-      ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+      ctx.fillStyle = '#b2b2aa';
+      const fontSize = Math.max(22, Math.min(38, Math.round(w * 0.032)));
+      ctx.font = `500 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(placeholderLabel || '16:9', x + w / 2, y + h / 2);
     }
     ctx.restore();
 
-    // Внутренняя микро-рамка 1px поверх краев, чтобы белые скетчи не сливались с фоном
+    // Тончайший микро-контур 1px поверх краев (как на карточках в Apple Freeform)
     ctx.save();
     traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.06)';
     ctx.stroke();
     ctx.restore();
   }
@@ -5346,106 +5366,102 @@ const TwitterPlanner = (() => {
     let layoutFn = null;
 
     if (p === 'stack2') {
-      // 1. Vertical Stack (2 превью 1920x1080 друг под другом)
-      totalH = PAD * 2 + FULL_H * 2 + GAP;
+      // 1. Vertical Stack (плотный шаг 24px между двумя 16:9 превью)
+      const stackGap = 24;
+      totalH = PAD * 2 + FULL_H * 2 + stackGap;
       layoutFn = ctx => {
         drawImageSlot(ctx, d.images[0], PAD, PAD, CONTENT_W, FULL_H, R_LG, 'Top 16:9');
-        drawImageSlot(ctx, d.images[1], PAD, PAD + FULL_H + GAP, CONTENT_W, FULL_H, R_LG, 'Bottom 16:9');
+        drawImageSlot(ctx, d.images[1], PAD, PAD + FULL_H + stackGap, CONTENT_W, FULL_H, R_LG, 'Bottom 16:9');
       };
     } else if (p === 'sketch3_final') {
-      // 2. 3 Sketches + Final
-      const skW = (CONTENT_W - GAP * 2) / 3; // 613.333px
-      const skH = Math.round(skW * 9 / 16);  // 345px
-      totalH = PAD * 2 + skH + GAP + FULL_H;
+      // 2. 3 Sketches + Final (аккуратный шаг 20px между скетчами и 26px до финала)
+      const skW = (CONTENT_W - GAP_TIGHT * 2) / 3; // 626.66px
+      const skH = Math.round(skW * 9 / 16);        // 352px
+      totalH = PAD * 2 + skH + GAP_ROW + FULL_H;
       layoutFn = ctx => {
         for (let i = 0; i < 3; i++) {
-          const sx = PAD + i * (skW + GAP);
+          const sx = PAD + i * (skW + GAP_TIGHT);
           drawImageSlot(ctx, d.images[i], sx, PAD, skW, skH, R_SM, `Sketch ${i + 1}`);
         }
-        drawImageSlot(ctx, d.images[3], PAD, PAD + skH + GAP, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d.images[3], PAD, PAD + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'sketch1_final') {
       // 3. 1 Sketch (72%) + Final
       const skW = Math.round(CONTENT_W * 0.72); // 1382px
       const skH = Math.round(skW * 9 / 16);     // 777px
       const skX = PAD + Math.round((CONTENT_W - skW) / 2);
-      totalH = PAD * 2 + skH + GAP + FULL_H;
+      totalH = PAD * 2 + skH + GAP_ROW + FULL_H;
       layoutFn = ctx => {
         drawImageSlot(ctx, d.images[0], skX, PAD, skW, skH, R_SM, 'Sketch 16:9');
-        drawImageSlot(ctx, d.images[1], PAD, PAD + skH + GAP, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d.images[1], PAD, PAD + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'assets_inspo') {
-      // 4. Assets & Inspo + Final (группа 85% ширины по центру + подписи сверху)
-      const groupW = Math.round(CONTENT_W * 0.85); // 1632px
-      const slotW = Math.round((groupW - GAP) / 2); // 796px
-      const slotH = Math.round(slotW * 9 / 16);     // 448px
-      const startX = PAD + Math.round((CONTENT_W - groupW) / 2);
-      const labelSpace = 56;
+      // 4. Assets & Inspo + Final
+      const groupW = Math.round(CONTENT_W * 0.86);      // 1651px
+      const slotW = Math.round((groupW - GAP_TIGHT) / 2); // 815px
+      const slotH = Math.round(slotW * 9 / 16);         // 458px
+      const startX = PAD + Math.round((CONTENT_W - (slotW * 2 + GAP_TIGHT)) / 2);
+      const labelSpace = 48;
       const topSlotY = PAD + labelSpace;
-      const finalY = topSlotY + slotH + GAP;
+      const finalY = topSlotY + slotH + GAP_ROW;
       totalH = finalY + FULL_H + PAD;
 
       layoutFn = ctx => {
         ctx.save();
-        ctx.font = '500 38px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.fillStyle = '#333333';
+        ctx.font = '500 34px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif';
+        ctx.fillStyle = '#555550';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         const lbl1 = (d.labelLeft || 'assets').trim();
         const lbl2 = (d.labelRight || 'inspo').trim();
-        ctx.fillText(lbl1, startX + slotW / 2, topSlotY - 16);
-        ctx.fillText(lbl2, startX + slotW + GAP + slotW / 2, topSlotY - 16);
+        ctx.fillText(lbl1, startX + slotW / 2, topSlotY - 14);
+        ctx.fillText(lbl2, startX + slotW + GAP_TIGHT + slotW / 2, topSlotY - 14);
         ctx.restore();
 
         drawImageSlot(ctx, d.images[0], startX, topSlotY, slotW, slotH, R_SM, lbl1 || 'assets');
-        drawImageSlot(ctx, d.images[1], startX + slotW + GAP, topSlotY, slotW, slotH, R_SM, lbl2 || 'inspo');
+        drawImageSlot(ctx, d.images[1], startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, R_SM, lbl2 || 'inspo');
         drawImageSlot(ctx, d.images[2], PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'palette_final') {
-      // 5. Color Palette (5 квадратных плашек, 85% ширины) + Final
-      const groupW = Math.round(CONTENT_W * 0.85); // 1632px
-      const swSize = Math.round((groupW - GAP * 4) / 5); // 294px
-      const realGroupW = swSize * 5 + GAP * 4;
+      // 5. Color Palette (5 аккуратных плашек с шагом 20px) + Final
+      const groupW = Math.round(CONTENT_W * 0.82); // 1574px
+      const swGap = 20;
+      const swSize = Math.round((groupW - swGap * 4) / 5); // 299px
+      const swH = Math.round(swSize * 0.78); // Элегантная пропорция плашки (233px)
+      const realGroupW = swSize * 5 + swGap * 4;
       const startX = PAD + Math.round((CONTENT_W - realGroupW) / 2);
-      const finalY = PAD + swSize + GAP;
+      const finalY = PAD + swH + GAP_ROW;
       totalH = finalY + FULL_H + PAD;
 
       layoutFn = ctx => {
         for (let i = 0; i < 5; i++) {
-          const sx = startX + i * (swSize + GAP);
+          const sx = startX + i * (swSize + swGap);
           const col = d.palette[i] || '#cccccc';
 
-          ctx.save();
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.14)';
-          ctx.shadowBlur = 32;
-          ctx.shadowOffsetX = 0;
-          ctx.shadowOffsetY = 12;
-          ctx.fillStyle = col;
-          traceRoundRect(ctx, sx, PAD, swSize, swSize, R_SM);
-          ctx.fill();
-          ctx.restore();
+          fillWithFreeformShadow(ctx, sx, PAD, swSize, swH, R_SM, col);
 
-          // Обязательная обводка 2px solid rgba(0,0,0,0.12) для светлых/белых плашек
+          // Тонкая деликатная обводка 1.5px, чтобы белый цвет читался на белом холсте
           ctx.save();
-          traceRoundRect(ctx, sx + 1, PAD + 1, swSize - 2, swSize - 2, R_SM);
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
+          traceRoundRect(ctx, sx + 0.75, PAD + 0.75, swSize - 1.5, swH - 1.5, R_SM);
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
           ctx.stroke();
           ctx.restore();
         }
         drawImageSlot(ctx, d.images[0], PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
       };
     } else if (p === 'grid2x2') {
-      // 6. 2×2 Grid (4 превью 16:9 одинакового размера)
-      const cellW = (CONTENT_W - GAP) / 2; // 940px
-      const cellH = Math.round(cellW * 9 / 16); // 529px
-      totalH = PAD * 2 + cellH * 2 + GAP;
+      // 6. 2×2 Grid (плотный современный отступ 20px между 4 превьюшками вместо огромной дыры 40px)
+      const gridGap = 20;
+      const cellW = (CONTENT_W - gridGap) / 2;   // 950px
+      const cellH = Math.round(cellW * 9 / 16);  // 534px
+      totalH = PAD * 2 + cellH * 2 + gridGap;
 
       layoutFn = ctx => {
         drawImageSlot(ctx, d.images[0], PAD, PAD, cellW, cellH, R_SM, 'Top-Left');
-        drawImageSlot(ctx, d.images[1], PAD + cellW + GAP, PAD, cellW, cellH, R_SM, 'Top-Right');
-        drawImageSlot(ctx, d.images[2], PAD, PAD + cellH + GAP, cellW, cellH, R_SM, 'Bottom-Left');
-        drawImageSlot(ctx, d.images[3], PAD + cellW + GAP, PAD + cellH + GAP, cellW, cellH, R_SM, 'Bottom-Right');
+        drawImageSlot(ctx, d.images[1], PAD + cellW + gridGap, PAD, cellW, cellH, R_SM, 'Top-Right');
+        drawImageSlot(ctx, d.images[2], PAD, PAD + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Left');
+        drawImageSlot(ctx, d.images[3], PAD + cellW + gridGap, PAD + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Right');
       };
     }
 
@@ -5489,7 +5505,6 @@ const TwitterPlanner = (() => {
     sCtx.drawImage(img, 0, 0, sw, sh);
     const data = sCtx.getImageData(0, 0, sw, sh).data;
 
-    // Квантование цветов по корзинам + учет насыщенности для сочной палитры
     const buckets = new Map();
     for (let i = 0; i < data.length; i += 4) {
       const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
@@ -5507,7 +5522,6 @@ const TwitterPlanner = (() => {
       const r = b.rSum / b.count, g = b.gSum / b.count, bl = b.bSum / b.count;
       const max = Math.max(r, g, bl), min = Math.min(r, g, bl);
       const sat = max === 0 ? 0 : (max - min) / max;
-      // Легкий бонус насыщенным оттенкам, чтобы не собирать 5 одинаковых серых цветов
       const score = b.count * (1 + sat * 1.35);
       return { r, g, b: bl, count: b.count, score };
     }).sort((a, b) => b.score - a.score);
@@ -5536,7 +5550,7 @@ const TwitterPlanner = (() => {
 
   async function pickWithEyeDropper(dayIdx) {
     if (!window.EyeDropper) {
-      notify('Твой браузер не поддерживает EyeDropper API (используй выбор цвета кликом по квадрату)');
+      notify('Твой браузер не поддерживает EyeDropper API');
       return;
     }
     try {
@@ -5553,10 +5567,10 @@ const TwitterPlanner = (() => {
     } catch (e) {}
   }
 
-  /* ── 5. ЗАГРУЗКА ИЗОБРАЖЕНИЙ В СЛОТЫ (КЛИК, DRAG & DROP, CMD+V) ── */
+  /* ── 5. ЗАГРУЗКА ИЗОБРАЖЕНИЙ В СЛОТЫ ── */
   async function assignFileToSlot(dayIdx, slotIdx, fileOrBlob) {
     if (!fileOrBlob || !fileOrBlob.type || !fileOrBlob.type.startsWith('image/')) {
-      notify('Пожалуйста, выбери файл изображения (PNG, JPG, WebP)');
+      notify('Выбери файл изображения (PNG, JPG, WebP)');
       return;
     }
     try {
@@ -5568,7 +5582,6 @@ const TwitterPlanner = (() => {
 
       await saveSlotBlob(dayIdx, slotIdx, fileOrBlob);
 
-      // Если это пресет с палитрой и только что загрузили превью — сразу снимаем авто-палитру
       if (d.preset === 'palette_final' && slotIdx === 0) {
         extractAutoPaletteFromFinal(dayIdx);
       } else {
@@ -5576,7 +5589,6 @@ const TwitterPlanner = (() => {
       }
       updateReadyBadge();
 
-      // Автоматически переводим фокус на следующий пустой слот этого дня для удобной серийной вставки Cmd+V
       const presetCfg = PRESETS[d.preset];
       let nextEmpty = -1;
       for (let i = slotIdx + 1; i < presetCfg.slots.length; i++) {
@@ -5617,7 +5629,7 @@ const TwitterPlanner = (() => {
     inp.click();
   }
 
-  /* ── 6. ЭКСПОРТ PNG (ОДИН ДЕНЬ ИЛИ ВСЯ НЕДЕЛЯ ПАКЕТОМ) ── */
+  /* ── 6. ЭКСПОРТ PNG ── */
   function exportCanvasToBlob(canvas) {
     return new Promise(resolve => {
       canvas.toBlob(blob => resolve(blob), 'image/png', 1.0);
@@ -5730,7 +5742,7 @@ const TwitterPlanner = (() => {
       hdr.appendChild(sel);
       card.appendChild(hdr);
 
-      // 2. Сцена с интерактивным Canvas
+      // 2. Сцена с интерактивным Canvas на точечном полотне Freeform
       const stage = document.createElement('div');
       stage.className = 'xp-canvas-stage';
       const cv = document.createElement('canvas');
@@ -5739,7 +5751,7 @@ const TwitterPlanner = (() => {
       stage.appendChild(cv);
       card.appendChild(stage);
 
-      // 3. Контейнер слотов загрузки
+      // 3. Компактная панель слотов загрузки
       const slotsBox = document.createElement('div');
       slotsBox.className = 'xp-slots';
       slotsBox.id = `xp-slots-${dIdx}`;
@@ -5751,13 +5763,17 @@ const TwitterPlanner = (() => {
       extraBox.id = `xp-extra-${dIdx}`;
       card.appendChild(extraBox);
 
-      // 5. Текстовое поле черновика поста с кнопкой копирования
+      // 5. Компактный нижний ряд: поле черновика поста + кнопка PNG
+      const bottomRow = document.createElement('div');
+      bottomRow.className = 'xp-card-bottom';
+
       const postWrap = document.createElement('div');
       postWrap.className = 'xp-post-wrap';
-      const ta = document.createElement('textarea');
+      const ta = document.createElement('input');
+      ta.type = 'text';
       ta.className = 'xp-caption';
       ta.id = `xp-cap-${dIdx}`;
-      ta.placeholder = `Текст поста на ${dayMeta.ru.toLowerCase()}...`;
+      ta.placeholder = `Текст поста (${dayMeta.code})...`;
       ta.value = dState.caption;
       ta.addEventListener('input', () => {
         dState.caption = ta.value;
@@ -5768,7 +5784,7 @@ const TwitterPlanner = (() => {
       copyBtn.type = 'button';
       copyBtn.className = 'xp-copy-cap';
       copyBtn.title = 'Скопировать текст поста';
-      copyBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+      copyBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
       copyBtn.addEventListener('click', () => {
         const txt = ta.value.trim();
         if (!txt) { notify('Поле текста пустое'); return; }
@@ -5779,28 +5795,17 @@ const TwitterPlanner = (() => {
 
       postWrap.appendChild(ta);
       postWrap.appendChild(copyBtn);
-      card.appendChild(postWrap);
-
-      // 6. Нижняя панель карточки (Статус + Скачать PNG)
-      const ftr = document.createElement('div');
-      ftr.className = 'xp-day-ftr';
-      const statusTxt = document.createElement('span');
-      statusTxt.className = 'xp-day-status';
-      statusTxt.id = `xp-stat-${dIdx}`;
-
-      const btnsWrap = document.createElement('div');
-      btnsWrap.className = 'xp-day-btns';
 
       const dlBtn = document.createElement('button');
       dlBtn.type = 'button';
       dlBtn.className = 'xp-btn xp-btn-primary xp-btn-sm';
-      dlBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Скачать PNG</span>`;
+      dlBtn.title = 'Скачать карточку дня в полном разрешении (PNG)';
+      dlBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>PNG</span>`;
       dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
 
-      btnsWrap.appendChild(dlBtn);
-      ftr.appendChild(statusTxt);
-      ftr.appendChild(btnsWrap);
-      card.appendChild(ftr);
+      bottomRow.appendChild(postWrap);
+      bottomRow.appendChild(dlBtn);
+      card.appendChild(bottomRow);
 
       grid.appendChild(card);
       refreshDayCardUI(dIdx);
@@ -5817,12 +5822,10 @@ const TwitterPlanner = (() => {
     const slotsBox = document.getElementById(`xp-slots-${dayIdx}`);
     const extraBox = document.getElementById(`xp-extra-${dayIdx}`);
     const capEl = document.getElementById(`xp-cap-${dayIdx}`);
-    const statEl = document.getElementById(`xp-stat-${dayIdx}`);
 
     if (sel && sel.value !== d.preset) sel.value = d.preset;
     if (capEl && document.activeElement !== capEl) capEl.value = d.caption;
 
-    // Обновляем слоты загрузки под выбранный пресет
     if (slotsBox) {
       slotsBox.innerHTML = '';
       presetCfg.slots.forEach((slotLabel, sIdx) => {
@@ -5834,7 +5837,7 @@ const TwitterPlanner = (() => {
         slot.dataset.day = String(dayIdx);
         slot.dataset.slot = String(sIdx);
         slot.tabIndex = 0;
-        slot.title = 'Кликни (или наведи) для ⌘V · Повторный клик открывает выбор файла · Поддерживается Drag & Drop';
+        slot.title = 'Кликни или наведи и нажми ⌘V · Поддерживается Drag & Drop';
 
         if (hasImg && d.thumbUrls[sIdx]) {
           const thumb = document.createElement('img');
@@ -5857,10 +5860,9 @@ const TwitterPlanner = (() => {
 
         const ov = document.createElement('div');
         ov.className = 'xp-slot-overlay';
-        ov.innerHTML = `<span class="xp-slot-lbl">${slotLabel}</span><span class="xp-slot-sub">${hasImg ? 'Заменить / ⌘V' : 'Клик / ⌘V / Drop'}</span>`;
+        ov.innerHTML = `<span class="xp-slot-lbl">${slotLabel}</span><span class="xp-slot-sub">${hasImg ? 'Заменить' : '+ ⌘V'}</span>`;
         slot.appendChild(ov);
 
-        // Наведение запоминает слот для быстрой вставки Cmd+V без лишнего клика
         slot.addEventListener('mouseenter', () => { _hoveredSlot = { dayIdx, slotIdx: sIdx }; });
         slot.addEventListener('mouseleave', () => {
           if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx && _hoveredSlot.slotIdx === sIdx) {
@@ -5868,12 +5870,10 @@ const TwitterPlanner = (() => {
           }
         });
 
-        // Клик: если слот еще не выделен — выделяем под Cmd+V и открываем выбор файла
         slot.addEventListener('click', () => {
           triggerFileDialog(dayIdx, sIdx);
         });
 
-        // Drag and Drop прямо в слот
         slot.addEventListener('dragover', ev => {
           ev.preventDefault();
           ev.stopPropagation();
@@ -5896,7 +5896,6 @@ const TwitterPlanner = (() => {
       });
     }
 
-    // Доп. настройки для пресетов №4 (Assets & Inspo) и №5 (Color Palette)
     if (extraBox) {
       extraBox.innerHTML = '';
       if (d.preset === 'assets_inspo') {
@@ -5975,7 +5974,7 @@ const TwitterPlanner = (() => {
         autoBtn.type = 'button';
         autoBtn.className = 'xp-mini-btn';
         autoBtn.title = 'Собрать 5 цветов автоматически из загруженного превью';
-        autoBtn.textContent = '✨ Авто-палитра';
+        autoBtn.textContent = '✨ Авто';
         autoBtn.addEventListener('click', () => extractAutoPaletteFromFinal(dayIdx));
         actions.appendChild(autoBtn);
 
@@ -5987,20 +5986,13 @@ const TwitterPlanner = (() => {
       }
     }
 
-    // Статус заполненности дня
     const loadedCnt = presetCfg.slots.filter((_, i) => Boolean(d.images[i])).length;
-    const totalSlots = presetCfg.slots.length;
     if (card) card.classList.toggle('is-ready', loadedCnt > 0);
-    if (statEl) {
-      statEl.textContent = isDayComplete(dayIdx)
-        ? `✓ Все слоты заполнены (${loadedCnt}/${totalSlots})`
-        : `Слотов: ${loadedCnt} из ${totalSlots}`;
-    }
 
     renderDayCanvas(dayIdx);
   }
 
-  /* ── 8. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК И ПЕРЕХВАТ СОБЫТИЙ (БЕЗ КОНФЛИКТОВ С ИНВОЙСАМИ) ── */
+  /* ── 8. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК И ПЕРЕХВАТ СОБЫТИЙ ── */
   function switchView(mode) {
     _activeView = mode === 'planner' ? 'planner' : 'invoe';
     const invoeBody = document.getElementById('workspace-body');
@@ -6040,13 +6032,11 @@ const TwitterPlanner = (() => {
     if (btnClearWeek) btnClearWeek.addEventListener('click', clearWholeWeek);
 
     if (plannerView) {
-      // Гасим mousedown на фазе всплытия, чтобы Лассо инвойсов не срабатывало внутри планера
       plannerView.addEventListener('mousedown', e => {
         e.stopPropagation();
       });
     }
 
-    // Вставка картинки из буфера обмена (Cmd+V / Ctrl+V) в наведенный или выделенный слот
     window.addEventListener('paste', e => {
       if (_activeView !== 'planner') return;
       const items = e.clipboardData && e.clipboardData.items;
@@ -6066,7 +6056,6 @@ const TwitterPlanner = (() => {
       assignFileToSlot(target.dayIdx, target.slotIdx, imgFile);
     });
 
-    // Защита от глобального drop-zone JSON-файлов инвойсов, когда пользователь кидает картинку в планер
     window.addEventListener('dragenter', e => {
       if (_activeView === 'planner') {
         e.stopImmediatePropagation();
@@ -6092,11 +6081,9 @@ const TwitterPlanner = (() => {
       }
     }, true);
 
-    // Изоляция горячих клавиш инвойсов (N, /, Пробел, Backspace), когда открыта вкладка X Planner
     window.addEventListener('keydown', e => {
       if (_activeView !== 'planner') return;
       const k = e.key.toLowerCase();
-      // Оставляем ⌘S и Escape работать штатно
       if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) return;
       if (e.key === 'Escape') return;
 
