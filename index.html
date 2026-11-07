@@ -1158,6 +1158,300 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   }
 }
 </style>
+  <style id="xp-styles">
+/* ══════════════════════════════════════════════
+   X (TWITTER) WEEKLY PLANNER — ISOLATED STYLES
+══════════════════════════════════════════════ */
+
+/* Переключатель вкладок в Topbar */
+.xp-nav-switch{
+  display:inline-flex;align-items:center;gap:2px;
+  background:var(--surface2);padding:2px;
+  border-radius:var(--r);margin-left:2px;
+}
+.xp-nav-tab{
+  height:24px;padding:0 10px;border:none;
+  border-radius:var(--r-xs);background:transparent;
+  color:var(--text2);font-size:11.5px;font-weight:500;
+  cursor:pointer;display:inline-flex;align-items:center;gap:5px;
+  transition:background-color .14s var(--ease), color .14s var(--ease), box-shadow .14s var(--ease);
+}
+.xp-nav-tab:hover{color:var(--text);}
+.xp-nav-tab.on{
+  background:var(--surface);color:var(--text);
+  font-weight:600;box-shadow:var(--shadow-card);
+}
+
+/* Основной контейнер вкладки */
+.xp-view{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  width:100%;padding:8px 28px 48px;
+}
+.xp-view::-webkit-scrollbar{width:4px;}
+.xp-view::-webkit-scrollbar-thumb{background:transparent;border-radius:2px;}
+.xp-view:hover::-webkit-scrollbar-thumb{background:var(--border2);}
+
+.xp-container{
+  max-width:1264px;width:100%;margin:0 auto;
+  display:flex;flex-direction:column;gap:20px;
+}
+
+/* Шапка планера */
+.xp-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;padding-top:4px;
+}
+.xp-header-left{display:flex;flex-direction:column;gap:3px;}
+.xp-title-row{display:flex;align-items:center;gap:9px;}
+.xp-title{font-size:16px;font-weight:700;letter-spacing:-.025em;color:var(--text);}
+.xp-badge{
+  font-size:11px;font-weight:600;padding:2px 8px;
+  border-radius:var(--r-xs);background:var(--surface2);color:var(--text2);
+}
+.xp-badge.has-ready{background:var(--blue-bg);color:var(--blue);}
+.xp-subtitle{font-size:12px;color:var(--text3);}
+.xp-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+/* Кнопки планера */
+.xp-btn{
+  height:34px;padding:0 13px;border:none;border-radius:var(--r);
+  font-size:12.5px;font-weight:500;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  white-space:nowrap;
+}
+.xp-btn-primary{background:var(--text);color:var(--bg);font-weight:600;}
+.xp-btn-primary:hover{opacity:.88;}
+.xp-btn-ghost{background:var(--surface2);color:var(--text2);}
+.xp-btn-ghost:hover{background:var(--surface3);color:var(--text);}
+.xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
+.xp-btn-sm{height:28px;padding:0 10px;font-size:11.5px;border-radius:var(--r-xs);}
+
+/* Сетка карточек на 7 дней */
+.xp-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
+  gap:16px;
+  align-items:start;
+}
+
+/* Карточка одного дня */
+.xp-day-card{
+  background:var(--surface);
+  border-radius:var(--rxl);
+  padding:15px;
+  box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;
+  transition:box-shadow .16s var(--ease);
+}
+.xp-day-card.is-ready{
+  box-shadow:inset 0 0 0 1px rgba(37,99,235,0.22), var(--shadow-card);
+}
+
+/* Верхняя строка карточки (День + Выбор пресета) */
+.xp-day-hdr{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.xp-day-title{
+  display:flex;align-items:center;gap:7px;
+  font-size:13.5px;font-weight:600;color:var(--text);
+}
+.xp-day-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--text3);opacity:.45;
+  transition:background-color .2s, opacity .2s, transform .2s;
+}
+.xp-day-card.is-ready .xp-day-dot{
+  background:var(--success);opacity:1;transform:scale(1.15);
+}
+.xp-day-code{
+  font-size:10.5px;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.04em;
+}
+
+.xp-preset-sel{
+  height:28px;padding:0 24px 0 9px;
+  font-size:11.5px;font-weight:500;color:var(--text);
+  background:var(--surface2);border:none;border-radius:var(--r-xs);
+  font-family:inherit;outline:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center;
+  max-width:205px;text-overflow:ellipsis;
+}
+.xp-preset-sel:hover{background-color:var(--surface3);}
+
+/* Превью холста (Интерактивный Canvas) */
+.xp-canvas-stage{
+  width:100%;
+  background:var(--surface2);
+  border-radius:var(--rl);
+  padding:12px;
+  display:flex;align-items:center;justify-content:center;
+  min-height:195px;
+  position:relative;overflow:hidden;
+}
+.xp-canvas{
+  max-width:100%;max-height:260px;
+  width:auto;height:auto;
+  display:block;
+  border-radius:6px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.1);
+  transition:transform .16s var(--ease);
+}
+
+/* Панель слотов загрузки изображений */
+.xp-slots{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(74px, 1fr));
+  gap:6px;
+}
+.xp-slot{
+  height:54px;
+  background:var(--surface2);
+  border:1.5px dashed transparent;
+  border-radius:var(--r);
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;padding:4px;
+  transition:background-color .14s var(--ease), border-color .14s var(--ease), box-shadow .14s var(--ease);
+}
+.xp-slot:hover{background:var(--surface3);}
+/* Активный слот для вставки по ⌘V / Ctrl+V */
+.xp-slot.is-armed,
+.xp-slot:focus-visible{
+  border-style:solid;
+  border-color:var(--blue);
+  background:var(--blue-bg);
+  outline:none;
+}
+.xp-slot.drag-over{
+  border-color:var(--blue);
+  background:var(--blue-bg);
+  transform:scale(0.98);
+}
+.xp-slot-thumb{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  z-index:1;
+}
+.xp-slot-overlay{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;pointer-events:none;
+}
+.xp-slot.has-img .xp-slot-overlay{
+  background:rgba(0,0,0,0.52);
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+  padding:2px 6px;border-radius:4px;
+  opacity:0;transition:opacity .14s;
+}
+.xp-slot.has-img:hover .xp-slot-overlay,
+.xp-slot.has-img.is-armed .xp-slot-overlay{opacity:1;}
+.xp-slot-lbl{
+  font-size:10px;font-weight:600;color:var(--text2);
+  line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+}
+.xp-slot.has-img .xp-slot-lbl{color:#ffffff;}
+.xp-slot-sub{font-size:9px;color:var(--text3);}
+.xp-slot.has-img .xp-slot-sub{color:rgba(255,255,255,0.8);}
+
+.xp-slot-del{
+  position:absolute;top:3px;right:3px;z-index:3;
+  width:18px;height:18px;border-radius:4px;border:none;
+  background:rgba(0,0,0,0.65);color:#fff;
+  font-size:11px;line-height:1;cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+}
+.xp-slot.has-img:hover .xp-slot-del{display:flex;}
+.xp-slot-del:hover{background:var(--danger);}
+
+/* Доп. контролы пресетов (Подписи Assets/Inspo и Палитра 5 цветов) */
+.xp-extra{
+  display:none;
+  background:var(--surface2);
+  border-radius:var(--r);
+  padding:8px 10px;
+  flex-direction:column;gap:6px;
+}
+.xp-extra.on{display:flex;}
+.xp-extra-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.xp-extra-lbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;}
+
+.xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;}
+.xp-inp-sm{
+  width:100%;height:26px;padding:0 8px;
+  font-size:11.5px;color:var(--text);
+  background:var(--surface);border:none;border-radius:4px;
+  font-family:inherit;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.xp-inp-sm:focus{box-shadow:0 0 0 1.5px var(--blue);}
+
+/* Палитра цветов (Preset 5) */
+.xp-palette-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;
+}
+.xp-swatches{display:flex;align-items:center;gap:5px;}
+.xp-color-wrap{
+  position:relative;width:24px;height:24px;
+  border-radius:5px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.18);
+  cursor:pointer;flex-shrink:0;
+}
+.xp-color-inp{
+  position:absolute;inset:-6px;width:36px;height:36px;
+  border:none;padding:0;background:none;cursor:pointer;
+}
+.xp-pal-actions{display:flex;align-items:center;gap:4px;}
+.xp-mini-btn{
+  height:24px;padding:0 8px;border:none;border-radius:4px;
+  background:var(--surface);color:var(--text2);
+  font-size:10.5px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.xp-mini-btn:hover{color:var(--text);background:var(--surface3);}
+
+/* Поле черновика поста и нижняя панель карточки */
+.xp-post-wrap{position:relative;display:flex;flex-direction:column;}
+.xp-caption{
+  width:100%;height:52px;padding:7px 30px 7px 10px;
+  font-size:12px;line-height:1.4;color:var(--text);
+  background:var(--surface2);border:none;border-radius:var(--r);
+  font-family:inherit;resize:none;outline:none;
+  user-select:text;-webkit-user-select:text;
+  transition:background-color .14s, box-shadow .14s;
+}
+.xp-caption:focus{background:var(--surface);box-shadow:0 0 0 1.5px var(--border2);}
+.xp-caption::placeholder{color:var(--text3);}
+.xp-copy-cap{
+  position:absolute;top:5px;right:5px;
+  width:22px;height:22px;border:none;border-radius:4px;
+  background:transparent;color:var(--text3);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.xp-copy-cap:hover{background:var(--surface3);color:var(--text);}
+
+.xp-day-ftr{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.xp-day-status{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.xp-day-btns{display:flex;align-items:center;gap:6px;margin-left:auto;}
+
+/* Скрытие мобильного FAB-плюса инвойсов, когда открыт X Planner */
+body.xp-mode .app::after{display:none!important;}
+
+@media(max-width:768px){
+  .xp-view{padding:6px 16px 40px;}
+  .xp-grid{grid-template-columns:1fr;}
+  .xp-header{align-items:flex-start;}
+  .xp-header-actions{width:100%;}
+  .xp-header-actions .xp-btn{flex:1;}
+}
+</style>
 </head>
 <body>
 <div class="app" id="app-root">
@@ -1184,6 +1478,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 <div class="topbar">
   <div class="topbar-left">
     <span class="logo"><span class="logo-dot"></span>Invoe</span>
+    <!-- Внутри <div class="topbar-left"> сразу после <span class="logo">...</span> -->
+<div class="xp-nav-switch" role="tablist" aria-label="Разделы приложения">
+  <button type="button" class="xp-nav-tab on" id="xp-tab-invoe" role="tab" aria-selected="true">Учёт</button>
+  <button type="button" class="xp-nav-tab" id="xp-tab-planner" role="tab" aria-selected="false">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    <span>Planner</span>
+  </button>
+</div>
     <button class="sync-pill" id="top-sync-btn" type="button" title="Нажми для принудительной синхронизации с облаком или открытия настроек">
       <span class="sync-dot"></span>
       <span id="top-sync-lbl">Сейф</span>
@@ -1204,6 +1506,37 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 </div>
 
 <div class="body" id="workspace-body">
+  
+  <!-- ── X (TWITTER) WEEKLY PLANNER VIEW ── -->
+<section class="xp-view" id="x-planner-view" aria-label="X Weekly Planner" style="display:none;">
+  <div class="xp-container">
+    
+    <!-- Верхняя панель управления неделей -->
+    <header class="xp-header">
+      <div class="xp-header-left">
+        <div class="xp-title-row">
+          <h2 class="xp-title">X Weekly Showcase</h2>
+          <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
+        </div>
+        <p class="xp-subtitle">Локальное хранилище IndexedDB (0 байт нагрузки на Firebase) · Экспорт 1920px sRGB · Кликни на слот и нажми ⌘V</p>
+      </div>
+      <div class="xp-header-actions">
+        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <span>Очистить неделю</span>
+        </button>
+        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Последовательно скачать PNG всех заполненных дней">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Скачать всю неделю</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Сетка на 7 дней недели (генерируется JS-модулем) -->
+    <div class="xp-grid" id="xp-days-grid"></div>
+
+  </div>
+</section>
 
   <!-- ── SIDEBAR ── -->
   <div class="sidebar" id="sidebar">
@@ -4688,6 +5021,1104 @@ function bindEvents() {
   render();
   restoreFromSafariVaultIfEmpty();
   if (fbUrl) safeSyncWithFirebase(false);
+})();
+</script>
+  <script id="xp-script">
+/* ══════════════════════════════════════════════════════════════════
+   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (ZERO FIREBASE LOAD)
+══════════════════════════════════════════════════════════════════ */
+const TwitterPlanner = (() => {
+  const DB_NAME = 'InvoeXPlannerLocalDB';
+  const DB_VER = 1;
+  const STORE_DAYS = 'days_meta';
+  const STORE_IMGS = 'slot_blobs';
+
+  const DAYS = [
+    { idx: 0, key: 'mon', num: '01', code: 'Mon', ru: 'Понедельник' },
+    { idx: 1, key: 'tue', num: '02', code: 'Tue', ru: 'Вторник' },
+    { idx: 2, key: 'wed', num: '03', code: 'Wed', ru: 'Среда' },
+    { idx: 3, key: 'thu', num: '04', code: 'Thu', ru: 'Четверг' },
+    { idx: 4, key: 'fri', num: '05', code: 'Fri', ru: 'Пятница' },
+    { idx: 5, key: 'sat', num: '06', code: 'Sat', ru: 'Суббота' },
+    { idx: 6, key: 'sun', num: '07', code: 'Sun', ru: 'Воскресенье' }
+  ];
+
+  const PRESETS = {
+    stack2: {
+      id: 'stack2',
+      name: '1. Vertical Stack (2 × 16:9)',
+      slots: ['Top Preview', 'Bottom Preview']
+    },
+    sketch3_final: {
+      id: 'sketch3_final',
+      name: '2. 3 Sketches + Final',
+      slots: ['Sketch 1', 'Sketch 2', 'Sketch 3', 'Final 16:9'],
+      finalIdx: 3
+    },
+    sketch1_final: {
+      id: 'sketch1_final',
+      name: '3. 1 Sketch + Final',
+      slots: ['Sketch (72%)', 'Final 16:9'],
+      finalIdx: 1
+    },
+    assets_inspo: {
+      id: 'assets_inspo',
+      name: '4. Assets & Inspo + Final',
+      slots: ['Left Slot', 'Right Slot', 'Final 16:9'],
+      finalIdx: 2
+    },
+    palette_final: {
+      id: 'palette_final',
+      name: '5. Color Palette + Final',
+      slots: ['Final 16:9'],
+      finalIdx: 0
+    },
+    grid2x2: {
+      id: 'grid2x2',
+      name: '6. 2×2 Grid (4 × 16:9)',
+      slots: ['Top-Left', 'Top-Right', 'Bot-Left', 'Bot-Right']
+    }
+  };
+
+  // Константы геометрии Apple-стиля (Retina 1920px рабочая зона + 80px поля)
+  const CONTENT_W = 1920;
+  const PAD = 80;
+  const GAP = 40;
+  const CANVAS_W = CONTENT_W + PAD * 2; // 2080px
+  const FULL_H = 1080; // 1920 / 16 * 9
+  const R_LG = 28;
+  const R_SM = 18;
+
+  let _dbPromise = null;
+  let _activeView = 'invoe';
+  let _armedSlot = null; // { dayIdx, slotIdx } для вставки по Cmd+V / Ctrl+V
+  let _hoveredSlot = null;
+
+  // Локальное состояние в памяти (только для вкладки планера)
+  const state = DAYS.map(d => ({
+    dayIdx: d.idx,
+    preset: 'sketch1_final',
+    caption: '',
+    labelLeft: 'assets',
+    labelRight: 'inspo',
+    palette: ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'],
+    images: {},    // slotIdx -> HTMLImageElement
+    thumbUrls: {}  // slotIdx -> ObjectURL
+  }));
+
+  /* ── 1. НАТИВНАЯ БАЗА INDEXEDDB (ХРАНЕНИЕ BLOB БЕЗ НАГРУЗКИ НА FIREBASE) ── */
+  function openDB() {
+    if (_dbPromise) return _dbPromise;
+    _dbPromise = new Promise((resolve, reject) => {
+      if (!window.indexedDB) return reject(new Error('No IndexedDB'));
+      const req = indexedDB.open(DB_NAME, DB_VER);
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE_DAYS)) db.createObjectStore(STORE_DAYS);
+        if (!db.objectStoreNames.contains(STORE_IMGS)) db.createObjectStore(STORE_IMGS);
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => { _dbPromise = null; reject(req.error); };
+    });
+    return _dbPromise;
+  }
+
+  async function saveDayMeta(dayIdx) {
+    try {
+      const d = state[dayIdx];
+      const db = await openDB();
+      const tx = db.transaction(STORE_DAYS, 'readwrite');
+      tx.objectStore(STORE_DAYS).put({
+        preset: d.preset,
+        caption: d.caption,
+        labelLeft: d.labelLeft,
+        labelRight: d.labelRight,
+        palette: d.palette
+      }, `day_${dayIdx}`);
+    } catch (e) {}
+  }
+
+  async function saveSlotBlob(dayIdx, slotIdx, blob) {
+    try {
+      const db = await openDB();
+      const tx = db.transaction(STORE_IMGS, 'readwrite');
+      const key = `d${dayIdx}_s${slotIdx}`;
+      if (blob) tx.objectStore(STORE_IMGS).put(blob, key);
+      else tx.objectStore(STORE_IMGS).delete(key);
+    } catch (e) {}
+  }
+
+  async function clearAllDB() {
+    try {
+      const db = await openDB();
+      await new Promise((res, rej) => {
+        const tx = db.transaction([STORE_DAYS, STORE_IMGS], 'readwrite');
+        tx.objectStore(STORE_DAYS).clear();
+        tx.objectStore(STORE_IMGS).clear();
+        tx.oncomplete = res;
+        tx.onerror = rej;
+      });
+    } catch (e) {}
+  }
+
+  function loadImageFromBlob(blob) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => resolve({ img, url });
+      img.onerror = err => { URL.revokeObjectURL(url); reject(err); };
+      img.src = url;
+    });
+  }
+
+  async function restoreAllFromDB() {
+    try {
+      const db = await openDB();
+      const tx = db.transaction([STORE_DAYS, STORE_IMGS], 'readonly');
+      const daysStore = tx.objectStore(STORE_DAYS);
+      const imgsStore = tx.objectStore(STORE_IMGS);
+
+      const metaPromises = DAYS.map(d => new Promise(res => {
+        const r = daysStore.get(`day_${d.idx}`);
+        r.onsuccess = () => res({ idx: d.idx, val: r.result });
+        r.onerror = () => res({ idx: d.idx, val: null });
+      }));
+
+      const imgPromises = [];
+      for (let dIdx = 0; dIdx < 7; dIdx++) {
+        for (let sIdx = 0; sIdx < 4; sIdx++) {
+          imgPromises.push(new Promise(res => {
+            const r = imgsStore.get(`d${dIdx}_s${sIdx}`);
+            r.onsuccess = () => res({ dIdx, sIdx, blob: r.result });
+            r.onerror = () => res({ dIdx, sIdx, blob: null });
+          }));
+        }
+      }
+
+      const metas = await Promise.all(metaPromises);
+      metas.forEach(({ idx, val }) => {
+        if (!val) return;
+        const st = state[idx];
+        if (val.preset && PRESETS[val.preset]) st.preset = val.preset;
+        if (typeof val.caption === 'string') st.caption = val.caption;
+        if (typeof val.labelLeft === 'string') st.labelLeft = val.labelLeft;
+        if (typeof val.labelRight === 'string') st.labelRight = val.labelRight;
+        if (Array.isArray(val.palette) && val.palette.length === 5) st.palette = [...val.palette];
+      });
+
+      const blobs = await Promise.all(imgPromises);
+      for (const item of blobs) {
+        if (item.blob instanceof Blob) {
+          try {
+            const { img, url } = await loadImageFromBlob(item.blob);
+            state[item.dIdx].images[item.sIdx] = img;
+            state[item.dIdx].thumbUrls[item.sIdx] = url;
+          } catch (e) {}
+        }
+      }
+
+      DAYS.forEach(d => refreshDayCardUI(d.idx));
+      updateReadyBadge();
+    } catch (e) {}
+  }
+
+  /* ── 2. УТИЛИТЫ УВЕДОМЛЕНИЙ И СТАТУСА ── */
+  function notify(msg) {
+    if (typeof window.showToast === 'function') window.showToast(msg);
+  }
+
+  function isDayReady(dayIdx) {
+    const d = state[dayIdx];
+    const presetCfg = PRESETS[d.preset];
+    if (!presetCfg) return false;
+    for (let i = 0; i < presetCfg.slots.length; i++) {
+      if (d.images[i]) return true;
+    }
+    return false;
+  }
+
+  function isDayComplete(dayIdx) {
+    const d = state[dayIdx];
+    const presetCfg = PRESETS[d.preset];
+    if (!presetCfg) return false;
+    for (let i = 0; i < presetCfg.slots.length; i++) {
+      if (!d.images[i]) return false;
+    }
+    return true;
+  }
+
+  function updateReadyBadge() {
+    const readyCnt = DAYS.filter(d => isDayReady(d.idx)).length;
+    const badge = document.getElementById('xp-ready-badge');
+    if (badge) {
+      badge.textContent = `Готово: ${readyCnt} / 7`;
+      badge.classList.toggle('has-ready', readyCnt > 0);
+    }
+  }
+
+  /* ── 3. МАТЕМАТИКА И РЕНДЕР 6 ПРЕСЕТОВ НА 2D CANVAS (sRGB) ── */
+  function getSrgbContext(canvas) {
+    try {
+      const ctx = canvas.getContext('2d', { colorSpace: 'srgb', alpha: false });
+      if (ctx) return ctx;
+    } catch (e) {}
+    return canvas.getContext('2d');
+  }
+
+  function traceRoundRect(ctx, x, y, w, h, r) {
+    const radius = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(x, y, w, h, radius);
+    } else {
+      ctx.moveTo(x + radius, y);
+      ctx.arcTo(x + w, y, x + w, y + h, radius);
+      ctx.arcTo(x + w, y + h, x, y + h, radius);
+      ctx.arcTo(x, y + h, x, y, radius);
+      ctx.arcTo(x, y, x + w, y, radius);
+      ctx.closePath();
+    }
+  }
+
+  // Отрисовка слота с мягкой тенью, object-fit: cover и тонкой рамкой 1px
+  function drawImageSlot(ctx, img, x, y, w, h, radius, placeholderLabel) {
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.14)';
+    ctx.shadowBlur = 32;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 12;
+    ctx.fillStyle = img ? '#ffffff' : '#f4f4f2';
+    traceRoundRect(ctx, x, y, w, h, radius);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    traceRoundRect(ctx, x, y, w, h, radius);
+    ctx.clip();
+
+    if (img && img.naturalWidth > 0 && img.naturalHeight > 0) {
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      const targetRatio = w / h;
+      const imgRatio = iw / ih;
+      let sx = 0, sy = 0, sw = iw, sh = ih;
+      if (imgRatio > targetRatio) {
+        sw = ih * targetRatio;
+        sx = (iw - sw) / 2;
+      } else {
+        sh = iw / targetRatio;
+        sy = (ih - sh) / 2;
+      }
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+    } else {
+      // Спокойный минималистичный плейсхолдер, если слот еще пуст
+      ctx.fillStyle = '#f3f3f0';
+      ctx.fillRect(x, y, w, h);
+      ctx.fillStyle = '#a6a69e';
+      const fontSize = Math.max(24, Math.min(44, Math.round(w * 0.036)));
+      ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(placeholderLabel || '16:9', x + w / 2, y + h / 2);
+    }
+    ctx.restore();
+
+    // Внутренняя микро-рамка 1px поверх краев, чтобы белые скетчи не сливались с фоном
+    ctx.save();
+    traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function renderDayCanvas(dayIdx) {
+    const d = state[dayIdx];
+    const canvas = document.getElementById(`xp-cv-${dayIdx}`);
+    if (!canvas) return;
+
+    const p = d.preset;
+    let totalH = 0;
+    let layoutFn = null;
+
+    if (p === 'stack2') {
+      // 1. Vertical Stack (2 превью 1920x1080 друг под другом)
+      totalH = PAD * 2 + FULL_H * 2 + GAP;
+      layoutFn = ctx => {
+        drawImageSlot(ctx, d.images[0], PAD, PAD, CONTENT_W, FULL_H, R_LG, 'Top 16:9');
+        drawImageSlot(ctx, d.images[1], PAD, PAD + FULL_H + GAP, CONTENT_W, FULL_H, R_LG, 'Bottom 16:9');
+      };
+    } else if (p === 'sketch3_final') {
+      // 2. 3 Sketches + Final
+      const skW = (CONTENT_W - GAP * 2) / 3; // 613.333px
+      const skH = Math.round(skW * 9 / 16);  // 345px
+      totalH = PAD * 2 + skH + GAP + FULL_H;
+      layoutFn = ctx => {
+        for (let i = 0; i < 3; i++) {
+          const sx = PAD + i * (skW + GAP);
+          drawImageSlot(ctx, d.images[i], sx, PAD, skW, skH, R_SM, `Sketch ${i + 1}`);
+        }
+        drawImageSlot(ctx, d.images[3], PAD, PAD + skH + GAP, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+      };
+    } else if (p === 'sketch1_final') {
+      // 3. 1 Sketch (72%) + Final
+      const skW = Math.round(CONTENT_W * 0.72); // 1382px
+      const skH = Math.round(skW * 9 / 16);     // 777px
+      const skX = PAD + Math.round((CONTENT_W - skW) / 2);
+      totalH = PAD * 2 + skH + GAP + FULL_H;
+      layoutFn = ctx => {
+        drawImageSlot(ctx, d.images[0], skX, PAD, skW, skH, R_SM, 'Sketch 16:9');
+        drawImageSlot(ctx, d.images[1], PAD, PAD + skH + GAP, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+      };
+    } else if (p === 'assets_inspo') {
+      // 4. Assets & Inspo + Final (группа 85% ширины по центру + подписи сверху)
+      const groupW = Math.round(CONTENT_W * 0.85); // 1632px
+      const slotW = Math.round((groupW - GAP) / 2); // 796px
+      const slotH = Math.round(slotW * 9 / 16);     // 448px
+      const startX = PAD + Math.round((CONTENT_W - groupW) / 2);
+      const labelSpace = 56;
+      const topSlotY = PAD + labelSpace;
+      const finalY = topSlotY + slotH + GAP;
+      totalH = finalY + FULL_H + PAD;
+
+      layoutFn = ctx => {
+        ctx.save();
+        ctx.font = '500 38px Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillStyle = '#333333';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        const lbl1 = (d.labelLeft || 'assets').trim();
+        const lbl2 = (d.labelRight || 'inspo').trim();
+        ctx.fillText(lbl1, startX + slotW / 2, topSlotY - 16);
+        ctx.fillText(lbl2, startX + slotW + GAP + slotW / 2, topSlotY - 16);
+        ctx.restore();
+
+        drawImageSlot(ctx, d.images[0], startX, topSlotY, slotW, slotH, R_SM, lbl1 || 'assets');
+        drawImageSlot(ctx, d.images[1], startX + slotW + GAP, topSlotY, slotW, slotH, R_SM, lbl2 || 'inspo');
+        drawImageSlot(ctx, d.images[2], PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+      };
+    } else if (p === 'palette_final') {
+      // 5. Color Palette (5 квадратных плашек, 85% ширины) + Final
+      const groupW = Math.round(CONTENT_W * 0.85); // 1632px
+      const swSize = Math.round((groupW - GAP * 4) / 5); // 294px
+      const realGroupW = swSize * 5 + GAP * 4;
+      const startX = PAD + Math.round((CONTENT_W - realGroupW) / 2);
+      const finalY = PAD + swSize + GAP;
+      totalH = finalY + FULL_H + PAD;
+
+      layoutFn = ctx => {
+        for (let i = 0; i < 5; i++) {
+          const sx = startX + i * (swSize + GAP);
+          const col = d.palette[i] || '#cccccc';
+
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.14)';
+          ctx.shadowBlur = 32;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 12;
+          ctx.fillStyle = col;
+          traceRoundRect(ctx, sx, PAD, swSize, swSize, R_SM);
+          ctx.fill();
+          ctx.restore();
+
+          // Обязательная обводка 2px solid rgba(0,0,0,0.12) для светлых/белых плашек
+          ctx.save();
+          traceRoundRect(ctx, sx + 1, PAD + 1, swSize - 2, swSize - 2, R_SM);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
+          ctx.stroke();
+          ctx.restore();
+        }
+        drawImageSlot(ctx, d.images[0], PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+      };
+    } else if (p === 'grid2x2') {
+      // 6. 2×2 Grid (4 превью 16:9 одинакового размера)
+      const cellW = (CONTENT_W - GAP) / 2; // 940px
+      const cellH = Math.round(cellW * 9 / 16); // 529px
+      totalH = PAD * 2 + cellH * 2 + GAP;
+
+      layoutFn = ctx => {
+        drawImageSlot(ctx, d.images[0], PAD, PAD, cellW, cellH, R_SM, 'Top-Left');
+        drawImageSlot(ctx, d.images[1], PAD + cellW + GAP, PAD, cellW, cellH, R_SM, 'Top-Right');
+        drawImageSlot(ctx, d.images[2], PAD, PAD + cellH + GAP, cellW, cellH, R_SM, 'Bottom-Left');
+        drawImageSlot(ctx, d.images[3], PAD + cellW + GAP, PAD + cellH + GAP, cellW, cellH, R_SM, 'Bottom-Right');
+      };
+    }
+
+    if (canvas.width !== CANVAS_W || canvas.height !== totalH) {
+      canvas.width = CANVAS_W;
+      canvas.height = totalH;
+    }
+
+    const ctx = getSrgbContext(canvas);
+    ctx.save();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, CANVAS_W, totalH);
+    if (layoutFn) layoutFn(ctx);
+    ctx.restore();
+  }
+
+  /* ── 4. АВТО-ПАЛИТРА ИЗ ПИКСЕЛЕЙ КАРТИНКИ И EYEDROPPER API ── */
+  function rgbToHex(r, g, b) {
+    const toH = n => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0');
+    return `#${toH(r)}${toH(g)}${toH(b)}`;
+  }
+
+  function colorDistance(c1, c2) {
+    const dr = c1.r - c2.r, dg = c1.g - c2.g, db = c1.b - c2.b;
+    return Math.sqrt(dr * dr * 0.3 + dg * dg * 0.59 + db * db * 0.11);
+  }
+
+  function extractAutoPaletteFromFinal(dayIdx) {
+    const d = state[dayIdx];
+    const img = d.images[0];
+    if (!img) {
+      notify('Сначала загрузи финальное превью в слот');
+      return;
+    }
+
+    const sampleCv = document.createElement('canvas');
+    const sw = 64, sh = 36;
+    sampleCv.width = sw;
+    sampleCv.height = sh;
+    const sCtx = getSrgbContext(sampleCv);
+    sCtx.drawImage(img, 0, 0, sw, sh);
+    const data = sCtx.getImageData(0, 0, sw, sh).data;
+
+    // Квантование цветов по корзинам + учет насыщенности для сочной палитры
+    const buckets = new Map();
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+      if (a < 128) continue;
+      const qr = Math.round(r / 24) * 24;
+      const qg = Math.round(g / 24) * 24;
+      const qb = Math.round(b / 24) * 24;
+      const key = `${qr}_${qg}_${qb}`;
+      const cur = buckets.get(key) || { rSum: 0, gSum: 0, bSum: 0, count: 0 };
+      cur.rSum += r; cur.gSum += g; cur.bSum += b; cur.count++;
+      buckets.set(key, cur);
+    }
+
+    const candidates = [...buckets.values()].map(b => {
+      const r = b.rSum / b.count, g = b.gSum / b.count, bl = b.bSum / b.count;
+      const max = Math.max(r, g, bl), min = Math.min(r, g, bl);
+      const sat = max === 0 ? 0 : (max - min) / max;
+      // Легкий бонус насыщенным оттенкам, чтобы не собирать 5 одинаковых серых цветов
+      const score = b.count * (1 + sat * 1.35);
+      return { r, g, b: bl, count: b.count, score };
+    }).sort((a, b) => b.score - a.score);
+
+    const picked = [];
+    let minDist = 48;
+    while (picked.length < 5 && minDist >= 8) {
+      for (const c of candidates) {
+        if (picked.length >= 5) break;
+        if (picked.every(p => colorDistance(p, c) >= minDist)) {
+          picked.push(c);
+        }
+      }
+      minDist -= 12;
+    }
+
+    while (picked.length < 5) {
+      picked.push({ r: 30 * picked.length, g: 30 * picked.length, b: 35 * picked.length });
+    }
+
+    d.palette = picked.slice(0, 5).map(c => rgbToHex(c.r, c.g, c.b));
+    saveDayMeta(dayIdx);
+    refreshDayCardUI(dayIdx);
+    notify('🎨 Палитра из 5 цветов собрана с превью');
+  }
+
+  async function pickWithEyeDropper(dayIdx) {
+    if (!window.EyeDropper) {
+      notify('Твой браузер не поддерживает EyeDropper API (используй выбор цвета кликом по квадрату)');
+      return;
+    }
+    try {
+      const dropper = new EyeDropper();
+      const res = await dropper.open();
+      if (res && res.sRGBHex) {
+        const d = state[dayIdx];
+        d.palette.shift();
+        d.palette.push(res.sRGBHex);
+        saveDayMeta(dayIdx);
+        refreshDayCardUI(dayIdx);
+        notify(`🎨 Добавлен цвет ${res.sRGBHex}`);
+      }
+    } catch (e) {}
+  }
+
+  /* ── 5. ЗАГРУЗКА ИЗОБРАЖЕНИЙ В СЛОТЫ (КЛИК, DRAG & DROP, CMD+V) ── */
+  async function assignFileToSlot(dayIdx, slotIdx, fileOrBlob) {
+    if (!fileOrBlob || !fileOrBlob.type || !fileOrBlob.type.startsWith('image/')) {
+      notify('Пожалуйста, выбери файл изображения (PNG, JPG, WebP)');
+      return;
+    }
+    try {
+      const { img, url } = await loadImageFromBlob(fileOrBlob);
+      const d = state[dayIdx];
+      if (d.thumbUrls[slotIdx]) URL.revokeObjectURL(d.thumbUrls[slotIdx]);
+      d.images[slotIdx] = img;
+      d.thumbUrls[slotIdx] = url;
+
+      await saveSlotBlob(dayIdx, slotIdx, fileOrBlob);
+
+      // Если это пресет с палитрой и только что загрузили превью — сразу снимаем авто-палитру
+      if (d.preset === 'palette_final' && slotIdx === 0) {
+        extractAutoPaletteFromFinal(dayIdx);
+      } else {
+        refreshDayCardUI(dayIdx);
+      }
+      updateReadyBadge();
+
+      // Автоматически переводим фокус на следующий пустой слот этого дня для удобной серийной вставки Cmd+V
+      const presetCfg = PRESETS[d.preset];
+      let nextEmpty = -1;
+      for (let i = slotIdx + 1; i < presetCfg.slots.length; i++) {
+        if (!d.images[i]) { nextEmpty = i; break; }
+      }
+      if (nextEmpty !== -1) armSlot(dayIdx, nextEmpty);
+    } catch (e) {
+      notify('Не удалось прочитать изображение');
+    }
+  }
+
+  async function removeSlotImage(dayIdx, slotIdx) {
+    const d = state[dayIdx];
+    if (d.thumbUrls[slotIdx]) URL.revokeObjectURL(d.thumbUrls[slotIdx]);
+    delete d.images[slotIdx];
+    delete d.thumbUrls[slotIdx];
+    await saveSlotBlob(dayIdx, slotIdx, null);
+    refreshDayCardUI(dayIdx);
+    updateReadyBadge();
+  }
+
+  function armSlot(dayIdx, slotIdx) {
+    _armedSlot = { dayIdx, slotIdx };
+    document.querySelectorAll('.xp-slot.is-armed').forEach(el => el.classList.remove('is-armed'));
+    const target = document.querySelector(`.xp-slot[data-day="${dayIdx}"][data-slot="${slotIdx}"]`);
+    if (target) target.classList.add('is-armed');
+  }
+
+  function triggerFileDialog(dayIdx, slotIdx) {
+    armSlot(dayIdx, slotIdx);
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    inp.onchange = e => {
+      const f = e.target.files && e.target.files[0];
+      if (f) assignFileToSlot(dayIdx, slotIdx, f);
+    };
+    inp.click();
+  }
+
+  /* ── 6. ЭКСПОРТ PNG (ОДИН ДЕНЬ ИЛИ ВСЯ НЕДЕЛЯ ПАКЕТОМ) ── */
+  function exportCanvasToBlob(canvas) {
+    return new Promise(resolve => {
+      canvas.toBlob(blob => resolve(blob), 'image/png', 1.0);
+    });
+  }
+
+  async function downloadSingleDay(dayIdx) {
+    const dayMeta = DAYS[dayIdx];
+    renderDayCanvas(dayIdx);
+    const canvas = document.getElementById(`xp-cv-${dayIdx}`);
+    if (!canvas) return;
+    const blob = await exportCanvasToBlob(canvas);
+    if (!blob) return;
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${dayMeta.num}_${dayMeta.code}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    notify(`🖼 Скачано: ${dayMeta.num}_${dayMeta.code}.png`);
+  }
+
+  async function downloadWholeWeek() {
+    const readyDays = DAYS.filter(d => isDayReady(d.idx));
+    if (!readyDays.length) {
+      notify('Нет заполненных дней для скачивания');
+      return;
+    }
+    notify(`⏳ Экспорт карточек недели (${readyDays.length} шт.)...`);
+    for (let i = 0; i < readyDays.length; i++) {
+      const d = readyDays[i];
+      await downloadSingleDay(d.idx);
+      await new Promise(r => setTimeout(r, 260));
+    }
+    notify(`✓ Вся неделя скачана (${readyDays.length} PNG)`);
+  }
+
+  async function clearWholeWeek() {
+    let confirmed = false;
+    if (typeof window.showConfirm === 'function') {
+      confirmed = await window.showConfirm(
+        'Очистить неделю',
+        'Удалить все загруженные превьюшки, скетчи и черновики постов из локальной базы IndexedDB?'
+      );
+    } else {
+      confirmed = window.confirm('Очистить все карточки недели?');
+    }
+    if (!confirmed) return;
+
+    state.forEach(d => {
+      Object.values(d.thumbUrls).forEach(u => URL.revokeObjectURL(u));
+      d.images = {};
+      d.thumbUrls = {};
+      d.caption = '';
+      d.labelLeft = 'assets';
+      d.labelRight = 'inspo';
+      d.palette = ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'];
+    });
+
+    await clearAllDB();
+    DAYS.forEach(d => refreshDayCardUI(d.idx));
+    updateReadyBadge();
+    notify('Неделя полностью очищена');
+  }
+
+  /* ── 7. ПОСТРОЕНИЕ И ОБНОВЛЕНИЕ DOM КАРТОЧЕК ДНЕЙ ── */
+  function buildDaysGrid() {
+    const grid = document.getElementById('xp-days-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    DAYS.forEach(dayMeta => {
+      const dIdx = dayMeta.idx;
+      const dState = state[dIdx];
+
+      const card = document.createElement('article');
+      card.className = 'xp-day-card';
+      card.id = `xp-card-${dIdx}`;
+
+      // 1. Шапка карточки дня
+      const hdr = document.createElement('div');
+      hdr.className = 'xp-day-hdr';
+
+      const titleWrap = document.createElement('div');
+      titleWrap.className = 'xp-day-title';
+      titleWrap.innerHTML = `<span class="xp-day-dot"></span><span>${dayMeta.ru}</span><span class="xp-day-code">${dayMeta.num}_${dayMeta.code}</span>`;
+
+      const sel = document.createElement('select');
+      sel.className = 'xp-preset-sel';
+      sel.id = `xp-pres-${dIdx}`;
+      sel.setAttribute('aria-label', 'Выбор шаблона сетки');
+      Object.values(PRESETS).forEach(pr => {
+        const opt = document.createElement('option');
+        opt.value = pr.id;
+        opt.textContent = pr.name;
+        if (pr.id === dState.preset) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', () => {
+        dState.preset = sel.value;
+        saveDayMeta(dIdx);
+        refreshDayCardUI(dIdx);
+        updateReadyBadge();
+      });
+
+      hdr.appendChild(titleWrap);
+      hdr.appendChild(sel);
+      card.appendChild(hdr);
+
+      // 2. Сцена с интерактивным Canvas
+      const stage = document.createElement('div');
+      stage.className = 'xp-canvas-stage';
+      const cv = document.createElement('canvas');
+      cv.className = 'xp-canvas';
+      cv.id = `xp-cv-${dIdx}`;
+      stage.appendChild(cv);
+      card.appendChild(stage);
+
+      // 3. Контейнер слотов загрузки
+      const slotsBox = document.createElement('div');
+      slotsBox.className = 'xp-slots';
+      slotsBox.id = `xp-slots-${dIdx}`;
+      card.appendChild(slotsBox);
+
+      // 4. Контейнер доп. настроек пресета (Assets/Inspo или Палитра цветов)
+      const extraBox = document.createElement('div');
+      extraBox.className = 'xp-extra';
+      extraBox.id = `xp-extra-${dIdx}`;
+      card.appendChild(extraBox);
+
+      // 5. Текстовое поле черновика поста с кнопкой копирования
+      const postWrap = document.createElement('div');
+      postWrap.className = 'xp-post-wrap';
+      const ta = document.createElement('textarea');
+      ta.className = 'xp-caption';
+      ta.id = `xp-cap-${dIdx}`;
+      ta.placeholder = `Текст поста на ${dayMeta.ru.toLowerCase()}...`;
+      ta.value = dState.caption;
+      ta.addEventListener('input', () => {
+        dState.caption = ta.value;
+        saveDayMeta(dIdx);
+      });
+
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'xp-copy-cap';
+      copyBtn.title = 'Скопировать текст поста';
+      copyBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+      copyBtn.addEventListener('click', () => {
+        const txt = ta.value.trim();
+        if (!txt) { notify('Поле текста пустое'); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(() => notify('📋 Текст поста скопирован'));
+        }
+      });
+
+      postWrap.appendChild(ta);
+      postWrap.appendChild(copyBtn);
+      card.appendChild(postWrap);
+
+      // 6. Нижняя панель карточки (Статус + Скачать PNG)
+      const ftr = document.createElement('div');
+      ftr.className = 'xp-day-ftr';
+      const statusTxt = document.createElement('span');
+      statusTxt.className = 'xp-day-status';
+      statusTxt.id = `xp-stat-${dIdx}`;
+
+      const btnsWrap = document.createElement('div');
+      btnsWrap.className = 'xp-day-btns';
+
+      const dlBtn = document.createElement('button');
+      dlBtn.type = 'button';
+      dlBtn.className = 'xp-btn xp-btn-primary xp-btn-sm';
+      dlBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Скачать PNG</span>`;
+      dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
+
+      btnsWrap.appendChild(dlBtn);
+      ftr.appendChild(statusTxt);
+      ftr.appendChild(btnsWrap);
+      card.appendChild(ftr);
+
+      grid.appendChild(card);
+      refreshDayCardUI(dIdx);
+    });
+  }
+
+  function refreshDayCardUI(dayIdx) {
+    const d = state[dayIdx];
+    const presetCfg = PRESETS[d.preset];
+    if (!presetCfg) return;
+
+    const card = document.getElementById(`xp-card-${dayIdx}`);
+    const sel = document.getElementById(`xp-pres-${dayIdx}`);
+    const slotsBox = document.getElementById(`xp-slots-${dayIdx}`);
+    const extraBox = document.getElementById(`xp-extra-${dayIdx}`);
+    const capEl = document.getElementById(`xp-cap-${dayIdx}`);
+    const statEl = document.getElementById(`xp-stat-${dayIdx}`);
+
+    if (sel && sel.value !== d.preset) sel.value = d.preset;
+    if (capEl && document.activeElement !== capEl) capEl.value = d.caption;
+
+    // Обновляем слоты загрузки под выбранный пресет
+    if (slotsBox) {
+      slotsBox.innerHTML = '';
+      presetCfg.slots.forEach((slotLabel, sIdx) => {
+        const hasImg = Boolean(d.images[sIdx]);
+        const isArmed = _armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotIdx === sIdx;
+
+        const slot = document.createElement('div');
+        slot.className = `xp-slot${hasImg ? ' has-img' : ''}${isArmed ? ' is-armed' : ''}`;
+        slot.dataset.day = String(dayIdx);
+        slot.dataset.slot = String(sIdx);
+        slot.tabIndex = 0;
+        slot.title = 'Кликни (или наведи) для ⌘V · Повторный клик открывает выбор файла · Поддерживается Drag & Drop';
+
+        if (hasImg && d.thumbUrls[sIdx]) {
+          const thumb = document.createElement('img');
+          thumb.className = 'xp-slot-thumb';
+          thumb.src = d.thumbUrls[sIdx];
+          thumb.alt = slotLabel;
+          slot.appendChild(thumb);
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'xp-slot-del';
+          delBtn.title = 'Очистить слот';
+          delBtn.textContent = '×';
+          delBtn.addEventListener('click', ev => {
+            ev.stopPropagation();
+            removeSlotImage(dayIdx, sIdx);
+          });
+          slot.appendChild(delBtn);
+        }
+
+        const ov = document.createElement('div');
+        ov.className = 'xp-slot-overlay';
+        ov.innerHTML = `<span class="xp-slot-lbl">${slotLabel}</span><span class="xp-slot-sub">${hasImg ? 'Заменить / ⌘V' : 'Клик / ⌘V / Drop'}</span>`;
+        slot.appendChild(ov);
+
+        // Наведение запоминает слот для быстрой вставки Cmd+V без лишнего клика
+        slot.addEventListener('mouseenter', () => { _hoveredSlot = { dayIdx, slotIdx: sIdx }; });
+        slot.addEventListener('mouseleave', () => {
+          if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx && _hoveredSlot.slotIdx === sIdx) {
+            _hoveredSlot = null;
+          }
+        });
+
+        // Клик: если слот еще не выделен — выделяем под Cmd+V и открываем выбор файла
+        slot.addEventListener('click', () => {
+          triggerFileDialog(dayIdx, sIdx);
+        });
+
+        // Drag and Drop прямо в слот
+        slot.addEventListener('dragover', ev => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          slot.classList.add('drag-over');
+        });
+        slot.addEventListener('dragleave', ev => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          slot.classList.remove('drag-over');
+        });
+        slot.addEventListener('drop', ev => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          slot.classList.remove('drag-over');
+          const file = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+          if (file) assignFileToSlot(dayIdx, sIdx, file);
+        });
+
+        slotsBox.appendChild(slot);
+      });
+    }
+
+    // Доп. настройки для пресетов №4 (Assets & Inspo) и №5 (Color Palette)
+    if (extraBox) {
+      extraBox.innerHTML = '';
+      if (d.preset === 'assets_inspo') {
+        extraBox.classList.add('on');
+        const lblRow = document.createElement('div');
+        lblRow.className = 'xp-lbl-inputs';
+
+        const inpL = document.createElement('input');
+        inpL.type = 'text';
+        inpL.className = 'xp-inp-sm';
+        inpL.placeholder = 'Подпись слева (assets)';
+        inpL.value = d.labelLeft;
+        inpL.addEventListener('input', () => {
+          d.labelLeft = inpL.value;
+          saveDayMeta(dayIdx);
+          renderDayCanvas(dayIdx);
+        });
+
+        const inpR = document.createElement('input');
+        inpR.type = 'text';
+        inpR.className = 'xp-inp-sm';
+        inpR.placeholder = 'Подпись справа (inspo)';
+        inpR.value = d.labelRight;
+        inpR.addEventListener('input', () => {
+          d.labelRight = inpR.value;
+          saveDayMeta(dayIdx);
+          renderDayCanvas(dayIdx);
+        });
+
+        lblRow.appendChild(inpL);
+        lblRow.appendChild(inpR);
+        extraBox.appendChild(lblRow);
+      } else if (d.preset === 'palette_final') {
+        extraBox.classList.add('on');
+        const palBar = document.createElement('div');
+        palBar.className = 'xp-palette-bar';
+
+        const swatches = document.createElement('div');
+        swatches.className = 'xp-swatches';
+        d.palette.forEach((hex, cIdx) => {
+          const wrap = document.createElement('label');
+          wrap.className = 'xp-color-wrap';
+          wrap.style.backgroundColor = hex;
+          wrap.title = `Цвет ${cIdx + 1}: ${hex}`;
+
+          const cInp = document.createElement('input');
+          cInp.type = 'color';
+          cInp.className = 'xp-color-inp';
+          cInp.value = hex;
+          cInp.addEventListener('input', () => {
+            d.palette[cIdx] = cInp.value;
+            wrap.style.backgroundColor = cInp.value;
+            wrap.title = `Цвет ${cIdx + 1}: ${cInp.value}`;
+            saveDayMeta(dayIdx);
+            renderDayCanvas(dayIdx);
+          });
+
+          wrap.appendChild(cInp);
+          swatches.appendChild(wrap);
+        });
+
+        const actions = document.createElement('div');
+        actions.className = 'xp-pal-actions';
+
+        if (window.EyeDropper) {
+          const eyeBtn = document.createElement('button');
+          eyeBtn.type = 'button';
+          eyeBtn.className = 'xp-mini-btn';
+          eyeBtn.title = 'Взять цвет пипеткой с экрана';
+          eyeBtn.textContent = '💧 Пипетка';
+          eyeBtn.addEventListener('click', () => pickWithEyeDropper(dayIdx));
+          actions.appendChild(eyeBtn);
+        }
+
+        const autoBtn = document.createElement('button');
+        autoBtn.type = 'button';
+        autoBtn.className = 'xp-mini-btn';
+        autoBtn.title = 'Собрать 5 цветов автоматически из загруженного превью';
+        autoBtn.textContent = '✨ Авто-палитра';
+        autoBtn.addEventListener('click', () => extractAutoPaletteFromFinal(dayIdx));
+        actions.appendChild(autoBtn);
+
+        palBar.appendChild(swatches);
+        palBar.appendChild(actions);
+        extraBox.appendChild(palBar);
+      } else {
+        extraBox.classList.remove('on');
+      }
+    }
+
+    // Статус заполненности дня
+    const loadedCnt = presetCfg.slots.filter((_, i) => Boolean(d.images[i])).length;
+    const totalSlots = presetCfg.slots.length;
+    if (card) card.classList.toggle('is-ready', loadedCnt > 0);
+    if (statEl) {
+      statEl.textContent = isDayComplete(dayIdx)
+        ? `✓ Все слоты заполнены (${loadedCnt}/${totalSlots})`
+        : `Слотов: ${loadedCnt} из ${totalSlots}`;
+    }
+
+    renderDayCanvas(dayIdx);
+  }
+
+  /* ── 8. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК И ПЕРЕХВАТ СОБЫТИЙ (БЕЗ КОНФЛИКТОВ С ИНВОЙСАМИ) ── */
+  function switchView(mode) {
+    _activeView = mode === 'planner' ? 'planner' : 'invoe';
+    const invoeBody = document.getElementById('workspace-body');
+    const plannerView = document.getElementById('x-planner-view');
+    const tabInvoe = document.getElementById('xp-tab-invoe');
+    const tabPlanner = document.getElementById('xp-tab-planner');
+    const mobSbBtn = document.getElementById('btn-mobile-sb');
+
+    document.body.classList.toggle('xp-mode', _activeView === 'planner');
+
+    if (_activeView === 'planner') {
+      if (invoeBody) invoeBody.style.display = 'none';
+      if (plannerView) plannerView.style.display = 'block';
+      if (tabInvoe) { tabInvoe.classList.remove('on'); tabInvoe.setAttribute('aria-selected', 'false'); }
+      if (tabPlanner) { tabPlanner.classList.add('on'); tabPlanner.setAttribute('aria-selected', 'true'); }
+      if (mobSbBtn) mobSbBtn.style.visibility = 'hidden';
+      if (typeof window._cancelLasso === 'function') window._cancelLasso();
+    } else {
+      if (plannerView) plannerView.style.display = 'none';
+      if (invoeBody) invoeBody.style.display = '';
+      if (tabInvoe) { tabInvoe.classList.add('on'); tabInvoe.setAttribute('aria-selected', 'true'); }
+      if (tabPlanner) { tabPlanner.classList.remove('on'); tabPlanner.setAttribute('aria-selected', 'false'); }
+      if (mobSbBtn) mobSbBtn.style.visibility = '';
+    }
+  }
+
+  function bindGlobalPlannerEvents() {
+    const tabInvoe = document.getElementById('xp-tab-invoe');
+    const tabPlanner = document.getElementById('xp-tab-planner');
+    const btnDlWeek = document.getElementById('xp-btn-dl-week');
+    const btnClearWeek = document.getElementById('xp-btn-clear-week');
+    const plannerView = document.getElementById('x-planner-view');
+
+    if (tabInvoe) tabInvoe.addEventListener('click', () => switchView('invoe'));
+    if (tabPlanner) tabPlanner.addEventListener('click', () => switchView('planner'));
+    if (btnDlWeek) btnDlWeek.addEventListener('click', downloadWholeWeek);
+    if (btnClearWeek) btnClearWeek.addEventListener('click', clearWholeWeek);
+
+    if (plannerView) {
+      // Гасим mousedown на фазе всплытия, чтобы Лассо инвойсов не срабатывало внутри планера
+      plannerView.addEventListener('mousedown', e => {
+        e.stopPropagation();
+      });
+    }
+
+    // Вставка картинки из буфера обмена (Cmd+V / Ctrl+V) в наведенный или выделенный слот
+    window.addEventListener('paste', e => {
+      if (_activeView !== 'planner') return;
+      const items = e.clipboardData && e.clipboardData.items;
+      if (!items) return;
+
+      let imgFile = null;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.startsWith('image/')) {
+          imgFile = items[i].getAsFile();
+          break;
+        }
+      }
+      if (!imgFile) return;
+
+      e.preventDefault();
+      const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotIdx: 0 };
+      assignFileToSlot(target.dayIdx, target.slotIdx, imgFile);
+    });
+
+    // Защита от глобального drop-zone JSON-файлов инвойсов, когда пользователь кидает картинку в планер
+    window.addEventListener('dragenter', e => {
+      if (_activeView === 'planner') {
+        e.stopImmediatePropagation();
+      }
+    }, true);
+    window.addEventListener('dragover', e => {
+      if (_activeView === 'planner') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+    window.addEventListener('drop', e => {
+      if (_activeView === 'planner') {
+        e.preventDefault();
+        if (!e.target.closest('.xp-slot')) {
+          e.stopImmediatePropagation();
+          const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          if (file && file.type && file.type.startsWith('image/')) {
+            const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotIdx: 0 };
+            assignFileToSlot(target.dayIdx, target.slotIdx, file);
+          }
+        }
+      }
+    }, true);
+
+    // Изоляция горячих клавиш инвойсов (N, /, Пробел, Backspace), когда открыта вкладка X Planner
+    window.addEventListener('keydown', e => {
+      if (_activeView !== 'planner') return;
+      const k = e.key.toLowerCase();
+      // Оставляем ⌘S и Escape работать штатно
+      if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) return;
+      if (e.key === 'Escape') return;
+
+      const activeTag = document.activeElement ? document.activeElement.tagName : '';
+      const inInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
+      if (!inInput) {
+        e.stopImmediatePropagation();
+      }
+    }, true);
+  }
+
+  function init() {
+    buildDaysGrid();
+    bindGlobalPlannerEvents();
+    restoreAllFromDB();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  return { switchView, renderDayCanvas };
 })();
 </script>
 </body>
