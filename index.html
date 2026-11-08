@@ -6107,7 +6107,10 @@ const TwitterPlanner = (() => {
       const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
       if (!hit) return;
       const sKey = hit.region.key;
-      if (!state[dayIdx].images[sKey]) return;
+      if (!state[dayIdx].images[sKey]) {
+        triggerFileDialog(dayIdx, sKey);
+        return;
+      }
       if (!_cropSlot || _cropSlot.dayIdx !== dayIdx) {
         toggleCropMode(dayIdx, sKey);
         return;
@@ -6454,8 +6457,7 @@ const TwitterPlanner = (() => {
     if (sh > 0) {
       ta.style.height = Math.max(42, Math.min(220, sh)) + 'px';
     } else {
-      const lines = (ta.value || '').split('
-').length;
+      const lines = (ta.value || '').split('\n').length;
       ta.style.height = Math.max(42, Math.min(220, lines * 22 + 12)) + 'px';
     }
   }
@@ -6595,9 +6597,7 @@ const TwitterPlanner = (() => {
       ta.className = 'xp-caption';
       ta.id = `xp-cap-${dIdx}`;
       ta.rows = 2;
-      ta.placeholder = `one of my fav thumbnails
-
-would you click this?`;
+      ta.placeholder = 'one of my fav thumbnails\n\nwould you click this?';
       ta.value = dState.caption;
       ta.addEventListener('input', () => {
         dState.caption = ta.value;
