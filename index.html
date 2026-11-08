@@ -1332,7 +1332,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   flex-direction:column;
 }
 
-/* Шапка твита: Ник + галочка + @handle + день | справа пресет и тема фона */
+/* Шапка твита: Ник + галочка + @handle + день | справа карандаш, тема фона и пресет */
 .xp-tw-hdr{
   display:flex;
   align-items:center;
@@ -1386,14 +1386,20 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-hdr-controls{
   display:flex;align-items:center;gap:4px;flex-shrink:0;
 }
+.xp-crop-toggle,
 .xp-bg-toggle{
   width:24px;height:24px;border-radius:6px;
   border:1px solid var(--border);background:var(--bg);
   color:var(--text2);font-size:11px;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;
-  transition:border-color .14s, background-color .14s, color .14s;
+  transition:border-color .14s, background-color .14s, color .14s, box-shadow .14s;
 }
+.xp-crop-toggle:hover,
 .xp-bg-toggle:hover{border-color:var(--border2);color:var(--text);}
+.xp-crop-toggle.on{
+  background:#1d9bf0;color:#ffffff;border-color:#1d9bf0;
+  box-shadow:0 0 0 2px rgba(29,155,240,0.22);
+}
 .xp-bg-toggle.is-dark{
   background:#181816;color:#f0f0ec;border-color:rgba(255,255,255,0.16);
 }
@@ -1406,7 +1412,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 6px center;
-  max-width:155px;text-overflow:ellipsis;
+  max-width:148px;text-overflow:ellipsis;
   transition:border-color .14s, color .14s;
 }
 .xp-preset-sel:hover{border-color:var(--border2);color:var(--text);}
@@ -1423,7 +1429,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   flex:1;
   min-width:0;
   min-height:42px;
-  max-height:180px;
+  max-height:220px;
   padding:2px 0;
   font-size:15px;
   line-height:1.38;
@@ -1470,7 +1476,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   border-color:transparent;
 }
 
-/* Медиа-вложение твита (Canvas со скруглением 16px как в X) */
+/* Медиа-вложение твита (По умолчанию статично для свободного скролла!) */
 .xp-canvas-stage{
   width:100%;
   background:transparent;
@@ -1485,37 +1491,56 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   display:block;
   border-radius:16px;
   border:1px solid var(--border2);
+  cursor:default;
+  touch-action:pan-y;
+  transition:box-shadow .16s var(--ease), border-color .16s var(--ease);
+}
+/* Активный режим кадрирования ✏️ */
+.xp-canvas.is-cropping{
   cursor:grab;
   touch-action:none;
+  border-color:#1d9bf0;
+  box-shadow:0 0 0 2px rgba(29,155,240,0.22);
 }
-.xp-canvas:active{cursor:grabbing;}
+.xp-canvas.is-cropping:active{
+  cursor:grabbing;
+}
 
-/* Панель кадрирования и зума (Photoshop-style Crop Bar) */
+/* Панель кадрирования и зума (Открывается только по клику на ✏️) */
 .xp-crop-bar{
   display:none;
   align-items:center;justify-content:space-between;gap:8px;
   background:var(--bg);
-  border:1px solid var(--border);
+  border:1px solid rgba(29,155,240,0.35);
   border-radius:10px;
-  padding:5px 9px;
+  padding:6px 10px;
   margin-top:8px;
   font-size:10.5px;color:var(--text2);
+  animation:popIn .14s var(--ease);
 }
 .xp-crop-bar.on{display:flex;}
 .xp-crop-lbl{
-  font-weight:600;color:var(--text);white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis;max-width:95px;
+  font-weight:600;color:#1d9bf0;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;max-width:105px;
+  display:inline-flex;align-items:center;gap:4px;
 }
 .xp-crop-slider-wrap{
-  display:flex;align-items:center;gap:6px;flex:1;min-width:90px;
+  display:flex;align-items:center;gap:6px;flex:1;min-width:85px;
 }
 .xp-crop-range{
-  flex:1;height:4px;accent-color:var(--blue);cursor:pointer;
+  flex:1;height:4px;accent-color:#1d9bf0;cursor:pointer;
 }
 .xp-crop-pct{
-  font-size:10px;font-weight:600;color:var(--text3);min-width:30px;text-align:right;
+  font-size:10px;font-weight:600;color:var(--text2);min-width:32px;text-align:right;
 }
 .xp-crop-btns{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.xp-crop-done{
+  height:22px;padding:0 8px;border:none;border-radius:5px;
+  background:#1d9bf0;color:#fff;
+  font-size:10px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:3px;
+}
+.xp-crop-done:hover{opacity:0.9;}
 
 /* Нижняя панель вовлечения X (метрики + кнопка Скачать PNG) */
 .xp-tw-metrics{
@@ -1576,9 +1601,13 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-slot.is-armed,
 .xp-slot:focus-visible{
   border-color:#1d9bf0;
-  background:rgba(29,155,240,0.1);
+  background:rgba(29,155,240,0.08);
   box-shadow:0 0 0 1px #1d9bf0;
   outline:none;
+}
+.xp-slot.is-cropping{
+  border-color:#1d9bf0;
+  box-shadow:0 0 0 2px #1d9bf0;
 }
 .xp-slot.drag-over{
   border-color:#1d9bf0!important;
@@ -1618,15 +1647,37 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-slot-sub{font-size:8.5px;color:var(--text3);}
 .xp-slot.has-img .xp-slot-sub{color:rgba(255,255,255,0.8);}
 
+/* Кнопки на мини-слоте: слева ✏️ (кадрировать), справа × (удалить) */
+.xp-slot-edit,
 .xp-slot-del{
-  position:absolute;top:3px;right:3px;z-index:3;
-  width:16px;height:16px;border-radius:4px;border:none;
-  background:rgba(0,0,0,0.65);color:#fff;
+  position:absolute;top:3px;z-index:4;
+  width:18px;height:18px;border-radius:4px;border:none;
+  background:rgba(15,15,15,0.72);color:#fff;
   font-size:10px;line-height:1;cursor:pointer;
   display:none;align-items:center;justify-content:center;
+  transition:background-color .12s, transform .12s;
 }
-.xp-slot.has-img:hover .xp-slot-del{display:flex;}
-.xp-slot-del:hover{background:var(--danger);}
+.xp-slot-edit{left:3px;}
+.xp-slot-del{right:3px;}
+.xp-slot.has-img:hover .xp-slot-edit,
+.xp-slot.has-img:hover .xp-slot-del,
+.xp-slot.has-img.is-cropping .xp-slot-edit{
+  display:flex;
+}
+.xp-slot-edit:hover,
+.xp-slot.is-cropping .xp-slot-edit{
+  background:#1d9bf0;
+}
+.xp-slot-del:hover{
+  background:var(--danger);
+}
+
+@media(hover:none){
+  .xp-slot.has-img .xp-slot-edit,
+  .xp-slot.has-img .xp-slot-del{
+    display:flex;
+  }
+}
 
 /* Доп. контролы пресетов */
 .xp-extra{
@@ -1893,7 +1944,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <h2 class="xp-title">X Weekly Showcase</h2>
           <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
         </div>
-        <p class="xp-subtitle">1920px sRGB · Тяни картинку на холсте для обрезки, колесико — зум · Наведи и нажми ⌘V</p>
+        <p class="xp-subtitle">1920px sRGB · Нажми ✏️ для обрезки и зума · Наведи на слот и нажми ⌘V</p>
       </div>
       <div class="xp-header-actions">
         <div class="xp-view-switch" role="group" aria-label="Режим отображения">
@@ -5286,7 +5337,7 @@ function bindEvents() {
 </script>
   <script id="xp-script">
 /* ══════════════════════════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (FREEFORM + CROP/ZOOM)
+   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (FREEFORM + PENCIL CROP)
 ══════════════════════════════════════════════════════════════════ */
 const TwitterPlanner = (() => {
   const DB_NAME = 'InvoeXPlannerLocalDB';
@@ -5365,7 +5416,7 @@ const TwitterPlanner = (() => {
   // Константы геометрии Apple Freeform (1920px рабочая зона)
   const CONTENT_W = 1920;
   const PAD = 56;
-  const HANDLE_BAND = 54;  // Дополнительная безопасная зона под ник, чтобы он никогда не налезал на превью
+  const HANDLE_BAND = 54;
   const GAP_ROW = 26;
   const GAP_TIGHT = 20;
   const CANVAS_W = CONTENT_W + PAD * 2; // 2032px
@@ -5375,7 +5426,8 @@ const TwitterPlanner = (() => {
 
   let _dbPromise = null;
   let _activeView = 'invoe';
-  let _armedSlot = null;     // { dayIdx, slotKey }
+  let _armedSlot = null;     // { dayIdx, slotKey } — целевой слот для ⌘V
+  let _cropSlot = null;      // { dayIdx, slotKey } — АКТИВНЫЙ режим кадрирования ✏️ (null = обычный скролл страницы)
   let _hoveredSlot = null;   // { dayIdx, slotKey }
   let _draggedSlot = null;   // { dayIdx, slotKey } для перетаскивания слотов местами (Swap)
 
@@ -5528,7 +5580,6 @@ const TwitterPlanner = (() => {
         if (val.transforms && typeof val.transforms === 'object') st.transforms = val.transforms;
       });
 
-      // Загружаем картинки по семантическим ключам (плюс миграция со старых числовых ключей, если они были)
       const imgPromises = [];
       for (let dIdx = 0; dIdx < 7; dIdx++) {
         ALL_SLOT_KEYS.forEach(sKey => {
@@ -5551,7 +5602,7 @@ const TwitterPlanner = (() => {
         }
       }
 
-      // Обратная совместимость со старыми числовыми слотами (d0_s0..s3), если они были сохранены ранее
+      // Обратная совместимость со старыми числовыми слотами (d0_s0..s3)
       const legacyPromises = [];
       for (let dIdx = 0; dIdx < 7; dIdx++) {
         const pCfg = PRESETS[state[dIdx].preset] || PRESETS.sketch1_final;
@@ -5581,6 +5632,7 @@ const TwitterPlanner = (() => {
 
       DAYS.forEach(d => refreshDayCardUI(d.idx));
       updateReadyBadge();
+      resizeAllCaptions();
     } catch (e) {}
   }
 
@@ -5683,13 +5735,12 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  // Отрисовка слота с учетом кадрирования/зума (Photoshop-style Pan & Scale)
+  // Отрисовка слота с учетом кадрирования/зума
   function drawImageSlot(ctx, d, slotKey, x, y, w, h, radius, placeholderLabel) {
     const img = d.images[slotKey];
     const isDark = d.bgTheme === 'dark';
     const baseFill = img ? (isDark ? '#181816' : '#f4f4f2') : (isDark ? '#191917' : '#f6f6f4');
 
-    // Запоминаем регион слота для интерактивного перетаскивания и зума мышкой на Canvas
     d.hitRegions.push({ key: slotKey, label: placeholderLabel, x, y, w, h });
 
     fillWithFreeformShadow(ctx, x, y, w, h, radius, baseFill, isDark);
@@ -5704,7 +5755,6 @@ const TwitterPlanner = (() => {
       const slotRatio = w / h;
       const imgRatio = iw / ih;
 
-      // Базовый размер Cover (при scale = 1.0)
       let baseW = w, baseH = h;
       if (imgRatio > slotRatio) {
         baseH = h;
@@ -5736,19 +5786,18 @@ const TwitterPlanner = (() => {
     }
     ctx.restore();
 
-    // Тонкий микро-контур 1px поверх краев
-    const isArmed = _armedSlot && _armedSlot.dayIdx === d.dayIdx && _armedSlot.slotKey === slotKey;
+    // Синяя рамка рисуется на холсте ТОЛЬКО когда включен режим кадрирования ✏️ (_cropSlot)
+    const isCroppingThis = _cropSlot && _cropSlot.dayIdx === d.dayIdx && _cropSlot.slotKey === slotKey;
     ctx.save();
     traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
-    ctx.lineWidth = isArmed ? 3 : 1.2;
-    ctx.strokeStyle = isArmed
-      ? 'rgba(37, 99, 235, 0.75)'
+    ctx.lineWidth = isCroppingThis ? 5 : 1.2;
+    ctx.strokeStyle = isCroppingThis
+      ? '#1d9bf0'
       : (isDark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(0, 0, 0, 0.06)');
     ctx.stroke();
     ctx.restore();
   }
 
-  // Отрисовка авторского ника в выделенной безопасной зоне (никогда не пересекается с превью)
   function drawAuthorHandle(ctx, totalH, isDark) {
     const cleanRaw = (userHandle || '').trim();
     if (!cleanRaw || handlePos === 'off') return;
@@ -5781,8 +5830,8 @@ const TwitterPlanner = (() => {
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     if (!canvas) return;
 
-    const prevArmed = _armedSlot;
-    if (hideActiveOutline) _armedSlot = null;
+    const prevCrop = _cropSlot;
+    if (hideActiveOutline) _cropSlot = null;
 
     d.hitRegions = [];
     const isDark = d.bgTheme === 'dark';
@@ -5790,7 +5839,6 @@ const TwitterPlanner = (() => {
     const isHandleTop = hasHandle && (handlePos === 'tl' || handlePos === 'tr');
     const isHandleBot = hasHandle && (handlePos === 'bl' || handlePos === 'br' || handlePos === 'bc');
 
-    // Выделяем безопасную зону сверху или снизу специально под ник, чтобы он не налезал на превьюшки
     const padTop = PAD + (isHandleTop ? HANDLE_BAND : 0);
     const padBot = PAD + (isHandleBot ? HANDLE_BAND : 0);
 
@@ -5910,10 +5958,10 @@ const TwitterPlanner = (() => {
     drawAuthorHandle(ctx, totalH, isDark);
     ctx.restore();
 
-    if (hideActiveOutline) _armedSlot = prevArmed;
+    if (hideActiveOutline) _cropSlot = prevCrop;
   }
 
-  /* ── 4. ИНТЕРАКТИВНОЕ КАДРИРОВАНИЕ И ЗУМ ПРЯМО НА CANVAS (КАК В PHOTOSHOP) ── */
+  /* ── 4. РЕЖИМ КАДРИРОВАНИЯ ✏️ (БЕЗ ПОМЕХ СКРОЛЛУ СТРАНИЦЫ) ── */
   function hitTestCanvasSlot(dayIdx, clientX, clientY) {
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     const d = state[dayIdx];
@@ -5932,29 +5980,55 @@ const TwitterPlanner = (() => {
     return null;
   }
 
+  function toggleCropMode(dayIdx, preferredSlotKey = null) {
+    const d = state[dayIdx];
+    const presetCfg = PRESETS[d.preset];
+    if (!presetCfg) return;
+
+    // Если нажали повторно на тот же слот или кнопку ✏️ активного дня — выключаем режим кадрирования
+    if (_cropSlot && _cropSlot.dayIdx === dayIdx && (!preferredSlotKey || _cropSlot.slotKey === preferredSlotKey)) {
+      exitCropMode();
+      return;
+    }
+
+    let targetKey = preferredSlotKey;
+    if (!targetKey || !d.images[targetKey]) {
+      if (_armedSlot && _armedSlot.dayIdx === dayIdx && d.images[_armedSlot.slotKey]) {
+        targetKey = _armedSlot.slotKey;
+      } else {
+        const firstLoaded = presetCfg.slots.find(s => Boolean(d.images[s.key]));
+        if (firstLoaded) targetKey = firstLoaded.key;
+      }
+    }
+
+    if (!targetKey || !d.images[targetKey]) {
+      notify('Сначала загрузи картинку в слот, чтобы кадрировать её');
+      return;
+    }
+
+    const prevDay = _cropSlot ? _cropSlot.dayIdx : null;
+    _cropSlot = { dayIdx, slotKey: targetKey };
+    _armedSlot = { dayIdx, slotKey: targetKey };
+
+    if (prevDay !== null && prevDay !== dayIdx) {
+      refreshDayCardUI(prevDay);
+    }
+    refreshDayCardUI(dayIdx);
+  }
+
+  function exitCropMode() {
+    if (!_cropSlot) return;
+    const prevDay = _cropSlot.dayIdx;
+    _cropSlot = null;
+    refreshDayCardUI(prevDay);
+  }
+
   function bindCanvasCropEvents(dayIdx, canvas) {
     let draggingKey = null;
     let lastX = 0, lastY = 0;
     let cScale = 1;
 
-    canvas.addEventListener('pointerdown', e => {
-      if (e.button !== 0) return;
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      if (!hit) return;
-
-      const sKey = hit.region.key;
-      armSlot(dayIdx, sKey);
-
-      if (!state[dayIdx].images[sKey]) return;
-      e.preventDefault();
-      draggingKey = sKey;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      cScale = hit.scaleFactor;
-      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-    });
-
-    canvas.addEventListener('pointermove', e => {
+    function onWindowPointerMove(e) {
       if (!draggingKey) return;
       e.preventDefault();
       const dx = (e.clientX - lastX) * cScale;
@@ -5966,26 +6040,60 @@ const TwitterPlanner = (() => {
       tr.panX = Math.round((tr.panX || 0) + dx);
       tr.panY = Math.round((tr.panY || 0) + dy);
       renderDayCanvas(dayIdx);
-    });
+    }
 
-    const endDrag = e => {
+    function onWindowPointerUp() {
       if (!draggingKey) return;
       draggingKey = null;
-      try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+      window.removeEventListener('pointermove', onWindowPointerMove);
+      window.removeEventListener('pointerup', onWindowPointerUp);
+      window.removeEventListener('pointercancel', onWindowPointerUp);
+      window.removeEventListener('blur', onWindowPointerUp);
       saveDayMeta(dayIdx);
-    };
-    canvas.addEventListener('pointerup', endDrag);
-    canvas.addEventListener('pointercancel', endDrag);
+    }
 
-    // Зум колесиком мыши или трекпадом прямо над слотом
+    canvas.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+
+      const sKey = hit.region.key;
+      armSlot(dayIdx, sKey);
+
+      // Перетаскивание работает СТРОГО тогда, когда на этом дне включен карандашик ✏️ (_cropSlot)
+      if (!_cropSlot || _cropSlot.dayIdx !== dayIdx) return;
+
+      if (!state[dayIdx].images[sKey]) return;
+      if (_cropSlot.slotKey !== sKey) {
+        _cropSlot.slotKey = sKey;
+        refreshDayCardUI(dayIdx);
+      }
+
+      e.preventDefault();
+      draggingKey = sKey;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      cScale = hit.scaleFactor;
+
+      window.addEventListener('pointermove', onWindowPointerMove, { passive: false });
+      window.addEventListener('pointerup', onWindowPointerUp);
+      window.addEventListener('pointercancel', onWindowPointerUp);
+      window.addEventListener('blur', onWindowPointerUp);
+    });
+
+    // Зум колесиком мыши работает СТРОГО в активном режиме кадрирования ✏️! В обычном режиме страница свободно скроллится.
     canvas.addEventListener('wheel', e => {
+      if (!_cropSlot || _cropSlot.dayIdx !== dayIdx) return;
       const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
       if (!hit) return;
       const sKey = hit.region.key;
       if (!state[dayIdx].images[sKey]) return;
 
       e.preventDefault();
-      armSlot(dayIdx, sKey);
+      if (_cropSlot.slotKey !== sKey) {
+        _cropSlot.slotKey = sKey;
+        armSlot(dayIdx, sKey);
+      }
       const tr = getSlotTransform(state[dayIdx], sKey);
       const factor = e.deltaY < 0 ? 1.06 : 0.94;
       tr.scale = Math.max(0.25, Math.min(3.5, Math.round((tr.scale || 1) * factor * 100) / 100));
@@ -5994,12 +6102,16 @@ const TwitterPlanner = (() => {
       saveDayMeta(dayIdx);
     }, { passive: false });
 
-    // Двойной клик по слоту на холсте сбрасывает кадрирование в 100% центр
+    // Двойной клик по слоту в режиме кадрирования сбрасывает масштаб в 100%
     canvas.addEventListener('dblclick', e => {
       const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
       if (!hit) return;
       const sKey = hit.region.key;
       if (!state[dayIdx].images[sKey]) return;
+      if (!_cropSlot || _cropSlot.dayIdx !== dayIdx) {
+        toggleCropMode(dayIdx, sKey);
+        return;
+      }
       state[dayIdx].transforms[sKey] = { scale: 1, panX: 0, panY: 0 };
       renderDayCanvas(dayIdx);
       updateCropBarUI(dayIdx);
@@ -6008,7 +6120,6 @@ const TwitterPlanner = (() => {
     });
   }
 
-  // Вычисление масштаба "Вписать целиком без обрезки" (Contain) для выбранного слота
   function fitSlotContain(dayIdx, slotKey) {
     const d = state[dayIdx];
     const img = d.images[slotKey];
@@ -6032,25 +6143,33 @@ const TwitterPlanner = (() => {
 
   function updateCropBarUI(dayIdx) {
     const bar = document.getElementById(`xp-crop-${dayIdx}`);
+    const cv = document.getElementById(`xp-cv-${dayIdx}`);
+    const cropBtn = document.getElementById(`xp-crop-btn-${dayIdx}`);
     if (!bar) return;
+
     const d = state[dayIdx];
-    const isThisDayArmed = _armedSlot && _armedSlot.dayIdx === dayIdx;
-    const sKey = isThisDayArmed ? _armedSlot.slotKey : null;
+    const isCroppingDay = _cropSlot && _cropSlot.dayIdx === dayIdx;
+    const sKey = isCroppingDay ? _cropSlot.slotKey : null;
     const presetCfg = PRESETS[d.preset];
     const slotMeta = presetCfg && sKey ? presetCfg.slots.find(s => s.key === sKey) : null;
 
-    if (!slotMeta || !d.images[sKey]) {
+    if (!isCroppingDay || !slotMeta || !d.images[sKey]) {
       bar.classList.remove('on');
+      if (cv) cv.classList.remove('is-cropping');
+      if (cropBtn) cropBtn.classList.remove('on');
       return;
     }
 
     bar.classList.add('on');
+    if (cv) cv.classList.add('is-cropping');
+    if (cropBtn) cropBtn.classList.add('on');
+
     const tr = getSlotTransform(d, sKey);
     const pct = Math.round((tr.scale || 1) * 100);
     const lblEl = bar.querySelector('.xp-crop-lbl');
     const rngEl = bar.querySelector('.xp-crop-range');
     const pctEl = bar.querySelector('.xp-crop-pct');
-    if (lblEl) lblEl.textContent = slotMeta.label;
+    if (lblEl) lblEl.textContent = `✏️ ${slotMeta.label}`;
     if (rngEl) rngEl.value = String(pct);
     if (pctEl) pctEl.textContent = `${pct}%`;
   }
@@ -6168,7 +6287,6 @@ const TwitterPlanner = (() => {
       }
       updateReadyBadge();
 
-      // Переводим фокус на следующий свободный слот карточки для удобной серийной вставки ⌘V
       const presetCfg = PRESETS[d.preset];
       const curIdx = presetCfg.slots.findIndex(s => s.key === slotKey);
       let nextKey = null;
@@ -6206,6 +6324,9 @@ const TwitterPlanner = (() => {
     await saveSlotBlob(dayIdx, keyB, blobA);
     await saveDayMeta(dayIdx);
 
+    if (_cropSlot && _cropSlot.dayIdx === dayIdx) {
+      _cropSlot.slotKey = keyB;
+    }
     armSlot(dayIdx, keyB);
     refreshDayCardUI(dayIdx);
     notify('⇄ Слоты поменялись местами');
@@ -6217,6 +6338,9 @@ const TwitterPlanner = (() => {
     delete d.images[slotKey];
     delete d.thumbUrls[slotKey];
     delete d.transforms[slotKey];
+    if (_cropSlot && _cropSlot.dayIdx === dayIdx && _cropSlot.slotKey === slotKey) {
+      _cropSlot = null;
+    }
     await saveSlotBlob(dayIdx, slotKey, null);
     await saveDayMeta(dayIdx);
     refreshDayCardUI(dayIdx);
@@ -6224,18 +6348,10 @@ const TwitterPlanner = (() => {
   }
 
   function armSlot(dayIdx, slotKey) {
-    const prevDay = _armedSlot ? _armedSlot.dayIdx : null;
     _armedSlot = { dayIdx, slotKey };
     document.querySelectorAll('.xp-slot.is-armed').forEach(el => el.classList.remove('is-armed'));
     const target = document.querySelector(`.xp-slot[data-day="${dayIdx}"][data-slot="${slotKey}"]`);
     if (target) target.classList.add('is-armed');
-
-    if (prevDay !== null && prevDay !== dayIdx) {
-      renderDayCanvas(prevDay);
-      updateCropBarUI(prevDay);
-    }
-    renderDayCanvas(dayIdx);
-    updateCropBarUI(dayIdx);
   }
 
   function triggerFileDialog(dayIdx, slotKey) {
@@ -6259,7 +6375,7 @@ const TwitterPlanner = (() => {
 
   async function downloadSingleDay(dayIdx) {
     const dayMeta = DAYS[dayIdx];
-    renderDayCanvas(dayIdx, true); // Рендерим чистовой холст без синей обводки активного слота
+    renderDayCanvas(dayIdx, true);
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     if (!canvas) return;
     const blob = await exportCanvasToBlob(canvas);
@@ -6304,6 +6420,9 @@ const TwitterPlanner = (() => {
     }
     if (!confirmed) return;
 
+    _cropSlot = null;
+    _armedSlot = null;
+
     state.forEach(d => {
       Object.values(d.thumbUrls).forEach(u => URL.revokeObjectURL(u));
       d.images = {};
@@ -6319,7 +6438,10 @@ const TwitterPlanner = (() => {
     });
 
     await clearAllDB();
-    DAYS.forEach(d => refreshDayCardUI(d.idx));
+    for (const d of DAYS) {
+      await saveDayMeta(d.idx);
+      refreshDayCardUI(d.idx);
+    }
     updateReadyBadge();
     notify('Неделя полностью очищена');
   }
@@ -6329,7 +6451,22 @@ const TwitterPlanner = (() => {
     if (!ta) return;
     ta.style.height = 'auto';
     const sh = ta.scrollHeight;
-    ta.style.height = Math.max(42, Math.min(180, sh)) + 'px';
+    if (sh > 0) {
+      ta.style.height = Math.max(42, Math.min(220, sh)) + 'px';
+    } else {
+      const lines = (ta.value || '').split('
+').length;
+      ta.style.height = Math.max(42, Math.min(220, lines * 22 + 12)) + 'px';
+    }
+  }
+
+  function resizeAllCaptions() {
+    requestAnimationFrame(() => {
+      DAYS.forEach(d => {
+        const ta = document.getElementById(`xp-cap-${d.idx}`);
+        if (ta) autoResizeCaption(ta);
+      });
+    });
   }
 
   function updateAllTweetUserHeaders() {
@@ -6351,6 +6488,7 @@ const TwitterPlanner = (() => {
     if (grid) grid.classList.toggle('is-feed', layoutMode === 'feed');
     if (bGrid) bGrid.classList.toggle('on', layoutMode === 'grid');
     if (bFeed) bFeed.classList.toggle('on', layoutMode === 'feed');
+    resizeAllCaptions();
   }
 
   function buildDaysGrid() {
@@ -6372,7 +6510,6 @@ const TwitterPlanner = (() => {
       const postWrap = document.createElement('div');
       postWrap.className = 'xp-tw-post';
 
-      // Левая колонка: круглая серая аватарка
       const leftCol = document.createElement('div');
       leftCol.className = 'xp-tw-left';
       leftCol.innerHTML = `
@@ -6383,11 +6520,10 @@ const TwitterPlanner = (() => {
         </div>
       `;
 
-      // Правая основная колонка твита
       const bodyCol = document.createElement('div');
       bodyCol.className = 'xp-tw-body';
 
-      // 1. Шапка поста X: Ник + синяя галочка + @handle · День | Переключатель фона и пресета
+      // 1. Шапка поста X: Ник + синяя галочка + @handle · День | Карандаш кадрирования + Тема фона + Пресет
       const hdr = document.createElement('div');
       hdr.className = 'xp-tw-hdr';
 
@@ -6404,6 +6540,14 @@ const TwitterPlanner = (() => {
 
       const hdrControls = document.createElement('div');
       hdrControls.className = 'xp-hdr-controls';
+
+      const cropToggleBtn = document.createElement('button');
+      cropToggleBtn.type = 'button';
+      cropToggleBtn.className = 'xp-crop-toggle';
+      cropToggleBtn.id = `xp-crop-btn-${dIdx}`;
+      cropToggleBtn.title = 'Режим кадрирования и зума ✏️ (вкл/выкл)';
+      cropToggleBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
+      cropToggleBtn.addEventListener('click', () => toggleCropMode(dIdx));
 
       const bgBtn = document.createElement('button');
       bgBtn.type = 'button';
@@ -6430,11 +6574,13 @@ const TwitterPlanner = (() => {
       });
       sel.addEventListener('change', () => {
         dState.preset = sel.value;
+        if (_cropSlot && _cropSlot.dayIdx === dIdx) _cropSlot = null;
         saveDayMeta(dIdx);
         refreshDayCardUI(dIdx);
         updateReadyBadge();
       });
 
+      hdrControls.appendChild(cropToggleBtn);
       hdrControls.appendChild(bgBtn);
       hdrControls.appendChild(sel);
       hdr.appendChild(userRow);
@@ -6449,7 +6595,9 @@ const TwitterPlanner = (() => {
       ta.className = 'xp-caption';
       ta.id = `xp-cap-${dIdx}`;
       ta.rows = 2;
-      ta.placeholder = `one of my fav thumbnails\n\nwould you click this?`;
+      ta.placeholder = `one of my fav thumbnails
+
+would you click this?`;
       ta.value = dState.caption;
       ta.addEventListener('input', () => {
         dState.caption = ta.value;
@@ -6485,54 +6633,58 @@ const TwitterPlanner = (() => {
       textRow.appendChild(copyBtn);
       bodyCol.appendChild(textRow);
 
-      // 3. Медиа-вложение поста: интерактивный Canvas
+      // 3. Медиа-вложение поста: Canvas
       const stage = document.createElement('div');
       stage.className = 'xp-canvas-stage';
       const cv = document.createElement('canvas');
       cv.className = 'xp-canvas';
       cv.id = `xp-cv-${dIdx}`;
-      cv.title = 'Зажми мышь на картинке для перемещения · Колесико — масштаб · Двойной клик — сброс';
+      cv.title = 'Нажми на карандашик ✏️, чтобы подвинуть или приблизить картинку внутри слота';
       stage.appendChild(cv);
       bodyCol.appendChild(stage);
       bindCanvasCropEvents(dIdx, cv);
 
-      // 4. Панель кадрирования и зума активного слота
+      // 4. Панель кадрирования и зума (показывается только при включенном карандашике ✏️)
       const cropBar = document.createElement('div');
       cropBar.className = 'xp-crop-bar';
       cropBar.id = `xp-crop-${dIdx}`;
       cropBar.innerHTML = `
-        <span class="xp-crop-lbl">Слот</span>
+        <span class="xp-crop-lbl">✏️ Слот</span>
         <div class="xp-crop-slider-wrap">
-          <input type="range" class="xp-crop-range" min="25" max="300" step="1" value="100" title="Масштаб внутри рамки"/>
+          <input type="range" class="xp-crop-range" min="25" max="350" step="1" value="100" title="Масштаб внутри рамки"/>
           <span class="xp-crop-pct">100%</span>
         </div>
         <div class="xp-crop-btns">
           <button type="button" class="xp-mini-btn" data-act="fit" title="Вписать картинку целиком без обрезки">Вписать</button>
           <button type="button" class="xp-mini-btn" data-act="reset" title="Сбросить масштаб и позицию (100%)">Сброс</button>
+          <button type="button" class="xp-crop-done" data-act="done" title="Завершить кадрирование (Esc)">Готово ✓</button>
         </div>
       `;
       const rng = cropBar.querySelector('.xp-crop-range');
       rng.addEventListener('input', () => {
-        if (!_armedSlot || _armedSlot.dayIdx !== dIdx) return;
-        const tr = getSlotTransform(dState, _armedSlot.slotKey);
+        if (!_cropSlot || _cropSlot.dayIdx !== dIdx) return;
+        const tr = getSlotTransform(dState, _cropSlot.slotKey);
         tr.scale = parseInt(rng.value, 10) / 100;
         cropBar.querySelector('.xp-crop-pct').textContent = `${rng.value}%`;
         renderDayCanvas(dIdx);
         saveDayMeta(dIdx);
       });
       cropBar.querySelector('[data-act="fit"]').addEventListener('click', () => {
-        if (_armedSlot && _armedSlot.dayIdx === dIdx) fitSlotContain(dIdx, _armedSlot.slotKey);
+        if (_cropSlot && _cropSlot.dayIdx === dIdx) fitSlotContain(dIdx, _cropSlot.slotKey);
       });
       cropBar.querySelector('[data-act="reset"]').addEventListener('click', () => {
-        if (!_armedSlot || _armedSlot.dayIdx !== dIdx) return;
-        dState.transforms[_armedSlot.slotKey] = { scale: 1, panX: 0, panY: 0 };
+        if (!_cropSlot || _cropSlot.dayIdx !== dIdx) return;
+        dState.transforms[_cropSlot.slotKey] = { scale: 1, panX: 0, panY: 0 };
         renderDayCanvas(dIdx);
         updateCropBarUI(dIdx);
         saveDayMeta(dIdx);
       });
+      cropBar.querySelector('[data-act="done"]').addEventListener('click', () => {
+        exitCropMode();
+      });
       bodyCol.appendChild(cropBar);
 
-      // 5. Нижняя строка метрик X (комментарии, репосты, лайк, просмотры) + кнопка Скачать PNG
+      // 5. Нижняя строка метрик X + кнопка Скачать PNG
       const metricsRow = document.createElement('div');
       metricsRow.className = 'xp-tw-metrics';
       metricsRow.innerHTML = `
@@ -6589,6 +6741,7 @@ const TwitterPlanner = (() => {
     });
     applyLayoutMode(layoutMode);
   }
+
   function refreshDayCardUI(dayIdx) {
     const d = state[dayIdx];
     const presetCfg = PRESETS[d.preset];
@@ -6618,15 +6771,16 @@ const TwitterPlanner = (() => {
         const slotLabel = slotMeta.label;
         const hasImg = Boolean(d.images[sKey]);
         const isArmed = _armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotKey === sKey;
+        const isCropping = _cropSlot && _cropSlot.dayIdx === dayIdx && _cropSlot.slotKey === sKey;
 
         const slot = document.createElement('div');
-        slot.className = `xp-slot${hasImg ? ' has-img' : ''}${isArmed ? ' is-armed' : ''}`;
+        slot.className = `xp-slot${hasImg ? ' has-img' : ''}${isArmed ? ' is-armed' : ''}${isCropping ? ' is-cropping' : ''}`;
         slot.dataset.day = String(dayIdx);
         slot.dataset.slot = sKey;
         slot.tabIndex = 0;
         slot.draggable = hasImg;
         slot.title = hasImg
-          ? 'Перетащи на другой слот для замены местами · Кликни для загрузки другого файла'
+          ? '✏️ слева — кадрировать/зумить · Перетащи на другой слот для замены местами · Клик — заменить файл'
           : 'Кликни или наведи и нажми ⌘V · Поддерживается Drag & Drop';
 
         if (hasImg && d.thumbUrls[sKey]) {
@@ -6636,11 +6790,32 @@ const TwitterPlanner = (() => {
           thumb.alt = slotLabel;
           slot.appendChild(thumb);
 
+          // Кнопка ✏️ Кадрировать (слева сверху) с защитой от конфликта draggable в Safari
+          const editBtn = document.createElement('button');
+          editBtn.type = 'button';
+          editBtn.className = 'xp-slot-edit';
+          editBtn.draggable = false;
+          editBtn.title = 'Кадрировать и масштабировать этот слот ✏️';
+          editBtn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
+          editBtn.addEventListener('mousedown', ev => ev.stopPropagation());
+          editBtn.addEventListener('pointerdown', ev => ev.stopPropagation());
+          editBtn.addEventListener('dragstart', ev => { ev.preventDefault(); ev.stopPropagation(); });
+          editBtn.addEventListener('click', ev => {
+            ev.stopPropagation();
+            toggleCropMode(dayIdx, sKey);
+          });
+          slot.appendChild(editBtn);
+
+          // Кнопка × Удалить (справа сверху) с защитой от конфликта draggable в Safari
           const delBtn = document.createElement('button');
           delBtn.type = 'button';
           delBtn.className = 'xp-slot-del';
+          delBtn.draggable = false;
           delBtn.title = 'Очистить слот';
           delBtn.textContent = '×';
+          delBtn.addEventListener('mousedown', ev => ev.stopPropagation());
+          delBtn.addEventListener('pointerdown', ev => ev.stopPropagation());
+          delBtn.addEventListener('dragstart', ev => { ev.preventDefault(); ev.stopPropagation(); });
           delBtn.addEventListener('click', ev => {
             ev.stopPropagation();
             removeSlotImage(dayIdx, sKey);
@@ -6850,7 +7025,9 @@ const TwitterPlanner = (() => {
       if (tabInvoe) { tabInvoe.classList.remove('on'); tabInvoe.setAttribute('aria-selected', 'false'); }
       if (tabPlanner) { tabPlanner.classList.add('on'); tabPlanner.setAttribute('aria-selected', 'true'); }
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
+      resizeAllCaptions();
     } else {
+      exitCropMode();
       if (plannerView) plannerView.style.display = 'none';
       if (invoeBody) invoeBody.style.display = '';
       if (tabInvoe) { tabInvoe.classList.add('on'); tabInvoe.setAttribute('aria-selected', 'true'); }
@@ -6882,6 +7059,7 @@ const TwitterPlanner = (() => {
     const btnModeFeed = document.getElementById('xp-mode-feed');
     if (btnModeGrid) btnModeGrid.addEventListener('click', () => applyLayoutMode('grid'));
     if (btnModeFeed) btnModeFeed.addEventListener('click', () => applyLayoutMode('feed'));
+
     if (posSel) {
       posSel.value = handlePos;
       posSel.addEventListener('change', () => {
@@ -6918,11 +7096,10 @@ const TwitterPlanner = (() => {
       if (!imgFile) return;
 
       e.preventDefault();
-      const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
+      const target = _hoveredSlot || _cropSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
       assignFileToSlot(target.dayIdx, target.slotKey, imgFile);
     });
 
-    // Защита от глобального drop-zone JSON-файлов инвойсов БЕЗ блокировки подсветки дочерних слотов (.xp-slot)
     window.addEventListener('dragenter', e => {
       if (_activeView === 'planner') {
         const dz = document.getElementById('drop-zone');
@@ -6945,19 +7122,24 @@ const TwitterPlanner = (() => {
           e.stopImmediatePropagation();
           const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
           if (file && file.type && file.type.startsWith('image/')) {
-            const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
+            const target = _hoveredSlot || _cropSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
             assignFileToSlot(target.dayIdx, target.slotKey, file);
           }
         }
       }
     }, true);
 
-    // Изоляция горячих клавиш инвойсов с сохранением работы Enter в окне подтверждения (#conf-overlay)
     window.addEventListener('keydown', e => {
       if (_activeView !== 'planner') return;
       const confOpen = document.getElementById('conf-overlay')?.classList.contains('on');
       const sovOpen = document.getElementById('sov')?.classList.contains('on');
       if (confOpen || sovOpen) return;
+
+      if (e.key === 'Escape' && _cropSlot) {
+        e.preventDefault();
+        exitCropMode();
+        return;
+      }
 
       const k = e.key.toLowerCase();
       if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) return;
