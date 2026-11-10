@@ -1387,14 +1387,16 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   display:flex;align-items:center;gap:4px;flex-shrink:0;
 }
 .xp-crop-toggle,
+.xp-pad-toggle,
 .xp-bg-toggle{
   width:24px;height:24px;border-radius:6px;
   border:1px solid var(--border);background:var(--bg);
-  color:var(--text2);font-size:11px;cursor:pointer;
+  color:var(--text2);font-size:10.5px;font-weight:700;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;
   transition:border-color .14s, background-color .14s, color .14s, box-shadow .14s;
 }
 .xp-crop-toggle:hover,
+.xp-pad-toggle:hover,
 .xp-bg-toggle:hover{border-color:var(--border2);color:var(--text);}
 .xp-crop-toggle.on{
   background:#1d9bf0;color:#ffffff;border-color:#1d9bf0;
@@ -1448,6 +1450,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   color:var(--text3);
   opacity:0.75;
 }
+.xp-tw-text-actions{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  flex-shrink:0;
+  margin-top:1px;
+}
+.xp-hooks-btn,
 .xp-copy-cap{
   height:26px;
   padding:0 10px;
@@ -1460,20 +1470,159 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   cursor:pointer;
   display:inline-flex;
   align-items:center;
-  gap:5px;
+  gap:4px;
   flex-shrink:0;
-  margin-top:1px;
-  transition:background-color .14s, color .14s, border-color .14s;
+  transition:background-color .14s, color .14s, border-color .14s, box-shadow .14s;
 }
+.xp-hooks-btn:hover,
 .xp-copy-cap:hover{
   background:var(--surface2);
   color:var(--text);
   border-color:var(--border2);
 }
+.xp-hooks-btn.on{
+  background:rgba(29,155,240,0.12);
+  color:#1d9bf0;
+  border-color:#1d9bf0;
+}
 .xp-copy-cap.copied{
   background:var(--success-bg);
   color:var(--success);
   border-color:transparent;
+}
+
+/* Всплывающий блокнот-конструктор Хуков и Концовок (⚡) */
+.xp-hooks-pop{
+  position:fixed;
+  z-index:9900;
+  width:500px;
+  max-width:calc(100vw - 24px);
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:16px;
+  box-shadow:var(--shadow-md);
+  padding:12px;
+  display:none;
+  flex-direction:column;
+  gap:10px;
+  animation:popIn .14s var(--ease);
+}
+.xp-hooks-pop.on{display:flex;}
+.xp-hp-hdr{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding-bottom:8px;border-bottom:1px solid var(--border);
+}
+.xp-hp-title{
+  display:flex;align-items:center;gap:6px;
+  font-size:12.5px;font-weight:700;color:var(--text);
+}
+.xp-hp-cloud{
+  font-size:10px;font-weight:600;padding:1.5px 6px;border-radius:999px;
+  background:var(--surface2);color:var(--text3);
+}
+.xp-hp-cloud. synced{
+  background:var(--success-bg);color:var(--success);
+}
+.xp-hp-actions{
+  display:flex;align-items:center;gap:5px;
+}
+.xp-hp-act{
+  height:24px;padding:0 9px;border:1px solid var(--border);border-radius:6px;
+  background:var(--bg);color:var(--text2);font-size:11px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:4px;
+}
+.xp-hp-act:hover{background:var(--surface2);color:var(--text);border-color:var(--border2);}
+.xp-hp-close{
+  width:24px;height:24px;border:none;border-radius:6px;
+  background:transparent;color:var(--text3);font-size:16px;
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+}
+.xp-hp-close:hover{background:var(--surface2);color:var(--text);}
+
+.xp-hp-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.xp-hp-col{
+  display:flex;flex-direction:column;gap:6px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:8px;
+  min-width:0;
+}
+.xp-hp-col-hdr{
+  font-size:10.5px;font-weight:700;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.04em;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2px;
+}
+.xp-hp-list{
+  display:flex;flex-direction:column;gap:4px;
+  max-height:195px;overflow-y:auto;
+  padding-right:2px;
+}
+.xp-hp-list::-webkit-scrollbar{width:3px;}
+.xp-hp-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.xp-hb-item{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:5px 7px;
+  font-size:11.5px;color:var(--text);
+  cursor:pointer;text-align:left;
+  transition:border-color .12s, background-color .12s;
+}
+.xp-hb-item:hover{
+  border-color:#1d9bf0;
+  background:rgba(29,155,240,0.07);
+}
+.xp-hb-txt{
+  flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  line-height:1.3;
+}
+.xp-hb-del{
+  width:18px;height:18px;border:none;border-radius:4px;
+  background:transparent;color:var(--text3);font-size:12px;
+  cursor:pointer;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  opacity:0.55;
+}
+.xp-hb-item:hover .xp-hb-del{opacity:1;}
+.xp-hb-del:hover{background:var(--danger-bg);color:var(--danger);}
+
+.xp-hp-add{
+  display:flex;align-items:center;gap:4px;
+  margin-top:auto;padding-top:2px;
+}
+.xp-hp-inp{
+  flex:1;min-width:0;height:26px;padding:0 8px;
+  font-size:11.5px;color:var(--text);
+  background:var(--surface);border:1px solid var(--border);border-radius:6px;
+  font-family:inherit;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.xp-hp-inp:focus{border-color:#1d9bf0;}
+.xp-hp-addbtn{
+  width:26px;height:26px;border:none;border-radius:6px;
+  background:var(--text);color:var(--bg);
+  font-size:14px;font-weight:600;cursor:pointer;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.xp-hp-addbtn:hover{opacity:0.88;}
+
+@media(max-width:600px){
+  .xp-hooks-pop{
+    left:12px!important;right:12px!important;
+    bottom:16px!important;top:auto!important;
+    width:auto;
+  }
+  .xp-hp-cols{grid-template-columns:1fr;}
+  .xp-hp-list{max-height:135px;}
 }
 
 /* Медиа-вложение твита (По умолчанию статично для свободного скролла!) */
@@ -2296,6 +2445,7 @@ async function saveToSafariVault() {
     const tx = db.transaction('vault', 'readwrite');
     tx.objectStore('vault').put({
       entries: cleanEntriesForStorage(entries),
+      xpNotebook: normalizeXpNotebook(xpNotebook),
       baseCur, rates, theme, accent, tone, density, updatedAt: Date.now()
     }, 'main_state');
   } catch(e) {}
@@ -2309,6 +2459,11 @@ async function restoreFromSafariVaultIfEmpty() {
     req.onsuccess = () => {
       const data = req.result;
       if (!data) return;
+      if (data.xpNotebook) {
+        xpNotebook = mergeXpNotebooks(xpNotebook, data.xpNotebook);
+        lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
+        if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
+      }
       if (entries.length === 0 && Array.isArray(data.entries) && data.entries.length > 0) {
         entries = normalizeLoadedEntries(data.entries);
         if (data.baseCur && CURS.includes(data.baseCur)) baseCur = data.baseCur;
@@ -2361,6 +2516,70 @@ function recordDeletedIds(ids) {
   lsS('ff_deleted_ids', JSON.stringify(arr));
 }
 
+// ── X PLANNER HOOKS & OUTROS NOTEBOOK (CLOUD + LOCAL) ──
+const DEFAULT_XP_HOOKS = [
+  'one of my fav thumbnails',
+  'sketch vs final ✍️',
+  'recent thumbnails created for @...',
+  'color palette breakdown 🎨',
+  '2 options for a recent video',
+  'thumbnail concept vs final result'
+];
+const DEFAULT_XP_OUTROS = [
+  'would you click this?',
+  'which one gets your click: A or B?',
+  'thoughts on the composition?',
+  'rate this 1–10 👇',
+  'what would you change here?'
+];
+
+function normalizeXpNotebook(raw) {
+  if (!raw || typeof raw !== 'object') {
+    return { hooks: [...DEFAULT_XP_HOOKS], outros: [...DEFAULT_XP_OUTROS], del: [] };
+  }
+  const delSet = new Set(Array.isArray(raw.del) ? raw.del.map(s => String(s).trim()).filter(Boolean) : []);
+  const rawHooks = Array.isArray(raw.hooks) ? raw.hooks : DEFAULT_XP_HOOKS;
+  const rawOutros = Array.isArray(raw.outros) ? raw.outros : DEFAULT_XP_OUTROS;
+  const hooks = [...new Set(rawHooks.map(s => String(s).trim()).filter(s => s && !delSet.has(s)))];
+  const outros = [...new Set(rawOutros.map(s => String(s).trim()).filter(s => s && !delSet.has(s)))];
+  return {
+    hooks,
+    outros,
+    del: [...delSet].slice(-200)
+  };
+}
+
+function mergeXpNotebooks(localNb, cloudNb) {
+  const loc = normalizeXpNotebook(localNb);
+  if (!cloudNb || typeof cloudNb !== 'object') return loc;
+  const cld = normalizeXpNotebook(cloudNb);
+  const delSet = new Set([...loc.del, ...cld.del]);
+  const hooks = [...new Set([...loc.hooks, ...cld.hooks])].filter(s => !delSet.has(s));
+  const outros = [...new Set([...loc.outros, ...cld.outros])].filter(s => !delSet.has(s));
+  return {
+    hooks,
+    outros,
+    del: [...delSet].slice(-200)
+  };
+}
+
+let xpNotebook;
+try {
+  const rawNb = JSON.parse(lsG('ff_xp_notebook') || 'null');
+  xpNotebook = normalizeXpNotebook(rawNb);
+} catch(e) {
+  xpNotebook = normalizeXpNotebook(null);
+}
+
+window.getXpNotebook = () => xpNotebook;
+window.updateXpNotebook = (nextNb) => {
+  xpNotebook = normalizeXpNotebook(nextNb);
+  lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
+  saveToSafariVault();
+  scheduleSmartFirebaseSync();
+  if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
+};
+
 // ── SMART FIREBASE CLOUD SYNC ──
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
@@ -2370,11 +2589,13 @@ let _lastSyncedFingerprint = lsG('ff_last_fp') || '';
 let _isInitialCloudLoading = false;
 let _syncInFlight = false;
 
-function computeDataFingerprint(targetEntries = entries, targetCur = baseCur, targetRates = rates) {
+function computeDataFingerprint(targetEntries = entries, targetCur = baseCur, targetRates = rates, targetNb = xpNotebook) {
+  const nb = normalizeXpNotebook(targetNb);
   return JSON.stringify({
     baseCur: targetCur,
     rates: sanitizeRatesObject(targetRates),
-    entries: cleanEntriesForStorage(targetEntries)
+    entries: cleanEntriesForStorage(targetEntries),
+    xpNotebook: { hooks: nb.hooks, outros: nb.outros, del: nb.del }
   });
 }
 
@@ -2428,6 +2649,7 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     baseCur,
     rates,
     delIds: [...deletedIds].slice(-200),
+    xpNotebook: normalizeXpNotebook(xpNotebook),
     entries: cleanEntriesForStorage(entries)
   });
 
@@ -2525,6 +2747,19 @@ async function safeSyncWithFirebase(manual = false) {
       recordDeletedIds(data.delIds);
     }
 
+    let nbChangedVsCloud = false;
+    if (data && data.xpNotebook) {
+      const mergedNb = mergeXpNotebooks(xpNotebook, data.xpNotebook);
+      const cloudNbStr = JSON.stringify(normalizeXpNotebook(data.xpNotebook));
+      const mergedNbStr = JSON.stringify(mergedNb);
+      if (mergedNbStr !== cloudNbStr) nbChangedVsCloud = true;
+      xpNotebook = mergedNb;
+      lsS('ff_xp_notebook', mergedNbStr);
+      if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
+    } else if (data) {
+      nbChangedVsCloud = true;
+    }
+
     const rawCloudEntries = (data && Array.isArray(data.entries)) ? normalizeLoadedEntries(data.entries) : [];
     const cloudEntries = rawCloudEntries.filter(e => !deletedIds.has(String(e.id)));
 
@@ -2532,7 +2767,7 @@ async function safeSyncWithFirebase(manual = false) {
     entries = entries.filter(e => !deletedIds.has(String(e.id)));
     const localWasPruned = entries.length !== beforeFilterLen;
 
-    if (_hasUnsynced || localWasPruned) {
+    if (_hasUnsynced || localWasPruned || nbChangedVsCloud) {
       const localIds = new Set(entries.map(e => String(e.id)));
       const missingFromCloud = cloudEntries.filter(e => !localIds.has(String(e.id)));
       if (missingFromCloud.length > 0 || localWasPruned) {
@@ -2550,8 +2785,8 @@ async function safeSyncWithFirebase(manual = false) {
     if (data && (Array.isArray(data.entries) || data.version === 2)) {
       const cloudCur = (data.baseCur && CURS.includes(data.baseCur)) ? data.baseCur : baseCur;
       const cloudRates = (data.rates && typeof data.rates === 'object') ? sanitizeRatesObject(data.rates) : rates;
-      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates);
-      const localFp = computeDataFingerprint(entries, baseCur, rates);
+      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook);
+      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook);
 
       if (incomingFp === localFp && !wasSkel) {
         _lastSyncedFingerprint = incomingFp;
@@ -4923,6 +5158,7 @@ function exportData() {
     updatedAt: new Date().toISOString(),
     baseCur,
     rates: sanitizeRatesObject(rates),
+    xpNotebook: normalizeXpNotebook(xpNotebook),
     entries: cleanEntriesForStorage(entries)
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
@@ -4954,6 +5190,11 @@ function applyImportedPayload(raw, replaceMode = true) {
   }
   if (!Array.isArray(raw) && raw.rates && typeof raw.rates === 'object') {
     rates = sanitizeRatesObject({...rates, ...raw.rates});
+  }
+  if (!Array.isArray(raw) && raw.xpNotebook && typeof raw.xpNotebook === 'object') {
+    xpNotebook = replaceMode ? normalizeXpNotebook(raw.xpNotebook) : mergeXpNotebooks(xpNotebook, raw.xpNotebook);
+    lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
+    if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
   }
   if (replaceMode) {
     entries = normalizeLoadedEntries(valid);
@@ -5451,6 +5692,7 @@ const TwitterPlanner = (() => {
   const state = DAYS.map(d => ({
     dayIdx: d.idx,
     preset: 'sketch1_final',
+    padMode: 'L',     // 'L' (56px), 'S' (24px), '0' (0px)
     bgTheme: 'light', // 'light' (#FFFFFF) или 'dark' (#111110)
     caption: '',
     labelLeft: 'assets',
@@ -5495,6 +5737,7 @@ const TwitterPlanner = (() => {
       const tx = db.transaction(STORE_DAYS, 'readwrite');
       tx.objectStore(STORE_DAYS).put({
         preset: d.preset,
+        padMode: d.padMode || 'L',
         bgTheme: d.bgTheme,
         caption: d.caption,
         labelLeft: d.labelLeft,
@@ -5570,6 +5813,7 @@ const TwitterPlanner = (() => {
         if (!val) return;
         const st = state[idx];
         if (val.preset && PRESETS[val.preset]) st.preset = val.preset;
+        if (val.padMode === 'L' || val.padMode === 'S' || val.padMode === '0') st.padMode = val.padMode;
         if (val.bgTheme === 'dark' || val.bgTheme === 'light') st.bgTheme = val.bgTheme;
         if (typeof val.caption === 'string') st.caption = val.caption;
         if (typeof val.labelLeft === 'string') st.labelLeft = val.labelLeft;
@@ -5798,7 +6042,7 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  function drawAuthorHandle(ctx, totalH, isDark) {
+  function drawAuthorHandle(ctx, canvasW, totalH, pad, hBand, isDark) {
     const cleanRaw = (userHandle || '').trim();
     if (!cleanRaw || handlePos === 'off') return;
     const handleText = cleanRaw.startsWith('@') ? cleanRaw : `@${cleanRaw}`;
@@ -5810,17 +6054,19 @@ const TwitterPlanner = (() => {
     ctx.textBaseline = 'middle';
 
     const isTop = handlePos === 'tl' || handlePos === 'tr';
-    const bandCenterY = isTop ? (PAD + 14) : (totalH - PAD - 14);
+    const bandTotal = pad + hBand;
+    const bandCenterY = isTop ? Math.round(bandTotal * 0.56) : Math.round(totalH - bandTotal * 0.56);
+    const edgeX = Math.max(24, pad + 4);
 
     if (handlePos === 'tl' || handlePos === 'bl') {
       ctx.textAlign = 'left';
-      ctx.fillText(fullLabel, PAD + 4, bandCenterY);
+      ctx.fillText(fullLabel, edgeX, bandCenterY);
     } else if (handlePos === 'tr' || handlePos === 'br') {
       ctx.textAlign = 'right';
-      ctx.fillText(fullLabel, CANVAS_W - PAD - 4, bandCenterY);
+      ctx.fillText(fullLabel, canvasW - edgeX, bandCenterY);
     } else {
       ctx.textAlign = 'center';
-      ctx.fillText(fullLabel, CANVAS_W / 2, bandCenterY);
+      ctx.fillText(fullLabel, canvasW / 2, bandCenterY);
     }
     ctx.restore();
   }
@@ -5835,12 +6081,18 @@ const TwitterPlanner = (() => {
 
     d.hitRegions = [];
     const isDark = d.bgTheme === 'dark';
+    const pad = d.padMode === 'S' ? 24 : (d.padMode === '0' ? 0 : PAD);
+    const canvasW = CONTENT_W + pad * 2;
+    const rLg = pad === 0 ? 12 : R_LG;
+    const rSm = pad === 0 ? 10 : R_SM;
+
     const hasHandle = Boolean((userHandle || '').trim()) && handlePos !== 'off';
     const isHandleTop = hasHandle && (handlePos === 'tl' || handlePos === 'tr');
     const isHandleBot = hasHandle && (handlePos === 'bl' || handlePos === 'br' || handlePos === 'bc');
 
-    const padTop = PAD + (isHandleTop ? HANDLE_BAND : 0);
-    const padBot = PAD + (isHandleBot ? HANDLE_BAND : 0);
+    const hBand = pad === 0 ? 48 : (pad === 24 ? 48 : HANDLE_BAND);
+    const padTop = pad + (isHandleTop ? hBand : 0);
+    const padBot = pad + (isHandleBot ? hBand : 0);
 
     const p = d.preset;
     let contentH = 0;
@@ -5850,12 +6102,12 @@ const TwitterPlanner = (() => {
       const stackGap = 24;
       contentH = FULL_H * 2 + stackGap;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', PAD, padTop, CONTENT_W, FULL_H, R_LG, 'Top 16:9');
-        drawCornerBadge(ctx, d.badgeTop, PAD, padTop);
+        drawImageSlot(ctx, d, 's1', pad, padTop, CONTENT_W, FULL_H, rLg, 'Top 16:9');
+        drawCornerBadge(ctx, d.badgeTop, pad, padTop);
 
         const botY = padTop + FULL_H + stackGap;
-        drawImageSlot(ctx, d, 'final', PAD, botY, CONTENT_W, FULL_H, R_LG, 'Bottom 16:9');
-        drawCornerBadge(ctx, d.badgeBot, PAD, botY);
+        drawImageSlot(ctx, d, 'final', pad, botY, CONTENT_W, FULL_H, rLg, 'Bottom 16:9');
+        drawCornerBadge(ctx, d.badgeBot, pad, botY);
       };
     } else if (p === 'sketch3_final') {
       const skW = (CONTENT_W - GAP_TIGHT * 2) / 3;
@@ -5864,25 +6116,25 @@ const TwitterPlanner = (() => {
       layoutFn = ctx => {
         const keys = ['s1', 's2', 's3'];
         for (let i = 0; i < 3; i++) {
-          const sx = PAD + i * (skW + GAP_TIGHT);
-          drawImageSlot(ctx, d, keys[i], sx, padTop, skW, skH, R_SM, `Sketch ${i + 1}`);
+          const sx = pad + i * (skW + GAP_TIGHT);
+          drawImageSlot(ctx, d, keys[i], sx, padTop, skW, skH, rSm, `Sketch ${i + 1}`);
         }
-        drawImageSlot(ctx, d, 'final', PAD, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'sketch1_final') {
       const skW = Math.round(CONTENT_W * 0.72);
       const skH = Math.round(skW * 9 / 16);
-      const skX = PAD + Math.round((CONTENT_W - skW) / 2);
+      const skX = pad + Math.round((CONTENT_W - skW) / 2);
       contentH = skH + GAP_ROW + FULL_H;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', skX, padTop, skW, skH, R_SM, 'Sketch 16:9');
-        drawImageSlot(ctx, d, 'final', PAD, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 's1', skX, padTop, skW, skH, rSm, 'Sketch 16:9');
+        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'assets_inspo') {
       const groupW = Math.round(CONTENT_W * 0.86);
       const slotW = Math.round((groupW - GAP_TIGHT) / 2);
       const slotH = Math.round(slotW * 9 / 16);
-      const startX = PAD + Math.round((CONTENT_W - (slotW * 2 + GAP_TIGHT)) / 2);
+      const startX = pad + Math.round((CONTENT_W - (slotW * 2 + GAP_TIGHT)) / 2);
       const labelSpace = 48;
       const topSlotY = padTop + labelSpace;
       const finalY = topSlotY + slotH + GAP_ROW;
@@ -5900,9 +6152,9 @@ const TwitterPlanner = (() => {
         ctx.fillText(lbl2, startX + slotW + GAP_TIGHT + slotW / 2, topSlotY - 14);
         ctx.restore();
 
-        drawImageSlot(ctx, d, 's1', startX, topSlotY, slotW, slotH, R_SM, lbl1 || 'assets');
-        drawImageSlot(ctx, d, 's2', startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, R_SM, lbl2 || 'inspo');
-        drawImageSlot(ctx, d, 'final', PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 's1', startX, topSlotY, slotW, slotH, rSm, lbl1 || 'assets');
+        drawImageSlot(ctx, d, 's2', startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, rSm, lbl2 || 'inspo');
+        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'palette_final') {
       const groupW = Math.round(CONTENT_W * 0.82);
@@ -5910,7 +6162,7 @@ const TwitterPlanner = (() => {
       const swSize = Math.round((groupW - swGap * 4) / 5);
       const swH = Math.round(swSize * 0.78);
       const realGroupW = swSize * 5 + swGap * 4;
-      const startX = PAD + Math.round((CONTENT_W - realGroupW) / 2);
+      const startX = pad + Math.round((CONTENT_W - realGroupW) / 2);
       const finalY = padTop + swH + GAP_ROW;
       contentH = swH + GAP_ROW + FULL_H;
 
@@ -5919,16 +6171,16 @@ const TwitterPlanner = (() => {
           const sx = startX + i * (swSize + swGap);
           const col = d.palette[i] || '#cccccc';
 
-          fillWithFreeformShadow(ctx, sx, padTop, swSize, swH, R_SM, col, isDark);
+          fillWithFreeformShadow(ctx, sx, padTop, swSize, swH, rSm, col, isDark);
 
           ctx.save();
-          traceRoundRect(ctx, sx + 0.75, padTop + 0.75, swSize - 1.5, swH - 1.5, R_SM);
+          traceRoundRect(ctx, sx + 0.75, padTop + 0.75, swSize - 1.5, swH - 1.5, rSm);
           ctx.lineWidth = 1.5;
           ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.08)';
           ctx.stroke();
           ctx.restore();
         }
-        drawImageSlot(ctx, d, 'final', PAD, finalY, CONTENT_W, FULL_H, R_LG, 'Final 16:9');
+        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'grid2x2') {
       const gridGap = 20;
@@ -5937,25 +6189,25 @@ const TwitterPlanner = (() => {
       contentH = cellH * 2 + gridGap;
 
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', PAD, padTop, cellW, cellH, R_SM, 'Top-Left');
-        drawImageSlot(ctx, d, 's2', PAD + cellW + gridGap, padTop, cellW, cellH, R_SM, 'Top-Right');
-        drawImageSlot(ctx, d, 's3', PAD, padTop + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Left');
-        drawImageSlot(ctx, d, 'final', PAD + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, R_SM, 'Bottom-Right');
+        drawImageSlot(ctx, d, 's1', pad, padTop, cellW, cellH, rSm, 'Top-Left');
+        drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Top-Right');
+        drawImageSlot(ctx, d, 's3', pad, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Left');
+        drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Right');
       };
     }
 
     const totalH = padTop + contentH + padBot;
-    if (canvas.width !== CANVAS_W || canvas.height !== totalH) {
-      canvas.width = CANVAS_W;
+    if (canvas.width !== canvasW || canvas.height !== totalH) {
+      canvas.width = canvasW;
       canvas.height = totalH;
     }
 
     const ctx = getSrgbContext(canvas);
     ctx.save();
     ctx.fillStyle = isDark ? '#111110' : '#FFFFFF';
-    ctx.fillRect(0, 0, CANVAS_W, totalH);
+    ctx.fillRect(0, 0, canvasW, totalH);
     if (layoutFn) layoutFn(ctx);
-    drawAuthorHandle(ctx, totalH, isDark);
+    drawAuthorHandle(ctx, canvasW, totalH, pad, hBand, isDark);
     ctx.restore();
 
     if (hideActiveOutline) _cropSlot = prevCrop;
@@ -6436,6 +6688,7 @@ const TwitterPlanner = (() => {
       d.labelRight = 'inspo';
       d.badgeTop = '';
       d.badgeBot = '';
+      d.padMode = 'L';
       d.bgTheme = 'light';
       d.palette = ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'];
     });
@@ -6448,6 +6701,332 @@ const TwitterPlanner = (() => {
     updateReadyBadge();
     notify('Неделя полностью очищена');
   }
+
+  /* ── 7B. ОБЛАЧНЫЙ БЛОКНОТ-КОНСТРУКТОР «ХУК + КОНЦОВКА» (⚡ FIREBASE SYNC) ── */
+  let _hooksPopDayIdx = null;
+  let _hooksPopEl = null;
+
+  function getNbData() {
+    if (typeof window.getXpNotebook === 'function') return window.getXpNotebook();
+    return { hooks: [], outros: [], del: [] };
+  }
+
+  function saveNbData(nextNb) {
+    if (typeof window.updateXpNotebook === 'function') {
+      window.updateXpNotebook(nextNb);
+    }
+  }
+
+  function splitPostIntoHookAndOutro(rawText) {
+    const txt = (rawText || '').replace(/\r\n/g, '\n');
+    const dblIdx = txt.indexOf('\n\n');
+    if (dblIdx !== -1) {
+      return {
+        hook: txt.slice(0, dblIdx).trim(),
+        outro: txt.slice(dblIdx + 2).trim(),
+        hasSplit: true
+      };
+    }
+    const trimmed = txt.trim();
+    if (!trimmed) return { hook: '', outro: '', hasSplit: false };
+    const nb = getNbData();
+    const isKnownOutro = nb.outros.includes(trimmed) || trimmed.endsWith('?') || trimmed.endsWith('👇');
+    if (isKnownOutro && !nb.hooks.includes(trimmed)) {
+      return { hook: '', outro: trimmed, hasSplit: false };
+    }
+    return { hook: trimmed, outro: '', hasSplit: false };
+  }
+
+  function applyHookAndOutroToDay(dayIdx, nextHook, nextOutro) {
+    const d = state[dayIdx];
+    const h = (nextHook || '').trim();
+    const o = (nextOutro || '').trim();
+    const combined = (h && o) ? `${h}\n\n${o}` : (h || o);
+    d.caption = combined;
+    const ta = document.getElementById(`xp-cap-${dayIdx}`);
+    if (ta) {
+      ta.value = combined;
+      autoResizeCaption(ta);
+    }
+    saveDayMeta(dayIdx);
+  }
+
+  function insertHookIntoDay(dayIdx, hookText) {
+    const cur = splitPostIntoHookAndOutro(state[dayIdx].caption);
+    applyHookAndOutroToDay(dayIdx, hookText, cur.outro);
+  }
+
+  function insertOutroIntoDay(dayIdx, outroText) {
+    const cur = splitPostIntoHookAndOutro(state[dayIdx].caption);
+    applyHookAndOutroToDay(dayIdx, cur.hook, outroText);
+  }
+
+  function mixRandomHookAndOutro(dayIdx) {
+    const nb = getNbData();
+    const h = nb.hooks.length ? nb.hooks[Math.floor(Math.random() * nb.hooks.length)] : '';
+    const o = nb.outros.length ? nb.outros[Math.floor(Math.random() * nb.outros.length)] : '';
+    if (!h && !o) {
+      notify('Добавь хотя бы одну фразу в блокнот');
+      return;
+    }
+    applyHookAndOutroToDay(dayIdx, h, o);
+    notify('🎲 Подобран микс: Хук + Вопрос');
+  }
+
+  function saveCurrentPostToNotebook(dayIdx) {
+    const raw = (state[dayIdx].caption || '').trim();
+    if (!raw) {
+      notify('Сначала напиши текст в поле поста');
+      return;
+    }
+    const { hook, outro } = splitPostIntoHookAndOutro(raw);
+    const nb = getNbData();
+    const delSet = new Set(nb.del || []);
+    let addedCnt = 0;
+
+    if (hook) {
+      delSet.delete(hook);
+      if (!nb.hooks.includes(hook)) {
+        nb.hooks.unshift(hook);
+        addedCnt++;
+      }
+    }
+    if (outro) {
+      delSet.delete(outro);
+      if (!nb.outros.includes(outro)) {
+        nb.outros.unshift(outro);
+        addedCnt++;
+      }
+    }
+    nb.del = [...delSet];
+    saveNbData(nb);
+    renderHooksPopover();
+    notify(addedCnt > 0 ? '💾 Сохранено в облачный блокнот!' : 'Эта фраза уже есть в блокноте');
+  }
+
+  function addPhraseToNotebook(kind, text) {
+    const clean = (text || '').trim();
+    if (!clean) return;
+    const nb = getNbData();
+    const delSet = new Set(nb.del || []);
+    delSet.delete(clean);
+    nb.del = [...delSet];
+
+    const list = kind === 'outro' ? nb.outros : nb.hooks;
+    if (!list.includes(clean)) {
+      list.unshift(clean);
+    }
+    saveNbData(nb);
+    renderHooksPopover();
+    notify(kind === 'outro' ? '💬 Вопрос добавлен в блокнот' : '🎬 Хук добавлен в блокнот');
+  }
+
+  function removePhraseFromNotebook(kind, text) {
+    const clean = (text || '').trim();
+    const nb = getNbData();
+    const delSet = new Set(nb.del || []);
+    delSet.add(clean);
+    nb.del = [...delSet];
+    if (kind === 'outro') {
+      nb.outros = nb.outros.filter(s => s !== clean);
+    } else {
+      nb.hooks = nb.hooks.filter(s => s !== clean);
+    }
+    saveNbData(nb);
+    renderHooksPopover();
+  }
+
+  function ensureHooksPopoverDOM() {
+    if (_hooksPopEl) return _hooksPopEl;
+    const pop = document.createElement('div');
+    pop.className = 'xp-hooks-pop';
+    pop.id = 'xp-hooks-pop';
+    pop.setAttribute('role', 'dialog');
+    pop.setAttribute('aria-label', 'Конструктор хуков и концовок');
+    pop.addEventListener('click', e => e.stopPropagation());
+    pop.addEventListener('mousedown', e => e.stopPropagation());
+    document.body.appendChild(pop);
+    _hooksPopEl = pop;
+    return pop;
+  }
+
+  function closeHooksPopover() {
+    _hooksPopDayIdx = null;
+    if (_hooksPopEl) _hooksPopEl.classList.remove('on');
+    document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
+  }
+
+  function positionHooksPopover(anchorBtn) {
+    const pop = ensureHooksPopoverDOM();
+    if (!anchorBtn || window.innerWidth <= 600) return;
+    const r = anchorBtn.getBoundingClientRect();
+    const popW = 500;
+    const popH = pop.offsetHeight || 310;
+    let left = r.right - popW;
+    if (left < 12) left = 12;
+    if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
+
+    let top = r.bottom + 8;
+    if (top + popH > window.innerHeight - 12) {
+      top = Math.max(12, r.top - popH - 8);
+    }
+    pop.style.left = `${Math.round(left)}px`;
+    pop.style.top = `${Math.round(top)}px`;
+  }
+
+  function renderHooksPopover() {
+    const pop = ensureHooksPopoverDOM();
+    if (_hooksPopDayIdx === null) return;
+    const dIdx = _hooksPopDayIdx;
+    const nb = getNbData();
+    const hasCloud = Boolean(localStorage.getItem('ff_fb_url'));
+
+    pop.innerHTML = '';
+
+    // Шапка блокнота
+    const hdr = document.createElement('div');
+    hdr.className = 'xp-hp-hdr';
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'xp-hp-title';
+    titleWrap.innerHTML = `
+      <span>⚡ Конструктор поста (${DAYS[dIdx].code})</span>
+      <span class="xp-hp-cloud${hasCloud ? ' synced' : ''}">${hasCloud ? '☁️ Firebase' : 'Локально'}</span>
+    `;
+
+    const actions = document.createElement('div');
+    actions.className = 'xp-hp-actions';
+
+    const mixBtn = document.createElement('button');
+    mixBtn.type = 'button';
+    mixBtn.className = 'xp-hp-act';
+    mixBtn.title = 'Случайная комбинация: Хук + Вопрос';
+    mixBtn.textContent = '🎲 Микс';
+    mixBtn.addEventListener('click', () => mixRandomHookAndOutro(dIdx));
+
+    const savePostBtn = document.createElement('button');
+    savePostBtn.type = 'button';
+    savePostBtn.className = 'xp-hp-act';
+    savePostBtn.title = 'Сохранить текущий текст этого поста в блокнот';
+    savePostBtn.textContent = '💾 Из поста';
+    savePostBtn.addEventListener('click', () => saveCurrentPostToNotebook(dIdx));
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'xp-hp-close';
+    closeBtn.title = 'Закрыть (Esc)';
+    closeBtn.textContent = '×';
+    closeBtn.addEventListener('click', closeHooksPopover);
+
+    actions.appendChild(mixBtn);
+    actions.appendChild(savePostBtn);
+    actions.appendChild(closeBtn);
+    hdr.appendChild(titleWrap);
+    hdr.appendChild(actions);
+    pop.appendChild(hdr);
+
+    // 2 колонки: Начало (Хук) и Концовка (Вопрос)
+    const cols = document.createElement('div');
+    cols.className = 'xp-hp-cols';
+
+    const buildCol = (kind, titleText, items, placeholderTxt) => {
+      const col = document.createElement('div');
+      col.className = 'xp-hp-col';
+
+      const colHdr = document.createElement('div');
+      colHdr.className = 'xp-hp-col-hdr';
+      colHdr.innerHTML = `<span>${titleText}</span><span>${items.length}</span>`;
+      col.appendChild(colHdr);
+
+      const list = document.createElement('div');
+      list.className = 'xp-hp-list';
+
+      items.forEach(phrase => {
+        const item = document.createElement('div');
+        item.className = 'xp-hb-item';
+        item.title = 'Кликни, чтобы подставить в пост';
+
+        const txtSpan = document.createElement('span');
+        txtSpan.className = 'xp-hb-txt';
+        txtSpan.textContent = phrase;
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'xp-hb-del';
+        delBtn.title = 'Удалить из блокнота';
+        delBtn.textContent = '×';
+        delBtn.addEventListener('click', ev => {
+          ev.stopPropagation();
+          removePhraseFromNotebook(kind, phrase);
+        });
+
+        item.appendChild(txtSpan);
+        item.appendChild(delBtn);
+        item.addEventListener('click', () => {
+          if (kind === 'outro') insertOutroIntoDay(dIdx, phrase);
+          else insertHookIntoDay(dIdx, phrase);
+        });
+        list.appendChild(item);
+      });
+      col.appendChild(list);
+
+      const addRow = document.createElement('div');
+      addRow.className = 'xp-hp-add';
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'xp-hp-inp';
+      inp.placeholder = placeholderTxt;
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'xp-hp-addbtn';
+      addBtn.title = 'Добавить в блокнот';
+      addBtn.textContent = '+';
+
+      const submitAdd = () => {
+        const v = inp.value.trim();
+        if (!v) return;
+        inp.value = '';
+        addPhraseToNotebook(kind, v);
+      };
+      inp.addEventListener('keydown', ev => {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          submitAdd();
+        }
+      });
+      addBtn.addEventListener('click', submitAdd);
+
+      addRow.appendChild(inp);
+      addRow.appendChild(addBtn);
+      col.appendChild(addRow);
+      return col;
+    };
+
+    cols.appendChild(buildCol('hook', '🎬 Начало (Хук)', nb.hooks, '+ Свой хук (Enter)...'));
+    cols.appendChild(buildCol('outro', '💬 Концовка (Вопрос)', nb.outros, '+ Свой вопрос (Enter)...'));
+    pop.appendChild(cols);
+  }
+
+  function toggleHooksPopover(dayIdx, btnEl) {
+    if (_hooksPopDayIdx === dayIdx && _hooksPopEl && _hooksPopEl.classList.contains('on')) {
+      closeHooksPopover();
+      return;
+    }
+    _hooksPopDayIdx = dayIdx;
+    document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
+    if (btnEl) btnEl.classList.add('on');
+
+    const pop = ensureHooksPopoverDOM();
+    renderHooksPopover();
+    pop.classList.add('on');
+    positionHooksPopover(btnEl);
+  }
+
+  window._onXpNotebookUpdated = () => {
+    if (_hooksPopDayIdx !== null && _hooksPopEl && _hooksPopEl.classList.contains('on')) {
+      renderHooksPopover();
+    }
+  };
 
   /* ── 8. ПОСТРОЕНИЕ И ОБНОВЛЕНИЕ DOM КАРТОЧЕК ДНЕЙ В ВИДЕ ПОСТА X (TWITTER) ── */
   function autoResizeCaption(ta) {
@@ -6551,6 +7130,23 @@ const TwitterPlanner = (() => {
       cropToggleBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
       cropToggleBtn.addEventListener('click', () => toggleCropMode(dIdx));
 
+      const padBtn = document.createElement('button');
+      padBtn.type = 'button';
+      padBtn.className = 'xp-pad-toggle';
+      padBtn.id = `xp-pad-${dIdx}`;
+      padBtn.title = 'Поля холста: L (56px) · S (24px) · 0 (Без полей)';
+      padBtn.textContent = dState.padMode || 'L';
+      padBtn.addEventListener('click', () => {
+        const order = ['L', 'S', '0'];
+        const cur = dState.padMode || 'L';
+        const next = order[(order.indexOf(cur) + 1) % order.length];
+        dState.padMode = next;
+        saveDayMeta(dIdx);
+        refreshDayCardUI(dIdx);
+        const descMap = { L: 'L (Широкие 56px)', S: 'S (Узкие 24px)', '0': '0 (Без полей)' };
+        notify(`Поля холста: ${descMap[next]}`);
+      });
+
       const bgBtn = document.createElement('button');
       bgBtn.type = 'button';
       bgBtn.className = 'xp-bg-toggle';
@@ -6583,6 +7179,7 @@ const TwitterPlanner = (() => {
       });
 
       hdrControls.appendChild(cropToggleBtn);
+      hdrControls.appendChild(padBtn);
       hdrControls.appendChild(bgBtn);
       hdrControls.appendChild(sel);
       hdr.appendChild(userRow);
@@ -6629,8 +7226,25 @@ const TwitterPlanner = (() => {
         }
       });
 
+      const textActions = document.createElement('div');
+      textActions.className = 'xp-tw-text-actions';
+
+      const hooksBtn = document.createElement('button');
+      hooksBtn.type = 'button';
+      hooksBtn.className = 'xp-hooks-btn';
+      hooksBtn.id = `xp-hooks-btn-${dIdx}`;
+      hooksBtn.title = 'Открыть облачный блокнот хуков и концовок ⚡';
+      hooksBtn.innerHTML = `<span>⚡ Хуки</span>`;
+      hooksBtn.addEventListener('click', ev => {
+        ev.stopPropagation();
+        toggleHooksPopover(dIdx, hooksBtn);
+      });
+
+      textActions.appendChild(hooksBtn);
+      textActions.appendChild(copyBtn);
+
       textRow.appendChild(ta);
-      textRow.appendChild(copyBtn);
+      textRow.appendChild(textActions);
       bodyCol.appendChild(textRow);
 
       // 3. Медиа-вложение поста: Canvas
@@ -6749,7 +7363,9 @@ const TwitterPlanner = (() => {
 
     const card = document.getElementById(`xp-card-${dayIdx}`);
     const sel = document.getElementById(`xp-pres-${dayIdx}`);
+    const padBtn = document.getElementById(`xp-pad-${dayIdx}`);
     const bgBtn = document.getElementById(`xp-bg-${dayIdx}`);
+    if (padBtn) padBtn.textContent = d.padMode || 'L';
     const slotsBox = document.getElementById(`xp-slots-${dayIdx}`);
     const extraBox = document.getElementById(`xp-extra-${dayIdx}`);
     const capEl = document.getElementById(`xp-cap-${dayIdx}`);
@@ -7028,6 +7644,7 @@ const TwitterPlanner = (() => {
       resizeAllCaptions();
     } else {
       exitCropMode();
+      closeHooksPopover();
       if (plannerView) plannerView.style.display = 'none';
       if (invoeBody) invoeBody.style.display = '';
       if (tabInvoe) { tabInvoe.classList.add('on'); tabInvoe.setAttribute('aria-selected', 'true'); }
@@ -7077,7 +7694,16 @@ const TwitterPlanner = (() => {
     if (plannerView) {
       plannerView.addEventListener('mousedown', e => {
         e.stopPropagation();
+        if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-hooks-btn')) {
+          closeHooksPopover();
+        }
       });
+      plannerView.addEventListener('scroll', () => {
+        if (_hooksPopDayIdx !== null) {
+          const btn = document.getElementById(`xp-hooks-btn-${_hooksPopDayIdx}`);
+          if (btn) positionHooksPopover(btn);
+        }
+      }, { passive: true });
     }
 
     // Вставка картинки из буфера обмена (⌘V / Ctrl+V)
@@ -7135,6 +7761,11 @@ const TwitterPlanner = (() => {
       const sovOpen = document.getElementById('sov')?.classList.contains('on');
       if (confOpen || sovOpen) return;
 
+      if (e.key === 'Escape' && _hooksPopDayIdx !== null) {
+        e.preventDefault();
+        closeHooksPopover();
+        return;
+      }
       if (e.key === 'Escape' && _cropSlot) {
         e.preventDefault();
         exitCropMode();
