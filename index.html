@@ -31,7 +31,7 @@
   --lasso-fill:rgba(37,99,235,0.09);
   --shadow-card:0 1px 3px rgba(0,0,0,0.025);
   --shadow-md:0 14px 34px rgba(0,0,0,0.09), 0 2px 6px rgba(0,0,0,0.03);
-  --shadow-dock:0 12px 32px rgba(0,0,0,0.14), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-dock:0 10px 30px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.04);
   --r-xs:6px;--r:8px;--rl:12px;--rxl:16px;--rf:9999px;
   --topbar:48px;
   --sidebar:264px;
@@ -60,10 +60,10 @@ html[data-theme="dark"]{
   --lasso-fill:rgba(59,130,246,0.12);
   --shadow-card:none;
   --shadow-md:0 16px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-dock:0 14px 36px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.08);
+  --shadow-dock:0 14px 36px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.07);
 }
 
-/* ── SURFACE TONES ── */
+/* SURFACE TONES */
 html[data-theme="light"][data-tone="cool"]{
   --bg:#f1f4f8;--surface:#ffffff;--surface2:#e4e9f1;--surface3:#d5ddeb;
   --text:#0f172a;--text2:#475569;--text3:#94a3b8;
@@ -79,7 +79,7 @@ html[data-theme="dark"][data-tone="oled"]{
   --bg:#000000;--surface:#0c0c0c;--surface2:#161616;--surface3:#212121;
 }
 
-/* ── ACCENT COLORS ── */
+/* ACCENT COLORS */
 html[data-accent="indigo"]{
   --blue:#6366f1;--blue-bg:rgba(99,102,241,0.1);--lasso-fill:rgba(99,102,241,0.11);
 }
@@ -139,13 +139,9 @@ body.lasso-active .sel-txt{
   to{opacity:1;transform:translateY(0) scale(1);}
 }
 @keyframes badgePulse{
-  0%{transform:scale(0.88);}
-  50%{transform:scale(1.08);}
+  0%{transform:scale(0.9);}
+  50%{transform:scale(1.07);}
   100%{transform:scale(1);}
-}
-@keyframes curMorph{
-  0%{opacity:0.35;transform:translateY(4px);filter:blur(2px);}
-  100%{opacity:1;transform:translateY(0);filter:blur(0);}
 }
 @keyframes cardFlashGlow{
   0%{
@@ -169,125 +165,83 @@ button{
 }
 button:active:not(:disabled){transform:scale(0.96);}
 
-/* ── CONTEXT MENU WITH LIVE CALCULATOR ── */
-.ctx-menu{
-  position:fixed;z-index:9995;
-  min-width:238px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--rl);
-  padding:6px;
-  box-shadow:var(--shadow-md);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  display:none;
-  animation:popIn .14s var(--ease);
-}
-.ctx-menu.on{display:block;}
-.ctx-calc-box{
-  background:var(--bg);
-  border-radius:var(--r);
-  padding:9px 11px;
-  margin-bottom:5px;
-  display:flex;flex-direction:column;gap:2px;
-}
-.ctx-calc-top{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  font-size:10px;font-weight:600;color:var(--text3);
-  text-transform:uppercase;letter-spacing:.04em;
-}
-.ctx-calc-sum{
-  font-size:16px;font-weight:800;color:var(--text);
-  letter-spacing:-.025em;line-height:1.2;
-}
-.ctx-calc-sub{
-  font-size:11px;color:var(--text2);font-weight:500;
-}
-.ctx-item{
-  width:100%;border:none;background:transparent;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:7px 9px;border-radius:var(--r-xs);
-  font-size:12.5px;font-weight:500;color:var(--text);
-  cursor:pointer;text-align:left;
-  transition:background-color .08s, color .08s;
-}
-.ctx-item:hover{background:var(--blue);color:#ffffff;}
-.ctx-item:hover .ctx-kbd{color:rgba(255,255,255,0.8);}
-.ctx-item.danger{color:var(--danger);}
-.ctx-item.danger:hover{background:var(--danger);color:#ffffff;}
-.ctx-kbd{font-size:10.5px;color:var(--text3);font-weight:500;}
-.ctx-sep{height:4px;}
-.ctx-inv-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:4px 5px 4px 9px;gap:8px;
-}
-.ctx-inv-lbl{font-size:12.5px;font-weight:500;color:var(--text);}
-.ctx-inv-btns{display:flex;gap:4px;}
-.ctx-lbtn{
-  padding:4px 9px;font-size:11px;font-weight:600;border-radius:var(--r-xs);
-  border:none;background:var(--surface2);color:var(--text);
-  cursor:pointer;
-}
-.ctx-lbtn:hover{background:var(--blue);color:#fff;}
-
-/* ── FLOATING SELECTION ISLAND (BAR) ── */
+/* FLOATING SELECTION ACTION BAR (SINGLE UNIFIED MENU FOR CARDS) */
 .sel-dock{
   position:fixed;
-  bottom:calc(20px + var(--safe-b));
+  bottom:calc(24px + var(--safe-b));
   left:50%;
-  transform:translateX(-50%) translateY(90px) scale(0.95);
-  background:rgba(24,24,23,0.92);
-  color:#f5f5f2;
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:var(--rf);
+  transform:translateX(-50%) translateY(24px) scale(0.96);
+  z-index:550;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--rxl);
   padding:6px 8px 6px 14px;
-  display:flex;align-items:center;gap:8px;
-  z-index:9900;
   box-shadow:var(--shadow-dock);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
-  opacity:0;pointer-events:none;
-  transition:transform .28s var(--spring), opacity .18s var(--ease);
-  white-space:nowrap;
-}
-html[data-theme="dark"] .sel-dock{
-  background:rgba(36,36,34,0.94);
-  border-color:rgba(255,255,255,0.14);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .22s var(--ease), transform .26s var(--spring);
+  max-width:calc(100vw - 24px);
+  overflow-x:auto;
 }
 .sel-dock.on{
-  opacity:1;pointer-events:all;
+  opacity:1;
+  pointer-events:all;
   transform:translateX(-50%) translateY(0) scale(1);
 }
 .sel-dock-info{
-  display:flex;align-items:baseline;gap:6px;
-  padding-right:6px;border-right:1px solid rgba(255,255,255,0.14);
+  display:flex;
+  flex-direction:column;
+  padding-right:6px;
+  border-right:1px solid var(--border);
+  white-space:nowrap;
 }
 .sel-dock-cnt{
-  font-size:11px;font-weight:700;
-  background:var(--blue);color:#fff;
-  padding:1.5px 6.5px;border-radius:999px;
+  font-size:10px;
+  font-weight:700;
+  color:var(--text3);
+  text-transform:uppercase;
+  letter-spacing:.04em;
 }
 .sel-dock-sum{
-  font-size:13px;font-weight:700;letter-spacing:-.02em;color:#fff;
+  font-size:14px;
+  font-weight:800;
+  color:var(--text);
+  letter-spacing:-.02em;
 }
-.sel-dock-btn{
-  height:28px;padding:0 10px;border:none;border-radius:999px;
-  background:rgba(255,255,255,0.1);color:#f0f0ec;
-  font-size:11.5px;font-weight:600;cursor:pointer;
-  display:inline-flex;align-items:center;gap:4px;
+.sel-dock-actions{
+  display:flex;
+  align-items:center;
+  gap:4px;
 }
-.sel-dock-btn:hover{background:rgba(255,255,255,0.2);color:#fff;}
-.sel-dock-btn.primary{background:var(--blue);color:#fff;}
-.sel-dock-btn.primary:hover{opacity:0.9;}
-.sel-dock-btn.danger:hover{background:var(--danger);color:#fff;}
-.sel-dock-close{
-  width:26px;height:26px;border-radius:50%;border:none;
-  background:transparent;color:rgba(255,255,255,0.6);
-  font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+.sd-btn{
+  height:32px;
+  padding:0 10px;
+  border:none;
+  border-radius:var(--r);
+  background:var(--surface2);
+  color:var(--text);
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
 }
-.sel-dock-close:hover{background:rgba(255,255,255,0.14);color:#fff;}
+.sd-btn:hover{background:var(--surface3);}
+.sd-btn.primary{background:var(--blue);color:#fff;}
+.sd-btn.primary:hover{opacity:.9;}
+.sd-btn.danger{color:var(--danger);background:var(--danger-bg);}
+.sd-btn.danger:hover{background:var(--danger);color:#fff;}
+.sd-btn.ghost{background:transparent;color:var(--text3);padding:0 8px;}
+.sd-btn.ghost:hover{background:var(--surface2);color:var(--text);}
 
-/* ── FINDER LASSO SELECTION BOX ── */
+/* FINDER LASSO SELECTION BOX */
 .lasso-box{
   position:fixed;
   border:1px solid rgba(59,130,246,0.45);
@@ -298,7 +252,7 @@ html[data-theme="dark"] .sel-dock{
   display:none;
 }
 
-/* ── DRAG & DROP OVERLAY ── */
+/* DRAG & DROP OVERLAY */
 .drop-zone{
   position:fixed;inset:16px;z-index:9998;
   border:1.5px dashed var(--blue);border-radius:var(--rxl);
@@ -310,7 +264,7 @@ html[data-theme="dark"] .sel-dock{
 .drop-zone-title{font-size:15px;font-weight:700;color:var(--blue);}
 .drop-zone-sub{font-size:12px;color:var(--text2);}
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 .app{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;}
 
 /* Topbar */
@@ -373,12 +327,12 @@ html[data-theme="dark"] .sel-dock{
   gap:40px;
 }
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar{
   width:var(--sidebar);
   min-width:var(--sidebar);
   display:flex;flex-direction:column;
-  gap:26px;
+  gap:24px;
   padding:8px 0 24px;
   overflow-y:auto;overflow-x:hidden;
   flex-shrink:0;
@@ -445,19 +399,26 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 
 /* Balance Metrics (Desktop Sidebar) */
 .balance-cards{
-  display:flex;flex-direction:column;gap:16px;
+  display:flex;flex-direction:column;gap:18px;
 }
 .bal-card{
   display:flex;flex-direction:column;
-  padding:8px 10px;margin:0 -10px;
+  padding:8px 10px;
+  margin:0 -10px;
   border-radius:var(--rl);
   transition:background-color .14s var(--ease);
-  cursor:pointer;
 }
-.bal-card:hover{background:rgba(0,0,0,0.025);}
-html[data-theme="dark"] .bal-card:hover{background:rgba(255,255,255,0.03);}
-.bal-hdr{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
-.bal-label{font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
+.bal-card.active-metric{
+  background:var(--surface2);
+}
+.bal-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px;}
+.bal-hdr-left{display:flex;align-items:center;gap:8px;}
+.bal-label{font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
+.bal-cur-btn{
+  height:18px;padding:0 5px;border:1px solid var(--border2);border-radius:4px;
+  background:transparent;color:var(--text3);font-size:10px;font-weight:600;cursor:pointer;
+}
+.bal-cur-btn:hover{color:var(--text);background:var(--surface);}
 .bal-trend,.bal-zero{
   font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;
   white-space:nowrap;display:none;
@@ -469,19 +430,18 @@ html[data-theme="dark"] .bal-card:hover{background:rgba(255,255,255,0.03);}
 .bal-amount{
   font-size:26px;font-weight:700;letter-spacing:-.035em;color:var(--text);line-height:1.1;
   cursor:pointer;display:inline-block;align-self:flex-start;
-  transition:opacity .12s, color .2s var(--ease);
+  transition:opacity .12s, color .2s var(--ease), transform .18s var(--ease);
   max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
-.bal-amount.cur-morph{animation:curMorph .24s var(--ease);}
-.bal-amount:hover{opacity:.72;}
+.bal-amount:hover{opacity:.78;}
 .bal-amount.is-zero{color:var(--text3);}
 .bal-multi{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
 .bal-multi:empty{display:none;}
 .bal-chip{font-size:11px;font-weight:500;color:var(--text2);background:var(--surface2);padding:1.5px 7px;border-radius:var(--r-xs);}
 
-/* ── SIDEBAR ANALYTICS & SPECTRUM BAR ── */
+/* SIDEBAR ANALYTICS & SPECTRUM BAR (NO DUPLICATE TOTAL SUM) */
 .month-overview{
-  display:flex;flex-direction:column;gap:11px;
+  display:flex;flex-direction:column;gap:10px;
 }
 .month-overview.collapsed .mo-tabs,
 .month-overview.collapsed .mo-content{display:none;}
@@ -536,14 +496,11 @@ html[data-theme="dark"] .bal-card:hover{background:rgba(255,255,255,0.03);}
   font-weight:600;
 }
 
-.mo-content{display:flex;flex-direction:column;gap:10px;}
+.mo-content{display:flex;flex-direction:column;gap:8px;}
 .an-summary-row{
-  display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  min-height:16px;
 }
-.an-total-val{
-  font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--text2);
-}
-.an-total-val.is-zero{color:var(--text3);}
 .an-hover-lbl{
   font-size:11px;font-weight:500;color:var(--text3);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
@@ -607,7 +564,7 @@ html[data-theme="dark"] .bal-card:hover{background:rgba(255,255,255,0.03);}
 html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .toast-undo:hover{opacity:.85;}
 
-/* ── MAIN WORKSPACE ── */
+/* MAIN WORKSPACE */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
 /* Mobile Hero Dashboard */
@@ -661,47 +618,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   font-size:10px;color:var(--text3);font-weight:500;
 }
 
-/* ── QUICK ADD BAR (RAYCAST / THINGS STYLE) ── */
-.qadd-bar{
-  position:relative;
-  display:flex;align-items:center;
-  margin-top:6px;
-  flex-shrink:0;
-}
-.qadd-icon{
-  position:absolute;left:12px;
-  color:var(--blue);font-size:13px;font-weight:700;
-  pointer-events:none;
-}
-#qadd-inp{
-  width:100%;height:36px;
-  padding:0 190px 0 32px;
-  font-size:13px;font-family:inherit;
-  background:var(--surface);color:var(--text);
-  border:1px solid var(--border);
-  border-radius:var(--rl);
-  box-shadow:var(--shadow-card);
-  outline:none;
-  transition:border-color .15s var(--ease), box-shadow .15s var(--ease);
-  user-select:text;-webkit-user-select:text;
-}
-#qadd-inp:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px var(--blue-bg);
-}
-#qadd-inp::placeholder{color:var(--text3);}
-.qadd-preview{
-  position:absolute;right:8px;
-  display:none;align-items:center;gap:6px;
-  font-size:11px;font-weight:600;
-  background:var(--blue-bg);color:var(--blue);
-  padding:3px 9px;border-radius:var(--r-xs);
-  pointer-events:none;
-  max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.qadd-preview.on{display:inline-flex;animation:popIn .12s var(--ease);}
-
-/* Toolbar */
+/* Clean Toolbar */
 .toolbar{
   display:flex;align-items:center;gap:8px;
   padding:8px 0 10px;
@@ -710,7 +627,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .search-wrap{flex:1;min-width:160px;position:relative;display:flex;align-items:center;}
 .search-icon{position:absolute;left:11px;color:var(--text3);pointer-events:none;}
 #search{
-  width:100%;height:34px;padding:0 44px 0 33px;
+  width:100%;height:34px;padding:0 38px 0 33px;
   font-size:13px;border:none;border-radius:var(--r);
   background:var(--surface2);color:var(--text);
   font-family:inherit;outline:none;transition:background-color .14s, box-shadow .14s;
@@ -723,27 +640,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   font-size:10px;font-weight:600;color:var(--text3);
   opacity:0.75;transition:opacity .12s;
 }
-#search:focus ~ .search-kbd,
-.search-wrap.has-sel .search-kbd{opacity:0;}
-
-/* Compact Selection Pill in Search (fallback trigger) */
-.sel-pill{
-  position:absolute;right:4px;
-  display:none;align-items:center;gap:5px;
-  height:26px;padding:0 8px;
-  background:var(--surface);color:var(--blue);
-  box-shadow:var(--shadow-card);
-  border-radius:var(--r-xs);font-size:11.5px;font-weight:600;
-  cursor:pointer;white-space:nowrap;z-index:2;
-}
-.sel-pill.on{display:inline-flex;}
-.sel-pill:hover{background:var(--blue-bg);}
-.sel-pill-clr{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:16px;height:16px;border-radius:3px;
-  color:var(--text3);font-size:12px;
-}
-.sel-pill-clr:hover{color:var(--text);background:var(--surface2);}
+#search:focus ~ .search-kbd{opacity:0;}
 
 .filter-wrap{position:relative;}
 .filter-btn{
@@ -795,7 +692,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 
 /* Entries list */
 .elist{
-  flex:1;overflow-y:auto;padding:2px 2px 72px;
+  flex:1;overflow-y:auto;padding:2px 2px 90px;
   position:relative;
   -webkit-overflow-scrolling:touch;
 }
@@ -880,7 +777,7 @@ html[data-density="compact"] .group-lbl{
 .eclient{color:var(--text2);font-weight:500;}
 .enote-txt{color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;}
 .elink{
-  display:inline-flex;align-items:center;gap:3px;
+  display:inline-flex;align-items:center;gap:4px;
   font-size:10.5px;font-weight:500;color:var(--text2);
   background:var(--bg);padding:1.5px 6.5px;border-radius:4px;
   border:none;
@@ -889,15 +786,7 @@ html[data-density="compact"] .group-lbl{
 .elink:hover{background:var(--blue-bg);color:var(--blue);}
 .er{display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .edate{font-size:11px;color:var(--text3);}
-.eamt{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-.025em;min-width:68px;text-align:right;border-radius:4px;padding:1px 3px;transition:background-color .12s;}
-.eamt:hover{background:var(--surface3);}
-.inline-edit-inp{
-  width:88px;height:24px;padding:0 6px;
-  font-size:13.5px;font-weight:700;font-family:inherit;
-  color:var(--text);background:var(--surface);
-  border:1.5px solid var(--blue);border-radius:5px;
-  text-align:right;outline:none;
-}
+.eamt{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-.025em;min-width:68px;text-align:right;}
 
 /* Clean Borderless Status Badges */
 .badge{
@@ -916,13 +805,13 @@ html[data-density="compact"] .group-lbl{
 
 /* Empty */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px;gap:8px;}
-.empty-ico{font-size:26px;opacity:.18;}
+.empty-ico{color:var(--text3);opacity:.35;margin-bottom:4px;}
 .empty-title{font-size:14px;font-weight:600;color:var(--text);opacity:.45;}
 .empty-sub{font-size:12.5px;color:var(--text3);text-align:center;max-width:260px;line-height:1.55;}
 .empty-btn{height:36px;padding:0 18px;background:var(--text);color:var(--bg);border:none;border-radius:var(--r);cursor:pointer;font-size:12.5px;font-weight:600;margin-top:6px;}
 .empty-btn:hover{opacity:.85;}
 
-/* ── MODAL ── */
+/* MODAL */
 .moverlay{
   position:fixed;inset:0;background:rgba(0,0,0,.42);
   z-index:600;display:flex;align-items:center;justify-content:center;
@@ -1058,7 +947,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .confirm-cancel{height:34px;padding:0 12px;background:var(--surface2);border:none;border-radius:var(--r);cursor:pointer;font-size:12.5px;color:var(--text2);}
 .confirm-cancel:hover{background:var(--surface3);color:var(--text);}
 
-/* ── SETTINGS PANEL WITH 3 CLEAN TABS ── */
+/* SETTINGS PANEL WITH 3 TABS */
 .soverlay{position:fixed;inset:0;z-index:700;display:none;}
 .soverlay.on{display:block;}
 .sback{position:absolute;inset:0;background:rgba(0,0,0,.22);backdrop-filter:blur(2px);}
@@ -1076,25 +965,26 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .sclose{background:none;border:none;cursor:pointer;color:var(--text2);font-size:18px;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-xs);}
 .sclose:hover{background:var(--surface2);color:var(--text);}
 
-.s-tabs{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;
-  background:var(--surface2);padding:3px;
-  margin:0 18px 14px;border-radius:var(--r);
+.stabs{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--surface2);padding:2px;border-radius:var(--r);
+  margin:0 18px 14px;
 }
-.s-tab{
+.stab{
   height:28px;border:none;border-radius:var(--r-xs);
   background:transparent;color:var(--text2);
   font-size:12px;font-weight:500;cursor:pointer;
 }
-.s-tab:hover{color:var(--text);}
-.s-tab.on{
+.stab:hover{color:var(--text);}
+.stab.on{
   background:var(--surface);color:var(--text);
   font-weight:600;box-shadow:var(--shadow-card);
 }
-.s-pane{display:none;flex-direction:column;gap:18px;}
-.s-pane.on{display:flex;animation:popIn .14s var(--ease);}
 
-.sbody{padding:2px 18px calc(24px + var(--safe-b));display:flex;flex-direction:column;}
+.sbody{padding:4px 18px calc(24px + var(--safe-b));display:flex;flex-direction:column;gap:18px;}
+.s-pane{display:none;flex-direction:column;gap:18px;}
+.s-pane.on{display:flex;}
+
 .slbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
 .trow{display:flex;gap:4px;background:var(--surface2);padding:2px;border-radius:var(--r);}
 .topt{flex:1;height:28px;border:none;border-radius:var(--r-xs);background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);}
@@ -1130,7 +1020,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .cloud-box{display:flex;flex-direction:column;gap:7px;}
 .cloud-inp{height:34px;font-size:12.5px;}
 
-/* ── MOBILE FLOATING DOCK & REDESIGN ── */
+/* MOBILE FLOATING DOCK & REDESIGN */
 .m-bottom-nav{
   display:none;
 }
@@ -1140,8 +1030,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .m-period-pill{display:inline-flex;}
   .icon-btn#btn-settings{display:none;}
   .body{padding:0 16px;gap:0;position:relative;}
+
   .m-hero{display:grid;}
-  .qadd-bar{display:none;}
 
   .sidebar{
     display:none;
@@ -1163,7 +1053,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     box-shadow:var(--shadow-card);
   }
   .sidebar .mo-collapse-btn{display:none;}
-  .sidebar .an-total-val{font-size:22px;font-weight:800;}
   .sidebar .spectrum-bar{height:10px;border-radius:5px;}
   .sidebar .mo-leg-row{padding:9px 8px;}
   .sidebar .mo-leg-lbl,.sidebar .mo-leg-val{font-size:13.5px;}
@@ -1171,7 +1060,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .toolbar{padding:2px 0 10px;gap:8px;}
   #search{
     height:38px;font-size:16px;
-    padding:0 90px 0 34px;
+    padding:0 14px 0 34px;
     background:var(--surface);
     box-shadow:var(--shadow-card);
     border-radius:var(--rl);
@@ -1183,7 +1072,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     box-shadow:var(--shadow-card);
     border-radius:var(--rl);
   }
-  .elist{padding:2px 0 calc(110px + var(--safe-b));}
+  .elist{padding:2px 0 calc(130px + var(--safe-b));}
 
   .group-lbl{padding:16px 2px 7px;font-size:11px;}
   .group-lbl-sum{font-size:12px;font-weight:700;}
@@ -1235,19 +1124,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
   .spanel{width:100%;max-width:100%;}
   .toast{bottom:calc(84px + var(--safe-b));}
-  .sel-dock{bottom:calc(80px + var(--safe-b));max-width:calc(100vw - 24px);overflow-x:auto;}
-
-  .ctx-menu{
-    left:14px!important;
-    right:14px!important;
-    bottom:calc(82px + var(--safe-b))!important;
-    top:auto!important;
-    width:auto;
-    border-radius:20px;
-    padding:10px;
-  }
-  .ctx-item{padding:11px 10px;font-size:14px;}
-  .ctx-kbd{display:none;}
+  .sel-dock{bottom:calc(80px + var(--safe-b));}
 
   .m-bottom-nav{
     display:grid;
@@ -1290,7 +1167,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 </style>
 <style id="xp-styles">
 /* ══════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — CLEAN STUDIO UI
+   X (TWITTER) WEEKLY PLANNER — CLEAN STUDIO & SIMPLIFIED X POST
 ══════════════════════════════════════════════ */
 
 .xp-nav-switch{
@@ -1313,7 +1190,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
 .xp-view{
   flex:1;overflow-y:auto;overflow-x:hidden;
-  width:100%;padding:12px 28px 64px;
+  width:100%;padding:12px 28px 56px;
 }
 .xp-view::-webkit-scrollbar{width:4px;}
 .xp-view::-webkit-scrollbar-thumb{background:transparent;border-radius:2px;}
@@ -1332,7 +1209,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-title-row{display:flex;align-items:center;gap:8px;}
 .xp-title{font-size:15px;font-weight:700;letter-spacing:-.025em;color:var(--text);}
 .xp-badge{
-  font-size:10.5px;font-weight:600;padding:2px 8px;
+  font-size:10.5px;font-weight:600;padding:2px 7px;
   border-radius:var(--rf);background:var(--surface2);color:var(--text3);
 }
 .xp-badge.has-ready{background:var(--blue-bg);color:var(--blue);}
@@ -1340,7 +1217,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-size:11.5px;color:var(--text3);
   display:inline-flex;align-items:center;gap:6px;
 }
-.xp-subtitle::before{content:'·';opacity:.5;}
+.xp-subtitle::before{
+  content:'·';opacity:.5;
+}
 .xp-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 
 .xp-view-switch{
@@ -1366,19 +1245,20 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-size:12px;font-weight:500;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;gap:5px;
   white-space:nowrap;
+  transition:transform .12s var(--ease), background-color .14s var(--ease), color .14s var(--ease), opacity .14s var(--ease);
 }
 .xp-btn-primary{background:var(--text);color:var(--bg);font-weight:600;}
 .xp-btn-primary:hover{opacity:.88;}
 .xp-btn-ghost{background:var(--surface2);color:var(--text2);}
 .xp-btn-ghost:hover{background:var(--surface3);color:var(--text);}
 .xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
-.xp-btn-sm{height:27px;padding:0 11px;font-size:11.5px;border-radius:999px;flex-shrink:0;}
+.xp-btn-sm{height:26px;padding:0 10px;font-size:11px;border-radius:999px;flex-shrink:0;}
 
-/* Сетка карточек (Сетка: Чистая студия | Лента X: Реалистичная лента 600px) */
+/* Grid & Feed Modes */
 .xp-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(410px, 1fr));
-  gap:18px;
+  gap:16px;
   align-items:start;
 }
 .xp-grid.is-feed{
@@ -1395,19 +1275,23 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   box-shadow:0 4px 24px rgba(0,0,0,0.04);
 }
 
+/* Day Card as Simplified X Post */
 .xp-day-card{
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:16px;
-  padding:15px 16px 13px;
+  padding:14px 16px;
   box-shadow:0 1px 2px rgba(0,0,0,0.02), 0 6px 16px rgba(0,0,0,0.015);
   display:flex;flex-direction:column;
   position:relative;
   transition:border-color .16s var(--ease), box-shadow .16s var(--ease);
 }
-.xp-day-card:hover{border-color:var(--border2);}
-.xp-day-card.is-ready{border-color:rgba(29,155,240,0.32);}
-
+.xp-day-card:hover{
+  border-color:var(--border2);
+}
+.xp-day-card.is-ready{
+  border-color:rgba(29,155,240,0.32);
+}
 .xp-grid.is-feed .xp-day-card{
   border:none;
   border-bottom:1px solid var(--border);
@@ -1415,17 +1299,15 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   box-shadow:none;
   padding:16px 18px;
 }
-.xp-grid.is-feed .xp-day-card:last-child{border-bottom:none;}
+.xp-grid.is-feed .xp-day-card:last-child{
+  border-bottom:none;
+}
 
 .xp-tw-post{
   display:flex;
   align-items:flex-start;
-  gap:12px;
+  gap:11px;
   width:100%;
-}
-/* В режиме «Сетка» скрываем бутафорскую аватарку X для чистоты студии */
-.xp-grid:not(.is-feed) .xp-tw-left{
-  display:none;
 }
 .xp-tw-left{
   display:flex;
@@ -1434,7 +1316,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   flex-shrink:0;
 }
 .xp-tw-avatar{
-  width:40px;height:40px;
+  width:36px;height:36px;
   border-radius:50%;
   background:var(--surface2);
   color:var(--text3);
@@ -1448,69 +1330,45 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   min-width:0;
   display:flex;
   flex-direction:column;
+  position:relative;
 }
 
-/* Шапка карточки */
+/* Header with Three-Dots Settings Menu Button */
 .xp-tw-hdr{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:8px;
   line-height:1.25;
-  margin-bottom:6px;
+  margin-bottom:4px;
+  position:relative;
 }
 .xp-tw-user{
   display:flex;
   align-items:center;
-  gap:5px;
-  min-width:0;
-}
-/* В режиме Сетки показываем чистый заголовок дня (01 · Понедельник) */
-.xp-studio-day{
-  font-size:13.5px;
-  font-weight:700;
-  color:var(--text);
-  letter-spacing:-.015em;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-}
-.xp-studio-num{
-  font-size:11px;
-  font-weight:700;
-  color:var(--text3);
-  background:var(--surface2);
-  padding:1.5px 6px;
-  border-radius:5px;
-}
-.xp-grid.is-feed .xp-studio-day{display:none;}
-.xp-grid:not(.is-feed) .xp-feed-identity{display:none!important;}
-
-.xp-feed-identity{
-  display:inline-flex;
-  align-items:center;
   gap:4px;
   min-width:0;
+  flex-wrap:wrap;
 }
 .xp-tw-name{
-  font-size:15px;
+  font-size:14.5px;
   font-weight:700;
   color:var(--text);
   letter-spacing:-.01em;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  max-width:130px;
+  max-width:140px;
 }
 .xp-tw-verified{
-  width:16px;height:16px;
+  width:15px;height:15px;
   color:#1d9bf0;
   flex-shrink:0;
   display:inline-flex;
   align-items:center;
 }
 .xp-tw-handle{
-  font-size:14px;
+  font-size:13.5px;
   font-weight:400;
   color:var(--text3);
   white-space:nowrap;
@@ -1518,64 +1376,135 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   text-overflow:ellipsis;
 }
 .xp-day-dot{
-  width:6.5px;height:6.5px;border-radius:50%;
-  background:var(--text3);opacity:.28;flex-shrink:0;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--text3);opacity:.3;flex-shrink:0;
+  margin-left:3px;
   transition:background-color .2s, opacity .2s;
 }
 .xp-day-card.is-ready .xp-day-dot{
   background:#1d9bf0;opacity:1;
 }
 
-/* Контекстные контролы шаблона — приглушены в покое, четкие при наведении на карточку */
 .xp-hdr-controls{
   display:flex;align-items:center;gap:4px;flex-shrink:0;
-  opacity:0.48;
-  transition:opacity .16s var(--ease);
+  position:relative;
 }
-.xp-day-card:hover .xp-hdr-controls,
-.xp-day-card:focus-within .xp-hdr-controls{
-  opacity:1;
-}
-.xp-pad-toggle,
-.xp-bg-toggle{
-  width:24px;height:24px;border-radius:6px;
-  border:1px solid var(--border);background:var(--bg);
-  color:var(--text2);font-size:10.5px;font-weight:700;cursor:pointer;
+.xp-dots-btn{
+  width:28px;height:28px;border-radius:var(--r-xs);
+  border:none;background:transparent;
+  color:var(--text3);cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;
-  transition:border-color .14s, background-color .14s, color .14s;
+  transition:background-color .14s, color .14s;
 }
-.xp-pad-toggle:hover,
-.xp-bg-toggle:hover{border-color:var(--border2);color:var(--text);}
-.xp-bg-toggle.is-dark{
-  background:#181816;color:#f0f0ec;border-color:rgba(255,255,255,0.16);
+.xp-dots-btn:hover,.xp-dots-btn.on{
+  background:var(--surface2);
+  color:var(--text);
 }
 
+/* Absolute Popover Settings Menu (Never shifts card height) */
+.xp-card-menu{
+  position:absolute;
+  top:calc(100% + 6px);
+  right:0;
+  width:272px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--rl);
+  box-shadow:var(--shadow-md);
+  padding:12px;
+  z-index:260;
+  display:none;
+  flex-direction:column;
+  gap:10px;
+  animation:popIn .14s var(--ease);
+}
+.xp-card-menu.on{display:flex;}
+.xp-cm-sec{display:flex;flex-direction:column;gap:5px;}
+.xp-cm-lbl{
+  font-size:10px;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.05em;
+}
 .xp-preset-sel{
-  height:24px;padding:0 20px 0 7px;
-  font-size:11px;font-weight:500;color:var(--text2);
-  background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  width:100%;height:30px;padding:0 24px 0 9px;
+  font-size:12px;font-weight:500;color:var(--text);
+  background:var(--surface2);border:1px solid transparent;border-radius:var(--r-xs);
   font-family:inherit;outline:none;cursor:pointer;
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 6px center;
-  max-width:150px;text-overflow:ellipsis;
-  transition:border-color .14s, color .14s;
+  background-repeat:no-repeat;background-position:right 8px center;
 }
-.xp-preset-sel:hover{border-color:var(--border2);color:var(--text);}
+.xp-cm-seg{
+  display:flex;gap:3px;background:var(--surface2);
+  padding:2px;border-radius:var(--r-xs);
+}
+.xp-cm-opt{
+  flex:1;height:24px;border:none;border-radius:4px;
+  background:transparent;color:var(--text2);
+  font-size:11px;font-weight:500;cursor:pointer;
+}
+.xp-cm-opt:hover{color:var(--text);}
+.xp-cm-opt.on{
+  background:var(--surface);color:var(--text);
+  font-weight:600;box-shadow:var(--shadow-card);
+}
 
-/* Полноширинный блок текста поста + всплывающие чипсы Хуков при фокусе */
-.xp-caption-wrap{
+/* Extra Preset Controls Inside Popover Menu */
+.xp-extra{
+  display:none;
+  flex-direction:column;gap:6px;
+  padding-top:6px;
+  border-top:1px solid var(--border);
+}
+.xp-extra.on{display:flex;}
+.xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;}
+.xp-inp-sm{
+  width:100%;height:28px;padding:0 8px;
+  font-size:11.5px;color:var(--text);
+  background:var(--surface2);border:1px solid transparent;border-radius:6px;
+  font-family:inherit;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.xp-inp-sm:focus{border-color:#1d9bf0;background:var(--surface);}
+
+.xp-palette-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;
+}
+.xp-swatches{display:flex;align-items:center;gap:4px;}
+.xp-color-wrap{
+  position:relative;width:22px;height:22px;
+  border-radius:5px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.14);
+  cursor:pointer;flex-shrink:0;
+}
+.xp-color-inp{
+  position:absolute;inset:-6px;width:34px;height:34px;
+  border:none;padding:0;background:none;cursor:pointer;
+}
+.xp-pal-actions{display:flex;align-items:center;gap:4px;}
+.xp-mini-btn{
+  height:24px;padding:0 8px;border:1px solid var(--border);border-radius:5px;
+  background:var(--surface2);color:var(--text2);
+  font-size:10.5px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.xp-mini-btn:hover{color:var(--text);border-color:var(--border2);}
+
+/* Tweet Text Row */
+.xp-tw-text-row{
   display:flex;
-  flex-direction:column;
-  margin-bottom:9px;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
 }
 .xp-caption{
-  width:100%;
+  flex:1;
+  min-width:0;
   min-height:40px;
   max-height:220px;
-  padding:3px 0;
+  padding:2px 0;
   font-size:14.5px;
-  line-height:1.4;
+  line-height:1.38;
   letter-spacing:-.005em;
   color:var(--text);
   background:transparent;
@@ -1589,54 +1518,50 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-caption::placeholder{
   color:var(--text3);
-  opacity:0.7;
+  opacity:0.75;
 }
-
-/* Встроенные чипсы конструктора текста (Progressive Disclosure при фокусе или наведении) */
-.xp-inline-chips{
+.xp-tw-text-actions{
   display:flex;
   align-items:center;
-  gap:5px;
-  flex-wrap:wrap;
-  max-height:0;
-  opacity:0;
-  overflow:hidden;
-  transition:max-height .18s var(--ease), opacity .16s var(--ease), margin-top .16s var(--ease);
+  gap:4px;
+  flex-shrink:0;
+  margin-top:1px;
 }
-.xp-caption-wrap:focus-within .xp-inline-chips,
-.xp-caption-wrap:hover .xp-inline-chips,
-.xp-inline-chips.keep-open{
-  max-height:36px;
-  opacity:1;
-  margin-top:4px;
-}
-.xp-ichip{
-  height:23px;
-  padding:0 8.5px;
+.xp-hooks-btn,
+.xp-copy-cap{
+  height:25px;
+  padding:0 9px;
   border:1px solid var(--border);
   border-radius:999px;
   background:var(--bg);
   color:var(--text2);
-  font-size:10.5px;
+  font-size:11px;
   font-weight:600;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
   gap:4px;
-  transition:background-color .12s, color .12s, border-color .12s;
+  flex-shrink:0;
+  transition:background-color .14s, color .14s, border-color .14s;
 }
-.xp-ichip:hover{
+.xp-hooks-btn:hover,
+.xp-copy-cap:hover{
   background:var(--surface2);
   color:var(--text);
   border-color:var(--border2);
 }
-.xp-ichip.on{
+.xp-hooks-btn.on{
   background:rgba(29,155,240,0.12);
   color:#1d9bf0;
   border-color:#1d9bf0;
 }
+.xp-copy-cap.copied{
+  background:var(--success-bg);
+  color:var(--success);
+  border-color:transparent;
+}
 
-/* Всплывающий блокнот-конструктор Хуков и Концовок (⚡) */
+/* Hooks Popover */
 .xp-hooks-pop{
   position:fixed;
   z-index:9900;
@@ -1668,7 +1593,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-hp-cloud.synced{
   background:var(--success-bg);color:var(--success);
 }
-.xp-hp-actions{display:flex;align-items:center;gap:5px;}
+.xp-hp-actions{
+  display:flex;align-items:center;gap:5px;
+}
 .xp-hp-act{
   height:24px;padding:0 9px;border:1px solid var(--border);border-radius:6px;
   background:var(--bg);color:var(--text2);font-size:11px;font-weight:600;
@@ -1682,51 +1609,72 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-hp-close:hover{background:var(--surface2);color:var(--text);}
 
-.xp-hp-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.xp-hp-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
 .xp-hp-col{
   display:flex;flex-direction:column;gap:6px;
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:11px;padding:8px;min-width:0;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:8px;
+  min-width:0;
 }
 .xp-hp-col-hdr{
   font-size:10.5px;font-weight:700;color:var(--text2);
   text-transform:uppercase;letter-spacing:.04em;
-  display:flex;align-items:center;justify-content:space-between;padding:0 2px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2px;
 }
 .xp-hp-list{
   display:flex;flex-direction:column;gap:4px;
-  max-height:195px;overflow-y:auto;padding-right:2px;
+  max-height:195px;overflow-y:auto;
+  padding-right:2px;
 }
 .xp-hp-list::-webkit-scrollbar{width:3px;}
 .xp-hp-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 .xp-hb-item{
   display:flex;align-items:center;justify-content:space-between;gap:6px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:7px;padding:5px 7px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:5px 7px;
   font-size:11.5px;color:var(--text);
   cursor:pointer;text-align:left;
   transition:border-color .12s, background-color .12s;
 }
-.xp-hb-item:hover{border-color:#1d9bf0;background:rgba(29,155,240,0.07);}
+.xp-hb-item:hover{
+  border-color:#1d9bf0;
+  background:rgba(29,155,240,0.07);
+}
 .xp-hb-txt{
-  flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;
+  flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  line-height:1.3;
 }
 .xp-hb-del{
   width:18px;height:18px;border:none;border-radius:4px;
   background:transparent;color:var(--text3);font-size:12px;
-  cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
   opacity:0.55;
 }
 .xp-hb-item:hover .xp-hb-del{opacity:1;}
 .xp-hb-del:hover{background:var(--danger-bg);color:var(--danger);}
 
-.xp-hp-add{display:flex;align-items:center;gap:4px;margin-top:auto;padding-top:2px;}
+.xp-hp-add{
+  display:flex;align-items:center;gap:4px;
+  margin-top:auto;padding-top:2px;
+}
 .xp-hp-inp{
   flex:1;min-width:0;height:26px;padding:0 8px;
   font-size:11.5px;color:var(--text);
   background:var(--surface);border:1px solid var(--border);border-radius:6px;
-  font-family:inherit;outline:none;user-select:text;-webkit-user-select:text;
+  font-family:inherit;outline:none;
+  user-select:text;-webkit-user-select:text;
 }
 .xp-hp-inp:focus{border-color:#1d9bf0;}
 .xp-hp-addbtn{
@@ -1737,52 +1685,24 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-hp-addbtn:hover{opacity:0.88;}
 
-/* Контекстная панель бейджей / палитры (появляется только для шаблонов 1, 4, 5) */
-.xp-extra{
-  display:none;
-  margin-bottom:8px;
-  flex-direction:column;gap:5px;
+@media(max-width:600px){
+  .xp-hooks-pop{
+    left:12px!important;right:12px!important;
+    bottom:16px!important;top:auto!important;
+    width:auto;
+  }
+  .xp-hp-cols{grid-template-columns:1fr;}
+  .xp-hp-list{max-height:135px;}
 }
-.xp-extra.on{display:flex;}
-.xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;}
-.xp-inp-sm{
-  width:100%;height:26px;padding:0 8px;
-  font-size:11px;color:var(--text);
-  background:var(--bg);border:1px solid var(--border);border-radius:6px;
-  font-family:inherit;outline:none;user-select:text;-webkit-user-select:text;
-}
-.xp-inp-sm:focus{border-color:#1d9bf0;background:var(--surface);}
 
-.xp-palette-bar{
-  display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;
-  background:var(--bg);padding:5px 8px;border-radius:8px;border:1px solid var(--border);
-}
-.xp-swatches{display:flex;align-items:center;gap:5px;}
-.xp-color-wrap{
-  position:relative;width:22px;height:22px;
-  border-radius:5px;overflow:hidden;
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.14);
-  cursor:pointer;flex-shrink:0;
-}
-.xp-color-inp{
-  position:absolute;inset:-6px;width:34px;height:34px;
-  border:none;padding:0;background:none;cursor:pointer;
-}
-.xp-pal-actions{display:flex;align-items:center;gap:4px;}
-.xp-mini-btn{
-  height:22px;padding:0 7px;border:1px solid var(--border);border-radius:5px;
-  background:var(--surface);color:var(--text2);
-  font-size:10px;font-weight:600;cursor:pointer;
-  display:inline-flex;align-items:center;gap:4px;
-}
-.xp-mini-btn:hover{color:var(--text);border-color:var(--border2);}
-
-/* Прямое взаимодействие на Холсте + Всплывающий HUD активного слота */
+/* Interactive Canvas Stage with Non-Shifting Floating Slot Toolbar */
 .xp-canvas-stage{
   width:100%;
+  background:transparent;
+  border:none;
+  padding:0;
+  display:block;
   position:relative;
-  border-radius:14px;
-  overflow:hidden;
 }
 .xp-canvas{
   width:100%;
@@ -1792,117 +1712,86 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   border:1px solid var(--border2);
   cursor:pointer;
   touch-action:pan-y;
-  transition:border-color .16s var(--ease), box-shadow .16s var(--ease);
+  transition:box-shadow .16s var(--ease), border-color .16s var(--ease);
 }
-.xp-canvas.is-panning{
-  cursor:grabbing!important;
-  border-color:#1d9bf0;
-}
-.xp-canvas.has-slot-img{
-  cursor:grab;
+.xp-canvas.has-active-slot{
+  border-color:rgba(29,155,240,0.55);
 }
 
-/* Парящий мини-HUD поверх активного слота на холсте (появляется только при наведении на заполненный слот) */
-.xp-slot-hud{
+/* Floating Slot Overlay Pill inside Canvas (Does NOT shift layout!) */
+.xp-slot-float{
   position:absolute;
-  top:8px;right:8px;
-  z-index:10;
-  display:flex;align-items:center;gap:4px;
-  background:rgba(18,18,17,0.82);
-  color:#f5f5f2;
-  padding:4px 6px 4px 9px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,0.14);
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:20;
+  background:rgba(18,18,17,0.84);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
-  box-shadow:0 4px 14px rgba(0,0,0,0.22);
-  opacity:0;pointer-events:none;
-  transform:translateY(-3px);
-  transition:opacity .14s var(--ease), transform .14s var(--ease);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:999px;
+  padding:4px 8px 4px 11px;
+  display:none;
+  align-items:center;
+  gap:6px;
+  color:#fff;
+  box-shadow:0 8px 24px rgba(0,0,0,0.28);
+  max-width:calc(100% - 16px);
+  white-space:nowrap;
+  animation:popIn .14s var(--ease);
 }
-.xp-canvas-stage:hover .xp-slot-hud.on{
-  opacity:1;pointer-events:all;
-  transform:translateY(0);
+.xp-slot-float.on{display:inline-flex;}
+.xp-sf-lbl{
+  font-size:10.5px;
+  font-weight:600;
+  color:rgba(255,255,255,0.85);
+  margin-right:2px;
 }
-.xp-hud-lbl{
-  font-size:10.5px;font-weight:600;color:rgba(255,255,255,0.88);
-  padding-right:3px;
+.xp-sf-range{
+  width:72px;
+  height:3px;
+  accent-color:#1d9bf0;
+  cursor:pointer;
 }
-.xp-hud-btn{
-  height:21px;padding:0 6.5px;border:none;border-radius:999px;
-  background:rgba(255,255,255,0.13);color:#fff;
-  font-size:10px;font-weight:600;cursor:pointer;
-  display:inline-flex;align-items:center;justify-content:center;
+.xp-sf-btn{
+  height:22px;
+  padding:0 7px;
+  border:none;
+  border-radius:999px;
+  background:rgba(255,255,255,0.14);
+  color:#fff;
+  font-size:10px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background-color .12s;
 }
-.xp-hud-btn:hover{background:#1d9bf0;}
-.xp-hud-btn.danger:hover{background:var(--danger);}
+.xp-sf-btn:hover{background:rgba(255,255,255,0.26);}
+.xp-sf-btn.danger:hover{background:var(--danger);}
 
-/* Чистый подвал карточки: Studio Footer (в Сетке) vs X Metrics (в Ленте X) */
-.xp-card-footer{
+/* Simplified X Engagement Footer + Download Button */
+.xp-tw-metrics{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  margin-top:10px;
+  margin-top:9px;
   padding-top:2px;
-}
-.xp-studio-hint{
-  font-size:11px;
   color:var(--text3);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  font-size:12px;
 }
-.xp-grid.is-feed .xp-studio-hint{display:none;}
-.xp-grid:not(.is-feed) .xp-tw-icons{display:none!important;}
-
 .xp-tw-icons{
   display:flex;
   align-items:center;
-  gap:20px;
-  color:var(--text3);
+  gap:18px;
+  opacity:0.65;
 }
 .xp-tw-stat{
   display:inline-flex;
   align-items:center;
-  gap:5px;
-  color:var(--text3);
-  font-size:12px;
-  user-select:none;
-}
-.xp-tw-stat.liked{color:#f91880;}
-
-.xp-footer-actions{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  flex-shrink:0;
-  margin-left:auto;
-}
-.xp-copy-cap{
-  height:27px;
-  padding:0 10px;
-  border:1px solid var(--border);
-  border-radius:999px;
-  background:var(--bg);
-  color:var(--text2);
-  font-size:11px;
-  font-weight:600;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
   gap:4px;
-  transition:background-color .14s, color .14s, border-color .14s;
-}
-.xp-copy-cap:hover{
-  background:var(--surface2);
-  color:var(--text);
-  border-color:var(--border2);
-}
-.xp-copy-cap.copied{
-  background:var(--success-bg);
-  color:var(--success);
-  border-color:transparent;
+  color:var(--text3);
+  font-size:11.5px;
+  user-select:none;
 }
 
 body.xp-mode .app::after,
@@ -1915,39 +1804,28 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   .xp-view{padding:8px 12px 40px;}
   .xp-grid{grid-template-columns:1fr;}
   .xp-subtitle{display:none;}
-  .xp-hdr-controls{opacity:1;}
-  .xp-inline-chips{max-height:36px;opacity:1;margin-top:4px;}
-  .xp-slot-hud.on{opacity:1;pointer-events:all;transform:none;}
-}
-@media(max-width:600px){
-  .xp-hooks-pop{
-    left:12px!important;right:12px!important;
-    bottom:16px!important;top:auto!important;
-    width:auto;
-  }
-  .xp-hp-cols{grid-template-columns:1fr;}
-  .xp-hp-list{max-height:135px;}
+  .xp-tw-icons{gap:12px;}
 }
 </style>
 </head>
 <body>
 <div class="app" id="app-root">
 
-<!-- Context Menu with Live Calculator -->
-<div class="ctx-menu" id="ctx-menu" role="menu"></div>
-
-<!-- Floating Selection Action Island -->
+<!-- Unified Floating Action Bar for Selected Orders -->
 <div class="sel-dock" id="sel-dock" role="toolbar" aria-label="Действия с выделенными заказами">
   <div class="sel-dock-info">
-    <span class="sel-dock-cnt" id="sel-dock-cnt">0</span>
+    <span class="sel-dock-cnt" id="sel-dock-cnt">Выбрано: 1</span>
     <span class="sel-dock-sum" id="sel-dock-sum">0 ₽</span>
   </div>
-  <button type="button" class="sel-dock-btn primary" id="sel-dock-paid">✓ Оплачено</button>
-  <button type="button" class="sel-dock-btn" id="sel-dock-ru" title="Скопировать инвойс (RU)">📄 RU</button>
-  <button type="button" class="sel-dock-btn" id="sel-dock-en" title="Copy Invoice (EN)">EN</button>
-  <button type="button" class="sel-dock-btn" id="sel-dock-dup" title="Дублировать">⧉</button>
-  <button type="button" class="sel-dock-btn danger" id="sel-dock-del" title="Удалить (⌫)">🗑</button>
-  <button type="button" class="sel-dock-close" id="sel-dock-clr" title="Снять выделение (Esc)">×</button>
+  <div class="sel-dock-actions">
+    <button type="button" class="sd-btn" id="sd-btn-edit">Изменить</button>
+    <button type="button" class="sd-btn primary" id="sd-btn-paid">Оплачено</button>
+    <button type="button" class="sd-btn" id="sd-btn-dup">Дублировать</button>
+    <button type="button" class="sd-btn" id="sd-btn-inv-ru">Инвойс RU</button>
+    <button type="button" class="sd-btn" id="sd-btn-inv-en">EN</button>
+    <button type="button" class="sd-btn danger" id="sd-btn-del">Удалить</button>
+    <button type="button" class="sd-btn ghost" id="sd-btn-clr" title="Снять выделение (Esc)">×</button>
+  </div>
 </div>
 
 <!-- Finder Lasso Selection Box -->
@@ -1955,8 +1833,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 <!-- Drag and Drop Overlay -->
 <div class="drop-zone" id="drop-zone">
-  <div class="drop-zone-title">Перетащи файл базы (.json) сюда</div>
-  <div class="drop-zone-sub">Отпусти кнопку мыши для мгновенной загрузки</div>
+  <div class="drop-zone-title">Перетащите файл базы (.json) сюда</div>
+  <div class="drop-zone-sub">Отпустите кнопку мыши для мгновенной загрузки</div>
 </div>
 
 <!-- Toast with Undo -->
@@ -1976,7 +1854,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
         <span>Planner</span>
       </button>
     </div>
-    <button class="sync-pill" id="top-sync-btn" type="button" title="Нажми для принудительной синхронизации с облаком или открытия настроек">
+    <button class="sync-pill" id="top-sync-btn" type="button" title="Нажмите для синхронизации с облаком или открытия настроек">
       <span class="sync-dot"></span>
       <span id="top-sync-lbl">Сейф</span>
     </button>
@@ -1997,7 +1875,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 <div class="body" id="workspace-body">
 
-  <!-- ── SIDEBAR ── -->
+  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
 
     <!-- Быстрые действия -->
@@ -2015,27 +1893,32 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </div>
     </div>
 
-    <!-- Баланс + Сравнение с прошлым месяцем -->
+    <!-- Баланс (Связанный с вкладками спектра) -->
     <div class="balance-cards">
-      <div class="bal-card" id="card-await" title="Клик по карточке — спектр ожидаемых · Клик по сумме — смена валюты">
+      <div class="bal-card" id="card-await">
         <div class="bal-hdr">
-          <div class="bal-label">Ожидаем</div>
-          <span class="bal-zero" id="val-await-zero">✓ Всё закрыто</span>
+          <div class="bal-hdr-left">
+            <div class="bal-label">Ожидаем</div>
+            <span class="bal-zero" id="val-await-zero">Закрыто</span>
+          </div>
+          <button type="button" class="bal-cur-btn" id="btn-cycle-cur-1" title="Сменить базовую валюту">₽/$/€</button>
         </div>
-        <div class="bal-amount is-zero" id="val-await">0 ₽</div>
+        <div class="bal-amount is-zero" id="val-await" title="Показать структуру ожидаемых платежей">0 ₽</div>
         <div class="bal-multi" id="val-await-multi"></div>
       </div>
-      <div class="bal-card" id="card-recv" title="Клик по карточке — спектр доходов · Клик по сумме — смена валюты">
+      <div class="bal-card" id="card-recv">
         <div class="bal-hdr">
-          <div class="bal-label">Пришло</div>
-          <span class="bal-trend" id="val-recv-trend"></span>
+          <div class="bal-hdr-left">
+            <div class="bal-label">Пришло</div>
+            <span class="bal-trend" id="val-recv-trend"></span>
+          </div>
         </div>
-        <div class="bal-amount is-zero" id="val-recv">0 ₽</div>
+        <div class="bal-amount is-zero" id="val-recv" title="Показать структуру полученных доходов">0 ₽</div>
         <div class="bal-multi" id="val-recv-multi"></div>
       </div>
     </div>
 
-    <!-- Аналитика и выбор периода (Шкала-спектр) -->
+    <!-- Аналитика и выбор периода (Без дублирующей гигантской цифры) -->
     <div class="month-overview" id="month-overview">
       <div class="mo-header">
         <div class="mo-top-row">
@@ -2056,8 +1939,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </div>
       <div class="mo-content">
         <div class="an-summary-row">
-          <div class="an-total-val is-zero" id="an-total-val">0 ₽</div>
-          <div class="an-hover-lbl" id="an-hover-lbl">распределение</div>
+          <div class="an-hover-lbl" id="an-hover-lbl">Распределение по клиентам</div>
         </div>
         <div class="spectrum-bar" id="spectrum-bar" aria-hidden="true"></div>
         <div class="mo-legend" id="mo-legend" role="list"></div>
@@ -2066,15 +1948,15 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
   </div>
 
-  <!-- ── MAIN ── -->
+  <!-- MAIN -->
   <div class="main" id="main-area">
 
     <!-- Мобильный Hero-дашборд -->
     <div class="m-hero" id="m-hero">
-      <div class="m-hero-card" id="m-card-await" title="Нажми для смены валюты">
+      <div class="m-hero-card" id="m-card-await" title="Нажмите для смены валюты">
         <div class="m-hero-top">
           <span class="m-hero-lbl">Ожидаем</span>
-          <span class="m-hero-pill zero" id="m-badge-zero">✓ Закрыто</span>
+          <span class="m-hero-pill zero" id="m-badge-zero">Закрыто</span>
         </div>
         <div class="m-hero-val is-zero" id="m-val-await">0 ₽</div>
         <div class="m-hero-foot">
@@ -2082,7 +1964,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <span class="m-hero-hint">₽/$</span>
         </div>
       </div>
-      <div class="m-hero-card" id="m-card-recv" title="Нажми для подробной аналитики">
+      <div class="m-hero-card" id="m-card-recv" title="Нажмите для подробной аналитики">
         <div class="m-hero-top">
           <span class="m-hero-lbl" id="m-recv-lbl">Пришло</span>
           <span class="m-hero-pill" id="m-badge-trend"></span>
@@ -2090,28 +1972,16 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
         <div class="m-hero-val is-zero" id="m-val-recv">0 ₽</div>
         <div class="m-hero-foot">
           <span id="m-sub-recv">За период</span>
-          <span class="m-hero-hint">График →</span>
+          <span class="m-hero-hint">График</span>
         </div>
       </div>
-    </div>
-
-    <!-- Строка мгновенного ввода (Quick Add) -->
-    <div class="qadd-bar">
-      <span class="qadd-icon">⚡</span>
-      <input type="text" id="qadd-inp" placeholder="Быстрый ввод: Превью 2500 Клиент (или 50*3 $ Клиент) → Enter" autocomplete="off" aria-label="Быстрое добавление заказа"/>
-      <div class="qadd-preview" id="qadd-preview"></div>
     </div>
 
     <div class="toolbar">
       <div class="search-wrap" id="search-wrap">
         <svg class="search-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4"/><path d="m9 9 2.5 2.5"/></svg>
         <input type="text" id="search" placeholder="Поиск по проектам, клиентам..." aria-label="Поиск по записям"/>
-        <span class="search-kbd">⌘K</span>
-
-        <div class="sel-pill" id="sel-pill" title="Меню действий с выделенными заказами">
-          <span id="sel-pill-txt"></span>
-          <span class="sel-pill-clr" id="sel-pill-clr" title="Снять выделение (Esc)">×</span>
-        </div>
+        <span class="search-kbd">Cmd+K</span>
       </div>
 
       <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
@@ -2143,36 +2013,36 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   </div>
 </div>
 
-<!-- ── X (TWITTER) WEEKLY PLANNER VIEW ── -->
+<!-- X (TWITTER) WEEKLY PLANNER VIEW -->
 <section class="xp-view" id="x-planner-view" aria-label="X Weekly Planner" style="display:none;">
   <div class="xp-container">
 
     <header class="xp-header">
       <div class="xp-header-left">
         <div class="xp-title-row">
-          <h2 class="xp-title">X Weekly Studio</h2>
+          <h2 class="xp-title">X Weekly Showcase</h2>
           <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
         </div>
-        <p class="xp-subtitle">Клик или ⌘V прямо в слот на холсте · Тяни кадр мышкой · Alt + Скролл — зум</p>
+        <p class="xp-subtitle">1920px sRGB · Клик по слоту — загрузить или настроить кадр · Alt + колесо — масштаб · Cmd+V — вставить</p>
       </div>
       <div class="xp-header-actions">
         <div class="xp-view-switch" role="group" aria-label="Режим отображения">
-          <button type="button" class="xp-view-btn on" id="xp-mode-grid" title="Чистая студийная сетка">
+          <button type="button" class="xp-view-btn on" id="xp-mode-grid" title="Сетка карточек на всю неделю">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            <span>Студия</span>
+            <span>Сетка</span>
           </button>
-          <button type="button" class="xp-view-btn" id="xp-mode-feed" title="Превью реальной ленты X (Twitter)">
+          <button type="button" class="xp-view-btn" id="xp-mode-feed" title="Режим ленты X (Twitter)">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/></svg>
             <span>Лента X</span>
           </button>
         </div>
-        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни">
+        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          <span>Очистить</span>
+          <span>Очистить неделю</span>
         </button>
-        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Скачать PNG всех готовых дней">
+        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Последовательно скачать PNG всех заполненных дней">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Скачать неделю</span>
+          <span>Скачать всю неделю</span>
         </button>
       </div>
     </header>
@@ -2307,7 +2177,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   </div>
 </div>
 
-<!-- Settings (Organized into 3 Clean Tabs) -->
+<!-- Settings with 3 Organized Tabs -->
 <div class="soverlay" id="sov" role="dialog" aria-modal="true" aria-labelledby="s-title">
   <div class="sback" aria-hidden="true"></div>
   <div class="spanel">
@@ -2316,14 +2186,14 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <button class="sclose" id="s-close" type="button" aria-label="Закрыть настройки">×</button>
     </div>
 
-    <div class="s-tabs" role="tablist">
-      <button type="button" class="s-tab on" data-stab="view" role="tab">Вид</button>
-      <button type="button" class="s-tab" data-stab="fin" role="tab">Финансы</button>
-      <button type="button" class="s-tab" data-stab="data" role="tab">База и Сеть</button>
+    <div class="stabs" role="tablist">
+      <button type="button" class="stab on" id="stab-view" role="tab" aria-selected="true">Вид</button>
+      <button type="button" class="stab" id="stab-fin" role="tab" aria-selected="false">Финансы</button>
+      <button type="button" class="stab" id="stab-data" role="tab" aria-selected="false">База и X</button>
     </div>
 
     <div class="sbody">
-      <!-- TAB 1: ВИД -->
+      <!-- Tab 1: Вид -->
       <div class="s-pane on" id="spane-view">
         <div>
           <div class="slbl">Тема оформления</div>
@@ -2362,9 +2232,37 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             <button class="topt" id="den-compact" type="button">Компактная</button>
           </div>
         </div>
+      </div>
+
+      <!-- Tab 2: Финансы -->
+      <div class="s-pane" id="spane-fin">
+        <div>
+          <div class="cplbl">Базовая валюта и курс</div>
+          <div class="cpcurs" id="cp-curs"></div>
+          <div id="cp-rblock"></div>
+          <div class="dbtns" style="margin-top:10px;">
+            <button class="dbtn" id="btn-fetch-rates" type="button">Обновить курс из сети (Бесплатно)</button>
+          </div>
+          <div class="s-hint">Курсы обновляются только по нажатию кнопки через открытый CDN без ключей и лимитов, либо вводятся вручную.</div>
+        </div>
+      </div>
+
+      <!-- Tab 3: База и X -->
+      <div class="s-pane" id="spane-data">
+        <div>
+          <div class="slbl">Облако Firebase (Синхронизация)</div>
+          <div class="cloud-box">
+            <input type="url" class="cloud-inp" id="fb-url" placeholder="Ссылка https://...firebasedatabase.app" autocomplete="off"/>
+            <input type="password" class="cloud-inp" id="fb-sec" placeholder="Секретный пароль из вкладки Rules" autocomplete="off"/>
+            <div class="dbtns">
+              <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
+            </div>
+          </div>
+          <div class="s-hint">В облако передаются только заказы, блокнот хуков и курсы валют после 5 секунд тишины.</div>
+        </div>
 
         <div>
-          <div class="slbl">𝕏 Planner — Авторская подпись</div>
+          <div class="slbl">X Planner — Авторская подпись (Ник)</div>
           <div class="cloud-box">
             <input type="text" class="cloud-inp" id="xp-set-handle" placeholder="@v1lyr" autocomplete="off"/>
             <select class="fsel" id="xp-set-pos" style="margin-bottom:0;height:34px;border-radius:var(--r);">
@@ -2376,45 +2274,17 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
               <option value="off">Скрыть подпись</option>
             </select>
           </div>
-        </div>
-      </div>
-
-      <!-- TAB 2: ФИНАНСЫ -->
-      <div class="s-pane" id="spane-fin">
-        <div>
-          <div class="cplbl">Базовая валюта и курс</div>
-          <div class="cpcurs" id="cp-curs"></div>
-          <div id="cp-rblock"></div>
-          <div class="dbtns" style="margin-top:10px;">
-            <button class="dbtn" id="btn-fetch-rates" type="button">🔄 Обновить курс из сети (Бесплатно)</button>
-          </div>
-          <div class="s-hint">Используется бесплатный open-source CDN (jsDelivr) без ключей и лимитов. Курс всегда можно скорректировать вручную.</div>
-        </div>
-      </div>
-
-      <!-- TAB 3: БАЗА И СЕТЬ -->
-      <div class="s-pane" id="spane-data">
-        <div>
-          <div class="slbl">☁️ Облако Firebase (Spark Free)</div>
-          <div class="cloud-box">
-            <input type="url" class="cloud-inp" id="fb-url" placeholder="Ссылка https://...firebasedatabase.app" autocomplete="off"/>
-            <input type="password" class="cloud-inp" id="fb-sec" placeholder="Секретный пароль из вкладки Rules" autocomplete="off"/>
-            <div class="dbtns">
-              <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
-            </div>
-          </div>
-          <div class="s-hint">Умная синхронизация: в облако передаются только текстовые записи после 5 секунд тишины. Картинки X Planner хранятся локально в IndexedDB.</div>
+          <div class="s-hint">Отображается на карточках недели в отдельной зоне холста. Хранится строго локально.</div>
         </div>
 
         <div>
           <div class="slbl">Локальный файл и защита (.json)</div>
           <div class="dbtns">
-            <button class="dbtn" id="btn-exp" type="button">Скачать JSON (⌘S)</button>
+            <button class="dbtn" id="btn-exp" type="button">Скачать JSON (Cmd+S)</button>
             <button class="dbtn" id="btn-imp" type="button">Загрузить JSON</button>
-            <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">🛟 Вернуть до синхронизации</button>
+            <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">Вернуть до синхронизации</button>
             <input type="file" id="imp-inp" accept=".json" style="display:none"/>
           </div>
-          <div class="s-hint">Alt + Клик по сумме в карточке — быстрое редактирование цены на месте. Двойной клик — полная форма.</div>
         </div>
       </div>
     </div>
@@ -2436,13 +2306,6 @@ function lsG(k) {
 }
 function lsS(k, v) {
   try { localStorage.setItem(k, v); } catch(e) {}
-}
-
-function withViewTransition(fn) {
-  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    try { document.startViewTransition(() => fn()); return; } catch(e) {}
-  }
-  fn();
 }
 
 const CUR_CODE = { '₽': 'RUB', '$': 'USD', '€': 'EUR' };
@@ -2559,7 +2422,7 @@ async function restoreFromSafariVaultIfEmpty() {
         _donutDirty = true;
         buildCP();
         render();
-        showToast('Восстановлено из локального сейфа!');
+        showToast('Восстановлено из локального сейфа');
       }
     };
   } catch(e) {}
@@ -2583,7 +2446,7 @@ function restoreEmergencySnapshot() {
       save();
       render();
       closeSettings();
-      showToast(`🛟 Восстановлено записей: ${entries.length}`);
+      showToast(`Восстановлено записей: ${entries.length}`);
     }
   } catch(e) {}
 }
@@ -2600,11 +2463,12 @@ function recordDeletedIds(ids) {
   lsS('ff_deleted_ids', JSON.stringify(arr));
 }
 
+// X PLANNER HOOKS & OUTROS NOTEBOOK (NO EMOJIS)
 const DEFAULT_XP_HOOKS = [
   'one of my fav thumbnails',
-  'sketch vs final ✍️',
+  'sketch vs final',
   'recent thumbnails created for @...',
-  'color palette breakdown 🎨',
+  'color palette breakdown',
   '2 options for a recent video',
   'thumbnail concept vs final result'
 ];
@@ -2612,7 +2476,7 @@ const DEFAULT_XP_OUTROS = [
   'would you click this?',
   'which one gets your click: A or B?',
   'thoughts on the composition?',
-  'rate this 1–10 👇',
+  'rate this 1-10',
   'what would you change here?'
 ];
 
@@ -2663,7 +2527,7 @@ window.updateXpNotebook = (nextNb) => {
   if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
 };
 
-// ── SMART FIREBASE CLOUD SYNC ──
+// SMART FIREBASE CLOUD SYNC
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
 let _hasUnsynced = lsG('ff_unsynced') === '1';
@@ -2747,9 +2611,9 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     });
     if (!res.ok) {
       if (res.status === 401 || res.status === 403) {
-        showToast('⚠️ Ошибка: пароль в настройках не совпадает с .write в Rules Firebase');
+        showToast('Ошибка: пароль в настройках не совпадает с .write в Rules Firebase');
       } else {
-        showToast(`⚠️ Ошибка записи в облако (код ${res.status})`);
+        showToast(`Ошибка записи в облако (код ${res.status})`);
       }
       throw new Error('HTTP ' + res.status);
     }
@@ -2759,7 +2623,7 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     _lastSyncedFingerprint = currentFp;
     lsS('ff_last_fp', currentFp);
     updateSyncPill('ok');
-    if (showSuccessToast) showToast('☁️ Все заказы сохранены в облако!');
+    if (showSuccessToast) showToast('Все заказы сохранены в облако');
     return true;
   } catch(e) {
     _syncInFlight = false;
@@ -2816,9 +2680,9 @@ async function safeSyncWithFirebase(manual = false) {
     const res = await fetch(ep);
     if (!res.ok) {
       if (res.status === 401 || res.status === 403) {
-        if (manual) showToast('⚠️ Доступ закрыт: проверьте пароль и вкладку Rules в Firebase');
+        if (manual) showToast('Доступ закрыт: проверьте пароль и вкладку Rules в Firebase');
       } else {
-        if (manual) showToast('⚠️ Неверная ссылка Firebase или ошибка сети');
+        if (manual) showToast('Неверная ссылка Firebase или ошибка сети');
       }
       throw new Error('HTTP ' + res.status);
     }
@@ -2875,7 +2739,7 @@ async function safeSyncWithFirebase(manual = false) {
         _lastSyncedFingerprint = incomingFp;
         lsS('ff_last_fp', incomingFp);
         updateSyncPill('ok');
-        if (manual) showToast('☁️ Данные в облаке актуальны');
+        if (manual) showToast('Данные в облаке актуальны');
         return;
       }
 
@@ -2896,7 +2760,7 @@ async function safeSyncWithFirebase(manual = false) {
       render();
       updateSyncPill('ok');
       if (manual) {
-        showToast('☁️ Синхронизировано с облаком', prevSnapshot.length ? () => {
+        showToast('Синхронизировано с облаком', prevSnapshot.length ? () => {
           entries = prevSnapshot; save(); render();
         } : null);
       }
@@ -2930,7 +2794,7 @@ try {
 let editId = null;
 let _hasDraft = false;
 let _flashIds = new Set();
-let _popBadgeIds = new Set();
+let _popBadgeId = null;
 let theme = lsG('ff_theme') || 'auto';
 let accent = lsG('ff_accent') || 'blue';
 let tone = lsG('ff_tone') || 'warm';
@@ -2955,10 +2819,6 @@ if (!['earned', 'orders', 'awaiting'].includes(moTab)) moTab = 'earned';
 
 let selIds = new Set();
 let _lastClickedCardId = null;
-let _fastClickTime = 0;
-let _fastClickId = null;
-const FAST_DBLCLICK_MS = 320;
-
 let srchTmr = null;
 let _rateTmr = null;
 let _mdTarget = null;
@@ -2970,7 +2830,6 @@ let _amtManuallyTyped = false;
 let _amtAutoFilled = false;
 let _donutDirty = true;
 let _justLassoed = false;
-let _suppressNextClick = false;
 
 const _clientColorCache = new Map();
 function getClientColor(name) {
@@ -3059,16 +2918,9 @@ function animateNumberText(id, targetNum, formatFn, fallbackStr = '0', unitKey =
     node.textContent = fallbackStr;
     return;
   }
-  const unitChanged = node._lastUnit !== undefined && node._lastUnit !== unitKey;
-  const prevVal = (!unitChanged && typeof node._lastVal === 'number') ? node._lastVal : null;
+  const prevVal = (node._lastUnit === unitKey && typeof node._lastVal === 'number') ? node._lastVal : null;
   node._lastVal = targetNum;
   node._lastUnit = unitKey;
-
-  if (unitChanged) {
-    node.classList.remove('cur-morph');
-    void node.offsetWidth;
-    node.classList.add('cur-morph');
-  }
 
   if (prevVal === null || Math.abs(prevVal - targetNum) < 0.01) {
     node.textContent = formatFn(targetNum);
@@ -3116,7 +2968,7 @@ function cloneEntries() {
 }
 
 /* ══════════════════════════════════════════════
-   4. AMOUNT PARSER, QUICK ADD & SMART AUTO-PRICE
+   4. AMOUNT PARSER & SMART AUTO-PRICE
 ══════════════════════════════════════════════ */
 function pAmt(str) {
   const s = String(str).replace(/,/g,'.').replace(/\s/g,'').trim();
@@ -3148,132 +3000,6 @@ function pAmt(str) {
   } catch(e) { return NaN; }
 }
 
-// Парсер строки быстрого ввода: "Превью 2500 Клиент" или "Баннер 50*3 $ Иван"
-function parseQuickAddString(raw) {
-  const str = (raw || '').trim();
-  if (!str) return null;
-  const tokens = str.split(/\s+/);
-  let amtIdx = -1;
-  let parsedAmt = NaN;
-  let detectedCur = null;
-
-  for (let i = 0; i < tokens.length; i++) {
-    let tok = tokens[i];
-    let tokCur = null;
-    for (const c of CURS) {
-      if (tok.endsWith(c) && tok.length > c.length) {
-        tokCur = c;
-        tok = tok.slice(0, -c.length);
-        break;
-      } else if (tok.startsWith(c) && tok.length > c.length) {
-        tokCur = c;
-        tok = tok.slice(c.length);
-        break;
-      }
-    }
-    if (/^[0-9]/.test(tok)) {
-      const val = pAmt(tok);
-      if (!isNaN(val) && val > 0) {
-        amtIdx = i;
-        parsedAmt = val;
-        if (tokCur) detectedCur = tokCur;
-        break;
-      }
-    }
-  }
-
-  if (amtIdx === -1) return null;
-
-  let curTokenIdx = -1;
-  if (!detectedCur && amtIdx + 1 < tokens.length) {
-    const nextTok = tokens[amtIdx + 1].toLowerCase();
-    if (CURS.includes(tokens[amtIdx + 1])) {
-      detectedCur = tokens[amtIdx + 1];
-      curTokenIdx = amtIdx + 1;
-    } else if (nextTok === 'руб' || nextTok === 'р' || nextTok === 'rub') {
-      detectedCur = '₽';
-      curTokenIdx = amtIdx + 1;
-    } else if (nextTok === 'usd' || nextTok === '$') {
-      detectedCur = '$';
-      curTokenIdx = amtIdx + 1;
-    } else if (nextTok === 'eur' || nextTok === '€') {
-      detectedCur = '€';
-      curTokenIdx = amtIdx + 1;
-    }
-  }
-
-  const before = tokens.slice(0, amtIdx).join(' ').trim();
-  const afterStart = curTokenIdx !== -1 ? curTokenIdx + 1 : amtIdx + 1;
-  const after = tokens.slice(afterStart).join(' ').trim();
-
-  let desc = before || after || 'Заказ';
-  let name = (before && after) ? after : (activeClientFilter || lastClient || '');
-  const currency = detectedCur || lastCur || baseCur;
-
-  return { desc, amount: parsedAmt, currency, name };
-}
-
-function onQuickAddInput() {
-  const inp = document.getElementById('qadd-inp');
-  const prev = document.getElementById('qadd-preview');
-  if (!inp || !prev) return;
-  const parsed = parseQuickAddString(inp.value);
-  if (!parsed) {
-    prev.classList.remove('on');
-    prev.textContent = '';
-    return;
-  }
-  const clientPart = parsed.name ? ` · ${parsed.name}` : '';
-  prev.textContent = `${parsed.desc} · ${fmtCur(parsed.amount, parsed.currency)}${clientPart} ↵`;
-  prev.classList.add('on');
-}
-
-function submitQuickAdd() {
-  const inp = document.getElementById('qadd-inp');
-  const prev = document.getElementById('qadd-preview');
-  if (!inp) return;
-  const parsed = parseQuickAddString(inp.value);
-  if (!parsed) {
-    if (inp.value.trim()) {
-      openModal();
-      const fd = document.getElementById('f-desc');
-      if (fd) { fd.value = inp.value.trim(); trySmartAutoPrice(); }
-      inp.value = '';
-      if (prev) prev.classList.remove('on');
-    }
-    return;
-  }
-
-  lastCur = parsed.currency;
-  lsS('ff_last_cur', lastCur);
-  if (parsed.name) {
-    lastClient = parsed.name;
-    lsS('ff_last_client', lastClient);
-  }
-
-  const newId = gid();
-  const td = today();
-  const newEntry = {
-    id: newId,
-    name: parsed.name,
-    amount: parsed.amount,
-    currency: parsed.currency,
-    desc: parsed.desc,
-    note: '',
-    date: td,
-    paid: false,
-    createdAt: td
-  };
-  _flashIds.add(newId);
-  entries.unshift(newEntry);
-  inp.value = '';
-  if (prev) prev.classList.remove('on');
-
-  save();
-  withViewTransition(() => render());
-  showToast(`⚡ Добавлено: ${parsed.desc} (${fmtCur(parsed.amount, parsed.currency)})`);
-}
-
 function trySmartAutoPrice() {
   if (editId !== null || _amtManuallyTyped) return;
   const desc = (document.getElementById('f-desc')?.value || '').trim().toLowerCase();
@@ -3302,7 +3028,7 @@ function trySmartAutoPrice() {
     if (amtEl) amtEl.value = match.amount;
     if (curEl && CURS.includes(match.currency)) curEl.value = match.currency;
     if (h) {
-      h.textContent = '⚡ Цена из истории';
+      h.textContent = 'Цена из истории';
       h.className = 'ahint smart';
     }
     _amtAutoFilled = true;
@@ -3314,7 +3040,7 @@ function trySmartAutoPrice() {
 }
 
 /* ══════════════════════════════════════════════
-   5. CURRENCY, FREE CDN RATES & SMART COMPARISON
+   5. CURRENCY, ON-BUTTON RATE FETCH & SMART COMPARISON
 ══════════════════════════════════════════════ */
 function toB(a,c) {
   if (c === baseCur) return a;
@@ -3385,49 +3111,35 @@ function cycleBaseCur() {
   showToast(`Базовая валюта: ${nextCur}`);
 }
 
-// Бесплатное обновление курсов валют через Open-Source CDN (fawazahmed0/currency-api)
-async function fetchFreeCurrencyRates(silent = false) {
+async function fetchFreeRatesManually() {
   const btn = document.getElementById('btn-fetch-rates');
-  if (btn) { btn.disabled = true; btn.textContent = '⏳ Загрузка курсов...'; }
-  const baseCode = (CUR_CODE[baseCur] || 'RUB').toLowerCase();
-  const urls = [
-    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${baseCode}.json`,
-    `https://latest.currency-api.pages.dev/v1/currencies/${baseCode}.json`
-  ];
+  const codeMap = { '₽': 'rub', '$': 'usd', '€': 'eur' };
+  const baseCode = codeMap[baseCur] || 'rub';
+  if (btn) { btn.disabled = true; btn.textContent = 'Загрузка курса...'; }
+  try {
+    const res = await fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${baseCode}.json`);
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    const mapObj = data[baseCode];
+    if (!mapObj) throw new Error('Invalid format');
 
-  let data = null;
-  for (const u of urls) {
-    try {
-      const res = await fetch(u);
-      if (res.ok) { data = await res.json(); break; }
-    } catch(e) {}
-  }
-
-  if (btn) { btn.disabled = false; btn.textContent = '🔄 Обновить курс из сети (Бесплатно)'; }
-
-  if (!data || !data[baseCode]) {
-    if (!silent) showToast('⚠️ Не удалось загрузить курс, проверьте сеть');
-    return;
-  }
-
-  const map = data[baseCode];
-  let updated = 0;
-  CURS.filter(c => c !== baseCur).forEach(sym => {
-    const code = (CUR_CODE[sym] || '').toLowerCase();
-    const rateFromBase = map[code];
-    if (rateFromBase && rateFromBase > 0) {
-      const val = Math.round((1 / rateFromBase) * 100) / 100;
-      rates[rateKey(sym, baseCur)] = val;
-      updated++;
-    }
-  });
-
-  if (updated > 0) {
-    _donutDirty = true;
-    buildCP();
+    CURS.filter(c => c !== baseCur).forEach(sym => {
+      const symCode = codeMap[sym];
+      const valInSym = mapObj[symCode];
+      if (valInSym && valInSym > 0) {
+        const rateToBase = Math.round((1 / valInSym) * 100) / 100;
+        rates[rateKey(sym, baseCur)] = rateToBase;
+      }
+    });
     save();
+    buildCP();
+    _donutDirty = true;
     render();
-    if (!silent) showToast('✓ Курсы валют обновлены из бесплатного CDN');
+    showToast('Курсы валют обновлены');
+  } catch (err) {
+    showToast('Не удалось получить курс, используйте ручной ввод');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Обновить курс из сети (Бесплатно)'; }
   }
 }
 
@@ -3492,9 +3204,9 @@ function renderMonthTrend() {
 
   if (basePrevSum <= 0) {
     trendEl.className = 'bal-trend up';
-    trendEl.textContent = '↑ новый рост';
+    trendEl.textContent = '+ новый рост';
     trendEl.title = `В ${prevMonthName} было 0`;
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill up'; mTrendEl.textContent = '↑ рост'; }
+    if (mTrendEl) { mTrendEl.className = 'm-hero-pill up'; mTrendEl.textContent = '+ рост'; }
     return;
   }
 
@@ -3502,14 +3214,14 @@ function renderMonthTrend() {
   const prevFormatted = fmtB(prevFullSum);
   if (pct > 0) {
     trendEl.className = 'bal-trend up';
-    trendEl.textContent = `↑ +${pct}%`;
+    trendEl.textContent = `+${pct}%`;
     trendEl.title = `К прошлому месяцу (в ${prevMonthName}: ${prevFormatted})`;
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill up'; mTrendEl.textContent = `↑ +${pct}%`; }
+    if (mTrendEl) { mTrendEl.className = 'm-hero-pill up'; mTrendEl.textContent = `+${pct}%`; }
   } else if (pct < 0) {
     trendEl.className = 'bal-trend down';
-    trendEl.textContent = `↓ ${pct}%`;
+    trendEl.textContent = `${pct}%`;
     trendEl.title = `К прошлому месяцу (в ${prevMonthName}: ${prevFormatted})`;
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill down'; mTrendEl.textContent = `↓ ${pct}%`; }
+    if (mTrendEl) { mTrendEl.className = 'm-hero-pill down'; mTrendEl.textContent = `${pct}%`; }
   } else {
     trendEl.className = 'bal-trend flat';
     trendEl.textContent = '0%';
@@ -3580,7 +3292,7 @@ function saveRates() {
 }
 
 /* ══════════════════════════════════════════════
-   6. CUSTOM CONFIRM & CONTEXT MENU
+   6. CUSTOM CONFIRM DIALOG
 ══════════════════════════════════════════════ */
 let _confResolve = null;
 function showConfirm(title, msg, okClass='', okText='Да', altText='') {
@@ -3608,121 +3320,6 @@ function showConfirm(title, msg, okClass='', okText='Да', altText='') {
 function _confClose(result) {
   document.getElementById('conf-overlay').classList.remove('on');
   if (_confResolve) { _confResolve(result); _confResolve = null; }
-}
-
-function closeCtxMenu() {
-  const m = document.getElementById('ctx-menu');
-  if (m) m.classList.remove('on');
-}
-
-function openCtxMenu(clientX, clientY, targetId = null) {
-  if (typeof window._cancelLasso === 'function') window._cancelLasso();
-  if (targetId && !selIds.has(targetId)) {
-    clearSel();
-    selIds.add(targetId);
-    _lastClickedCardId = targetId;
-    const card = document.querySelector(`.entry-card[data-id="${CSS.escape(targetId)}"]`);
-    if (card) { card.classList.add('sel'); card.setAttribute('aria-pressed', 'true'); }
-    updateSelectionUI();
-  }
-
-  if (!selIds.size) return;
-
-  const { count, mainSum, subBreakdown, selList } = getSelectionSumInfo();
-  const isMulti = count > 1;
-  const singleEntry = selList[0];
-  const anyUnpaid = selList.some(e => !e.paid);
-
-  const menu = document.getElementById('ctx-menu');
-  if (!menu) return;
-  menu.innerHTML = '';
-
-  const calcTopLabel = isMulti
-    ? `Выбрано заказов: ${count}`
-    : (singleEntry?.desc || singleEntry?.name || 'Заказ');
-  const calcChildren = [
-    el('div', {className:'ctx-calc-top'}, [
-      el('span', {}, [calcTopLabel]),
-      el('span', {}, ['Сумма'])
-    ]),
-    el('div', {className:'ctx-calc-sum'}, [mainSum])
-  ];
-  if (subBreakdown) {
-    calcChildren.push(el('div', {className:'ctx-calc-sub'}, [subBreakdown]));
-  }
-  menu.appendChild(el('div', {className:'ctx-calc-box'}, calcChildren));
-
-  if (!isMulti && singleEntry) {
-    const btnEdit = el('button', {className:'ctx-item', type:'button'}, [
-      el('span', {}, ['✎ Редактировать']),
-      el('span', {className:'ctx-kbd'}, ['2×Клик'])
-    ]);
-    btnEdit.addEventListener('click', () => { closeCtxMenu(); clearSel(); startEdit(singleEntry.id); });
-    menu.appendChild(btnEdit);
-  }
-
-  const btnTogglePaid = el('button', {className:'ctx-item', type:'button'}, [
-    el('span', {}, [anyUnpaid ? '✓ Отметить оплаченным (сегодня)' : '⏳ Вернуть в «ждём»']),
-    el('span', {className:'ctx-kbd'}, ['Пробел'])
-  ]);
-  btnTogglePaid.addEventListener('click', () => {
-    closeCtxMenu();
-    if (anyUnpaid) markPaid(); else markUnpaid();
-  });
-  menu.appendChild(btnTogglePaid);
-
-  const btnDup = el('button', {className:'ctx-item', type:'button'}, [
-    el('span', {}, ['⧉ Дублировать'])
-  ]);
-  btnDup.addEventListener('click', () => { closeCtxMenu(); dupSel(); });
-  menu.appendChild(btnDup);
-
-  menu.appendChild(el('div', {className:'ctx-sep'}));
-
-  const invRow = el('div', {className:'ctx-inv-row'}, [
-    el('span', {className:'ctx-inv-lbl'}, ['📄 Инвойс (⌘C)']),
-    el('div', {className:'ctx-inv-btns'}, [
-      (() => {
-        const b = el('button', {className:'ctx-lbtn', type:'button'}, ['RU']);
-        b.addEventListener('click', () => { closeCtxMenu(); copySelectedInv('ru'); });
-        return b;
-      })(),
-      (() => {
-        const b = el('button', {className:'ctx-lbtn', type:'button'}, ['EN']);
-        b.addEventListener('click', () => { closeCtxMenu(); copySelectedInv('en'); });
-        return b;
-      })()
-    ])
-  ]);
-  menu.appendChild(invRow);
-
-  menu.appendChild(el('div', {className:'ctx-sep'}));
-
-  const filteredAll = getFiltered();
-  const allSelected = filteredAll.length > 0 && filteredAll.every(e => selIds.has(e.id));
-  const btnSelAll = el('button', {className:'ctx-item', type:'button'}, [
-    el('span', {}, [allSelected ? 'Снять выделение' : 'Выбрать все в списке']),
-    el('span', {className:'ctx-kbd'}, [allSelected ? 'Esc' : '⌘A'])
-  ]);
-  btnSelAll.addEventListener('click', () => { closeCtxMenu(); toggleSelAll(); });
-  menu.appendChild(btnSelAll);
-
-  const btnDel = el('button', {className:'ctx-item danger', type:'button'}, [
-    el('span', {}, ['🗑 Удалить']),
-    el('span', {className:'ctx-kbd'}, ['⌫'])
-  ]);
-  btnDel.addEventListener('click', () => { closeCtxMenu(); delSel(); });
-  menu.appendChild(btnDel);
-
-  menu.classList.add('on');
-  if (window.innerWidth > 768) {
-    const mw = menu.offsetWidth || 236;
-    const mh = menu.offsetHeight || 245;
-    const left = Math.min(clientX, window.innerWidth - mw - 12);
-    const top = Math.min(clientY, window.innerHeight - mh - 12);
-    menu.style.left = Math.max(8, left) + 'px';
-    menu.style.top = Math.max(8, top) + 'px';
-  }
 }
 
 /* ══════════════════════════════════════════════
@@ -3778,7 +3375,7 @@ function openPeriodSheet() {
     ]);
     const badge = el('span', {
       style: `font-size:12px;font-weight:700;color:${isSel ? 'var(--blue)' : 'var(--text3)'}`
-    }, [isSel ? '✓ Выбрано' : 'Выбрать']);
+    }, [isSel ? 'Выбрано' : 'Выбрать']);
     card.appendChild(info);
     card.appendChild(badge);
     card.addEventListener('click', () => {
@@ -3877,12 +3474,15 @@ function toggleMoCollapsed() {
    8. SEGMENTED SPECTRUM BAR ANALYTICS
 ══════════════════════════════════════════════ */
 let _donutSegments = [];
-let _donutDefaultSubLbl = 'распределение';
+let _donutDefaultSubLbl = 'Распределение по клиентам';
 
 function syncMoTabButtons() {
   const earnBtn = document.getElementById('mo-tab-earn');
   const ordBtn = document.getElementById('mo-tab-ord');
   const awaitBtn = document.getElementById('mo-tab-await');
+  const cardAwait = document.getElementById('card-await');
+  const cardRecv = document.getElementById('card-recv');
+
   if (earnBtn) {
     earnBtn.classList.toggle('on', moTab === 'earned');
     earnBtn.setAttribute('aria-selected', String(moTab === 'earned'));
@@ -3895,17 +3495,14 @@ function syncMoTabButtons() {
     awaitBtn.classList.toggle('on', moTab === 'awaiting');
     awaitBtn.setAttribute('aria-selected', String(moTab === 'awaiting'));
   }
+  if (cardAwait) cardAwait.classList.toggle('active-metric', moTab === 'awaiting');
+  if (cardRecv) cardRecv.classList.toggle('active-metric', moTab === 'earned');
 }
 
 function setMoTab(tab) {
   if (!['earned', 'orders', 'awaiting'].includes(tab)) return;
   moTab = tab;
   lsS('ff_motab', tab);
-  if (moCollapsed) {
-    moCollapsed = false;
-    lsS('ff_mo_collapsed', '0');
-    applyMoCollapsedState();
-  }
   syncMoTabButtons();
   _donutDirty = true;
   renderAnalytics();
@@ -4002,7 +3599,7 @@ function setSpectrumHoverState(idx) {
 
   if (idx !== -1 && _donutSegments[idx]) {
     const seg = _donutSegments[idx];
-    if (hoverLbl) hoverLbl.textContent = `${seg.label} · ${seg.pct}%`;
+    if (hoverLbl) hoverLbl.textContent = `${seg.label} · ${seg.pct}% (${seg.display})`;
   } else {
     if (hoverLbl) hoverLbl.textContent = _donutDefaultSubLbl;
   }
@@ -4022,15 +3619,12 @@ function renderAnalytics() {
   setText('mo-title', periodTitle);
   if (moCollapsed && window.innerWidth > 768) { _donutDirty = false; return; }
 
-  _donutDefaultSubLbl = moTab === 'orders' ? 'заказов за период' : 'по клиентам';
-  setText('an-hover-lbl', _donutDefaultSubLbl);
-
   let segments = [];
   if (moTab === 'earned') {
     const period = entries.filter(isPaidInPeriod);
     const res = buildMoneySegments(period);
     segments = res.segments;
-    animateNumberText('an-total-val', res.totalNum, res.formatFn, fmtB(0), 'earn_' + res.unit);
+    _donutDefaultSubLbl = segments.length ? 'Доля клиентов в доходах' : 'Нет оплаченных заказов за период';
   } else if (moTab === 'orders') {
     const ord = entries.filter(e => matchesPeriod(e.date));
     const byClient = {};
@@ -4044,14 +3638,15 @@ function renderAnalytics() {
     const pcts = computeExactPercentages(items, tot);
     items.forEach((it, idx) => it.pct = pcts[idx]);
     segments = items;
-    animateNumberText('an-total-val', tot, v => String(Math.round(v)), '0', 'ord_cnt');
+    _donutDefaultSubLbl = tot ? `Всего заказов за период: ${tot}` : 'Нет заказов за период';
   } else {
     const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
     const res = buildMoneySegments(period);
     segments = res.segments;
-    animateNumberText('an-total-val', res.totalNum, res.formatFn, fmtB(0), 'await_' + res.unit);
+    _donutDefaultSubLbl = segments.length ? 'Ожидаемые платежи по клиентам' : 'Нет долгов за выбранный период';
   }
 
+  setText('an-hover-lbl', _donutDefaultSubLbl);
   _donutSegments = segments;
 
   const bar = document.getElementById('spectrum-bar');
@@ -4213,7 +3808,7 @@ function copyInv(name, invLang = 'ru') {
   const text = buildInvText(name, list, invLang);
   cpyText(text, () => {
     closeInvDd();
-    showToast(`📄 Инвойс (${invLang.toUpperCase()}) скопирован`);
+    showToast(`Инвойс (${invLang.toUpperCase()}) скопирован`);
   });
 }
 
@@ -4225,7 +3820,7 @@ function copySelectedInv(invLang = 'ru') {
   const title = uniqueNames.length === 1 ? uniqueNames[0] : (invLang === 'en' ? 'Invoice' : 'Счет на оплату');
   const text = buildInvText(title, list, invLang);
   cpyText(text, () => {
-    showToast(`📄 Инвойс (${list.length} поз., ${invLang.toUpperCase()}) скопирован`);
+    showToast(`Инвойс (${list.length} поз., ${invLang.toUpperCase()}) скопирован`);
   });
 }
 
@@ -4271,22 +3866,22 @@ function fbCpy(text, cb) {
 }
 
 /* ══════════════════════════════════════════════
-   10. SETTINGS (3 TABS), THEME & CUSTOMIZATION
+   10. SETTINGS, TABS, THEME & CUSTOMIZATION
 ══════════════════════════════════════════════ */
 function switchSettingsTab(tabKey) {
-  document.querySelectorAll('.s-tab[data-stab]').forEach(b => {
-    b.classList.toggle('on', b.dataset.stab === tabKey);
-  });
   ['view', 'fin', 'data'].forEach(k => {
-    const p = document.getElementById(`spane-${k}`);
-    if (p) p.classList.toggle('on', k === tabKey);
+    const btn = document.getElementById(`stab-${k}`);
+    const pane = document.getElementById(`spane-${k}`);
+    const on = k === tabKey;
+    if (btn) { btn.classList.toggle('on', on); btn.setAttribute('aria-selected', String(on)); }
+    if (pane) pane.classList.toggle('on', on);
   });
 }
 
-function openSettings(defaultTab = null) {
+function openSettings(defaultTab = 'view') {
   buildCP();
   updateSettingsUI();
-  if (defaultTab) switchSettingsTab(defaultTab);
+  switchSettingsTab(defaultTab);
   document.getElementById('fb-url').value = fbUrl;
   document.getElementById('fb-sec').value = fbSec;
   const hasSnap = !!lsG('ff_pre_sync_snap');
@@ -4344,8 +3939,8 @@ function save() {
   saveToSafariVault();
   scheduleSmartFirebaseSync();
 }
-
-/* ══════════════════════════════════════════════
+  
+  /* ══════════════════════════════════════════════
    11. FILTER & SEARCH
 ══════════════════════════════════════════════ */
 function pruneHiddenSelections() {
@@ -4368,7 +3963,7 @@ function closeFP() {
   document.getElementById('filter-btn').classList.remove('on');
   document.getElementById('filter-btn').setAttribute('aria-expanded','false');
 }
-function onFilter() { pruneHiddenSelections(); updateFilterState(); withViewTransition(() => renderList()); }
+function onFilter() { pruneHiddenSelections(); updateFilterState(); renderList(); }
 function onSearch() { clearTimeout(srchTmr); srchTmr = setTimeout(() => { pruneHiddenSelections(); renderList(); }, 90); }
 
 function updateFilterState() {
@@ -4413,20 +4008,20 @@ function updateTags() {
     w.appendChild(tag);
   }
 }
-function clearClientFilter(){ activeClientFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
-function clearStatusFilter(){ document.getElementById('f-status').value='all'; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
-function clearWorkFilter(){ activeWorkFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
+function clearClientFilter(){ activeClientFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
+function clearStatusFilter(){ document.getElementById('f-status').value='all'; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
+function clearWorkFilter(){ activeWorkFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
 function filterByClient(name){
   if (name === 'Без имени') return;
   activeClientFilter = (activeClientFilter===name)?'':name;
   pruneHiddenSelections();
   buildFilterTags();
   updateFilterState();
-  withViewTransition(() => renderList());
+  renderList();
   document.getElementById('sidebar').classList.remove('mobile-open');
   updateMobileNavState('list');
 }
-function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
+function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
 
 function buildFilterTags() {
   const clients = [...new Set(entries.map(e=>e.name).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));
@@ -4466,7 +4061,7 @@ function getFiltered() {
 }
 
 /* ══════════════════════════════════════════════
-   12. GROUPING, INLINE EDIT, SMART LINKS & RENDERING
+   12. GROUPING, SMART LINKS & RENDERING
 ══════════════════════════════════════════════ */
 function grpKey(e) {
   const d = e.date;
@@ -4519,55 +4114,16 @@ function extractUrlFromNote(note) {
     .trim();
 
   const low = fullUrl.toLowerCase();
-  let label = '🔗 Ссылка';
-  if (low.includes('figma.com')) label = '🔗 Figma';
-  else if (low.includes('drive.google.') || low.includes('docs.google.')) label = '🔗 Google Диск';
-  else if (low.includes('disk.yandex.') || low.includes('yadi.sk')) label = '🔗 Яндекс.Диск';
-  else if (low.includes('t.me/') || low.includes('telegram.me/')) label = '🔗 Telegram';
-  else if (low.includes('youtube.com') || low.includes('youtu.be')) label = '🔗 YouTube';
-  else if (low.includes('notion.so') || low.includes('notion.site')) label = '🔗 Notion';
-  else if (low.includes('github.com')) label = '🔗 GitHub';
+  let label = 'Ссылка';
+  if (low.includes('figma.com')) label = 'Figma';
+  else if (low.includes('drive.google.') || low.includes('docs.google.')) label = 'Google Диск';
+  else if (low.includes('disk.yandex.') || low.includes('yadi.sk')) label = 'Яндекс.Диск';
+  else if (low.includes('t.me/') || low.includes('telegram.me/')) label = 'Telegram';
+  else if (low.includes('youtube.com') || low.includes('youtu.be')) label = 'YouTube';
+  else if (low.includes('notion.so') || low.includes('notion.site')) label = 'Notion';
+  else if (low.includes('github.com')) label = 'GitHub';
 
   return { text: cleanText, url: fullUrl, label };
-}
-
-function startInlineAmountEdit(entry, amtNode) {
-  if (!entry || !amtNode || amtNode.querySelector('input')) return;
-  const inp = el('input', {
-    type: 'text',
-    className: 'inline-edit-inp',
-    value: String(entry.amount)
-  });
-  amtNode.textContent = '';
-  amtNode.appendChild(inp);
-  inp.focus();
-  inp.select();
-
-  let done = false;
-  const commit = (saveChanges) => {
-    if (done) return;
-    done = true;
-    if (saveChanges) {
-      const parsed = pAmt(inp.value);
-      if (!isNaN(parsed) && parsed > 0 && parsed !== entry.amount) {
-        entry.amount = parsed;
-        _flashIds.add(entry.id);
-        save();
-        render();
-        showToast(`Сумма обновлена: ${fmtCur(entry.amount, entry.currency)}`);
-        return;
-      }
-    }
-    amtNode.textContent = fmtCur(entry.amount, entry.currency);
-  };
-
-  inp.addEventListener('keydown', ev => {
-    ev.stopPropagation();
-    if (ev.key === 'Enter') { ev.preventDefault(); commit(true); }
-    else if (ev.key === 'Escape') { ev.preventDefault(); commit(false); }
-  });
-  inp.addEventListener('blur', () => commit(true));
-  inp.addEventListener('click', ev => ev.stopPropagation());
 }
 
 function renderEntry(e) {
@@ -4580,9 +4136,13 @@ function renderEntry(e) {
   }
   const isSel = selIds.has(e.id);
   const shouldFlash = _flashIds.has(e.id);
-  if (shouldFlash) _flashIds.delete(e.id);
-  const shouldPopBadge = _popBadgeIds.has(e.id);
-  if (shouldPopBadge) _popBadgeIds.delete(e.id);
+  if (shouldFlash) {
+    _flashIds.delete(e.id);
+  }
+  const shouldPopBadge = _popBadgeId === e.id;
+  if (shouldPopBadge) {
+    _popBadgeId = null;
+  }
 
   const card = el('div', {
     className: `entry-card${e.paid?' paid':''}${editId===e.id?' editing':''}${isSel?' sel':''}${shouldFlash?' flash-glow':''}`,
@@ -4591,57 +4151,27 @@ function renderEntry(e) {
   card.setAttribute('tabindex', '0');
   card.setAttribute('aria-pressed', String(isSel));
 
-  let touchTimer = null;
-  let touchMoved = false;
-  card.addEventListener('touchstart', ev => {
-    touchMoved = false;
-    const t = ev.touches[0];
-    if (!t) return;
-    const tx = t.clientX, ty = t.clientY;
-    touchTimer = setTimeout(() => {
-      touchTimer = null;
-      if (!touchMoved) {
-        _suppressNextClick = true;
-        openCtxMenu(tx, ty, e.id);
-      }
-    }, 440);
-  }, {passive: true});
-  card.addEventListener('touchmove', () => {
-    touchMoved = true;
-    if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; }
-  }, {passive: true});
-  card.addEventListener('touchend', () => {
-    if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; }
-  }, {passive: true});
-
+  // Единое поведение клика, двойного клика и правой кнопки: всё управляет единой нижней панелью действий (#sel-dock)
   card.addEventListener('click', ev => {
-    if (_suppressNextClick) {
-      _suppressNextClick = false;
-      return;
-    }
     if (_justLassoed) return;
     const textSel = window.getSelection ? window.getSelection().toString() : '';
     if (textSel.length > 0) return;
-
-    const now = performance.now();
-    if (!ev.shiftKey && !ev.metaKey && !ev.ctrlKey && !ev.altKey && _fastClickId === e.id && (now - _fastClickTime) <= FAST_DBLCLICK_MS) {
-      _fastClickTime = 0;
-      _fastClickId = null;
-      if (window.getSelection) { try { window.getSelection().removeAllRanges(); } catch(err){} }
-      clearSel();
-      startEdit(e.id);
-      return;
-    }
-    _fastClickTime = now;
-    _fastClickId = e.id;
     handleCardClick(e.id, ev);
   });
 
   card.addEventListener('contextmenu', ev => {
     ev.preventDefault();
     ev.stopPropagation();
-    openCtxMenu(ev.clientX, ev.clientY, e.id);
+    if (!selIds.has(e.id)) {
+      clearSel();
+      selIds.add(e.id);
+      _lastClickedCardId = e.id;
+      card.classList.add('sel');
+      card.setAttribute('aria-pressed', 'true');
+      updateSelectionUI();
+    }
   });
+
   card.addEventListener('keydown', ev => {
     if (ev.key==='Enter') { ev.preventDefault(); handleCardClick(e.id, ev); }
   });
@@ -4690,19 +4220,7 @@ function renderEntry(e) {
 
   const right = el('div', {className:'er'});
   if (ds) right.appendChild(el('span', {className:'edate'}, [ds]));
-
-  const amtEl = el('span', {
-    className: 'eamt sel-txt',
-    title: 'Alt + Клик — изменить сумму на месте'
-  }, [fmtCur(e.amount, e.currency)]);
-  amtEl.addEventListener('click', ev => {
-    if (ev.altKey) {
-      ev.preventDefault();
-      ev.stopPropagation();
-      startInlineAmountEdit(e, amtEl);
-    }
-  });
-  right.appendChild(amtEl);
+  right.appendChild(el('span', {className:'eamt sel-txt'}, [fmtCur(e.amount, e.currency)]));
 
   const badge = el('button', {
     className: 'badge ' + (e.paid ? 'p' : 'u') + (shouldPopBadge ? ' pop' : ''),
@@ -4835,7 +4353,7 @@ function updateStatsAndAnalytics() {
   if (_donutDirty) renderAnalytics();
 }
 
-function renderList() {
+function renderListCore() {
   const listEl = document.getElementById('list');
   if (!listEl) return;
   listEl.innerHTML = '';
@@ -4843,9 +4361,12 @@ function renderList() {
   const filt = getFiltered();
   if (!filt.length) {
     const empty = el('div', {className:'empty'});
-    empty.appendChild(el('div', {className:'empty-ico'}, ['📋']));
+    const emptySvg = document.createElement('div');
+    emptySvg.className = 'empty-ico';
+    emptySvg.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg>`;
+    empty.appendChild(emptySvg);
     empty.appendChild(el('div', {className:'empty-title'}, ['Пока ничего нет']));
-    empty.appendChild(el('div', {className:'empty-sub'}, ['Напиши заказ в быструю строку сверху или перетащи файл .json прямо сюда.']));
+    empty.appendChild(el('div', {className:'empty-sub'}, ['Добавьте первый заказ или перетащите файл бэкапа .json прямо сюда.']));
     if (!entries.length) {
       const ebtn = el('button', {className:'empty-btn', type:'button'}, ['+ Добавить заказ']);
       ebtn.addEventListener('click', openModal);
@@ -4883,15 +4404,25 @@ function renderList() {
   updateSelectionUI();
 }
 
-function render() {
+function renderList(animateTransition = false) {
+  if (animateTransition && typeof document.startViewTransition === 'function') {
+    try {
+      document.startViewTransition(() => renderListCore());
+      return;
+    } catch (e) {}
+  }
+  renderListCore();
+}
+
+function render(animateTransition = false) {
   rebuildClientSel();
   updateFilterState();
   updateStatsAndAnalytics();
-  renderList();
+  renderList(animateTransition);
 }
 
 /* ══════════════════════════════════════════════
-   13. SELECTION, FLOATING ISLAND & LASSO
+   13. UNIFIED SELECTION DOCK & CONFLICT-FREE LASSO
 ══════════════════════════════════════════════ */
 function handleCardClick(id, ev) {
   if (ev && ev.shiftKey && _lastClickedCardId && _lastClickedCardId !== id) {
@@ -4960,26 +4491,26 @@ function clearSel() {
 }
 
 function updateSelectionUI() {
-  const pill = document.getElementById('sel-pill');
-  const sWrap = document.getElementById('search-wrap');
   const dock = document.getElementById('sel-dock');
+  if (!dock) return;
   if (selIds.size > 0) {
     const { count, mainSum, selList } = getSelectionSumInfo();
+    setText('sel-dock-cnt', `Выбрано: ${count}`);
+    setText('sel-dock-sum', mainSum);
+
+    const editBtn = document.getElementById('sd-btn-edit');
+    if (editBtn) editBtn.style.display = count === 1 ? '' : 'none';
+
     const anyUnpaid = selList.some(e => !e.paid);
-    setText('sel-pill-txt', `${count} · ${mainSum}`);
-    if (pill) pill.classList.add('on');
-    if (sWrap) sWrap.classList.add('has-sel');
-    if (dock) {
-      setText('sel-dock-cnt', String(count));
-      setText('sel-dock-sum', mainSum);
-      const paidBtn = document.getElementById('sel-dock-paid');
-      if (paidBtn) paidBtn.textContent = anyUnpaid ? '✓ Оплачено' : '⏳ В «ждём»';
-      dock.classList.add('on');
+    const paidBtn = document.getElementById('sd-btn-paid');
+    if (paidBtn) {
+      paidBtn.textContent = anyUnpaid ? 'Оплачено' : 'В ожидание';
+      paidBtn.classList.toggle('primary', anyUnpaid);
     }
+
+    dock.classList.add('on');
   } else {
-    if (pill) pill.classList.remove('on');
-    if (sWrap) sWrap.classList.remove('has-sel');
-    if (dock) dock.classList.remove('on');
+    dock.classList.remove('on');
   }
 }
 
@@ -5102,10 +4633,8 @@ function initFinderLasso() {
   });
 
   window.addEventListener('mousedown', e => {
-    if (e.button !== 0 || window.innerWidth <= 768 || document.body.classList.contains('xp-mode')) return;
-    if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, #ctx-menu, #sel-dock, .fpanel, .sel-pill, .m-bottom-nav, .m-hero, .qadd-bar, button, a, input, select')) return;
-
-    closeCtxMenu();
+    if (e.button !== 0 || window.innerWidth <= 768) return;
+    if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, .m-hero, button, a, input, select')) return;
 
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT')) {
       document.activeElement.blur();
@@ -5168,7 +4697,7 @@ function initFinderLasso() {
       setTimeout(() => { _justLassoed = false; }, 60);
     } else {
       const textSel = window.getSelection ? window.getSelection().toString() : '';
-      if (!textSel && !e.target.closest('.entry-card') && !additiveMode && selIds.size > 0) {
+      if (!textSel && !e.target.closest('.entry-card') && !e.target.closest('#sel-dock') && !additiveMode && selIds.size > 0) {
         clearSel();
       }
     }
@@ -5190,7 +4719,7 @@ function dupSel() {
     }
   }
   entries.unshift(...[...toA].reverse());
-  save(); selIds.clear(); withViewTransition(() => render());
+  save(); selIds.clear(); render(true);
 }
 
 function applyBulkPaidStatus(paidStatus) {
@@ -5206,7 +4735,6 @@ function applyBulkPaidStatus(paidStatus) {
   const td = today();
 
   targetEntries.forEach(e => {
-    _popBadgeIds.add(e.id);
     if (paidStatus) {
       e.paid = true;
       e.paidAt = e.paidAt || td;
@@ -5218,10 +4746,10 @@ function applyBulkPaidStatus(paidStatus) {
 
   save();
   clearSel();
-  withViewTransition(() => render());
+  render(true);
 
   showToast(paidStatus ? `Отмечено оплаченными: ${cnt}` : `Снята оплата: ${cnt}`, () => {
-    entries = snapshot; save(); render();
+    entries = snapshot; save(); render(true);
   });
 }
 
@@ -5238,11 +4766,11 @@ async function delSel() {
   recordDeletedIds(removedIds);
   if (editId && selIds.has(editId)) { editId = null; clearForm(); }
   entries = entries.filter(e => !selIds.has(e.id));
-  save(); selIds.clear(); withViewTransition(() => render());
+  save(); selIds.clear(); render(true);
   showToast(`Удалено записей: ${cnt}`, () => {
     removedIds.forEach(id => deletedIds.delete(String(id)));
     lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
-    entries = snapshot; save(); render();
+    entries = snapshot; save(); render(true);
   });
 }
 
@@ -5256,17 +4784,17 @@ function togPaid(id) {
   } else {
     delete e.paidAt;
   }
-  _popBadgeIds.add(id);
+  _popBadgeId = id;
   save();
-  withViewTransition(() => render());
+  render(true);
 
   showToast(e.paid ? 'Статус: Оплачено' : 'Статус: Ждём оплату', () => {
-    entries = snapshot; save(); render();
+    entries = snapshot; save(); render(true);
   });
 }
 
 /* ══════════════════════════════════════════════
-   14. MODAL, DRAFTS & SERIAL ENTRY
+   14. MODAL, DRAFTS & SERIAL ENTRY WITH HIGHLIGHT GLOW
 ══════════════════════════════════════════════ */
 function openModal() {
   document.getElementById('sidebar').classList.remove('mobile-open');
@@ -5436,7 +4964,7 @@ function submitForm(keepOpen = false) {
   }
 
   save();
-  withViewTransition(() => render());
+  render(true);
 
   if (keepOpen && !wasEdit) {
     if (descEl) descEl.value = '';
@@ -5451,7 +4979,7 @@ function submitForm(keepOpen = false) {
     const bc = document.getElementById('bcan');
     if (bc) bc.style.display = 'none';
     if (descEl) descEl.focus();
-    showToast(`✓ Добавлено: ${desc} (${fmtCur(amount, currency)})`);
+    showToast(`Добавлено: ${desc} (${fmtCur(amount, currency)})`);
   } else {
     clearForm();
     closeModal();
@@ -5546,7 +5074,7 @@ function applyImportedPayload(raw, replaceMode = true) {
 
   save();
   buildCP();
-  render();
+  render(true);
 }
 
 function handleFileObject(file) {
@@ -5561,7 +5089,7 @@ function handleFileObject(file) {
       if (entries.length === 0) {
         applyImportedPayload(raw, true);
         closeSettings();
-        showToast('База загружена!');
+        showToast('База загружена');
         return;
       }
 
@@ -5570,7 +5098,7 @@ function handleFileObject(file) {
 
       applyImportedPayload(raw, choice === 'ok');
       closeSettings();
-      showToast('База загружена!');
+      showToast('База загружена');
     } catch(err) {
       showToast('Ошибка: поврежденный файл.');
     }
@@ -5601,45 +5129,6 @@ function bindEvents() {
   document.getElementById('btn-add').addEventListener('click', openModal);
   document.getElementById('btn-inv').addEventListener('click', toggleInvDd);
   document.getElementById('m-period-btn').addEventListener('click', openPeriodSheet);
-
-  // Быстрый ввод (Quick Add Bar)
-  const qInp = document.getElementById('qadd-inp');
-  if (qInp) {
-    qInp.addEventListener('input', onQuickAddInput);
-    qInp.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        submitQuickAdd();
-      } else if (e.key === 'Escape') {
-        qInp.value = '';
-        onQuickAddInput();
-        qInp.blur();
-      }
-    });
-  }
-
-  // Плавающий остров выделения (#sel-dock)
-  document.getElementById('sel-dock-paid')?.addEventListener('click', () => {
-    const selList = entries.filter(e => selIds.has(e.id));
-    if (selList.some(e => !e.paid)) markPaid(); else markUnpaid();
-  });
-  document.getElementById('sel-dock-ru')?.addEventListener('click', () => copySelectedInv('ru'));
-  document.getElementById('sel-dock-en')?.addEventListener('click', () => copySelectedInv('en'));
-  document.getElementById('sel-dock-dup')?.addEventListener('click', () => dupSel());
-  document.getElementById('sel-dock-del')?.addEventListener('click', () => delSel());
-  document.getElementById('sel-dock-clr')?.addEventListener('click', () => clearSel());
-
-  // Карточки баланса в сайдбаре переключают вкладку спектра
-  document.getElementById('card-await')?.addEventListener('click', e => {
-    if (e.target.closest('#val-await')) return;
-    setMoTab('awaiting');
-  });
-  document.getElementById('card-recv')?.addEventListener('click', e => {
-    if (e.target.closest('#val-recv')) return;
-    setMoTab('earned');
-  });
-  document.getElementById('val-await').addEventListener('click', e => { e.stopPropagation(); cycleBaseCur(); });
-  document.getElementById('val-recv').addEventListener('click', e => { e.stopPropagation(); cycleBaseCur(); });
 
   document.getElementById('m-card-await').addEventListener('click', cycleBaseCur);
   document.getElementById('m-card-recv').addEventListener('click', () => {
@@ -5674,7 +5163,7 @@ function bindEvents() {
   document.getElementById('m-nav-inv').addEventListener('click', openInvSheet);
   document.getElementById('m-nav-set').addEventListener('click', () => {
     if (document.getElementById('sov').classList.contains('on')) closeSettings();
-    else openSettings();
+    else openSettings('view');
   });
 
   document.getElementById('inv-sheet-close').addEventListener('click', closeInvSheet);
@@ -5687,31 +5176,34 @@ function bindEvents() {
     if (e.target === document.getElementById('period-sheet-ov')) closePeriodSheet();
   });
 
+  // Клик по карточкам баланса переключает соответствующую вкладку спектра
+  document.getElementById('btn-cycle-cur-1').addEventListener('click', e => {
+    e.stopPropagation();
+    cycleBaseCur();
+  });
+  document.getElementById('card-await').addEventListener('click', () => setMoTab('awaiting'));
+  document.getElementById('card-recv').addEventListener('click', () => setMoTab('earned'));
+
   document.getElementById('mo-collapse-btn').addEventListener('click', toggleMoCollapsed);
 
-  document.getElementById('sel-pill').addEventListener('click', e => {
-    e.stopPropagation();
-    if (e.target.closest('#sel-pill-clr')) {
+  // Кнопки единой нижней панели действий (#sel-dock)
+  document.getElementById('sd-btn-edit').addEventListener('click', () => {
+    if (selIds.size === 1) {
+      const id = [...selIds][0];
       clearSel();
-      closeCtxMenu();
-      return;
-    }
-    const r = document.getElementById('sel-pill').getBoundingClientRect();
-    openCtxMenu(r.left, r.bottom + 6, null);
-  });
-
-  document.getElementById('main-area').addEventListener('contextmenu', e => {
-    if (selIds.size > 0 && !e.target.closest('input, select')) {
-      e.preventDefault();
-      openCtxMenu(e.clientX, e.clientY, null);
+      startEdit(id);
     }
   });
-
-  window.addEventListener('contextmenu', e => {
-    if (!e.target.closest('#main-area') && !e.target.closest('#ctx-menu')) {
-      closeCtxMenu();
-    }
+  document.getElementById('sd-btn-paid').addEventListener('click', () => {
+    const selList = entries.filter(e => selIds.has(e.id));
+    const anyUnpaid = selList.some(e => !e.paid);
+    if (anyUnpaid) markPaid(); else markUnpaid();
   });
+  document.getElementById('sd-btn-dup').addEventListener('click', dupSel);
+  document.getElementById('sd-btn-inv-ru').addEventListener('click', () => copySelectedInv('ru'));
+  document.getElementById('sd-btn-inv-en').addEventListener('click', () => copySelectedInv('en'));
+  document.getElementById('sd-btn-del').addEventListener('click', delSel);
+  document.getElementById('sd-btn-clr').addEventListener('click', clearSel);
 
   document.getElementById('toast-undo').addEventListener('click', () => {
     if (typeof _undoAction === 'function') {
@@ -5741,12 +5233,8 @@ function bindEvents() {
     safeSyncWithFirebase(true);
   });
 
-  document.getElementById('btn-fetch-rates')?.addEventListener('click', () => fetchFreeCurrencyRates(false));
+  document.getElementById('btn-fetch-rates').addEventListener('click', fetchFreeRatesManually);
   document.getElementById('btn-restore-snap').addEventListener('click', restoreEmergencySnapshot);
-
-  document.querySelectorAll('.s-tab[data-stab]').forEach(tabBtn => {
-    tabBtn.addEventListener('click', () => switchSettingsTab(tabBtn.dataset.stab));
-  });
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden' && _hasUnsynced && fbUrl) {
@@ -5762,20 +5250,17 @@ function bindEvents() {
   let dragCounter = 0;
   const dz = document.getElementById('drop-zone');
   window.addEventListener('dragenter', e => {
-    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter++;
     if (dz) dz.classList.add('on');
   });
   window.addEventListener('dragleave', e => {
-    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter--;
     if (dragCounter <= 0) { dragCounter = 0; if (dz) dz.classList.remove('on'); }
   });
   window.addEventListener('dragover', e => e.preventDefault());
   window.addEventListener('drop', e => {
-    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter = 0;
     if (dz) dz.classList.remove('on');
@@ -5813,7 +5298,11 @@ function bindEvents() {
   document.getElementById('mo-tab-ord').addEventListener('click', () => setMoTab('orders'));
   document.getElementById('mo-tab-await').addEventListener('click', () => setMoTab('awaiting'));
 
-  document.getElementById('btn-settings').addEventListener('click', () => openSettings());
+  document.getElementById('btn-settings').addEventListener('click', () => openSettings('view'));
+  document.getElementById('stab-view').addEventListener('click', () => switchSettingsTab('view'));
+  document.getElementById('stab-fin').addEventListener('click', () => switchSettingsTab('fin'));
+  document.getElementById('stab-data').addEventListener('click', () => switchSettingsTab('data'));
+
   document.getElementById('btn-exp').addEventListener('click', exportData);
   document.getElementById('btn-imp').addEventListener('click', trigImport);
   document.getElementById('imp-inp').addEventListener('change', importData);
@@ -5842,14 +5331,11 @@ function bindEvents() {
     if (e.target === document.getElementById('conf-overlay')) _confClose(false);
   });
 
-  document.getElementById('elist').addEventListener('scroll', closeCtxMenu, {passive: true});
   window.addEventListener('blur', () => {
-    closeCtxMenu();
     if (typeof window._cancelLasso === 'function') window._cancelLasso();
   });
 
   document.addEventListener('click', e => {
-    if (!e.target.closest('#ctx-menu') && !e.target.closest('#sel-pill')) closeCtxMenu();
     if (!e.target.closest('.filter-wrap')) closeFP();
     if (!e.target.closest('.inv-wrap')) closeInvDd();
     if (!e.target.closest('.mo-title-wrap')) closePeriodDd();
@@ -5871,7 +5357,6 @@ function bindEvents() {
 
     if (e.key === 'Escape') {
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
-      if (document.getElementById('ctx-menu').classList.contains('on')) { closeCtxMenu(); return; }
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
       closeFP(); closeInvDd(); closePeriodDd();
@@ -5936,10 +5421,6 @@ function bindEvents() {
     }
   });
 
-  window.addEventListener('resize', () => {
-    closeCtxMenu();
-  });
-
   initFinderLasso();
 }
 
@@ -5952,15 +5433,14 @@ function bindEvents() {
   syncMoTabButtons();
   updateSyncPill(fbUrl ? (_hasUnsynced ? 'pending' : 'ok') : 'local');
   bindEvents();
-  render();
+  render(false);
   restoreFromSafariVaultIfEmpty();
   if (fbUrl) safeSyncWithFirebase(false);
-  if (Object.keys(rates).length === 0) fetchFreeCurrencyRates(true);
 })();
 </script>
 <script id="xp-script">
 /* ══════════════════════════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — CLEAN STUDIO & DIRECT CANVAS MANIPULATION
+   X (TWITTER) WEEKLY PLANNER — DIRECT CANVAS INTERACTION & POPOVER MENU
 ══════════════════════════════════════════════════════════════════ */
 const TwitterPlanner = (() => {
   const DB_NAME = 'InvoeXPlannerLocalDB';
@@ -6046,8 +5526,9 @@ const TwitterPlanner = (() => {
 
   let _dbPromise = null;
   let _activeView = 'invoe';
-  let _armedSlot = null;     // { dayIdx, slotKey } — активный слот для ⌘V и HUD
-  let _hoveredSlot = null;   // { dayIdx, slotKey } — слот под курсором мыши на самом холсте
+  let _armedSlot = null;     // { dayIdx, slotKey } — выбранный слот для Cmd+V или плавающей пилюли
+  let _hoveredSlot = null;   // { dayIdx, slotKey } — слот под курсором на холсте
+  let _openMenuDayIdx = null; // Открытое меню троеточия (•••) карточки
 
   let userHandle = 'v1lyr';
   let handlePos = 'br';
@@ -6089,7 +5570,7 @@ const TwitterPlanner = (() => {
     return d.transforms[slotKey];
   }
 
-  /* ── 1. INDEXEDDB STORAGE ── */
+  /* 1. INDEXEDDB STORAGE */
   function openDB() {
     if (_dbPromise) return _dbPromise;
     _dbPromise = new Promise((resolve, reject) => {
@@ -6134,18 +5615,6 @@ const TwitterPlanner = (() => {
       if (blob) tx.objectStore(STORE_IMGS).put(blob, key);
       else tx.objectStore(STORE_IMGS).delete(key);
     } catch (e) {}
-  }
-
-  async function getSlotBlob(dayIdx, slotKey) {
-    try {
-      const db = await openDB();
-      return await new Promise(res => {
-        const tx = db.transaction(STORE_IMGS, 'readonly');
-        const req = tx.objectStore(STORE_IMGS).get(`d${dayIdx}_k_${slotKey}`);
-        req.onsuccess = () => res(req.result || null);
-        req.onerror = () => res(null);
-      });
-    } catch (e) { return null; }
   }
 
   async function clearAllDB() {
@@ -6228,6 +5697,7 @@ const TwitterPlanner = (() => {
     } catch (e) {}
   }
 
+  /* 2. STATUS & NOTIFICATIONS */
   function notify(msg) {
     if (typeof window.showToast === 'function') window.showToast(msg);
   }
@@ -6248,7 +5718,7 @@ const TwitterPlanner = (() => {
     }
   }
 
-  /* ── 2. CANVAS RENDERING (FREEFORM SHADOWS + INTERACTIVE HOVER RING) ── */
+  /* 3. CANVAS RENDERING */
   function getSrgbContext(canvas) {
     try {
       const ctx = canvas.getContext('2d', { colorSpace: 'srgb', alpha: false });
@@ -6325,11 +5795,10 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  function drawImageSlot(ctx, d, slotKey, x, y, w, h, radius, placeholderLabel, isExport = false) {
+  function drawImageSlot(ctx, d, slotKey, x, y, w, h, radius, placeholderLabel) {
     const img = d.images[slotKey];
     const isDark = d.bgTheme === 'dark';
-    const isHovered = !isExport && _hoveredSlot && _hoveredSlot.dayIdx === d.dayIdx && _hoveredSlot.slotKey === slotKey;
-    const baseFill = img ? (isDark ? '#181816' : '#f4f4f2') : (isDark ? (isHovered ? '#222220' : '#191917') : (isHovered ? '#eeeeea' : '#f6f6f4'));
+    const baseFill = img ? (isDark ? '#181816' : '#f4f4f2') : (isDark ? '#191917' : '#f6f6f4');
 
     d.hitRegions.push({ key: slotKey, label: placeholderLabel, x, y, w, h });
 
@@ -6367,21 +5836,21 @@ const TwitterPlanner = (() => {
     } else {
       ctx.fillStyle = baseFill;
       ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = isHovered ? '#1d9bf0' : (isDark ? '#5c5c54' : '#a8a8a0');
+      ctx.fillStyle = isDark ? '#5c5c54' : '#a8a8a0';
       const fontSize = Math.max(22, Math.min(36, Math.round(w * 0.03)));
       ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      const promptTxt = isHovered ? `+ Вставить (${placeholderLabel})` : `+ ${placeholderLabel || '16:9'}`;
-      ctx.fillText(promptTxt, x + w / 2, y + h / 2);
+      ctx.fillText(`+ ${placeholderLabel || '16:9'}`, x + w / 2, y + h / 2);
     }
     ctx.restore();
 
+    const isSelectedSlot = _armedSlot && _armedSlot.dayIdx === d.dayIdx && _armedSlot.slotKey === slotKey;
     ctx.save();
     traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
-    ctx.lineWidth = isHovered ? 4 : 1.2;
-    ctx.strokeStyle = isHovered
-      ? 'rgba(29, 155, 240, 0.85)'
+    ctx.lineWidth = isSelectedSlot ? 5 : 1.2;
+    ctx.strokeStyle = isSelectedSlot
+      ? '#1d9bf0'
       : (isDark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(0, 0, 0, 0.06)');
     ctx.stroke();
     ctx.restore();
@@ -6391,7 +5860,7 @@ const TwitterPlanner = (() => {
     const cleanRaw = (userHandle || '').trim();
     if (!cleanRaw || handlePos === 'off') return;
     const handleText = cleanRaw.startsWith('@') ? cleanRaw : `@${cleanRaw}`;
-    const fullLabel = `𝕏  ${handleText}`;
+    const fullLabel = `X  ${handleText}`;
 
     ctx.save();
     ctx.font = '600 27px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif';
@@ -6416,10 +5885,13 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  function renderDayCanvas(dayIdx, isExport = false) {
+  function renderDayCanvas(dayIdx, hideActiveOutline = false) {
     const d = state[dayIdx];
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     if (!canvas) return;
+
+    const prevArmed = _armedSlot;
+    if (hideActiveOutline) _armedSlot = null;
 
     d.hitRegions = [];
     const isDark = d.bgTheme === 'dark';
@@ -6444,11 +5916,11 @@ const TwitterPlanner = (() => {
       const stackGap = 24;
       contentH = FULL_H * 2 + stackGap;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', pad, padTop, CONTENT_W, FULL_H, rLg, 'Top 16:9', isExport);
+        drawImageSlot(ctx, d, 's1', pad, padTop, CONTENT_W, FULL_H, rLg, 'Top 16:9');
         drawCornerBadge(ctx, d.badgeTop, pad, padTop);
 
         const botY = padTop + FULL_H + stackGap;
-        drawImageSlot(ctx, d, 'final', pad, botY, CONTENT_W, FULL_H, rLg, 'Bottom 16:9', isExport);
+        drawImageSlot(ctx, d, 'final', pad, botY, CONTENT_W, FULL_H, rLg, 'Bottom 16:9');
         drawCornerBadge(ctx, d.badgeBot, pad, botY);
       };
     } else if (p === 'sketch3_final') {
@@ -6459,9 +5931,9 @@ const TwitterPlanner = (() => {
         const keys = ['s1', 's2', 's3'];
         for (let i = 0; i < 3; i++) {
           const sx = pad + i * (skW + GAP_TIGHT);
-          drawImageSlot(ctx, d, keys[i], sx, padTop, skW, skH, rSm, `Sketch ${i + 1}`, isExport);
+          drawImageSlot(ctx, d, keys[i], sx, padTop, skW, skH, rSm, `Sketch ${i + 1}`);
         }
-        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
+        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'sketch1_final') {
       const skW = Math.round(CONTENT_W * 0.72);
@@ -6469,8 +5941,8 @@ const TwitterPlanner = (() => {
       const skX = pad + Math.round((CONTENT_W - skW) / 2);
       contentH = skH + GAP_ROW + FULL_H;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', skX, padTop, skW, skH, rSm, 'Sketch 16:9', isExport);
-        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
+        drawImageSlot(ctx, d, 's1', skX, padTop, skW, skH, rSm, 'Sketch 16:9');
+        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'assets_inspo') {
       const groupW = Math.round(CONTENT_W * 0.86);
@@ -6494,9 +5966,9 @@ const TwitterPlanner = (() => {
         ctx.fillText(lbl2, startX + slotW + GAP_TIGHT + slotW / 2, topSlotY - 14);
         ctx.restore();
 
-        drawImageSlot(ctx, d, 's1', startX, topSlotY, slotW, slotH, rSm, lbl1 || 'assets', isExport);
-        drawImageSlot(ctx, d, 's2', startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, rSm, lbl2 || 'inspo', isExport);
-        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
+        drawImageSlot(ctx, d, 's1', startX, topSlotY, slotW, slotH, rSm, lbl1 || 'assets');
+        drawImageSlot(ctx, d, 's2', startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, rSm, lbl2 || 'inspo');
+        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'palette_final') {
       const groupW = Math.round(CONTENT_W * 0.82);
@@ -6512,7 +5984,9 @@ const TwitterPlanner = (() => {
         for (let i = 0; i < 5; i++) {
           const sx = startX + i * (swSize + swGap);
           const col = d.palette[i] || '#cccccc';
+
           fillWithFreeformShadow(ctx, sx, padTop, swSize, swH, rSm, col, isDark);
+
           ctx.save();
           traceRoundRect(ctx, sx + 0.75, padTop + 0.75, swSize - 1.5, swH - 1.5, rSm);
           ctx.lineWidth = 1.5;
@@ -6520,7 +5994,7 @@ const TwitterPlanner = (() => {
           ctx.stroke();
           ctx.restore();
         }
-        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
+        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9');
       };
     } else if (p === 'grid2x2') {
       const gridGap = 20;
@@ -6529,10 +6003,10 @@ const TwitterPlanner = (() => {
       contentH = cellH * 2 + gridGap;
 
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', pad, padTop, cellW, cellH, rSm, 'Top-Left', isExport);
-        drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Top-Right', isExport);
-        drawImageSlot(ctx, d, 's3', pad, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Left', isExport);
-        drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Right', isExport);
+        drawImageSlot(ctx, d, 's1', pad, padTop, cellW, cellH, rSm, 'Top-Left');
+        drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Top-Right');
+        drawImageSlot(ctx, d, 's3', pad, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Left');
+        drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Right');
       };
     }
 
@@ -6549,9 +6023,11 @@ const TwitterPlanner = (() => {
     if (layoutFn) layoutFn(ctx);
     drawAuthorHandle(ctx, canvasW, totalH, pad, hBand, isDark);
     ctx.restore();
+
+    if (hideActiveOutline) _armedSlot = prevArmed;
   }
 
-  /* ── 3. DIRECT MANIPULATION ON CANVAS (CLICK, DRAG-PAN, ALT+SCROLL ZOOM, FLOATING HUD) ── */
+  /* 4. DIRECT CANVAS INTERACTION & FLOATING SLOT PILL (NON-SHIFTING) */
   function hitTestCanvasSlot(dayIdx, clientX, clientY) {
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     const d = state[dayIdx];
@@ -6570,32 +6046,146 @@ const TwitterPlanner = (() => {
     return null;
   }
 
-  function updateSlotHud(dayIdx) {
-    const hud = document.getElementById(`xp-hud-${dayIdx}`);
-    if (!hud) return;
+  function selectCanvasSlot(dayIdx, slotKey) {
+    const prevDay = _armedSlot ? _armedSlot.dayIdx : null;
+    if (dayIdx === null || !slotKey) {
+      _armedSlot = null;
+      if (prevDay !== null) refreshDayCardUI(prevDay);
+      return;
+    }
+    _armedSlot = { dayIdx, slotKey };
+    if (prevDay !== null && prevDay !== dayIdx) refreshDayCardUI(prevDay);
+    refreshDayCardUI(dayIdx);
+  }
+
+  function updateFloatingSlotPillUI(dayIdx) {
+    const pill = document.getElementById(`xp-sf-${dayIdx}`);
+    const cv = document.getElementById(`xp-cv-${dayIdx}`);
+    if (!pill) return;
+
     const d = state[dayIdx];
-    const targetKey = (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx && d.images[_hoveredSlot.slotKey])
-      ? _hoveredSlot.slotKey
-      : ((_armedSlot && _armedSlot.dayIdx === dayIdx && d.images[_armedSlot.slotKey]) ? _armedSlot.slotKey : null);
-
-    if (!targetKey || !d.images[targetKey]) {
-      hud.classList.remove('on');
-      return;
-    }
-
+    const isArmedDay = _armedSlot && _armedSlot.dayIdx === dayIdx;
+    const sKey = isArmedDay ? _armedSlot.slotKey : null;
     const presetCfg = PRESETS[d.preset];
-    const slotMeta = presetCfg ? presetCfg.slots.find(s => s.key === targetKey) : null;
-    if (!slotMeta) {
-      hud.classList.remove('on');
+    const slotMeta = presetCfg && sKey ? presetCfg.slots.find(s => s.key === sKey) : null;
+
+    if (!isArmedDay || !slotMeta || !d.images[sKey]) {
+      pill.classList.remove('on');
+      if (cv) cv.classList.remove('has-active-slot');
       return;
     }
 
-    const tr = getSlotTransform(d, targetKey);
+    pill.classList.add('on');
+    if (cv) cv.classList.add('has-active-slot');
+
+    const tr = getSlotTransform(d, sKey);
     const pct = Math.round((tr.scale || 1) * 100);
-    hud.dataset.slot = targetKey;
-    const lbl = hud.querySelector('.xp-hud-lbl');
-    if (lbl) lbl.textContent = `${slotMeta.label} · ${pct}%`;
-    hud.classList.add('on');
+    const lblEl = pill.querySelector('.xp-sf-lbl');
+    const rngEl = pill.querySelector('.xp-sf-range');
+    if (lblEl) lblEl.textContent = slotMeta.label;
+    if (rngEl) rngEl.value = String(pct);
+  }
+
+  function bindCanvasDirectEvents(dayIdx, canvas) {
+    let draggingKey = null;
+    let moved = false;
+    let startX = 0, startY = 0;
+    let lastX = 0, lastY = 0;
+    let cScale = 1;
+
+    canvas.addEventListener('mousemove', e => {
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      _hoveredSlot = hit ? { dayIdx, slotKey: hit.region.key } : null;
+    });
+    canvas.addEventListener('mouseleave', () => {
+      if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx) _hoveredSlot = null;
+    });
+
+    function onWindowPointerMove(e) {
+      if (!draggingKey) return;
+      const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
+      if (dist > 4) moved = true;
+      if (!moved) return;
+
+      e.preventDefault();
+      const dx = (e.clientX - lastX) * cScale;
+      const dy = (e.clientY - lastY) * cScale;
+      lastX = e.clientX;
+      lastY = e.clientY;
+
+      const tr = getSlotTransform(state[dayIdx], draggingKey);
+      tr.panX = Math.round((tr.panX || 0) + dx);
+      tr.panY = Math.round((tr.panY || 0) + dy);
+      renderDayCanvas(dayIdx);
+    }
+
+    function onWindowPointerUp() {
+      if (!draggingKey) return;
+      const wasMoved = moved;
+      draggingKey = null;
+      window.removeEventListener('pointermove', onWindowPointerMove);
+      window.removeEventListener('pointerup', onWindowPointerUp);
+      window.removeEventListener('pointercancel', onWindowPointerUp);
+      if (wasMoved) saveDayMeta(dayIdx);
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+
+      const sKey = hit.region.key;
+      const hasImg = Boolean(state[dayIdx].images[sKey]);
+
+      if (!hasImg) {
+        triggerFileDialog(dayIdx, sKey);
+        return;
+      }
+
+      selectCanvasSlot(dayIdx, sKey);
+      draggingKey = sKey;
+      moved = false;
+      startX = lastX = e.clientX;
+      startY = lastY = e.clientY;
+      cScale = hit.scaleFactor;
+
+      window.addEventListener('pointermove', onWindowPointerMove, { passive: false });
+      window.addEventListener('pointerup', onWindowPointerUp);
+      window.addEventListener('pointercancel', onWindowPointerUp);
+    });
+
+    // Масштабирование через Alt/Cmd + колесо мыши (чтобы обычный скролл страницы никогда не блокировался)
+    canvas.addEventListener('wheel', e => {
+      if (!e.altKey && !e.metaKey && !e.ctrlKey) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+      const sKey = hit.region.key;
+      if (!state[dayIdx].images[sKey]) return;
+
+      e.preventDefault();
+      selectCanvasSlot(dayIdx, sKey);
+      const tr = getSlotTransform(state[dayIdx], sKey);
+      const factor = e.deltaY < 0 ? 1.06 : 0.94;
+      tr.scale = Math.max(0.25, Math.min(3.5, Math.round((tr.scale || 1) * factor * 100) / 100));
+      renderDayCanvas(dayIdx);
+      updateFloatingSlotPillUI(dayIdx);
+      saveDayMeta(dayIdx);
+    }, { passive: false });
+
+    // Drag & Drop файлов прямо в нужный слот на самом Canvas
+    canvas.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+    canvas.addEventListener('drop', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (!file || !file.type || !file.type.startsWith('image/')) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      const targetKey = hit ? hit.region.key : PRESETS[state[dayIdx].preset].slots[0].key;
+      assignFileToSlot(dayIdx, targetKey, file);
+    });
   }
 
   function fitSlotContain(dayIdx, slotKey) {
@@ -6615,188 +6205,11 @@ const TwitterPlanner = (() => {
       panY: 0
     };
     renderDayCanvas(dayIdx);
-    updateSlotHud(dayIdx);
+    updateFloatingSlotPillUI(dayIdx);
     saveDayMeta(dayIdx);
   }
 
-  function bindDirectCanvasEvents(dayIdx, canvas) {
-    let downSlotKey = null;
-    let isPanning = false;
-    let startX = 0, startY = 0;
-    let lastX = 0, lastY = 0;
-    let cScale = 1;
-
-    canvas.addEventListener('pointermove', e => {
-      if (isPanning) return;
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      const nextKey = hit ? hit.region.key : null;
-      const prevKey = (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx) ? _hoveredSlot.slotKey : null;
-
-      const hasImg = Boolean(nextKey && state[dayIdx].images[nextKey]);
-      canvas.classList.toggle('has-slot-img', hasImg);
-
-      if (nextKey !== prevKey) {
-        _hoveredSlot = nextKey ? { dayIdx, slotKey: nextKey } : null;
-        if (nextKey && state[dayIdx].images[nextKey]) {
-          _armedSlot = { dayIdx, slotKey: nextKey };
-        }
-        renderDayCanvas(dayIdx);
-        updateSlotHud(dayIdx);
-      }
-    });
-
-    canvas.addEventListener('pointerleave', () => {
-      if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx) {
-        _hoveredSlot = null;
-        canvas.classList.remove('has-slot-img');
-        renderDayCanvas(dayIdx);
-        updateSlotHud(dayIdx);
-      }
-    });
-
-    function onWindowPointerMove(e) {
-      if (!downSlotKey) return;
-      const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
-      if (!isPanning && dist > 4) {
-        isPanning = true;
-        canvas.classList.add('is-panning');
-      }
-      if (!isPanning) return;
-
-      e.preventDefault();
-      const dx = (e.clientX - lastX) * cScale;
-      const dy = (e.clientY - lastY) * cScale;
-      lastX = e.clientX;
-      lastY = e.clientY;
-
-      const tr = getSlotTransform(state[dayIdx], downSlotKey);
-      tr.panX = Math.round((tr.panX || 0) + dx);
-      tr.panY = Math.round((tr.panY || 0) + dy);
-      renderDayCanvas(dayIdx);
-    }
-
-    function onWindowPointerUp(e) {
-      if (!downSlotKey) return;
-      const targetKey = downSlotKey;
-      const wasPanning = isPanning;
-      downSlotKey = null;
-      isPanning = false;
-      canvas.classList.remove('is-panning');
-
-      window.removeEventListener('pointermove', onWindowPointerMove);
-      window.removeEventListener('pointerup', onWindowPointerUp);
-      window.removeEventListener('pointercancel', onWindowPointerUp);
-
-      if (wasPanning) {
-        // Если перетащили на другой слот с зажатым Shift — меняем слоты местами
-        if (e && e.shiftKey) {
-          const dropHit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-          if (dropHit && dropHit.region.key !== targetKey) {
-            swapSlots(dayIdx, targetKey, dropHit.region.key);
-            return;
-          }
-        }
-        saveDayMeta(dayIdx);
-      } else {
-        // Обычный клик без перетаскивания: если слот пустой — открываем выбор файла
-        if (!state[dayIdx].images[targetKey]) {
-          triggerFileDialog(dayIdx, targetKey);
-        } else {
-          _armedSlot = { dayIdx, slotKey: targetKey };
-          updateSlotHud(dayIdx);
-        }
-      }
-    }
-
-    canvas.addEventListener('pointerdown', e => {
-      if (e.button !== 0) return;
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      if (!hit) return;
-
-      const sKey = hit.region.key;
-      _armedSlot = { dayIdx, slotKey: sKey };
-      updateSlotHud(dayIdx);
-
-      if (!state[dayIdx].images[sKey]) {
-        triggerFileDialog(dayIdx, sKey);
-        return;
-      }
-
-      downSlotKey = sKey;
-      isPanning = false;
-      startX = e.clientX;
-      startY = e.clientY;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      cScale = hit.scaleFactor;
-
-      window.addEventListener('pointermove', onWindowPointerMove, { passive: false });
-      window.addEventListener('pointerup', onWindowPointerUp);
-      window.addEventListener('pointercancel', onWindowPointerUp);
-    });
-
-    // Зум по Alt / ⌘ + колесико мыши (без помех обычному скроллу страницы!)
-    canvas.addEventListener('wheel', e => {
-      if (!e.altKey && !e.metaKey && !e.ctrlKey) return;
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      if (!hit) return;
-      const sKey = hit.region.key;
-      if (!state[dayIdx].images[sKey]) return;
-
-      e.preventDefault();
-      _armedSlot = { dayIdx, slotKey: sKey };
-      const tr = getSlotTransform(state[dayIdx], sKey);
-      const factor = e.deltaY < 0 ? 1.06 : 0.94;
-      tr.scale = Math.max(0.25, Math.min(3.5, Math.round((tr.scale || 1) * factor * 100) / 100));
-      renderDayCanvas(dayIdx);
-      updateSlotHud(dayIdx);
-      saveDayMeta(dayIdx);
-    }, { passive: false });
-
-    // Двойной клик по заполненному слоту: с Alt — сброс 100%, без Alt — замена файла
-    canvas.addEventListener('dblclick', e => {
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      if (!hit) return;
-      const sKey = hit.region.key;
-      if (!state[dayIdx].images[sKey]) return;
-
-      if (e.altKey) {
-        state[dayIdx].transforms[sKey] = { scale: 1, panX: 0, panY: 0 };
-        renderDayCanvas(dayIdx);
-        updateSlotHud(dayIdx);
-        saveDayMeta(dayIdx);
-        notify('Кадрирование сброшено (100%)');
-      } else {
-        triggerFileDialog(dayIdx, sKey);
-      }
-    });
-
-    // Drag & Drop файлов прямо в конкретный слот на самом холсте
-    canvas.addEventListener('dragover', e => {
-      e.preventDefault();
-      e.stopPropagation();
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      const nextKey = hit ? hit.region.key : null;
-      if (!_hoveredSlot || _hoveredSlot.dayIdx !== dayIdx || _hoveredSlot.slotKey !== nextKey) {
-        _hoveredSlot = nextKey ? { dayIdx, slotKey: nextKey } : null;
-        renderDayCanvas(dayIdx);
-      }
-    });
-
-    canvas.addEventListener('drop', e => {
-      e.preventDefault();
-      e.stopPropagation();
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      const presetCfg = PRESETS[state[dayIdx].preset];
-      const targetKey = hit ? hit.region.key : (presetCfg.slots[0]?.key || 'final');
-      const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-      if (file && file.type && file.type.startsWith('image/')) {
-        assignFileToSlot(dayIdx, targetKey, file);
-      }
-    });
-  }
-
-  /* ── 4. AUTO-PALETTE & EYEDROPPER ── */
+  /* 5. AUTO-PALETTE & EYEDROPPER */
   function rgbToHex(r, g, b) {
     const toH = n => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0');
     return `#${toH(r)}${toH(g)}${toH(b)}`;
@@ -6811,7 +6224,7 @@ const TwitterPlanner = (() => {
     const d = state[dayIdx];
     const img = d.images['final'];
     if (!img) {
-      notify('Сначала загрузи превью в слот Final 16:9');
+      notify('Сначала загрузите финальное превью в слот');
       return;
     }
 
@@ -6863,12 +6276,12 @@ const TwitterPlanner = (() => {
     d.palette = picked.slice(0, 5).map(c => rgbToHex(c.r, c.g, c.b));
     saveDayMeta(dayIdx);
     refreshDayCardUI(dayIdx);
-    notify('🎨 Палитра из 5 цветов собрана с превью');
+    notify('Палитра из 5 цветов собрана с превью');
   }
 
   async function pickWithEyeDropper(dayIdx) {
     if (!window.EyeDropper) {
-      notify('Твой браузер не поддерживает EyeDropper API');
+      notify('Браузер не поддерживает пипетку');
       return;
     }
     try {
@@ -6880,15 +6293,15 @@ const TwitterPlanner = (() => {
         d.palette.push(res.sRGBHex);
         saveDayMeta(dayIdx);
         refreshDayCardUI(dayIdx);
-        notify(`🎨 Добавлен цвет ${res.sRGBHex}`);
+        notify(`Добавлен цвет ${res.sRGBHex}`);
       }
     } catch (e) {}
   }
 
-  /* ── 5. SLOT FILE ASSIGNMENT & SWAP ── */
+  /* 6. IMAGE UPLOAD & SLOT CLEAR */
   async function assignFileToSlot(dayIdx, slotKey, fileOrBlob) {
     if (!fileOrBlob || !fileOrBlob.type || !fileOrBlob.type.startsWith('image/')) {
-      notify('Выбери файл изображения (PNG, JPG, WebP)');
+      notify('Выберите файл изображения (PNG, JPG, WebP)');
       return;
     }
     try {
@@ -6902,54 +6315,16 @@ const TwitterPlanner = (() => {
       await saveSlotBlob(dayIdx, slotKey, fileOrBlob);
       await saveDayMeta(dayIdx);
 
+      selectCanvasSlot(dayIdx, slotKey);
       if (d.preset === 'palette_final' && slotKey === 'final') {
         extractAutoPaletteFromFinal(dayIdx);
       } else {
         refreshDayCardUI(dayIdx);
       }
       updateReadyBadge();
-
-      const presetCfg = PRESETS[d.preset];
-      const curIdx = presetCfg.slots.findIndex(s => s.key === slotKey);
-      let nextKey = null;
-      for (let i = curIdx + 1; i < presetCfg.slots.length; i++) {
-        const k = presetCfg.slots[i].key;
-        if (!d.images[k]) { nextKey = k; break; }
-      }
-      _armedSlot = { dayIdx, slotKey: nextKey || slotKey };
-      updateSlotHud(dayIdx);
     } catch (e) {
       notify('Не удалось прочитать изображение');
     }
-  }
-
-  async function swapSlots(dayIdx, keyA, keyB) {
-    if (keyA === keyB) return;
-    const d = state[dayIdx];
-    const blobA = await getSlotBlob(dayIdx, keyA);
-    const blobB = await getSlotBlob(dayIdx, keyB);
-
-    const imgA = d.images[keyA], imgB = d.images[keyB];
-    const urlA = d.thumbUrls[keyA], urlB = d.thumbUrls[keyB];
-    const trA = d.transforms[keyA] || { scale: 1, panX: 0, panY: 0 };
-    const trB = d.transforms[keyB] || { scale: 1, panX: 0, panY: 0 };
-
-    if (imgB) { d.images[keyA] = imgB; d.thumbUrls[keyA] = urlB; }
-    else { delete d.images[keyA]; delete d.thumbUrls[keyA]; }
-
-    if (imgA) { d.images[keyB] = imgA; d.thumbUrls[keyB] = urlA; }
-    else { delete d.images[keyB]; delete d.thumbUrls[keyB]; }
-
-    d.transforms[keyA] = trB;
-    d.transforms[keyB] = trA;
-
-    await saveSlotBlob(dayIdx, keyA, blobB);
-    await saveSlotBlob(dayIdx, keyB, blobA);
-    await saveDayMeta(dayIdx);
-
-    _armedSlot = { dayIdx, slotKey: keyB };
-    refreshDayCardUI(dayIdx);
-    notify('⇄ Слоты поменялись местами');
   }
 
   async function removeSlotImage(dayIdx, slotKey) {
@@ -6958,6 +6333,9 @@ const TwitterPlanner = (() => {
     delete d.images[slotKey];
     delete d.thumbUrls[slotKey];
     delete d.transforms[slotKey];
+    if (_armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotKey === slotKey) {
+      _armedSlot = null;
+    }
     await saveSlotBlob(dayIdx, slotKey, null);
     await saveDayMeta(dayIdx);
     refreshDayCardUI(dayIdx);
@@ -6965,7 +6343,6 @@ const TwitterPlanner = (() => {
   }
 
   function triggerFileDialog(dayIdx, slotKey) {
-    _armedSlot = { dayIdx, slotKey };
     const inp = document.createElement('input');
     inp.type = 'file';
     inp.accept = 'image/*';
@@ -6976,7 +6353,7 @@ const TwitterPlanner = (() => {
     inp.click();
   }
 
-  /* ── 6. PNG EXPORT ── */
+  /* 7. PNG EXPORT */
   function exportCanvasToBlob(canvas) {
     return new Promise(resolve => {
       canvas.toBlob(blob => resolve(blob), 'image/png', 1.0);
@@ -7000,7 +6377,7 @@ const TwitterPlanner = (() => {
     a.click();
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1500);
-    notify(`🖼 Скачано: ${dayMeta.num}_${dayMeta.code}.png`);
+    notify(`Скачано: ${dayMeta.num}_${dayMeta.code}.png`);
   }
 
   async function downloadWholeWeek() {
@@ -7009,13 +6386,13 @@ const TwitterPlanner = (() => {
       notify('Нет заполненных дней для скачивания');
       return;
     }
-    notify(`⏳ Экспорт карточек недели (${readyDays.length} шт.)...`);
+    notify(`Экспорт карточек недели (${readyDays.length} шт.)...`);
     for (let i = 0; i < readyDays.length; i++) {
       const d = readyDays[i];
       await downloadSingleDay(d.idx);
       await new Promise(r => setTimeout(r, 260));
     }
-    notify(`✓ Вся неделя скачана (${readyDays.length} PNG)`);
+    notify(`Вся неделя скачана (${readyDays.length} PNG)`);
   }
 
   async function clearWholeWeek() {
@@ -7031,7 +6408,6 @@ const TwitterPlanner = (() => {
     if (!confirmed) return;
 
     _armedSlot = null;
-    _hoveredSlot = null;
 
     state.forEach(d => {
       Object.values(d.thumbUrls).forEach(u => URL.revokeObjectURL(u));
@@ -7057,7 +6433,7 @@ const TwitterPlanner = (() => {
     notify('Неделя полностью очищена');
   }
 
-  /* ── 7. INLINE HOOKS & OUTROS NOTEBOOK ── */
+  /* 7B. HOOKS & OUTROS NOTEBOOK (NO EMOJIS) */
   let _hooksPopDayIdx = null;
   let _hooksPopEl = null;
 
@@ -7085,7 +6461,7 @@ const TwitterPlanner = (() => {
     const trimmed = txt.trim();
     if (!trimmed) return { hook: '', outro: '', hasSplit: false };
     const nb = getNbData();
-    const isKnownOutro = nb.outros.includes(trimmed) || trimmed.endsWith('?') || trimmed.endsWith('👇');
+    const isKnownOutro = nb.outros.includes(trimmed) || trimmed.endsWith('?');
     if (isKnownOutro && !nb.hooks.includes(trimmed)) {
       return { hook: '', outro: trimmed, hasSplit: false };
     }
@@ -7106,22 +6482,14 @@ const TwitterPlanner = (() => {
     saveDayMeta(dayIdx);
   }
 
-  function cycleNextHook(dayIdx) {
-    const nb = getNbData();
-    if (!nb.hooks.length) { notify('В блокноте пока нет хуков'); return; }
+  function insertHookIntoDay(dayIdx, hookText) {
     const cur = splitPostIntoHookAndOutro(state[dayIdx].caption);
-    const idx = nb.hooks.indexOf(cur.hook);
-    const nextH = nb.hooks[(idx + 1) % nb.hooks.length];
-    applyHookAndOutroToDay(dayIdx, nextH, cur.outro);
+    applyHookAndOutroToDay(dayIdx, hookText, cur.outro);
   }
 
-  function cycleNextOutro(dayIdx) {
-    const nb = getNbData();
-    if (!nb.outros.length) { notify('В блокноте пока нет вопросов'); return; }
+  function insertOutroIntoDay(dayIdx, outroText) {
     const cur = splitPostIntoHookAndOutro(state[dayIdx].caption);
-    const idx = nb.outros.indexOf(cur.outro);
-    const nextO = nb.outros[(idx + 1) % nb.outros.length];
-    applyHookAndOutroToDay(dayIdx, cur.hook, nextO);
+    applyHookAndOutroToDay(dayIdx, cur.hook, outroText);
   }
 
   function mixRandomHookAndOutro(dayIdx) {
@@ -7129,17 +6497,17 @@ const TwitterPlanner = (() => {
     const h = nb.hooks.length ? nb.hooks[Math.floor(Math.random() * nb.hooks.length)] : '';
     const o = nb.outros.length ? nb.outros[Math.floor(Math.random() * nb.outros.length)] : '';
     if (!h && !o) {
-      notify('Добавь хотя бы одну фразу в блокнот');
+      notify('Добавьте хотя бы одну фразу в блокнот');
       return;
     }
     applyHookAndOutroToDay(dayIdx, h, o);
-    notify('🎲 Подобран микс: Хук + Вопрос');
+    notify('Подобран микс: Хук + Вопрос');
   }
 
   function saveCurrentPostToNotebook(dayIdx) {
     const raw = (state[dayIdx].caption || '').trim();
     if (!raw) {
-      notify('Сначала напиши текст в поле поста');
+      notify('Сначала напишите текст в поле поста');
       return;
     }
     const { hook, outro } = splitPostIntoHookAndOutro(raw);
@@ -7149,16 +6517,22 @@ const TwitterPlanner = (() => {
 
     if (hook) {
       delSet.delete(hook);
-      if (!nb.hooks.includes(hook)) { nb.hooks.unshift(hook); addedCnt++; }
+      if (!nb.hooks.includes(hook)) {
+        nb.hooks.unshift(hook);
+        addedCnt++;
+      }
     }
     if (outro) {
       delSet.delete(outro);
-      if (!nb.outros.includes(outro)) { nb.outros.unshift(outro); addedCnt++; }
+      if (!nb.outros.includes(outro)) {
+        nb.outros.unshift(outro);
+        addedCnt++;
+      }
     }
     nb.del = [...delSet];
     saveNbData(nb);
     renderHooksPopover();
-    notify(addedCnt > 0 ? '💾 Сохранено в облачный блокнот!' : 'Эта фраза уже есть в блокноте');
+    notify(addedCnt > 0 ? 'Сохранено в облачный блокнот' : 'Эта фраза уже есть в блокноте');
   }
 
   function addPhraseToNotebook(kind, text) {
@@ -7170,10 +6544,12 @@ const TwitterPlanner = (() => {
     nb.del = [...delSet];
 
     const list = kind === 'outro' ? nb.outros : nb.hooks;
-    if (!list.includes(clean)) list.unshift(clean);
+    if (!list.includes(clean)) {
+      list.unshift(clean);
+    }
     saveNbData(nb);
     renderHooksPopover();
-    notify(kind === 'outro' ? '💬 Вопрос добавлен в блокнот' : '🎬 Хук добавлен в блокнот');
+    notify(kind === 'outro' ? 'Вопрос добавлен в блокнот' : 'Хук добавлен в блокнот');
   }
 
   function removePhraseFromNotebook(kind, text) {
@@ -7182,8 +6558,11 @@ const TwitterPlanner = (() => {
     const delSet = new Set(nb.del || []);
     delSet.add(clean);
     nb.del = [...delSet];
-    if (kind === 'outro') nb.outros = nb.outros.filter(s => s !== clean);
-    else nb.hooks = nb.hooks.filter(s => s !== clean);
+    if (kind === 'outro') {
+      nb.outros = nb.outros.filter(s => s !== clean);
+    } else {
+      nb.hooks = nb.hooks.filter(s => s !== clean);
+    }
     saveNbData(nb);
     renderHooksPopover();
   }
@@ -7205,8 +6584,7 @@ const TwitterPlanner = (() => {
   function closeHooksPopover() {
     _hooksPopDayIdx = null;
     if (_hooksPopEl) _hooksPopEl.classList.remove('on');
-    document.querySelectorAll('.xp-ichip.on').forEach(b => b.classList.remove('on'));
-    document.querySelectorAll('.xp-inline-chips.keep-open').forEach(c => c.classList.remove('keep-open'));
+    document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
   }
 
   function positionHooksPopover(anchorBtn) {
@@ -7215,9 +6593,9 @@ const TwitterPlanner = (() => {
     const r = anchorBtn.getBoundingClientRect();
     const popW = 500;
     const popH = pop.offsetHeight || 310;
-    let left = r.left;
-    if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
+    let left = r.right - popW;
     if (left < 12) left = 12;
+    if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
 
     let top = r.bottom + 8;
     if (top + popH > window.innerHeight - 12) {
@@ -7242,8 +6620,8 @@ const TwitterPlanner = (() => {
     const titleWrap = document.createElement('div');
     titleWrap.className = 'xp-hp-title';
     titleWrap.innerHTML = `
-      <span>⚡ Блокнот фраз (${DAYS[dIdx].code})</span>
-      <span class="xp-hp-cloud${hasCloud ? ' synced' : ''}">${hasCloud ? '☁️ Firebase' : 'Локально'}</span>
+      <span>Конструктор поста (${DAYS[dIdx].code})</span>
+      <span class="xp-hp-cloud${hasCloud ? ' synced' : ''}">${hasCloud ? 'Firebase' : 'Локально'}</span>
     `;
 
     const actions = document.createElement('div');
@@ -7252,13 +6630,13 @@ const TwitterPlanner = (() => {
     const mixBtn = document.createElement('button');
     mixBtn.type = 'button';
     mixBtn.className = 'xp-hp-act';
-    mixBtn.textContent = '🎲 Микс';
+    mixBtn.textContent = 'Микс';
     mixBtn.addEventListener('click', () => mixRandomHookAndOutro(dIdx));
 
     const savePostBtn = document.createElement('button');
     savePostBtn.type = 'button';
     savePostBtn.className = 'xp-hp-act';
-    savePostBtn.textContent = '💾 Из поста';
+    savePostBtn.textContent = 'Из поста';
     savePostBtn.addEventListener('click', () => saveCurrentPostToNotebook(dIdx));
 
     const closeBtn = document.createElement('button');
@@ -7292,6 +6670,7 @@ const TwitterPlanner = (() => {
       items.forEach(phrase => {
         const item = document.createElement('div');
         item.className = 'xp-hb-item';
+
         const txtSpan = document.createElement('span');
         txtSpan.className = 'xp-hb-txt';
         txtSpan.textContent = phrase;
@@ -7308,9 +6687,8 @@ const TwitterPlanner = (() => {
         item.appendChild(txtSpan);
         item.appendChild(delBtn);
         item.addEventListener('click', () => {
-          const cur = splitPostIntoHookAndOutro(state[dIdx].caption);
-          if (kind === 'outro') applyHookAndOutroToDay(dIdx, cur.hook, phrase);
-          else applyHookAndOutroToDay(dIdx, phrase, cur.outro);
+          if (kind === 'outro') insertOutroIntoDay(dIdx, phrase);
+          else insertHookIntoDay(dIdx, phrase);
         });
         list.appendChild(item);
       });
@@ -7334,7 +6712,10 @@ const TwitterPlanner = (() => {
         addPhraseToNotebook(kind, v);
       };
       inp.addEventListener('keydown', ev => {
-        if (ev.key === 'Enter') { ev.preventDefault(); submitAdd(); }
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          submitAdd();
+        }
       });
       addBtn.addEventListener('click', submitAdd);
 
@@ -7344,23 +6725,20 @@ const TwitterPlanner = (() => {
       return col;
     };
 
-    cols.appendChild(buildCol('hook', '🎬 Начало (Хук)', nb.hooks, '+ Свой хук (Enter)...'));
-    cols.appendChild(buildCol('outro', '💬 Концовка (Вопрос)', nb.outros, '+ Свой вопрос (Enter)...'));
+    cols.appendChild(buildCol('hook', 'Начало (Хук)', nb.hooks, '+ Свой хук (Enter)...'));
+    cols.appendChild(buildCol('outro', 'Концовка (Вопрос)', nb.outros, '+ Свой вопрос (Enter)...'));
     pop.appendChild(cols);
   }
 
   function toggleHooksPopover(dayIdx, btnEl) {
+    closeAllCardMenus();
     if (_hooksPopDayIdx === dayIdx && _hooksPopEl && _hooksPopEl.classList.contains('on')) {
       closeHooksPopover();
       return;
     }
-    closeHooksPopover();
     _hooksPopDayIdx = dayIdx;
-    if (btnEl) {
-      btnEl.classList.add('on');
-      const chipWrap = btnEl.closest('.xp-inline-chips');
-      if (chipWrap) chipWrap.classList.add('keep-open');
-    }
+    document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
+    if (btnEl) btnEl.classList.add('on');
 
     const pop = ensureHooksPopoverDOM();
     renderHooksPopover();
@@ -7374,7 +6752,27 @@ const TwitterPlanner = (() => {
     }
   };
 
-  /* ── 8. CLEAN STUDIO DOM CARDS BUILDER ── */
+  /* 8. CARD THREE-DOTS POPOVER MENU & DOM BUILDER */
+  function closeAllCardMenus() {
+    _openMenuDayIdx = null;
+    document.querySelectorAll('.xp-card-menu.on').forEach(m => m.classList.remove('on'));
+    document.querySelectorAll('.xp-dots-btn.on').forEach(b => b.classList.remove('on'));
+  }
+
+  function toggleCardMenu(dayIdx) {
+    closeHooksPopover();
+    const menu = document.getElementById(`xp-cmenu-${dayIdx}`);
+    const btn = document.getElementById(`xp-dots-${dayIdx}`);
+    if (!menu || !btn) return;
+    const isNowOpen = !menu.classList.contains('on');
+    closeAllCardMenus();
+    if (isNowOpen) {
+      _openMenuDayIdx = dayIdx;
+      menu.classList.add('on');
+      btn.classList.add('on');
+    }
+  }
+
   function autoResizeCaption(ta) {
     if (!ta) return;
     ta.style.height = 'auto';
@@ -7383,7 +6781,7 @@ const TwitterPlanner = (() => {
       ta.style.height = Math.max(40, Math.min(220, sh)) + 'px';
     } else {
       const lines = (ta.value || '').split('\n').length;
-      ta.style.height = Math.max(40, Math.min(220, lines * 22 + 10)) + 'px';
+      ta.style.height = Math.max(40, Math.min(220, lines * 22 + 12)) + 'px';
     }
   }
 
@@ -7441,7 +6839,7 @@ const TwitterPlanner = (() => {
       leftCol.className = 'xp-tw-left';
       leftCol.innerHTML = `
         <div class="xp-tw-avatar" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/>
           </svg>
         </div>
@@ -7450,58 +6848,48 @@ const TwitterPlanner = (() => {
       const bodyCol = document.createElement('div');
       bodyCol.className = 'xp-tw-body';
 
-      // 1. Чистая шапка карточки: День недели (в Студии) или Профиль X (в Ленте X) + контекстные настройки макета
+      // 1. Шапка поста X с кнопкой троеточия (•••), открывающей поповер без сдвига карточки
       const hdr = document.createElement('div');
       hdr.className = 'xp-tw-hdr';
 
       const userRow = document.createElement('div');
       userRow.className = 'xp-tw-user';
       userRow.innerHTML = `
-        <span class="xp-studio-day"><span class="xp-studio-num">${dayMeta.num}</span>${dayMeta.ru}</span>
-        <span class="xp-feed-identity">
-          <span class="xp-tw-name" id="xp-tw-name-${dIdx}">${displayName}</span>
-          <span class="xp-tw-verified" aria-hidden="true">
-            <svg viewBox="0 0 22 22" width="16" height="16" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
-          </span>
-          <span class="xp-tw-handle" id="xp-tw-hdl-${dIdx}">${atHandle} · ${dayMeta.ru}</span>
+        <span class="xp-tw-name" id="xp-tw-name-${dIdx}">${displayName}</span>
+        <span class="xp-tw-verified" title="Verified" aria-hidden="true">
+          <svg viewBox="0 0 22 22" width="15" height="15" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
         </span>
-        <span class="xp-day-dot" title="Статус готовности"></span>
+        <span class="xp-tw-handle" id="xp-tw-hdl-${dIdx}">${atHandle} · ${dayMeta.ru}</span>
+        <span class="xp-day-dot" title="Индикатор готовности"></span>
       `;
 
       const hdrControls = document.createElement('div');
       hdrControls.className = 'xp-hdr-controls';
 
-      const padBtn = document.createElement('button');
-      padBtn.type = 'button';
-      padBtn.className = 'xp-pad-toggle';
-      padBtn.id = `xp-pad-${dIdx}`;
-      padBtn.title = 'Поля холста: L (56px) · S (24px) · 0 (Без полей)';
-      padBtn.textContent = dState.padMode || 'L';
-      padBtn.addEventListener('click', () => {
-        const order = ['L', 'S', '0'];
-        const cur = dState.padMode || 'L';
-        const next = order[(order.indexOf(cur) + 1) % order.length];
-        dState.padMode = next;
-        saveDayMeta(dIdx);
-        refreshDayCardUI(dIdx);
+      const dotsBtn = document.createElement('button');
+      dotsBtn.type = 'button';
+      dotsBtn.className = 'xp-dots-btn';
+      dotsBtn.id = `xp-dots-${dIdx}`;
+      dotsBtn.title = 'Настройки карточки (Шаблон, Фон, Отступы)';
+      dotsBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>`;
+      dotsBtn.addEventListener('click', ev => {
+        ev.stopPropagation();
+        toggleCardMenu(dIdx);
       });
 
-      const bgBtn = document.createElement('button');
-      bgBtn.type = 'button';
-      bgBtn.className = 'xp-bg-toggle';
-      bgBtn.id = `xp-bg-${dIdx}`;
-      bgBtn.title = 'Фон карточки: Светлый / Тёмный';
-      bgBtn.textContent = dState.bgTheme === 'dark' ? '🌙' : '☀️';
-      bgBtn.addEventListener('click', () => {
-        dState.bgTheme = dState.bgTheme === 'dark' ? 'light' : 'dark';
-        saveDayMeta(dIdx);
-        refreshDayCardUI(dIdx);
-      });
+      // Абсолютное всплывающее меню настроек карточки (не двигает верстку)
+      const cMenu = document.createElement('div');
+      cMenu.className = 'xp-card-menu';
+      cMenu.id = `xp-cmenu-${dIdx}`;
+      cMenu.addEventListener('click', ev => ev.stopPropagation());
 
+      // Секция 1: Шаблон сетки
+      const secPreset = document.createElement('div');
+      secPreset.className = 'xp-cm-sec';
+      secPreset.innerHTML = `<span class="xp-cm-lbl">Шаблон сетки</span>`;
       const sel = document.createElement('select');
       sel.className = 'xp-preset-sel';
       sel.id = `xp-pres-${dIdx}`;
-      sel.setAttribute('aria-label', 'Выбор шаблона');
       Object.values(PRESETS).forEach(pr => {
         const opt = document.createElement('option');
         opt.value = pr.id;
@@ -7511,27 +6899,83 @@ const TwitterPlanner = (() => {
       });
       sel.addEventListener('change', () => {
         dState.preset = sel.value;
+        _armedSlot = null;
         saveDayMeta(dIdx);
         refreshDayCardUI(dIdx);
         updateReadyBadge();
       });
+      secPreset.appendChild(sel);
+      cMenu.appendChild(secPreset);
 
-      hdrControls.appendChild(padBtn);
-      hdrControls.appendChild(bgBtn);
-      hdrControls.appendChild(sel);
+      // Секция 2: Фон холста (Светлый / Тёмный)
+      const secBg = document.createElement('div');
+      secBg.className = 'xp-cm-sec';
+      secBg.innerHTML = `<span class="xp-cm-lbl">Фон карточки</span>`;
+      const segBg = document.createElement('div');
+      segBg.className = 'xp-cm-seg';
+      ['light', 'dark'].forEach(modeKey => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'xp-cm-opt' + (dState.bgTheme === modeKey ? ' on' : '');
+        b.dataset.bg = modeKey;
+        b.textContent = modeKey === 'light' ? 'Светлый' : 'Тёмный';
+        b.addEventListener('click', () => {
+          dState.bgTheme = modeKey;
+          saveDayMeta(dIdx);
+          refreshDayCardUI(dIdx);
+        });
+        segBg.appendChild(b);
+      });
+      secBg.appendChild(segBg);
+      cMenu.appendChild(secBg);
+
+      // Секция 3: Поля вокруг превью (L / S / 0)
+      const secPad = document.createElement('div');
+      secPad.className = 'xp-cm-sec';
+      secPad.innerHTML = `<span class="xp-cm-lbl">Отступы краёв</span>`;
+      const segPad = document.createElement('div');
+      segPad.className = 'xp-cm-seg';
+      [
+        { k: 'L', lbl: 'Широкие' },
+        { k: 'S', lbl: 'Узкие' },
+        { k: '0', lbl: 'Без полей' }
+      ].forEach(pItem => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'xp-cm-opt' + ((dState.padMode || 'L') === pItem.k ? ' on' : '');
+        b.dataset.pad = pItem.k;
+        b.textContent = pItem.lbl;
+        b.addEventListener('click', () => {
+          dState.padMode = pItem.k;
+          saveDayMeta(dIdx);
+          refreshDayCardUI(dIdx);
+        });
+        segPad.appendChild(b);
+      });
+      secPad.appendChild(segPad);
+      cMenu.appendChild(secPad);
+
+      // Секция 4: Дополнительные настройки выбранного пресета (бейджи / подписи / палитра)
+      const extraBox = document.createElement('div');
+      extraBox.className = 'xp-extra';
+      extraBox.id = `xp-extra-${dIdx}`;
+      cMenu.appendChild(extraBox);
+
+      hdrControls.appendChild(dotsBtn);
+      hdrControls.appendChild(cMenu);
       hdr.appendChild(userRow);
       hdr.appendChild(hdrControls);
       bodyCol.appendChild(hdr);
 
-      // 2. Полноширинное поле текста поста + встроенные чипсы конструктора (появляются при фокусе)
-      const capWrap = document.createElement('div');
-      capWrap.className = 'xp-caption-wrap';
+      // 2. Текст поста + кнопки «Хуки» и «Копировать»
+      const textRow = document.createElement('div');
+      textRow.className = 'xp-tw-text-row';
 
       const ta = document.createElement('textarea');
       ta.className = 'xp-caption';
       ta.id = `xp-cap-${dIdx}`;
       ta.rows = 2;
-      ta.placeholder = 'Текст поста (кликни, чтобы выбрать хук или вопрос)...';
+      ta.placeholder = 'one of my fav thumbnails\n\nwould you click this?';
       ta.value = dState.caption;
       ta.addEventListener('input', () => {
         dState.caption = ta.value;
@@ -7540,166 +6984,128 @@ const TwitterPlanner = (() => {
       });
       ta.addEventListener('focus', () => autoResizeCaption(ta));
 
-      const chipsRow = document.createElement('div');
-      chipsRow.className = 'xp-inline-chips';
-
-      const cHook = document.createElement('button');
-      cHook.type = 'button';
-      cHook.className = 'xp-ichip';
-      cHook.textContent = '🎬 Хук ↻';
-      cHook.title = 'Подставить следующий хук из блокнота';
-      cHook.addEventListener('click', () => cycleNextHook(dIdx));
-
-      const cOutro = document.createElement('button');
-      cOutro.type = 'button';
-      cOutro.className = 'xp-ichip';
-      cOutro.textContent = '💬 Вопрос ↻';
-      cOutro.title = 'Подставить следующий вопрос из блокнота';
-      cOutro.addEventListener('click', () => cycleNextOutro(dIdx));
-
-      const cMix = document.createElement('button');
-      cMix.type = 'button';
-      cMix.className = 'xp-ichip';
-      cMix.textContent = '🎲 Микс';
-      cMix.title = 'Случайная комбинация Хук + Вопрос';
-      cMix.addEventListener('click', () => mixRandomHookAndOutro(dIdx));
-
-      const cNb = document.createElement('button');
-      cNb.type = 'button';
-      cNb.className = 'xp-ichip';
-      cNb.id = `xp-hooks-btn-${dIdx}`;
-      cNb.textContent = '⚡ Блокнот...';
-      cNb.title = 'Открыть полный блокнот фраз';
-      cNb.addEventListener('click', ev => {
-        ev.stopPropagation();
-        toggleHooksPopover(dIdx, cNb);
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'xp-copy-cap';
+      copyBtn.textContent = 'Копировать';
+      copyBtn.addEventListener('click', () => {
+        const txt = ta.value.trim();
+        if (!txt) { notify('Сначала напишите текст поста'); return; }
+        const onCopied = () => {
+          copyBtn.classList.add('copied');
+          copyBtn.textContent = 'Скопировано';
+          notify('Текст поста скопирован');
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.textContent = 'Копировать';
+          }, 1400);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(onCopied);
+        }
       });
 
-      chipsRow.appendChild(cHook);
-      chipsRow.appendChild(cOutro);
-      chipsRow.appendChild(cMix);
-      chipsRow.appendChild(cNb);
+      const textActions = document.createElement('div');
+      textActions.className = 'xp-tw-text-actions';
 
-      capWrap.appendChild(ta);
-      capWrap.appendChild(chipsRow);
-      bodyCol.appendChild(capWrap);
+      const hooksBtn = document.createElement('button');
+      hooksBtn.type = 'button';
+      hooksBtn.className = 'xp-hooks-btn';
+      hooksBtn.id = `xp-hooks-btn-${dIdx}`;
+      hooksBtn.textContent = 'Хуки';
+      hooksBtn.addEventListener('click', ev => {
+        ev.stopPropagation();
+        toggleHooksPopover(dIdx, hooksBtn);
+      });
 
-      // 3. Контекстные настройки пресета (бейджи / палитра — только когда нужны)
-      const extraBox = document.createElement('div');
-      extraBox.className = 'xp-extra';
-      extraBox.id = `xp-extra-${dIdx}`;
-      bodyCol.appendChild(extraBox);
+      textActions.appendChild(hooksBtn);
+      textActions.appendChild(copyBtn);
+      textRow.appendChild(ta);
+      textRow.appendChild(textActions);
+      bodyCol.appendChild(textRow);
 
-      // 4. Сам Холст (с прямым взаимодействием и парящим мини-HUD поверх слота)
+      // 3. Интерактивный Canvas со всплывающей пилюлей управления слотом ПОВЕРХ холста (без сдвига высоты карточки!)
       const stage = document.createElement('div');
       stage.className = 'xp-canvas-stage';
-
       const cv = document.createElement('canvas');
       cv.className = 'xp-canvas';
       cv.id = `xp-cv-${dIdx}`;
       stage.appendChild(cv);
 
-      const hud = document.createElement('div');
-      hud.className = 'xp-slot-hud';
-      hud.id = `xp-hud-${dIdx}`;
-      hud.innerHTML = `
-        <span class="xp-hud-lbl">Final · 100%</span>
-        <button type="button" class="xp-hud-btn" data-hact="fit" title="Вписать целиком">Вписать</button>
-        <button type="button" class="xp-hud-btn" data-hact="reset" title="Сбросить масштаб 100%">1:1</button>
-        <button type="button" class="xp-hud-btn" data-hact="rep" title="Заменить файл">Зам.</button>
-        <button type="button" class="xp-hud-btn danger" data-hact="del" title="Очистить слот">×</button>
+      const slotFloat = document.createElement('div');
+      slotFloat.className = 'xp-slot-float';
+      slotFloat.id = `xp-sf-${dIdx}`;
+      slotFloat.innerHTML = `
+        <span class="xp-sf-lbl">Слот</span>
+        <input type="range" class="xp-sf-range" min="25" max="350" step="1" value="100" title="Масштаб"/>
+        <button type="button" class="xp-sf-btn" data-act="replace">Заменить</button>
+        <button type="button" class="xp-sf-btn" data-act="fit">Вписать</button>
+        <button type="button" class="xp-sf-btn" data-act="reset">100%</button>
+        <button type="button" class="xp-sf-btn danger" data-act="del" title="Очистить слот">Удалить</button>
+        <button type="button" class="xp-sf-btn" data-act="done" title="Скрыть панель">×</button>
       `;
-      hud.addEventListener('pointerdown', ev => ev.stopPropagation());
-      hud.querySelector('[data-hact="fit"]').addEventListener('click', ev => {
-        ev.stopPropagation();
-        const k = hud.dataset.slot;
-        if (k) fitSlotContain(dIdx, k);
+      slotFloat.addEventListener('pointerdown', ev => ev.stopPropagation());
+      slotFloat.addEventListener('click', ev => ev.stopPropagation());
+
+      const sfRange = slotFloat.querySelector('.xp-sf-range');
+      sfRange.addEventListener('input', () => {
+        if (!_armedSlot || _armedSlot.dayIdx !== dIdx) return;
+        const tr = getSlotTransform(dState, _armedSlot.slotKey);
+        tr.scale = parseInt(sfRange.value, 10) / 100;
+        renderDayCanvas(dIdx);
+        saveDayMeta(dIdx);
       });
-      hud.querySelector('[data-hact="reset"]').addEventListener('click', ev => {
-        ev.stopPropagation();
-        const k = hud.dataset.slot;
-        if (k) {
-          dState.transforms[k] = { scale: 1, panX: 0, panY: 0 };
-          renderDayCanvas(dIdx);
-          updateSlotHud(dIdx);
-          saveDayMeta(dIdx);
-        }
+      slotFloat.querySelector('[data-act="replace"]').addEventListener('click', () => {
+        if (_armedSlot && _armedSlot.dayIdx === dIdx) triggerFileDialog(dIdx, _armedSlot.slotKey);
       });
-      hud.querySelector('[data-hact="rep"]').addEventListener('click', ev => {
-        ev.stopPropagation();
-        const k = hud.dataset.slot;
-        if (k) triggerFileDialog(dIdx, k);
+      slotFloat.querySelector('[data-act="fit"]').addEventListener('click', () => {
+        if (_armedSlot && _armedSlot.dayIdx === dIdx) fitSlotContain(dIdx, _armedSlot.slotKey);
       });
-      hud.querySelector('[data-hact="del"]').addEventListener('click', ev => {
-        ev.stopPropagation();
-        const k = hud.dataset.slot;
-        if (k) removeSlotImage(dIdx, k);
+      slotFloat.querySelector('[data-act="reset"]').addEventListener('click', () => {
+        if (!_armedSlot || _armedSlot.dayIdx !== dIdx) return;
+        dState.transforms[_armedSlot.slotKey] = { scale: 1, panX: 0, panY: 0 };
+        renderDayCanvas(dIdx);
+        updateFloatingSlotPillUI(dIdx);
+        saveDayMeta(dIdx);
+      });
+      slotFloat.querySelector('[data-act="del"]').addEventListener('click', () => {
+        if (_armedSlot && _armedSlot.dayIdx === dIdx) removeSlotImage(dIdx, _armedSlot.slotKey);
+      });
+      slotFloat.querySelector('[data-act="done"]').addEventListener('click', () => {
+        selectCanvasSlot(null, null);
       });
 
-      stage.appendChild(hud);
+      stage.appendChild(slotFloat);
       bodyCol.appendChild(stage);
-      bindDirectCanvasEvents(dIdx, cv);
+      bindCanvasDirectEvents(dIdx, cv);
 
-      // 5. Лаконичный подвал карточки: подсказка (в Студии) или иконки X (в Ленте) + Копировать текст и Скачать PNG
-      const footer = document.createElement('div');
-      footer.className = 'xp-card-footer';
-      footer.innerHTML = `
-        <span class="xp-studio-hint" id="xp-hint-${dIdx}">Клик по слоту — загрузить · ⌘V — вставить</span>
+      // 4. Лаконичный подвал в стиле X (минималистичные иконки + кнопка Скачать PNG)
+      const metricsRow = document.createElement('div');
+      metricsRow.className = 'xp-tw-metrics';
+      metricsRow.innerHTML = `
         <div class="xp-tw-icons" aria-hidden="true">
           <span class="xp-tw-stat">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01z"/></svg>
-            <span>2</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01z"/></svg>
           </span>
           <span class="xp-tw-stat">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-          </span>
-          <span class="xp-tw-stat liked">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.884 13.19c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg>
-            <span>12</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
           </span>
           <span class="xp-tw-stat">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M8 18V9m4 9V5m4 13v-6m4 6V10M4 18v-3"/></svg>
-            <span>315</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20.884 13.19c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg>
+          </span>
+          <span class="xp-tw-stat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M8 18V9m4 9V5m4 13v-6m4 6V10M4 18v-3"/></svg>
           </span>
         </div>
       `;
 
-      const footActions = document.createElement('div');
-      footActions.className = 'xp-footer-actions';
-
-      const copyBtn = document.createElement('button');
-      copyBtn.type = 'button';
-      copyBtn.className = 'xp-copy-cap';
-      copyBtn.title = 'Скопировать текст поста';
-      const defaultCopyHtml = `<span>Копировать текст</span>`;
-      copyBtn.innerHTML = defaultCopyHtml;
-      copyBtn.addEventListener('click', () => {
-        const txt = ta.value.trim();
-        if (!txt) { notify('Сначала напиши текст поста'); return; }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(txt).then(() => {
-            copyBtn.classList.add('copied');
-            copyBtn.innerHTML = `<span>✓ Скопировано</span>`;
-            notify('📋 Текст поста скопирован');
-            setTimeout(() => {
-              copyBtn.classList.remove('copied');
-              copyBtn.innerHTML = defaultCopyHtml;
-            }, 1400);
-          });
-        }
-      });
-
       const dlBtn = document.createElement('button');
       dlBtn.type = 'button';
       dlBtn.className = 'xp-btn xp-btn-primary xp-btn-sm';
-      dlBtn.title = `Скачать ${dayMeta.num}_${dayMeta.code}.png (1920px)`;
-      dlBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>PNG</span>`;
+      dlBtn.textContent = 'Скачать PNG';
       dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
-
-      footActions.appendChild(copyBtn);
-      footActions.appendChild(dlBtn);
-      footer.appendChild(footActions);
-      bodyCol.appendChild(footer);
+      metricsRow.appendChild(dlBtn);
+      bodyCol.appendChild(metricsRow);
 
       postWrap.appendChild(leftCol);
       postWrap.appendChild(bodyCol);
@@ -7718,17 +7124,18 @@ const TwitterPlanner = (() => {
 
     const card = document.getElementById(`xp-card-${dayIdx}`);
     const sel = document.getElementById(`xp-pres-${dayIdx}`);
-    const padBtn = document.getElementById(`xp-pad-${dayIdx}`);
-    const bgBtn = document.getElementById(`xp-bg-${dayIdx}`);
+    const cMenu = document.getElementById(`xp-cmenu-${dayIdx}`);
     const extraBox = document.getElementById(`xp-extra-${dayIdx}`);
     const capEl = document.getElementById(`xp-cap-${dayIdx}`);
-    const hintEl = document.getElementById(`xp-hint-${dayIdx}`);
 
-    if (padBtn) padBtn.textContent = d.padMode || 'L';
     if (sel && sel.value !== d.preset) sel.value = d.preset;
-    if (bgBtn) {
-      bgBtn.textContent = d.bgTheme === 'dark' ? '🌙' : '☀️';
-      bgBtn.classList.toggle('is-dark', d.bgTheme === 'dark');
+    if (cMenu) {
+      cMenu.querySelectorAll('[data-bg]').forEach(b => {
+        b.classList.toggle('on', b.dataset.bg === d.bgTheme);
+      });
+      cMenu.querySelectorAll('[data-pad]').forEach(b => {
+        b.classList.toggle('on', b.dataset.pad === (d.padMode || 'L'));
+      });
     }
     if (capEl && document.activeElement !== capEl) {
       capEl.value = d.caption;
@@ -7739,13 +7146,18 @@ const TwitterPlanner = (() => {
       extraBox.innerHTML = '';
       if (d.preset === 'stack2') {
         extraBox.classList.add('on');
+        const lbl = document.createElement('span');
+        lbl.className = 'xp-cm-lbl';
+        lbl.textContent = 'Бейджи на превью';
+        extraBox.appendChild(lbl);
+
         const lblRow = document.createElement('div');
         lblRow.className = 'xp-lbl-inputs';
 
         const inpTop = document.createElement('input');
         inpTop.type = 'text';
         inpTop.className = 'xp-inp-sm';
-        inpTop.placeholder = 'Бейдж сверху (Option A / До)';
+        inpTop.placeholder = 'Сверху (Option A)';
         inpTop.value = d.badgeTop;
         inpTop.addEventListener('input', () => {
           d.badgeTop = inpTop.value;
@@ -7756,7 +7168,7 @@ const TwitterPlanner = (() => {
         const inpBot = document.createElement('input');
         inpBot.type = 'text';
         inpBot.className = 'xp-inp-sm';
-        inpBot.placeholder = 'Бейдж снизу (Option B / После)';
+        inpBot.placeholder = 'Снизу (Option B)';
         inpBot.value = d.badgeBot;
         inpBot.addEventListener('input', () => {
           d.badgeBot = inpBot.value;
@@ -7769,13 +7181,18 @@ const TwitterPlanner = (() => {
         extraBox.appendChild(lblRow);
       } else if (d.preset === 'assets_inspo') {
         extraBox.classList.add('on');
+        const lbl = document.createElement('span');
+        lbl.className = 'xp-cm-lbl';
+        lbl.textContent = 'Подписи колонок';
+        extraBox.appendChild(lbl);
+
         const lblRow = document.createElement('div');
         lblRow.className = 'xp-lbl-inputs';
 
         const inpL = document.createElement('input');
         inpL.type = 'text';
         inpL.className = 'xp-inp-sm';
-        inpL.placeholder = 'Подпись слева (assets)';
+        inpL.placeholder = 'Слева (assets)';
         inpL.value = d.labelLeft;
         inpL.addEventListener('input', () => {
           d.labelLeft = inpL.value;
@@ -7786,7 +7203,7 @@ const TwitterPlanner = (() => {
         const inpR = document.createElement('input');
         inpR.type = 'text';
         inpR.className = 'xp-inp-sm';
-        inpR.placeholder = 'Подпись справа (inspo)';
+        inpR.placeholder = 'Справа (inspo)';
         inpR.value = d.labelRight;
         inpR.addEventListener('input', () => {
           d.labelRight = inpR.value;
@@ -7799,6 +7216,11 @@ const TwitterPlanner = (() => {
         extraBox.appendChild(lblRow);
       } else if (d.preset === 'palette_final') {
         extraBox.classList.add('on');
+        const lbl = document.createElement('span');
+        lbl.className = 'xp-cm-lbl';
+        lbl.textContent = 'Палитра цветов';
+        extraBox.appendChild(lbl);
+
         const palBar = document.createElement('div');
         palBar.className = 'xp-palette-bar';
 
@@ -7808,7 +7230,6 @@ const TwitterPlanner = (() => {
           const wrap = document.createElement('label');
           wrap.className = 'xp-color-wrap';
           wrap.style.backgroundColor = hex;
-          wrap.title = `Цвет ${cIdx + 1}: ${hex}`;
 
           const cInp = document.createElement('input');
           cInp.type = 'color';
@@ -7832,7 +7253,7 @@ const TwitterPlanner = (() => {
           const eyeBtn = document.createElement('button');
           eyeBtn.type = 'button';
           eyeBtn.className = 'xp-mini-btn';
-          eyeBtn.textContent = '💧 Пипетка';
+          eyeBtn.textContent = 'Пипетка';
           eyeBtn.addEventListener('click', () => pickWithEyeDropper(dayIdx));
           actions.appendChild(eyeBtn);
         }
@@ -7840,7 +7261,7 @@ const TwitterPlanner = (() => {
         const autoBtn = document.createElement('button');
         autoBtn.type = 'button';
         autoBtn.className = 'xp-mini-btn';
-        autoBtn.textContent = '✨ Авто';
+        autoBtn.textContent = 'Авто';
         autoBtn.addEventListener('click', () => extractAutoPaletteFromFinal(dayIdx));
         actions.appendChild(autoBtn);
 
@@ -7853,19 +7274,13 @@ const TwitterPlanner = (() => {
     }
 
     const loadedCnt = presetCfg.slots.filter(s => Boolean(d.images[s.key])).length;
-    const totalSlots = presetCfg.slots.length;
     if (card) card.classList.toggle('is-ready', loadedCnt > 0);
-    if (hintEl) {
-      hintEl.textContent = loadedCnt > 0
-        ? `Слоты: ${loadedCnt}/${totalSlots} · Тяни кадр мышкой · Alt+Скролл — зум`
-        : `Клик по слоту — выбрать файл · ⌘V — вставить`;
-    }
 
     renderDayCanvas(dayIdx);
-    updateSlotHud(dayIdx);
+    updateFloatingSlotPillUI(dayIdx);
   }
 
-  /* ── 9. VIEW SWITCHING & GLOBAL EVENTS ── */
+  /* 9. VIEW SWITCHING & GLOBAL EVENTS */
   function switchView(mode) {
     _activeView = mode === 'planner' ? 'planner' : 'invoe';
     const invoeBody = document.getElementById('workspace-body');
@@ -7883,7 +7298,9 @@ const TwitterPlanner = (() => {
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
       resizeAllCaptions();
     } else {
+      selectCanvasSlot(null, null);
       closeHooksPopover();
+      closeAllCardMenus();
       if (plannerView) plannerView.style.display = 'none';
       if (invoeBody) invoeBody.style.display = '';
       if (tabInvoe) { tabInvoe.classList.add('on'); tabInvoe.setAttribute('aria-selected', 'true'); }
@@ -7932,8 +7349,14 @@ const TwitterPlanner = (() => {
 
     if (plannerView) {
       plannerView.addEventListener('mousedown', e => {
-        if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-ichip')) {
+        if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-hooks-btn')) {
           closeHooksPopover();
+        }
+        if (_openMenuDayIdx !== null && !e.target.closest('.xp-card-menu, .xp-dots-btn')) {
+          closeAllCardMenus();
+        }
+        if (_armedSlot && !e.target.closest('.xp-canvas, .xp-slot-float')) {
+          selectCanvasSlot(null, null);
         }
       });
       plannerView.addEventListener('scroll', () => {
@@ -7944,6 +7367,7 @@ const TwitterPlanner = (() => {
       }, { passive: true });
     }
 
+    // Вставка картинки по Cmd+V прямо в слот под курсором или выбранный слот
     window.addEventListener('paste', e => {
       if (_activeView !== 'planner') return;
       const items = e.clipboardData && e.clipboardData.items;
@@ -7963,11 +7387,55 @@ const TwitterPlanner = (() => {
       assignFileToSlot(target.dayIdx, target.slotKey, imgFile);
     });
 
+    window.addEventListener('dragenter', e => {
+      if (_activeView === 'planner') {
+        const dz = document.getElementById('drop-zone');
+        if (dz) dz.classList.remove('on');
+      }
+    }, false);
+    window.addEventListener('dragover', e => {
+      if (_activeView === 'planner') {
+        e.preventDefault();
+        const dz = document.getElementById('drop-zone');
+        if (dz) dz.classList.remove('on');
+      }
+    }, false);
+    window.addEventListener('drop', e => {
+      if (_activeView === 'planner') {
+        const dz = document.getElementById('drop-zone');
+        if (dz) dz.classList.remove('on');
+        if (!e.target.closest('.xp-canvas')) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          if (file && file.type && file.type.startsWith('image/')) {
+            const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
+            assignFileToSlot(target.dayIdx, target.slotKey, file);
+          }
+        }
+      }
+    }, true);
+
     window.addEventListener('keydown', e => {
       if (_activeView !== 'planner') return;
-      if (e.key === 'Escape' && _hooksPopDayIdx !== null) {
-        e.preventDefault();
-        closeHooksPopover();
+      const confOpen = document.getElementById('conf-overlay')?.classList.contains('on');
+      const sovOpen = document.getElementById('sov')?.classList.contains('on');
+      if (confOpen || sovOpen) return;
+
+      if (e.key === 'Escape') {
+        if (_hooksPopDayIdx !== null) { e.preventDefault(); closeHooksPopover(); return; }
+        if (_openMenuDayIdx !== null) { e.preventDefault(); closeAllCardMenus(); return; }
+        if (_armedSlot) { e.preventDefault(); selectCanvasSlot(null, null); return; }
+      }
+
+      const k = e.key.toLowerCase();
+      if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) return;
+      if (e.key === 'Escape') return;
+
+      const activeTag = document.activeElement ? document.activeElement.tagName : '';
+      const inInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
+      if (!inInput) {
+        e.stopImmediatePropagation();
       }
     }, true);
   }
