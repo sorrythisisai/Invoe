@@ -31,7 +31,7 @@
   --lasso-fill:rgba(37,99,235,0.09);
   --shadow-card:0 1px 3px rgba(0,0,0,0.025);
   --shadow-md:0 14px 34px rgba(0,0,0,0.09), 0 2px 6px rgba(0,0,0,0.03);
-  --shadow-dock:0 10px 30px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-dock:0 12px 32px rgba(0,0,0,0.14), 0 1px 4px rgba(0,0,0,0.05);
   --r-xs:6px;--r:8px;--rl:12px;--rxl:16px;--rf:9999px;
   --topbar:48px;
   --sidebar:264px;
@@ -60,7 +60,7 @@ html[data-theme="dark"]{
   --lasso-fill:rgba(59,130,246,0.12);
   --shadow-card:none;
   --shadow-md:0 16px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-dock:0 14px 36px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.07);
+  --shadow-dock:0 14px 36px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.08);
 }
 
 /* ── SURFACE TONES ── */
@@ -139,9 +139,13 @@ body.lasso-active .sel-txt{
   to{opacity:1;transform:translateY(0) scale(1);}
 }
 @keyframes badgePulse{
-  0%{transform:scale(0.9);}
-  50%{transform:scale(1.07);}
+  0%{transform:scale(0.88);}
+  50%{transform:scale(1.08);}
   100%{transform:scale(1);}
+}
+@keyframes curMorph{
+  0%{opacity:0.35;transform:translateY(4px);filter:blur(2px);}
+  100%{opacity:1;transform:translateY(0);filter:blur(0);}
 }
 @keyframes cardFlashGlow{
   0%{
@@ -225,6 +229,63 @@ button:active:not(:disabled){transform:scale(0.96);}
   cursor:pointer;
 }
 .ctx-lbtn:hover{background:var(--blue);color:#fff;}
+
+/* ── FLOATING SELECTION ISLAND (BAR) ── */
+.sel-dock{
+  position:fixed;
+  bottom:calc(20px + var(--safe-b));
+  left:50%;
+  transform:translateX(-50%) translateY(90px) scale(0.95);
+  background:rgba(24,24,23,0.92);
+  color:#f5f5f2;
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:var(--rf);
+  padding:6px 8px 6px 14px;
+  display:flex;align-items:center;gap:8px;
+  z-index:9900;
+  box-shadow:var(--shadow-dock);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  opacity:0;pointer-events:none;
+  transition:transform .28s var(--spring), opacity .18s var(--ease);
+  white-space:nowrap;
+}
+html[data-theme="dark"] .sel-dock{
+  background:rgba(36,36,34,0.94);
+  border-color:rgba(255,255,255,0.14);
+}
+.sel-dock.on{
+  opacity:1;pointer-events:all;
+  transform:translateX(-50%) translateY(0) scale(1);
+}
+.sel-dock-info{
+  display:flex;align-items:baseline;gap:6px;
+  padding-right:6px;border-right:1px solid rgba(255,255,255,0.14);
+}
+.sel-dock-cnt{
+  font-size:11px;font-weight:700;
+  background:var(--blue);color:#fff;
+  padding:1.5px 6.5px;border-radius:999px;
+}
+.sel-dock-sum{
+  font-size:13px;font-weight:700;letter-spacing:-.02em;color:#fff;
+}
+.sel-dock-btn{
+  height:28px;padding:0 10px;border:none;border-radius:999px;
+  background:rgba(255,255,255,0.1);color:#f0f0ec;
+  font-size:11.5px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.sel-dock-btn:hover{background:rgba(255,255,255,0.2);color:#fff;}
+.sel-dock-btn.primary{background:var(--blue);color:#fff;}
+.sel-dock-btn.primary:hover{opacity:0.9;}
+.sel-dock-btn.danger:hover{background:var(--danger);color:#fff;}
+.sel-dock-close{
+  width:26px;height:26px;border-radius:50%;border:none;
+  background:transparent;color:rgba(255,255,255,0.6);
+  font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+}
+.sel-dock-close:hover{background:rgba(255,255,255,0.14);color:#fff;}
 
 /* ── FINDER LASSO SELECTION BOX ── */
 .lasso-box{
@@ -317,7 +378,7 @@ button:active:not(:disabled){transform:scale(0.96);}
   width:var(--sidebar);
   min-width:var(--sidebar);
   display:flex;flex-direction:column;
-  gap:28px;
+  gap:26px;
   padding:8px 0 24px;
   overflow-y:auto;overflow-x:hidden;
   flex-shrink:0;
@@ -384,11 +445,17 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 
 /* Balance Metrics (Desktop Sidebar) */
 .balance-cards{
-  display:flex;flex-direction:column;gap:20px;
+  display:flex;flex-direction:column;gap:16px;
 }
 .bal-card{
   display:flex;flex-direction:column;
+  padding:8px 10px;margin:0 -10px;
+  border-radius:var(--rl);
+  transition:background-color .14s var(--ease);
+  cursor:pointer;
 }
+.bal-card:hover{background:rgba(0,0,0,0.025);}
+html[data-theme="dark"] .bal-card:hover{background:rgba(255,255,255,0.03);}
 .bal-hdr{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
 .bal-label{font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
 .bal-trend,.bal-zero{
@@ -405,6 +472,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
   transition:opacity .12s, color .2s var(--ease);
   max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
+.bal-amount.cur-morph{animation:curMorph .24s var(--ease);}
 .bal-amount:hover{opacity:.72;}
 .bal-amount.is-zero{color:var(--text3);}
 .bal-multi{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
@@ -413,7 +481,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 
 /* ── SIDEBAR ANALYTICS & SPECTRUM BAR ── */
 .month-overview{
-  display:flex;flex-direction:column;gap:12px;
+  display:flex;flex-direction:column;gap:11px;
 }
 .month-overview.collapsed .mo-tabs,
 .month-overview.collapsed .mo-content{display:none;}
@@ -473,7 +541,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
   display:flex;align-items:baseline;justify-content:space-between;gap:8px;
 }
 .an-total-val{
-  font-size:17px;font-weight:700;letter-spacing:-.025em;color:var(--text);
+  font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--text2);
 }
 .an-total-val.is-zero{color:var(--text3);}
 .an-hover-lbl{
@@ -542,7 +610,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 /* ── MAIN WORKSPACE ── */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
-/* Mobile Hero Dashboard (Hidden on desktop, strong typographic hierarchy on mobile) */
+/* Mobile Hero Dashboard */
 .m-hero{
   display:none;
   grid-template-columns:1fr 1fr;
@@ -593,6 +661,46 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
   font-size:10px;color:var(--text3);font-weight:500;
 }
 
+/* ── QUICK ADD BAR (RAYCAST / THINGS STYLE) ── */
+.qadd-bar{
+  position:relative;
+  display:flex;align-items:center;
+  margin-top:6px;
+  flex-shrink:0;
+}
+.qadd-icon{
+  position:absolute;left:12px;
+  color:var(--blue);font-size:13px;font-weight:700;
+  pointer-events:none;
+}
+#qadd-inp{
+  width:100%;height:36px;
+  padding:0 190px 0 32px;
+  font-size:13px;font-family:inherit;
+  background:var(--surface);color:var(--text);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  box-shadow:var(--shadow-card);
+  outline:none;
+  transition:border-color .15s var(--ease), box-shadow .15s var(--ease);
+  user-select:text;-webkit-user-select:text;
+}
+#qadd-inp:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px var(--blue-bg);
+}
+#qadd-inp::placeholder{color:var(--text3);}
+.qadd-preview{
+  position:absolute;right:8px;
+  display:none;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;
+  background:var(--blue-bg);color:var(--blue);
+  padding:3px 9px;border-radius:var(--r-xs);
+  pointer-events:none;
+  max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.qadd-preview.on{display:inline-flex;animation:popIn .12s var(--ease);}
+
 /* Toolbar */
 .toolbar{
   display:flex;align-items:center;gap:8px;
@@ -602,7 +710,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .search-wrap{flex:1;min-width:160px;position:relative;display:flex;align-items:center;}
 .search-icon{position:absolute;left:11px;color:var(--text3);pointer-events:none;}
 #search{
-  width:100%;height:34px;padding:0 155px 0 33px;
+  width:100%;height:34px;padding:0 44px 0 33px;
   font-size:13px;border:none;border-radius:var(--r);
   background:var(--surface2);color:var(--text);
   font-family:inherit;outline:none;transition:background-color .14s, box-shadow .14s;
@@ -618,7 +726,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 #search:focus ~ .search-kbd,
 .search-wrap.has-sel .search-kbd{opacity:0;}
 
-/* Live Selection Pill in Toolbar */
+/* Compact Selection Pill in Search (fallback trigger) */
 .sel-pill{
   position:absolute;right:4px;
   display:none;align-items:center;gap:5px;
@@ -687,7 +795,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 
 /* Entries list */
 .elist{
-  flex:1;overflow-y:auto;padding:2px 2px 36px;
+  flex:1;overflow-y:auto;padding:2px 2px 72px;
   position:relative;
   -webkit-overflow-scrolling:touch;
 }
@@ -781,7 +889,15 @@ html[data-density="compact"] .group-lbl{
 .elink:hover{background:var(--blue-bg);color:var(--blue);}
 .er{display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .edate{font-size:11px;color:var(--text3);}
-.eamt{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-.025em;min-width:68px;text-align:right;}
+.eamt{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-.025em;min-width:68px;text-align:right;border-radius:4px;padding:1px 3px;transition:background-color .12s;}
+.eamt:hover{background:var(--surface3);}
+.inline-edit-inp{
+  width:88px;height:24px;padding:0 6px;
+  font-size:13.5px;font-weight:700;font-family:inherit;
+  color:var(--text);background:var(--surface);
+  border:1.5px solid var(--blue);border-radius:5px;
+  text-align:right;outline:none;
+}
 
 /* Clean Borderless Status Badges */
 .badge{
@@ -794,7 +910,7 @@ html[data-density="compact"] .group-lbl{
   content:'';width:4.5px;height:4.5px;border-radius:50%;background:currentColor;
 }
 .badge:hover{opacity:.8;}
-.badge.pop{animation:badgePulse .22s var(--spring);}
+.badge.pop{animation:badgePulse .24s var(--spring);}
 .badge.u{background:var(--warning-bg);color:var(--warning);}
 .badge.p{background:var(--success-bg);color:var(--success);}
 
@@ -942,12 +1058,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .confirm-cancel{height:34px;padding:0 12px;background:var(--surface2);border:none;border-radius:var(--r);cursor:pointer;font-size:12.5px;color:var(--text2);}
 .confirm-cancel:hover{background:var(--surface3);color:var(--text);}
 
-/* ── SETTINGS PANEL ── */
+/* ── SETTINGS PANEL WITH 3 CLEAN TABS ── */
 .soverlay{position:fixed;inset:0;z-index:700;display:none;}
 .soverlay.on{display:block;}
 .sback{position:absolute;inset:0;background:rgba(0,0,0,.22);backdrop-filter:blur(2px);}
 .spanel{
-  position:absolute;top:0;right:0;bottom:0;width:330px;
+  position:absolute;top:0;right:0;bottom:0;width:340px;
   background:var(--surface);border-left:1px solid var(--border);
   display:flex;flex-direction:column;
   box-shadow:var(--shadow-md);
@@ -955,11 +1071,30 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   overflow-y:auto;
 }
 .soverlay.on .spanel{transform:none;}
-.shdr{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;}
-.shdrtitle{font-size:14px;font-weight:600;}
+.shdr{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px;}
+.shdrtitle{font-size:14px;font-weight:700;}
 .sclose{background:none;border:none;cursor:pointer;color:var(--text2);font-size:18px;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-xs);}
 .sclose:hover{background:var(--surface2);color:var(--text);}
-.sbody{padding:4px 18px calc(24px + var(--safe-b));display:flex;flex-direction:column;gap:20px;}
+
+.s-tabs{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;
+  background:var(--surface2);padding:3px;
+  margin:0 18px 14px;border-radius:var(--r);
+}
+.s-tab{
+  height:28px;border:none;border-radius:var(--r-xs);
+  background:transparent;color:var(--text2);
+  font-size:12px;font-weight:500;cursor:pointer;
+}
+.s-tab:hover{color:var(--text);}
+.s-tab.on{
+  background:var(--surface);color:var(--text);
+  font-weight:600;box-shadow:var(--shadow-card);
+}
+.s-pane{display:none;flex-direction:column;gap:18px;}
+.s-pane.on{display:flex;animation:popIn .14s var(--ease);}
+
+.sbody{padding:2px 18px calc(24px + var(--safe-b));display:flex;flex-direction:column;}
 .slbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
 .trow{display:flex;gap:4px;background:var(--surface2);padding:2px;border-radius:var(--r);}
 .topt{flex:1;height:28px;border:none;border-radius:var(--r-xs);background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);}
@@ -1005,11 +1140,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .m-period-pill{display:inline-flex;}
   .icon-btn#btn-settings{display:none;}
   .body{padding:0 16px;gap:0;position:relative;}
-
-  /* Expressive Hero Cards on Mobile */
   .m-hero{display:grid;}
+  .qadd-bar{display:none;}
 
-  /* Fullscreen Analytics View when toggled from dock */
   .sidebar{
     display:none;
     position:fixed;inset:0;top:50px;bottom:0;z-index:450;
@@ -1030,7 +1163,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     box-shadow:var(--shadow-card);
   }
   .sidebar .mo-collapse-btn{display:none;}
-  .sidebar .an-total-val{font-size:24px;font-weight:800;}
+  .sidebar .an-total-val{font-size:22px;font-weight:800;}
   .sidebar .spectrum-bar{height:10px;border-radius:5px;}
   .sidebar .mo-leg-row{padding:9px 8px;}
   .sidebar .mo-leg-lbl,.sidebar .mo-leg-val{font-size:13.5px;}
@@ -1038,7 +1171,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .toolbar{padding:2px 0 10px;gap:8px;}
   #search{
     height:38px;font-size:16px;
-    padding:0 110px 0 34px;
+    padding:0 90px 0 34px;
     background:var(--surface);
     box-shadow:var(--shadow-card);
     border-radius:var(--rl);
@@ -1050,9 +1183,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     box-shadow:var(--shadow-card);
     border-radius:var(--rl);
   }
-  .elist{padding:2px 0 calc(96px + var(--safe-b));}
+  .elist{padding:2px 0 calc(110px + var(--safe-b));}
 
-  /* Expressive Mobile Order Cards */
   .group-lbl{padding:16px 2px 7px;font-size:11px;}
   .group-lbl-sum{font-size:12px;font-weight:700;}
   .entry-card{
@@ -1074,7 +1206,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .eamt{font-size:15.5px;font-weight:800;letter-spacing:-.03em;min-width:0;}
   .badge{padding:3.5px 8.5px;font-size:11px;border-radius:6px;}
 
-  /* Bottom Sheet Modals */
   .moverlay{
     align-items:flex-end;
     padding:0;
@@ -1104,8 +1235,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
   .spanel{width:100%;max-width:100%;}
   .toast{bottom:calc(84px + var(--safe-b));}
+  .sel-dock{bottom:calc(80px + var(--safe-b));max-width:calc(100vw - 24px);overflow-x:auto;}
 
-  /* Context menu as floating sheet above dock */
   .ctx-menu{
     left:14px!important;
     right:14px!important;
@@ -1118,7 +1249,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .ctx-item{padding:11px 10px;font-size:14px;}
   .ctx-kbd{display:none;}
 
-  /* Floating Pill Dock */
   .m-bottom-nav{
     display:grid;
     grid-template-columns:1fr 1fr 56px 1fr 1fr;
@@ -1158,12 +1288,11 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   }
 }
 </style>
-  <style id="xp-styles">
+<style id="xp-styles">
 /* ══════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — FAKE X POST UI
+   X (TWITTER) WEEKLY PLANNER — CLEAN STUDIO UI
 ══════════════════════════════════════════════ */
 
-/* Переключатель вкладок в Topbar */
 .xp-nav-switch{
   display:inline-flex;align-items:center;gap:2px;
   background:var(--surface2);padding:2px;
@@ -1182,10 +1311,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-weight:600;box-shadow:var(--shadow-card);
 }
 
-/* Основной контейнер вкладки */
 .xp-view{
   flex:1;overflow-y:auto;overflow-x:hidden;
-  width:100%;padding:12px 28px 56px;
+  width:100%;padding:12px 28px 64px;
 }
 .xp-view::-webkit-scrollbar{width:4px;}
 .xp-view::-webkit-scrollbar-thumb{background:transparent;border-radius:2px;}
@@ -1196,7 +1324,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   display:flex;flex-direction:column;gap:18px;
 }
 
-/* Чистая компактная шапка планера */
 .xp-header{
   display:flex;align-items:center;justify-content:space-between;
   gap:16px;flex-wrap:wrap;padding:2px 0;
@@ -1205,7 +1332,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-title-row{display:flex;align-items:center;gap:8px;}
 .xp-title{font-size:15px;font-weight:700;letter-spacing:-.025em;color:var(--text);}
 .xp-badge{
-  font-size:10.5px;font-weight:600;padding:2px 7px;
+  font-size:10.5px;font-weight:600;padding:2px 8px;
   border-radius:var(--rf);background:var(--surface2);color:var(--text3);
 }
 .xp-badge.has-ready{background:var(--blue-bg);color:var(--blue);}
@@ -1213,12 +1340,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-size:11.5px;color:var(--text3);
   display:inline-flex;align-items:center;gap:6px;
 }
-.xp-subtitle::before{
-  content:'·';opacity:.5;
-}
+.xp-subtitle::before{content:'·';opacity:.5;}
 .xp-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 
-/* Переключатель Сетка / Лента X */
 .xp-view-switch{
   display:inline-flex;align-items:center;gap:2px;
   background:var(--surface2);padding:2px;
@@ -1237,26 +1361,24 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-weight:600;box-shadow:var(--shadow-card);
 }
 
-/* Кнопки планера */
 .xp-btn{
   height:30px;padding:0 11px;border:none;border-radius:var(--r);
   font-size:12px;font-weight:500;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;gap:5px;
   white-space:nowrap;
-  transition:transform .12s var(--ease), background-color .14s var(--ease), color .14s var(--ease), opacity .14s var(--ease);
 }
 .xp-btn-primary{background:var(--text);color:var(--bg);font-weight:600;}
 .xp-btn-primary:hover{opacity:.88;}
 .xp-btn-ghost{background:var(--surface2);color:var(--text2);}
 .xp-btn-ghost:hover{background:var(--surface3);color:var(--text);}
 .xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
-.xp-btn-sm{height:26px;padding:0 10px;font-size:11px;border-radius:999px;flex-shrink:0;}
+.xp-btn-sm{height:27px;padding:0 11px;font-size:11.5px;border-radius:999px;flex-shrink:0;}
 
-/* Сетка карточек (Режим 1: Сетка 7 дней, Режим 2: Лента X 600px) */
+/* Сетка карточек (Сетка: Чистая студия | Лента X: Реалистичная лента 600px) */
 .xp-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(410px, 1fr));
-  gap:16px;
+  gap:18px;
   align-items:start;
 }
 .xp-grid.is-feed{
@@ -1273,23 +1395,19 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   box-shadow:0 4px 24px rgba(0,0,0,0.04);
 }
 
-/* Карточка одного дня в виде поста X (Twitter) */
 .xp-day-card{
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:16px;
-  padding:14px 16px;
+  padding:15px 16px 13px;
   box-shadow:0 1px 2px rgba(0,0,0,0.02), 0 6px 16px rgba(0,0,0,0.015);
   display:flex;flex-direction:column;
   position:relative;
   transition:border-color .16s var(--ease), box-shadow .16s var(--ease);
 }
-.xp-day-card:hover{
-  border-color:var(--border2);
-}
-.xp-day-card.is-ready{
-  border-color:rgba(29,155,240,0.32);
-}
+.xp-day-card:hover{border-color:var(--border2);}
+.xp-day-card.is-ready{border-color:rgba(29,155,240,0.32);}
+
 .xp-grid.is-feed .xp-day-card{
   border:none;
   border-bottom:1px solid var(--border);
@@ -1297,16 +1415,17 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   box-shadow:none;
   padding:16px 18px;
 }
-.xp-grid.is-feed .xp-day-card:last-child{
-  border-bottom:none;
-}
+.xp-grid.is-feed .xp-day-card:last-child{border-bottom:none;}
 
-/* Структура поста X: слева аватарка, справа контент */
 .xp-tw-post{
   display:flex;
   align-items:flex-start;
   gap:12px;
   width:100%;
+}
+/* В режиме «Сетка» скрываем бутафорскую аватарку X для чистоты студии */
+.xp-grid:not(.is-feed) .xp-tw-left{
+  display:none;
 }
 .xp-tw-left{
   display:flex;
@@ -1314,7 +1433,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   align-items:center;
   flex-shrink:0;
 }
-/* Серая круглая аватарка как в X */
 .xp-tw-avatar{
   width:40px;height:40px;
   border-radius:50%;
@@ -1332,21 +1450,47 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   flex-direction:column;
 }
 
-/* Шапка твита: Ник + галочка + @handle + день | справа карандаш, тема фона и пресет */
+/* Шапка карточки */
 .xp-tw-hdr{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:8px;
   line-height:1.25;
-  margin-bottom:4px;
+  margin-bottom:6px;
 }
 .xp-tw-user{
   display:flex;
   align-items:center;
+  gap:5px;
+  min-width:0;
+}
+/* В режиме Сетки показываем чистый заголовок дня (01 · Понедельник) */
+.xp-studio-day{
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--text);
+  letter-spacing:-.015em;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.xp-studio-num{
+  font-size:11px;
+  font-weight:700;
+  color:var(--text3);
+  background:var(--surface2);
+  padding:1.5px 6px;
+  border-radius:5px;
+}
+.xp-grid.is-feed .xp-studio-day{display:none;}
+.xp-grid:not(.is-feed) .xp-feed-identity{display:none!important;}
+
+.xp-feed-identity{
+  display:inline-flex;
+  align-items:center;
   gap:4px;
   min-width:0;
-  flex-wrap:wrap;
 }
 .xp-tw-name{
   font-size:15px;
@@ -1374,34 +1518,34 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   text-overflow:ellipsis;
 }
 .xp-day-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--text3);opacity:.3;flex-shrink:0;
-  margin-left:3px;
+  width:6.5px;height:6.5px;border-radius:50%;
+  background:var(--text3);opacity:.28;flex-shrink:0;
   transition:background-color .2s, opacity .2s;
 }
 .xp-day-card.is-ready .xp-day-dot{
   background:#1d9bf0;opacity:1;
 }
 
+/* Контекстные контролы шаблона — приглушены в покое, четкие при наведении на карточку */
 .xp-hdr-controls{
   display:flex;align-items:center;gap:4px;flex-shrink:0;
+  opacity:0.48;
+  transition:opacity .16s var(--ease);
 }
-.xp-crop-toggle,
+.xp-day-card:hover .xp-hdr-controls,
+.xp-day-card:focus-within .xp-hdr-controls{
+  opacity:1;
+}
 .xp-pad-toggle,
 .xp-bg-toggle{
   width:24px;height:24px;border-radius:6px;
   border:1px solid var(--border);background:var(--bg);
   color:var(--text2);font-size:10.5px;font-weight:700;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;
-  transition:border-color .14s, background-color .14s, color .14s, box-shadow .14s;
+  transition:border-color .14s, background-color .14s, color .14s;
 }
-.xp-crop-toggle:hover,
 .xp-pad-toggle:hover,
 .xp-bg-toggle:hover{border-color:var(--border2);color:var(--text);}
-.xp-crop-toggle.on{
-  background:#1d9bf0;color:#ffffff;border-color:#1d9bf0;
-  box-shadow:0 0 0 2px rgba(29,155,240,0.22);
-}
 .xp-bg-toggle.is-dark{
   background:#181816;color:#f0f0ec;border-color:rgba(255,255,255,0.16);
 }
@@ -1414,27 +1558,24 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 6px center;
-  max-width:148px;text-overflow:ellipsis;
+  max-width:150px;text-overflow:ellipsis;
   transition:border-color .14s, color .14s;
 }
 .xp-preset-sel:hover{border-color:var(--border2);color:var(--text);}
 
-/* Блок текста твита НАД картинкой + кнопка Скопировать рядом */
-.xp-tw-text-row{
+/* Полноширинный блок текста поста + всплывающие чипсы Хуков при фокусе */
+.xp-caption-wrap{
   display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:10px;
+  flex-direction:column;
+  margin-bottom:9px;
 }
 .xp-caption{
-  flex:1;
-  min-width:0;
-  min-height:42px;
+  width:100%;
+  min-height:40px;
   max-height:220px;
-  padding:2px 0;
-  font-size:15px;
-  line-height:1.38;
+  padding:3px 0;
+  font-size:14.5px;
+  line-height:1.4;
   letter-spacing:-.005em;
   color:var(--text);
   background:transparent;
@@ -1448,47 +1589,51 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-caption::placeholder{
   color:var(--text3);
-  opacity:0.75;
+  opacity:0.7;
 }
-.xp-tw-text-actions{
+
+/* Встроенные чипсы конструктора текста (Progressive Disclosure при фокусе или наведении) */
+.xp-inline-chips{
   display:flex;
   align-items:center;
   gap:5px;
-  flex-shrink:0;
-  margin-top:1px;
+  flex-wrap:wrap;
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  transition:max-height .18s var(--ease), opacity .16s var(--ease), margin-top .16s var(--ease);
 }
-.xp-hooks-btn,
-.xp-copy-cap{
-  height:26px;
-  padding:0 10px;
+.xp-caption-wrap:focus-within .xp-inline-chips,
+.xp-caption-wrap:hover .xp-inline-chips,
+.xp-inline-chips.keep-open{
+  max-height:36px;
+  opacity:1;
+  margin-top:4px;
+}
+.xp-ichip{
+  height:23px;
+  padding:0 8.5px;
   border:1px solid var(--border);
   border-radius:999px;
   background:var(--bg);
   color:var(--text2);
-  font-size:11px;
+  font-size:10.5px;
   font-weight:600;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
   gap:4px;
-  flex-shrink:0;
-  transition:background-color .14s, color .14s, border-color .14s, box-shadow .14s;
+  transition:background-color .12s, color .12s, border-color .12s;
 }
-.xp-hooks-btn:hover,
-.xp-copy-cap:hover{
+.xp-ichip:hover{
   background:var(--surface2);
   color:var(--text);
   border-color:var(--border2);
 }
-.xp-hooks-btn.on{
+.xp-ichip.on{
   background:rgba(29,155,240,0.12);
   color:#1d9bf0;
   border-color:#1d9bf0;
-}
-.xp-copy-cap.copied{
-  background:var(--success-bg);
-  color:var(--success);
-  border-color:transparent;
 }
 
 /* Всплывающий блокнот-конструктор Хуков и Концовок (⚡) */
@@ -1520,12 +1665,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-size:10px;font-weight:600;padding:1.5px 6px;border-radius:999px;
   background:var(--surface2);color:var(--text3);
 }
-.xp-hp-cloud. synced{
+.xp-hp-cloud.synced{
   background:var(--success-bg);color:var(--success);
 }
-.xp-hp-actions{
-  display:flex;align-items:center;gap:5px;
-}
+.xp-hp-actions{display:flex;align-items:center;gap:5px;}
 .xp-hp-act{
   height:24px;padding:0 9px;border:1px solid var(--border);border-radius:6px;
   background:var(--bg);color:var(--text2);font-size:11px;font-weight:600;
@@ -1539,72 +1682,51 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-hp-close:hover{background:var(--surface2);color:var(--text);}
 
-.xp-hp-cols{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
+.xp-hp-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .xp-hp-col{
   display:flex;flex-direction:column;gap:6px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:8px;
-  min-width:0;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:11px;padding:8px;min-width:0;
 }
 .xp-hp-col-hdr{
   font-size:10.5px;font-weight:700;color:var(--text2);
   text-transform:uppercase;letter-spacing:.04em;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 2px;
 }
 .xp-hp-list{
   display:flex;flex-direction:column;gap:4px;
-  max-height:195px;overflow-y:auto;
-  padding-right:2px;
+  max-height:195px;overflow-y:auto;padding-right:2px;
 }
 .xp-hp-list::-webkit-scrollbar{width:3px;}
 .xp-hp-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 .xp-hb-item{
   display:flex;align-items:center;justify-content:space-between;gap:6px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:7px;
-  padding:5px 7px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:7px;padding:5px 7px;
   font-size:11.5px;color:var(--text);
   cursor:pointer;text-align:left;
   transition:border-color .12s, background-color .12s;
 }
-.xp-hb-item:hover{
-  border-color:#1d9bf0;
-  background:rgba(29,155,240,0.07);
-}
+.xp-hb-item:hover{border-color:#1d9bf0;background:rgba(29,155,240,0.07);}
 .xp-hb-txt{
-  flex:1;min-width:0;
-  overflow:hidden;text-overflow:ellipsis;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
-  line-height:1.3;
+  flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3;
 }
 .xp-hb-del{
   width:18px;height:18px;border:none;border-radius:4px;
   background:transparent;color:var(--text3);font-size:12px;
-  cursor:pointer;flex-shrink:0;
-  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
   opacity:0.55;
 }
 .xp-hb-item:hover .xp-hb-del{opacity:1;}
 .xp-hb-del:hover{background:var(--danger-bg);color:var(--danger);}
 
-.xp-hp-add{
-  display:flex;align-items:center;gap:4px;
-  margin-top:auto;padding-top:2px;
-}
+.xp-hp-add{display:flex;align-items:center;gap:4px;margin-top:auto;padding-top:2px;}
 .xp-hp-inp{
   flex:1;min-width:0;height:26px;padding:0 8px;
   font-size:11.5px;color:var(--text);
   background:var(--surface);border:1px solid var(--border);border-radius:6px;
-  font-family:inherit;outline:none;
-  user-select:text;-webkit-user-select:text;
+  font-family:inherit;outline:none;user-select:text;-webkit-user-select:text;
 }
 .xp-hp-inp:focus{border-color:#1d9bf0;}
 .xp-hp-addbtn{
@@ -1615,244 +1737,27 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-hp-addbtn:hover{opacity:0.88;}
 
-@media(max-width:600px){
-  .xp-hooks-pop{
-    left:12px!important;right:12px!important;
-    bottom:16px!important;top:auto!important;
-    width:auto;
-  }
-  .xp-hp-cols{grid-template-columns:1fr;}
-  .xp-hp-list{max-height:135px;}
-}
-
-/* Медиа-вложение твита (По умолчанию статично для свободного скролла!) */
-.xp-canvas-stage{
-  width:100%;
-  background:transparent;
-  border:none;
-  padding:0;
-  display:block;
-  position:relative;
-}
-.xp-canvas{
-  width:100%;
-  height:auto;
-  display:block;
-  border-radius:16px;
-  border:1px solid var(--border2);
-  cursor:default;
-  touch-action:pan-y;
-  transition:box-shadow .16s var(--ease), border-color .16s var(--ease);
-}
-/* Активный режим кадрирования ✏️ */
-.xp-canvas.is-cropping{
-  cursor:grab;
-  touch-action:none;
-  border-color:#1d9bf0;
-  box-shadow:0 0 0 2px rgba(29,155,240,0.22);
-}
-.xp-canvas.is-cropping:active{
-  cursor:grabbing;
-}
-
-/* Панель кадрирования и зума (Открывается только по клику на ✏️) */
-.xp-crop-bar{
-  display:none;
-  align-items:center;justify-content:space-between;gap:8px;
-  background:var(--bg);
-  border:1px solid rgba(29,155,240,0.35);
-  border-radius:10px;
-  padding:6px 10px;
-  margin-top:8px;
-  font-size:10.5px;color:var(--text2);
-  animation:popIn .14s var(--ease);
-}
-.xp-crop-bar.on{display:flex;}
-.xp-crop-lbl{
-  font-weight:600;color:#1d9bf0;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis;max-width:105px;
-  display:inline-flex;align-items:center;gap:4px;
-}
-.xp-crop-slider-wrap{
-  display:flex;align-items:center;gap:6px;flex:1;min-width:85px;
-}
-.xp-crop-range{
-  flex:1;height:4px;accent-color:#1d9bf0;cursor:pointer;
-}
-.xp-crop-pct{
-  font-size:10px;font-weight:600;color:var(--text2);min-width:32px;text-align:right;
-}
-.xp-crop-btns{display:flex;align-items:center;gap:4px;flex-shrink:0;}
-.xp-crop-done{
-  height:22px;padding:0 8px;border:none;border-radius:5px;
-  background:#1d9bf0;color:#fff;
-  font-size:10px;font-weight:600;cursor:pointer;
-  display:inline-flex;align-items:center;gap:3px;
-}
-.xp-crop-done:hover{opacity:0.9;}
-
-/* Нижняя панель вовлечения X (метрики + кнопка Скачать PNG) */
-.xp-tw-metrics{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-top:10px;
-  padding-top:2px;
-  color:var(--text3);
-  font-size:12.5px;
-}
-.xp-tw-icons{
-  display:flex;
-  align-items:center;
-  gap:22px;
-  flex-wrap:wrap;
-}
-.xp-tw-stat{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  color:var(--text3);
-  font-size:12px;
-  user-select:none;
-}
-.xp-tw-stat.liked{
-  color:#f91880;
-}
-
-/* Компактная панель слотов и настроек под постом */
-.xp-tw-tray{
-  margin-top:11px;
-  padding-top:10px;
-  border-top:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.xp-slots{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(68px, 1fr));
-  gap:5px;
-}
-.xp-slot{
-  height:40px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:8px;
-  position:relative;overflow:hidden;
-  cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1px;padding:3px;
-  transition:background-color .14s var(--ease), border-color .14s var(--ease), transform .12s var(--ease), opacity .12s;
-}
-.xp-slot:hover{border-color:var(--border2);background:var(--surface2);}
-.xp-slot.is-armed,
-.xp-slot:focus-visible{
-  border-color:#1d9bf0;
-  background:rgba(29,155,240,0.08);
-  box-shadow:0 0 0 1px #1d9bf0;
-  outline:none;
-}
-.xp-slot.is-cropping{
-  border-color:#1d9bf0;
-  box-shadow:0 0 0 2px #1d9bf0;
-}
-.xp-slot.drag-over{
-  border-color:#1d9bf0!important;
-  background:rgba(29,155,240,0.12)!important;
-  box-shadow:0 0 0 1.5px #1d9bf0!important;
-  transform:scale(0.97);
-}
-.xp-slot.dragging-source{
-  opacity:0.4;
-}
-.xp-slot-thumb{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  object-fit:cover;
-  z-index:1;
-  pointer-events:none;
-}
-.xp-slot-overlay{
-  position:relative;z-index:2;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;pointer-events:none;
-}
-.xp-slot.has-img .xp-slot-overlay{
-  background:rgba(15,15,15,0.62);
-  backdrop-filter:blur(4px);
-  -webkit-backdrop-filter:blur(4px);
-  padding:2px 6px;border-radius:4px;
-  opacity:0;transition:opacity .14s;
-}
-.xp-slot.has-img:hover .xp-slot-overlay,
-.xp-slot.has-img.is-armed .xp-slot-overlay{opacity:1;}
-.xp-slot-lbl{
-  font-size:10px;font-weight:600;color:var(--text2);
-  line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
-}
-.xp-slot.has-img .xp-slot-lbl{color:#ffffff;}
-.xp-slot-sub{font-size:8.5px;color:var(--text3);}
-.xp-slot.has-img .xp-slot-sub{color:rgba(255,255,255,0.8);}
-
-/* Кнопки на мини-слоте: слева ✏️ (кадрировать), справа × (удалить) */
-.xp-slot-edit,
-.xp-slot-del{
-  position:absolute;top:3px;z-index:4;
-  width:18px;height:18px;border-radius:4px;border:none;
-  background:rgba(15,15,15,0.72);color:#fff;
-  font-size:10px;line-height:1;cursor:pointer;
-  display:none;align-items:center;justify-content:center;
-  transition:background-color .12s, transform .12s;
-}
-.xp-slot-edit{left:3px;}
-.xp-slot-del{right:3px;}
-.xp-slot.has-img:hover .xp-slot-edit,
-.xp-slot.has-img:hover .xp-slot-del,
-.xp-slot.has-img.is-cropping .xp-slot-edit{
-  display:flex;
-}
-.xp-slot-edit:hover,
-.xp-slot.is-cropping .xp-slot-edit{
-  background:#1d9bf0;
-}
-.xp-slot-del:hover{
-  background:var(--danger);
-}
-
-@media(hover:none){
-  .xp-slot.has-img .xp-slot-edit,
-  .xp-slot.has-img .xp-slot-del{
-    display:flex;
-  }
-}
-
-/* Доп. контролы пресетов */
+/* Контекстная панель бейджей / палитры (появляется только для шаблонов 1, 4, 5) */
 .xp-extra{
   display:none;
-  background:transparent;
-  border:none;
-  padding:0;
+  margin-bottom:8px;
   flex-direction:column;gap:5px;
 }
 .xp-extra.on{display:flex;}
-
 .xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;}
 .xp-inp-sm{
-  width:100%;height:25px;padding:0 8px;
+  width:100%;height:26px;padding:0 8px;
   font-size:11px;color:var(--text);
   background:var(--bg);border:1px solid var(--border);border-radius:6px;
-  font-family:inherit;outline:none;
-  user-select:text;-webkit-user-select:text;
+  font-family:inherit;outline:none;user-select:text;-webkit-user-select:text;
 }
 .xp-inp-sm:focus{border-color:#1d9bf0;background:var(--surface);}
 
-/* Палитра цветов (Preset 5) */
 .xp-palette-bar{
   display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;
+  background:var(--bg);padding:5px 8px;border-radius:8px;border:1px solid var(--border);
 }
-.xp-swatches{display:flex;align-items:center;gap:4px;}
+.xp-swatches{display:flex;align-items:center;gap:5px;}
 .xp-color-wrap{
   position:relative;width:22px;height:22px;
   border-radius:5px;overflow:hidden;
@@ -1872,17 +1777,156 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-mini-btn:hover{color:var(--text);border-color:var(--border2);}
 
-/* Скрытие мобильного FAB-плюса и дока инвойсов в режиме X Planner, но показ кнопки Настроек */
+/* Прямое взаимодействие на Холсте + Всплывающий HUD активного слота */
+.xp-canvas-stage{
+  width:100%;
+  position:relative;
+  border-radius:14px;
+  overflow:hidden;
+}
+.xp-canvas{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:14px;
+  border:1px solid var(--border2);
+  cursor:pointer;
+  touch-action:pan-y;
+  transition:border-color .16s var(--ease), box-shadow .16s var(--ease);
+}
+.xp-canvas.is-panning{
+  cursor:grabbing!important;
+  border-color:#1d9bf0;
+}
+.xp-canvas.has-slot-img{
+  cursor:grab;
+}
+
+/* Парящий мини-HUD поверх активного слота на холсте (появляется только при наведении на заполненный слот) */
+.xp-slot-hud{
+  position:absolute;
+  top:8px;right:8px;
+  z-index:10;
+  display:flex;align-items:center;gap:4px;
+  background:rgba(18,18,17,0.82);
+  color:#f5f5f2;
+  padding:4px 6px 4px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.14);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 4px 14px rgba(0,0,0,0.22);
+  opacity:0;pointer-events:none;
+  transform:translateY(-3px);
+  transition:opacity .14s var(--ease), transform .14s var(--ease);
+}
+.xp-canvas-stage:hover .xp-slot-hud.on{
+  opacity:1;pointer-events:all;
+  transform:translateY(0);
+}
+.xp-hud-lbl{
+  font-size:10.5px;font-weight:600;color:rgba(255,255,255,0.88);
+  padding-right:3px;
+}
+.xp-hud-btn{
+  height:21px;padding:0 6.5px;border:none;border-radius:999px;
+  background:rgba(255,255,255,0.13);color:#fff;
+  font-size:10px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.xp-hud-btn:hover{background:#1d9bf0;}
+.xp-hud-btn.danger:hover{background:var(--danger);}
+
+/* Чистый подвал карточки: Studio Footer (в Сетке) vs X Metrics (в Ленте X) */
+.xp-card-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:10px;
+  padding-top:2px;
+}
+.xp-studio-hint{
+  font-size:11px;
+  color:var(--text3);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.xp-grid.is-feed .xp-studio-hint{display:none;}
+.xp-grid:not(.is-feed) .xp-tw-icons{display:none!important;}
+
+.xp-tw-icons{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  color:var(--text3);
+}
+.xp-tw-stat{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  color:var(--text3);
+  font-size:12px;
+  user-select:none;
+}
+.xp-tw-stat.liked{color:#f91880;}
+
+.xp-footer-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-shrink:0;
+  margin-left:auto;
+}
+.xp-copy-cap{
+  height:27px;
+  padding:0 10px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:var(--bg);
+  color:var(--text2);
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  transition:background-color .14s, color .14s, border-color .14s;
+}
+.xp-copy-cap:hover{
+  background:var(--surface2);
+  color:var(--text);
+  border-color:var(--border2);
+}
+.xp-copy-cap.copied{
+  background:var(--success-bg);
+  color:var(--success);
+  border-color:transparent;
+}
+
 body.xp-mode .app::after,
 body.xp-mode #m-bottom-nav,
-body.xp-mode #m-period-btn{display:none!important;}
+body.xp-mode #m-period-btn,
+body.xp-mode #sel-dock{display:none!important;}
 body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 @media(max-width:768px){
   .xp-view{padding:8px 12px 40px;}
   .xp-grid{grid-template-columns:1fr;}
   .xp-subtitle{display:none;}
-  .xp-tw-icons{gap:14px;}
+  .xp-hdr-controls{opacity:1;}
+  .xp-inline-chips{max-height:36px;opacity:1;margin-top:4px;}
+  .xp-slot-hud.on{opacity:1;pointer-events:all;transform:none;}
+}
+@media(max-width:600px){
+  .xp-hooks-pop{
+    left:12px!important;right:12px!important;
+    bottom:16px!important;top:auto!important;
+    width:auto;
+  }
+  .xp-hp-cols{grid-template-columns:1fr;}
+  .xp-hp-list{max-height:135px;}
 }
 </style>
 </head>
@@ -1891,6 +1935,20 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 <!-- Context Menu with Live Calculator -->
 <div class="ctx-menu" id="ctx-menu" role="menu"></div>
+
+<!-- Floating Selection Action Island -->
+<div class="sel-dock" id="sel-dock" role="toolbar" aria-label="Действия с выделенными заказами">
+  <div class="sel-dock-info">
+    <span class="sel-dock-cnt" id="sel-dock-cnt">0</span>
+    <span class="sel-dock-sum" id="sel-dock-sum">0 ₽</span>
+  </div>
+  <button type="button" class="sel-dock-btn primary" id="sel-dock-paid">✓ Оплачено</button>
+  <button type="button" class="sel-dock-btn" id="sel-dock-ru" title="Скопировать инвойс (RU)">📄 RU</button>
+  <button type="button" class="sel-dock-btn" id="sel-dock-en" title="Copy Invoice (EN)">EN</button>
+  <button type="button" class="sel-dock-btn" id="sel-dock-dup" title="Дублировать">⧉</button>
+  <button type="button" class="sel-dock-btn danger" id="sel-dock-del" title="Удалить (⌫)">🗑</button>
+  <button type="button" class="sel-dock-close" id="sel-dock-clr" title="Снять выделение (Esc)">×</button>
+</div>
 
 <!-- Finder Lasso Selection Box -->
 <div class="lasso-box" id="lasso-box"></div>
@@ -1911,14 +1969,13 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 <div class="topbar">
   <div class="topbar-left">
     <span class="logo"><span class="logo-dot"></span>Invoe</span>
-    <!-- Внутри <div class="topbar-left"> сразу после <span class="logo">...</span> -->
-<div class="xp-nav-switch" role="tablist" aria-label="Разделы приложения">
-  <button type="button" class="xp-nav-tab on" id="xp-tab-invoe" role="tab" aria-selected="true">Учёт</button>
-  <button type="button" class="xp-nav-tab" id="xp-tab-planner" role="tab" aria-selected="false">
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-    <span>Planner</span>
-  </button>
-</div>
+    <div class="xp-nav-switch" role="tablist" aria-label="Разделы приложения">
+      <button type="button" class="xp-nav-tab on" id="xp-tab-invoe" role="tab" aria-selected="true">Учёт</button>
+      <button type="button" class="xp-nav-tab" id="xp-tab-planner" role="tab" aria-selected="false">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>Planner</span>
+      </button>
+    </div>
     <button class="sync-pill" id="top-sync-btn" type="button" title="Нажми для принудительной синхронизации с облаком или открытия настроек">
       <span class="sync-dot"></span>
       <span id="top-sync-lbl">Сейф</span>
@@ -1939,8 +1996,6 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 </div>
 
 <div class="body" id="workspace-body">
-  
-  
 
   <!-- ── SIDEBAR ── -->
   <div class="sidebar" id="sidebar">
@@ -1960,22 +2015,22 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </div>
     </div>
 
-    <!-- Баланс + Inbox Zero + Сравнение с прошлым месяцем -->
+    <!-- Баланс + Сравнение с прошлым месяцем -->
     <div class="balance-cards">
-      <div class="bal-card" id="card-await">
+      <div class="bal-card" id="card-await" title="Клик по карточке — спектр ожидаемых · Клик по сумме — смена валюты">
         <div class="bal-hdr">
           <div class="bal-label">Ожидаем</div>
           <span class="bal-zero" id="val-await-zero">✓ Всё закрыто</span>
         </div>
-        <div class="bal-amount is-zero" id="val-await" title="Нажми для быстрой смены базовой валюты (₽ / $ / €)">0 ₽</div>
+        <div class="bal-amount is-zero" id="val-await">0 ₽</div>
         <div class="bal-multi" id="val-await-multi"></div>
       </div>
-      <div class="bal-card">
+      <div class="bal-card" id="card-recv" title="Клик по карточке — спектр доходов · Клик по сумме — смена валюты">
         <div class="bal-hdr">
           <div class="bal-label">Пришло</div>
           <span class="bal-trend" id="val-recv-trend"></span>
         </div>
-        <div class="bal-amount is-zero" id="val-recv" title="Нажми для быстрой смены базовой валюты (₽ / $ / €)">0 ₽</div>
+        <div class="bal-amount is-zero" id="val-recv">0 ₽</div>
         <div class="bal-multi" id="val-recv-multi"></div>
       </div>
     </div>
@@ -2002,7 +2057,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <div class="mo-content">
         <div class="an-summary-row">
           <div class="an-total-val is-zero" id="an-total-val">0 ₽</div>
-          <div class="an-hover-lbl" id="an-hover-lbl">итого</div>
+          <div class="an-hover-lbl" id="an-hover-lbl">распределение</div>
         </div>
         <div class="spectrum-bar" id="spectrum-bar" aria-hidden="true"></div>
         <div class="mo-legend" id="mo-legend" role="list"></div>
@@ -2014,7 +2069,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   <!-- ── MAIN ── -->
   <div class="main" id="main-area">
 
-    <!-- Мобильный Hero-дашборд с четким акцентом на главных цифрах -->
+    <!-- Мобильный Hero-дашборд -->
     <div class="m-hero" id="m-hero">
       <div class="m-hero-card" id="m-card-await" title="Нажми для смены валюты">
         <div class="m-hero-top">
@@ -2040,14 +2095,20 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </div>
     </div>
 
+    <!-- Строка мгновенного ввода (Quick Add) -->
+    <div class="qadd-bar">
+      <span class="qadd-icon">⚡</span>
+      <input type="text" id="qadd-inp" placeholder="Быстрый ввод: Превью 2500 Клиент (или 50*3 $ Клиент) → Enter" autocomplete="off" aria-label="Быстрое добавление заказа"/>
+      <div class="qadd-preview" id="qadd-preview"></div>
+    </div>
+
     <div class="toolbar">
       <div class="search-wrap" id="search-wrap">
         <svg class="search-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4"/><path d="m9 9 2.5 2.5"/></svg>
         <input type="text" id="search" placeholder="Поиск по проектам, клиентам..." aria-label="Поиск по записям"/>
         <span class="search-kbd">⌘K</span>
 
-        <!-- Встроенный индикатор выделения -->
-        <div class="sel-pill" id="sel-pill" title="Нажми для открытия меню действий с выделенными заказами">
+        <div class="sel-pill" id="sel-pill" title="Меню действий с выделенными заказами">
           <span id="sel-pill-txt"></span>
           <span class="sel-pill-clr" id="sel-pill-clr" title="Снять выделение (Esc)">×</span>
         </div>
@@ -2085,39 +2146,37 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 <!-- ── X (TWITTER) WEEKLY PLANNER VIEW ── -->
 <section class="xp-view" id="x-planner-view" aria-label="X Weekly Planner" style="display:none;">
   <div class="xp-container">
-    
-    <!-- Верхняя панель управления неделей -->
+
     <header class="xp-header">
       <div class="xp-header-left">
         <div class="xp-title-row">
-          <h2 class="xp-title">X Weekly Showcase</h2>
+          <h2 class="xp-title">X Weekly Studio</h2>
           <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
         </div>
-        <p class="xp-subtitle">1920px sRGB · Нажми ✏️ для обрезки и зума · Наведи на слот и нажми ⌘V</p>
+        <p class="xp-subtitle">Клик или ⌘V прямо в слот на холсте · Тяни кадр мышкой · Alt + Скролл — зум</p>
       </div>
       <div class="xp-header-actions">
         <div class="xp-view-switch" role="group" aria-label="Режим отображения">
-          <button type="button" class="xp-view-btn on" id="xp-mode-grid" title="Сетка карточек на всю неделю">
+          <button type="button" class="xp-view-btn on" id="xp-mode-grid" title="Чистая студийная сетка">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            <span>Сетка</span>
+            <span>Студия</span>
           </button>
-          <button type="button" class="xp-view-btn" id="xp-mode-feed" title="Режим реальной ленты X (Twitter)">
+          <button type="button" class="xp-view-btn" id="xp-mode-feed" title="Превью реальной ленты X (Twitter)">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/></svg>
             <span>Лента X</span>
           </button>
         </div>
-        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
+        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          <span>Очистить неделю</span>
+          <span>Очистить</span>
         </button>
-        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Последовательно скачать PNG всех заполненных дней">
+        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Скачать PNG всех готовых дней">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Скачать всю неделю</span>
+          <span>Скачать неделю</span>
         </button>
       </div>
     </header>
 
-    <!-- Сетка на 7 дней недели (генерируется JS-модулем) -->
     <div class="xp-grid" id="xp-days-grid"></div>
 
   </div>
@@ -2248,7 +2307,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   </div>
 </div>
 
-<!-- Settings -->
+<!-- Settings (Organized into 3 Clean Tabs) -->
 <div class="soverlay" id="sov" role="dialog" aria-modal="true" aria-labelledby="s-title">
   <div class="sback" aria-hidden="true"></div>
   <div class="spanel">
@@ -2256,88 +2315,107 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <span class="shdrtitle" id="s-title">Настройки</span>
       <button class="sclose" id="s-close" type="button" aria-label="Закрыть настройки">×</button>
     </div>
+
+    <div class="s-tabs" role="tablist">
+      <button type="button" class="s-tab on" data-stab="view" role="tab">Вид</button>
+      <button type="button" class="s-tab" data-stab="fin" role="tab">Финансы</button>
+      <button type="button" class="s-tab" data-stab="data" role="tab">База и Сеть</button>
+    </div>
+
     <div class="sbody">
-      <div>
-        <div class="slbl">☁️ Облако Firebase (Синхронизация)</div>
-        <div class="cloud-box">
-          <input type="url" class="cloud-inp" id="fb-url" placeholder="Ссылка https://...firebasedatabase.app" autocomplete="off"/>
-          <input type="password" class="cloud-inp" id="fb-sec" placeholder="Секретный пароль из вкладки Rules" autocomplete="off"/>
-          <div class="dbtns">
-            <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
+      <!-- TAB 1: ВИД -->
+      <div class="s-pane on" id="spane-view">
+        <div>
+          <div class="slbl">Тема оформления</div>
+          <div class="trow">
+            <button class="topt" id="t-light" type="button">Светлая</button>
+            <button class="topt" id="t-dark" type="button">Тёмная</button>
+            <button class="topt" id="t-auto" type="button">Авто</button>
           </div>
         </div>
-        <div class="s-hint">Умная синхронизация: в облако передаются только заказы и курсы валют после 5 секунд тишины.</div>
-      </div>
 
-      <div>
-        <div class="slbl">𝕏 Planner — Авторская подпись (Ник)</div>
-        <div class="cloud-box">
-          <input type="text" class="cloud-inp" id="xp-set-handle" placeholder="@v1lyr" autocomplete="off"/>
-          <select class="fsel" id="xp-set-pos" style="margin-bottom:0;height:34px;border-radius:var(--r);">
-            <option value="br">Позиция: Справа внизу</option>
-            <option value="bl">Позиция: Слева внизу</option>
-            <option value="bc">Позиция: По центру внизу</option>
-            <option value="tr">Позиция: Справа вверху</option>
-            <option value="tl">Позиция: Слева вверху</option>
-            <option value="off">Скрыть подпись</option>
-          </select>
+        <div>
+          <div class="slbl">Оттенок фона</div>
+          <div class="trow">
+            <button class="topt" id="tone-warm" type="button">Тёплый</button>
+            <button class="topt" id="tone-cool" type="button">Холодный</button>
+            <button class="topt" id="tone-oled" type="button">Чистый OLED</button>
+          </div>
         </div>
-        <div class="s-hint">Отображается на всех карточках недели в отдельной безопасной зоне холста, не перекрывая превьюшки. Хранится строго локально.</div>
-      </div>
 
-      <div>
-        <div class="slbl">Тема оформления</div>
-        <div class="trow">
-          <button class="topt" id="t-light" type="button">Светлая</button>
-          <button class="topt" id="t-dark" type="button">Тёмная</button>
-          <button class="topt" id="t-auto" type="button">Авто</button>
+        <div>
+          <div class="slbl">Акцентный цвет</div>
+          <div class="accent-row" id="accent-row">
+            <button type="button" class="acc-swatch" data-acc="blue" style="background:#2563eb" title="Классический синий" aria-label="Синий"></button>
+            <button type="button" class="acc-swatch" data-acc="indigo" style="background:#6366f1" title="Индиго" aria-label="Индиго"></button>
+            <button type="button" class="acc-swatch" data-acc="emerald" style="background:#0d9488" title="Изумрудный" aria-label="Изумрудный"></button>
+            <button type="button" class="acc-swatch" data-acc="amber" style="background:#d97706" title="Янтарный" aria-label="Янтарный"></button>
+            <button type="button" class="acc-swatch" data-acc="rose" style="background:#e11d48" title="Рубиновый" aria-label="Рубиновый"></button>
+            <button type="button" class="acc-swatch" data-acc="mono" style="background:#52525b" title="Строгий графит" aria-label="Графит"></button>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <div class="slbl">Оттенок фона</div>
-        <div class="trow">
-          <button class="topt" id="tone-warm" type="button">Тёплый</button>
-          <button class="topt" id="tone-cool" type="button">Холодный</button>
-          <button class="topt" id="tone-oled" type="button">Чистый OLED</button>
+        <div>
+          <div class="slbl">Плотность списка</div>
+          <div class="trow">
+            <button class="topt" id="den-normal" type="button">Обычная</button>
+            <button class="topt" id="den-compact" type="button">Компактная</button>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <div class="slbl">Акцентный цвет</div>
-        <div class="accent-row" id="accent-row">
-          <button type="button" class="acc-swatch" data-acc="blue" style="background:#2563eb" title="Классический синий" aria-label="Синий"></button>
-          <button type="button" class="acc-swatch" data-acc="indigo" style="background:#6366f1" title="Индиго" aria-label="Индиго"></button>
-          <button type="button" class="acc-swatch" data-acc="emerald" style="background:#0d9488" title="Изумрудный" aria-label="Изумрудный"></button>
-          <button type="button" class="acc-swatch" data-acc="amber" style="background:#d97706" title="Янтарный" aria-label="Янтарный"></button>
-          <button type="button" class="acc-swatch" data-acc="rose" style="background:#e11d48" title="Рубиновый" aria-label="Рубиновый"></button>
-          <button type="button" class="acc-swatch" data-acc="mono" style="background:#52525b" title="Строгий графит" aria-label="Графит"></button>
+        <div>
+          <div class="slbl">𝕏 Planner — Авторская подпись</div>
+          <div class="cloud-box">
+            <input type="text" class="cloud-inp" id="xp-set-handle" placeholder="@v1lyr" autocomplete="off"/>
+            <select class="fsel" id="xp-set-pos" style="margin-bottom:0;height:34px;border-radius:var(--r);">
+              <option value="br">Позиция: Справа внизу</option>
+              <option value="bl">Позиция: Слева внизу</option>
+              <option value="bc">Позиция: По центру внизу</option>
+              <option value="tr">Позиция: Справа вверху</option>
+              <option value="tl">Позиция: Слева вверху</option>
+              <option value="off">Скрыть подпись</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div>
-        <div class="slbl">Плотность списка</div>
-        <div class="trow">
-          <button class="topt" id="den-normal" type="button">Обычная</button>
-          <button class="topt" id="den-compact" type="button">Компактная</button>
+      <!-- TAB 2: ФИНАНСЫ -->
+      <div class="s-pane" id="spane-fin">
+        <div>
+          <div class="cplbl">Базовая валюта и курс</div>
+          <div class="cpcurs" id="cp-curs"></div>
+          <div id="cp-rblock"></div>
+          <div class="dbtns" style="margin-top:10px;">
+            <button class="dbtn" id="btn-fetch-rates" type="button">🔄 Обновить курс из сети (Бесплатно)</button>
+          </div>
+          <div class="s-hint">Используется бесплатный open-source CDN (jsDelivr) без ключей и лимитов. Курс всегда можно скорректировать вручную.</div>
         </div>
       </div>
 
-      <div>
-        <div class="cplbl">Базовая валюта и курс</div>
-        <div class="cpcurs" id="cp-curs"></div>
-        <div id="cp-rblock"></div>
-      </div>
-
-      <div>
-        <div class="slbl">Локальный файл и защита (.json)</div>
-        <div class="dbtns">
-          <button class="dbtn" id="btn-exp" type="button">Скачать JSON (⌘S)</button>
-          <button class="dbtn" id="btn-imp" type="button">Загрузить JSON</button>
-          <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">🛟 Вернуть до синхронизации</button>
-          <input type="file" id="imp-inp" accept=".json" style="display:none"/>
+      <!-- TAB 3: БАЗА И СЕТЬ -->
+      <div class="s-pane" id="spane-data">
+        <div>
+          <div class="slbl">☁️ Облако Firebase (Spark Free)</div>
+          <div class="cloud-box">
+            <input type="url" class="cloud-inp" id="fb-url" placeholder="Ссылка https://...firebasedatabase.app" autocomplete="off"/>
+            <input type="password" class="cloud-inp" id="fb-sec" placeholder="Секретный пароль из вкладки Rules" autocomplete="off"/>
+            <div class="dbtns">
+              <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
+            </div>
+          </div>
+          <div class="s-hint">Умная синхронизация: в облако передаются только текстовые записи после 5 секунд тишины. Картинки X Planner хранятся локально в IndexedDB.</div>
         </div>
-        <div class="s-hint">Двойной тап по карточке — редактирование. Долгий тап — меню действий и калькулятор суммы.</div>
+
+        <div>
+          <div class="slbl">Локальный файл и защита (.json)</div>
+          <div class="dbtns">
+            <button class="dbtn" id="btn-exp" type="button">Скачать JSON (⌘S)</button>
+            <button class="dbtn" id="btn-imp" type="button">Загрузить JSON</button>
+            <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">🛟 Вернуть до синхронизации</button>
+            <input type="file" id="imp-inp" accept=".json" style="display:none"/>
+          </div>
+          <div class="s-hint">Alt + Клик по сумме в карточке — быстрое редактирование цены на месте. Двойной клик — полная форма.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -2358,6 +2436,13 @@ function lsG(k) {
 }
 function lsS(k, v) {
   try { localStorage.setItem(k, v); } catch(e) {}
+}
+
+function withViewTransition(fn) {
+  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    try { document.startViewTransition(() => fn()); return; } catch(e) {}
+  }
+  fn();
 }
 
 const CUR_CODE = { '₽': 'RUB', '$': 'USD', '€': 'EUR' };
@@ -2493,7 +2578,6 @@ function restoreEmergencySnapshot() {
     const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
     if (Array.isArray(raw) && raw.length > 0) {
       entries = normalizeLoadedEntries(raw);
-      // Очищаем черный список удаленных, чтобы восстановленный бэкап не затерся при синхронизации
       raw.forEach(e => deletedIds.delete(String(e.id)));
       lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
       save();
@@ -2516,7 +2600,6 @@ function recordDeletedIds(ids) {
   lsS('ff_deleted_ids', JSON.stringify(arr));
 }
 
-// ── X PLANNER HOOKS & OUTROS NOTEBOOK (CLOUD + LOCAL) ──
 const DEFAULT_XP_HOOKS = [
   'one of my fav thumbnails',
   'sketch vs final ✍️',
@@ -2847,6 +2930,7 @@ try {
 let editId = null;
 let _hasDraft = false;
 let _flashIds = new Set();
+let _popBadgeIds = new Set();
 let theme = lsG('ff_theme') || 'auto';
 let accent = lsG('ff_accent') || 'blue';
 let tone = lsG('ff_tone') || 'warm';
@@ -2873,7 +2957,7 @@ let selIds = new Set();
 let _lastClickedCardId = null;
 let _fastClickTime = 0;
 let _fastClickId = null;
-const FAST_DBLCLICK_MS = 320; // Увеличено для надежного двойного тапа на сенсорных экранах
+const FAST_DBLCLICK_MS = 320;
 
 let srchTmr = null;
 let _rateTmr = null;
@@ -2886,7 +2970,7 @@ let _amtManuallyTyped = false;
 let _amtAutoFilled = false;
 let _donutDirty = true;
 let _justLassoed = false;
-let _suppressNextClick = false; // Защита от ложного клика после долгого тапа на мобильных
+let _suppressNextClick = false;
 
 const _clientColorCache = new Map();
 function getClientColor(name) {
@@ -2975,9 +3059,16 @@ function animateNumberText(id, targetNum, formatFn, fallbackStr = '0', unitKey =
     node.textContent = fallbackStr;
     return;
   }
-  const prevVal = (node._lastUnit === unitKey && typeof node._lastVal === 'number') ? node._lastVal : null;
+  const unitChanged = node._lastUnit !== undefined && node._lastUnit !== unitKey;
+  const prevVal = (!unitChanged && typeof node._lastVal === 'number') ? node._lastVal : null;
   node._lastVal = targetNum;
   node._lastUnit = unitKey;
+
+  if (unitChanged) {
+    node.classList.remove('cur-morph');
+    void node.offsetWidth;
+    node.classList.add('cur-morph');
+  }
 
   if (prevVal === null || Math.abs(prevVal - targetNum) < 0.01) {
     node.textContent = formatFn(targetNum);
@@ -3025,7 +3116,7 @@ function cloneEntries() {
 }
 
 /* ══════════════════════════════════════════════
-   4. AMOUNT PARSER & SMART AUTO-PRICE
+   4. AMOUNT PARSER, QUICK ADD & SMART AUTO-PRICE
 ══════════════════════════════════════════════ */
 function pAmt(str) {
   const s = String(str).replace(/,/g,'.').replace(/\s/g,'').trim();
@@ -3055,6 +3146,132 @@ function pAmt(str) {
     const r = ex();
     return (isFinite(r) && p === s.length) ? Math.round(r * 100) / 100 : NaN;
   } catch(e) { return NaN; }
+}
+
+// Парсер строки быстрого ввода: "Превью 2500 Клиент" или "Баннер 50*3 $ Иван"
+function parseQuickAddString(raw) {
+  const str = (raw || '').trim();
+  if (!str) return null;
+  const tokens = str.split(/\s+/);
+  let amtIdx = -1;
+  let parsedAmt = NaN;
+  let detectedCur = null;
+
+  for (let i = 0; i < tokens.length; i++) {
+    let tok = tokens[i];
+    let tokCur = null;
+    for (const c of CURS) {
+      if (tok.endsWith(c) && tok.length > c.length) {
+        tokCur = c;
+        tok = tok.slice(0, -c.length);
+        break;
+      } else if (tok.startsWith(c) && tok.length > c.length) {
+        tokCur = c;
+        tok = tok.slice(c.length);
+        break;
+      }
+    }
+    if (/^[0-9]/.test(tok)) {
+      const val = pAmt(tok);
+      if (!isNaN(val) && val > 0) {
+        amtIdx = i;
+        parsedAmt = val;
+        if (tokCur) detectedCur = tokCur;
+        break;
+      }
+    }
+  }
+
+  if (amtIdx === -1) return null;
+
+  let curTokenIdx = -1;
+  if (!detectedCur && amtIdx + 1 < tokens.length) {
+    const nextTok = tokens[amtIdx + 1].toLowerCase();
+    if (CURS.includes(tokens[amtIdx + 1])) {
+      detectedCur = tokens[amtIdx + 1];
+      curTokenIdx = amtIdx + 1;
+    } else if (nextTok === 'руб' || nextTok === 'р' || nextTok === 'rub') {
+      detectedCur = '₽';
+      curTokenIdx = amtIdx + 1;
+    } else if (nextTok === 'usd' || nextTok === '$') {
+      detectedCur = '$';
+      curTokenIdx = amtIdx + 1;
+    } else if (nextTok === 'eur' || nextTok === '€') {
+      detectedCur = '€';
+      curTokenIdx = amtIdx + 1;
+    }
+  }
+
+  const before = tokens.slice(0, amtIdx).join(' ').trim();
+  const afterStart = curTokenIdx !== -1 ? curTokenIdx + 1 : amtIdx + 1;
+  const after = tokens.slice(afterStart).join(' ').trim();
+
+  let desc = before || after || 'Заказ';
+  let name = (before && after) ? after : (activeClientFilter || lastClient || '');
+  const currency = detectedCur || lastCur || baseCur;
+
+  return { desc, amount: parsedAmt, currency, name };
+}
+
+function onQuickAddInput() {
+  const inp = document.getElementById('qadd-inp');
+  const prev = document.getElementById('qadd-preview');
+  if (!inp || !prev) return;
+  const parsed = parseQuickAddString(inp.value);
+  if (!parsed) {
+    prev.classList.remove('on');
+    prev.textContent = '';
+    return;
+  }
+  const clientPart = parsed.name ? ` · ${parsed.name}` : '';
+  prev.textContent = `${parsed.desc} · ${fmtCur(parsed.amount, parsed.currency)}${clientPart} ↵`;
+  prev.classList.add('on');
+}
+
+function submitQuickAdd() {
+  const inp = document.getElementById('qadd-inp');
+  const prev = document.getElementById('qadd-preview');
+  if (!inp) return;
+  const parsed = parseQuickAddString(inp.value);
+  if (!parsed) {
+    if (inp.value.trim()) {
+      openModal();
+      const fd = document.getElementById('f-desc');
+      if (fd) { fd.value = inp.value.trim(); trySmartAutoPrice(); }
+      inp.value = '';
+      if (prev) prev.classList.remove('on');
+    }
+    return;
+  }
+
+  lastCur = parsed.currency;
+  lsS('ff_last_cur', lastCur);
+  if (parsed.name) {
+    lastClient = parsed.name;
+    lsS('ff_last_client', lastClient);
+  }
+
+  const newId = gid();
+  const td = today();
+  const newEntry = {
+    id: newId,
+    name: parsed.name,
+    amount: parsed.amount,
+    currency: parsed.currency,
+    desc: parsed.desc,
+    note: '',
+    date: td,
+    paid: false,
+    createdAt: td
+  };
+  _flashIds.add(newId);
+  entries.unshift(newEntry);
+  inp.value = '';
+  if (prev) prev.classList.remove('on');
+
+  save();
+  withViewTransition(() => render());
+  showToast(`⚡ Добавлено: ${parsed.desc} (${fmtCur(parsed.amount, parsed.currency)})`);
 }
 
 function trySmartAutoPrice() {
@@ -3097,7 +3314,7 @@ function trySmartAutoPrice() {
 }
 
 /* ══════════════════════════════════════════════
-   5. CURRENCY, CONVERSION & SMART MONTH COMPARISON
+   5. CURRENCY, FREE CDN RATES & SMART COMPARISON
 ══════════════════════════════════════════════ */
 function toB(a,c) {
   if (c === baseCur) return a;
@@ -3168,6 +3385,52 @@ function cycleBaseCur() {
   showToast(`Базовая валюта: ${nextCur}`);
 }
 
+// Бесплатное обновление курсов валют через Open-Source CDN (fawazahmed0/currency-api)
+async function fetchFreeCurrencyRates(silent = false) {
+  const btn = document.getElementById('btn-fetch-rates');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Загрузка курсов...'; }
+  const baseCode = (CUR_CODE[baseCur] || 'RUB').toLowerCase();
+  const urls = [
+    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${baseCode}.json`,
+    `https://latest.currency-api.pages.dev/v1/currencies/${baseCode}.json`
+  ];
+
+  let data = null;
+  for (const u of urls) {
+    try {
+      const res = await fetch(u);
+      if (res.ok) { data = await res.json(); break; }
+    } catch(e) {}
+  }
+
+  if (btn) { btn.disabled = false; btn.textContent = '🔄 Обновить курс из сети (Бесплатно)'; }
+
+  if (!data || !data[baseCode]) {
+    if (!silent) showToast('⚠️ Не удалось загрузить курс, проверьте сеть');
+    return;
+  }
+
+  const map = data[baseCode];
+  let updated = 0;
+  CURS.filter(c => c !== baseCur).forEach(sym => {
+    const code = (CUR_CODE[sym] || '').toLowerCase();
+    const rateFromBase = map[code];
+    if (rateFromBase && rateFromBase > 0) {
+      const val = Math.round((1 / rateFromBase) * 100) / 100;
+      rates[rateKey(sym, baseCur)] = val;
+      updated++;
+    }
+  });
+
+  if (updated > 0) {
+    _donutDirty = true;
+    buildCP();
+    save();
+    render();
+    if (!silent) showToast('✓ Курсы валют обновлены из бесплатного CDN');
+  }
+}
+
 function getComparableMonthSum(ym, maxDayLimit = null) {
   const list = entries.filter(e => {
     if (!e.paid) return false;
@@ -3208,7 +3471,6 @@ function renderMonthTrend() {
   const curSum = getComparableMonthSum(eff, null);
   const prevFullSum = getComparableMonthSum(prevYm, null);
 
-  // Исправление: если в текущем месяце еще нет дохода (0), никогда не показываем ложные "-100%"
   if (curSum <= 0) {
     trendEl.className = 'bal-trend';
     trendEl.textContent = '';
@@ -3615,7 +3877,7 @@ function toggleMoCollapsed() {
    8. SEGMENTED SPECTRUM BAR ANALYTICS
 ══════════════════════════════════════════════ */
 let _donutSegments = [];
-let _donutDefaultSubLbl = 'итого';
+let _donutDefaultSubLbl = 'распределение';
 
 function syncMoTabButtons() {
   const earnBtn = document.getElementById('mo-tab-earn');
@@ -3639,6 +3901,11 @@ function setMoTab(tab) {
   if (!['earned', 'orders', 'awaiting'].includes(tab)) return;
   moTab = tab;
   lsS('ff_motab', tab);
+  if (moCollapsed) {
+    moCollapsed = false;
+    lsS('ff_mo_collapsed', '0');
+    applyMoCollapsedState();
+  }
   syncMoTabButtons();
   _donutDirty = true;
   renderAnalytics();
@@ -3755,7 +4022,7 @@ function renderAnalytics() {
   setText('mo-title', periodTitle);
   if (moCollapsed && window.innerWidth > 768) { _donutDirty = false; return; }
 
-  _donutDefaultSubLbl = moTab === 'orders' ? 'заказов' : 'итого';
+  _donutDefaultSubLbl = moTab === 'orders' ? 'заказов за период' : 'по клиентам';
   setText('an-hover-lbl', _donutDefaultSubLbl);
 
   let segments = [];
@@ -3779,7 +4046,6 @@ function renderAnalytics() {
     segments = items;
     animateNumberText('an-total-val', tot, v => String(Math.round(v)), '0', 'ord_cnt');
   } else {
-    // Исправление: вкладка «Ожидаем» в аналитике теперь также строго фильтруется по выбранному периоду даты заказа
     const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
     const res = buildMoneySegments(period);
     segments = res.segments;
@@ -4005,11 +4271,22 @@ function fbCpy(text, cb) {
 }
 
 /* ══════════════════════════════════════════════
-   10. SETTINGS, THEME & CUSTOMIZATION
+   10. SETTINGS (3 TABS), THEME & CUSTOMIZATION
 ══════════════════════════════════════════════ */
-function openSettings() {
+function switchSettingsTab(tabKey) {
+  document.querySelectorAll('.s-tab[data-stab]').forEach(b => {
+    b.classList.toggle('on', b.dataset.stab === tabKey);
+  });
+  ['view', 'fin', 'data'].forEach(k => {
+    const p = document.getElementById(`spane-${k}`);
+    if (p) p.classList.toggle('on', k === tabKey);
+  });
+}
+
+function openSettings(defaultTab = null) {
   buildCP();
   updateSettingsUI();
+  if (defaultTab) switchSettingsTab(defaultTab);
   document.getElementById('fb-url').value = fbUrl;
   document.getElementById('fb-sec').value = fbSec;
   const hasSnap = !!lsG('ff_pre_sync_snap');
@@ -4091,7 +4368,7 @@ function closeFP() {
   document.getElementById('filter-btn').classList.remove('on');
   document.getElementById('filter-btn').setAttribute('aria-expanded','false');
 }
-function onFilter() { pruneHiddenSelections(); updateFilterState(); renderList(); }
+function onFilter() { pruneHiddenSelections(); updateFilterState(); withViewTransition(() => renderList()); }
 function onSearch() { clearTimeout(srchTmr); srchTmr = setTimeout(() => { pruneHiddenSelections(); renderList(); }, 90); }
 
 function updateFilterState() {
@@ -4136,20 +4413,20 @@ function updateTags() {
     w.appendChild(tag);
   }
 }
-function clearClientFilter(){ activeClientFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
-function clearStatusFilter(){ document.getElementById('f-status').value='all'; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
-function clearWorkFilter(){ activeWorkFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
+function clearClientFilter(){ activeClientFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
+function clearStatusFilter(){ document.getElementById('f-status').value='all'; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
+function clearWorkFilter(){ activeWorkFilter=''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
 function filterByClient(name){
   if (name === 'Без имени') return;
   activeClientFilter = (activeClientFilter===name)?'':name;
   pruneHiddenSelections();
   buildFilterTags();
   updateFilterState();
-  renderList();
+  withViewTransition(() => renderList());
   document.getElementById('sidebar').classList.remove('mobile-open');
   updateMobileNavState('list');
 }
-function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
+function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); withViewTransition(() => renderList()); }
 
 function buildFilterTags() {
   const clients = [...new Set(entries.map(e=>e.name).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));
@@ -4189,7 +4466,7 @@ function getFiltered() {
 }
 
 /* ══════════════════════════════════════════════
-   12. GROUPING, SMART LINKS & RENDERING
+   12. GROUPING, INLINE EDIT, SMART LINKS & RENDERING
 ══════════════════════════════════════════════ */
 function grpKey(e) {
   const d = e.date;
@@ -4254,6 +4531,45 @@ function extractUrlFromNote(note) {
   return { text: cleanText, url: fullUrl, label };
 }
 
+function startInlineAmountEdit(entry, amtNode) {
+  if (!entry || !amtNode || amtNode.querySelector('input')) return;
+  const inp = el('input', {
+    type: 'text',
+    className: 'inline-edit-inp',
+    value: String(entry.amount)
+  });
+  amtNode.textContent = '';
+  amtNode.appendChild(inp);
+  inp.focus();
+  inp.select();
+
+  let done = false;
+  const commit = (saveChanges) => {
+    if (done) return;
+    done = true;
+    if (saveChanges) {
+      const parsed = pAmt(inp.value);
+      if (!isNaN(parsed) && parsed > 0 && parsed !== entry.amount) {
+        entry.amount = parsed;
+        _flashIds.add(entry.id);
+        save();
+        render();
+        showToast(`Сумма обновлена: ${fmtCur(entry.amount, entry.currency)}`);
+        return;
+      }
+    }
+    amtNode.textContent = fmtCur(entry.amount, entry.currency);
+  };
+
+  inp.addEventListener('keydown', ev => {
+    ev.stopPropagation();
+    if (ev.key === 'Enter') { ev.preventDefault(); commit(true); }
+    else if (ev.key === 'Escape') { ev.preventDefault(); commit(false); }
+  });
+  inp.addEventListener('blur', () => commit(true));
+  inp.addEventListener('click', ev => ev.stopPropagation());
+}
+
 function renderEntry(e) {
   let ds = '';
   if (e.date) {
@@ -4264,9 +4580,9 @@ function renderEntry(e) {
   }
   const isSel = selIds.has(e.id);
   const shouldFlash = _flashIds.has(e.id);
-  if (shouldFlash) {
-    _flashIds.delete(e.id);
-  }
+  if (shouldFlash) _flashIds.delete(e.id);
+  const shouldPopBadge = _popBadgeIds.has(e.id);
+  if (shouldPopBadge) _popBadgeIds.delete(e.id);
 
   const card = el('div', {
     className: `entry-card${e.paid?' paid':''}${editId===e.id?' editing':''}${isSel?' sel':''}${shouldFlash?' flash-glow':''}`,
@@ -4275,7 +4591,6 @@ function renderEntry(e) {
   card.setAttribute('tabindex', '0');
   card.setAttribute('aria-pressed', String(isSel));
 
-  // Long press for mobile context menu with suppression of ghost click
   let touchTimer = null;
   let touchMoved = false;
   card.addEventListener('touchstart', ev => {
@@ -4309,7 +4624,7 @@ function renderEntry(e) {
     if (textSel.length > 0) return;
 
     const now = performance.now();
-    if (!ev.shiftKey && !ev.metaKey && !ev.ctrlKey && _fastClickId === e.id && (now - _fastClickTime) <= FAST_DBLCLICK_MS) {
+    if (!ev.shiftKey && !ev.metaKey && !ev.ctrlKey && !ev.altKey && _fastClickId === e.id && (now - _fastClickTime) <= FAST_DBLCLICK_MS) {
       _fastClickTime = 0;
       _fastClickId = null;
       if (window.getSelection) { try { window.getSelection().removeAllRanges(); } catch(err){} }
@@ -4375,10 +4690,22 @@ function renderEntry(e) {
 
   const right = el('div', {className:'er'});
   if (ds) right.appendChild(el('span', {className:'edate'}, [ds]));
-  right.appendChild(el('span', {className:'eamt sel-txt'}, [fmtCur(e.amount, e.currency)]));
+
+  const amtEl = el('span', {
+    className: 'eamt sel-txt',
+    title: 'Alt + Клик — изменить сумму на месте'
+  }, [fmtCur(e.amount, e.currency)]);
+  amtEl.addEventListener('click', ev => {
+    if (ev.altKey) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      startInlineAmountEdit(e, amtEl);
+    }
+  });
+  right.appendChild(amtEl);
 
   const badge = el('button', {
-    className: 'badge ' + (e.paid ? 'p' : 'u'),
+    className: 'badge ' + (e.paid ? 'p' : 'u') + (shouldPopBadge ? ' pop' : ''),
     type: 'button',
     'aria-label': e.paid ? 'оплачено' : 'ждём'
   }, [e.paid ? 'оплачено' : 'ждём']);
@@ -4518,7 +4845,7 @@ function renderList() {
     const empty = el('div', {className:'empty'});
     empty.appendChild(el('div', {className:'empty-ico'}, ['📋']));
     empty.appendChild(el('div', {className:'empty-title'}, ['Пока ничего нет']));
-    empty.appendChild(el('div', {className:'empty-sub'}, ['Добавь первый заказ или перетащи файл бэкапа .json прямо сюда.']));
+    empty.appendChild(el('div', {className:'empty-sub'}, ['Напиши заказ в быструю строку сверху или перетащи файл .json прямо сюда.']));
     if (!entries.length) {
       const ebtn = el('button', {className:'empty-btn', type:'button'}, ['+ Добавить заказ']);
       ebtn.addEventListener('click', openModal);
@@ -4564,7 +4891,7 @@ function render() {
 }
 
 /* ══════════════════════════════════════════════
-   13. SELECTION, SHIFT+CLICK & CONFLICT-FREE LASSO
+   13. SELECTION, FLOATING ISLAND & LASSO
 ══════════════════════════════════════════════ */
 function handleCardClick(id, ev) {
   if (ev && ev.shiftKey && _lastClickedCardId && _lastClickedCardId !== id) {
@@ -4635,15 +4962,24 @@ function clearSel() {
 function updateSelectionUI() {
   const pill = document.getElementById('sel-pill');
   const sWrap = document.getElementById('search-wrap');
-  if (!pill) return;
+  const dock = document.getElementById('sel-dock');
   if (selIds.size > 0) {
-    const { count, mainSum } = getSelectionSumInfo();
+    const { count, mainSum, selList } = getSelectionSumInfo();
+    const anyUnpaid = selList.some(e => !e.paid);
     setText('sel-pill-txt', `${count} · ${mainSum}`);
-    pill.classList.add('on');
+    if (pill) pill.classList.add('on');
     if (sWrap) sWrap.classList.add('has-sel');
+    if (dock) {
+      setText('sel-dock-cnt', String(count));
+      setText('sel-dock-sum', mainSum);
+      const paidBtn = document.getElementById('sel-dock-paid');
+      if (paidBtn) paidBtn.textContent = anyUnpaid ? '✓ Оплачено' : '⏳ В «ждём»';
+      dock.classList.add('on');
+    }
   } else {
-    pill.classList.remove('on');
+    if (pill) pill.classList.remove('on');
     if (sWrap) sWrap.classList.remove('has-sel');
+    if (dock) dock.classList.remove('on');
   }
 }
 
@@ -4766,8 +5102,8 @@ function initFinderLasso() {
   });
 
   window.addEventListener('mousedown', e => {
-    if (e.button !== 0 || window.innerWidth <= 768) return;
-    if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, #ctx-menu, .fpanel, .sel-pill, .m-bottom-nav, .m-hero, button, a, input, select')) return;
+    if (e.button !== 0 || window.innerWidth <= 768 || document.body.classList.contains('xp-mode')) return;
+    if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, #ctx-menu, #sel-dock, .fpanel, .sel-pill, .m-bottom-nav, .m-hero, .qadd-bar, button, a, input, select')) return;
 
     closeCtxMenu();
 
@@ -4854,7 +5190,7 @@ function dupSel() {
     }
   }
   entries.unshift(...[...toA].reverse());
-  save(); selIds.clear(); render();
+  save(); selIds.clear(); withViewTransition(() => render());
 }
 
 function applyBulkPaidStatus(paidStatus) {
@@ -4870,6 +5206,7 @@ function applyBulkPaidStatus(paidStatus) {
   const td = today();
 
   targetEntries.forEach(e => {
+    _popBadgeIds.add(e.id);
     if (paidStatus) {
       e.paid = true;
       e.paidAt = e.paidAt || td;
@@ -4881,7 +5218,7 @@ function applyBulkPaidStatus(paidStatus) {
 
   save();
   clearSel();
-  render();
+  withViewTransition(() => render());
 
   showToast(paidStatus ? `Отмечено оплаченными: ${cnt}` : `Снята оплата: ${cnt}`, () => {
     entries = snapshot; save(); render();
@@ -4901,7 +5238,7 @@ async function delSel() {
   recordDeletedIds(removedIds);
   if (editId && selIds.has(editId)) { editId = null; clearForm(); }
   entries = entries.filter(e => !selIds.has(e.id));
-  save(); selIds.clear(); render();
+  save(); selIds.clear(); withViewTransition(() => render());
   showToast(`Удалено записей: ${cnt}`, () => {
     removedIds.forEach(id => deletedIds.delete(String(id)));
     lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
@@ -4919,8 +5256,9 @@ function togPaid(id) {
   } else {
     delete e.paidAt;
   }
+  _popBadgeIds.add(id);
   save();
-  render();
+  withViewTransition(() => render());
 
   showToast(e.paid ? 'Статус: Оплачено' : 'Статус: Ждём оплату', () => {
     entries = snapshot; save(); render();
@@ -4928,7 +5266,7 @@ function togPaid(id) {
 }
 
 /* ══════════════════════════════════════════════
-   14. MODAL, DRAFTS & SERIAL ENTRY WITH HIGHLIGHT GLOW
+   14. MODAL, DRAFTS & SERIAL ENTRY
 ══════════════════════════════════════════════ */
 function openModal() {
   document.getElementById('sidebar').classList.remove('mobile-open');
@@ -5098,7 +5436,7 @@ function submitForm(keepOpen = false) {
   }
 
   save();
-  render();
+  withViewTransition(() => render());
 
   if (keepOpen && !wasEdit) {
     if (descEl) descEl.value = '';
@@ -5203,7 +5541,6 @@ function applyImportedPayload(raw, replaceMode = true) {
     const newItems = normalizeLoadedEntries(valid).filter(x => !ex.has(x.id));
     entries = [...newItems, ...entries];
   }
-  // Очищаем черный список для импортированных записей, чтобы облако их не удалило
   entries.forEach(x => deletedIds.delete(String(x.id)));
   lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
 
@@ -5265,6 +5602,45 @@ function bindEvents() {
   document.getElementById('btn-inv').addEventListener('click', toggleInvDd);
   document.getElementById('m-period-btn').addEventListener('click', openPeriodSheet);
 
+  // Быстрый ввод (Quick Add Bar)
+  const qInp = document.getElementById('qadd-inp');
+  if (qInp) {
+    qInp.addEventListener('input', onQuickAddInput);
+    qInp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitQuickAdd();
+      } else if (e.key === 'Escape') {
+        qInp.value = '';
+        onQuickAddInput();
+        qInp.blur();
+      }
+    });
+  }
+
+  // Плавающий остров выделения (#sel-dock)
+  document.getElementById('sel-dock-paid')?.addEventListener('click', () => {
+    const selList = entries.filter(e => selIds.has(e.id));
+    if (selList.some(e => !e.paid)) markPaid(); else markUnpaid();
+  });
+  document.getElementById('sel-dock-ru')?.addEventListener('click', () => copySelectedInv('ru'));
+  document.getElementById('sel-dock-en')?.addEventListener('click', () => copySelectedInv('en'));
+  document.getElementById('sel-dock-dup')?.addEventListener('click', () => dupSel());
+  document.getElementById('sel-dock-del')?.addEventListener('click', () => delSel());
+  document.getElementById('sel-dock-clr')?.addEventListener('click', () => clearSel());
+
+  // Карточки баланса в сайдбаре переключают вкладку спектра
+  document.getElementById('card-await')?.addEventListener('click', e => {
+    if (e.target.closest('#val-await')) return;
+    setMoTab('awaiting');
+  });
+  document.getElementById('card-recv')?.addEventListener('click', e => {
+    if (e.target.closest('#val-recv')) return;
+    setMoTab('earned');
+  });
+  document.getElementById('val-await').addEventListener('click', e => { e.stopPropagation(); cycleBaseCur(); });
+  document.getElementById('val-recv').addEventListener('click', e => { e.stopPropagation(); cycleBaseCur(); });
+
   document.getElementById('m-card-await').addEventListener('click', cycleBaseCur);
   document.getElementById('m-card-recv').addEventListener('click', () => {
     const sb = document.getElementById('sidebar');
@@ -5311,9 +5687,6 @@ function bindEvents() {
     if (e.target === document.getElementById('period-sheet-ov')) closePeriodSheet();
   });
 
-  document.getElementById('val-await').addEventListener('click', cycleBaseCur);
-  document.getElementById('val-recv').addEventListener('click', cycleBaseCur);
-
   document.getElementById('mo-collapse-btn').addEventListener('click', toggleMoCollapsed);
 
   document.getElementById('sel-pill').addEventListener('click', e => {
@@ -5351,7 +5724,7 @@ function bindEvents() {
 
   document.getElementById('top-sync-btn').addEventListener('click', () => {
     if (fbUrl) safeSyncWithFirebase(true);
-    else openSettings();
+    else openSettings('data');
   });
 
   document.getElementById('btn-fb-save').addEventListener('click', () => {
@@ -5368,7 +5741,12 @@ function bindEvents() {
     safeSyncWithFirebase(true);
   });
 
+  document.getElementById('btn-fetch-rates')?.addEventListener('click', () => fetchFreeCurrencyRates(false));
   document.getElementById('btn-restore-snap').addEventListener('click', restoreEmergencySnapshot);
+
+  document.querySelectorAll('.s-tab[data-stab]').forEach(tabBtn => {
+    tabBtn.addEventListener('click', () => switchSettingsTab(tabBtn.dataset.stab));
+  });
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden' && _hasUnsynced && fbUrl) {
@@ -5384,17 +5762,20 @@ function bindEvents() {
   let dragCounter = 0;
   const dz = document.getElementById('drop-zone');
   window.addEventListener('dragenter', e => {
+    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter++;
     if (dz) dz.classList.add('on');
   });
   window.addEventListener('dragleave', e => {
+    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter--;
     if (dragCounter <= 0) { dragCounter = 0; if (dz) dz.classList.remove('on'); }
   });
   window.addEventListener('dragover', e => e.preventDefault());
   window.addEventListener('drop', e => {
+    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter = 0;
     if (dz) dz.classList.remove('on');
@@ -5432,7 +5813,7 @@ function bindEvents() {
   document.getElementById('mo-tab-ord').addEventListener('click', () => setMoTab('orders'));
   document.getElementById('mo-tab-await').addEventListener('click', () => setMoTab('awaiting'));
 
-  document.getElementById('btn-settings').addEventListener('click', openSettings);
+  document.getElementById('btn-settings').addEventListener('click', () => openSettings());
   document.getElementById('btn-exp').addEventListener('click', exportData);
   document.getElementById('btn-imp').addEventListener('click', trigImport);
   document.getElementById('imp-inp').addEventListener('change', importData);
@@ -5574,11 +5955,12 @@ function bindEvents() {
   render();
   restoreFromSafariVaultIfEmpty();
   if (fbUrl) safeSyncWithFirebase(false);
+  if (Object.keys(rates).length === 0) fetchFreeCurrencyRates(true);
 })();
 </script>
-  <script id="xp-script">
+<script id="xp-script">
 /* ══════════════════════════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — ISOLATED MODULE (FREEFORM + PENCIL CROP)
+   X (TWITTER) WEEKLY PLANNER — CLEAN STUDIO & DIRECT CANVAS MANIPULATION
 ══════════════════════════════════════════════════════════════════ */
 const TwitterPlanner = (() => {
   const DB_NAME = 'InvoeXPlannerLocalDB';
@@ -5596,7 +5978,6 @@ const TwitterPlanner = (() => {
     { idx: 6, key: 'sun', num: '07', code: 'Sun', ru: 'Воскресенье' }
   ];
 
-  // Семантические ключи слотов: 'final' всегда хранит главное превью при переключении любого шаблона!
   const ALL_SLOT_KEYS = ['s1', 's2', 's3', 'final'];
 
   const PRESETS = {
@@ -5654,28 +6035,23 @@ const TwitterPlanner = (() => {
     }
   };
 
-  // Константы геометрии Apple Freeform (1920px рабочая зона)
   const CONTENT_W = 1920;
   const PAD = 56;
   const HANDLE_BAND = 54;
   const GAP_ROW = 26;
   const GAP_TIGHT = 20;
-  const CANVAS_W = CONTENT_W + PAD * 2; // 2032px
   const FULL_H = 1080;
   const R_LG = 22;
   const R_SM = 16;
 
   let _dbPromise = null;
   let _activeView = 'invoe';
-  let _armedSlot = null;     // { dayIdx, slotKey } — целевой слот для ⌘V
-  let _cropSlot = null;      // { dayIdx, slotKey } — АКТИВНЫЙ режим кадрирования ✏️ (null = обычный скролл страницы)
-  let _hoveredSlot = null;   // { dayIdx, slotKey }
-  let _draggedSlot = null;   // { dayIdx, slotKey } для перетаскивания слотов местами (Swap)
+  let _armedSlot = null;     // { dayIdx, slotKey } — активный слот для ⌘V и HUD
+  let _hoveredSlot = null;   // { dayIdx, slotKey } — слот под курсором мыши на самом холсте
 
-  // Глобальные настройки авторской подписи (ника) — хранятся строго локально
   let userHandle = 'v1lyr';
   let handlePos = 'br';
-  let layoutMode = 'grid'; // 'grid' или 'feed'
+  let layoutMode = 'grid';
   try {
     const savedH = localStorage.getItem('xp_user_handle');
     userHandle = savedH !== null ? savedH : 'v1lyr';
@@ -5692,18 +6068,18 @@ const TwitterPlanner = (() => {
   const state = DAYS.map(d => ({
     dayIdx: d.idx,
     preset: 'sketch1_final',
-    padMode: 'L',     // 'L' (56px), 'S' (24px), '0' (0px)
-    bgTheme: 'light', // 'light' (#FFFFFF) или 'dark' (#111110)
+    padMode: 'L',
+    bgTheme: 'light',
     caption: '',
     labelLeft: 'assets',
     labelRight: 'inspo',
     badgeTop: '',
     badgeBot: '',
     palette: ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'],
-    images: {},      // slotKey -> HTMLImageElement
-    thumbUrls: {},   // slotKey -> ObjectURL
-    transforms: {},  // slotKey -> { scale: 1, panX: 0, panY: 0 }
-    hitRegions: []   // Координаты слотов на холсте для интерактивного кадрирования мышкой
+    images: {},
+    thumbUrls: {},
+    transforms: {},
+    hitRegions: []
   }));
 
   function getSlotTransform(d, slotKey) {
@@ -5713,7 +6089,7 @@ const TwitterPlanner = (() => {
     return d.transforms[slotKey];
   }
 
-  /* ── 1. НАТИВНАЯ БАЗА INDEXEDDB (0 БАЙТ В FIREBASE) ── */
+  /* ── 1. INDEXEDDB STORAGE ── */
   function openDB() {
     if (_dbPromise) return _dbPromise;
     _dbPromise = new Promise((resolve, reject) => {
@@ -5846,41 +6222,12 @@ const TwitterPlanner = (() => {
         }
       }
 
-      // Обратная совместимость со старыми числовыми слотами (d0_s0..s3)
-      const legacyPromises = [];
-      for (let dIdx = 0; dIdx < 7; dIdx++) {
-        const pCfg = PRESETS[state[dIdx].preset] || PRESETS.sketch1_final;
-        pCfg.slots.forEach((slotObj, numIdx) => {
-          if (!state[dIdx].images[slotObj.key]) {
-            legacyPromises.push(new Promise(res => {
-              const r = imgsStore.get(`d${dIdx}_s${numIdx}`);
-              r.onsuccess = () => res({ dIdx, sKey: slotObj.key, blob: r.result });
-              r.onerror = () => res({ dIdx, sKey: slotObj.key, blob: null });
-            }));
-          }
-        });
-      }
-      if (legacyPromises.length) {
-        const legBlobs = await Promise.all(legacyPromises);
-        for (const item of legBlobs) {
-          if (item.blob instanceof Blob && !state[item.dIdx].images[item.sKey]) {
-            try {
-              const { img, url } = await loadImageFromBlob(item.blob);
-              state[item.dIdx].images[item.sKey] = img;
-              state[item.dIdx].thumbUrls[item.sKey] = url;
-              saveSlotBlob(item.dIdx, item.sKey, item.blob);
-            } catch (e) {}
-          }
-        }
-      }
-
       DAYS.forEach(d => refreshDayCardUI(d.idx));
       updateReadyBadge();
       resizeAllCaptions();
     } catch (e) {}
   }
 
-  /* ── 2. УТИЛИТЫ УВЕДОМЛЕНИЙ И СТАТУСА ── */
   function notify(msg) {
     if (typeof window.showToast === 'function') window.showToast(msg);
   }
@@ -5901,7 +6248,7 @@ const TwitterPlanner = (() => {
     }
   }
 
-  /* ── 3. МАТЕМАТИКА И РЕНДЕР 6 ПРЕСЕТОВ В СТИЛЕ APPLE FREEFORM + PHOTOSHOP CROP + НИК ── */
+  /* ── 2. CANVAS RENDERING (FREEFORM SHADOWS + INTERACTIVE HOVER RING) ── */
   function getSrgbContext(canvas) {
     try {
       const ctx = canvas.getContext('2d', { colorSpace: 'srgb', alpha: false });
@@ -5947,7 +6294,6 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  // Стильный мини-бейдж поверх превью (для A/B или До/После в Vertical Stack)
   function drawCornerBadge(ctx, text, slotX, slotY) {
     const clean = (text || '').trim();
     if (!clean) return;
@@ -5979,11 +6325,11 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  // Отрисовка слота с учетом кадрирования/зума
-  function drawImageSlot(ctx, d, slotKey, x, y, w, h, radius, placeholderLabel) {
+  function drawImageSlot(ctx, d, slotKey, x, y, w, h, radius, placeholderLabel, isExport = false) {
     const img = d.images[slotKey];
     const isDark = d.bgTheme === 'dark';
-    const baseFill = img ? (isDark ? '#181816' : '#f4f4f2') : (isDark ? '#191917' : '#f6f6f4');
+    const isHovered = !isExport && _hoveredSlot && _hoveredSlot.dayIdx === d.dayIdx && _hoveredSlot.slotKey === slotKey;
+    const baseFill = img ? (isDark ? '#181816' : '#f4f4f2') : (isDark ? (isHovered ? '#222220' : '#191917') : (isHovered ? '#eeeeea' : '#f6f6f4'));
 
     d.hitRegions.push({ key: slotKey, label: placeholderLabel, x, y, w, h });
 
@@ -6021,22 +6367,21 @@ const TwitterPlanner = (() => {
     } else {
       ctx.fillStyle = baseFill;
       ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = isDark ? '#5c5c54' : '#b2b2aa';
-      const fontSize = Math.max(22, Math.min(38, Math.round(w * 0.032)));
-      ctx.font = `500 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+      ctx.fillStyle = isHovered ? '#1d9bf0' : (isDark ? '#5c5c54' : '#a8a8a0');
+      const fontSize = Math.max(22, Math.min(36, Math.round(w * 0.03)));
+      ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(placeholderLabel || '16:9', x + w / 2, y + h / 2);
+      const promptTxt = isHovered ? `+ Вставить (${placeholderLabel})` : `+ ${placeholderLabel || '16:9'}`;
+      ctx.fillText(promptTxt, x + w / 2, y + h / 2);
     }
     ctx.restore();
 
-    // Синяя рамка рисуется на холсте ТОЛЬКО когда включен режим кадрирования ✏️ (_cropSlot)
-    const isCroppingThis = _cropSlot && _cropSlot.dayIdx === d.dayIdx && _cropSlot.slotKey === slotKey;
     ctx.save();
     traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
-    ctx.lineWidth = isCroppingThis ? 5 : 1.2;
-    ctx.strokeStyle = isCroppingThis
-      ? '#1d9bf0'
+    ctx.lineWidth = isHovered ? 4 : 1.2;
+    ctx.strokeStyle = isHovered
+      ? 'rgba(29, 155, 240, 0.85)'
       : (isDark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(0, 0, 0, 0.06)');
     ctx.stroke();
     ctx.restore();
@@ -6071,13 +6416,10 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
-  function renderDayCanvas(dayIdx, hideActiveOutline = false) {
+  function renderDayCanvas(dayIdx, isExport = false) {
     const d = state[dayIdx];
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     if (!canvas) return;
-
-    const prevCrop = _cropSlot;
-    if (hideActiveOutline) _cropSlot = null;
 
     d.hitRegions = [];
     const isDark = d.bgTheme === 'dark';
@@ -6102,11 +6444,11 @@ const TwitterPlanner = (() => {
       const stackGap = 24;
       contentH = FULL_H * 2 + stackGap;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', pad, padTop, CONTENT_W, FULL_H, rLg, 'Top 16:9');
+        drawImageSlot(ctx, d, 's1', pad, padTop, CONTENT_W, FULL_H, rLg, 'Top 16:9', isExport);
         drawCornerBadge(ctx, d.badgeTop, pad, padTop);
 
         const botY = padTop + FULL_H + stackGap;
-        drawImageSlot(ctx, d, 'final', pad, botY, CONTENT_W, FULL_H, rLg, 'Bottom 16:9');
+        drawImageSlot(ctx, d, 'final', pad, botY, CONTENT_W, FULL_H, rLg, 'Bottom 16:9', isExport);
         drawCornerBadge(ctx, d.badgeBot, pad, botY);
       };
     } else if (p === 'sketch3_final') {
@@ -6117,9 +6459,9 @@ const TwitterPlanner = (() => {
         const keys = ['s1', 's2', 's3'];
         for (let i = 0; i < 3; i++) {
           const sx = pad + i * (skW + GAP_TIGHT);
-          drawImageSlot(ctx, d, keys[i], sx, padTop, skW, skH, rSm, `Sketch ${i + 1}`);
+          drawImageSlot(ctx, d, keys[i], sx, padTop, skW, skH, rSm, `Sketch ${i + 1}`, isExport);
         }
-        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9');
+        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
       };
     } else if (p === 'sketch1_final') {
       const skW = Math.round(CONTENT_W * 0.72);
@@ -6127,8 +6469,8 @@ const TwitterPlanner = (() => {
       const skX = pad + Math.round((CONTENT_W - skW) / 2);
       contentH = skH + GAP_ROW + FULL_H;
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', skX, padTop, skW, skH, rSm, 'Sketch 16:9');
-        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9');
+        drawImageSlot(ctx, d, 's1', skX, padTop, skW, skH, rSm, 'Sketch 16:9', isExport);
+        drawImageSlot(ctx, d, 'final', pad, padTop + skH + GAP_ROW, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
       };
     } else if (p === 'assets_inspo') {
       const groupW = Math.round(CONTENT_W * 0.86);
@@ -6152,9 +6494,9 @@ const TwitterPlanner = (() => {
         ctx.fillText(lbl2, startX + slotW + GAP_TIGHT + slotW / 2, topSlotY - 14);
         ctx.restore();
 
-        drawImageSlot(ctx, d, 's1', startX, topSlotY, slotW, slotH, rSm, lbl1 || 'assets');
-        drawImageSlot(ctx, d, 's2', startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, rSm, lbl2 || 'inspo');
-        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9');
+        drawImageSlot(ctx, d, 's1', startX, topSlotY, slotW, slotH, rSm, lbl1 || 'assets', isExport);
+        drawImageSlot(ctx, d, 's2', startX + slotW + GAP_TIGHT, topSlotY, slotW, slotH, rSm, lbl2 || 'inspo', isExport);
+        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
       };
     } else if (p === 'palette_final') {
       const groupW = Math.round(CONTENT_W * 0.82);
@@ -6170,9 +6512,7 @@ const TwitterPlanner = (() => {
         for (let i = 0; i < 5; i++) {
           const sx = startX + i * (swSize + swGap);
           const col = d.palette[i] || '#cccccc';
-
           fillWithFreeformShadow(ctx, sx, padTop, swSize, swH, rSm, col, isDark);
-
           ctx.save();
           traceRoundRect(ctx, sx + 0.75, padTop + 0.75, swSize - 1.5, swH - 1.5, rSm);
           ctx.lineWidth = 1.5;
@@ -6180,7 +6520,7 @@ const TwitterPlanner = (() => {
           ctx.stroke();
           ctx.restore();
         }
-        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9');
+        drawImageSlot(ctx, d, 'final', pad, finalY, CONTENT_W, FULL_H, rLg, 'Final 16:9', isExport);
       };
     } else if (p === 'grid2x2') {
       const gridGap = 20;
@@ -6189,10 +6529,10 @@ const TwitterPlanner = (() => {
       contentH = cellH * 2 + gridGap;
 
       layoutFn = ctx => {
-        drawImageSlot(ctx, d, 's1', pad, padTop, cellW, cellH, rSm, 'Top-Left');
-        drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Top-Right');
-        drawImageSlot(ctx, d, 's3', pad, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Left');
-        drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Right');
+        drawImageSlot(ctx, d, 's1', pad, padTop, cellW, cellH, rSm, 'Top-Left', isExport);
+        drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Top-Right', isExport);
+        drawImageSlot(ctx, d, 's3', pad, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Left', isExport);
+        drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Right', isExport);
       };
     }
 
@@ -6209,11 +6549,9 @@ const TwitterPlanner = (() => {
     if (layoutFn) layoutFn(ctx);
     drawAuthorHandle(ctx, canvasW, totalH, pad, hBand, isDark);
     ctx.restore();
-
-    if (hideActiveOutline) _cropSlot = prevCrop;
   }
 
-  /* ── 4. РЕЖИМ КАДРИРОВАНИЯ ✏️ (БЕЗ ПОМЕХ СКРОЛЛУ СТРАНИЦЫ) ── */
+  /* ── 3. DIRECT MANIPULATION ON CANVAS (CLICK, DRAG-PAN, ALT+SCROLL ZOOM, FLOATING HUD) ── */
   function hitTestCanvasSlot(dayIdx, clientX, clientY) {
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     const d = state[dayIdx];
@@ -6232,147 +6570,32 @@ const TwitterPlanner = (() => {
     return null;
   }
 
-  function toggleCropMode(dayIdx, preferredSlotKey = null) {
+  function updateSlotHud(dayIdx) {
+    const hud = document.getElementById(`xp-hud-${dayIdx}`);
+    if (!hud) return;
     const d = state[dayIdx];
+    const targetKey = (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx && d.images[_hoveredSlot.slotKey])
+      ? _hoveredSlot.slotKey
+      : ((_armedSlot && _armedSlot.dayIdx === dayIdx && d.images[_armedSlot.slotKey]) ? _armedSlot.slotKey : null);
+
+    if (!targetKey || !d.images[targetKey]) {
+      hud.classList.remove('on');
+      return;
+    }
+
     const presetCfg = PRESETS[d.preset];
-    if (!presetCfg) return;
-
-    // Если нажали повторно на тот же слот или кнопку ✏️ активного дня — выключаем режим кадрирования
-    if (_cropSlot && _cropSlot.dayIdx === dayIdx && (!preferredSlotKey || _cropSlot.slotKey === preferredSlotKey)) {
-      exitCropMode();
+    const slotMeta = presetCfg ? presetCfg.slots.find(s => s.key === targetKey) : null;
+    if (!slotMeta) {
+      hud.classList.remove('on');
       return;
     }
 
-    let targetKey = preferredSlotKey;
-    if (!targetKey || !d.images[targetKey]) {
-      if (_armedSlot && _armedSlot.dayIdx === dayIdx && d.images[_armedSlot.slotKey]) {
-        targetKey = _armedSlot.slotKey;
-      } else {
-        const firstLoaded = presetCfg.slots.find(s => Boolean(d.images[s.key]));
-        if (firstLoaded) targetKey = firstLoaded.key;
-      }
-    }
-
-    if (!targetKey || !d.images[targetKey]) {
-      notify('Сначала загрузи картинку в слот, чтобы кадрировать её');
-      return;
-    }
-
-    const prevDay = _cropSlot ? _cropSlot.dayIdx : null;
-    _cropSlot = { dayIdx, slotKey: targetKey };
-    _armedSlot = { dayIdx, slotKey: targetKey };
-
-    if (prevDay !== null && prevDay !== dayIdx) {
-      refreshDayCardUI(prevDay);
-    }
-    refreshDayCardUI(dayIdx);
-  }
-
-  function exitCropMode() {
-    if (!_cropSlot) return;
-    const prevDay = _cropSlot.dayIdx;
-    _cropSlot = null;
-    refreshDayCardUI(prevDay);
-  }
-
-  function bindCanvasCropEvents(dayIdx, canvas) {
-    let draggingKey = null;
-    let lastX = 0, lastY = 0;
-    let cScale = 1;
-
-    function onWindowPointerMove(e) {
-      if (!draggingKey) return;
-      e.preventDefault();
-      const dx = (e.clientX - lastX) * cScale;
-      const dy = (e.clientY - lastY) * cScale;
-      lastX = e.clientX;
-      lastY = e.clientY;
-
-      const tr = getSlotTransform(state[dayIdx], draggingKey);
-      tr.panX = Math.round((tr.panX || 0) + dx);
-      tr.panY = Math.round((tr.panY || 0) + dy);
-      renderDayCanvas(dayIdx);
-    }
-
-    function onWindowPointerUp() {
-      if (!draggingKey) return;
-      draggingKey = null;
-      window.removeEventListener('pointermove', onWindowPointerMove);
-      window.removeEventListener('pointerup', onWindowPointerUp);
-      window.removeEventListener('pointercancel', onWindowPointerUp);
-      window.removeEventListener('blur', onWindowPointerUp);
-      saveDayMeta(dayIdx);
-    }
-
-    canvas.addEventListener('pointerdown', e => {
-      if (e.button !== 0) return;
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      if (!hit) return;
-
-      const sKey = hit.region.key;
-      armSlot(dayIdx, sKey);
-
-      // Перетаскивание работает СТРОГО тогда, когда на этом дне включен карандашик ✏️ (_cropSlot)
-      if (!_cropSlot || _cropSlot.dayIdx !== dayIdx) return;
-
-      if (!state[dayIdx].images[sKey]) return;
-      if (_cropSlot.slotKey !== sKey) {
-        _cropSlot.slotKey = sKey;
-        refreshDayCardUI(dayIdx);
-      }
-
-      e.preventDefault();
-      draggingKey = sKey;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      cScale = hit.scaleFactor;
-
-      window.addEventListener('pointermove', onWindowPointerMove, { passive: false });
-      window.addEventListener('pointerup', onWindowPointerUp);
-      window.addEventListener('pointercancel', onWindowPointerUp);
-      window.addEventListener('blur', onWindowPointerUp);
-    });
-
-    // Зум колесиком мыши работает СТРОГО в активном режиме кадрирования ✏️! В обычном режиме страница свободно скроллится.
-    canvas.addEventListener('wheel', e => {
-      if (!_cropSlot || _cropSlot.dayIdx !== dayIdx) return;
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      if (!hit) return;
-      const sKey = hit.region.key;
-      if (!state[dayIdx].images[sKey]) return;
-
-      e.preventDefault();
-      if (_cropSlot.slotKey !== sKey) {
-        _cropSlot.slotKey = sKey;
-        armSlot(dayIdx, sKey);
-      }
-      const tr = getSlotTransform(state[dayIdx], sKey);
-      const factor = e.deltaY < 0 ? 1.06 : 0.94;
-      tr.scale = Math.max(0.25, Math.min(3.5, Math.round((tr.scale || 1) * factor * 100) / 100));
-      renderDayCanvas(dayIdx);
-      updateCropBarUI(dayIdx);
-      saveDayMeta(dayIdx);
-    }, { passive: false });
-
-    // Двойной клик по слоту в режиме кадрирования сбрасывает масштаб в 100%
-    canvas.addEventListener('dblclick', e => {
-      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
-      if (!hit) return;
-      const sKey = hit.region.key;
-      if (!state[dayIdx].images[sKey]) {
-        triggerFileDialog(dayIdx, sKey);
-        return;
-      }
-      if (!_cropSlot || _cropSlot.dayIdx !== dayIdx) {
-        toggleCropMode(dayIdx, sKey);
-        return;
-      }
-      state[dayIdx].transforms[sKey] = { scale: 1, panX: 0, panY: 0 };
-      renderDayCanvas(dayIdx);
-      updateCropBarUI(dayIdx);
-      saveDayMeta(dayIdx);
-      notify('Кадрирование сброшено (100%)');
-    });
+    const tr = getSlotTransform(d, targetKey);
+    const pct = Math.round((tr.scale || 1) * 100);
+    hud.dataset.slot = targetKey;
+    const lbl = hud.querySelector('.xp-hud-lbl');
+    if (lbl) lbl.textContent = `${slotMeta.label} · ${pct}%`;
+    hud.classList.add('on');
   }
 
   function fitSlotContain(dayIdx, slotKey) {
@@ -6392,44 +6615,188 @@ const TwitterPlanner = (() => {
       panY: 0
     };
     renderDayCanvas(dayIdx);
-    updateCropBarUI(dayIdx);
+    updateSlotHud(dayIdx);
     saveDayMeta(dayIdx);
   }
 
-  function updateCropBarUI(dayIdx) {
-    const bar = document.getElementById(`xp-crop-${dayIdx}`);
-    const cv = document.getElementById(`xp-cv-${dayIdx}`);
-    const cropBtn = document.getElementById(`xp-crop-btn-${dayIdx}`);
-    if (!bar) return;
+  function bindDirectCanvasEvents(dayIdx, canvas) {
+    let downSlotKey = null;
+    let isPanning = false;
+    let startX = 0, startY = 0;
+    let lastX = 0, lastY = 0;
+    let cScale = 1;
 
-    const d = state[dayIdx];
-    const isCroppingDay = _cropSlot && _cropSlot.dayIdx === dayIdx;
-    const sKey = isCroppingDay ? _cropSlot.slotKey : null;
-    const presetCfg = PRESETS[d.preset];
-    const slotMeta = presetCfg && sKey ? presetCfg.slots.find(s => s.key === sKey) : null;
+    canvas.addEventListener('pointermove', e => {
+      if (isPanning) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      const nextKey = hit ? hit.region.key : null;
+      const prevKey = (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx) ? _hoveredSlot.slotKey : null;
 
-    if (!isCroppingDay || !slotMeta || !d.images[sKey]) {
-      bar.classList.remove('on');
-      if (cv) cv.classList.remove('is-cropping');
-      if (cropBtn) cropBtn.classList.remove('on');
-      return;
+      const hasImg = Boolean(nextKey && state[dayIdx].images[nextKey]);
+      canvas.classList.toggle('has-slot-img', hasImg);
+
+      if (nextKey !== prevKey) {
+        _hoveredSlot = nextKey ? { dayIdx, slotKey: nextKey } : null;
+        if (nextKey && state[dayIdx].images[nextKey]) {
+          _armedSlot = { dayIdx, slotKey: nextKey };
+        }
+        renderDayCanvas(dayIdx);
+        updateSlotHud(dayIdx);
+      }
+    });
+
+    canvas.addEventListener('pointerleave', () => {
+      if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx) {
+        _hoveredSlot = null;
+        canvas.classList.remove('has-slot-img');
+        renderDayCanvas(dayIdx);
+        updateSlotHud(dayIdx);
+      }
+    });
+
+    function onWindowPointerMove(e) {
+      if (!downSlotKey) return;
+      const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
+      if (!isPanning && dist > 4) {
+        isPanning = true;
+        canvas.classList.add('is-panning');
+      }
+      if (!isPanning) return;
+
+      e.preventDefault();
+      const dx = (e.clientX - lastX) * cScale;
+      const dy = (e.clientY - lastY) * cScale;
+      lastX = e.clientX;
+      lastY = e.clientY;
+
+      const tr = getSlotTransform(state[dayIdx], downSlotKey);
+      tr.panX = Math.round((tr.panX || 0) + dx);
+      tr.panY = Math.round((tr.panY || 0) + dy);
+      renderDayCanvas(dayIdx);
     }
 
-    bar.classList.add('on');
-    if (cv) cv.classList.add('is-cropping');
-    if (cropBtn) cropBtn.classList.add('on');
+    function onWindowPointerUp(e) {
+      if (!downSlotKey) return;
+      const targetKey = downSlotKey;
+      const wasPanning = isPanning;
+      downSlotKey = null;
+      isPanning = false;
+      canvas.classList.remove('is-panning');
 
-    const tr = getSlotTransform(d, sKey);
-    const pct = Math.round((tr.scale || 1) * 100);
-    const lblEl = bar.querySelector('.xp-crop-lbl');
-    const rngEl = bar.querySelector('.xp-crop-range');
-    const pctEl = bar.querySelector('.xp-crop-pct');
-    if (lblEl) lblEl.textContent = `✏️ ${slotMeta.label}`;
-    if (rngEl) rngEl.value = String(pct);
-    if (pctEl) pctEl.textContent = `${pct}%`;
+      window.removeEventListener('pointermove', onWindowPointerMove);
+      window.removeEventListener('pointerup', onWindowPointerUp);
+      window.removeEventListener('pointercancel', onWindowPointerUp);
+
+      if (wasPanning) {
+        // Если перетащили на другой слот с зажатым Shift — меняем слоты местами
+        if (e && e.shiftKey) {
+          const dropHit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+          if (dropHit && dropHit.region.key !== targetKey) {
+            swapSlots(dayIdx, targetKey, dropHit.region.key);
+            return;
+          }
+        }
+        saveDayMeta(dayIdx);
+      } else {
+        // Обычный клик без перетаскивания: если слот пустой — открываем выбор файла
+        if (!state[dayIdx].images[targetKey]) {
+          triggerFileDialog(dayIdx, targetKey);
+        } else {
+          _armedSlot = { dayIdx, slotKey: targetKey };
+          updateSlotHud(dayIdx);
+        }
+      }
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+
+      const sKey = hit.region.key;
+      _armedSlot = { dayIdx, slotKey: sKey };
+      updateSlotHud(dayIdx);
+
+      if (!state[dayIdx].images[sKey]) {
+        triggerFileDialog(dayIdx, sKey);
+        return;
+      }
+
+      downSlotKey = sKey;
+      isPanning = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      cScale = hit.scaleFactor;
+
+      window.addEventListener('pointermove', onWindowPointerMove, { passive: false });
+      window.addEventListener('pointerup', onWindowPointerUp);
+      window.addEventListener('pointercancel', onWindowPointerUp);
+    });
+
+    // Зум по Alt / ⌘ + колесико мыши (без помех обычному скроллу страницы!)
+    canvas.addEventListener('wheel', e => {
+      if (!e.altKey && !e.metaKey && !e.ctrlKey) return;
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+      const sKey = hit.region.key;
+      if (!state[dayIdx].images[sKey]) return;
+
+      e.preventDefault();
+      _armedSlot = { dayIdx, slotKey: sKey };
+      const tr = getSlotTransform(state[dayIdx], sKey);
+      const factor = e.deltaY < 0 ? 1.06 : 0.94;
+      tr.scale = Math.max(0.25, Math.min(3.5, Math.round((tr.scale || 1) * factor * 100) / 100));
+      renderDayCanvas(dayIdx);
+      updateSlotHud(dayIdx);
+      saveDayMeta(dayIdx);
+    }, { passive: false });
+
+    // Двойной клик по заполненному слоту: с Alt — сброс 100%, без Alt — замена файла
+    canvas.addEventListener('dblclick', e => {
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+      const sKey = hit.region.key;
+      if (!state[dayIdx].images[sKey]) return;
+
+      if (e.altKey) {
+        state[dayIdx].transforms[sKey] = { scale: 1, panX: 0, panY: 0 };
+        renderDayCanvas(dayIdx);
+        updateSlotHud(dayIdx);
+        saveDayMeta(dayIdx);
+        notify('Кадрирование сброшено (100%)');
+      } else {
+        triggerFileDialog(dayIdx, sKey);
+      }
+    });
+
+    // Drag & Drop файлов прямо в конкретный слот на самом холсте
+    canvas.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      const nextKey = hit ? hit.region.key : null;
+      if (!_hoveredSlot || _hoveredSlot.dayIdx !== dayIdx || _hoveredSlot.slotKey !== nextKey) {
+        _hoveredSlot = nextKey ? { dayIdx, slotKey: nextKey } : null;
+        renderDayCanvas(dayIdx);
+      }
+    });
+
+    canvas.addEventListener('drop', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      const presetCfg = PRESETS[state[dayIdx].preset];
+      const targetKey = hit ? hit.region.key : (presetCfg.slots[0]?.key || 'final');
+      const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (file && file.type && file.type.startsWith('image/')) {
+        assignFileToSlot(dayIdx, targetKey, file);
+      }
+    });
   }
 
-  /* ── 5. АВТО-ПАЛИТРА ИЗ ПИКСЕЛЕЙ КАРТИНКИ И EYEDROPPER API ── */
+  /* ── 4. AUTO-PALETTE & EYEDROPPER ── */
   function rgbToHex(r, g, b) {
     const toH = n => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0');
     return `#${toH(r)}${toH(g)}${toH(b)}`;
@@ -6444,7 +6811,7 @@ const TwitterPlanner = (() => {
     const d = state[dayIdx];
     const img = d.images['final'];
     if (!img) {
-      notify('Сначала загрузи финальное превью в слот');
+      notify('Сначала загрузи превью в слот Final 16:9');
       return;
     }
 
@@ -6518,7 +6885,7 @@ const TwitterPlanner = (() => {
     } catch (e) {}
   }
 
-  /* ── 6. ЗАГРУЗКА ИЗОБРАЖЕНИЙ В СЛОТЫ И ПЕРЕТАСКИВАНИЕ СЛОТОВ МЕСТАМИ (SWAP) ── */
+  /* ── 5. SLOT FILE ASSIGNMENT & SWAP ── */
   async function assignFileToSlot(dayIdx, slotKey, fileOrBlob) {
     if (!fileOrBlob || !fileOrBlob.type || !fileOrBlob.type.startsWith('image/')) {
       notify('Выбери файл изображения (PNG, JPG, WebP)');
@@ -6549,7 +6916,8 @@ const TwitterPlanner = (() => {
         const k = presetCfg.slots[i].key;
         if (!d.images[k]) { nextKey = k; break; }
       }
-      armSlot(dayIdx, nextKey || slotKey);
+      _armedSlot = { dayIdx, slotKey: nextKey || slotKey };
+      updateSlotHud(dayIdx);
     } catch (e) {
       notify('Не удалось прочитать изображение');
     }
@@ -6579,10 +6947,7 @@ const TwitterPlanner = (() => {
     await saveSlotBlob(dayIdx, keyB, blobA);
     await saveDayMeta(dayIdx);
 
-    if (_cropSlot && _cropSlot.dayIdx === dayIdx) {
-      _cropSlot.slotKey = keyB;
-    }
-    armSlot(dayIdx, keyB);
+    _armedSlot = { dayIdx, slotKey: keyB };
     refreshDayCardUI(dayIdx);
     notify('⇄ Слоты поменялись местами');
   }
@@ -6593,24 +6958,14 @@ const TwitterPlanner = (() => {
     delete d.images[slotKey];
     delete d.thumbUrls[slotKey];
     delete d.transforms[slotKey];
-    if (_cropSlot && _cropSlot.dayIdx === dayIdx && _cropSlot.slotKey === slotKey) {
-      _cropSlot = null;
-    }
     await saveSlotBlob(dayIdx, slotKey, null);
     await saveDayMeta(dayIdx);
     refreshDayCardUI(dayIdx);
     updateReadyBadge();
   }
 
-  function armSlot(dayIdx, slotKey) {
-    _armedSlot = { dayIdx, slotKey };
-    document.querySelectorAll('.xp-slot.is-armed').forEach(el => el.classList.remove('is-armed'));
-    const target = document.querySelector(`.xp-slot[data-day="${dayIdx}"][data-slot="${slotKey}"]`);
-    if (target) target.classList.add('is-armed');
-  }
-
   function triggerFileDialog(dayIdx, slotKey) {
-    armSlot(dayIdx, slotKey);
+    _armedSlot = { dayIdx, slotKey };
     const inp = document.createElement('input');
     inp.type = 'file';
     inp.accept = 'image/*';
@@ -6621,7 +6976,7 @@ const TwitterPlanner = (() => {
     inp.click();
   }
 
-  /* ── 7. ЭКСПОРТ PNG (БЕЗ СЛУЖЕБНОЙ СИНЕЙ РАМКИ ВЫДЕЛЕННОГО СЛОТА) ── */
+  /* ── 6. PNG EXPORT ── */
   function exportCanvasToBlob(canvas) {
     return new Promise(resolve => {
       canvas.toBlob(blob => resolve(blob), 'image/png', 1.0);
@@ -6675,8 +7030,8 @@ const TwitterPlanner = (() => {
     }
     if (!confirmed) return;
 
-    _cropSlot = null;
     _armedSlot = null;
+    _hoveredSlot = null;
 
     state.forEach(d => {
       Object.values(d.thumbUrls).forEach(u => URL.revokeObjectURL(u));
@@ -6702,7 +7057,7 @@ const TwitterPlanner = (() => {
     notify('Неделя полностью очищена');
   }
 
-  /* ── 7B. ОБЛАЧНЫЙ БЛОКНОТ-КОНСТРУКТОР «ХУК + КОНЦОВКА» (⚡ FIREBASE SYNC) ── */
+  /* ── 7. INLINE HOOKS & OUTROS NOTEBOOK ── */
   let _hooksPopDayIdx = null;
   let _hooksPopEl = null;
 
@@ -6751,14 +7106,22 @@ const TwitterPlanner = (() => {
     saveDayMeta(dayIdx);
   }
 
-  function insertHookIntoDay(dayIdx, hookText) {
+  function cycleNextHook(dayIdx) {
+    const nb = getNbData();
+    if (!nb.hooks.length) { notify('В блокноте пока нет хуков'); return; }
     const cur = splitPostIntoHookAndOutro(state[dayIdx].caption);
-    applyHookAndOutroToDay(dayIdx, hookText, cur.outro);
+    const idx = nb.hooks.indexOf(cur.hook);
+    const nextH = nb.hooks[(idx + 1) % nb.hooks.length];
+    applyHookAndOutroToDay(dayIdx, nextH, cur.outro);
   }
 
-  function insertOutroIntoDay(dayIdx, outroText) {
+  function cycleNextOutro(dayIdx) {
+    const nb = getNbData();
+    if (!nb.outros.length) { notify('В блокноте пока нет вопросов'); return; }
     const cur = splitPostIntoHookAndOutro(state[dayIdx].caption);
-    applyHookAndOutroToDay(dayIdx, cur.hook, outroText);
+    const idx = nb.outros.indexOf(cur.outro);
+    const nextO = nb.outros[(idx + 1) % nb.outros.length];
+    applyHookAndOutroToDay(dayIdx, cur.hook, nextO);
   }
 
   function mixRandomHookAndOutro(dayIdx) {
@@ -6786,17 +7149,11 @@ const TwitterPlanner = (() => {
 
     if (hook) {
       delSet.delete(hook);
-      if (!nb.hooks.includes(hook)) {
-        nb.hooks.unshift(hook);
-        addedCnt++;
-      }
+      if (!nb.hooks.includes(hook)) { nb.hooks.unshift(hook); addedCnt++; }
     }
     if (outro) {
       delSet.delete(outro);
-      if (!nb.outros.includes(outro)) {
-        nb.outros.unshift(outro);
-        addedCnt++;
-      }
+      if (!nb.outros.includes(outro)) { nb.outros.unshift(outro); addedCnt++; }
     }
     nb.del = [...delSet];
     saveNbData(nb);
@@ -6813,9 +7170,7 @@ const TwitterPlanner = (() => {
     nb.del = [...delSet];
 
     const list = kind === 'outro' ? nb.outros : nb.hooks;
-    if (!list.includes(clean)) {
-      list.unshift(clean);
-    }
+    if (!list.includes(clean)) list.unshift(clean);
     saveNbData(nb);
     renderHooksPopover();
     notify(kind === 'outro' ? '💬 Вопрос добавлен в блокнот' : '🎬 Хук добавлен в блокнот');
@@ -6827,11 +7182,8 @@ const TwitterPlanner = (() => {
     const delSet = new Set(nb.del || []);
     delSet.add(clean);
     nb.del = [...delSet];
-    if (kind === 'outro') {
-      nb.outros = nb.outros.filter(s => s !== clean);
-    } else {
-      nb.hooks = nb.hooks.filter(s => s !== clean);
-    }
+    if (kind === 'outro') nb.outros = nb.outros.filter(s => s !== clean);
+    else nb.hooks = nb.hooks.filter(s => s !== clean);
     saveNbData(nb);
     renderHooksPopover();
   }
@@ -6853,7 +7205,8 @@ const TwitterPlanner = (() => {
   function closeHooksPopover() {
     _hooksPopDayIdx = null;
     if (_hooksPopEl) _hooksPopEl.classList.remove('on');
-    document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('.xp-ichip.on').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('.xp-inline-chips.keep-open').forEach(c => c.classList.remove('keep-open'));
   }
 
   function positionHooksPopover(anchorBtn) {
@@ -6862,9 +7215,9 @@ const TwitterPlanner = (() => {
     const r = anchorBtn.getBoundingClientRect();
     const popW = 500;
     const popH = pop.offsetHeight || 310;
-    let left = r.right - popW;
-    if (left < 12) left = 12;
+    let left = r.left;
     if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
+    if (left < 12) left = 12;
 
     let top = r.bottom + 8;
     if (top + popH > window.innerHeight - 12) {
@@ -6883,14 +7236,13 @@ const TwitterPlanner = (() => {
 
     pop.innerHTML = '';
 
-    // Шапка блокнота
     const hdr = document.createElement('div');
     hdr.className = 'xp-hp-hdr';
 
     const titleWrap = document.createElement('div');
     titleWrap.className = 'xp-hp-title';
     titleWrap.innerHTML = `
-      <span>⚡ Конструктор поста (${DAYS[dIdx].code})</span>
+      <span>⚡ Блокнот фраз (${DAYS[dIdx].code})</span>
       <span class="xp-hp-cloud${hasCloud ? ' synced' : ''}">${hasCloud ? '☁️ Firebase' : 'Локально'}</span>
     `;
 
@@ -6900,21 +7252,18 @@ const TwitterPlanner = (() => {
     const mixBtn = document.createElement('button');
     mixBtn.type = 'button';
     mixBtn.className = 'xp-hp-act';
-    mixBtn.title = 'Случайная комбинация: Хук + Вопрос';
     mixBtn.textContent = '🎲 Микс';
     mixBtn.addEventListener('click', () => mixRandomHookAndOutro(dIdx));
 
     const savePostBtn = document.createElement('button');
     savePostBtn.type = 'button';
     savePostBtn.className = 'xp-hp-act';
-    savePostBtn.title = 'Сохранить текущий текст этого поста в блокнот';
     savePostBtn.textContent = '💾 Из поста';
     savePostBtn.addEventListener('click', () => saveCurrentPostToNotebook(dIdx));
 
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';
     closeBtn.className = 'xp-hp-close';
-    closeBtn.title = 'Закрыть (Esc)';
     closeBtn.textContent = '×';
     closeBtn.addEventListener('click', closeHooksPopover);
 
@@ -6925,7 +7274,6 @@ const TwitterPlanner = (() => {
     hdr.appendChild(actions);
     pop.appendChild(hdr);
 
-    // 2 колонки: Начало (Хук) и Концовка (Вопрос)
     const cols = document.createElement('div');
     cols.className = 'xp-hp-cols';
 
@@ -6944,8 +7292,6 @@ const TwitterPlanner = (() => {
       items.forEach(phrase => {
         const item = document.createElement('div');
         item.className = 'xp-hb-item';
-        item.title = 'Кликни, чтобы подставить в пост';
-
         const txtSpan = document.createElement('span');
         txtSpan.className = 'xp-hb-txt';
         txtSpan.textContent = phrase;
@@ -6953,7 +7299,6 @@ const TwitterPlanner = (() => {
         const delBtn = document.createElement('button');
         delBtn.type = 'button';
         delBtn.className = 'xp-hb-del';
-        delBtn.title = 'Удалить из блокнота';
         delBtn.textContent = '×';
         delBtn.addEventListener('click', ev => {
           ev.stopPropagation();
@@ -6963,8 +7308,9 @@ const TwitterPlanner = (() => {
         item.appendChild(txtSpan);
         item.appendChild(delBtn);
         item.addEventListener('click', () => {
-          if (kind === 'outro') insertOutroIntoDay(dIdx, phrase);
-          else insertHookIntoDay(dIdx, phrase);
+          const cur = splitPostIntoHookAndOutro(state[dIdx].caption);
+          if (kind === 'outro') applyHookAndOutroToDay(dIdx, cur.hook, phrase);
+          else applyHookAndOutroToDay(dIdx, phrase, cur.outro);
         });
         list.appendChild(item);
       });
@@ -6979,7 +7325,6 @@ const TwitterPlanner = (() => {
       const addBtn = document.createElement('button');
       addBtn.type = 'button';
       addBtn.className = 'xp-hp-addbtn';
-      addBtn.title = 'Добавить в блокнот';
       addBtn.textContent = '+';
 
       const submitAdd = () => {
@@ -6989,10 +7334,7 @@ const TwitterPlanner = (() => {
         addPhraseToNotebook(kind, v);
       };
       inp.addEventListener('keydown', ev => {
-        if (ev.key === 'Enter') {
-          ev.preventDefault();
-          submitAdd();
-        }
+        if (ev.key === 'Enter') { ev.preventDefault(); submitAdd(); }
       });
       addBtn.addEventListener('click', submitAdd);
 
@@ -7012,9 +7354,13 @@ const TwitterPlanner = (() => {
       closeHooksPopover();
       return;
     }
+    closeHooksPopover();
     _hooksPopDayIdx = dayIdx;
-    document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
-    if (btnEl) btnEl.classList.add('on');
+    if (btnEl) {
+      btnEl.classList.add('on');
+      const chipWrap = btnEl.closest('.xp-inline-chips');
+      if (chipWrap) chipWrap.classList.add('keep-open');
+    }
 
     const pop = ensureHooksPopoverDOM();
     renderHooksPopover();
@@ -7028,16 +7374,16 @@ const TwitterPlanner = (() => {
     }
   };
 
-  /* ── 8. ПОСТРОЕНИЕ И ОБНОВЛЕНИЕ DOM КАРТОЧЕК ДНЕЙ В ВИДЕ ПОСТА X (TWITTER) ── */
+  /* ── 8. CLEAN STUDIO DOM CARDS BUILDER ── */
   function autoResizeCaption(ta) {
     if (!ta) return;
     ta.style.height = 'auto';
     const sh = ta.scrollHeight;
     if (sh > 0) {
-      ta.style.height = Math.max(42, Math.min(220, sh)) + 'px';
+      ta.style.height = Math.max(40, Math.min(220, sh)) + 'px';
     } else {
       const lines = (ta.value || '').split('\n').length;
-      ta.style.height = Math.max(42, Math.min(220, lines * 22 + 12)) + 'px';
+      ta.style.height = Math.max(40, Math.min(220, lines * 22 + 10)) + 'px';
     }
   }
 
@@ -7104,31 +7450,26 @@ const TwitterPlanner = (() => {
       const bodyCol = document.createElement('div');
       bodyCol.className = 'xp-tw-body';
 
-      // 1. Шапка поста X: Ник + синяя галочка + @handle · День | Карандаш кадрирования + Тема фона + Пресет
+      // 1. Чистая шапка карточки: День недели (в Студии) или Профиль X (в Ленте X) + контекстные настройки макета
       const hdr = document.createElement('div');
       hdr.className = 'xp-tw-hdr';
 
       const userRow = document.createElement('div');
       userRow.className = 'xp-tw-user';
       userRow.innerHTML = `
-        <span class="xp-tw-name" id="xp-tw-name-${dIdx}">${displayName}</span>
-        <span class="xp-tw-verified" title="Verified Account" aria-hidden="true">
-          <svg viewBox="0 0 22 22" width="16" height="16" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
+        <span class="xp-studio-day"><span class="xp-studio-num">${dayMeta.num}</span>${dayMeta.ru}</span>
+        <span class="xp-feed-identity">
+          <span class="xp-tw-name" id="xp-tw-name-${dIdx}">${displayName}</span>
+          <span class="xp-tw-verified" aria-hidden="true">
+            <svg viewBox="0 0 22 22" width="16" height="16" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
+          </span>
+          <span class="xp-tw-handle" id="xp-tw-hdl-${dIdx}">${atHandle} · ${dayMeta.ru}</span>
         </span>
-        <span class="xp-tw-handle" id="xp-tw-hdl-${dIdx}">${atHandle} · ${dayMeta.ru}</span>
-        <span class="xp-day-dot" title="Индикатор готовности карточки"></span>
+        <span class="xp-day-dot" title="Статус готовности"></span>
       `;
 
       const hdrControls = document.createElement('div');
       hdrControls.className = 'xp-hdr-controls';
-
-      const cropToggleBtn = document.createElement('button');
-      cropToggleBtn.type = 'button';
-      cropToggleBtn.className = 'xp-crop-toggle';
-      cropToggleBtn.id = `xp-crop-btn-${dIdx}`;
-      cropToggleBtn.title = 'Режим кадрирования и зума ✏️ (вкл/выкл)';
-      cropToggleBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
-      cropToggleBtn.addEventListener('click', () => toggleCropMode(dIdx));
 
       const padBtn = document.createElement('button');
       padBtn.type = 'button';
@@ -7143,15 +7484,13 @@ const TwitterPlanner = (() => {
         dState.padMode = next;
         saveDayMeta(dIdx);
         refreshDayCardUI(dIdx);
-        const descMap = { L: 'L (Широкие 56px)', S: 'S (Узкие 24px)', '0': '0 (Без полей)' };
-        notify(`Поля холста: ${descMap[next]}`);
       });
 
       const bgBtn = document.createElement('button');
       bgBtn.type = 'button';
       bgBtn.className = 'xp-bg-toggle';
       bgBtn.id = `xp-bg-${dIdx}`;
-      bgBtn.title = 'Фон экспортируемой карточки: Светлый (#FFFFFF) / Тёмный (#111110)';
+      bgBtn.title = 'Фон карточки: Светлый / Тёмный';
       bgBtn.textContent = dState.bgTheme === 'dark' ? '🌙' : '☀️';
       bgBtn.addEventListener('click', () => {
         dState.bgTheme = dState.bgTheme === 'dark' ? 'light' : 'dark';
@@ -7162,7 +7501,7 @@ const TwitterPlanner = (() => {
       const sel = document.createElement('select');
       sel.className = 'xp-preset-sel';
       sel.id = `xp-pres-${dIdx}`;
-      sel.setAttribute('aria-label', 'Выбор шаблона сетки');
+      sel.setAttribute('aria-label', 'Выбор шаблона');
       Object.values(PRESETS).forEach(pr => {
         const opt = document.createElement('option');
         opt.value = pr.id;
@@ -7172,13 +7511,11 @@ const TwitterPlanner = (() => {
       });
       sel.addEventListener('change', () => {
         dState.preset = sel.value;
-        if (_cropSlot && _cropSlot.dayIdx === dIdx) _cropSlot = null;
         saveDayMeta(dIdx);
         refreshDayCardUI(dIdx);
         updateReadyBadge();
       });
 
-      hdrControls.appendChild(cropToggleBtn);
       hdrControls.appendChild(padBtn);
       hdrControls.appendChild(bgBtn);
       hdrControls.appendChild(sel);
@@ -7186,15 +7523,15 @@ const TwitterPlanner = (() => {
       hdr.appendChild(hdrControls);
       bodyCol.appendChild(hdr);
 
-      // 2. Текст поста НАД превьюшкой + кнопка «Скопировать» справа
-      const textRow = document.createElement('div');
-      textRow.className = 'xp-tw-text-row';
+      // 2. Полноширинное поле текста поста + встроенные чипсы конструктора (появляются при фокусе)
+      const capWrap = document.createElement('div');
+      capWrap.className = 'xp-caption-wrap';
 
       const ta = document.createElement('textarea');
       ta.className = 'xp-caption';
       ta.id = `xp-cap-${dIdx}`;
       ta.rows = 2;
-      ta.placeholder = 'one of my fav thumbnails\n\nwould you click this?';
+      ta.placeholder = 'Текст поста (кликни, чтобы выбрать хук или вопрос)...';
       ta.value = dState.caption;
       ta.addEventListener('input', () => {
         dState.caption = ta.value;
@@ -7203,105 +7540,111 @@ const TwitterPlanner = (() => {
       });
       ta.addEventListener('focus', () => autoResizeCaption(ta));
 
-      const copyBtn = document.createElement('button');
-      copyBtn.type = 'button';
-      copyBtn.className = 'xp-copy-cap';
-      copyBtn.title = 'Скопировать текст поста в буфер обмена';
-      const defaultCopyHtml = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Копировать</span>`;
-      copyBtn.innerHTML = defaultCopyHtml;
-      copyBtn.addEventListener('click', () => {
-        const txt = ta.value.trim();
-        if (!txt) { notify('Сначала напиши текст поста'); return; }
-        const onCopied = () => {
-          copyBtn.classList.add('copied');
-          copyBtn.innerHTML = `<span>✓ Скопировано</span>`;
-          notify('📋 Текст поста скопирован');
-          setTimeout(() => {
-            copyBtn.classList.remove('copied');
-            copyBtn.innerHTML = defaultCopyHtml;
-          }, 1400);
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(txt).then(onCopied);
-        }
-      });
+      const chipsRow = document.createElement('div');
+      chipsRow.className = 'xp-inline-chips';
 
-      const textActions = document.createElement('div');
-      textActions.className = 'xp-tw-text-actions';
+      const cHook = document.createElement('button');
+      cHook.type = 'button';
+      cHook.className = 'xp-ichip';
+      cHook.textContent = '🎬 Хук ↻';
+      cHook.title = 'Подставить следующий хук из блокнота';
+      cHook.addEventListener('click', () => cycleNextHook(dIdx));
 
-      const hooksBtn = document.createElement('button');
-      hooksBtn.type = 'button';
-      hooksBtn.className = 'xp-hooks-btn';
-      hooksBtn.id = `xp-hooks-btn-${dIdx}`;
-      hooksBtn.title = 'Открыть облачный блокнот хуков и концовок ⚡';
-      hooksBtn.innerHTML = `<span>⚡ Хуки</span>`;
-      hooksBtn.addEventListener('click', ev => {
+      const cOutro = document.createElement('button');
+      cOutro.type = 'button';
+      cOutro.className = 'xp-ichip';
+      cOutro.textContent = '💬 Вопрос ↻';
+      cOutro.title = 'Подставить следующий вопрос из блокнота';
+      cOutro.addEventListener('click', () => cycleNextOutro(dIdx));
+
+      const cMix = document.createElement('button');
+      cMix.type = 'button';
+      cMix.className = 'xp-ichip';
+      cMix.textContent = '🎲 Микс';
+      cMix.title = 'Случайная комбинация Хук + Вопрос';
+      cMix.addEventListener('click', () => mixRandomHookAndOutro(dIdx));
+
+      const cNb = document.createElement('button');
+      cNb.type = 'button';
+      cNb.className = 'xp-ichip';
+      cNb.id = `xp-hooks-btn-${dIdx}`;
+      cNb.textContent = '⚡ Блокнот...';
+      cNb.title = 'Открыть полный блокнот фраз';
+      cNb.addEventListener('click', ev => {
         ev.stopPropagation();
-        toggleHooksPopover(dIdx, hooksBtn);
+        toggleHooksPopover(dIdx, cNb);
       });
 
-      textActions.appendChild(hooksBtn);
-      textActions.appendChild(copyBtn);
+      chipsRow.appendChild(cHook);
+      chipsRow.appendChild(cOutro);
+      chipsRow.appendChild(cMix);
+      chipsRow.appendChild(cNb);
 
-      textRow.appendChild(ta);
-      textRow.appendChild(textActions);
-      bodyCol.appendChild(textRow);
+      capWrap.appendChild(ta);
+      capWrap.appendChild(chipsRow);
+      bodyCol.appendChild(capWrap);
 
-      // 3. Медиа-вложение поста: Canvas
+      // 3. Контекстные настройки пресета (бейджи / палитра — только когда нужны)
+      const extraBox = document.createElement('div');
+      extraBox.className = 'xp-extra';
+      extraBox.id = `xp-extra-${dIdx}`;
+      bodyCol.appendChild(extraBox);
+
+      // 4. Сам Холст (с прямым взаимодействием и парящим мини-HUD поверх слота)
       const stage = document.createElement('div');
       stage.className = 'xp-canvas-stage';
+
       const cv = document.createElement('canvas');
       cv.className = 'xp-canvas';
       cv.id = `xp-cv-${dIdx}`;
-      cv.title = 'Нажми на карандашик ✏️, чтобы подвинуть или приблизить картинку внутри слота';
       stage.appendChild(cv);
-      bodyCol.appendChild(stage);
-      bindCanvasCropEvents(dIdx, cv);
 
-      // 4. Панель кадрирования и зума (показывается только при включенном карандашике ✏️)
-      const cropBar = document.createElement('div');
-      cropBar.className = 'xp-crop-bar';
-      cropBar.id = `xp-crop-${dIdx}`;
-      cropBar.innerHTML = `
-        <span class="xp-crop-lbl">✏️ Слот</span>
-        <div class="xp-crop-slider-wrap">
-          <input type="range" class="xp-crop-range" min="25" max="350" step="1" value="100" title="Масштаб внутри рамки"/>
-          <span class="xp-crop-pct">100%</span>
-        </div>
-        <div class="xp-crop-btns">
-          <button type="button" class="xp-mini-btn" data-act="fit" title="Вписать картинку целиком без обрезки">Вписать</button>
-          <button type="button" class="xp-mini-btn" data-act="reset" title="Сбросить масштаб и позицию (100%)">Сброс</button>
-          <button type="button" class="xp-crop-done" data-act="done" title="Завершить кадрирование (Esc)">Готово ✓</button>
-        </div>
+      const hud = document.createElement('div');
+      hud.className = 'xp-slot-hud';
+      hud.id = `xp-hud-${dIdx}`;
+      hud.innerHTML = `
+        <span class="xp-hud-lbl">Final · 100%</span>
+        <button type="button" class="xp-hud-btn" data-hact="fit" title="Вписать целиком">Вписать</button>
+        <button type="button" class="xp-hud-btn" data-hact="reset" title="Сбросить масштаб 100%">1:1</button>
+        <button type="button" class="xp-hud-btn" data-hact="rep" title="Заменить файл">Зам.</button>
+        <button type="button" class="xp-hud-btn danger" data-hact="del" title="Очистить слот">×</button>
       `;
-      const rng = cropBar.querySelector('.xp-crop-range');
-      rng.addEventListener('input', () => {
-        if (!_cropSlot || _cropSlot.dayIdx !== dIdx) return;
-        const tr = getSlotTransform(dState, _cropSlot.slotKey);
-        tr.scale = parseInt(rng.value, 10) / 100;
-        cropBar.querySelector('.xp-crop-pct').textContent = `${rng.value}%`;
-        renderDayCanvas(dIdx);
-        saveDayMeta(dIdx);
+      hud.addEventListener('pointerdown', ev => ev.stopPropagation());
+      hud.querySelector('[data-hact="fit"]').addEventListener('click', ev => {
+        ev.stopPropagation();
+        const k = hud.dataset.slot;
+        if (k) fitSlotContain(dIdx, k);
       });
-      cropBar.querySelector('[data-act="fit"]').addEventListener('click', () => {
-        if (_cropSlot && _cropSlot.dayIdx === dIdx) fitSlotContain(dIdx, _cropSlot.slotKey);
+      hud.querySelector('[data-hact="reset"]').addEventListener('click', ev => {
+        ev.stopPropagation();
+        const k = hud.dataset.slot;
+        if (k) {
+          dState.transforms[k] = { scale: 1, panX: 0, panY: 0 };
+          renderDayCanvas(dIdx);
+          updateSlotHud(dIdx);
+          saveDayMeta(dIdx);
+        }
       });
-      cropBar.querySelector('[data-act="reset"]').addEventListener('click', () => {
-        if (!_cropSlot || _cropSlot.dayIdx !== dIdx) return;
-        dState.transforms[_cropSlot.slotKey] = { scale: 1, panX: 0, panY: 0 };
-        renderDayCanvas(dIdx);
-        updateCropBarUI(dIdx);
-        saveDayMeta(dIdx);
+      hud.querySelector('[data-hact="rep"]').addEventListener('click', ev => {
+        ev.stopPropagation();
+        const k = hud.dataset.slot;
+        if (k) triggerFileDialog(dIdx, k);
       });
-      cropBar.querySelector('[data-act="done"]').addEventListener('click', () => {
-        exitCropMode();
+      hud.querySelector('[data-hact="del"]').addEventListener('click', ev => {
+        ev.stopPropagation();
+        const k = hud.dataset.slot;
+        if (k) removeSlotImage(dIdx, k);
       });
-      bodyCol.appendChild(cropBar);
 
-      // 5. Нижняя строка метрик X + кнопка Скачать PNG
-      const metricsRow = document.createElement('div');
-      metricsRow.className = 'xp-tw-metrics';
-      metricsRow.innerHTML = `
+      stage.appendChild(hud);
+      bodyCol.appendChild(stage);
+      bindDirectCanvasEvents(dIdx, cv);
+
+      // 5. Лаконичный подвал карточки: подсказка (в Студии) или иконки X (в Ленте) + Копировать текст и Скачать PNG
+      const footer = document.createElement('div');
+      footer.className = 'xp-card-footer';
+      footer.innerHTML = `
+        <span class="xp-studio-hint" id="xp-hint-${dIdx}">Клик по слоту — загрузить · ⌘V — вставить</span>
         <div class="xp-tw-icons" aria-hidden="true">
           <span class="xp-tw-stat">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01z"/></svg>
@@ -7321,30 +7664,42 @@ const TwitterPlanner = (() => {
         </div>
       `;
 
+      const footActions = document.createElement('div');
+      footActions.className = 'xp-footer-actions';
+
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'xp-copy-cap';
+      copyBtn.title = 'Скопировать текст поста';
+      const defaultCopyHtml = `<span>Копировать текст</span>`;
+      copyBtn.innerHTML = defaultCopyHtml;
+      copyBtn.addEventListener('click', () => {
+        const txt = ta.value.trim();
+        if (!txt) { notify('Сначала напиши текст поста'); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(() => {
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = `<span>✓ Скопировано</span>`;
+            notify('📋 Текст поста скопирован');
+            setTimeout(() => {
+              copyBtn.classList.remove('copied');
+              copyBtn.innerHTML = defaultCopyHtml;
+            }, 1400);
+          });
+        }
+      });
+
       const dlBtn = document.createElement('button');
       dlBtn.type = 'button';
       dlBtn.className = 'xp-btn xp-btn-primary xp-btn-sm';
-      dlBtn.title = `Скачать ${dayMeta.num}_${dayMeta.code}.png в полном разрешении (1920px)`;
-      dlBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Скачать PNG</span>`;
+      dlBtn.title = `Скачать ${dayMeta.num}_${dayMeta.code}.png (1920px)`;
+      dlBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>PNG</span>`;
       dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
-      metricsRow.appendChild(dlBtn);
-      bodyCol.appendChild(metricsRow);
 
-      // 6. Технический лоток под твитом (слоты загрузки + бейджи / палитра)
-      const tray = document.createElement('div');
-      tray.className = 'xp-tw-tray';
-
-      const slotsBox = document.createElement('div');
-      slotsBox.className = 'xp-slots';
-      slotsBox.id = `xp-slots-${dIdx}`;
-
-      const extraBox = document.createElement('div');
-      extraBox.className = 'xp-extra';
-      extraBox.id = `xp-extra-${dIdx}`;
-
-      tray.appendChild(slotsBox);
-      tray.appendChild(extraBox);
-      bodyCol.appendChild(tray);
+      footActions.appendChild(copyBtn);
+      footActions.appendChild(dlBtn);
+      footer.appendChild(footActions);
+      bodyCol.appendChild(footer);
 
       postWrap.appendChild(leftCol);
       postWrap.appendChild(bodyCol);
@@ -7365,11 +7720,11 @@ const TwitterPlanner = (() => {
     const sel = document.getElementById(`xp-pres-${dayIdx}`);
     const padBtn = document.getElementById(`xp-pad-${dayIdx}`);
     const bgBtn = document.getElementById(`xp-bg-${dayIdx}`);
-    if (padBtn) padBtn.textContent = d.padMode || 'L';
-    const slotsBox = document.getElementById(`xp-slots-${dayIdx}`);
     const extraBox = document.getElementById(`xp-extra-${dayIdx}`);
     const capEl = document.getElementById(`xp-cap-${dayIdx}`);
+    const hintEl = document.getElementById(`xp-hint-${dayIdx}`);
 
+    if (padBtn) padBtn.textContent = d.padMode || 'L';
     if (sel && sel.value !== d.preset) sel.value = d.preset;
     if (bgBtn) {
       bgBtn.textContent = d.bgTheme === 'dark' ? '🌙' : '☀️';
@@ -7378,124 +7733,6 @@ const TwitterPlanner = (() => {
     if (capEl && document.activeElement !== capEl) {
       capEl.value = d.caption;
       autoResizeCaption(capEl);
-    }
-
-    if (slotsBox) {
-      slotsBox.innerHTML = '';
-      presetCfg.slots.forEach(slotMeta => {
-        const sKey = slotMeta.key;
-        const slotLabel = slotMeta.label;
-        const hasImg = Boolean(d.images[sKey]);
-        const isArmed = _armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotKey === sKey;
-        const isCropping = _cropSlot && _cropSlot.dayIdx === dayIdx && _cropSlot.slotKey === sKey;
-
-        const slot = document.createElement('div');
-        slot.className = `xp-slot${hasImg ? ' has-img' : ''}${isArmed ? ' is-armed' : ''}${isCropping ? ' is-cropping' : ''}`;
-        slot.dataset.day = String(dayIdx);
-        slot.dataset.slot = sKey;
-        slot.tabIndex = 0;
-        slot.draggable = hasImg;
-        slot.title = hasImg
-          ? '✏️ слева — кадрировать/зумить · Перетащи на другой слот для замены местами · Клик — заменить файл'
-          : 'Кликни или наведи и нажми ⌘V · Поддерживается Drag & Drop';
-
-        if (hasImg && d.thumbUrls[sKey]) {
-          const thumb = document.createElement('img');
-          thumb.className = 'xp-slot-thumb';
-          thumb.src = d.thumbUrls[sKey];
-          thumb.alt = slotLabel;
-          slot.appendChild(thumb);
-
-          // Кнопка ✏️ Кадрировать (слева сверху) с защитой от конфликта draggable в Safari
-          const editBtn = document.createElement('button');
-          editBtn.type = 'button';
-          editBtn.className = 'xp-slot-edit';
-          editBtn.draggable = false;
-          editBtn.title = 'Кадрировать и масштабировать этот слот ✏️';
-          editBtn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
-          editBtn.addEventListener('mousedown', ev => ev.stopPropagation());
-          editBtn.addEventListener('pointerdown', ev => ev.stopPropagation());
-          editBtn.addEventListener('dragstart', ev => { ev.preventDefault(); ev.stopPropagation(); });
-          editBtn.addEventListener('click', ev => {
-            ev.stopPropagation();
-            toggleCropMode(dayIdx, sKey);
-          });
-          slot.appendChild(editBtn);
-
-          // Кнопка × Удалить (справа сверху) с защитой от конфликта draggable в Safari
-          const delBtn = document.createElement('button');
-          delBtn.type = 'button';
-          delBtn.className = 'xp-slot-del';
-          delBtn.draggable = false;
-          delBtn.title = 'Очистить слот';
-          delBtn.textContent = '×';
-          delBtn.addEventListener('mousedown', ev => ev.stopPropagation());
-          delBtn.addEventListener('pointerdown', ev => ev.stopPropagation());
-          delBtn.addEventListener('dragstart', ev => { ev.preventDefault(); ev.stopPropagation(); });
-          delBtn.addEventListener('click', ev => {
-            ev.stopPropagation();
-            removeSlotImage(dayIdx, sKey);
-          });
-          slot.appendChild(delBtn);
-        }
-
-        const ov = document.createElement('div');
-        ov.className = 'xp-slot-overlay';
-        ov.innerHTML = `<span class="xp-slot-lbl">${slotLabel}</span><span class="xp-slot-sub">${hasImg ? '⇄ / Заменить' : '+ ⌘V'}</span>`;
-        slot.appendChild(ov);
-
-        slot.addEventListener('mouseenter', () => { _hoveredSlot = { dayIdx, slotKey: sKey }; });
-        slot.addEventListener('mouseleave', () => {
-          if (_hoveredSlot && _hoveredSlot.dayIdx === dayIdx && _hoveredSlot.slotKey === sKey) {
-            _hoveredSlot = null;
-          }
-        });
-
-        slot.addEventListener('click', () => {
-          triggerFileDialog(dayIdx, sKey);
-        });
-
-        // Перетаскивание слотов местами (Swap) + загрузка файлов из ОС
-        slot.addEventListener('dragstart', ev => {
-          if (!hasImg) { ev.preventDefault(); return; }
-          _draggedSlot = { dayIdx, slotKey: sKey };
-          slot.classList.add('dragging-source');
-          if (ev.dataTransfer) ev.dataTransfer.effectAllowed = 'move';
-        });
-        slot.addEventListener('dragend', () => {
-          _draggedSlot = null;
-          slot.classList.remove('dragging-source');
-          document.querySelectorAll('.xp-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
-        });
-
-        slot.addEventListener('dragover', ev => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          slot.classList.add('drag-over');
-        });
-        slot.addEventListener('dragleave', ev => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          slot.classList.remove('drag-over');
-        });
-        slot.addEventListener('drop', ev => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          slot.classList.remove('drag-over');
-
-          if (_draggedSlot && _draggedSlot.dayIdx === dayIdx) {
-            const fromKey = _draggedSlot.slotKey;
-            _draggedSlot = null;
-            swapSlots(dayIdx, fromKey, sKey);
-            return;
-          }
-
-          const file = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
-          if (file) assignFileToSlot(dayIdx, sKey, file);
-        });
-
-        slotsBox.appendChild(slot);
-      });
     }
 
     if (extraBox) {
@@ -7508,7 +7745,7 @@ const TwitterPlanner = (() => {
         const inpTop = document.createElement('input');
         inpTop.type = 'text';
         inpTop.className = 'xp-inp-sm';
-        inpTop.placeholder = 'Бейдж сверху (напр. Option A / До)';
+        inpTop.placeholder = 'Бейдж сверху (Option A / До)';
         inpTop.value = d.badgeTop;
         inpTop.addEventListener('input', () => {
           d.badgeTop = inpTop.value;
@@ -7519,7 +7756,7 @@ const TwitterPlanner = (() => {
         const inpBot = document.createElement('input');
         inpBot.type = 'text';
         inpBot.className = 'xp-inp-sm';
-        inpBot.placeholder = 'Бейдж снизу (напр. Option B / После)';
+        inpBot.placeholder = 'Бейдж снизу (Option B / После)';
         inpBot.value = d.badgeBot;
         inpBot.addEventListener('input', () => {
           d.badgeBot = inpBot.value;
@@ -7580,7 +7817,6 @@ const TwitterPlanner = (() => {
           cInp.addEventListener('input', () => {
             d.palette[cIdx] = cInp.value;
             wrap.style.backgroundColor = cInp.value;
-            wrap.title = `Цвет ${cIdx + 1}: ${cInp.value}`;
             saveDayMeta(dayIdx);
             renderDayCanvas(dayIdx);
           });
@@ -7596,7 +7832,6 @@ const TwitterPlanner = (() => {
           const eyeBtn = document.createElement('button');
           eyeBtn.type = 'button';
           eyeBtn.className = 'xp-mini-btn';
-          eyeBtn.title = 'Взять цвет пипеткой с экрана';
           eyeBtn.textContent = '💧 Пипетка';
           eyeBtn.addEventListener('click', () => pickWithEyeDropper(dayIdx));
           actions.appendChild(eyeBtn);
@@ -7605,7 +7840,6 @@ const TwitterPlanner = (() => {
         const autoBtn = document.createElement('button');
         autoBtn.type = 'button';
         autoBtn.className = 'xp-mini-btn';
-        autoBtn.title = 'Собрать 5 цветов автоматически из загруженного превью';
         autoBtn.textContent = '✨ Авто';
         autoBtn.addEventListener('click', () => extractAutoPaletteFromFinal(dayIdx));
         actions.appendChild(autoBtn);
@@ -7619,13 +7853,19 @@ const TwitterPlanner = (() => {
     }
 
     const loadedCnt = presetCfg.slots.filter(s => Boolean(d.images[s.key])).length;
+    const totalSlots = presetCfg.slots.length;
     if (card) card.classList.toggle('is-ready', loadedCnt > 0);
+    if (hintEl) {
+      hintEl.textContent = loadedCnt > 0
+        ? `Слоты: ${loadedCnt}/${totalSlots} · Тяни кадр мышкой · Alt+Скролл — зум`
+        : `Клик по слоту — выбрать файл · ⌘V — вставить`;
+    }
 
     renderDayCanvas(dayIdx);
-    updateCropBarUI(dayIdx);
+    updateSlotHud(dayIdx);
   }
 
-  /* ── 9. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК И НАСТРОЙКИ НИКА ── */
+  /* ── 9. VIEW SWITCHING & GLOBAL EVENTS ── */
   function switchView(mode) {
     _activeView = mode === 'planner' ? 'planner' : 'invoe';
     const invoeBody = document.getElementById('workspace-body');
@@ -7643,7 +7883,6 @@ const TwitterPlanner = (() => {
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
       resizeAllCaptions();
     } else {
-      exitCropMode();
       closeHooksPopover();
       if (plannerView) plannerView.style.display = 'none';
       if (invoeBody) invoeBody.style.display = '';
@@ -7693,8 +7932,7 @@ const TwitterPlanner = (() => {
 
     if (plannerView) {
       plannerView.addEventListener('mousedown', e => {
-        e.stopPropagation();
-        if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-hooks-btn')) {
+        if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-ichip')) {
           closeHooksPopover();
         }
       });
@@ -7706,7 +7944,6 @@ const TwitterPlanner = (() => {
       }, { passive: true });
     }
 
-    // Вставка картинки из буфера обмена (⌘V / Ctrl+V)
     window.addEventListener('paste', e => {
       if (_activeView !== 'planner') return;
       const items = e.clipboardData && e.clipboardData.items;
@@ -7722,64 +7959,15 @@ const TwitterPlanner = (() => {
       if (!imgFile) return;
 
       e.preventDefault();
-      const target = _hoveredSlot || _cropSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
+      const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
       assignFileToSlot(target.dayIdx, target.slotKey, imgFile);
     });
 
-    window.addEventListener('dragenter', e => {
-      if (_activeView === 'planner') {
-        const dz = document.getElementById('drop-zone');
-        if (dz) dz.classList.remove('on');
-      }
-    }, false);
-    window.addEventListener('dragover', e => {
-      if (_activeView === 'planner') {
-        e.preventDefault();
-        const dz = document.getElementById('drop-zone');
-        if (dz) dz.classList.remove('on');
-      }
-    }, false);
-    window.addEventListener('drop', e => {
-      if (_activeView === 'planner') {
-        const dz = document.getElementById('drop-zone');
-        if (dz) dz.classList.remove('on');
-        if (!e.target.closest('.xp-slot')) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-          if (file && file.type && file.type.startsWith('image/')) {
-            const target = _hoveredSlot || _cropSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
-            assignFileToSlot(target.dayIdx, target.slotKey, file);
-          }
-        }
-      }
-    }, true);
-
     window.addEventListener('keydown', e => {
       if (_activeView !== 'planner') return;
-      const confOpen = document.getElementById('conf-overlay')?.classList.contains('on');
-      const sovOpen = document.getElementById('sov')?.classList.contains('on');
-      if (confOpen || sovOpen) return;
-
       if (e.key === 'Escape' && _hooksPopDayIdx !== null) {
         e.preventDefault();
         closeHooksPopover();
-        return;
-      }
-      if (e.key === 'Escape' && _cropSlot) {
-        e.preventDefault();
-        exitCropMode();
-        return;
-      }
-
-      const k = e.key.toLowerCase();
-      if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) return;
-      if (e.key === 'Escape') return;
-
-      const activeTag = document.activeElement ? document.activeElement.tagName : '';
-      const inInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
-      if (!inInput) {
-        e.stopImmediatePropagation();
       }
     }, true);
   }
