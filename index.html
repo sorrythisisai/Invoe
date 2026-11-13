@@ -34,7 +34,7 @@
   --shadow-dock:0 10px 30px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.04);
   --r-xs:6px;--r:8px;--rl:12px;--rxl:16px;--rf:9999px;
   --topbar:48px;
-  --sidebar:264px;
+  --sidebar:280px;
   --ease:cubic-bezier(0.22, 1, 0.36, 1);
   --spring:cubic-bezier(0.34, 1.56, 0.64, 1);
   --safe-b:env(safe-area-inset-bottom, 0px);
@@ -186,7 +186,6 @@ button:active:not(:disabled){transform:scale(0.96);}
   pointer-events:none;
   transition:opacity .22s var(--ease), transform .26s var(--spring);
   max-width:calc(100vw - 24px);
-  overflow-x:auto;
 }
 .sel-dock.on{
   opacity:1;
@@ -196,7 +195,7 @@ button:active:not(:disabled){transform:scale(0.96);}
 .sel-dock-info{
   display:flex;
   flex-direction:column;
-  padding-right:6px;
+  padding-right:8px;
   border-right:1px solid var(--border);
   white-space:nowrap;
 }
@@ -217,6 +216,7 @@ button:active:not(:disabled){transform:scale(0.96);}
   display:flex;
   align-items:center;
   gap:4px;
+  flex-wrap:wrap;
 }
 .sd-btn{
   height:32px;
@@ -324,16 +324,17 @@ button:active:not(:disabled){transform:scale(0.96);}
   display:flex;flex:1;overflow:hidden;
   max-width:1320px;width:100%;margin:0 auto;
   padding:4px 28px 0;
-  gap:40px;
+  gap:32px;
 }
 
-/* SIDEBAR */
+/* SIDEBAR (Padded horizontally so rounded backgrounds never clip) */
 .sidebar{
   width:var(--sidebar);
   min-width:var(--sidebar);
   display:flex;flex-direction:column;
-  gap:24px;
-  padding:8px 0 24px;
+  gap:22px;
+  padding:8px 8px 24px;
+  margin-left:-8px;
   overflow-y:auto;overflow-x:hidden;
   flex-shrink:0;
 }
@@ -397,28 +398,26 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 .inv-lbtn:hover{background:var(--text);color:var(--bg);}
 .inv-empty-msg{font-size:12px;color:var(--text3);padding:8px;}
 
-/* Balance Metrics (Desktop Sidebar) */
+/* Balance Metrics (Symmetrical, Non-Clipping) */
 .balance-cards{
-  display:flex;flex-direction:column;gap:18px;
+  display:flex;flex-direction:column;gap:10px;
 }
 .bal-card{
   display:flex;flex-direction:column;
-  padding:8px 10px;
-  margin:0 -10px;
+  padding:10px 12px;
   border-radius:var(--rl);
+  cursor:pointer;
   transition:background-color .14s var(--ease);
+}
+.bal-card:hover{
+  background:var(--surface2);
 }
 .bal-card.active-metric{
   background:var(--surface2);
 }
 .bal-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px;}
 .bal-hdr-left{display:flex;align-items:center;gap:8px;}
-.bal-label{font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
-.bal-cur-btn{
-  height:18px;padding:0 5px;border:1px solid var(--border2);border-radius:4px;
-  background:transparent;color:var(--text3);font-size:10px;font-weight:600;cursor:pointer;
-}
-.bal-cur-btn:hover{color:var(--text);background:var(--surface);}
+.bal-label{font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
 .bal-trend,.bal-zero{
   font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;
   white-space:nowrap;display:none;
@@ -433,13 +432,13 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
   transition:opacity .12s, color .2s var(--ease), transform .18s var(--ease);
   max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
-.bal-amount:hover{opacity:.78;}
+.bal-amount:hover{opacity:.75;}
 .bal-amount.is-zero{color:var(--text3);}
 .bal-multi{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
 .bal-multi:empty{display:none;}
-.bal-chip{font-size:11px;font-weight:500;color:var(--text2);background:var(--surface2);padding:1.5px 7px;border-radius:var(--r-xs);}
+.bal-chip{font-size:11px;font-weight:500;color:var(--text2);background:var(--surface);padding:1.5px 7px;border-radius:var(--r-xs);}
 
-/* SIDEBAR ANALYTICS & SPECTRUM BAR (NO DUPLICATE TOTAL SUM) */
+/* SIDEBAR ANALYTICS & SPECTRUM BAR */
 .month-overview{
   display:flex;flex-direction:column;gap:10px;
 }
@@ -451,7 +450,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 .mo-title-btn{
   width:100%;display:flex;align-items:center;gap:5px;
   background:transparent;border:none;cursor:pointer;
-  padding:4px 6px;margin-left:-6px;border-radius:var(--r-xs);height:26px;
+  padding:4px 8px;border-radius:var(--r-xs);height:26px;
 }
 .mo-title-btn:hover{background:var(--surface2);}
 .mo-title-btn span{font-size:11.5px;font-weight:600;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -499,7 +498,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 .mo-content{display:flex;flex-direction:column;gap:8px;}
 .an-summary-row{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
-  min-height:16px;
+  min-height:16px;padding:0 2px;
 }
 .an-hover-lbl{
   font-size:11px;font-weight:500;color:var(--text3);
@@ -527,7 +526,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 .mo-legend{width:100%;display:flex;flex-direction:column;gap:2px;}
 .mo-leg-row{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
-  cursor:pointer;border-radius:var(--r-xs);padding:6px 7px;margin:0 -7px;
+  cursor:pointer;border-radius:var(--r-xs);padding:6px 8px;
   transition:background-color .12s var(--ease);
 }
 .mo-leg-row:hover,.mo-leg-row.hl{background:var(--surface2);}
@@ -540,7 +539,7 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
 .mo-leg-pct{font-size:11px;font-weight:500;color:var(--text3);min-width:26px;text-align:right;}
 .mo-leg-val{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;}
 
-/* Toast with Undo */
+/* Toast with Undo (Automatically shifts above Selection Dock when active) */
 .toast{
   position:fixed;bottom:calc(22px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(12px);
   background:var(--text);color:var(--bg);
@@ -548,10 +547,13 @@ html[data-theme="dark"] .kbd-tag{background:rgba(0,0,0,0.22);}
   font-size:12.5px;font-weight:500;
   display:flex;align-items:center;gap:10px;
   pointer-events:none;opacity:0;
-  transition:opacity .18s var(--ease),transform .18s var(--ease);
+  transition:opacity .18s var(--ease),transform .18s var(--ease),bottom .22s var(--ease);
   z-index:9999;white-space:nowrap;
   box-shadow:var(--shadow-md);
   max-width:calc(100vw - 24px);
+}
+body.has-sel-dock .toast{
+  bottom:calc(78px + var(--safe-b));
 }
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
 #toast-msg{overflow:hidden;text-overflow:ellipsis;}
@@ -627,7 +629,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .search-wrap{flex:1;min-width:160px;position:relative;display:flex;align-items:center;}
 .search-icon{position:absolute;left:11px;color:var(--text3);pointer-events:none;}
 #search{
-  width:100%;height:34px;padding:0 38px 0 33px;
+  width:100%;height:34px;padding:0 54px 0 33px;
   font-size:13px;border:none;border-radius:var(--r);
   background:var(--surface2);color:var(--text);
   font-family:inherit;outline:none;transition:background-color .14s, box-shadow .14s;
@@ -692,7 +694,7 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 
 /* Entries list */
 .elist{
-  flex:1;overflow-y:auto;padding:2px 2px 90px;
+  flex:1;overflow-y:auto;padding:2px 2px 96px;
   position:relative;
   -webkit-overflow-scrolling:touch;
 }
@@ -1037,6 +1039,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     display:none;
     position:fixed;inset:0;top:50px;bottom:0;z-index:450;
     background:var(--bg);padding:12px 16px calc(100px + var(--safe-b));
+    margin-left:0;
     width:100%;min-width:0;border-right:none;
     animation:popIn .18s var(--ease);
   }
@@ -1044,7 +1047,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .sidebar .sb-actions{display:none;}
   .sidebar .balance-cards{
     display:grid;grid-template-columns:1fr 1fr;gap:10px;
-    background:var(--surface);padding:16px;border-radius:var(--rxl);
+    background:var(--surface);padding:14px;border-radius:var(--rxl);
     box-shadow:var(--shadow-card);
   }
   .sidebar .bal-amount{font-size:24px;font-weight:800;}
@@ -1072,7 +1075,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     box-shadow:var(--shadow-card);
     border-radius:var(--rl);
   }
-  .elist{padding:2px 0 calc(130px + var(--safe-b));}
+  .elist{padding:2px 0 calc(155px + var(--safe-b));}
 
   .group-lbl{padding:16px 2px 7px;font-size:11px;}
   .group-lbl-sum{font-size:12px;font-weight:700;}
@@ -1123,8 +1126,19 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .m-subtle-hint{display:none!important;}
 
   .spanel{width:100%;max-width:100%;}
+  .sel-dock{
+    left:12px;right:12px;
+    transform:translateY(24px) scale(0.96);
+    bottom:calc(80px + var(--safe-b));
+    max-width:none;
+    padding:8px 10px;
+    justify-content:space-between;
+  }
+  .sel-dock.on{
+    transform:translateY(0) scale(1);
+  }
   .toast{bottom:calc(84px + var(--safe-b));}
-  .sel-dock{bottom:calc(80px + var(--safe-b));}
+  body.has-sel-dock .toast{bottom:calc(148px + var(--safe-b));}
 
   .m-bottom-nav{
     display:grid;
@@ -1167,7 +1181,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 </style>
 <style id="xp-styles">
 /* ══════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — CLEAN STUDIO & SIMPLIFIED X POST
+   X (TWITTER) WEEKLY PLANNER — FIXED POPOVERS & DIRECT CANVAS
 ══════════════════════════════════════════════ */
 
 .xp-nav-switch{
@@ -1254,7 +1268,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
 .xp-btn-sm{height:26px;padding:0 10px;font-size:11px;border-radius:999px;flex-shrink:0;}
 
-/* Grid & Feed Modes */
+/* Grid & Feed Modes (No overflow:hidden on feed so popovers never clip) */
 .xp-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(410px, 1fr));
@@ -1271,7 +1285,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   background:var(--surface);
   border:1px solid var(--border2);
   border-radius:16px;
-  overflow:hidden;
   box-shadow:0 4px 24px rgba(0,0,0,0.04);
 }
 
@@ -1284,7 +1297,11 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   box-shadow:0 1px 2px rgba(0,0,0,0.02), 0 6px 16px rgba(0,0,0,0.015);
   display:flex;flex-direction:column;
   position:relative;
+  z-index:1;
   transition:border-color .16s var(--ease), box-shadow .16s var(--ease);
+}
+.xp-day-card.menu-open{
+  z-index:80;
 }
 .xp-day-card:hover{
   border-color:var(--border2);
@@ -1299,8 +1316,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   box-shadow:none;
   padding:16px 18px;
 }
+.xp-grid.is-feed .xp-day-card:first-child{
+  border-radius:16px 16px 0 0;
+}
 .xp-grid.is-feed .xp-day-card:last-child{
   border-bottom:none;
+  border-radius:0 0 16px 16px;
 }
 
 .xp-tw-post{
@@ -1333,7 +1354,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   position:relative;
 }
 
-/* Header with Three-Dots Settings Menu Button */
+/* Header with Fast Preset Select + Three-Dots Settings Menu Button */
 .xp-tw-hdr{
   display:flex;
   align-items:center;
@@ -1358,7 +1379,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  max-width:140px;
+  max-width:130px;
 }
 .xp-tw-verified{
   width:15px;height:15px;
@@ -1386,19 +1407,33 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 
 .xp-hdr-controls{
-  display:flex;align-items:center;gap:4px;flex-shrink:0;
+  display:flex;align-items:center;gap:5px;flex-shrink:0;
   position:relative;
 }
+.xp-preset-sel{
+  height:25px;padding:0 20px 0 8px;
+  font-size:11px;font-weight:500;color:var(--text2);
+  background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  font-family:inherit;outline:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 6px center;
+  max-width:142px;text-overflow:ellipsis;
+  transition:border-color .14s, color .14s;
+}
+.xp-preset-sel:hover{border-color:var(--border2);color:var(--text);}
+
 .xp-dots-btn{
-  width:28px;height:28px;border-radius:var(--r-xs);
-  border:none;background:transparent;
-  color:var(--text3);cursor:pointer;
+  width:26px;height:25px;border-radius:6px;
+  border:1px solid var(--border);background:var(--bg);
+  color:var(--text2);cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;
-  transition:background-color .14s, color .14s;
+  transition:background-color .14s, color .14s, border-color .14s;
 }
 .xp-dots-btn:hover,.xp-dots-btn.on{
   background:var(--surface2);
   color:var(--text);
+  border-color:var(--border2);
 }
 
 /* Absolute Popover Settings Menu (Never shifts card height) */
@@ -1406,13 +1441,13 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   position:absolute;
   top:calc(100% + 6px);
   right:0;
-  width:272px;
+  width:256px;
   background:var(--surface);
   border:1px solid var(--border2);
   border-radius:var(--rl);
   box-shadow:var(--shadow-md);
-  padding:12px;
-  z-index:260;
+  padding:11px;
+  z-index:300;
   display:none;
   flex-direction:column;
   gap:10px;
@@ -1423,15 +1458,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-cm-lbl{
   font-size:10px;font-weight:600;color:var(--text3);
   text-transform:uppercase;letter-spacing:.05em;
-}
-.xp-preset-sel{
-  width:100%;height:30px;padding:0 24px 0 9px;
-  font-size:12px;font-weight:500;color:var(--text);
-  background:var(--surface2);border:1px solid transparent;border-radius:var(--r-xs);
-  font-family:inherit;outline:none;cursor:pointer;
-  -webkit-appearance:none;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 8px center;
 }
 .xp-cm-seg{
   display:flex;gap:3px;background:var(--surface2);
@@ -1448,19 +1474,18 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-weight:600;box-shadow:var(--shadow-card);
 }
 
-/* Extra Preset Controls Inside Popover Menu */
+/* Static Preset Bar Above Canvas (Only for Presets 1, 4, 5 — Never covers Canvas!) */
 .xp-extra{
   display:none;
-  flex-direction:column;gap:6px;
-  padding-top:6px;
-  border-top:1px solid var(--border);
+  flex-direction:column;gap:5px;
+  margin-bottom:8px;
 }
 .xp-extra.on{display:flex;}
-.xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;}
+.xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;}
 .xp-inp-sm{
-  width:100%;height:28px;padding:0 8px;
+  width:100%;height:27px;padding:0 9px;
   font-size:11.5px;color:var(--text);
-  background:var(--surface2);border:1px solid transparent;border-radius:6px;
+  background:var(--bg);border:1px solid var(--border);border-radius:6px;
   font-family:inherit;outline:none;
   user-select:text;-webkit-user-select:text;
 }
@@ -1468,8 +1493,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
 .xp-palette-bar{
   display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;
+  background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 7px;
 }
-.xp-swatches{display:flex;align-items:center;gap:4px;}
+.xp-swatches{display:flex;align-items:center;gap:5px;}
 .xp-color-wrap{
   position:relative;width:22px;height:22px;
   border-radius:5px;overflow:hidden;
@@ -1482,8 +1508,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-pal-actions{display:flex;align-items:center;gap:4px;}
 .xp-mini-btn{
-  height:24px;padding:0 8px;border:1px solid var(--border);border-radius:5px;
-  background:var(--surface2);color:var(--text2);
+  height:22px;padding:0 8px;border:1px solid var(--border);border-radius:5px;
+  background:var(--surface);color:var(--text2);
   font-size:10.5px;font-weight:600;cursor:pointer;
   display:inline-flex;align-items:center;gap:4px;
 }
@@ -1495,7 +1521,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   align-items:flex-start;
   justify-content:space-between;
   gap:8px;
-  margin-bottom:10px;
+  margin-bottom:9px;
 }
 .xp-caption{
   flex:1;
@@ -1515,6 +1541,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   outline:none;
   overflow-y:auto;
   user-select:text;-webkit-user-select:text;
+  cursor:text;
 }
 .xp-caption::placeholder{
   color:var(--text3);
@@ -1695,7 +1722,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   .xp-hp-list{max-height:135px;}
 }
 
-/* Interactive Canvas Stage with Non-Shifting Floating Slot Toolbar */
+/* Interactive Canvas Stage with Top-Docked Non-Shifting Floating Slot Pill */
 .xp-canvas-stage{
   width:100%;
   background:transparent;
@@ -1715,25 +1742,25 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   transition:box-shadow .16s var(--ease), border-color .16s var(--ease);
 }
 .xp-canvas.has-active-slot{
-  border-color:rgba(29,155,240,0.55);
+  border-color:rgba(29,155,240,0.65);
 }
 
-/* Floating Slot Overlay Pill inside Canvas (Does NOT shift layout!) */
+/* Floating Slot Overlay Pill Docked at TOP of Canvas (Never covers Final 16:9 or @handle!) */
 .xp-slot-float{
   position:absolute;
-  bottom:10px;
+  top:10px;
   left:50%;
   transform:translateX(-50%);
   z-index:20;
-  background:rgba(18,18,17,0.84);
+  background:rgba(18,18,17,0.86);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.16);
   border-radius:999px;
   padding:4px 8px 4px 11px;
   display:none;
   align-items:center;
-  gap:6px;
+  gap:5px;
   color:#fff;
   box-shadow:0 8px 24px rgba(0,0,0,0.28);
   max-width:calc(100% - 16px);
@@ -1744,11 +1771,11 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .xp-sf-lbl{
   font-size:10.5px;
   font-weight:600;
-  color:rgba(255,255,255,0.85);
+  color:rgba(255,255,255,0.9);
   margin-right:2px;
 }
 .xp-sf-range{
-  width:72px;
+  width:64px;
   height:3px;
   accent-color:#1d9bf0;
   cursor:pointer;
@@ -1766,6 +1793,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   transition:background-color .12s;
 }
 .xp-sf-btn:hover{background:rgba(255,255,255,0.26);}
+.xp-sf-btn.primary{background:#1d9bf0;color:#fff;}
+.xp-sf-btn.primary:hover{opacity:.9;}
 .xp-sf-btn.danger:hover{background:var(--danger);}
 
 /* Simplified X Engagement Footer + Download Button */
@@ -1893,7 +1922,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </div>
     </div>
 
-    <!-- Баланс (Связанный с вкладками спектра) -->
+    <!-- Баланс (Симметричные карточки: клик по сумме меняет валюту, клик по карточке переключает спектр) -->
     <div class="balance-cards">
       <div class="bal-card" id="card-await">
         <div class="bal-hdr">
@@ -1901,9 +1930,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             <div class="bal-label">Ожидаем</div>
             <span class="bal-zero" id="val-await-zero">Закрыто</span>
           </div>
-          <button type="button" class="bal-cur-btn" id="btn-cycle-cur-1" title="Сменить базовую валюту">₽/$/€</button>
         </div>
-        <div class="bal-amount is-zero" id="val-await" title="Показать структуру ожидаемых платежей">0 ₽</div>
+        <div class="bal-amount is-zero" id="val-await" title="Нажмите на сумму для смены базовой валюты (₽ / $ / €)">0 ₽</div>
         <div class="bal-multi" id="val-await-multi"></div>
       </div>
       <div class="bal-card" id="card-recv">
@@ -1913,12 +1941,12 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             <span class="bal-trend" id="val-recv-trend"></span>
           </div>
         </div>
-        <div class="bal-amount is-zero" id="val-recv" title="Показать структуру полученных доходов">0 ₽</div>
+        <div class="bal-amount is-zero" id="val-recv" title="Нажмите на сумму для смены базовой валюты (₽ / $ / €)">0 ₽</div>
         <div class="bal-multi" id="val-recv-multi"></div>
       </div>
     </div>
 
-    <!-- Аналитика и выбор периода (Без дублирующей гигантской цифры) -->
+    <!-- Аналитика и выбор периода -->
     <div class="month-overview" id="month-overview">
       <div class="mo-header">
         <div class="mo-top-row">
@@ -2023,7 +2051,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <h2 class="xp-title">X Weekly Showcase</h2>
           <span class="xp-badge" id="xp-ready-badge">Готово: 0 / 7</span>
         </div>
-        <p class="xp-subtitle">1920px sRGB · Клик по слоту — загрузить или настроить кадр · Alt + колесо — масштаб · Cmd+V — вставить</p>
+        <p class="xp-subtitle">1920px sRGB · Клик по слоту — выбрать (Cmd+V) · 2×Клик — файл · Alt + колесо — зум</p>
       </div>
       <div class="xp-header-actions">
         <div class="xp-view-switch" role="group" aria-label="Режим отображения">
@@ -2819,6 +2847,10 @@ if (!['earned', 'orders', 'awaiting'].includes(moTab)) moTab = 'earned';
 
 let selIds = new Set();
 let _lastClickedCardId = null;
+let _fastClickTime = 0;
+let _fastClickId = null;
+const FAST_DBLCLICK_MS = 320;
+
 let srchTmr = null;
 let _rateTmr = null;
 let _mdTarget = null;
@@ -3939,7 +3971,6 @@ function save() {
   saveToSafariVault();
   scheduleSmartFirebaseSync();
 }
-  
   /* ══════════════════════════════════════════════
    11. FILTER & SEARCH
 ══════════════════════════════════════════════ */
@@ -4151,11 +4182,22 @@ function renderEntry(e) {
   card.setAttribute('tabindex', '0');
   card.setAttribute('aria-pressed', String(isSel));
 
-  // Единое поведение клика, двойного клика и правой кнопки: всё управляет единой нижней панелью действий (#sel-dock)
+  // Клик и правый клик выделяют карточку и открывают нижний док (#sel-dock), двойной клик сразу открывает окно редактирования
   card.addEventListener('click', ev => {
     if (_justLassoed) return;
     const textSel = window.getSelection ? window.getSelection().toString() : '';
     if (textSel.length > 0) return;
+
+    const now = performance.now();
+    if (!ev.shiftKey && !ev.metaKey && !ev.ctrlKey && _fastClickId === e.id && (now - _fastClickTime) <= FAST_DBLCLICK_MS) {
+      _fastClickTime = 0;
+      _fastClickId = null;
+      clearSel();
+      startEdit(e.id);
+      return;
+    }
+    _fastClickTime = now;
+    _fastClickId = e.id;
     handleCardClick(e.id, ev);
   });
 
@@ -4353,7 +4395,7 @@ function updateStatsAndAnalytics() {
   if (_donutDirty) renderAnalytics();
 }
 
-function renderListCore() {
+function renderList() {
   const listEl = document.getElementById('list');
   if (!listEl) return;
   listEl.innerHTML = '';
@@ -4404,21 +4446,11 @@ function renderListCore() {
   updateSelectionUI();
 }
 
-function renderList(animateTransition = false) {
-  if (animateTransition && typeof document.startViewTransition === 'function') {
-    try {
-      document.startViewTransition(() => renderListCore());
-      return;
-    } catch (e) {}
-  }
-  renderListCore();
-}
-
-function render(animateTransition = false) {
+function render() {
   rebuildClientSel();
   updateFilterState();
   updateStatsAndAnalytics();
-  renderList(animateTransition);
+  renderList();
 }
 
 /* ══════════════════════════════════════════════
@@ -4493,7 +4525,10 @@ function clearSel() {
 function updateSelectionUI() {
   const dock = document.getElementById('sel-dock');
   if (!dock) return;
-  if (selIds.size > 0) {
+  const hasSel = selIds.size > 0;
+  document.body.classList.toggle('has-sel-dock', hasSel);
+
+  if (hasSel) {
     const { count, mainSum, selList } = getSelectionSumInfo();
     setText('sel-dock-cnt', `Выбрано: ${count}`);
     setText('sel-dock-sum', mainSum);
@@ -4622,6 +4657,7 @@ function initFinderLasso() {
   }
 
   document.addEventListener('selectstart', e => {
+    if (document.body.classList.contains('xp-mode')) return;
     if (isDragging || document.body.classList.contains('lasso-active')) {
       e.preventDefault();
       return;
@@ -4634,9 +4670,10 @@ function initFinderLasso() {
 
   window.addEventListener('mousedown', e => {
     if (e.button !== 0 || window.innerWidth <= 768) return;
-    if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, .m-hero, button, a, input, select')) return;
+    if (document.body.classList.contains('xp-mode')) return;
+    if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, .m-hero, #x-planner-view, .xp-hooks-pop, button, a, input, select, textarea, canvas, label')) return;
 
-    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT')) {
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT' || document.activeElement.tagName === 'TEXTAREA')) {
       document.activeElement.blur();
     }
 
@@ -4670,7 +4707,7 @@ function initFinderLasso() {
       if (startedOnText) {
         if (dy <= 6) return;
       } else {
-        if (dist < 4) return;
+        if (dist < 5) return;
       }
 
       isDragging = true;
@@ -4719,7 +4756,7 @@ function dupSel() {
     }
   }
   entries.unshift(...[...toA].reverse());
-  save(); selIds.clear(); render(true);
+  save(); selIds.clear(); render();
 }
 
 function applyBulkPaidStatus(paidStatus) {
@@ -4746,10 +4783,10 @@ function applyBulkPaidStatus(paidStatus) {
 
   save();
   clearSel();
-  render(true);
+  render();
 
   showToast(paidStatus ? `Отмечено оплаченными: ${cnt}` : `Снята оплата: ${cnt}`, () => {
-    entries = snapshot; save(); render(true);
+    entries = snapshot; save(); render();
   });
 }
 
@@ -4766,11 +4803,11 @@ async function delSel() {
   recordDeletedIds(removedIds);
   if (editId && selIds.has(editId)) { editId = null; clearForm(); }
   entries = entries.filter(e => !selIds.has(e.id));
-  save(); selIds.clear(); render(true);
+  save(); selIds.clear(); render();
   showToast(`Удалено записей: ${cnt}`, () => {
     removedIds.forEach(id => deletedIds.delete(String(id)));
     lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
-    entries = snapshot; save(); render(true);
+    entries = snapshot; save(); render();
   });
 }
 
@@ -4786,10 +4823,10 @@ function togPaid(id) {
   }
   _popBadgeId = id;
   save();
-  render(true);
+  render();
 
   showToast(e.paid ? 'Статус: Оплачено' : 'Статус: Ждём оплату', () => {
-    entries = snapshot; save(); render(true);
+    entries = snapshot; save(); render();
   });
 }
 
@@ -4964,7 +5001,7 @@ function submitForm(keepOpen = false) {
   }
 
   save();
-  render(true);
+  render();
 
   if (keepOpen && !wasEdit) {
     if (descEl) descEl.value = '';
@@ -5074,7 +5111,7 @@ function applyImportedPayload(raw, replaceMode = true) {
 
   save();
   buildCP();
-  render(true);
+  render();
 }
 
 function handleFileObject(file) {
@@ -5176,8 +5213,12 @@ function bindEvents() {
     if (e.target === document.getElementById('period-sheet-ov')) closePeriodSheet();
   });
 
-  // Клик по карточкам баланса переключает соответствующую вкладку спектра
-  document.getElementById('btn-cycle-cur-1').addEventListener('click', e => {
+  // Клик по крупной сумме меняет базовую валюту, клик по карточке переключает вкладку спектра
+  document.getElementById('val-await').addEventListener('click', e => {
+    e.stopPropagation();
+    cycleBaseCur();
+  });
+  document.getElementById('val-recv').addEventListener('click', e => {
     e.stopPropagation();
     cycleBaseCur();
   });
@@ -5250,17 +5291,23 @@ function bindEvents() {
   let dragCounter = 0;
   const dz = document.getElementById('drop-zone');
   window.addEventListener('dragenter', e => {
+    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter++;
     if (dz) dz.classList.add('on');
   });
   window.addEventListener('dragleave', e => {
+    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter--;
     if (dragCounter <= 0) { dragCounter = 0; if (dz) dz.classList.remove('on'); }
   });
-  window.addEventListener('dragover', e => e.preventDefault());
+  window.addEventListener('dragover', e => {
+    if (document.body.classList.contains('xp-mode')) return;
+    e.preventDefault();
+  });
   window.addEventListener('drop', e => {
+    if (document.body.classList.contains('xp-mode')) return;
     e.preventDefault();
     dragCounter = 0;
     if (dz) dz.classList.remove('on');
@@ -5356,20 +5403,24 @@ function bindEvents() {
     }
 
     if (e.key === 'Escape') {
+      if (document.getElementById('sov').classList.contains('on')) { closeSettings(); return; }
+      if (document.body.classList.contains('xp-mode')) return;
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
       closeFP(); closeInvDd(); closePeriodDd();
       document.getElementById('sidebar').classList.remove('mobile-open');
       updateMobileNavState('list');
-      if (document.getElementById('sov').classList.contains('on')) closeSettings();
-      else if (document.getElementById('mov').classList.contains('on')) dismissModal();
+      if (document.getElementById('mov').classList.contains('on')) dismissModal();
       else if (document.activeElement === document.getElementById('search') && document.getElementById('search').value) {
         document.getElementById('search').value = '';
         onSearch();
       } else if (selIds.size > 0) clearSel();
       return;
     }
+
+    // Полная изоляция горячих клавиш: когда открыт X Planner, хоткеи списка заказов не срабатывают
+    if (document.body.classList.contains('xp-mode')) return;
 
     const activeTag = document.activeElement ? document.activeElement.tagName : '';
     const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
@@ -5433,14 +5484,14 @@ function bindEvents() {
   syncMoTabButtons();
   updateSyncPill(fbUrl ? (_hasUnsynced ? 'pending' : 'ok') : 'local');
   bindEvents();
-  render(false);
+  render();
   restoreFromSafariVaultIfEmpty();
   if (fbUrl) safeSyncWithFirebase(false);
 })();
 </script>
 <script id="xp-script">
 /* ══════════════════════════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — DIRECT CANVAS INTERACTION & POPOVER MENU
+   X (TWITTER) WEEKLY PLANNER — FIXED POPOVERS, SWAP & DIRECT CANVAS
 ══════════════════════════════════════════════════════════════════ */
 const TwitterPlanner = (() => {
   const DB_NAME = 'InvoeXPlannerLocalDB';
@@ -5526,8 +5577,8 @@ const TwitterPlanner = (() => {
 
   let _dbPromise = null;
   let _activeView = 'invoe';
-  let _armedSlot = null;     // { dayIdx, slotKey } — выбранный слот для Cmd+V или плавающей пилюли
-  let _hoveredSlot = null;   // { dayIdx, slotKey } — слот под курсором на холсте
+  let _armedSlot = null;      // { dayIdx, slotKey } — выбранный слот (включая пустой для Cmd+V!)
+  let _hoveredSlot = null;    // { dayIdx, slotKey } — слот под курсором на холсте
   let _openMenuDayIdx = null; // Открытое меню троеточия (•••) карточки
 
   let userHandle = 'v1lyr';
@@ -5615,6 +5666,18 @@ const TwitterPlanner = (() => {
       if (blob) tx.objectStore(STORE_IMGS).put(blob, key);
       else tx.objectStore(STORE_IMGS).delete(key);
     } catch (e) {}
+  }
+
+  async function getSlotBlob(dayIdx, slotKey) {
+    try {
+      const db = await openDB();
+      return await new Promise(res => {
+        const tx = db.transaction(STORE_IMGS, 'readonly');
+        const req = tx.objectStore(STORE_IMGS).get(`d${dayIdx}_k_${slotKey}`);
+        req.onsuccess = () => res(req.result || null);
+        req.onerror = () => res(null);
+      });
+    } catch (e) { return null; }
   }
 
   async function clearAllDB() {
@@ -5718,6 +5781,16 @@ const TwitterPlanner = (() => {
     }
   }
 
+  function syncActiveCardElevation() {
+    DAYS.forEach(d => {
+      const card = document.getElementById(`xp-card-${d.idx}`);
+      if (card) {
+        const isElevated = _openMenuDayIdx === d.idx || _hooksPopDayIdx === d.idx;
+        card.classList.toggle('menu-open', isElevated);
+      }
+    });
+  }
+
   /* 3. CANVAS RENDERING */
   function getSrgbContext(canvas) {
     try {
@@ -5799,6 +5872,7 @@ const TwitterPlanner = (() => {
     const img = d.images[slotKey];
     const isDark = d.bgTheme === 'dark';
     const baseFill = img ? (isDark ? '#181816' : '#f4f4f2') : (isDark ? '#191917' : '#f6f6f4');
+    const isSelectedSlot = _armedSlot && _armedSlot.dayIdx === d.dayIdx && _armedSlot.slotKey === slotKey;
 
     d.hitRegions.push({ key: slotKey, label: placeholderLabel, x, y, w, h });
 
@@ -5834,18 +5908,18 @@ const TwitterPlanner = (() => {
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(img, 0, 0, iw, ih, drawX, drawY, drawW, drawH);
     } else {
-      ctx.fillStyle = baseFill;
+      ctx.fillStyle = isSelectedSlot ? (isDark ? '#1c2430' : '#eef5ff') : baseFill;
       ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = isDark ? '#5c5c54' : '#a8a8a0';
+      ctx.fillStyle = isSelectedSlot ? '#1d9bf0' : (isDark ? '#5c5c54' : '#a8a8a0');
       const fontSize = Math.max(22, Math.min(36, Math.round(w * 0.03)));
       ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(`+ ${placeholderLabel || '16:9'}`, x + w / 2, y + h / 2);
+      const promptTxt = isSelectedSlot ? `${placeholderLabel} (Cmd+V или 2×Клик)` : `+ ${placeholderLabel || '16:9'}`;
+      ctx.fillText(promptTxt, x + w / 2, y + h / 2);
     }
     ctx.restore();
 
-    const isSelectedSlot = _armedSlot && _armedSlot.dayIdx === d.dayIdx && _armedSlot.slotKey === slotKey;
     ctx.save();
     traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
     ctx.lineWidth = isSelectedSlot ? 5 : 1.2;
@@ -6027,7 +6101,7 @@ const TwitterPlanner = (() => {
     if (hideActiveOutline) _armedSlot = prevArmed;
   }
 
-  /* 4. DIRECT CANVAS INTERACTION & FLOATING SLOT PILL (NON-SHIFTING) */
+  /* 4. DIRECT CANVAS INTERACTION, TOP-DOCKED SLOT PILL & SWAP SLOTS */
   function hitTestCanvasSlot(dayIdx, clientX, clientY) {
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
     const d = state[dayIdx];
@@ -6069,7 +6143,7 @@ const TwitterPlanner = (() => {
     const presetCfg = PRESETS[d.preset];
     const slotMeta = presetCfg && sKey ? presetCfg.slots.find(s => s.key === sKey) : null;
 
-    if (!isArmedDay || !slotMeta || !d.images[sKey]) {
+    if (!isArmedDay || !slotMeta) {
       pill.classList.remove('on');
       if (cv) cv.classList.remove('has-active-slot');
       return;
@@ -6078,12 +6152,77 @@ const TwitterPlanner = (() => {
     pill.classList.add('on');
     if (cv) cv.classList.add('has-active-slot');
 
-    const tr = getSlotTransform(d, sKey);
-    const pct = Math.round((tr.scale || 1) * 100);
+    const hasImg = Boolean(d.images[sKey]);
+    const canSwap = presetCfg.slots.length > 1 && hasImg;
+
     const lblEl = pill.querySelector('.xp-sf-lbl');
     const rngEl = pill.querySelector('.xp-sf-range');
+    const btnUpload = pill.querySelector('[data-act="upload"]');
+    const btnReplace = pill.querySelector('[data-act="replace"]');
+    const btnSwap = pill.querySelector('[data-act="swap"]');
+    const btnFit = pill.querySelector('[data-act="fit"]');
+    const btnReset = pill.querySelector('[data-act="reset"]');
+    const btnDel = pill.querySelector('[data-act="del"]');
+
     if (lblEl) lblEl.textContent = slotMeta.label;
-    if (rngEl) rngEl.value = String(pct);
+
+    if (hasImg) {
+      const tr = getSlotTransform(d, sKey);
+      const pct = Math.round((tr.scale || 1) * 100);
+      if (rngEl) { rngEl.style.display = ''; rngEl.value = String(pct); }
+      if (btnUpload) btnUpload.style.display = 'none';
+      if (btnReplace) btnReplace.style.display = '';
+      if (btnSwap) btnSwap.style.display = canSwap ? '' : 'none';
+      if (btnFit) btnFit.style.display = '';
+      if (btnReset) btnReset.style.display = '';
+      if (btnDel) btnDel.style.display = '';
+    } else {
+      if (rngEl) rngEl.style.display = 'none';
+      if (btnUpload) btnUpload.style.display = '';
+      if (btnReplace) btnReplace.style.display = 'none';
+      if (btnSwap) btnSwap.style.display = 'none';
+      if (btnFit) btnFit.style.display = 'none';
+      if (btnReset) btnReset.style.display = 'none';
+      if (btnDel) btnDel.style.display = 'none';
+    }
+  }
+
+  async function swapSlots(dayIdx, keyA, keyB) {
+    if (!keyA || !keyB || keyA === keyB) return;
+    const d = state[dayIdx];
+    const blobA = await getSlotBlob(dayIdx, keyA);
+    const blobB = await getSlotBlob(dayIdx, keyB);
+
+    const imgA = d.images[keyA], imgB = d.images[keyB];
+    const urlA = d.thumbUrls[keyA], urlB = d.thumbUrls[keyB];
+    const trA = d.transforms[keyA] || { scale: 1, panX: 0, panY: 0 };
+    const trB = d.transforms[keyB] || { scale: 1, panX: 0, panY: 0 };
+
+    if (imgB) { d.images[keyA] = imgB; d.thumbUrls[keyA] = urlB; }
+    else { delete d.images[keyA]; delete d.thumbUrls[keyA]; }
+
+    if (imgA) { d.images[keyB] = imgA; d.thumbUrls[keyB] = urlA; }
+    else { delete d.images[keyB]; delete d.thumbUrls[keyB]; }
+
+    d.transforms[keyA] = trB;
+    d.transforms[keyB] = trA;
+
+    await saveSlotBlob(dayIdx, keyA, blobB);
+    await saveSlotBlob(dayIdx, keyB, blobA);
+    await saveDayMeta(dayIdx);
+
+    selectCanvasSlot(dayIdx, keyB);
+    notify('Слоты поменялись местами');
+  }
+
+  function swapWithNextSlot(dayIdx, currentKey) {
+    const d = state[dayIdx];
+    const slots = PRESETS[d.preset]?.slots || [];
+    if (slots.length < 2) return;
+    const idx = slots.findIndex(s => s.key === currentKey);
+    if (idx === -1) return;
+    const nextKey = slots[(idx + 1) % slots.length].key;
+    swapSlots(dayIdx, currentKey, nextKey);
   }
 
   function bindCanvasDirectEvents(dayIdx, canvas) {
@@ -6104,7 +6243,8 @@ const TwitterPlanner = (() => {
     function onWindowPointerMove(e) {
       if (!draggingKey) return;
       const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
-      if (dist > 4) moved = true;
+      // Порог 9px защищает от случайного сдвига превью при обычном клике мышью
+      if (dist > 9) moved = true;
       if (!moved) return;
 
       e.preventDefault();
@@ -6137,12 +6277,10 @@ const TwitterPlanner = (() => {
       const sKey = hit.region.key;
       const hasImg = Boolean(state[dayIdx].images[sKey]);
 
-      if (!hasImg) {
-        triggerFileDialog(dayIdx, sKey);
-        return;
-      }
-
+      // Одиночный клик всегда выделяет слот (даже пустой — для мгновенной вставки по Cmd+V!)
       selectCanvasSlot(dayIdx, sKey);
+      if (!hasImg) return;
+
       draggingKey = sKey;
       moved = false;
       startX = lastX = e.clientX;
@@ -6154,7 +6292,23 @@ const TwitterPlanner = (() => {
       window.addEventListener('pointercancel', onWindowPointerUp);
     });
 
-    // Масштабирование через Alt/Cmd + колесо мыши (чтобы обычный скролл страницы никогда не блокировался)
+    // Двойной клик по любому слоту открывает выбор файла (или сбрасывает зум, если зажат Alt)
+    canvas.addEventListener('dblclick', e => {
+      const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
+      if (!hit) return;
+      const sKey = hit.region.key;
+      if (e.altKey && state[dayIdx].images[sKey]) {
+        state[dayIdx].transforms[sKey] = { scale: 1, panX: 0, panY: 0 };
+        renderDayCanvas(dayIdx);
+        updateFloatingSlotPillUI(dayIdx);
+        saveDayMeta(dayIdx);
+        notify('Масштаб сброшен (100%)');
+        return;
+      }
+      triggerFileDialog(dayIdx, sKey);
+    });
+
+    // Масштабирование через Alt/Cmd + колесо мыши
     canvas.addEventListener('wheel', e => {
       if (!e.altKey && !e.metaKey && !e.ctrlKey) return;
       const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
@@ -6172,7 +6326,6 @@ const TwitterPlanner = (() => {
       saveDayMeta(dayIdx);
     }, { passive: false });
 
-    // Drag & Drop файлов прямо в нужный слот на самом Canvas
     canvas.addEventListener('dragover', e => {
       e.preventDefault();
       e.stopPropagation();
@@ -6315,7 +6468,16 @@ const TwitterPlanner = (() => {
       await saveSlotBlob(dayIdx, slotKey, fileOrBlob);
       await saveDayMeta(dayIdx);
 
-      selectCanvasSlot(dayIdx, slotKey);
+      // После вставки автоматически переводим фокус на следующий пустой слот этого дня (если он есть)
+      const presetCfg = PRESETS[d.preset];
+      const curIdx = presetCfg.slots.findIndex(s => s.key === slotKey);
+      let nextEmptyKey = null;
+      for (let i = curIdx + 1; i < presetCfg.slots.length; i++) {
+        const k = presetCfg.slots[i].key;
+        if (!d.images[k]) { nextEmptyKey = k; break; }
+      }
+      selectCanvasSlot(dayIdx, nextEmptyKey || slotKey);
+
       if (d.preset === 'palette_final' && slotKey === 'final') {
         extractAutoPaletteFromFinal(dayIdx);
       } else {
@@ -6333,9 +6495,6 @@ const TwitterPlanner = (() => {
     delete d.images[slotKey];
     delete d.thumbUrls[slotKey];
     delete d.transforms[slotKey];
-    if (_armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotKey === slotKey) {
-      _armedSlot = null;
-    }
     await saveSlotBlob(dayIdx, slotKey, null);
     await saveDayMeta(dayIdx);
     refreshDayCardUI(dayIdx);
@@ -6343,6 +6502,7 @@ const TwitterPlanner = (() => {
   }
 
   function triggerFileDialog(dayIdx, slotKey) {
+    selectCanvasSlot(dayIdx, slotKey);
     const inp = document.createElement('input');
     inp.type = 'file';
     inp.accept = 'image/*';
@@ -6585,6 +6745,7 @@ const TwitterPlanner = (() => {
     _hooksPopDayIdx = null;
     if (_hooksPopEl) _hooksPopEl.classList.remove('on');
     document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
+    syncActiveCardElevation();
   }
 
   function positionHooksPopover(anchorBtn) {
@@ -6739,6 +6900,7 @@ const TwitterPlanner = (() => {
     _hooksPopDayIdx = dayIdx;
     document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
     if (btnEl) btnEl.classList.add('on');
+    syncActiveCardElevation();
 
     const pop = ensureHooksPopoverDOM();
     renderHooksPopover();
@@ -6757,6 +6919,7 @@ const TwitterPlanner = (() => {
     _openMenuDayIdx = null;
     document.querySelectorAll('.xp-card-menu.on').forEach(m => m.classList.remove('on'));
     document.querySelectorAll('.xp-dots-btn.on').forEach(b => b.classList.remove('on'));
+    syncActiveCardElevation();
   }
 
   function toggleCardMenu(dayIdx) {
@@ -6770,6 +6933,7 @@ const TwitterPlanner = (() => {
       _openMenuDayIdx = dayIdx;
       menu.classList.add('on');
       btn.classList.add('on');
+      syncActiveCardElevation();
     }
   }
 
@@ -6848,7 +7012,7 @@ const TwitterPlanner = (() => {
       const bodyCol = document.createElement('div');
       bodyCol.className = 'xp-tw-body';
 
-      // 1. Шапка поста X с кнопкой троеточия (•••), открывающей поповер без сдвига карточки
+      // 1. Шапка поста X: быстрый селект пресета + кнопка троеточия (•••) для темы и полей
       const hdr = document.createElement('div');
       hdr.className = 'xp-tw-hdr';
 
@@ -6866,30 +7030,10 @@ const TwitterPlanner = (() => {
       const hdrControls = document.createElement('div');
       hdrControls.className = 'xp-hdr-controls';
 
-      const dotsBtn = document.createElement('button');
-      dotsBtn.type = 'button';
-      dotsBtn.className = 'xp-dots-btn';
-      dotsBtn.id = `xp-dots-${dIdx}`;
-      dotsBtn.title = 'Настройки карточки (Шаблон, Фон, Отступы)';
-      dotsBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>`;
-      dotsBtn.addEventListener('click', ev => {
-        ev.stopPropagation();
-        toggleCardMenu(dIdx);
-      });
-
-      // Абсолютное всплывающее меню настроек карточки (не двигает верстку)
-      const cMenu = document.createElement('div');
-      cMenu.className = 'xp-card-menu';
-      cMenu.id = `xp-cmenu-${dIdx}`;
-      cMenu.addEventListener('click', ev => ev.stopPropagation());
-
-      // Секция 1: Шаблон сетки
-      const secPreset = document.createElement('div');
-      secPreset.className = 'xp-cm-sec';
-      secPreset.innerHTML = `<span class="xp-cm-lbl">Шаблон сетки</span>`;
       const sel = document.createElement('select');
       sel.className = 'xp-preset-sel';
       sel.id = `xp-pres-${dIdx}`;
+      sel.title = 'Шаблон раскладки';
       Object.values(PRESETS).forEach(pr => {
         const opt = document.createElement('option');
         opt.value = pr.id;
@@ -6904,10 +7048,24 @@ const TwitterPlanner = (() => {
         refreshDayCardUI(dIdx);
         updateReadyBadge();
       });
-      secPreset.appendChild(sel);
-      cMenu.appendChild(secPreset);
 
-      // Секция 2: Фон холста (Светлый / Тёмный)
+      const dotsBtn = document.createElement('button');
+      dotsBtn.type = 'button';
+      dotsBtn.className = 'xp-dots-btn';
+      dotsBtn.id = `xp-dots-${dIdx}`;
+      dotsBtn.title = 'Оформление холста (Фон и Отступы)';
+      dotsBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>`;
+      dotsBtn.addEventListener('click', ev => {
+        ev.stopPropagation();
+        toggleCardMenu(dIdx);
+      });
+
+      // Компактное меню троеточия (Фон карточки и Отступы краёв)
+      const cMenu = document.createElement('div');
+      cMenu.className = 'xp-card-menu';
+      cMenu.id = `xp-cmenu-${dIdx}`;
+      cMenu.addEventListener('click', ev => ev.stopPropagation());
+
       const secBg = document.createElement('div');
       secBg.className = 'xp-cm-sec';
       secBg.innerHTML = `<span class="xp-cm-lbl">Фон карточки</span>`;
@@ -6929,7 +7087,6 @@ const TwitterPlanner = (() => {
       secBg.appendChild(segBg);
       cMenu.appendChild(secBg);
 
-      // Секция 3: Поля вокруг превью (L / S / 0)
       const secPad = document.createElement('div');
       secPad.className = 'xp-cm-sec';
       secPad.innerHTML = `<span class="xp-cm-lbl">Отступы краёв</span>`;
@@ -6955,12 +7112,7 @@ const TwitterPlanner = (() => {
       secPad.appendChild(segPad);
       cMenu.appendChild(secPad);
 
-      // Секция 4: Дополнительные настройки выбранного пресета (бейджи / подписи / палитра)
-      const extraBox = document.createElement('div');
-      extraBox.className = 'xp-extra';
-      extraBox.id = `xp-extra-${dIdx}`;
-      cMenu.appendChild(extraBox);
-
+      hdrControls.appendChild(sel);
       hdrControls.appendChild(dotsBtn);
       hdrControls.appendChild(cMenu);
       hdr.appendChild(userRow);
@@ -7024,7 +7176,13 @@ const TwitterPlanner = (() => {
       textRow.appendChild(textActions);
       bodyCol.appendChild(textRow);
 
-      // 3. Интерактивный Canvas со всплывающей пилюлей управления слотом ПОВЕРХ холста (без сдвига высоты карточки!)
+      // 3. Контекстная панель бейджей / подписей / палитры НАД холстом (чтобы никогда не перекрывать сам Canvas!)
+      const extraBox = document.createElement('div');
+      extraBox.className = 'xp-extra';
+      extraBox.id = `xp-extra-${dIdx}`;
+      bodyCol.appendChild(extraBox);
+
+      // 4. Интерактивный Canvas с верхней плавающей пилюлей управления слотом
       const stage = document.createElement('div');
       stage.className = 'xp-canvas-stage';
       const cv = document.createElement('canvas');
@@ -7037,12 +7195,14 @@ const TwitterPlanner = (() => {
       slotFloat.id = `xp-sf-${dIdx}`;
       slotFloat.innerHTML = `
         <span class="xp-sf-lbl">Слот</span>
+        <button type="button" class="xp-sf-btn primary" data-act="upload">Выбрать файл</button>
         <input type="range" class="xp-sf-range" min="25" max="350" step="1" value="100" title="Масштаб"/>
         <button type="button" class="xp-sf-btn" data-act="replace">Заменить</button>
+        <button type="button" class="xp-sf-btn" data-act="swap" title="Поменять местами с соседним слотом">Поменять</button>
         <button type="button" class="xp-sf-btn" data-act="fit">Вписать</button>
         <button type="button" class="xp-sf-btn" data-act="reset">100%</button>
         <button type="button" class="xp-sf-btn danger" data-act="del" title="Очистить слот">Удалить</button>
-        <button type="button" class="xp-sf-btn" data-act="done" title="Скрыть панель">×</button>
+        <button type="button" class="xp-sf-btn" data-act="done" title="Снять выделение (Esc)">×</button>
       `;
       slotFloat.addEventListener('pointerdown', ev => ev.stopPropagation());
       slotFloat.addEventListener('click', ev => ev.stopPropagation());
@@ -7055,8 +7215,14 @@ const TwitterPlanner = (() => {
         renderDayCanvas(dIdx);
         saveDayMeta(dIdx);
       });
+      slotFloat.querySelector('[data-act="upload"]').addEventListener('click', () => {
+        if (_armedSlot && _armedSlot.dayIdx === dIdx) triggerFileDialog(dIdx, _armedSlot.slotKey);
+      });
       slotFloat.querySelector('[data-act="replace"]').addEventListener('click', () => {
         if (_armedSlot && _armedSlot.dayIdx === dIdx) triggerFileDialog(dIdx, _armedSlot.slotKey);
+      });
+      slotFloat.querySelector('[data-act="swap"]').addEventListener('click', () => {
+        if (_armedSlot && _armedSlot.dayIdx === dIdx) swapWithNextSlot(dIdx, _armedSlot.slotKey);
       });
       slotFloat.querySelector('[data-act="fit"]').addEventListener('click', () => {
         if (_armedSlot && _armedSlot.dayIdx === dIdx) fitSlotContain(dIdx, _armedSlot.slotKey);
@@ -7079,7 +7245,7 @@ const TwitterPlanner = (() => {
       bodyCol.appendChild(stage);
       bindCanvasDirectEvents(dIdx, cv);
 
-      // 4. Лаконичный подвал в стиле X (минималистичные иконки + кнопка Скачать PNG)
+      // 5. Лаконичный подвал в стиле X (минималистичные иконки + кнопка Скачать PNG)
       const metricsRow = document.createElement('div');
       metricsRow.className = 'xp-tw-metrics';
       metricsRow.innerHTML = `
@@ -7146,18 +7312,13 @@ const TwitterPlanner = (() => {
       extraBox.innerHTML = '';
       if (d.preset === 'stack2') {
         extraBox.classList.add('on');
-        const lbl = document.createElement('span');
-        lbl.className = 'xp-cm-lbl';
-        lbl.textContent = 'Бейджи на превью';
-        extraBox.appendChild(lbl);
-
         const lblRow = document.createElement('div');
         lblRow.className = 'xp-lbl-inputs';
 
         const inpTop = document.createElement('input');
         inpTop.type = 'text';
         inpTop.className = 'xp-inp-sm';
-        inpTop.placeholder = 'Сверху (Option A)';
+        inpTop.placeholder = 'Бейдж сверху (Option A)';
         inpTop.value = d.badgeTop;
         inpTop.addEventListener('input', () => {
           d.badgeTop = inpTop.value;
@@ -7168,7 +7329,7 @@ const TwitterPlanner = (() => {
         const inpBot = document.createElement('input');
         inpBot.type = 'text';
         inpBot.className = 'xp-inp-sm';
-        inpBot.placeholder = 'Снизу (Option B)';
+        inpBot.placeholder = 'Бейдж снизу (Option B)';
         inpBot.value = d.badgeBot;
         inpBot.addEventListener('input', () => {
           d.badgeBot = inpBot.value;
@@ -7181,18 +7342,13 @@ const TwitterPlanner = (() => {
         extraBox.appendChild(lblRow);
       } else if (d.preset === 'assets_inspo') {
         extraBox.classList.add('on');
-        const lbl = document.createElement('span');
-        lbl.className = 'xp-cm-lbl';
-        lbl.textContent = 'Подписи колонок';
-        extraBox.appendChild(lbl);
-
         const lblRow = document.createElement('div');
         lblRow.className = 'xp-lbl-inputs';
 
         const inpL = document.createElement('input');
         inpL.type = 'text';
         inpL.className = 'xp-inp-sm';
-        inpL.placeholder = 'Слева (assets)';
+        inpL.placeholder = 'Подпись слева (assets)';
         inpL.value = d.labelLeft;
         inpL.addEventListener('input', () => {
           d.labelLeft = inpL.value;
@@ -7203,7 +7359,7 @@ const TwitterPlanner = (() => {
         const inpR = document.createElement('input');
         inpR.type = 'text';
         inpR.className = 'xp-inp-sm';
-        inpR.placeholder = 'Справа (inspo)';
+        inpR.placeholder = 'Подпись справа (inspo)';
         inpR.value = d.labelRight;
         inpR.addEventListener('input', () => {
           d.labelRight = inpR.value;
@@ -7216,11 +7372,6 @@ const TwitterPlanner = (() => {
         extraBox.appendChild(lblRow);
       } else if (d.preset === 'palette_final') {
         extraBox.classList.add('on');
-        const lbl = document.createElement('span');
-        lbl.className = 'xp-cm-lbl';
-        lbl.textContent = 'Палитра цветов';
-        extraBox.appendChild(lbl);
-
         const palBar = document.createElement('div');
         palBar.className = 'xp-palette-bar';
 
@@ -7261,7 +7412,7 @@ const TwitterPlanner = (() => {
         const autoBtn = document.createElement('button');
         autoBtn.type = 'button';
         autoBtn.className = 'xp-mini-btn';
-        autoBtn.textContent = 'Авто';
+        autoBtn.textContent = 'Авто из превью';
         autoBtn.addEventListener('click', () => extractAutoPaletteFromFinal(dayIdx));
         actions.appendChild(autoBtn);
 
@@ -7367,7 +7518,7 @@ const TwitterPlanner = (() => {
       }, { passive: true });
     }
 
-    // Вставка картинки по Cmd+V прямо в слот под курсором или выбранный слот
+    // Вставка картинки по Cmd+V в слот под курсором или выделенный синей рамкой слот
     window.addEventListener('paste', e => {
       if (_activeView !== 'planner') return;
       const items = e.clipboardData && e.clipboardData.items;
@@ -7387,35 +7538,6 @@ const TwitterPlanner = (() => {
       assignFileToSlot(target.dayIdx, target.slotKey, imgFile);
     });
 
-    window.addEventListener('dragenter', e => {
-      if (_activeView === 'planner') {
-        const dz = document.getElementById('drop-zone');
-        if (dz) dz.classList.remove('on');
-      }
-    }, false);
-    window.addEventListener('dragover', e => {
-      if (_activeView === 'planner') {
-        e.preventDefault();
-        const dz = document.getElementById('drop-zone');
-        if (dz) dz.classList.remove('on');
-      }
-    }, false);
-    window.addEventListener('drop', e => {
-      if (_activeView === 'planner') {
-        const dz = document.getElementById('drop-zone');
-        if (dz) dz.classList.remove('on');
-        if (!e.target.closest('.xp-canvas')) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-          if (file && file.type && file.type.startsWith('image/')) {
-            const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
-            assignFileToSlot(target.dayIdx, target.slotKey, file);
-          }
-        }
-      }
-    }, true);
-
     window.addEventListener('keydown', e => {
       if (_activeView !== 'planner') return;
       const confOpen = document.getElementById('conf-overlay')?.classList.contains('on');
@@ -7426,16 +7548,6 @@ const TwitterPlanner = (() => {
         if (_hooksPopDayIdx !== null) { e.preventDefault(); closeHooksPopover(); return; }
         if (_openMenuDayIdx !== null) { e.preventDefault(); closeAllCardMenus(); return; }
         if (_armedSlot) { e.preventDefault(); selectCanvasSlot(null, null); return; }
-      }
-
-      const k = e.key.toLowerCase();
-      if ((e.metaKey || e.ctrlKey) && (k === 's' || k === 'ы')) return;
-      if (e.key === 'Escape') return;
-
-      const activeTag = document.activeElement ? document.activeElement.tagName : '';
-      const inInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
-      if (!inInput) {
-        e.stopImmediatePropagation();
       }
     }, true);
   }
