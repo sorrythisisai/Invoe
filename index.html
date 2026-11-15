@@ -1836,6 +1836,379 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   .xp-tw-icons{gap:12px;}
 }
 </style>
+<style id="apple-hig-refinement">
+/* ══════════════════════════════════════════════════════════════════
+   APPLE HIG / MACOS SONOMA-SEQUOIA REFINEMENT LAYER
+   Airy proportions, translucent surfaces, hairline borders & calm contrast
+══════════════════════════════════════════════════════════════════ */
+:root {
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --surface2: rgba(120, 120, 128, 0.085);
+  --surface3: rgba(120, 120, 128, 0.145);
+  --text: #1d1d1f;
+  --text2: #6e6e73;
+  --text3: #98989d;
+  --border: rgba(0, 0, 0, 0.055);
+  --border2: rgba(0, 0, 0, 0.10);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.025), 0 4px 14px rgba(0, 0, 0, 0.018);
+  --shadow-md: 0 18px 42px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-dock: 0 12px 32px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+  --r-xs: 7px;
+  --r: 10px;
+  --rl: 14px;
+  --rxl: 18px;
+  --topbar: 56px;
+  --sidebar: 296px;
+}
+
+html[data-theme="dark"] {
+  --bg: #111112;
+  --surface: #1c1c1e;
+  --surface2: rgba(255, 255, 255, 0.075);
+  --surface3: rgba(255, 255, 255, 0.13);
+  --text: #f5f5f7;
+  --text2: #98989d;
+  --text3: #636366;
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.13);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 20px 48px rgba(0, 0, 0, 0.55), 0 0 0 0.5px rgba(255, 255, 255, 0.09);
+  --shadow-dock: 0 16px 38px rgba(0, 0, 0, 0.65), 0 0 0 0.5px rgba(255, 255, 255, 0.10);
+}
+
+html[data-theme="light"][data-tone="cool"] {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface2: rgba(100, 116, 139, 0.085);
+  --surface3: rgba(100, 116, 139, 0.145);
+}
+html[data-theme="dark"][data-tone="cool"] {
+  --bg: #0c1017;
+  --surface: #151b26;
+  --surface2: rgba(148, 163, 184, 0.09);
+  --surface3: rgba(148, 163, 184, 0.15);
+}
+html[data-theme="light"][data-tone="oled"] {
+  --bg: #fafafa;
+  --surface: #ffffff;
+}
+html[data-theme="dark"][data-tone="oled"] {
+  --bg: #000000;
+  --surface: #121213;
+  --surface2: rgba(255, 255, 255, 0.085);
+  --surface3: rgba(255, 255, 255, 0.14);
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.48;
+  letter-spacing: -0.006em;
+}
+
+/* Airy Topbar with Subtle Vibrancy */
+.topbar {
+  height: var(--topbar);
+  padding: 0 36px;
+  max-width: 1380px;
+}
+.logo {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.xp-nav-switch {
+  padding: 3px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+.xp-nav-tab {
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 7.5px;
+  font-size: 12px;
+}
+
+/* Generous Body Grid & Sidebar Breathing Room */
+.body {
+  max-width: 1380px;
+  padding: 8px 36px 0;
+  gap: 40px;
+}
+.sidebar {
+  gap: 26px;
+  padding: 8px 10px 32px;
+  margin-left: -10px;
+}
+.sb-actions {
+  gap: 10px;
+}
+.btn-primary, .btn-secondary {
+  height: 38px;
+  border-radius: var(--r);
+  font-size: 13px;
+}
+.btn-primary {
+  padding: 0 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Elevated Apple Balance Metrics */
+.balance-cards {
+  gap: 12px;
+}
+.bal-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--rxl);
+  padding: 15px 18px;
+  box-shadow: var(--shadow-card);
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), border-color .18s var(--ease);
+}
+.bal-card:hover {
+  background: var(--surface);
+  border-color: var(--border2);
+  transform: translateY(-1px);
+}
+.bal-card.active-metric {
+  background: var(--surface);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue-bg), var(--shadow-card);
+}
+.bal-label {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.bal-amount {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-top: 2px;
+}
+
+/* Calm Analytics Container */
+.month-overview {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--rxl);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+  gap: 12px;
+}
+.mo-tabs {
+  padding: 3px;
+  border-radius: 9px;
+}
+.mo-tab {
+  height: 27px;
+  border-radius: 7px;
+  font-size: 11.5px;
+}
+.spectrum-bar {
+  height: 8px;
+  border-radius: 4px;
+  gap: 3px;
+}
+.mo-leg-row {
+  padding: 7px 8px;
+  border-radius: 8px;
+}
+
+/* Airy Toolbar & Search */
+.toolbar {
+  padding: 8px 0 14px;
+  gap: 10px;
+}
+#search {
+  height: 38px;
+  border-radius: var(--r);
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  box-shadow: var(--shadow-card);
+  font-size: 13.5px;
+}
+#search:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+}
+.filter-btn {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: var(--r);
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  box-shadow: var(--shadow-card);
+  font-size: 13px;
+}
+.filter-btn:hover {
+  background: var(--surface);
+  border-color: var(--border2);
+}
+
+/* Spacious Entry Cards (Apple Reminders / Things Feel) */
+.elist {
+  padding: 2px 4px 110px;
+}
+.group-lbl {
+  padding: 22px 6px 9px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+.group-lbl:first-child {
+  padding-top: 6px;
+}
+.entry-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--rl);
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  gap: 16px;
+  box-shadow: var(--shadow-card);
+  transition: transform .16s var(--ease), box-shadow .16s var(--ease), border-color .16s var(--ease), opacity .18s var(--ease);
+}
+.entry-card:hover {
+  background: var(--surface);
+  border-color: var(--border2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.045);
+  transform: translateY(-0.5px);
+}
+.entry-card.paid:not(.sel):hover {
+  background: var(--surface);
+}
+.entry-card.sel {
+  background: var(--blue-bg);
+  border-color: rgba(37, 99, 235, 0.32);
+  box-shadow: inset 3px 0 0 var(--blue);
+}
+.etitle {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.emeta {
+  font-size: 12px;
+  margin-top: 3px;
+  gap: 7px;
+}
+.er {
+  gap: 14px;
+}
+.eamt {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+.badge {
+  padding: 4.5px 10px;
+  border-radius: 7px;
+  font-size: 11.5px;
+}
+
+/* Skeleton Loading Shimmer (fixes missing .skel-loading styles) */
+@keyframes appleShimmer {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+  100% { opacity: 0.45; }
+}
+.skel-loading .bal-amount,
+.skel-loading #list {
+  animation: appleShimmer 1.3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Translucent Floating Selection Dock */
+.sel-dock {
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 0.5px solid var(--border2);
+  border-radius: 20px;
+  padding: 8px 10px 8px 16px;
+}
+html[data-theme="dark"] .sel-dock {
+  background: rgba(28, 28, 30, 0.84);
+}
+
+/* Modals & Settings Vibrancy */
+.modal {
+  border-radius: 22px;
+  padding: 26px;
+  border: 0.5px solid var(--border2);
+}
+.spanel {
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  width: 360px;
+}
+html[data-theme="dark"] .spanel {
+  background: rgba(24, 24, 26, 0.90);
+}
+
+/* Calm & Unboxed X Planner */
+.xp-view {
+  padding: 16px 36px 64px;
+}
+.xp-container {
+  max-width: 1380px;
+  gap: 22px;
+}
+.xp-grid {
+  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(430px, 1fr));
+}
+.xp-day-card {
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+}
+.xp-preset-sel,
+.xp-dots-btn,
+.xp-hooks-btn,
+.xp-copy-cap {
+  border: none;
+  background: var(--surface2);
+}
+.xp-preset-sel {
+  height: 28px;
+  border-radius: 8px;
+  padding: 0 22px 0 10px;
+}
+.xp-dots-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+.xp-hooks-btn,
+.xp-copy-cap {
+  height: 27px;
+  padding: 0 11px;
+}
+.xp-caption {
+  font-size: 15px;
+  line-height: 1.44;
+}
+.xp-tw-text-row {
+  margin-bottom: 12px;
+}
+.xp-canvas {
+  border-radius: 16px;
+  border: 0.5px solid var(--border2);
+}
+.xp-tw-metrics {
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .topbar { padding: 0 16px; height: 52px; }
+  .body { padding: 0 16px; }
+  .xp-view { padding: 10px 14px 48px; }
+  .xp-day-card { padding: 15px 16px; }
+  .entry-card { padding: 14px 16px; margin-bottom: 9px; }
+}
+</style>
 </head>
 <body>
 <div class="app" id="app-root">
@@ -4185,17 +4558,17 @@ function renderEntry(e) {
   // Клик и правый клик выделяют карточку и открывают нижний док (#sel-dock), двойной клик сразу открывает окно редактирования
   card.addEventListener('click', ev => {
     if (_justLassoed) return;
-    const textSel = window.getSelection ? window.getSelection().toString() : '';
-    if (textSel.length > 0) return;
-
     const now = performance.now();
     if (!ev.shiftKey && !ev.metaKey && !ev.ctrlKey && _fastClickId === e.id && (now - _fastClickTime) <= FAST_DBLCLICK_MS) {
       _fastClickTime = 0;
       _fastClickId = null;
+      clearNativeTextSelection();
       clearSel();
       startEdit(e.id);
       return;
     }
+    const textSel = window.getSelection ? window.getSelection().toString() : '';
+    if (textSel.length > 0) return;
     _fastClickTime = now;
     _fastClickId = e.id;
     handleCardClick(e.id, ev);
@@ -4651,6 +5024,7 @@ function initFinderLasso() {
     }
     if (delta !== 0) {
       elist.scrollTop += delta;
+      cacheCardGeometry();
       updateLassoSelection();
     }
     scrollRaf = requestAnimationFrame(autoScrollLoop);
@@ -4983,7 +5357,7 @@ function submitForm(keepOpen = false) {
       const paVal = document.getElementById('f-paidat')?.value || today();
       if (formPaidStatus) {
         e.paid = true;
-        e.paidAt = e.paidAt || paVal;
+        e.paidAt = paVal;
       } else {
         e.paid = false;
         delete e.paidAt;
@@ -7498,18 +7872,20 @@ const TwitterPlanner = (() => {
     if (btnDlWeek) btnDlWeek.addEventListener('click', downloadWholeWeek);
     if (btnClearWeek) btnClearWeek.addEventListener('click', clearWholeWeek);
 
+    document.addEventListener('mousedown', e => {
+      if (_activeView !== 'planner') return;
+      if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-hooks-btn')) {
+        closeHooksPopover();
+      }
+      if (_openMenuDayIdx !== null && !e.target.closest('.xp-card-menu, .xp-dots-btn')) {
+        closeAllCardMenus();
+      }
+      if (_armedSlot && !e.target.closest('.xp-canvas, .xp-slot-float, .topbar, .soverlay, .confirm-overlay')) {
+        selectCanvasSlot(null, null);
+      }
+    });
+
     if (plannerView) {
-      plannerView.addEventListener('mousedown', e => {
-        if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-hooks-btn')) {
-          closeHooksPopover();
-        }
-        if (_openMenuDayIdx !== null && !e.target.closest('.xp-card-menu, .xp-dots-btn')) {
-          closeAllCardMenus();
-        }
-        if (_armedSlot && !e.target.closest('.xp-canvas, .xp-slot-float')) {
-          selectCanvasSlot(null, null);
-        }
-      });
       plannerView.addEventListener('scroll', () => {
         if (_hooksPopDayIdx !== null) {
           const btn = document.getElementById(`xp-hooks-btn-${_hooksPopDayIdx}`);
@@ -7545,9 +7921,9 @@ const TwitterPlanner = (() => {
       if (confOpen || sovOpen) return;
 
       if (e.key === 'Escape') {
-        if (_hooksPopDayIdx !== null) { e.preventDefault(); closeHooksPopover(); return; }
-        if (_openMenuDayIdx !== null) { e.preventDefault(); closeAllCardMenus(); return; }
-        if (_armedSlot) { e.preventDefault(); selectCanvasSlot(null, null); return; }
+        if (_hooksPopDayIdx !== null) { e.preventDefault(); e.stopPropagation(); closeHooksPopover(); return; }
+        if (_openMenuDayIdx !== null) { e.preventDefault(); e.stopPropagation(); closeAllCardMenus(); return; }
+        if (_armedSlot) { e.preventDefault(); e.stopPropagation(); selectCanvasSlot(null, null); return; }
       }
     }, true);
   }
