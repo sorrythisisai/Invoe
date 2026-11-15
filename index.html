@@ -2208,6 +2208,101 @@ html[data-theme="dark"] .spanel {
   .xp-day-card { padding: 15px 16px; }
   .entry-card { padding: 14px 16px; margin-bottom: 9px; }
 }
+
+/* Upgraded Entry Modal Layout (Spacious & No Auto-Client Annoyance) */
+.modal.modal-entry {
+  max-width: 540px;
+}
+.modal-entry .fgrid {
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.modal-entry .fgrid.f-row-main {
+  grid-template-columns: 1.55fr 1fr;
+}
+.amt-cur-combo {
+  display: flex;
+  align-items: center;
+  background: var(--surface2);
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  height: 38px;
+  transition: border-color .14s, background-color .14s, box-shadow .14s;
+  overflow: hidden;
+}
+.amt-cur-combo:focus-within {
+  border-color: var(--blue);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+}
+.modal .amt-cur-combo input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding-right: 4px;
+}
+.modal .amt-cur-combo select {
+  width: 62px;
+  flex-shrink: 0;
+  height: 100%;
+  border: none !important;
+  border-left: 1px solid var(--border) !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-weight: 600;
+  padding: 0 22px 0 10px;
+  background-position: right 8px center;
+}
+.modal-entry input {
+  height: 38px;
+}
+.modal-entry .qchips {
+  flex-wrap: wrap;
+  overflow-x: visible;
+  gap: 6px;
+  padding-top: 7px;
+}
+.modal-entry .qchip {
+  padding: 4.5px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+}
+.modal-entry .qchip.on {
+  background: var(--blue-bg);
+  color: var(--blue);
+  font-weight: 600;
+}
+.lbl-clear-btn {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.lbl-clear-btn:hover {
+  color: var(--danger);
+}
+@media (max-width: 768px) {
+  .modal-entry .fgrid.f-row-main {
+    grid-template-columns: 1fr;
+  }
+  .amt-cur-combo {
+    height: 44px;
+    border-radius: var(--rl);
+  }
+  .modal .amt-cur-combo select {
+    width: 72px;
+  }
+}
 </style>
 </head>
 <body>
@@ -2476,44 +2571,55 @@ html[data-theme="dark"] .spanel {
 
 <!-- Modal: Add / Edit Entry -->
 <div class="moverlay" id="mov" role="dialog" aria-modal="true" aria-labelledby="m-title">
-  <div class="modal">
+  <div class="modal modal-entry">
     <div class="sheet-handle"></div>
     <div class="mhdr">
       <span class="mtitle" id="m-title">Новая запись</span>
       <button class="mclose" id="m-close" type="button" aria-label="Закрыть">×</button>
     </div>
 
-    <div class="fgrid t3">
+    <!-- Ряд 1: Работа / Проект + Сумма и Валюта -->
+    <div class="fgrid f-row-main">
       <div class="ff">
         <label for="f-desc">Работа / Проект</label>
-        <input type="text" id="f-desc" list="dl" placeholder="Превью, лендинг, баннер..." autocomplete="off"/>
+        <input type="text" id="f-desc" list="dl" placeholder="thumbnail, (a/b)thumbnail, баннер..." autocomplete="off"/>
         <datalist id="dl"></datalist>
         <div class="qchips" id="qchips-desc"></div>
       </div>
       <div class="ff">
         <label for="f-amt">Сумма</label>
-        <input type="text" id="f-amt" placeholder="1000 или 500*3" inputmode="decimal"/>
+        <div class="amt-cur-combo">
+          <input type="text" id="f-amt" placeholder="75 или 50*2" inputmode="decimal"/>
+          <select id="f-cur" aria-label="Валюта">
+            <option>₽</option><option>$</option><option>€</option>
+          </select>
+        </div>
         <div class="ahint" id="ahint" aria-live="polite"></div>
       </div>
+    </div>
+
+    <!-- Ряд 2: Описание / Название ролика на всю ширину -->
+    <div class="fgrid single-col">
       <div class="ff">
-        <label for="f-cur">Валюта</label>
-        <select id="f-cur">
-          <option>₽</option><option>$</option><option>€</option>
-        </select>
+        <label for="f-note">Название ролика / Описание / Ссылка</label>
+        <input type="text" id="f-note" placeholder="Название видео, ТЗ или ссылка (Figma, YouTube, Drive)..."/>
       </div>
     </div>
-    <div class="fgrid">
+
+    <!-- Ряд 3: Клиент на всю ширину -->
+    <div class="fgrid single-col">
       <div class="ff">
-        <label for="f-name">Клиент</label>
-        <input type="text" id="f-name" list="nl" placeholder="Имя / компания" autocomplete="off"/>
+        <label for="f-name">
+          <span>Клиент</span>
+          <button type="button" class="lbl-clear-btn" id="btn-clear-client" style="display:none;" title="Очистить клиента">Очистить</button>
+        </label>
+        <input type="text" id="f-name" list="nl" placeholder="Имя или канал (пусто — без привязки)" autocomplete="off"/>
         <datalist id="nl"></datalist>
         <div class="qchips" id="qchips-name"></div>
       </div>
-      <div class="ff">
-        <label for="f-note">Описание / Ссылка</label>
-        <input type="text" id="f-note" placeholder="Уточнение или https://..."/>
-      </div>
     </div>
+
+    <!-- Ряд 4: Дата создания и опционально дата оплаты -->
     <div class="fgrid single-col" id="f-dates-grid">
       <div class="ff">
         <label for="f-date">Дата создания</label>
@@ -4683,12 +4789,16 @@ function rebuildClientSel() {
   const qName = document.getElementById('qchips-name');
   if (qName) {
     qName.innerHTML = '';
-    getTopFrequent('name', 5).forEach(n => {
+    getTopFrequent('name', 6).forEach(n => {
       const dot = el('span', {className:'eclient-dot', style:`background:${getClientColor(n)}`});
       const chip = el('button', {className:'qchip', type:'button'}, [dot, n]);
       chip.addEventListener('click', () => {
         const inp = document.getElementById('f-name');
-        if (inp) { inp.value = n; trySmartAutoPrice(); }
+        if (inp) {
+          inp.value = (inp.value.trim() === n) ? '' : n;
+          updateClientClearBtn();
+          trySmartAutoPrice();
+        }
       });
       qName.appendChild(chip);
     });
@@ -5269,6 +5379,16 @@ function onAmtInput() {
   }
 }
 
+function updateClientClearBtn() {
+  const fn = document.getElementById('f-name');
+  const btn = document.getElementById('btn-clear-client');
+  const val = fn ? fn.value.trim() : '';
+  if (btn) btn.style.display = val ? 'inline-block' : 'none';
+  document.querySelectorAll('#qchips-name .qchip').forEach(ch => {
+    ch.classList.toggle('on', ch.textContent.trim() === val && val !== '');
+  });
+}
+
 function setFormPaid(paid) {
   formPaidStatus = paid;
   const ub = document.getElementById('fst-unpaid');
@@ -5292,10 +5412,11 @@ function clearForm() {
   const dt = document.getElementById('f-date');
   if (dt) dt.value = today();
 
-  const recentClient = activeClientFilter || lastClient || (entries[0] && entries[0].name) || '';
+  const recentClient = activeClientFilter || '';
   const recentCur = (CURS.includes(lastCur) && lastCur) || (entries[0] && CURS.includes(entries[0].currency) && entries[0].currency) || baseCur;
   const fn = document.getElementById('f-name');
   if (fn) fn.value = recentClient;
+  updateClientClearBtn();
   const fc = document.getElementById('f-cur');
   if (fc) fc.value = recentCur;
 
@@ -5411,6 +5532,7 @@ function startEdit(id) {
   _amtManuallyTyped = true;
   _amtAutoFilled = false;
   const fn = document.getElementById('f-name'); if(fn) fn.value = e.name||'';
+  updateClientClearBtn();
   const fa = document.getElementById('f-amt'); if(fa) fa.value = e.amount;
   const fc = document.getElementById('f-cur'); if(fc) fc.value = CURS.includes(e.currency) ? e.currency : baseCur;
   const fd = document.getElementById('f-desc'); if(fd) fd.value = e.desc||'';
@@ -5699,7 +5821,13 @@ function bindEvents() {
   document.getElementById('bcan').addEventListener('click', cancelEdit);
   document.getElementById('f-amt').addEventListener('input', onAmtInput);
   document.getElementById('f-desc').addEventListener('input', trySmartAutoPrice);
-  document.getElementById('f-name').addEventListener('input', trySmartAutoPrice);
+  document.getElementById('f-name').addEventListener('input', () => { updateClientClearBtn(); trySmartAutoPrice(); });
+  document.getElementById('btn-clear-client').addEventListener('click', () => {
+    const fn = document.getElementById('f-name');
+    if (fn) { fn.value = ''; fn.focus(); }
+    updateClientClearBtn();
+    trySmartAutoPrice();
+  });
   document.getElementById('fst-unpaid').addEventListener('click', () => setFormPaid(false));
   document.getElementById('fst-paid').addEventListener('click', () => setFormPaid(true));
 
