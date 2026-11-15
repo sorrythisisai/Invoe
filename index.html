@@ -796,20 +796,30 @@ html[data-density="compact"] .group-lbl{
 .edate{font-size:11px;color:var(--text3);}
 .eamt{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-.025em;min-width:68px;text-align:right;}
 
-/* Clean Borderless Status Badges */
+/* Apple Reminders Circular Status Toggle */
 .badge{
-  font-size:11px;font-weight:600;padding:4px 9px;
-  border-radius:var(--r-xs);cursor:pointer;
-  border:none;white-space:nowrap;
-  display:inline-flex;align-items:center;gap:5px;
+  width:22px;height:22px;padding:0;
+  border-radius:50%;cursor:pointer;
+  border:none;background:transparent;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;
 }
-.badge::before{
-  content:'';width:4.5px;height:4.5px;border-radius:50%;background:currentColor;
-}
-.badge:hover{opacity:.8;}
+.badge::before{display:none;}
 .badge.pop{animation:badgePulse .24s var(--spring);}
-.badge.u{background:var(--warning-bg);color:var(--warning);}
-.badge.p{background:var(--success-bg);color:var(--success);}
+.badge.u{
+  box-shadow:inset 0 0 0 1.75px var(--text3);
+  color:transparent;
+}
+.badge.u:hover{
+  box-shadow:inset 0 0 0 1.75px var(--blue);
+  background:var(--blue-bg);
+}
+.badge.p{
+  background:var(--success);
+  color:#ffffff;
+  box-shadow:0 1px 3px rgba(22,121,59,0.28);
+}
+.badge.p:hover{opacity:.88;}
 
 /* Empty */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px;gap:8px;}
@@ -1177,7 +1187,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   }
   .edate{display:none;}
   .eamt{font-size:15.5px;font-weight:800;letter-spacing:-.03em;min-width:0;}
-  .badge{padding:3.5px 8.5px;font-size:11px;border-radius:6px;}
+  .badge{width:24px;height:24px;}
 
   .moverlay{
     align-items:flex-end;
@@ -4388,8 +4398,12 @@ function renderEntry(e) {
   const badge = el('button', {
     className: 'badge ' + (e.paid ? 'p' : 'u') + (shouldPopBadge ? ' pop' : ''),
     type: 'button',
-    'aria-label': e.paid ? 'оплачено' : 'ждём'
-  }, [e.paid ? 'оплачено' : 'ждём']);
+    title: e.paid ? 'Оплачено' : 'Ожидает оплаты',
+    'aria-label': e.paid ? 'Оплачено' : 'Ожидает оплаты'
+  });
+  if (e.paid) {
+    badge.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  }
   badge.addEventListener('click', ev => { ev.stopPropagation(); togPaid(e.id); });
   right.appendChild(badge);
 
@@ -5860,7 +5874,31 @@ const TwitterPlanner = (() => {
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(blob);
       const img = new Image();
-      img.onload = () => resolve({ img, url });
+      img.onload = () => {
+        const MAX_DIM = 2200;
+        const iw = img.naturalWidth, ih = img.naturalHeight;
+        if (iw > MAX_DIM || ih > MAX_DIM) {
+          const ratio = Math.min(MAX_DIM / iw, MAX_DIM / ih);
+          const off = document.createElement('canvas');
+          off.width = Math.round(iw * ratio);
+          off.height = Math.round(ih * ratio);
+          const octx = getSrgbContext(off);
+          octx.imageSmoothingEnabled = true;
+          octx.imageSmoothingQuality = 'high';
+          octx.drawImage(img, 0, 0, off.width, off.height);
+          URL.revokeObjectURL(url);
+          off.toBlob(scaledBlob => {
+            if (!scaledBlob) { resolve({ img, url: '' }); return; }
+            const sUrl = URL.createObjectURL(scaledBlob);
+            const sImg = new Image();
+            sImg.onload = () => resolve({ img: sImg, url: sUrl });
+            sImg.onerror = () => resolve({ img, url: '' });
+            sImg.src = sUrl;
+          }, 'image/png', 0.96);
+        } else {
+          resolve({ img, url });
+        }
+      };
       img.onerror = err => { URL.revokeObjectURL(url); reject(err); };
       img.src = url;
     });
@@ -6269,6 +6307,25 @@ const TwitterPlanner = (() => {
     if (hideActiveOutline) _armedSlot = prevArmed;
   }
 
+  const _rafRenderTimers = new Map();
+  function scheduleRenderCanvas(dayIdx, lowQuality = false) {
+    if (_rafRenderTimers.has(dayIdx)) return;
+    const id = requestAnimationFrame(() => {
+      _rafRenderTimers.delete(dayIdx);
+      renderDayCanvas(dayIdx, false);
+    });
+    _rafRenderTimers.set(dayIdx, id);
+  }
+
+  const _metaSaveTimers = new Map();
+  function scheduleSaveDayMeta(dayIdx) {
+    if (_metaSaveTimers.has(dayIdx)) clearTimeout(_metaSaveTimers.get(dayIdx));
+    _metaSaveTimers.set(dayIdx, setTimeout(() => {
+      _metaSaveTimers.delete(dayIdx);
+      saveDayMeta(dayIdx);
+    }, 320));
+  }
+
   /* 4. DIRECT CANVAS INTERACTION, TOP-DOCKED SLOT PILL & SWAP SLOTS */
   function hitTestCanvasSlot(dayIdx, clientX, clientY) {
     const canvas = document.getElementById(`xp-cv-${dayIdx}`);
@@ -6290,14 +6347,25 @@ const TwitterPlanner = (() => {
 
   function selectCanvasSlot(dayIdx, slotKey) {
     const prevDay = _armedSlot ? _armedSlot.dayIdx : null;
+    const prevKey = _armedSlot ? _armedSlot.slotKey : null;
     if (dayIdx === null || !slotKey) {
+      if (prevDay === null) return;
       _armedSlot = null;
-      if (prevDay !== null) refreshDayCardUI(prevDay);
+      scheduleRenderCanvas(prevDay);
+      updateFloatingSlotPillUI(prevDay);
+      return;
+    }
+    if (prevDay === dayIdx && prevKey === slotKey) {
+      updateFloatingSlotPillUI(dayIdx);
       return;
     }
     _armedSlot = { dayIdx, slotKey };
-    if (prevDay !== null && prevDay !== dayIdx) refreshDayCardUI(prevDay);
-    refreshDayCardUI(dayIdx);
+    if (prevDay !== null && prevDay !== dayIdx) {
+      scheduleRenderCanvas(prevDay);
+      updateFloatingSlotPillUI(prevDay);
+    }
+    scheduleRenderCanvas(dayIdx);
+    updateFloatingSlotPillUI(dayIdx);
   }
 
   function updateFloatingSlotPillUI(dayIdx) {
@@ -6411,8 +6479,7 @@ const TwitterPlanner = (() => {
     function onWindowPointerMove(e) {
       if (!draggingKey) return;
       const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
-      // Порог 9px защищает от случайного сдвига превью при обычном клике мышью
-      if (dist > 9) moved = true;
+      if (dist > 5) moved = true;
       if (!moved) return;
 
       e.preventDefault();
@@ -6424,17 +6491,18 @@ const TwitterPlanner = (() => {
       const tr = getSlotTransform(state[dayIdx], draggingKey);
       tr.panX = Math.round((tr.panX || 0) + dx);
       tr.panY = Math.round((tr.panY || 0) + dy);
-      renderDayCanvas(dayIdx);
+      scheduleRenderCanvas(dayIdx);
     }
 
     function onWindowPointerUp() {
       if (!draggingKey) return;
       const wasMoved = moved;
       draggingKey = null;
+      canvas.style.cursor = 'pointer';
       window.removeEventListener('pointermove', onWindowPointerMove);
       window.removeEventListener('pointerup', onWindowPointerUp);
       window.removeEventListener('pointercancel', onWindowPointerUp);
-      if (wasMoved) saveDayMeta(dayIdx);
+      if (wasMoved) scheduleSaveDayMeta(dayIdx);
     }
 
     let swapSourceKey = null;
@@ -6467,6 +6535,7 @@ const TwitterPlanner = (() => {
 
       draggingKey = sKey;
       moved = false;
+      canvas.style.cursor = 'grabbing';
       startX = lastX = e.clientX;
       startY = lastY = e.clientY;
       cScale = hit.scaleFactor;
@@ -6492,22 +6561,26 @@ const TwitterPlanner = (() => {
       triggerFileDialog(dayIdx, sKey);
     });
 
-    // Масштабирование через Alt/Cmd + колесо мыши
+    // Плавное масштабирование колесом/трекпадом по выбранному слоту (или с Alt/Cmd по любому)
     canvas.addEventListener('wheel', e => {
-      if (!e.altKey && !e.metaKey && !e.ctrlKey) return;
       const hit = hitTestCanvasSlot(dayIdx, e.clientX, e.clientY);
       if (!hit) return;
       const sKey = hit.region.key;
       if (!state[dayIdx].images[sKey]) return;
+      const isSlotActive = _armedSlot && _armedSlot.dayIdx === dayIdx && _armedSlot.slotKey === sKey;
+      if (!isSlotActive && !e.altKey && !e.metaKey && !e.ctrlKey) return;
 
       e.preventDefault();
-      selectCanvasSlot(dayIdx, sKey);
+      if (!isSlotActive) selectCanvasSlot(dayIdx, sKey);
       const tr = getSlotTransform(state[dayIdx], sKey);
-      const factor = e.deltaY < 0 ? 1.06 : 0.94;
+      const delta = Math.max(-60, Math.min(60, e.deltaY));
+      const factor = Math.exp(-delta * 0.0025);
       tr.scale = Math.max(0.25, Math.min(3.5, Math.round((tr.scale || 1) * factor * 100) / 100));
-      renderDayCanvas(dayIdx);
-      updateFloatingSlotPillUI(dayIdx);
-      saveDayMeta(dayIdx);
+      scheduleRenderCanvas(dayIdx);
+      const pill = document.getElementById(`xp-sf-${dayIdx}`);
+      const rng = pill ? pill.querySelector('.xp-sf-range') : null;
+      if (rng) rng.value = String(Math.round(tr.scale * 100));
+      scheduleSaveDayMeta(dayIdx);
     }, { passive: false });
 
     canvas.addEventListener('dragover', e => {
@@ -7406,8 +7479,8 @@ const TwitterPlanner = (() => {
         if (!_armedSlot || _armedSlot.dayIdx !== dIdx) return;
         const tr = getSlotTransform(dState, _armedSlot.slotKey);
         tr.scale = parseInt(sfRange.value, 10) / 100;
-        renderDayCanvas(dIdx);
-        saveDayMeta(dIdx);
+        scheduleRenderCanvas(dIdx);
+        scheduleSaveDayMeta(dIdx);
       });
       slotFloat.querySelector('[data-act="upload"]').addEventListener('click', () => {
         if (_armedSlot && _armedSlot.dayIdx === dIdx) triggerFileDialog(dIdx, _armedSlot.slotKey);
