@@ -240,6 +240,8 @@ button:active:not(:disabled){transform:scale(0.96);}
 .sd-btn.danger:hover{background:var(--danger);color:#fff;}
 .sd-btn.ghost{background:transparent;color:var(--text3);padding:0 8px;}
 .sd-btn.ghost:hover{background:var(--surface2);color:var(--text);}
+.sd-btn.sd-ico{width:32px;padding:0;justify-content:center;}
+.toast-undo{display:inline-flex;align-items:center;gap:5px;}
 
 /* FINDER LASSO SELECTION BOX */
 .lasso-box{
@@ -646,13 +648,16 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 
 .filter-wrap{position:relative;}
 .filter-btn{
-  height:34px;padding:0 12px;
+  height:34px;padding:0 10px;
   border:none;border-radius:var(--r);
   background:var(--surface2);color:var(--text2);
   cursor:pointer;
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
   font-size:12.5px;font-weight:500;
+  position:relative;
 }
+.filter-btn.filter-ico-btn{width:34px;padding:0;}
+.filter-btn.filter-ico-btn .fdot{position:absolute;top:7px;right:7px;}
 .filter-btn:hover{background:var(--surface3);color:var(--text);}
 .filter-btn.on{color:var(--text);background:var(--surface3);}
 .fdot{width:5.5px;height:5.5px;border-radius:50%;background:var(--blue);display:none;}
@@ -1379,7 +1384,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   transition:border-color .16s var(--ease), box-shadow .16s var(--ease);
 }
 .xp-day-card.menu-open{
-  z-index:80;
+  z-index:120;
 }
 .xp-day-card:hover{
   border-color:var(--border2);
@@ -1457,8 +1462,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   display:flex;
   align-items:center;
   gap:4px;
+  flex:1;
   min-width:0;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
+  overflow:hidden;
 }
 .xp-tw-name{
   font-size:14.5px;
@@ -1500,15 +1507,15 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   position:relative;
 }
 .xp-preset-sel{
-  height:26px;padding:0 20px 0 9px;
+  height:26px;padding:0 20px 0 8px;
   font-size:11px;font-weight:500;color:var(--text2);
   background:var(--surface2);border:none;border-radius:7px;
   font-family:inherit;outline:none;cursor:pointer;
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 6px center;
-  max-width:142px;text-overflow:ellipsis;
-  transition:border-color .14s, color .14s;
+  max-width:128px;text-overflow:ellipsis;
+  transition:background-color .14s, color .14s;
 }
 .xp-preset-sel:hover{border-color:var(--border2);color:var(--text);}
 
@@ -1645,7 +1652,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 .xp-hooks-btn,
 .xp-copy-cap{
-  height:25px;
+  height:26px;
   padding:0 9px;
   border:none;
   border-radius:999px;
@@ -1656,10 +1663,17 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   cursor:pointer;
   display:inline-flex;
   align-items:center;
+  justify-content:center;
   gap:4px;
   flex-shrink:0;
-  transition:background-color .14s, color .14s, border-color .14s;
+  transition:background-color .14s, color .14s;
 }
+.xp-icon-pill{width:26px;padding:0;}
+.xp-view-btn.xp-ico-only{width:28px;padding:0;justify-content:center;}
+.xp-btn.xp-ico-sq{width:30px;padding:0;}
+.xp-btn-sm.xp-dl-ico{width:28px;height:26px;padding:0;}
+.xp-hp-act.xp-hp-ico{width:26px;padding:0;justify-content:center;}
+.xp-mini-btn.xp-mini-ico{width:24px;padding:0;justify-content:center;}
 .xp-hooks-btn:hover,
 .xp-copy-cap:hover{
   background:var(--surface2);
@@ -1864,13 +1878,13 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   margin-right:2px;
 }
 .xp-sf-range{
-  width:64px;
+  width:52px;
   height:3px;
   accent-color:#1d9bf0;
   cursor:pointer;
 }
 .xp-sf-btn{
-  height:22px;
+  height:24px;
   padding:0 7px;
   border:none;
   border-radius:999px;
@@ -1879,8 +1893,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   font-size:10px;
   font-weight:600;
   cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   transition:background-color .12s;
 }
+.xp-sf-btn.xp-sf-ico{width:24px;padding:0;}
 .xp-sf-btn:hover{background:rgba(255,255,255,0.26);}
 .xp-sf-btn.primary{background:#1d9bf0;color:#fff;}
 .xp-sf-btn.primary:hover{opacity:.9;}
@@ -1936,13 +1954,13 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <span class="sel-dock-sum" id="sel-dock-sum">0 ₽</span>
   </div>
   <div class="sel-dock-actions">
-    <button type="button" class="sd-btn" id="sd-btn-edit">Изменить</button>
-    <button type="button" class="sd-btn primary" id="sd-btn-paid">Оплачено</button>
-    <button type="button" class="sd-btn" id="sd-btn-dup">Дублировать</button>
-    <button type="button" class="sd-btn" id="sd-btn-inv-ru">Инвойс RU</button>
-    <button type="button" class="sd-btn" id="sd-btn-inv-en">EN</button>
-    <button type="button" class="sd-btn danger" id="sd-btn-del">Удалить</button>
-    <button type="button" class="sd-btn ghost" id="sd-btn-clr" title="Снять выделение (Esc)">×</button>
+    <button type="button" class="sd-btn sd-ico" id="sd-btn-edit" title="Изменить" aria-label="Изменить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+    <button type="button" class="sd-btn sd-ico primary" id="sd-btn-paid" title="Отметить оплаченным" aria-label="Статус оплаты"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
+    <button type="button" class="sd-btn sd-ico" id="sd-btn-dup" title="Дублировать" aria-label="Дублировать"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+    <button type="button" class="sd-btn" id="sd-btn-inv-ru" title="Скопировать инвойс (RU)" aria-label="Инвойс RU"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>RU</span></button>
+    <button type="button" class="sd-btn" id="sd-btn-inv-en" title="Copy invoice (EN)" aria-label="Invoice EN"><span>EN</span></button>
+    <button type="button" class="sd-btn sd-ico danger" id="sd-btn-del" title="Удалить" aria-label="Удалить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+    <button type="button" class="sd-btn sd-ico ghost" id="sd-btn-clr" title="Снять выделение (Esc)" aria-label="Снять выделение"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div>
 </div>
 
@@ -1958,7 +1976,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 <!-- Toast with Undo -->
 <div class="toast" id="toast" role="status" aria-live="polite">
   <span id="toast-msg"></span>
-  <button type="button" class="toast-undo" id="toast-undo" style="display:none">Отменить</button>
+  <button type="button" class="toast-undo" id="toast-undo" style="display:none" title="Отменить действие" aria-label="Отменить"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg><span>Отменить</span></button>
 </div>
 
 <!-- Topbar -->
@@ -1998,8 +2016,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
     <!-- Быстрые действия -->
     <div class="sb-actions">
-      <button class="btn-primary" id="btn-add" type="button" title="Горячая клавиша: N">
-        <span>+ Добавить</span>
+      <button class="btn-primary" id="btn-add" type="button" title="Новая запись (N)">
+        <span style="display:inline-flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Добавить</span></span>
         <span class="kbd-tag">N</span>
       </button>
       <div class="inv-wrap">
@@ -2046,7 +2064,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             </button>
             <div class="period-dd" id="period-dd" role="listbox" aria-label="Выбор периода"></div>
           </div>
-          <button class="mo-collapse-btn" id="mo-collapse-btn" type="button" title="Свернуть / развернуть аналитику" aria-label="Свернуть аналитику">−</button>
+          <button class="mo-collapse-btn" id="mo-collapse-btn" type="button" title="Свернуть / развернуть аналитику" aria-label="Свернуть аналитику"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
         </div>
         <div class="mo-tabs" role="tablist">
           <button class="mo-tab on" id="mo-tab-earn" type="button" role="tab" aria-selected="true">Доходы</button>
@@ -2103,9 +2121,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
       <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
       <div class="filter-wrap">
-        <button class="filter-btn" id="filter-btn" type="button" aria-label="Фильтры" aria-expanded="false">
-          <svg width="13" height="11" viewBox="0 0 13 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="1" y1="2" x2="12" y2="2"/><line x1="3" y1="5.5" x2="10" y2="5.5"/><line x1="5" y1="9" x2="8" y2="9"/></svg>
-          <span>Фильтры</span>
+        <button class="filter-btn filter-ico-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
           <div class="fdot" id="fdot" aria-hidden="true"></div>
         </button>
         <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
@@ -2146,22 +2163,19 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </div>
       <div class="xp-header-actions">
         <div class="xp-view-switch" role="group" aria-label="Режим отображения">
-          <button type="button" class="xp-view-btn on" id="xp-mode-grid" title="Сетка карточек на всю неделю">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            <span>Сетка</span>
+          <button type="button" class="xp-view-btn xp-ico-only on" id="xp-mode-grid" title="Сетка недели" aria-label="Сетка недели">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           </button>
-          <button type="button" class="xp-view-btn" id="xp-mode-feed" title="Режим ленты X (Twitter)">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/></svg>
-            <span>Лента X</span>
+          <button type="button" class="xp-view-btn xp-ico-only" id="xp-mode-feed" title="Лента X" aria-label="Лента X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/></svg>
           </button>
         </div>
-        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger" id="xp-btn-clear-week" title="Очистить все дни и базу IndexedDB">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          <span>Очистить неделю</span>
+        <button type="button" class="xp-btn xp-btn-ghost xp-btn-danger xp-ico-sq" id="xp-btn-clear-week" title="Очистить всю неделю" aria-label="Очистить всю неделю">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
         </button>
-        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Последовательно скачать PNG всех заполненных дней">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Скачать всю неделю</span>
+        <button type="button" class="xp-btn xp-btn-primary" id="xp-btn-dl-week" title="Скачать PNG всех заполненных дней" aria-label="Скачать всю неделю">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>PNG</span>
         </button>
       </div>
     </header>
@@ -2173,22 +2187,18 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 <!-- Парящий нижний док на телефонах -->
 <nav class="m-bottom-nav" id="m-bottom-nav" aria-label="Мобильная навигация">
-  <button type="button" class="m-nav-btn on" id="m-nav-list">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-    <span>Заказы</span>
+  <button type="button" class="m-nav-btn on" id="m-nav-list" aria-label="Заказы">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
   </button>
-  <button type="button" class="m-nav-btn" id="m-nav-stats">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-    <span>Аналитика</span>
+  <button type="button" class="m-nav-btn" id="m-nav-stats" aria-label="Аналитика">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
   </button>
-  <button type="button" class="m-nav-add" id="m-nav-add" aria-label="Добавить заказ">+</button>
-  <button type="button" class="m-nav-btn" id="m-nav-inv">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    <span>Инвойс</span>
+  <button type="button" class="m-nav-add" id="m-nav-add" aria-label="Добавить заказ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+  <button type="button" class="m-nav-btn" id="m-nav-inv" aria-label="Инвойс">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
   </button>
-  <button type="button" class="m-nav-btn" id="m-nav-set">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    <span>Опции</span>
+  <button type="button" class="m-nav-btn" id="m-nav-set" aria-label="Настройки">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
   </button>
 </nav>
 
@@ -2198,7 +2208,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <div class="sheet-handle"></div>
     <div class="mhdr">
       <span class="mtitle" id="m-title">Новая запись</span>
-      <button class="mclose" id="m-close" type="button" aria-label="Закрыть">×</button>
+      <button class="mclose" id="m-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
 
     <div class="fgrid f-row-main">
@@ -2231,7 +2241,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <div class="ff">
         <label for="f-name">
           <span>Клиент</span>
-          <button type="button" class="lbl-clear-btn" id="btn-clear-client" style="display:none;">Очистить</button>
+          <button type="button" class="lbl-clear-btn" id="btn-clear-client" style="display:none;" title="Очистить клиента" aria-label="Очистить клиента"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         </label>
         <input type="text" id="f-name" list="nl" placeholder="Имя или канал" autocomplete="off"/>
         <datalist id="nl"></datalist>
@@ -2271,7 +2281,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <div class="sheet-handle"></div>
     <div class="mhdr">
       <span class="mtitle" id="inv-sheet-title">Сформировать инвойс</span>
-      <button class="mclose" id="inv-sheet-close" type="button" aria-label="Закрыть">×</button>
+      <button class="mclose" id="inv-sheet-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="inv-sheet-list" id="inv-sheet-list"></div>
   </div>
@@ -2283,7 +2293,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <div class="sheet-handle"></div>
     <div class="mhdr">
       <span class="mtitle" id="period-sheet-title">Период дохода и сводки</span>
-      <button class="mclose" id="period-sheet-close" type="button" aria-label="Закрыть">×</button>
+      <button class="mclose" id="period-sheet-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="inv-sheet-list" id="period-sheet-list"></div>
   </div>
@@ -2308,7 +2318,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   <div class="spanel">
     <div class="shdr">
       <span class="shdrtitle" id="s-title">Настройки</span>
-      <button class="sclose" id="s-close" type="button" aria-label="Закрыть настройки">×</button>
+      <button class="sclose" id="s-close" type="button" aria-label="Закрыть настройки"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
 
     <div class="stabs" role="tablist">
@@ -2366,7 +2376,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <div class="cpcurs" id="cp-curs"></div>
           <div id="cp-rblock"></div>
           <div class="dbtns" style="margin-top:10px;">
-            <button class="dbtn" id="btn-fetch-rates" type="button">Обновить курс из сети (Бесплатно)</button>
+            <button class="dbtn" id="btn-fetch-rates" type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg><span>Обновить курс</span></button>
           </div>
           <div class="s-hint">Курсы обновляются только по нажатию кнопки через открытый CDN без ключей и лимитов, либо вводятся вручную.</div>
         </div>
@@ -2405,8 +2415,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
         <div>
           <div class="slbl">Локальный файл и защита (.json)</div>
           <div class="dbtns">
-            <button class="dbtn" id="btn-exp" type="button">Скачать JSON (Cmd+S)</button>
-            <button class="dbtn" id="btn-imp" type="button">Загрузить JSON</button>
+            <button class="dbtn" id="btn-exp" type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;" title="Экспорт JSON (Cmd+S)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Экспорт</span></button>
+            <button class="dbtn" id="btn-imp" type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;" title="Импорт JSON"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span>Импорт</span></button>
             <button class="dbtn" id="btn-restore-snap" type="button" style="display:none;flex-basis:100%;">Вернуть до синхронизации</button>
             <input type="file" id="imp-inp" accept=".json" style="display:none"/>
           </div>
@@ -3268,7 +3278,7 @@ async function fetchFreeRatesManually() {
   } catch (err) {
     showToast('Не удалось получить курс, используйте ручной ввод');
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Обновить курс из сети (Бесплатно)'; }
+    if (btn) { btn.disabled = false; btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg><span>Обновить курс</span>'; }
   }
 }
 
@@ -3587,7 +3597,7 @@ function applyMoCollapsedState() {
   const box = document.getElementById('month-overview');
   const btn = document.getElementById('mo-collapse-btn');
   if (box) box.classList.toggle('collapsed', moCollapsed);
-  if (btn) btn.textContent = moCollapsed ? '+' : '−';
+  if (btn) btn.innerHTML = moCollapsed ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
 }
 function toggleMoCollapsed() {
   moCollapsed = !moCollapsed;
@@ -4673,7 +4683,9 @@ function updateSelectionUI() {
     const anyUnpaid = selList.some(e => !e.paid);
     const paidBtn = document.getElementById('sd-btn-paid');
     if (paidBtn) {
-      paidBtn.textContent = anyUnpaid ? 'Оплачено' : 'В ожидание';
+      paidBtn.innerHTML = anyUnpaid ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+      paidBtn.title = anyUnpaid ? 'Отметить оплаченным' : 'Вернуть в ожидание';
+      paidBtn.setAttribute('aria-label', paidBtn.title);
       paidBtn.classList.toggle('primary', anyUnpaid);
     }
 
@@ -5651,13 +5663,13 @@ const TwitterPlanner = (() => {
   const STORE_IMGS = 'slot_blobs';
 
   const DAYS = [
-    { idx: 0, key: 'mon', num: '01', code: 'Mon', ru: 'Понедельник' },
-    { idx: 1, key: 'tue', num: '02', code: 'Tue', ru: 'Вторник' },
-    { idx: 2, key: 'wed', num: '03', code: 'Wed', ru: 'Среда' },
-    { idx: 3, key: 'thu', num: '04', code: 'Thu', ru: 'Четверг' },
-    { idx: 4, key: 'fri', num: '05', code: 'Fri', ru: 'Пятница' },
-    { idx: 5, key: 'sat', num: '06', code: 'Sat', ru: 'Суббота' },
-    { idx: 6, key: 'sun', num: '07', code: 'Sun', ru: 'Воскресенье' }
+    { idx: 0, key: 'mon', num: '01', code: 'Mon', shortRu: 'Пн', ru: 'Понедельник' },
+    { idx: 1, key: 'tue', num: '02', code: 'Tue', shortRu: 'Вт', ru: 'Вторник' },
+    { idx: 2, key: 'wed', num: '03', code: 'Wed', shortRu: 'Ср', ru: 'Среда' },
+    { idx: 3, key: 'thu', num: '04', code: 'Thu', shortRu: 'Чт', ru: 'Четверг' },
+    { idx: 4, key: 'fri', num: '05', code: 'Fri', shortRu: 'Пт', ru: 'Пятница' },
+    { idx: 5, key: 'sat', num: '06', code: 'Sat', shortRu: 'Сб', ru: 'Суббота' },
+    { idx: 6, key: 'sun', num: '07', code: 'Sun', shortRu: 'Вс', ru: 'Воскресенье' }
   ];
 
   const ALL_SLOT_KEYS = ['s1', 's2', 's3', 'final'];
@@ -6962,20 +6974,26 @@ const TwitterPlanner = (() => {
 
     const mixBtn = document.createElement('button');
     mixBtn.type = 'button';
-    mixBtn.className = 'xp-hp-act';
-    mixBtn.textContent = 'Микс';
+    mixBtn.className = 'xp-hp-act xp-hp-ico';
+    mixBtn.title = 'Случайный микс: Хук + Вопрос';
+    mixBtn.setAttribute('aria-label', 'Микс');
+    mixBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>';
     mixBtn.addEventListener('click', () => mixRandomHookAndOutro(dIdx));
 
     const savePostBtn = document.createElement('button');
     savePostBtn.type = 'button';
-    savePostBtn.className = 'xp-hp-act';
-    savePostBtn.textContent = 'Из поста';
+    savePostBtn.className = 'xp-hp-act xp-hp-ico';
+    savePostBtn.title = 'Сохранить текущий пост в блокнот';
+    savePostBtn.setAttribute('aria-label', 'Сохранить из поста');
+    savePostBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><line x1="12" y1="7" x2="12" y2="13"/><line x1="9" y1="10" x2="15" y2="10"/></svg>';
     savePostBtn.addEventListener('click', () => saveCurrentPostToNotebook(dIdx));
 
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';
     closeBtn.className = 'xp-hp-close';
-    closeBtn.textContent = '×';
+    closeBtn.title = 'Закрыть';
+    closeBtn.setAttribute('aria-label', 'Закрыть');
+    closeBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
     closeBtn.addEventListener('click', closeHooksPopover);
 
     actions.appendChild(mixBtn);
@@ -7036,7 +7054,7 @@ const TwitterPlanner = (() => {
       const addBtn = document.createElement('button');
       addBtn.type = 'button';
       addBtn.className = 'xp-hp-addbtn';
-      addBtn.textContent = '+';
+      addBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'; addBtn.title = 'Добавить';
 
       const submitAdd = () => {
         const v = inp.value.trim();
@@ -7138,7 +7156,7 @@ const TwitterPlanner = (() => {
       const hdlEl = document.getElementById(`xp-tw-hdl-${dayMeta.idx}`);
       const avEl = document.getElementById(`xp-tw-av-${dayMeta.idx}`);
       if (nameEl) nameEl.textContent = displayName;
-      if (hdlEl) hdlEl.textContent = `${atHandle} · ${dayMeta.ru}`;
+      if (hdlEl) { hdlEl.textContent = `${atHandle} · ${dayMeta.shortRu}`; hdlEl.title = `${atHandle} · ${dayMeta.ru}`; }
       if (avEl) avEl.textContent = initialChar;
     });
   }
@@ -7195,7 +7213,7 @@ const TwitterPlanner = (() => {
         <span class="xp-tw-verified" title="Verified" aria-hidden="true">
           <svg viewBox="0 0 22 22" width="15" height="15" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
         </span>
-        <span class="xp-tw-handle" id="xp-tw-hdl-${dIdx}">${atHandle} · ${dayMeta.ru}</span>
+        <span class="xp-tw-handle" id="xp-tw-hdl-${dIdx}" title="${atHandle} · ${dayMeta.ru}">${atHandle} · ${dayMeta.shortRu}</span>
         <span class="xp-day-dot" title="Индикатор готовности"></span>
       `;
 
@@ -7310,18 +7328,20 @@ const TwitterPlanner = (() => {
 
       const copyBtn = document.createElement('button');
       copyBtn.type = 'button';
-      copyBtn.className = 'xp-copy-cap';
-      copyBtn.textContent = 'Копировать';
+      copyBtn.className = 'xp-copy-cap xp-icon-pill';
+      copyBtn.title = 'Копировать текст поста';
+      copyBtn.setAttribute('aria-label', 'Копировать текст поста');
+      copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
       copyBtn.addEventListener('click', () => {
         const txt = ta.value.trim();
         if (!txt) { notify('Сначала напишите текст поста'); return; }
         const onCopied = () => {
           copyBtn.classList.add('copied');
-          copyBtn.textContent = 'Скопировано';
+          copyBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
           notify('Текст поста скопирован');
           setTimeout(() => {
             copyBtn.classList.remove('copied');
-            copyBtn.textContent = 'Копировать';
+            copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
           }, 1400);
         };
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -7334,9 +7354,11 @@ const TwitterPlanner = (() => {
 
       const hooksBtn = document.createElement('button');
       hooksBtn.type = 'button';
-      hooksBtn.className = 'xp-hooks-btn';
+      hooksBtn.className = 'xp-hooks-btn xp-icon-pill';
       hooksBtn.id = `xp-hooks-btn-${dIdx}`;
-      hooksBtn.textContent = 'Хуки';
+      hooksBtn.title = 'Шаблоны хуков и вопросов';
+      hooksBtn.setAttribute('aria-label', 'Шаблоны хуков и вопросов');
+      hooksBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
       hooksBtn.addEventListener('click', ev => {
         ev.stopPropagation();
         toggleHooksPopover(dIdx, hooksBtn);
@@ -7367,14 +7389,14 @@ const TwitterPlanner = (() => {
       slotFloat.id = `xp-sf-${dIdx}`;
       slotFloat.innerHTML = `
         <span class="xp-sf-lbl">Слот</span>
-        <button type="button" class="xp-sf-btn primary" data-act="upload">Выбрать файл</button>
+        <button type="button" class="xp-sf-btn xp-sf-ico primary" data-act="upload" title="Загрузить файл" aria-label="Загрузить файл"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
         <input type="range" class="xp-sf-range" min="25" max="350" step="1" value="100" title="Масштаб"/>
-        <button type="button" class="xp-sf-btn" data-act="replace">Заменить</button>
-        <button type="button" class="xp-sf-btn" data-act="swap" title="Поменять местами с соседним слотом">Поменять</button>
-        <button type="button" class="xp-sf-btn" data-act="fit">Вписать</button>
-        <button type="button" class="xp-sf-btn" data-act="reset">100%</button>
-        <button type="button" class="xp-sf-btn danger" data-act="del" title="Очистить слот">Удалить</button>
-        <button type="button" class="xp-sf-btn" data-act="done" title="Снять выделение (Esc)">×</button>
+        <button type="button" class="xp-sf-btn xp-sf-ico" data-act="replace" title="Заменить файл" aria-label="Заменить файл"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
+        <button type="button" class="xp-sf-btn xp-sf-ico" data-act="swap" title="Поменять местами" aria-label="Поменять местами"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg></button>
+        <button type="button" class="xp-sf-btn xp-sf-ico" data-act="fit" title="Вписать целиком" aria-label="Вписать целиком"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+        <button type="button" class="xp-sf-btn xp-sf-ico" data-act="reset" title="Сбросить масштаб 100%" aria-label="Сбросить масштаб"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
+        <button type="button" class="xp-sf-btn xp-sf-ico danger" data-act="del" title="Очистить слот" aria-label="Очистить слот"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+        <button type="button" class="xp-sf-btn xp-sf-ico" data-act="done" title="Закрыть (Esc)" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       `;
       slotFloat.addEventListener('pointerdown', ev => ev.stopPropagation());
       slotFloat.addEventListener('click', ev => ev.stopPropagation());
@@ -7439,8 +7461,10 @@ const TwitterPlanner = (() => {
 
       const dlBtn = document.createElement('button');
       dlBtn.type = 'button';
-      dlBtn.className = 'xp-btn xp-btn-primary xp-btn-sm';
-      dlBtn.textContent = 'Скачать PNG';
+      dlBtn.className = 'xp-btn xp-btn-primary xp-btn-sm xp-dl-ico';
+      dlBtn.title = 'Скачать PNG';
+      dlBtn.setAttribute('aria-label', 'Скачать PNG');
+      dlBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
       dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
       metricsRow.appendChild(dlBtn);
       bodyCol.appendChild(metricsRow);
@@ -7575,16 +7599,20 @@ const TwitterPlanner = (() => {
         if (window.EyeDropper) {
           const eyeBtn = document.createElement('button');
           eyeBtn.type = 'button';
-          eyeBtn.className = 'xp-mini-btn';
-          eyeBtn.textContent = 'Пипетка';
+          eyeBtn.className = 'xp-mini-btn xp-mini-ico';
+          eyeBtn.title = 'Пипетка';
+          eyeBtn.setAttribute('aria-label', 'Пипетка');
+          eyeBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-1h3l9-9"/><path d="M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z"/></svg>';
           eyeBtn.addEventListener('click', () => pickWithEyeDropper(dayIdx));
           actions.appendChild(eyeBtn);
         }
 
         const autoBtn = document.createElement('button');
         autoBtn.type = 'button';
-        autoBtn.className = 'xp-mini-btn';
-        autoBtn.textContent = 'Авто из превью';
+        autoBtn.className = 'xp-mini-btn xp-mini-ico';
+        autoBtn.title = 'Собрать палитру из превью';
+        autoBtn.setAttribute('aria-label', 'Авто из превью');
+        autoBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>';
         autoBtn.addEventListener('click', () => extractAutoPaletteFromFinal(dayIdx));
         actions.appendChild(autoBtn);
 
