@@ -304,9 +304,10 @@ button:active:not(:disabled){transform:scale(0.95);}
 /* 2-COLUMN COMPACT TOP STRIP */
 .bento-grid{
   display:grid;
-  grid-template-columns:1.1fr 1fr;
+  grid-template-columns:1.05fr 1fr;
   gap:12px;
   flex-shrink:0;
+  align-items:stretch;
 }
 .bento-card{
   background:var(--surface);
@@ -316,22 +317,41 @@ button:active:not(:disabled){transform:scale(0.95);}
   display:flex;
   flex-direction:column;
   justify-content:space-between;
+  gap:12px;
   min-width:0;
   position:relative;
 }
 
-/* Left Card: Unified Finances (Пришло + Ожидаем side by side) */
-.fin-split{
+/* Left Card: Modern Twin-Header Finance Widget */
+.fin-top-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-height:24px;
+}
+.fin-title-group{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+}
+.fin-card-title{
+  font-size:12px;
+  font-weight:600;
+  color:var(--text);
+  letter-spacing:-0.01em;
+}
+.fin-main{
   display:flex;
   align-items:flex-end;
   justify-content:space-between;
   gap:16px;
-  height:100%;
 }
 .fin-cols{
-  display:flex;
-  align-items:flex-start;
-  gap:24px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
   min-width:0;
   flex:1;
 }
@@ -340,11 +360,38 @@ button:active:not(:disabled){transform:scale(0.95);}
   flex-direction:column;
   min-width:0;
   cursor:pointer;
+  transition:opacity .14s var(--ease);
 }
-.bal-hdr{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
-.bal-label{font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
+.fin-metric:first-child{
+  padding-right:16px;
+  border-right:0.5px solid var(--border);
+}
+.fin-metric:last-child{
+  padding-left:16px;
+}
+.fin-metric:hover .bal-amount{
+  opacity:.78;
+}
+.bal-hdr{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:3px;
+  min-height:15px;
+}
+.bal-label{
+  font-size:11px;
+  font-weight:500;
+  color:var(--text3);
+}
 .bal-trend,.bal-zero{
-  font-size:10px;font-weight:600;padding:1px 5px;border-radius:5px;white-space:nowrap;display:none;
+  font-size:10px;
+  font-weight:600;
+  padding:1px 6px;
+  border-radius:999px;
+  white-space:nowrap;
+  display:none;
+  line-height:1.35;
 }
 .bal-zero.on{display:inline-block;background:var(--success-bg);color:var(--success);}
 .bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
@@ -352,32 +399,97 @@ button:active:not(:disabled){transform:scale(0.95);}
 .bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
 
 .bal-amount{
-  font-size:24px;font-weight:700;letter-spacing:-.035em;color:var(--text);line-height:1.1;
-  cursor:pointer;display:inline-block;transition:opacity .12s, color .2s var(--ease);
-  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:24px;
+  font-weight:700;
+  letter-spacing:-.035em;
+  color:var(--text);
+  line-height:1.12;
+  display:inline-block;
+  transition:opacity .12s, color .2s var(--ease);
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .bal-amount.secondary{
-  font-size:21px;
+  font-weight:600;
   color:var(--text2);
 }
-.bal-amount:hover{opacity:.75;}
 .bal-amount.is-zero{color:var(--text3);}
-.bal-multi{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
-.bal-multi:empty{display:none;}
-.bal-chip{font-size:10.5px;font-weight:500;color:var(--text2);background:var(--surface2);padding:1.5px 6px;border-radius:5px;}
 
-/* Compact 5-Month Sparkline Bars */
+/* Quiet inline currency breakdown (no boxy pill clutter) */
+.bal-multi{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:4px;
+  min-height:15px;
+  font-size:11px;
+  font-weight:500;
+  color:var(--text3);
+  line-height:1.3;
+}
+.bal-chip{
+  display:inline-flex;
+  align-items:center;
+  white-space:nowrap;
+}
+.bal-chip:not(:last-child)::after{
+  content:'·';
+  margin:0 5px;
+  opacity:0.45;
+}
+
+/* Apple Screen-Time Style 5-Month Vertical Track Bars */
 .spark-bars{
-  display:flex;align-items:flex-end;gap:5px;height:38px;flex-shrink:0;
+  display:flex;
+  align-items:flex-end;
+  gap:6px;
+  flex-shrink:0;
+  padding-left:4px;
 }
-.spark-col{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;}
+.spark-col{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  cursor:pointer;
+}
+.spark-track{
+  width:6px;
+  height:36px;
+  border-radius:999px;
+  background:var(--surface2);
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  transition:background-color .15s var(--ease);
+}
+.spark-col:hover .spark-track{
+  background:var(--surface3);
+}
 .spark-pill{
-  width:7px;min-height:4px;border-radius:999px;background:var(--surface3);
-  transition:height .25s var(--ease), background-color .15s var(--ease);
+  width:100%;
+  min-height:0;
+  border-radius:999px;
+  background:var(--text3);
+  opacity:0.55;
+  transition:height .28s var(--ease), background-color .15s var(--ease), opacity .15s var(--ease);
 }
-.spark-col.cur .spark-pill,.spark-col:hover .spark-pill{background:var(--blue);}
-.spark-lbl{font-size:8.5px;font-weight:600;color:var(--text3);line-height:1;}
-.spark-col.cur .spark-lbl{color:var(--text);}
+.spark-col.cur .spark-pill,
+.spark-col:hover .spark-pill{
+  background:var(--blue);
+  opacity:1;
+}
+.spark-lbl{
+  font-size:9px;
+  font-weight:600;
+  color:var(--text3);
+  line-height:1;
+}
+.spark-col.cur .spark-lbl{
+  color:var(--text);
+}
 
 /* Right Card: Simplified Period & Clients Overview */
 .month-overview{
@@ -391,6 +503,7 @@ button:active:not(:disabled){transform:scale(0.95);}
   align-items:center;
   justify-content:space-between;
   gap:8px;
+  min-height:24px;
 }
 .mo-title-wrap{position:relative;min-width:0;}
 .mo-title-btn{
@@ -422,7 +535,7 @@ button:active:not(:disabled){transform:scale(0.95);}
 .mo-tab:hover{color:var(--text);}
 .mo-tab.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
 
-/* Clean Named Client Pills (No weird 2-letter circles!) */
+/* Clean Named Client Pills */
 .client-pills{
   display:flex;
   align-items:center;
@@ -1630,14 +1743,25 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
     <!-- Compact Top Summary Strip -->
     <section class="bento-grid" aria-label="Финансовая сводка">
-      <!-- Card 1: Пришло + Ожидаем + Sparkline -->
+      <!-- Card 1: Финансы (Пришло + Ожидаем + Валюта + Sparkline) -->
       <div class="bento-card">
-        <div class="fin-split">
+        <div class="fin-top-row">
+          <div class="fin-title-group">
+            <span class="fin-card-title">Финансы</span>
+            <span class="bal-trend" id="val-recv-trend"></span>
+          </div>
+          <div class="mo-tabs" id="fin-cur-tabs" role="group" aria-label="Базовая валюта">
+            <button class="mo-tab" data-cur="₽" type="button">₽</button>
+            <button class="mo-tab" data-cur="$" type="button">$</button>
+            <button class="mo-tab" data-cur="€" type="button">€</button>
+          </div>
+        </div>
+
+        <div class="fin-main">
           <div class="fin-cols">
             <div class="fin-metric" id="card-recv">
               <div class="bal-hdr">
                 <span class="bal-label">Пришло</span>
-                <span class="bal-trend" id="val-recv-trend"></span>
               </div>
               <div class="bal-amount is-zero" id="val-recv" title="Нажмите для смены валюты (₽ / $ / €)">0 ₽</div>
               <div class="bal-multi" id="val-recv-multi"></div>
@@ -1655,7 +1779,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
         </div>
       </div>
 
-      <!-- Card 2: Период и Клиенты (Упрощённая плашка) -->
+      <!-- Card 2: Период и Клиенты -->
       <div class="bento-card month-overview" id="month-overview">
         <div class="mo-top-row">
           <div class="mo-title-wrap">
@@ -4052,6 +4176,9 @@ function rebuildClientSel() {
 
 function updateStatsAndAnalytics() {
   updateMobilePeriodPillText();
+  document.querySelectorAll('#fin-cur-tabs .mo-tab').forEach(btn => {
+    btn.classList.toggle('on', btn.dataset.cur === baseCur);
+  });
 
   const ua = entries.filter(e => !e.paid);
   const uaMap = sBC(ua);
@@ -4140,13 +4267,15 @@ function renderSparkBarsAndRatio() {
     }
     const maxVal = Math.max(...months.map(m => m.sum), 1);
     months.forEach(m => {
-      const h = m.sum > 0 ? Math.max(8, Math.round((m.sum / maxVal) * 28)) : 5;
+      const h = m.sum > 0 ? Math.max(7, Math.round((m.sum / maxVal) * 36)) : 0;
       const isCur = (eff === m.ym) || (eff === 'all' && m.ym === cmYM());
       const col = el('div', {
         className: 'spark-col' + (isCur ? ' cur' : ''),
         title: `${m.lbl}: ${fmtB(m.sum)}`
       }, [
-        el('div', {className: 'spark-pill', style: `height:${h}px`}),
+        el('div', {className: 'spark-track'}, [
+          el('div', {className: 'spark-pill', style: `height:${h}px`})
+        ]),
         el('span', {className: 'spark-lbl'}, [m.lbl])
       ]);
       col.addEventListener('click', ev => {
@@ -5015,6 +5144,12 @@ function bindEvents() {
   });
 
   // Клик по крупной сумме меняет базовую валюту, клик по карточке переключает вкладку спектра
+  document.querySelectorAll('#fin-cur-tabs .mo-tab').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (btn.dataset.cur) selCur(btn.dataset.cur);
+    });
+  });
   document.getElementById('val-await').addEventListener('click', e => {
     e.stopPropagation();
     cycleBaseCur();
