@@ -1952,6 +1952,347 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   .xp-subtitle{display:none;}
   .xp-tw-icons{gap:12px;}
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   APPLE RAIL + BORDERLESS BENTO LAYOUT (ZERO HEAVY BORDERS)
+══════════════════════════════════════════════════════════════════ */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);
+}
+
+.app-shell {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Narrow Left Icon Rail (60px) */
+.icon-rail {
+  width: 60px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0 22px;
+}
+.rail-top, .rail-bot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.rail-brand {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.rail-brand .logo-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--blue);
+}
+.rail-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.rail-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.rail-btn:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+.rail-btn.on {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+html[data-theme="dark"] .rail-btn.on {
+  background: var(--surface2);
+  box-shadow: none;
+}
+.rail-sync .sync-dot {
+  width: 7px;
+  height: 7px;
+}
+.rail-sync.pending .sync-dot { background: var(--text3); }
+.rail-sync.warn .sync-dot { background: var(--warning); }
+
+/* Invoice dropdown anchored next to the left rail */
+.icon-rail .inv-dropdown {
+  left: calc(100% + 10px);
+  right: auto;
+  top: 0;
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+/* Main Workspace Container */
+.body {
+  padding: 14px 32px 0 12px;
+  max-width: none;
+  gap: 0;
+}
+.main {
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Top Search & Actions Bar */
+.ws-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0 16px;
+  flex-shrink: 0;
+}
+.ws-topbar .search-wrap {
+  max-width: 340px;
+}
+.ws-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.period-pill-btn {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: var(--r);
+  border: none;
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.period-pill-btn:hover {
+  background: var(--surface3);
+  color: var(--text);
+}
+.btn-add-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--text);
+  color: var(--bg);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.btn-add-circle:hover {
+  opacity: 0.86;
+}
+
+/* Borderless Bento Summary Cards (3-column soft surfaces) */
+.bento-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr 1.2fr;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.bento-card {
+  background: var(--surface);
+  border: none;
+  border-radius: 20px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color .16s var(--ease);
+}
+.bento-card.active-metric {
+  box-shadow: inset 0 0 0 1.5px var(--blue-bg);
+}
+.bento-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 38px;
+  margin-top: 12px;
+}
+.bbar-col {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  cursor: pointer;
+}
+.bbar-pill {
+  width: 100%;
+  max-width: 24px;
+  border-radius: 999px;
+  background: var(--surface2);
+  transition: background-color .16s var(--ease), height .24s var(--ease);
+}
+.bbar-col:hover .bbar-pill {
+  background: var(--surface3);
+}
+.bbar-col.on .bbar-pill {
+  background: var(--blue);
+}
+.bbar-lbl {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: lowercase;
+}
+.bbar-col.on .bbar-lbl {
+  color: var(--text);
+}
+
+/* Bento Analytics Card */
+.bento-an {
+  cursor: default;
+  gap: 10px;
+}
+.bento-an.collapsed .mo-content {
+  display: none;
+}
+.bento-an-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.bento-an .mo-tabs {
+  flex: 1;
+}
+.bento-an .mo-legend {
+  max-height: 84px;
+  overflow-y: auto;
+}
+.bento-an .mo-leg-row {
+  padding: 4px 6px;
+}
+
+/* Completely Borderless Order List & Popovers (Zero hairline clutter) */
+.entry-card {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 15px;
+  padding: 13px 16px;
+  margin-bottom: 6px;
+}
+.entry-card:hover {
+  background: var(--surface2);
+}
+.entry-card.paid:not(.sel):hover {
+  background: var(--surface);
+}
+.fpanel,
+.period-dd,
+.modal,
+.confirm-box,
+.sel-dock,
+.xp-day-card,
+.xp-canvas,
+.xp-card-menu,
+.xp-hooks-pop,
+.xp-hp-col,
+.xp-hb-item,
+.xp-inp-sm,
+.xp-palette-bar,
+.xp-mini-btn,
+.xp-hp-inp {
+  border: none !important;
+}
+.spanel {
+  border-left: none !important;
+}
+.xp-view {
+  padding: 18px 32px 56px 12px;
+}
+.xp-container {
+  max-width: 1180px;
+}
+
+@media (max-width: 960px) {
+  .bento-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bento-an {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .icon-rail {
+    display: none;
+  }
+  .body {
+    padding: 8px 16px 0;
+  }
+  .ws-topbar {
+    padding: 4px 0 10px;
+  }
+  .ws-topbar .search-wrap {
+    max-width: none;
+  }
+  .period-pill-btn,
+  .btn-add-circle {
+    display: none;
+  }
+  .bento-row {
+    display: none;
+  }
+  #month-overview {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 450;
+    background: var(--bg);
+    border-radius: 0;
+    padding: 18px 16px calc(100px + var(--safe-b));
+    overflow-y: auto;
+  }
+  #month-overview.mobile-open {
+    display: flex;
+    flex-direction: column;
+  }
+  #month-overview.mobile-open .mo-legend {
+    max-height: none;
+  }
+  .xp-view {
+    padding: 10px 14px 48px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1989,173 +2330,166 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   <button type="button" class="toast-undo" id="toast-undo" style="display:none" title="Отменить действие" aria-label="Отменить"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg><span>Отменить</span></button>
 </div>
 
-<!-- Topbar -->
-<div class="topbar">
-  <div class="topbar-left">
-    <span class="logo"><span class="logo-dot"></span>Invoe</span>
-    <div class="xp-nav-switch" role="tablist" aria-label="Разделы приложения">
-      <button type="button" class="xp-nav-tab on" id="xp-tab-invoe" role="tab" aria-selected="true">Учёт</button>
-      <button type="button" class="xp-nav-tab" id="xp-tab-planner" role="tab" aria-selected="false">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        <span>Planner</span>
-      </button>
-    </div>
-    <button class="sync-pill" id="top-sync-btn" type="button" title="Нажмите для синхронизации с облаком или открытия настроек">
-      <span class="sync-dot"></span>
-      <span id="top-sync-lbl">Сейф</span>
-    </button>
-  </div>
-  <div class="topbar-right">
-    <button class="m-period-pill" id="m-period-btn" type="button" aria-label="Выбрать месяц">
-      <span id="m-period-lbl">Месяц</span>
-      <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
-    </button>
-    <button class="icon-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
-    </button>
-  </div>
-</div>
+<!-- Narrow Apple Icon Rail + Bento Workspace -->
+<div class="app-shell">
 
-<div class="body" id="workspace-body">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-
-    <!-- Быстрые действия -->
-    <div class="sb-actions">
-      <button class="btn-primary" id="btn-add" type="button" title="Новая запись (N)">
-        <span style="display:inline-flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Добавить</span></span>
-        <span class="kbd-tag">N</span>
-      </button>
-      <div class="inv-wrap">
-        <button class="btn-secondary" id="btn-inv" type="button">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          <span>Инвойс</span>
+  <!-- Left Icon Rail -->
+  <aside class="icon-rail" aria-label="Навигация">
+    <div class="rail-top">
+      <div class="rail-brand" title="Invoe"><span class="logo-dot"></span></div>
+      <nav class="rail-nav" role="tablist">
+        <button type="button" class="rail-btn on" id="xp-tab-invoe" role="tab" aria-selected="true" title="Учёт заказов" aria-label="Учёт заказов">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="14" x2="13" y2="14"/></svg>
         </button>
-        <div class="inv-dropdown" id="inv-dd" role="menu"></div>
-      </div>
+        <button type="button" class="rail-btn" id="xp-tab-planner" role="tab" aria-selected="false" title="X Showcase Planner" aria-label="X Showcase Planner">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </button>
+        <div class="inv-wrap">
+          <button type="button" class="rail-btn" id="btn-inv" title="Сформировать инвойс" aria-label="Инвойс">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </button>
+          <div class="inv-dropdown" id="inv-dd" role="menu"></div>
+        </div>
+      </nav>
     </div>
 
-    <!-- Баланс (Симметричные карточки: клик по сумме меняет валюту, клик по карточке переключает спектр) -->
-    <div class="balance-cards">
-      <div class="bal-card" id="card-await">
-        <div class="bal-hdr">
-          <div class="bal-hdr-left">
-            <div class="bal-label">Ожидаем</div>
-            <span class="bal-zero" id="val-await-zero">Закрыто</span>
-          </div>
-        </div>
-        <div class="bal-amount is-zero" id="val-await" title="Нажмите на сумму для смены базовой валюты (₽ / $ / €)">0 ₽</div>
-        <div class="bal-multi" id="val-await-multi"></div>
-      </div>
-      <div class="bal-card" id="card-recv">
-        <div class="bal-hdr">
-          <div class="bal-hdr-left">
-            <div class="bal-label">Пришло</div>
-            <span class="bal-trend" id="val-recv-trend"></span>
-          </div>
-        </div>
-        <div class="bal-amount is-zero" id="val-recv" title="Нажмите на сумму для смены базовой валюты (₽ / $ / €)">0 ₽</div>
-        <div class="bal-multi" id="val-recv-multi"></div>
-      </div>
+    <div class="rail-bot">
+      <button class="rail-btn rail-sync" id="top-sync-btn" type="button" title="Синхронизация">
+        <span class="sync-dot"></span>
+        <span class="sr-only" id="top-sync-lbl">Сейф</span>
+      </button>
+      <button class="rail-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
     </div>
+  </aside>
 
-    <!-- Аналитика и выбор периода -->
-    <div class="month-overview" id="month-overview">
-      <div class="mo-header">
-        <div class="mo-top-row">
+  <!-- Main Workspace -->
+  <div class="body" id="workspace-body">
+    <div class="main" id="main-area">
+
+      <!-- Clean Top Header: Search + Filter + Period + Add (+) -->
+      <header class="ws-topbar">
+        <div class="search-wrap" id="search-wrap">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.2" y2="16.2"/></svg>
+          <input type="text" id="search" placeholder="Поиск..." aria-label="Поиск по записям"/>
+          <span class="search-kbd">Cmd+K</span>
+        </div>
+
+        <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
+
+        <div class="ws-top-actions">
           <div class="mo-title-wrap">
-            <button class="mo-title-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+            <button class="period-pill-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
               <span id="mo-title">Операции</span>
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
             </button>
             <div class="period-dd" id="period-dd" role="listbox" aria-label="Выбор периода"></div>
           </div>
-          <button class="mo-collapse-btn" id="mo-collapse-btn" type="button" title="Свернуть / развернуть аналитику" aria-label="Свернуть аналитику"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+
+          <button class="m-period-pill" id="m-period-btn" type="button" aria-label="Выбрать месяц">
+            <span id="m-period-lbl">Месяц</span>
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
+          </button>
+
+          <div class="filter-wrap">
+            <button class="filter-btn filter-ico-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+              <div class="fdot" id="fdot" aria-hidden="true"></div>
+            </button>
+            <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
+              <label class="flbl" for="f-status">Статус</label>
+              <select class="fsel" id="f-status">
+                <option value="all">Все</option>
+                <option value="unpaid">Не оплачено</option>
+                <option value="paid">Оплачено</option>
+              </select>
+              <div class="flbl" style="margin-top:8px;">Заказчик</div>
+              <div class="ftags" id="ftags-client"></div>
+              <div class="flbl" style="margin-top:8px;">Тип работы</div>
+              <div class="ftags" id="ftags-work"></div>
+            </div>
+          </div>
+
+          <button class="btn-add-circle" id="btn-add" type="button" title="Новая запись (N)" aria-label="Добавить заказ">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
         </div>
-        <div class="mo-tabs" role="tablist">
-          <button class="mo-tab on" id="mo-tab-earn" type="button" role="tab" aria-selected="true">Доходы</button>
-          <button class="mo-tab" id="mo-tab-ord" type="button" role="tab" aria-selected="false">Заказы</button>
-          <button class="mo-tab" id="mo-tab-await" type="button" role="tab" aria-selected="false">Ожидаем</button>
+      </header>
+
+      <!-- Bento Analytics Row (borderless soft surfaces) -->
+      <section class="bento-row" aria-label="Финансовая сводка">
+        <div class="bento-card" id="card-recv">
+          <div class="bal-hdr">
+            <span class="bal-label">Пришло</span>
+            <span class="bal-trend" id="val-recv-trend"></span>
+          </div>
+          <div class="bal-amount is-zero" id="val-recv" title="Нажмите для смены базовой валюты">0 ₽</div>
+          <div class="bal-multi" id="val-recv-multi"></div>
+          <div class="bento-bars" id="bento-month-bars" aria-hidden="true"></div>
+        </div>
+
+        <div class="bento-card" id="card-await">
+          <div class="bal-hdr">
+            <span class="bal-label">Ожидаем</span>
+            <span class="bal-zero" id="val-await-zero">Закрыто</span>
+          </div>
+          <div class="bal-amount is-zero" id="val-await" title="Нажмите для смены базовой валюты">0 ₽</div>
+          <div class="bal-multi" id="val-await-multi"></div>
+        </div>
+
+        <div class="bento-card bento-an" id="month-overview">
+          <div class="bento-an-top">
+            <div class="mo-tabs" role="tablist">
+              <button class="mo-tab on" id="mo-tab-earn" type="button" role="tab" aria-selected="true">Доходы</button>
+              <button class="mo-tab" id="mo-tab-ord" type="button" role="tab" aria-selected="false">Заказы</button>
+              <button class="mo-tab" id="mo-tab-await" type="button" role="tab" aria-selected="false">Ожидаем</button>
+            </div>
+            <button class="mo-collapse-btn" id="mo-collapse-btn" type="button" title="Свернуть аналитику" aria-label="Свернуть аналитику"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          </div>
+          <div class="mo-content">
+            <div class="an-hover-lbl" id="an-hover-lbl"></div>
+            <div class="spectrum-bar" id="spectrum-bar" aria-hidden="true"></div>
+            <div class="mo-legend" id="mo-legend" role="list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mobile Hero Dashboard -->
+      <div class="m-hero" id="m-hero">
+        <div class="m-hero-card" id="m-card-await" title="Нажмите для смены валюты">
+          <div class="m-hero-top">
+            <span class="m-hero-lbl">Ожидаем</span>
+            <span class="m-hero-pill zero" id="m-badge-zero">Закрыто</span>
+          </div>
+          <div class="m-hero-val is-zero" id="m-val-await">0 ₽</div>
+          <div class="m-hero-foot">
+            <span id="m-sub-await">Нет долгов</span>
+            <span class="m-hero-hint">₽/$</span>
+          </div>
+        </div>
+        <div class="m-hero-card" id="m-card-recv" title="Нажмите для аналитики">
+          <div class="m-hero-top">
+            <span class="m-hero-lbl" id="m-recv-lbl">Пришло</span>
+            <span class="m-hero-pill" id="m-badge-trend"></span>
+          </div>
+          <div class="m-hero-val is-zero" id="m-val-recv">0 ₽</div>
+          <div class="m-hero-foot">
+            <span id="m-sub-recv">За период</span>
+            <span class="m-hero-hint">График</span>
+          </div>
         </div>
       </div>
-      <div class="mo-content">
-        <div class="an-summary-row">
-          <div class="an-hover-lbl" id="an-hover-lbl">Распределение по клиентам</div>
-        </div>
-        <div class="spectrum-bar" id="spectrum-bar" aria-hidden="true"></div>
-        <div class="mo-legend" id="mo-legend" role="list"></div>
+
+      <!-- Borderless Airy Order List -->
+      <div class="elist" id="elist" role="main">
+        <div id="list"></div>
       </div>
     </div>
-
   </div>
-
-  <!-- MAIN -->
-  <div class="main" id="main-area">
-
-    <!-- Мобильный Hero-дашборд -->
-    <div class="m-hero" id="m-hero">
-      <div class="m-hero-card" id="m-card-await" title="Нажмите для смены валюты">
-        <div class="m-hero-top">
-          <span class="m-hero-lbl">Ожидаем</span>
-          <span class="m-hero-pill zero" id="m-badge-zero">Закрыто</span>
-        </div>
-        <div class="m-hero-val is-zero" id="m-val-await">0 ₽</div>
-        <div class="m-hero-foot">
-          <span id="m-sub-await">Нет долгов</span>
-          <span class="m-hero-hint">₽/$</span>
-        </div>
-      </div>
-      <div class="m-hero-card" id="m-card-recv" title="Нажмите для подробной аналитики">
-        <div class="m-hero-top">
-          <span class="m-hero-lbl" id="m-recv-lbl">Пришло</span>
-          <span class="m-hero-pill" id="m-badge-trend"></span>
-        </div>
-        <div class="m-hero-val is-zero" id="m-val-recv">0 ₽</div>
-        <div class="m-hero-foot">
-          <span id="m-sub-recv">За период</span>
-          <span class="m-hero-hint">График</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="toolbar">
-      <div class="search-wrap" id="search-wrap">
-        <svg class="search-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4"/><path d="m9 9 2.5 2.5"/></svg>
-        <input type="text" id="search" placeholder="Поиск по проектам, клиентам..." aria-label="Поиск по записям"/>
-        <span class="search-kbd">Cmd+K</span>
-      </div>
-
-      <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
-      <div class="filter-wrap">
-        <button class="filter-btn filter-ico-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
-          <div class="fdot" id="fdot" aria-hidden="true"></div>
-        </button>
-        <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
-          <label class="flbl" for="f-status">Статус</label>
-          <select class="fsel" id="f-status">
-            <option value="all">Все</option>
-            <option value="unpaid">Не оплачено</option>
-            <option value="paid">Оплачено</option>
-          </select>
-          <div class="flbl" style="margin-top:8px;">Заказчик</div>
-          <div class="ftags" id="ftags-client"></div>
-          <div class="flbl" style="margin-top:8px;">Тип работы</div>
-          <div class="ftags" id="ftags-work"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Список заказов -->
-    <div class="elist" id="elist" role="main">
-      <div id="list"></div>
-    </div>
-  </div>
-</div>
 
 <!-- X (TWITTER) WEEKLY PLANNER VIEW -->
 <section class="xp-view" id="x-planner-view" aria-label="X Weekly Planner" style="display:none;">
@@ -2194,6 +2528,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
   </div>
 </section>
+
+</div><!-- /.app-shell -->
 
 <!-- Парящий нижний док на телефонах -->
 <nav class="m-bottom-nav" id="m-bottom-nav" aria-label="Мобильная навигация">
@@ -3311,6 +3647,38 @@ function getComparableMonthSum(ym, maxDayLimit = null) {
   return Math.round(list.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0) * 100) / 100;
 }
 
+function renderBentoMonthBars() {
+  const wrap = document.getElementById('bento-month-bars');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const now = new Date();
+  const months = [];
+  for (let o = -4; o <= 0; o++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + o, 1);
+    const ym = `${d.getFullYear()}-${Z(d.getMonth() + 1)}`;
+    const lbl = d.toLocaleDateString('ru-RU', { month: 'short' }).replace('.', '');
+    months.push({ ym, lbl, val: getComparableMonthSum(ym, null) });
+  }
+  const maxVal = Math.max(...months.map(m => m.val), 1);
+  const eff = effectiveYm();
+  months.forEach(m => {
+    const col = el('div', {
+      className: 'bbar-col' + (eff === m.ym ? ' on' : ''),
+      title: `${m.lbl}: ${fmtB(m.val)}`
+    });
+    const pct = m.val > 0 ? Math.max(18, Math.round((m.val / maxVal) * 100)) : 12;
+    const pill = el('div', { className: 'bbar-pill', style: `height:${pct}%` });
+    const txt = el('span', { className: 'bbar-lbl' }, [m.lbl]);
+    col.appendChild(pill);
+    col.appendChild(txt);
+    col.addEventListener('click', e => {
+      e.stopPropagation();
+      selectPeriod(m.ym === cmYM() ? 'current' : m.ym);
+    });
+    wrap.appendChild(col);
+  });
+}
+
 function renderMonthTrend() {
   const trendEl = document.getElementById('val-recv-trend');
   const mTrendEl = document.getElementById('m-badge-trend');
@@ -4042,7 +4410,7 @@ function openSettings(defaultTab = 'view') {
 function closeSettings() {
   flushPendingRates();
   document.getElementById('sov').classList.remove('on');
-  const sbOpen = document.getElementById('sidebar').classList.contains('mobile-open');
+  const sbOpen = document.getElementById('month-overview').classList.contains('mobile-open');
   updateMobileNavState(sbOpen ? 'stats' : 'list');
 }
 function updateSettingsUI() {
@@ -4166,7 +4534,7 @@ function filterByClient(name){
   buildFilterTags();
   updateFilterState();
   renderList();
-  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('month-overview').classList.remove('mobile-open');
   updateMobileNavState('list');
 }
 function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
@@ -4532,6 +4900,7 @@ function updateStatsAndAnalytics() {
   }
 
   renderMonthTrend();
+  renderBentoMonthBars();
   if (_donutDirty) renderAnalytics();
 }
 
@@ -4994,7 +5363,7 @@ function togPaid(id) {
    14. MODAL, DRAFTS & SERIAL ENTRY WITH HIGHLIGHT GLOW
 ══════════════════════════════════════════════ */
 function openModal() {
-  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('month-overview').classList.remove('mobile-open');
   if (editId === null && !_hasDraft) {
     clearForm();
   } else if (editId === null && _hasDraft) {
@@ -5340,15 +5709,16 @@ function bindEvents() {
 
   document.getElementById('m-card-await').addEventListener('click', cycleBaseCur);
   document.getElementById('m-card-recv').addEventListener('click', () => {
-    const sb = document.getElementById('sidebar');
-    sb.classList.add('mobile-open');
+    const ov = document.getElementById('month-overview');
+    if (ov) ov.classList.add('mobile-open');
     _donutDirty = true;
     renderAnalytics();
     updateMobileNavState('stats');
   });
 
   document.getElementById('m-nav-list').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('mobile-open');
+    const ov = document.getElementById('month-overview');
+    if (ov) ov.classList.remove('mobile-open');
     closeSettings();
     closeInvSheet();
     closePeriodSheet();
@@ -5358,9 +5728,10 @@ function bindEvents() {
     closeSettings();
     closeInvSheet();
     closePeriodSheet();
-    const sb = document.getElementById('sidebar');
-    const isNowOpen = !sb.classList.contains('mobile-open');
-    sb.classList.toggle('mobile-open', isNowOpen);
+    const ov = document.getElementById('month-overview');
+    if (!ov) return;
+    const isNowOpen = !ov.classList.contains('mobile-open');
+    ov.classList.toggle('mobile-open', isNowOpen);
     if (isNowOpen) {
       _donutDirty = true;
       renderAnalytics();
@@ -5586,7 +5957,7 @@ function bindEvents() {
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
       closeFP(); closeInvDd(); closePeriodDd();
-      document.getElementById('sidebar').classList.remove('mobile-open');
+      document.getElementById('month-overview').classList.remove('mobile-open');
       updateMobileNavState('list');
       if (document.getElementById('mov').classList.contains('on')) dismissModal();
       else if (document.activeElement === document.getElementById('search') && document.getElementById('search').value) {
