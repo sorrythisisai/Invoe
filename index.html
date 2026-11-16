@@ -301,97 +301,42 @@ button:active:not(:disabled){transform:scale(0.95);}
 .m-topbar{display:none;align-items:center;justify-content:space-between;padding-bottom:2px;}
 .m-logo{font-size:16px;font-weight:800;letter-spacing:-0.035em;display:flex;align-items:center;gap:7px;}
 
-/* 2-COLUMN COMPACT TOP STRIP */
-.bento-grid{
-  display:grid;
-  grid-template-columns:1.05fr 1fr;
-  gap:12px;
-  flex-shrink:0;
-  align-items:stretch;
-}
-.bento-card{
+/* UNIFIED COMPACT TOP SUMMARY BAR */
+.summary-strip{
   background:var(--surface);
   border-radius:var(--rxl);
-  padding:14px 18px;
+  padding:16px 22px;
   box-shadow:var(--shadow-card);
   display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:12px;
-  min-width:0;
-  position:relative;
-}
-
-/* Left Card: Modern Twin-Header Finance Widget */
-.fin-top-row{
-  display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
-  min-height:24px;
+  gap:24px;
+  flex-shrink:0;
 }
-.fin-title-group{
+.fin-group{
   display:flex;
-  align-items:center;
-  gap:7px;
+  align-items:stretch;
+  gap:28px;
   min-width:0;
 }
-.fin-card-title{
-  font-size:12px;
-  font-weight:600;
-  color:var(--text);
-  letter-spacing:-0.01em;
-}
-.fin-main{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:16px;
-}
-.fin-cols{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  min-width:0;
-  flex:1;
+.fin-vsep{
+  width:0.5px;
+  background:var(--border2);
+  align-self:stretch;
+  margin:2px 0;
+  flex-shrink:0;
 }
 .fin-metric{
   display:flex;
   flex-direction:column;
+  justify-content:center;
   min-width:0;
   cursor:pointer;
-  transition:opacity .14s var(--ease);
 }
-.fin-metric:first-child{
-  padding-right:16px;
-  border-right:0.5px solid var(--border);
-}
-.fin-metric:last-child{
-  padding-left:16px;
-}
-.fin-metric:hover .bal-amount{
-  opacity:.78;
-}
-.bal-hdr{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-bottom:3px;
-  min-height:15px;
-}
-.bal-label{
-  font-size:11px;
-  font-weight:500;
-  color:var(--text3);
-}
+.bal-hdr{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.bal-label{font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.055em;}
 .bal-trend,.bal-zero{
-  font-size:10px;
-  font-weight:600;
-  padding:1px 6px;
-  border-radius:999px;
-  white-space:nowrap;
-  display:none;
-  line-height:1.35;
+  font-size:10px;font-weight:600;padding:1px 5px;border-radius:5px;white-space:nowrap;display:none;
 }
 .bal-zero.on{display:inline-block;background:var(--success-bg);color:var(--success);}
 .bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
@@ -399,174 +344,55 @@ button:active:not(:disabled){transform:scale(0.95);}
 .bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
 
 .bal-amount{
-  font-size:24px;
-  font-weight:700;
-  letter-spacing:-.035em;
-  color:var(--text);
-  line-height:1.12;
-  display:inline-block;
-  transition:opacity .12s, color .2s var(--ease);
-  max-width:100%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  font-size:26px;font-weight:700;letter-spacing:-.035em;color:var(--text);line-height:1.12;
+  cursor:pointer;display:inline-block;transition:opacity .12s, color .2s var(--ease);
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .bal-amount.secondary{
+  font-size:24px;
   font-weight:600;
   color:var(--text2);
 }
+.bal-amount:hover{opacity:.75;}
 .bal-amount.is-zero{color:var(--text3);}
 
-/* Quiet inline currency breakdown (no boxy pill clutter) */
-.bal-multi{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  margin-top:4px;
-  min-height:15px;
-  font-size:11px;
+.bal-subline{
+  font-size:11.5px;
   font-weight:500;
   color:var(--text3);
-  line-height:1.3;
-}
-.bal-chip{
-  display:inline-flex;
-  align-items:center;
+  margin-top:4px;
   white-space:nowrap;
-}
-.bal-chip:not(:last-child)::after{
-  content:'·';
-  margin:0 5px;
-  opacity:0.45;
-}
-
-/* Apple Screen-Time Style 5-Month Vertical Track Bars */
-.spark-bars{
-  display:flex;
-  align-items:flex-end;
-  gap:6px;
-  flex-shrink:0;
-  padding-left:4px;
-}
-.spark-col{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  cursor:pointer;
-}
-.spark-track{
-  width:6px;
-  height:36px;
-  border-radius:999px;
-  background:var(--surface2);
-  display:flex;
-  align-items:flex-end;
   overflow:hidden;
-  transition:background-color .15s var(--ease);
+  text-overflow:ellipsis;
+  min-height:16px;
 }
-.spark-col:hover .spark-track{
-  background:var(--surface3);
-}
-.spark-pill{
-  width:100%;
-  min-height:0;
-  border-radius:999px;
-  background:var(--text3);
-  opacity:0.55;
-  transition:height .28s var(--ease), background-color .15s var(--ease), opacity .15s var(--ease);
-}
-.spark-col.cur .spark-pill,
-.spark-col:hover .spark-pill{
-  background:var(--blue);
-  opacity:1;
-}
-.spark-lbl{
-  font-size:9px;
-  font-weight:600;
-  color:var(--text3);
-  line-height:1;
-}
-.spark-col.cur .spark-lbl{
-  color:var(--text);
-}
+.bal-subline:empty{display:none;}
 
-/* Right Card: Simplified Period & Clients Overview */
-.month-overview{
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:10px;
-}
-.mo-top-row{
+.period-side{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  min-height:24px;
+  flex-shrink:0;
 }
-.mo-title-wrap{position:relative;min-width:0;}
+.mo-title-wrap{position:relative;}
 .mo-title-btn{
-  display:inline-flex;align-items:center;gap:4px;
-  background:transparent;border:none;cursor:pointer;
-  padding:2px 6px;margin-left:-6px;border-radius:6px;height:24px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface2);border:none;cursor:pointer;
+  padding:0 12px;border-radius:10px;height:32px;
+  transition:background-color .14s;
 }
-.mo-title-btn:hover{background:var(--surface2);}
-.mo-title-btn span{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mo-title-btn:hover{background:var(--surface3);}
+.mo-title-btn span{font-size:12.5px;font-weight:600;color:var(--text);white-space:nowrap;}
 .mo-title-btn svg{color:var(--text3);flex-shrink:0;}
 .period-dd{
-  position:absolute;top:calc(100% + 4px);left:0;min-width:175px;
+  position:absolute;top:calc(100% + 6px);right:0;min-width:185px;
   background:var(--surface);border:0.5px solid var(--border2);
   border-radius:var(--rl);padding:4px;box-shadow:var(--shadow-md);z-index:400;
-  display:none;max-height:240px;overflow-y:auto;animation:popIn .12s var(--ease);
+  display:none;max-height:260px;overflow-y:auto;animation:popIn .12s var(--ease);
 }
 .period-dd.on{display:block;}
-.period-dd-item{padding:6px 9px;border-radius:var(--r-xs);font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;}
+.period-dd-item{padding:6px 10px;border-radius:var(--r-xs);font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;}
 .period-dd-item:hover{background:var(--surface2);color:var(--text);}
 .period-dd-item.on{color:var(--text);font-weight:600;background:var(--surface2);}
-
-.mo-tabs{
-  display:inline-flex;background:var(--surface2);border-radius:7px;padding:2px;gap:2px;
-}
-.mo-tab{
-  height:20px;padding:0 7px;border:none;border-radius:5px;
-  background:transparent;cursor:pointer;font-size:10.5px;font-weight:500;color:var(--text2);white-space:nowrap;
-}
-.mo-tab:hover{color:var(--text);}
-.mo-tab.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
-
-/* Clean Named Client Pills */
-.client-pills{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-.client-pills::-webkit-scrollbar{display:none;}
-.client-pills:empty{display:none;}
-.c-pill{
-  height:22px;padding:0 8px;
-  border-radius:999px;border:none;
-  background:var(--surface2);color:var(--text2);
-  font-size:11px;font-weight:500;cursor:pointer;
-  display:inline-flex;align-items:center;gap:5px;
-  flex-shrink:0;white-space:nowrap;
-  transition:background-color .12s, color .12s;
-}
-.c-pill:hover{background:var(--surface3);color:var(--text);}
-.c-pill.on{background:var(--blue-bg);color:var(--blue);font-weight:600;}
-.c-pill-dot{width:5.5px;height:5.5px;border-radius:50%;flex-shrink:0;}
-
-.spectrum-wrap{
-  display:flex;flex-direction:column;gap:5px;
-}
-.spectrum-bar{
-  width:100%;height:5px;background:var(--surface2);border-radius:3px;display:flex;gap:2px;overflow:hidden;
-}
-.spec-seg{height:100%;border-radius:2px;cursor:pointer;transition:opacity .15s var(--ease), flex .25s var(--ease);}
-.spectrum-bar.has-hover .spec-seg:not(.hl){opacity:0.25;}
-.an-hover-lbl{font-size:11px;font-weight:500;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:14px;}
 
 /* ══════════════════════════════════════════════════════════════════
    COMPACT SEARCH & FILTER TOOLBAR
@@ -928,20 +754,16 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 
 .m-bottom-nav{display:none;}
 
-@media(max-width:860px){
-  .bento-grid{grid-template-columns:1fr;}
-}
-
 @media(max-width:768px){
   .rail-nav{display:none;}
   .m-topbar{display:flex;}
   .m-period-pill{display:inline-flex;}
   .main{padding:12px 16px calc(130px + var(--safe-b));gap:12px;}
-  .bento-grid{grid-template-columns:1fr;gap:10px;}
-  .bento-card{padding:13px 15px;border-radius:16px;}
+  .summary-strip{padding:14px 16px;border-radius:16px;gap:16px;}
+  .fin-group{gap:18px;flex:1;justify-content:space-between;}
   .bal-amount{font-size:21px;}
-  .bal-amount.secondary{font-size:19px;}
-  .spark-bars{display:none;}
+  .bal-amount.secondary{font-size:20px;}
+  .period-side{display:none;}
   .rem-group{padding:13px 15px 6px;border-radius:16px;}
   .edate{display:none;}
   .sel-dock{left:12px;right:12px;transform:translateY(24px) scale(0.96);bottom:calc(80px + var(--safe-b));max-width:none;padding:7px 9px;justify-content:space-between;}
@@ -1738,71 +1560,41 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <div id="m-card-await"></div><div id="m-card-recv"></div>
       <span id="m-badge-zero"></span><span id="m-val-await"></span><span id="m-sub-await"></span>
       <span id="m-recv-lbl"></span><span id="m-badge-trend"></span><span id="m-val-recv"></span><span id="m-sub-recv"></span>
-      <div id="sidebar"></div><button id="mo-collapse-btn"></button>
+      <div id="sidebar"></div>
     </div>
 
-    <!-- Compact Top Summary Strip -->
-    <section class="bento-grid" aria-label="Финансовая сводка">
-      <!-- Card 1: Финансы (Пришло + Ожидаем + Валюта + Sparkline) -->
-      <div class="bento-card">
-        <div class="fin-top-row">
-          <div class="fin-title-group">
-            <span class="fin-card-title">Финансы</span>
+    <!-- Single Clean Top Summary Strip -->
+    <section class="summary-strip" aria-label="Финансовая сводка">
+      <div class="fin-group">
+        <div class="fin-metric" id="card-recv" title="Нажмите для смены базовой валюты (₽ / $ / €)">
+          <div class="bal-hdr">
+            <span class="bal-label">Пришло</span>
             <span class="bal-trend" id="val-recv-trend"></span>
           </div>
-          <div class="mo-tabs" id="fin-cur-tabs" role="group" aria-label="Базовая валюта">
-            <button class="mo-tab" data-cur="₽" type="button">₽</button>
-            <button class="mo-tab" data-cur="$" type="button">$</button>
-            <button class="mo-tab" data-cur="€" type="button">€</button>
-          </div>
+          <div class="bal-amount is-zero" id="val-recv">0 ₽</div>
+          <div class="bal-subline" id="val-recv-multi"></div>
         </div>
 
-        <div class="fin-main">
-          <div class="fin-cols">
-            <div class="fin-metric" id="card-recv">
-              <div class="bal-hdr">
-                <span class="bal-label">Пришло</span>
-              </div>
-              <div class="bal-amount is-zero" id="val-recv" title="Нажмите для смены валюты (₽ / $ / €)">0 ₽</div>
-              <div class="bal-multi" id="val-recv-multi"></div>
-            </div>
-            <div class="fin-metric" id="card-await">
-              <div class="bal-hdr">
-                <span class="bal-label">Ожидаем</span>
-                <span class="bal-zero" id="val-await-zero">Закрыто</span>
-              </div>
-              <div class="bal-amount secondary is-zero" id="val-await" title="Нажмите для смены валюты (₽ / $ / €)">0 ₽</div>
-              <div class="bal-multi" id="val-await-multi"></div>
-            </div>
+        <div class="fin-vsep" aria-hidden="true"></div>
+
+        <div class="fin-metric" id="card-await" title="Нажмите для смены базовой валюты (₽ / $ / €)">
+          <div class="bal-hdr">
+            <span class="bal-label">Ожидаем</span>
+            <span class="bal-zero" id="val-await-zero">Закрыто</span>
           </div>
-          <div class="spark-bars" id="recv-spark" aria-hidden="true"></div>
+          <div class="bal-amount secondary is-zero" id="val-await">0 ₽</div>
+          <div class="bal-subline" id="val-await-multi"></div>
         </div>
       </div>
 
-      <!-- Card 2: Период и Клиенты -->
-      <div class="bento-card month-overview" id="month-overview">
-        <div class="mo-top-row">
-          <div class="mo-title-wrap">
-            <button class="mo-title-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
-              <span id="mo-title">Период</span>
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
-            </button>
-            <div class="period-dd" id="period-dd" role="listbox" aria-label="Выбор периода"></div>
-          </div>
-          <div class="mo-tabs" role="tablist">
-            <button class="mo-tab on" id="mo-tab-earn" type="button" role="tab" aria-selected="true">Доходы</button>
-            <button class="mo-tab" id="mo-tab-ord" type="button" role="tab" aria-selected="false">Заказы</button>
-            <button class="mo-tab" id="mo-tab-await" type="button" role="tab" aria-selected="false">Ждём</button>
-          </div>
+      <div class="period-side">
+        <div class="mo-title-wrap">
+          <button class="mo-title-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+            <span id="mo-title">Период</span>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+          </button>
+          <div class="period-dd" id="period-dd" role="listbox" aria-label="Выбор периода"></div>
         </div>
-
-        <div class="client-pills" id="client-avatars" role="group" aria-label="Быстрый фильтр по клиентам"></div>
-
-        <div class="spectrum-wrap">
-          <div class="spectrum-bar" id="spectrum-bar" aria-hidden="true"></div>
-          <div class="an-hover-lbl" id="an-hover-lbl"></div>
-        </div>
-        <div id="mo-legend" style="display:none;"></div>
       </div>
     </section>
 
@@ -3288,159 +3080,11 @@ function selectPeriod(val) {
   render();
 }
 
-function applyMoCollapsedState() {
-  const box = document.getElementById('month-overview');
-  const btn = document.getElementById('mo-collapse-btn');
-  if (box) box.classList.toggle('collapsed', moCollapsed);
-  if (btn) btn.innerHTML = moCollapsed ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-}
-function toggleMoCollapsed() {
-  moCollapsed = !moCollapsed;
-  lsS('ff_mo_collapsed', moCollapsed ? '1' : '0');
-  applyMoCollapsedState();
-  if (!moCollapsed) {
-    _donutDirty = true;
-    renderAnalytics();
-  }
-}
-
 /* ══════════════════════════════════════════════
-   8. SEGMENTED SPECTRUM BAR ANALYTICS
+   8. PERIOD LABEL & CLEAN SUMMARY SYNC
 ══════════════════════════════════════════════ */
-let _donutSegments = [];
-let _donutDefaultSubLbl = 'Распределение по клиентам';
-
-function syncMoTabButtons() {
-  const earnBtn = document.getElementById('mo-tab-earn');
-  const ordBtn = document.getElementById('mo-tab-ord');
-  const awaitBtn = document.getElementById('mo-tab-await');
-  const cardAwait = document.getElementById('card-await');
-  const cardRecv = document.getElementById('card-recv');
-
-  if (earnBtn) {
-    earnBtn.classList.toggle('on', moTab === 'earned');
-    earnBtn.setAttribute('aria-selected', String(moTab === 'earned'));
-  }
-  if (ordBtn) {
-    ordBtn.classList.toggle('on', moTab === 'orders');
-    ordBtn.setAttribute('aria-selected', String(moTab === 'orders'));
-  }
-  if (awaitBtn) {
-    awaitBtn.classList.toggle('on', moTab === 'awaiting');
-    awaitBtn.setAttribute('aria-selected', String(moTab === 'awaiting'));
-  }
-  if (cardAwait) cardAwait.classList.toggle('active-metric', moTab === 'awaiting');
-  if (cardRecv) cardRecv.classList.toggle('active-metric', moTab === 'earned');
-}
-
-function setMoTab(tab) {
-  if (!['earned', 'orders', 'awaiting'].includes(tab)) return;
-  moTab = tab;
-  lsS('ff_motab', tab);
-  syncMoTabButtons();
-  _donutDirty = true;
-  renderAnalytics();
-}
-
-function computeExactPercentages(items, total) {
-  if (!items.length || !(total > 0)) return items.map(() => 0);
-  const raw = items.map(it => (it.value / total) * 100);
-  const floors = raw.map(v => Math.floor(v));
-  let rem = 100 - floors.reduce((a, b) => a + b, 0);
-  const order = raw.map((v, i) => ({ i, frac: v - floors[i] })).sort((a, b) => b.frac - a.frac);
-  for (let k = 0; k < order.length && rem > 0; k++, rem--) {
-    floors[order[k].i]++;
-  }
-  return floors;
-}
-
-function buildMoneySegments(list) {
-  if (!list.length) {
-    return { segments: [], totalNum: 0, formatFn: fmtB, unit: baseCur };
-  }
-  const curs = [...new Set(list.map(e => e.currency))];
-  const singleCur = curs.length === 1 ? curs[0] : null;
-  const canConvertAll = list.every(e => toB(e.amount, e.currency) !== null);
-
-  const byClient = new Map();
-  let totalNum = 0;
-  let unit = baseCur;
-  let formatFn = fmtB;
-
-  if (canConvertAll) {
-    for (const e of list) {
-      const val = toB(e.amount, e.currency) || 0;
-      const name = e.name || 'Без имени';
-      if (!byClient.has(name)) byClient.set(name, { val: 0, entries: [] });
-      const rec = byClient.get(name);
-      rec.val = Math.round((rec.val + val) * 100) / 100;
-      rec.entries.push(e);
-      totalNum = Math.round((totalNum + val) * 100) / 100;
-    }
-  } else if (singleCur) {
-    unit = singleCur;
-    formatFn = v => fmtCur(v, singleCur);
-    for (const e of list) {
-      const name = e.name || 'Без имени';
-      if (!byClient.has(name)) byClient.set(name, { val: 0, entries: [] });
-      const rec = byClient.get(name);
-      rec.val = Math.round((rec.val + e.amount) * 100) / 100;
-      rec.entries.push(e);
-      totalNum = Math.round((totalNum + e.amount) * 100) / 100;
-    }
-  } else {
-    for (const e of list) {
-      const conv = toB(e.amount, e.currency);
-      const val = conv !== null ? conv : e.amount;
-      const name = e.name || 'Без имени';
-      if (!byClient.has(name)) byClient.set(name, { val: 0, entries: [] });
-      const rec = byClient.get(name);
-      rec.val = Math.round((rec.val + val) * 100) / 100;
-      rec.entries.push(e);
-      if (conv !== null) totalNum = Math.round((totalNum + conv) * 100) / 100;
-    }
-  }
-
-  const sumForPct = [...byClient.values()].reduce((s, r) => s + r.val, 0);
-  const items = [...byClient.entries()]
-    .sort((a, b) => b[1].val - a[1].val)
-    .map(([name, rec]) => {
-      const cMap = sBC(rec.entries);
-      const cKeys = Object.keys(cMap);
-      const disp = (cKeys.length === 1) ? fmtCur(cMap[cKeys[0]], cKeys[0]) : (canConvertAll ? fmtB(rec.val) : fmtMap(cMap));
-      return {
-        label: name,
-        value: rec.val,
-        display: disp
-      };
-    });
-
-  const pcts = computeExactPercentages(items, sumForPct);
-  items.forEach((it, idx) => { it.pct = pcts[idx]; });
-
-  return { segments: items, totalNum, formatFn, unit };
-}
-
-function setSpectrumHoverState(idx) {
-  const bar = document.getElementById('spectrum-bar');
-  const segNodes = bar ? bar.querySelectorAll('.spec-seg') : [];
-  const legRows = document.querySelectorAll('#mo-legend .mo-leg-row');
-  const hoverLbl = document.getElementById('an-hover-lbl');
-
-  if (bar) bar.classList.toggle('has-hover', idx !== -1);
-  segNodes.forEach((s, i) => s.classList.toggle('hl', i === idx));
-  legRows.forEach((r, i) => r.classList.toggle('hl', i === idx));
-
-  if (idx !== -1 && _donutSegments[idx]) {
-    const seg = _donutSegments[idx];
-    if (hoverLbl) hoverLbl.textContent = `${seg.label} · ${seg.pct}% (${seg.display})`;
-  } else {
-    if (hoverLbl) hoverLbl.textContent = _donutDefaultSubLbl;
-  }
-}
-
+function setMoTab() {}
 function renderAnalytics() {
-  syncMoTabButtons();
   updateMobilePeriodPillText();
   const eff = effectiveYm();
   let periodTitle;
@@ -3451,115 +3095,6 @@ function renderAnalytics() {
     periodTitle = `${MONTHS_NOM_RU[(m||1)-1]} ${y||new Date().getFullYear()}`;
   }
   setText('mo-title', periodTitle);
-  if (moCollapsed && window.innerWidth > 768) { _donutDirty = false; return; }
-
-  let segments = [];
-  if (moTab === 'earned') {
-    const period = entries.filter(isPaidInPeriod);
-    const res = buildMoneySegments(period);
-    segments = res.segments;
-    _donutDefaultSubLbl = segments.length ? 'Доля клиентов в доходах' : 'Нет оплаченных заказов за период';
-  } else if (moTab === 'orders') {
-    const ord = entries.filter(e => matchesPeriod(e.date));
-    const byClient = {};
-    ord.forEach(e => { const n = e.name||'Без имени'; byClient[n] = (byClient[n]||0)+1; });
-    const tot = ord.length;
-    const items = Object.entries(byClient).sort((a,b)=>b[1]-a[1]).map(([name,cnt])=>({
-      label: name,
-      value: cnt,
-      display: `${cnt} шт.`
-    }));
-    const pcts = computeExactPercentages(items, tot);
-    items.forEach((it, idx) => it.pct = pcts[idx]);
-    segments = items;
-    _donutDefaultSubLbl = tot ? `Всего заказов за период: ${tot}` : 'Нет заказов за период';
-  } else {
-    const period = entries.filter(e => !e.paid && matchesPeriod(e.date));
-    const res = buildMoneySegments(period);
-    segments = res.segments;
-    _donutDefaultSubLbl = segments.length ? 'Ожидаемые платежи по клиентам' : 'Нет долгов за выбранный период';
-  }
-
-  setText('an-hover-lbl', _donutDefaultSubLbl);
-  _donutSegments = segments;
-
-  const avStrip = document.getElementById('client-avatars');
-  if (avStrip) {
-    avStrip.innerHTML = '';
-    const uniqueClients = [...new Set(entries.map(e => e.name).filter(Boolean))];
-    const segOrder = segments.map(s => s.label);
-    uniqueClients.sort((a, b) => {
-      const ia = segOrder.indexOf(a);
-      const ib = segOrder.indexOf(b);
-      if (ia !== -1 && ib !== -1) return ia - ib;
-      if (ia !== -1) return -1;
-      if (ib !== -1) return 1;
-      return a.localeCompare(b, 'ru');
-    });
-    uniqueClients.slice(0, 8).forEach(cName => {
-      const col = getClientColor(cName);
-      const isAct = activeClientFilter === cName;
-      const btn = el('button', {
-        type: 'button',
-        className: 'c-pill' + (isAct ? ' on' : ''),
-        title: cName
-      }, [
-        el('span', {className: 'c-pill-dot', style: `background:${col}`}),
-        cName
-      ]);
-      btn.addEventListener('click', () => filterByClient(cName));
-      avStrip.appendChild(btn);
-    });
-  }
-
-  const bar = document.getElementById('spectrum-bar');
-  if (bar) {
-    bar.innerHTML = '';
-    bar.classList.remove('has-hover');
-    segments.forEach((seg, i) => {
-      const col = getClientColor(seg.label);
-      const sNode = el('div', {
-        className: 'spec-seg',
-        style: `flex:${Math.max(seg.value, 0.01)};background:${col}`
-      });
-      sNode.addEventListener('mouseenter', () => setSpectrumHoverState(i));
-      sNode.addEventListener('mouseleave', () => setSpectrumHoverState(-1));
-      sNode.addEventListener('click', () => filterByClient(seg.label));
-      bar.appendChild(sNode);
-    });
-  }
-
-  const leg = document.getElementById('mo-legend');
-  if (leg) {
-    leg.innerHTML = '';
-    segments.slice(0, 8).forEach((seg, i) => {
-      const col = getClientColor(seg.label);
-      const isAct = activeClientFilter && activeClientFilter === seg.label;
-      const row = el('div', {
-        className: 'mo-leg-row' + (isAct ? ' active-client' : ''),
-        role: 'button',
-        tabindex: '0'
-      });
-      const left = el('div', {className:'mo-leg-left'});
-      const dot = el('div', {className:'mo-leg-dot', style:`background:${col}`});
-      const lbl = el('div', {className:'mo-leg-lbl'}, [seg.label]);
-      left.appendChild(dot); left.appendChild(lbl);
-
-      const right = el('div', {className:'mo-leg-right'});
-      right.appendChild(el('span', {className:'mo-leg-pct'}, [`${seg.pct}%`]));
-      right.appendChild(el('span', {className:'mo-leg-val'}, [seg.display]));
-
-      row.appendChild(left);
-      row.appendChild(right);
-
-      const _name = seg.label;
-      row.addEventListener('mouseenter', () => setSpectrumHoverState(i));
-      row.addEventListener('mouseleave', () => setSpectrumHoverState(-1));
-      row.addEventListener('click', () => filterByClient(_name));
-      row.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') filterByClient(_name); });
-      leg.appendChild(row);
-    });
-  }
   _donutDirty = false;
 }
 
@@ -4176,9 +3711,6 @@ function rebuildClientSel() {
 
 function updateStatsAndAnalytics() {
   updateMobilePeriodPillText();
-  document.querySelectorAll('#fin-cur-tabs .mo-tab').forEach(btn => {
-    btn.classList.toggle('on', btn.dataset.cur === baseCur);
-  });
 
   const ua = entries.filter(e => !e.paid);
   const uaMap = sBC(ua);
@@ -4199,9 +3731,10 @@ function updateStatsAndAnalytics() {
   const awMulti = document.getElementById('val-await-multi');
   const mSubAwait = document.getElementById('m-sub-await');
   if (awMulti) {
-    awMulti.innerHTML = '';
     if (uaKeys.length > 1 || (uaTot === null && uaKeys.length > 0)) {
-      awMulti.appendChild(multiChips(uaMap));
+      awMulti.textContent = Object.entries(uaMap).map(([c,v]) => fmtCur(v,c)).join(' · ');
+    } else {
+      awMulti.textContent = '';
     }
   }
   if (mSubAwait) {
@@ -4235,9 +3768,10 @@ function updateStatsAndAnalytics() {
   const recvMulti = document.getElementById('val-recv-multi');
   const mSubRecv = document.getElementById('m-sub-recv');
   if (recvMulti) {
-    recvMulti.innerHTML = '';
     if (recvKeys.length > 1 || (recvTot === null && recvKeys.length > 0)) {
-      recvMulti.appendChild(multiChips(recvMap));
+      recvMulti.textContent = Object.entries(recvMap).map(([c,v]) => fmtCur(v,c)).join(' · ');
+    } else {
+      recvMulti.textContent = '';
     }
   }
   if (mSubRecv) {
@@ -4247,46 +3781,7 @@ function updateStatsAndAnalytics() {
   }
 
   renderMonthTrend();
-  renderSparkBarsAndRatio();
   if (_donutDirty) renderAnalytics();
-}
-
-const MONTHS_SHORT_RU = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
-function renderSparkBarsAndRatio() {
-  const sparkEl = document.getElementById('recv-spark');
-  if (sparkEl) {
-    sparkEl.innerHTML = '';
-    const now = new Date();
-    const eff = effectiveYm();
-    const months = [];
-    for (let o = -4; o <= 0; o++) {
-      const d = new Date(now.getFullYear(), now.getMonth() + o, 1);
-      const ym = `${d.getFullYear()}-${Z(d.getMonth() + 1)}`;
-      const sum = getComparableMonthSum(ym, null);
-      months.push({ ym, lbl: MONTHS_SHORT_RU[d.getMonth()], sum });
-    }
-    const maxVal = Math.max(...months.map(m => m.sum), 1);
-    months.forEach(m => {
-      const h = m.sum > 0 ? Math.max(7, Math.round((m.sum / maxVal) * 36)) : 0;
-      const isCur = (eff === m.ym) || (eff === 'all' && m.ym === cmYM());
-      const col = el('div', {
-        className: 'spark-col' + (isCur ? ' cur' : ''),
-        title: `${m.lbl}: ${fmtB(m.sum)}`
-      }, [
-        el('div', {className: 'spark-track'}, [
-          el('div', {className: 'spark-pill', style: `height:${h}px`})
-        ]),
-        el('span', {className: 'spark-lbl'}, [m.lbl])
-      ]);
-      col.addEventListener('click', ev => {
-        ev.stopPropagation();
-        selectPeriod(m.ym === cmYM() ? 'current' : m.ym);
-      });
-      sparkEl.appendChild(col);
-    });
-  }
-
-
 }
 
 function renderList() {
@@ -5144,12 +4639,6 @@ function bindEvents() {
   });
 
   // Клик по крупной сумме меняет базовую валюту, клик по карточке переключает вкладку спектра
-  document.querySelectorAll('#fin-cur-tabs .mo-tab').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      if (btn.dataset.cur) selCur(btn.dataset.cur);
-    });
-  });
   document.getElementById('val-await').addEventListener('click', e => {
     e.stopPropagation();
     cycleBaseCur();
@@ -5158,10 +4647,9 @@ function bindEvents() {
     e.stopPropagation();
     cycleBaseCur();
   });
-  document.getElementById('card-await').addEventListener('click', () => setMoTab('awaiting'));
-  document.getElementById('card-recv').addEventListener('click', () => setMoTab('earned'));
+  document.getElementById('card-await').addEventListener('click', cycleBaseCur);
+  document.getElementById('card-recv').addEventListener('click', cycleBaseCur);
 
-  document.getElementById('mo-collapse-btn').addEventListener('click', toggleMoCollapsed);
 
   // Кнопки единой нижней панели действий (#sel-dock)
   document.getElementById('sd-btn-edit').addEventListener('click', () => {
@@ -5283,9 +4771,7 @@ function bindEvents() {
   document.getElementById('f-status').addEventListener('change', onFilter);
 
   document.getElementById('mo-title-btn').addEventListener('click', togglePeriodDd);
-  document.getElementById('mo-tab-earn').addEventListener('click', () => setMoTab('earned'));
-  document.getElementById('mo-tab-ord').addEventListener('click', () => setMoTab('orders'));
-  document.getElementById('mo-tab-await').addEventListener('click', () => setMoTab('awaiting'));
+
 
   document.getElementById('btn-settings').addEventListener('click', () => openSettings('view'));
   document.getElementById('stab-view').addEventListener('click', () => switchSettingsTab('view'));
@@ -5422,8 +4908,6 @@ function bindEvents() {
 ══════════════════════════════════════════════ */
 (function init() {
   applyAppearance();
-  applyMoCollapsedState();
-  syncMoTabButtons();
   updateSyncPill(fbUrl ? (_hasUnsynced ? 'pending' : 'ok') : 'local');
   bindEvents();
   render();
