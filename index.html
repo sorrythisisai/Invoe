@@ -1055,11 +1055,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   100%{background-position:-200% 0;}
 }
 .skel-card{
-  background:var(--surface);
-  border:0.5px solid var(--border);
-  border-radius:var(--rl);
-  padding:14px 17px;
-  margin-bottom:7px;
+  background:transparent;
+  border-bottom:1px solid var(--border);
+  padding:14px 6px;
   display:flex;align-items:center;justify-content:space-between;gap:14px;
 }
 .skel-left{display:flex;flex-direction:column;gap:8px;flex:1;}
@@ -1954,7 +1952,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   APPLE RAIL + BORDERLESS BENTO LAYOUT (ZERO HEAVY BORDERS)
+   NATIVE APPLE STYLE (REMINDERS LIST + FREEFORM GALLERY CARDS)
 ══════════════════════════════════════════════════════════════════ */
 .sr-only {
   position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);
@@ -1965,12 +1963,12 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   flex: 1;
   height: 100%;
   overflow: hidden;
-  max-width: 1380px;
+  max-width: 1360px;
   width: 100%;
   margin: 0 auto;
 }
 
-/* Narrow Left Icon Rail (60px) */
+/* Narrow Left Icon Rail */
 .icon-rail {
   width: 60px;
   flex-shrink: 0;
@@ -1978,7 +1976,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 0 22px;
+  padding: 20px 0 24px;
 }
 .rail-top, .rail-bot {
   display: flex;
@@ -2046,18 +2044,18 @@ html[data-theme="dark"] .rail-btn.on {
   left: calc(100% + 10px);
   right: auto;
   top: 0;
-  border: none;
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-md);
 }
 
 /* Main Workspace Container */
 .body {
-  padding: 14px 32px 0 12px;
+  padding: 16px 32px 0 12px;
   max-width: none;
   gap: 0;
 }
 .main {
-  max-width: 1180px;
+  max-width: 1140px;
   width: 100%;
   margin: 0 auto;
 }
@@ -2068,11 +2066,11 @@ html[data-theme="dark"] .rail-btn.on {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 2px 0 16px;
+  padding: 2px 0 18px;
   flex-shrink: 0;
 }
 .ws-topbar .search-wrap {
-  max-width: 340px;
+  max-width: 320px;
 }
 .ws-top-actions {
   display: flex;
@@ -2103,8 +2101,8 @@ html[data-theme="dark"] .rail-btn.on {
   height: 34px;
   border-radius: 50%;
   border: none;
-  background: var(--text);
-  color: var(--bg);
+  background: var(--blue);
+  color: #ffffff;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -2112,30 +2110,42 @@ html[data-theme="dark"] .rail-btn.on {
   flex-shrink: 0;
 }
 .btn-add-circle:hover {
-  opacity: 0.86;
+  opacity: 0.88;
 }
 
-/* Borderless Bento Summary Cards (3-column soft surfaces) */
+/* Freeform Gallery Bento Cards (Screenshot 3 style: 1px subtle border, soft two-tone surface, 22px radius) */
 .bento-row {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr 1.2fr;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 22px;
   flex-shrink: 0;
 }
 .bento-card {
   background: var(--surface);
-  border: none;
-  border-radius: 20px;
+  border: 1px solid var(--border2);
+  border-radius: 22px;
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  transition: background-color .16s var(--ease);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: border-color .16s var(--ease), background-color .16s var(--ease);
+}
+html[data-theme="dark"] .bento-card {
+  background: #1c1c1e;
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow: none;
+}
+.bento-card:hover {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+html[data-theme="dark"] .bento-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
 }
 .bento-card.active-metric {
-  box-shadow: inset 0 0 0 1.5px var(--blue-bg);
+  border-color: var(--blue);
 }
 .bento-bars {
   display: flex;
@@ -2202,45 +2212,104 @@ html[data-theme="dark"] .rail-btn.on {
   padding: 4px 6px;
 }
 
-/* Completely Borderless Order List & Popovers (Zero hairline clutter) */
+/* ══════════════════════════════════════════════════════════════════
+   APPLE REMINDERS LIST STYLE (Screenshot 2: zero individual boxes,
+   clean hairlines between items, circle toggle on the LEFT)
+══════════════════════════════════════════════════════════════════ */
+.group-lbl {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+  text-transform: none;
+  letter-spacing: -0.01em;
+  padding: 22px 4px 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+.group-lbl:first-child {
+  padding-top: 4px;
+}
+.group-lbl-sum {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
 .entry-card {
+  background: transparent !important;
   border: none !important;
+  border-bottom: 1px solid var(--border) !important;
   box-shadow: none !important;
-  border-radius: 15px;
-  padding: 13px 16px;
-  margin-bottom: 6px;
+  border-radius: 0 !important;
+  padding: 13px 6px;
+  margin-bottom: 0;
+  gap: 14px;
+  transition: background-color .14s var(--ease), opacity .18s var(--ease);
 }
 .entry-card:hover {
-  background: var(--surface2);
+  background: var(--surface2) !important;
+  border-radius: 10px !important;
 }
-.entry-card.paid:not(.sel):hover {
-  background: var(--surface);
+.entry-card.sel {
+  background: var(--blue-bg) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
 }
-.fpanel,
-.period-dd,
-.modal,
-.confirm-box,
-.sel-dock,
-.xp-day-card,
-.xp-canvas,
-.xp-card-menu,
-.xp-hooks-pop,
-.xp-hp-col,
-.xp-hb-item,
-.xp-inp-sm,
-.xp-palette-bar,
-.xp-mini-btn,
-.xp-hp-inp {
-  border: none !important;
+.entry-card.paid {
+  opacity: 0.56;
 }
-.spanel {
-  border-left: none !important;
+.entry-card.paid:hover {
+  opacity: 0.85;
 }
+
+/* Reminders Circle Toggle: Accent blue ring & double-ring / filled check */
+.badge.u {
+  box-shadow: inset 0 0 0 1.8px var(--text3);
+}
+.badge.u:hover {
+  box-shadow: inset 0 0 0 1.8px var(--blue);
+  background: var(--blue-bg);
+}
+.badge.p {
+  background: var(--blue);
+  color: #ffffff;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.6px var(--blue);
+}
+
+/* Freeform Gallery Card Style for X Planner Day Cards (Screenshot 3) */
 .xp-view {
   padding: 18px 32px 56px 12px;
 }
 .xp-container {
-  max-width: 1180px;
+  max-width: 1140px;
+}
+.xp-day-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 22px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+html[data-theme="dark"] .xp-day-card {
+  background: #1c1c1e;
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow: none;
+}
+.xp-day-card:hover {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+html[data-theme="dark"] .xp-day-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.xp-day-card.is-ready {
+  border-color: rgba(37, 99, 235, 0.45);
+}
+html[data-theme="dark"] .xp-day-card.is-ready {
+  border-color: rgba(59, 130, 246, 0.45);
+}
+.xp-canvas {
+  border: 1px solid var(--border);
+  border-radius: 15px;
 }
 
 @media (max-width: 960px) {
@@ -2279,6 +2348,7 @@ html[data-theme="dark"] .rail-btn.on {
     z-index: 450;
     background: var(--bg);
     border-radius: 0;
+    border: none;
     padding: 18px 16px calc(100px + var(--safe-b));
     overflow-y: auto;
   }
@@ -4773,8 +4843,8 @@ function renderEntry(e) {
     badge.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
   }
   badge.addEventListener('click', ev => { ev.stopPropagation(); togPaid(e.id); });
-  right.appendChild(badge);
 
+  card.appendChild(badge);
   card.appendChild(left);
   card.appendChild(right);
   return card;
