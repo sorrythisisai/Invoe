@@ -503,16 +503,24 @@ button:active:not(:disabled){transform:scale(0.97);}
 .toolbar{display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;}
 .search-wrap{flex:1;min-width:200px;position:relative;display:flex;align-items:center;}
 .search-icon{position:absolute;left:13px;color:var(--text3);pointer-events:none;}
-#search{
-  width:100%;height:40px;padding:0 52px 0 36px;
+#search,#bg-search{
+  width:100%;height:40px;padding:0 38px 0 36px;
   font-size:13.5px;border:0.5px solid var(--border);border-radius:12px;
   background:var(--surface);color:var(--text);
   box-shadow:var(--shadow-card);
   font-family:inherit;outline:none;transition:box-shadow .14s, border-color .14s;
   user-select:text;-webkit-user-select:text;
 }
-#search:focus{border-color:var(--blue);box-shadow:0 0 0 2.5px var(--blue-bg), var(--shadow-card);}
-#search::placeholder{color:var(--text3);}
+#search{padding-right:52px;}
+#search:focus,#bg-search:focus{border-color:var(--blue);box-shadow:0 0 0 2.5px var(--blue-bg), var(--shadow-card);}
+#search::placeholder,#bg-search::placeholder{color:var(--text3);}
+.bg-search-clear{
+  position:absolute;right:10px;width:20px;height:20px;border:none;border-radius:50%;
+  background:var(--surface2);color:var(--text3);font-size:13px;line-height:1;
+  cursor:pointer;display:none;align-items:center;justify-content:center;
+}
+.bg-search-clear.on{display:inline-flex;}
+.bg-search-clear:hover{background:var(--surface3);color:var(--text);}
 .search-kbd{position:absolute;right:12px;pointer-events:none;font-size:10.5px;font-weight:600;color:var(--text3);opacity:0;transition:opacity .14s;}
 .search-wrap:hover .search-kbd{opacity:0.75;}
 #search:focus ~ .search-kbd{opacity:0!important;}
@@ -1263,33 +1271,57 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   color:var(--text);
 }
 
-/* Budget Toolbar & 2-Column Feed */
-.bg-seg{
+/* Budget 2-Column Split: Left = Income, Right = Expenses */
+.bg-split-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:16px;
+  align-items:start;
+  width:100%;
+}
+.bg-col{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  min-width:0;
+}
+.bg-col-hdr{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:2px 6px;
+}
+.bg-col-title{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:-0.015em;
+  color:var(--text2);
   display:inline-flex;
   align-items:center;
-  gap:2px;
+  gap:7px;
+}
+.bg-col-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+}
+.bg-col-sum{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:-0.015em;
+}
+.bg-col-sum.inc{color:var(--success);}
+.bg-col-sum.exp{color:var(--text2);}
+.bg-col-empty{
   background:var(--surface);
+  border-radius:var(--rxl);
   border:0.5px solid var(--border);
-  box-shadow:var(--shadow-card);
-  padding:3px;
-  border-radius:12px;
-  height:40px;
-}
-.bg-seg-btn{
-  height:32px;
-  padding:0 12px;
-  border:none;
-  border-radius:9px;
-  background:transparent;
-  color:var(--text2);
+  padding:28px 20px;
+  text-align:center;
   font-size:12.5px;
-  font-weight:600;
-  cursor:pointer;
+  color:var(--text3);
+  box-shadow:var(--shadow-card);
 }
-.bg-seg-btn:hover{color:var(--text);}
-.bg-seg-btn.on{
-  background:var(--surface2);
-  color:var(--text);
+@media(max-width:960px){
+  .bg-split-grid{grid-template-columns:1fr;}
 }
 
 
@@ -1862,12 +1894,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <div class="search-wrap">
         <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="bg-search" placeholder="Поиск по категориям, комментариям..." aria-label="Поиск в учёте"/>
-      </div>
-
-      <div class="bg-seg" role="group" aria-label="Тип операций">
-        <button type="button" class="bg-seg-btn on" data-btype="all">Все</button>
-        <button type="button" class="bg-seg-btn" data-btype="expense">Расходы</button>
-        <button type="button" class="bg-seg-btn" data-btype="income">Доходы</button>
+        <button type="button" class="bg-search-clear" id="bg-search-clear" title="Очистить поиск" aria-label="Очистить поиск">×</button>
       </div>
 
       <div class="atags" id="bg-atags"></div>
@@ -8023,70 +8050,10 @@ const TwitterPlanner = (() => {
   }
   window.renderBudgetView = renderBudgetView;
 
-  function renderBudgetList(periodBudget, periodOrdersIncome) {
-    const listEl = document.getElementById('bg-list');
-    const atagsEl = document.getElementById('bg-atags');
-    if (!listEl) return;
-
-    if (atagsEl) {
-      atagsEl.innerHTML = '';
-      if (bgCatFilter) {
-        const dot = el('span', { className: 'eclient-dot', style: `background:${getCategoryColor(bgCatFilter)}` });
-        const tag = el('div', { className: 'atag' }, [dot, `${bgCatFilter} ×`]);
-        tag.addEventListener('click', () => { bgCatFilter = ''; renderBudgetView(); });
-        atagsEl.appendChild(tag);
-      }
-    }
-
-    const q = bgSearchQuery.toLowerCase();
-    const filteredManual = periodBudget.filter(x => {
-      if (bgTypeFilter !== 'all' && x.type !== bgTypeFilter) return false;
-      if (bgCatFilter && x.category !== bgCatFilter) return false;
-      if (q && !(x.category || '').toLowerCase().includes(q) && !(x.note || '').toLowerCase().includes(q)) return false;
-      return true;
-    });
-
-    const filteredAutoOrders = (bgTypeFilter === 'expense' || bgCatFilter)
-      ? []
-      : periodOrdersIncome.filter(e => {
-          if (!q) return true;
-          return (e.desc || '').toLowerCase().includes(q) || (e.name || '').toLowerCase().includes(q) || 'заказы'.includes(q);
-        });
-
-    listEl.innerHTML = '';
-
-    if (!filteredManual.length && !filteredAutoOrders.length) {
-      const empty = el('div', { className: 'empty' }, [
-        el('div', { className: 'empty-title' }, ['Операций за период нет']),
-        el('div', { className: 'empty-sub' }, ['Добавьте расход, личное поступление или быстрый шаблон.'])
-      ]);
-      const addBtn = el('button', { className: 'empty-btn', type: 'button' }, ['+ Добавить запись']);
-      addBtn.addEventListener('click', () => openBudgetModal());
-      empty.appendChild(addBtn);
-      listEl.appendChild(empty);
-      return;
-    }
-
-    const colsWrap = el('div', { className: 'masonry-cols' });
-    const col1 = el('div', { className: 'masonry-col' });
-    const col2 = el('div', { className: 'masonry-col' });
-    let h1 = 0, h2 = 0, cardIdx = 0;
-
-    const pushToMasonry = (box, count) => {
-      const weight = 1.4 + count;
-      if (cardIdx === 0 || (cardIdx > 1 && h1 <= h2)) {
-        col1.appendChild(box);
-        h1 += weight;
-      } else {
-        col2.appendChild(box);
-        h2 += weight;
-      }
-      cardIdx++;
-    };
-
-    // Group manual transactions by date key
+  function buildManualGroupCards(itemsList, isIncomeCol) {
+    const frag = document.createDocumentFragment();
     const gs = new Map();
-    filteredManual.forEach(item => {
+    itemsList.forEach(item => {
       const k = grpKey(item);
       if (!gs.has(k)) gs.set(k, []);
       gs.get(k).push(item);
@@ -8095,11 +8062,8 @@ const TwitterPlanner = (() => {
     const sortedGroups = [...gs.entries()].sort((a, b) => grpSort(b[0]).localeCompare(grpSort(a[0])));
     sortedGroups.forEach(([k, items]) => {
       const sortedItems = [...items].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-      const netGrp = sortedItems.reduce((s, x) => {
-        const v = toBaseOrRaw(x.amount, x.currency);
-        return x.type === 'income' ? s + v : s - v;
-      }, 0);
-      const grpSumStr = (netGrp > 0 ? '+' : '') + fmtB(netGrp);
+      const grpSum = sortedItems.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0);
+      const grpSumStr = (isIncomeCol ? '+' : '−') + fmtB(grpSum);
       const isRecent = (k === 'today' || k === 'yest' || k === 'cm');
 
       const box = el('section', { className: 'rem-group' + (isRecent ? '' : ' past-group') });
@@ -8108,7 +8072,7 @@ const TwitterPlanner = (() => {
           el('span', { className: 'rem-title' }, [grpLabel(k)]),
           el('span', { className: 'rem-cnt' }, [String(sortedItems.length)])
         ]),
-        el('span', { className: 'rem-sum' }, [grpSumStr])
+        el('span', { className: 'rem-sum', style: isIncomeCol ? 'color:var(--success);' : '' }, [grpSumStr])
       ]));
 
       sortedItems.forEach(item => {
@@ -8117,7 +8081,6 @@ const TwitterPlanner = (() => {
           const [y, m, d] = item.date.split('-').map(Number);
           if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
         }
-        const isInc = item.type === 'income';
         const col = getCategoryColor(item.category);
         const shouldFlash = _flashIds.has(item.id);
         if (shouldFlash) _flashIds.delete(item.id);
@@ -8133,9 +8096,7 @@ const TwitterPlanner = (() => {
             el('span', { className: 'eclient-wrap' }, [
               el('span', { className: 'eclient-dot', style: `background:${col}` }),
               el('span', { className: 'eclient' }, [item.category])
-            ]),
-            el('span', {}, ['·']),
-            el('span', { className: 'enote-txt' }, [isInc ? 'Личный доход' : 'Расход'])
+            ])
           ])
         ]);
 
@@ -8163,8 +8124,8 @@ const TwitterPlanner = (() => {
 
         const right = el('div', { className: 'er' }, [
           ds ? el('span', { className: 'edate' }, [ds]) : null,
-          el('span', { className: 'eamt' + (isInc ? ' bg-amt-inc' : '') }, [
-            `${isInc ? '+' : '−'}${fmtCur(item.amount, item.currency)}`
+          el('span', { className: 'eamt' + (isIncomeCol ? ' bg-amt-inc' : '') }, [
+            `${isIncomeCol ? '+' : '−'}${fmtCur(item.amount, item.currency)}`
           ]),
           delBtn
         ]);
@@ -8175,54 +8136,146 @@ const TwitterPlanner = (() => {
         box.appendChild(row);
       });
 
-      pushToMasonry(box, sortedItems.length);
+      frag.appendChild(box);
     });
+    return frag;
+  }
 
-    // Auto-transferred paid orders card
-    if (filteredAutoOrders.length > 0) {
-      const autoSumBase = filteredAutoOrders.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0);
-      const box = el('section', { className: 'rem-group past-group' });
-      box.appendChild(el('div', { className: 'rem-hdr' }, [
-        el('div', { className: 'rem-hdr-left' }, [
-          el('span', { className: 'rem-title', style: 'color:var(--success);' }, ['Доход от заказов']),
-          el('span', { className: 'rem-cnt' }, [String(filteredAutoOrders.length)]),
-          el('span', { className: 'bg-auto-pill' }, ['Авто'])
-        ]),
-        el('span', { className: 'rem-sum', style: 'color:var(--success);' }, [`+${fmtB(autoSumBase)}`])
-      ]));
+  function renderBudgetList(periodBudget, periodOrdersIncome) {
+    const listEl = document.getElementById('bg-list');
+    const atagsEl = document.getElementById('bg-atags');
+    const clrSearchBtn = document.getElementById('bg-search-clear');
+    if (!listEl) return;
 
-      filteredAutoOrders.forEach(e => {
-        const pd = getEntryPaidDate(e);
-        let ds = '';
-        if (pd && pd.length >= 10) {
-          const [y, m, d] = pd.split('-').map(Number);
-          if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
-        }
-        const row = el('div', { className: 'entry-card' });
-        const left = el('div', { className: 'el' }, [
-          el('div', { className: 'etitle' }, [e.desc || e.name || 'Заказ']),
-          e.name ? el('div', { className: 'emeta' }, [
-            el('span', { className: 'eclient-wrap' }, [
-              el('span', { className: 'eclient-dot', style: `background:${getClientColor(e.name)}` }),
-              el('span', { className: 'eclient' }, [e.name])
-            ])
-          ]) : null
-        ]);
-        const right = el('div', { className: 'er' }, [
-          ds ? el('span', { className: 'edate' }, [ds]) : null,
-          el('span', { className: 'eamt bg-amt-inc' }, [`+${fmtCur(e.amount, e.currency)}`])
-        ]);
-        row.appendChild(left);
-        row.appendChild(right);
-        box.appendChild(row);
-      });
+    if (clrSearchBtn) clrSearchBtn.classList.toggle('on', bgSearchQuery.length > 0);
 
-      pushToMasonry(box, filteredAutoOrders.length);
+    if (atagsEl) {
+      atagsEl.innerHTML = '';
+      if (bgCatFilter) {
+        const dot = el('span', { className: 'eclient-dot', style: `background:${getCategoryColor(bgCatFilter)}` });
+        const tag = el('div', { className: 'atag' }, [dot, `${bgCatFilter} ×`]);
+        tag.addEventListener('click', () => { bgCatFilter = ''; renderBudgetView(); });
+        atagsEl.appendChild(tag);
+      }
     }
 
-    colsWrap.appendChild(col1);
-    if (col2.childNodes.length > 0) colsWrap.appendChild(col2);
-    listEl.appendChild(colsWrap);
+    const q = bgSearchQuery.trim().toLowerCase();
+
+    // Left Column Data: Income (Auto Paid Orders + Manual Income)
+    const manualIncomes = periodBudget.filter(x => {
+      if (x.type !== 'income') return false;
+      if (bgCatFilter) return false;
+      if (q && !(x.category || '').toLowerCase().includes(q) && !(x.note || '').toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    const autoOrders = bgCatFilter
+      ? []
+      : periodOrdersIncome.filter(e => {
+          if (!q) return true;
+          return (e.desc || '').toLowerCase().includes(q) || (e.name || '').toLowerCase().includes(q) || 'заказы'.includes(q);
+        });
+
+    // Right Column Data: Expenses
+    const manualExpenses = periodBudget.filter(x => {
+      if (x.type !== 'expense') return false;
+      if (bgCatFilter && x.category !== bgCatFilter) return false;
+      if (q && !(x.category || '').toLowerCase().includes(q) && !(x.note || '').toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    const incColSum = Math.round((
+      autoOrders.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0) +
+      manualIncomes.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0)
+    ) * 100) / 100;
+
+    const expColSum = Math.round(
+      manualExpenses.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0) * 100
+    ) / 100;
+
+    listEl.innerHTML = '';
+
+    const splitGrid = el('div', { className: 'bg-split-grid' });
+
+    // ── LEFT COLUMN: ДОХОДЫ ──
+    const leftCol = el('div', { className: 'bg-col' });
+    leftCol.appendChild(el('div', { className: 'bg-col-hdr' }, [
+      el('span', { className: 'bg-col-title' }, [
+        el('span', { className: 'bg-col-dot', style: 'background:var(--success);' }),
+        'Доходы'
+      ]),
+      el('span', { className: 'bg-col-sum inc' }, [`+${fmtB(incColSum)}`])
+    ]));
+
+    if (!autoOrders.length && !manualIncomes.length) {
+      leftCol.appendChild(el('div', { className: 'bg-col-empty' }, [
+        bgCatFilter ? 'Выбран фильтр по категории расходов' : 'Доходов за этот период нет'
+      ]));
+    } else {
+      if (manualIncomes.length > 0) {
+        leftCol.appendChild(buildManualGroupCards(manualIncomes, true));
+      }
+      if (autoOrders.length > 0) {
+        const autoSumBase = autoOrders.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0);
+        const box = el('section', { className: 'rem-group past-group' });
+        box.appendChild(el('div', { className: 'rem-hdr' }, [
+          el('div', { className: 'rem-hdr-left' }, [
+            el('span', { className: 'rem-title', style: 'color:var(--success);' }, ['Доход от заказов']),
+            el('span', { className: 'rem-cnt' }, [String(autoOrders.length)]),
+            el('span', { className: 'bg-auto-pill' }, ['Авто'])
+          ]),
+          el('span', { className: 'rem-sum', style: 'color:var(--success);' }, [`+${fmtB(autoSumBase)}`])
+        ]));
+
+        autoOrders.forEach(e => {
+          const pd = getEntryPaidDate(e);
+          let ds = '';
+          if (pd && pd.length >= 10) {
+            const [y, m, d] = pd.split('-').map(Number);
+            if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+          }
+          const row = el('div', { className: 'entry-card' });
+          const left = el('div', { className: 'el' }, [
+            el('div', { className: 'etitle' }, [e.desc || e.name || 'Заказ']),
+            e.name ? el('div', { className: 'emeta' }, [
+              el('span', { className: 'eclient-wrap' }, [
+                el('span', { className: 'eclient-dot', style: `background:${getClientColor(e.name)}` }),
+                el('span', { className: 'eclient' }, [e.name])
+              ])
+            ]) : null
+          ]);
+          const right = el('div', { className: 'er' }, [
+            ds ? el('span', { className: 'edate' }, [ds]) : null,
+            el('span', { className: 'eamt bg-amt-inc' }, [`+${fmtCur(e.amount, e.currency)}`])
+          ]);
+          row.appendChild(left);
+          row.appendChild(right);
+          box.appendChild(row);
+        });
+
+        leftCol.appendChild(box);
+      }
+    }
+
+    // ── RIGHT COLUMN: РАСХОДЫ ──
+    const rightCol = el('div', { className: 'bg-col' });
+    rightCol.appendChild(el('div', { className: 'bg-col-hdr' }, [
+      el('span', { className: 'bg-col-title' }, [
+        el('span', { className: 'bg-col-dot', style: 'background:var(--danger);' }),
+        'Расходы'
+      ]),
+      el('span', { className: 'bg-col-sum exp' }, [`−${fmtB(expColSum)}`])
+    ]));
+
+    if (!manualExpenses.length) {
+      rightCol.appendChild(el('div', { className: 'bg-col-empty' }, ['Расходов за этот период нет']));
+    } else {
+      rightCol.appendChild(buildManualGroupCards(manualExpenses, false));
+    }
+
+    splitGrid.appendChild(leftCol);
+    splitGrid.appendChild(rightCol);
+    listEl.appendChild(splitGrid);
   }
 
   /* Budget Modal Logic */
@@ -8439,7 +8492,8 @@ const TwitterPlanner = (() => {
       }
     });
 
-    document.getElementById('bg-search')?.addEventListener('input', e => {
+    const bgSearchInp = document.getElementById('bg-search');
+    bgSearchInp?.addEventListener('input', e => {
       bgSearchQuery = e.target.value || '';
       renderBudgetList(
         budgetEntries.filter(x => matchesPeriod(x.date)),
@@ -8447,12 +8501,13 @@ const TwitterPlanner = (() => {
       );
     });
 
-    document.querySelectorAll('.bg-seg-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        bgTypeFilter = btn.dataset.btype || 'all';
-        document.querySelectorAll('.bg-seg-btn').forEach(b => b.classList.toggle('on', b === btn));
-        renderBudgetView();
-      });
+    document.getElementById('bg-search-clear')?.addEventListener('click', () => {
+      bgSearchQuery = '';
+      if (bgSearchInp) { bgSearchInp.value = ''; bgSearchInp.focus(); }
+      renderBudgetList(
+        budgetEntries.filter(x => matchesPeriod(x.date)),
+        entries.filter(isPaidInPeriod)
+      );
     });
 
     document.getElementById('bg-clear-cat')?.addEventListener('click', () => {
