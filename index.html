@@ -324,7 +324,7 @@ button:active:not(:disabled){transform:scale(0.97);}
   border:0.5px solid var(--border);
   box-shadow:var(--shadow-card);
   display:grid;
-  grid-template-columns:1.1fr 1fr;
+  grid-template-columns:minmax(310px, max-content) 1fr;
   align-items:stretch;
   gap:24px;
   flex-shrink:0;
@@ -579,16 +579,25 @@ button:active:not(:disabled){transform:scale(0.97);}
    CLEAN APPLE REMINDERS ORDER LIST
 ══════════════════════════════════════════════════════════════════ */
 .elist{position:relative;}
-#list{display:flex;flex-direction:column;gap:14px;}
+#list,#bg-list{display:flex;flex-direction:column;gap:16px;}
+.masonry-cols{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  width:100%;
+}
+.masonry-col{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  min-width:0;
+  flex:1;
+}
 @media(min-width:1040px){
-  #list{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
+  .masonry-cols{
+    flex-direction:row;
+    align-items:flex-start;
     gap:16px;
-    align-items:start;
-  }
-  #list > .empty{
-    grid-column:1 / -1;
   }
 }
 
@@ -959,17 +968,23 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 }
 
 .bg-metrics-row{
-  display:flex;
+  display:grid;
+  grid-template-columns:1.25fr 1fr 1fr;
   align-items:stretch;
-  gap:24px;
-  flex-wrap:wrap;
+  gap:0;
 }
 .bg-metric{
   display:flex;
   flex-direction:column;
   justify-content:center;
   min-width:0;
+  padding-right:16px;
 }
+.bg-metric + .bg-metric{
+  border-left:0.5px solid var(--border2);
+  padding-left:18px;
+}
+.bg-metric:last-child{padding-right:0;}
 .bg-metric.clickable{cursor:pointer;}
 .bg-metric.clickable:hover .bg-net-val{opacity:0.78;}
 .bg-m-lbl{
@@ -982,23 +997,27 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   gap:6px;
 }
 .bg-net-val{
-  font-size:34px;
+  font-size:30px;
   font-weight:700;
   letter-spacing:-0.04em;
   color:var(--text);
-  line-height:1.06;
+  line-height:1.08;
   white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .bg-net-val.pos{color:var(--success);}
 .bg-net-val.neg{color:var(--danger);}
 
 .bg-sub-val{
-  font-size:25px;
+  font-size:23px;
   font-weight:600;
   letter-spacing:-0.03em;
   color:var(--text);
-  line-height:1.1;
+  line-height:1.12;
   white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .bg-sub-val.inc{color:var(--success);}
 .bg-sub-val.exp{color:var(--text);}
@@ -1011,6 +1030,10 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+}
+@media(max-width:640px){
+  .bg-metrics-row{grid-template-columns:1fr;gap:12px;}
+  .bg-metric + .bg-metric{border-left:none;border-top:0.5px solid var(--border);padding-left:0;padding-top:10px;}
 }
 
 /* Recurring Quick Templates Strip inside Summary Card */
@@ -1090,8 +1113,8 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   min-width:0;
 }
 .bg-donut-box{
-  width:154px;
-  height:154px;
+  width:162px;
+  height:162px;
   position:relative;
   flex-shrink:0;
   display:flex;
@@ -1102,20 +1125,19 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   width:100%;
   height:100%;
   transform:rotate(-90deg);
-  overflow:visible;
 }
 .bg-donut-seg{
   fill:none;
-  stroke-width:20;
+  stroke-width:14;
   cursor:pointer;
   transition:stroke-width .16s var(--ease), opacity .16s var(--ease);
 }
 .bg-donut-seg:hover, .bg-donut-seg.active{
-  stroke-width:24;
+  stroke-width:17;
 }
 .bg-donut-center{
   position:absolute;
-  inset:24px;
+  inset:32px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -1127,18 +1149,52 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   font-size:10.5px;
   font-weight:600;
   color:var(--text3);
-  max-width:96px;
+  max-width:88px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 .bg-dc-val{
-  font-size:16px;
+  font-size:15px;
   font-weight:700;
   letter-spacing:-0.03em;
   color:var(--text);
-  margin-top:1px;
+  margin-top:2px;
+  max-width:92px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
+.bg-row-del{
+  width:24px;height:24px;
+  border:none;border-radius:6px;
+  background:transparent;color:var(--text3);
+  font-size:15px;line-height:1;
+  cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  opacity:0;
+  transition:opacity .12s, background-color .12s, color .12s;
+  flex-shrink:0;
+}
+.entry-card:hover .bg-row-del{opacity:1;}
+.bg-row-del:hover{background:var(--danger-bg);color:var(--danger);}
+
+/* iOS Toggle Switch for Budget Template */
+.ios-switch{
+  position:relative;display:inline-block;width:40px;height:24px;flex-shrink:0;
+}
+.ios-switch input{opacity:0;width:0;height:0!important;position:absolute;}
+.ios-slider{
+  position:absolute;inset:0;background:var(--surface3);border-radius:999px;cursor:pointer;
+  transition:background-color .18s var(--ease);
+}
+.ios-slider::before{
+  content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;
+  background:#ffffff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.25);
+  transition:transform .18s var(--spring);
+}
+.ios-switch input:checked + .ios-slider{background:var(--blue);}
+.ios-switch input:checked + .ios-slider::before{transform:translateX(16px);}
 .bg-dc-pct{
   font-size:10.5px;
   font-weight:600;
@@ -1236,22 +1292,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   color:var(--text);
 }
 
-#bg-list{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-@media(min-width:1040px){
-  #bg-list{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:16px;
-    align-items:start;
-  }
-  #bg-list > .empty{
-    grid-column:1 / -1;
-  }
-}
+
 
 .bg-amt-inc{color:var(--success)!important;}
 .bg-auto-pill{
@@ -1771,20 +1812,16 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
         <div class="bg-metrics-row">
           <div class="bg-metric clickable" id="bg-card-net" title="Нажмите для смены базовой валюты (₽ / $ / €)">
-            <div class="bg-m-lbl">Остаток за период</div>
+            <div class="bg-m-lbl">Остаток</div>
             <div class="bg-net-val" id="bg-val-net">0 ₽</div>
-            <div class="bg-m-hint" id="bg-sub-net">Доходы минус расходы</div>
+            <div class="bg-m-hint" id="bg-sub-net">Доходы − расходы</div>
           </div>
-
-          <div class="fin-vsep" aria-hidden="true"></div>
 
           <div class="bg-metric">
             <div class="bg-m-lbl">Доходы</div>
             <div class="bg-sub-val inc" id="bg-val-inc">0 ₽</div>
             <div class="bg-m-hint" id="bg-sub-inc">Заказы: 0 ₽</div>
           </div>
-
-          <div class="fin-vsep" aria-hidden="true"></div>
 
           <div class="bg-metric">
             <div class="bg-m-lbl">Расходы</div>
@@ -1896,7 +1933,10 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
     <div class="fstatus-row" id="bg-tpl-save-row" style="cursor:pointer;">
       <span class="fstatus-lbl">Сохранить как быстрый шаблон</span>
-      <input type="checkbox" id="bg-f-istpl" style="width:18px;height:18px;accent-color:var(--blue);cursor:pointer;"/>
+      <label class="ios-switch" aria-label="Сохранить как быстрый шаблон">
+        <input type="checkbox" id="bg-f-istpl"/>
+        <span class="ios-slider"></span>
+      </label>
     </div>
 
     <div class="fbtns">
@@ -1949,12 +1989,12 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   <button type="button" class="m-nav-btn on" id="m-nav-list" aria-label="Заказы">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
   </button>
+  <button type="button" class="m-nav-btn" id="m-nav-inv" aria-label="Учёт">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+  </button>
+  <button type="button" class="m-nav-add" id="m-nav-add" aria-label="Добавить"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
   <button type="button" class="m-nav-btn" id="m-nav-stats" aria-label="X Showcase">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-  </button>
-  <button type="button" class="m-nav-add" id="m-nav-add" aria-label="Добавить заказ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-  <button type="button" class="m-nav-btn" id="m-nav-inv" aria-label="Инвойс">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
   </button>
   <button type="button" class="m-nav-btn" id="m-nav-set" aria-label="Настройки">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -4317,8 +4357,12 @@ function renderList() {
     gs.get(k).push(e);
   }
   const sorted = [...gs.entries()].sort((a,b) => grpSort(b[0]).localeCompare(grpSort(a[0])));
-  const frag = document.createDocumentFragment();
-  for (const [k,g] of sorted) {
+  const colsWrap = el('div', {className:'masonry-cols'});
+  const col1 = el('div', {className:'masonry-col'});
+  const col2 = el('div', {className:'masonry-col'});
+  let h1 = 0, h2 = 0;
+
+  sorted.forEach(([k,g], idx) => {
     const sg = [...g].sort((a,b) => {
       if(!a.date&&!b.date) return 0;
       if(!a.date) return 1;
@@ -4337,9 +4381,20 @@ function renderList() {
     ]);
     cardBox.appendChild(hdr);
     sg.forEach(e => cardBox.appendChild(renderEntry(e)));
-    frag.appendChild(cardBox);
-  }
-  listEl.appendChild(frag);
+
+    const estWeight = 1.4 + sg.length;
+    if (idx === 0 || (idx > 1 && h1 <= h2)) {
+      col1.appendChild(cardBox);
+      h1 += estWeight;
+    } else {
+      col2.appendChild(cardBox);
+      h2 += estWeight;
+    }
+  });
+
+  colsWrap.appendChild(col1);
+  if (col2.childNodes.length > 0) colsWrap.appendChild(col2);
+  listEl.appendChild(colsWrap);
   updateSelectionUI();
 }
 
@@ -5111,8 +5166,22 @@ function bindEvents() {
     }
     updateMobileNavState(isNowPlanner ? 'stats' : 'list');
   });
-  document.getElementById('m-nav-add').addEventListener('click', openModal);
-  document.getElementById('m-nav-inv').addEventListener('click', openInvSheet);
+  document.getElementById('m-nav-add').addEventListener('click', () => {
+    if (document.body.classList.contains('budget-mode') && typeof window.openBudgetModal === 'function') {
+      window.openBudgetModal();
+    } else {
+      openModal();
+    }
+  });
+  document.getElementById('m-nav-inv').addEventListener('click', () => {
+    closeSettings();
+    closeInvSheet();
+    closePeriodSheet();
+    if (typeof TwitterPlanner !== 'undefined' && TwitterPlanner.switchView) {
+      TwitterPlanner.switchView('budget');
+    }
+    updateMobileNavState('inv');
+  });
   document.getElementById('m-nav-set').addEventListener('click', () => {
     if (document.getElementById('sov').classList.contains('on')) closeSettings();
     else openSettings('view');
@@ -7751,7 +7820,7 @@ const TwitterPlanner = (() => {
     };
 
     const sortedCats = [...expByCat.entries()].sort((a, b) => b[1].sumBase - a[1].sumBase);
-    const R = 46;
+    const R = 44;
     const CIRC = 2 * Math.PI * R;
     const svgNS = 'http://www.w3.org/2000/svg';
 
@@ -7762,7 +7831,7 @@ const TwitterPlanner = (() => {
     track.setAttribute('r', String(R));
     track.setAttribute('fill', 'none');
     track.setAttribute('stroke', 'var(--surface2)');
-    track.setAttribute('stroke-width', '20');
+    track.setAttribute('stroke-width', '14');
     svg.appendChild(track);
 
     if (!sortedCats.length || totalExpBase <= 0) {
@@ -7998,7 +8067,22 @@ const TwitterPlanner = (() => {
       return;
     }
 
-    const frag = document.createDocumentFragment();
+    const colsWrap = el('div', { className: 'masonry-cols' });
+    const col1 = el('div', { className: 'masonry-col' });
+    const col2 = el('div', { className: 'masonry-col' });
+    let h1 = 0, h2 = 0, cardIdx = 0;
+
+    const pushToMasonry = (box, count) => {
+      const weight = 1.4 + count;
+      if (cardIdx === 0 || (cardIdx > 1 && h1 <= h2)) {
+        col1.appendChild(box);
+        h1 += weight;
+      } else {
+        col2.appendChild(box);
+        h2 += weight;
+      }
+      cardIdx++;
+    };
 
     // Group manual transactions by date key
     const gs = new Map();
@@ -8050,16 +8134,39 @@ const TwitterPlanner = (() => {
               el('span', { className: 'eclient-dot', style: `background:${col}` }),
               el('span', { className: 'eclient' }, [item.category])
             ]),
-            item.note ? el('span', {}, ['·']) : null,
-            item.note ? el('span', { className: 'enote-txt' }, [isInc ? 'Личный доход' : 'Расход']) : null
+            el('span', {}, ['·']),
+            el('span', { className: 'enote-txt' }, [isInc ? 'Личный доход' : 'Расход'])
           ])
         ]);
+
+        const delBtn = el('button', {
+          type: 'button',
+          className: 'bg-row-del',
+          title: 'Удалить операцию',
+          'aria-label': 'Удалить'
+        }, ['×']);
+        delBtn.addEventListener('click', ev => {
+          ev.stopPropagation();
+          const snapshot = budgetEntries.map(x => ({ ...x }));
+          recordDeletedIds([item.id]);
+          budgetEntries = budgetEntries.filter(x => x.id !== item.id);
+          saveBudgetState();
+          renderBudgetView();
+          showToast('Операция удалена', () => {
+            deletedIds.delete(String(item.id));
+            lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+            budgetEntries = snapshot;
+            saveBudgetState();
+            renderBudgetView();
+          });
+        });
 
         const right = el('div', { className: 'er' }, [
           ds ? el('span', { className: 'edate' }, [ds]) : null,
           el('span', { className: 'eamt' + (isInc ? ' bg-amt-inc' : '') }, [
             `${isInc ? '+' : '−'}${fmtCur(item.amount, item.currency)}`
-          ])
+          ]),
+          delBtn
         ]);
 
         row.appendChild(left);
@@ -8068,7 +8175,7 @@ const TwitterPlanner = (() => {
         box.appendChild(row);
       });
 
-      frag.appendChild(box);
+      pushToMasonry(box, sortedItems.length);
     });
 
     // Auto-transferred paid orders card
@@ -8110,10 +8217,12 @@ const TwitterPlanner = (() => {
         box.appendChild(row);
       });
 
-      frag.appendChild(box);
+      pushToMasonry(box, filteredAutoOrders.length);
     }
 
-    listEl.appendChild(frag);
+    colsWrap.appendChild(col1);
+    if (col2.childNodes.length > 0) colsWrap.appendChild(col2);
+    listEl.appendChild(colsWrap);
   }
 
   /* Budget Modal Logic */
@@ -8155,6 +8264,7 @@ const TwitterPlanner = (() => {
     }
   }
 
+  window.openBudgetModal = openBudgetModal;
   function openBudgetModal(editItemId = null, forceTplMode = false) {
     bgEditId = editItemId;
     const catInp = document.getElementById('bg-f-cat');
