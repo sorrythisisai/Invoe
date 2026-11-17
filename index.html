@@ -141,7 +141,7 @@ button{
 button:active:not(:disabled){transform:scale(0.97);}
 
 /* ══════════════════════════════════════════════════════════════════
-   SHELL: MACOS FINDER SIDEBAR (216px) + FULL-WIDTH WORKSPACE
+   SHELL: MACOS FINDER SIDEBAR (210px) + ORGANIC 2-COLUMN WORKSPACE
 ══════════════════════════════════════════════════════════════════ */
 .app{
   display:flex;
@@ -152,8 +152,8 @@ button:active:not(:disabled){transform:scale(0.97);}
 }
 
 .rail-nav{
-  width:var(--rail);
-  min-width:var(--rail);
+  width:210px;
+  min-width:210px;
   height:100%;
   background:var(--rail-bg);
   border-right:0.5px solid var(--border2);
@@ -227,28 +227,17 @@ button:active:not(:disabled){transform:scale(0.97);}
   text-align:left;
   position:relative;
 }
-.finder-row:hover{
-  background:var(--surface2);
-}
-.finder-row.on{
-  background:var(--surface2);
-  font-weight:600;
-}
+.finder-row:hover{background:var(--surface2);}
+.finder-row.on{background:var(--surface2);font-weight:600;}
 .finder-ico{
-  width:18px;
-  height:18px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  width:18px;height:18px;
+  display:inline-flex;align-items:center;justify-content:center;
   color:var(--blue);
   flex-shrink:0;
 }
 .finder-txt{
-  flex:1;
-  min-width:0;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 
 /* Invoice Popover anchored to Finder row */
@@ -300,7 +289,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   MAIN WORKSPACE — PROPORTIONAL HIERARCHY (HERO TOP + BALANCED LIST)
+   MAIN WORKSPACE — WINDOW HEADER + 2-COLUMN ASYMMETRIC GRID
 ══════════════════════════════════════════════════════════════════ */
 .body{
   flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;
@@ -308,9 +297,9 @@ button:active:not(:disabled){transform:scale(0.97);}
 .main{
   flex:1;display:flex;flex-direction:column;
   overflow-y:auto;overflow-x:hidden;
-  padding:24px 32px 110px;
+  padding:22px 28px 110px;
   width:100%;
-  gap:16px;
+  gap:20px;
   -webkit-overflow-scrolling:touch;
 }
 .main::-webkit-scrollbar{width:5px;}
@@ -320,139 +309,60 @@ button:active:not(:disabled){transform:scale(0.97);}
 .m-topbar{display:none;align-items:center;justify-content:space-between;padding-bottom:2px;}
 .m-logo{font-size:17px;font-weight:800;letter-spacing:-0.035em;display:flex;align-items:center;gap:7px;}
 
-/* HERO SUMMARY CARD */
-.summary-strip{
-  background:var(--surface);
-  border-radius:20px;
-  padding:22px 26px;
-  box-shadow:var(--shadow-card);
-  border:0.5px solid var(--border);
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:28px;
-  flex-shrink:0;
-}
-.fin-group{
-  display:flex;
-  align-items:stretch;
-  gap:36px;
-  min-width:0;
-  flex:1;
-}
-.fin-vsep{
-  width:0.5px;
-  background:var(--border2);
-  align-self:stretch;
-  margin:4px 0;
-  flex-shrink:0;
-}
-.fin-metric{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  min-width:0;
-  cursor:pointer;
-}
-.bal-hdr{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.bal-label{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:-.005em;}
-.bal-trend,.bal-zero{
-  font-size:11px;font-weight:600;padding:2px 7px;border-radius:999px;white-space:nowrap;display:none;
-}
-.bal-zero.on{display:inline-block;background:var(--success-bg);color:var(--success);}
-.bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
-.bal-trend.down{display:inline-block;background:var(--warning-bg);color:var(--warning);}
-.bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
-
-.bal-amount{
-  font-size:36px;
-  font-weight:700;
-  letter-spacing:-.04em;
-  color:var(--text);
-  line-height:1.05;
-  cursor:pointer;
-  display:inline-block;
-  transition:opacity .12s, color .2s var(--ease);
-  max-width:100%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.bal-amount.secondary{
-  font-size:32px;
-  font-weight:600;
-  color:var(--text2);
-}
-.bal-amount:hover{opacity:.76;}
-.bal-amount.is-zero{color:var(--text3);}
-
-.bal-subline{
-  font-size:12.5px;
-  font-weight:500;
-  color:var(--text3);
-  margin-top:8px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  min-height:18px;
-}
-.bal-subline:empty{display:none;}
-
-.period-side{
+/* Workspace Header Bar (Title + Active Filters on Left, Search + Filter + Add on Right) */
+.ws-topbar{
   display:flex;
   align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
   flex-shrink:0;
 }
-.mo-title-wrap{position:relative;}
-.mo-title-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--surface2);border:none;cursor:pointer;
-  padding:0 14px;border-radius:11px;height:36px;
-  transition:background-color .14s;
+.ws-title-group{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  min-width:0;
 }
-.mo-title-btn:hover{background:var(--surface3);}
-.mo-title-btn span{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;}
-.mo-title-btn svg{color:var(--text2);flex-shrink:0;}
-.period-dd{
-  position:absolute;top:calc(100% + 6px);right:0;min-width:195px;
-  background:var(--surface);border:0.5px solid var(--border2);
-  border-radius:var(--rl);padding:5px;box-shadow:var(--shadow-md);z-index:400;
-  display:none;max-height:270px;overflow-y:auto;animation:popIn .12s var(--ease);
+.ws-page-title{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:-0.03em;
+  color:var(--text);
+  line-height:1.15;
 }
-.period-dd.on{display:block;}
-.period-dd-item{padding:7px 11px;border-radius:var(--r-xs);font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;}
-.period-dd-item:hover{background:var(--surface2);color:var(--text);}
-.period-dd-item.on{color:var(--text);font-weight:600;background:var(--surface2);}
-
-/* ══════════════════════════════════════════════════════════════════
-   APPLE-STYLE SEARCH, FILTER & PRIMARY ADD BUTTON BAR
-══════════════════════════════════════════════════════════════════ */
-.toolbar{display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;}
-.search-wrap{flex:1;min-width:200px;position:relative;display:flex;align-items:center;}
-.search-icon{position:absolute;left:13px;color:var(--text3);pointer-events:none;}
+.toolbar-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  flex-wrap:wrap;
+}
+.search-wrap{width:250px;position:relative;display:flex;align-items:center;}
+.search-icon{position:absolute;left:12px;color:var(--text3);pointer-events:none;}
 #search{
-  width:100%;height:40px;padding:0 54px 0 36px;
-  font-size:13.5px;border:0.5px solid var(--border);border-radius:12px;
+  width:100%;height:36px;padding:0 50px 0 34px;
+  font-size:13px;border:0.5px solid var(--border);border-radius:10px;
   background:var(--surface);color:var(--text);
   box-shadow:var(--shadow-card);
-  font-family:inherit;outline:none;transition:box-shadow .14s, border-color .14s;
+  font-family:inherit;outline:none;transition:box-shadow .14s, border-color .14s, width .18s var(--ease);
   user-select:text;-webkit-user-select:text;
 }
-#search:focus{border-color:var(--blue);box-shadow:0 0 0 2.5px var(--blue-bg), var(--shadow-card);}
+#search:focus{width:290px;border-color:var(--blue);box-shadow:0 0 0 2.5px var(--blue-bg), var(--shadow-card);}
 #search::placeholder{color:var(--text3);}
-.search-kbd{position:absolute;right:12px;pointer-events:none;font-size:10.5px;font-weight:600;color:var(--text3);opacity:0;transition:opacity .14s;}
+.search-kbd{position:absolute;right:10px;pointer-events:none;font-size:10px;font-weight:600;color:var(--text3);opacity:0;transition:opacity .14s;}
 .search-wrap:hover .search-kbd{opacity:0.75;}
 #search:focus ~ .search-kbd{opacity:0!important;}
 
 .filter-wrap{position:relative;}
 .filter-btn{
-  width:40px;height:40px;padding:0;border:0.5px solid var(--border);border-radius:12px;
+  width:36px;height:36px;padding:0;border:0.5px solid var(--border);border-radius:10px;
   background:var(--surface);color:var(--text2);box-shadow:var(--shadow-card);
   cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;
 }
 .filter-btn:hover{color:var(--text);}
 .filter-btn.on{color:var(--blue);border-color:var(--blue);}
-.fdot{position:absolute;top:9px;right:9px;width:5.5px;height:5.5px;border-radius:50%;background:var(--blue);display:none;}
+.fdot{position:absolute;top:8px;right:8px;width:5px;height:5px;border-radius:50%;background:var(--blue);display:none;}
 .fdot.on{display:block;}
 .fpanel{
   position:absolute;top:calc(100% + 6px);right:0;
@@ -475,33 +385,140 @@ button:active:not(:disabled){transform:scale(0.97);}
 .ftag.on{background:var(--text);color:var(--bg);}
 .atags{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
 .atag{
-  display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;
-  background:var(--surface);border:0.5px solid var(--border);border-radius:10px;box-shadow:var(--shadow-card);
+  display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;
+  background:var(--surface);border:0.5px solid var(--border);border-radius:9px;box-shadow:var(--shadow-card);
   font-size:12px;font-weight:500;color:var(--text);cursor:pointer;animation:popIn .12s var(--ease);
 }
 .atag:hover{background:var(--surface2);}
 
 .add-order-btn{
-  height:40px;
-  padding:0 18px;
+  height:36px;
+  padding:0 15px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   background:var(--blue);
   color:#ffffff;
-  font-size:13.5px;
+  font-size:13px;
   font-weight:600;
   letter-spacing:-0.01em;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:7px;
+  gap:6px;
   white-space:nowrap;
-  box-shadow:0 2px 10px rgba(0,0,0,0.12);
+  box-shadow:0 2px 8px rgba(0,0,0,0.12);
   flex-shrink:0;
 }
-.add-order-btn:hover{
-  opacity:0.9;
+.add-order-btn:hover{opacity:0.9;}
+
+/* Organic 2-Column Content Grid: Sticky Financial Cards (300px) + Orders Feed (1fr) */
+.ws-grid{
+  display:grid;
+  grid-template-columns:300px minmax(0, 1fr);
+  gap:20px;
+  align-items:start;
+}
+.ws-aside{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  position:sticky;
+  top:0;
+}
+.fin-card{
+  background:var(--surface);
+  border-radius:18px;
+  padding:18px 20px;
+  box-shadow:var(--shadow-card);
+  border:0.5px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  cursor:pointer;
+  transition:border-color .15s var(--ease);
+}
+.fin-card:hover{border-color:var(--border2);}
+
+.fin-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
+  min-height:26px;
+}
+.bal-label{
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--text2);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.bal-val-row{
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  flex-wrap:wrap;
+}
+.bal-amount{
+  font-size:32px;
+  font-weight:700;
+  letter-spacing:-.04em;
+  color:var(--text);
+  line-height:1.08;
+  transition:opacity .12s, color .2s var(--ease);
+}
+.bal-amount.secondary{
+  font-size:29px;
+  font-weight:600;
+  color:var(--text);
+}
+.bal-amount.is-zero{color:var(--text3);}
+
+.bal-trend,.bal-zero,.bal-cnt-pill{
+  font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;display:none;
+}
+.bal-zero.on{display:inline-block;background:var(--success-bg);color:var(--success);}
+.bal-cnt-pill.on{display:inline-block;background:var(--surface2);color:var(--text2);}
+.bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
+.bal-trend.down{display:inline-block;background:var(--warning-bg);color:var(--warning);}
+.bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
+
+.bal-subline{
+  font-size:12px;
+  font-weight:500;
+  color:var(--text3);
+  margin-top:8px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bal-subline:empty{display:none;}
+
+.mo-title-wrap{position:relative;}
+.mo-title-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--surface2);border:none;cursor:pointer;
+  padding:0 10px;border-radius:8px;height:26px;
+  transition:background-color .14s;
+}
+.mo-title-btn:hover{background:var(--surface3);}
+.mo-title-btn span{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;}
+.mo-title-btn svg{color:var(--text2);flex-shrink:0;}
+.period-dd{
+  position:absolute;top:calc(100% + 6px);right:0;min-width:190px;
+  background:var(--surface);border:0.5px solid var(--border2);
+  border-radius:var(--rl);padding:5px;box-shadow:var(--shadow-md);z-index:400;
+  display:none;max-height:270px;overflow-y:auto;animation:popIn .12s var(--ease);
+}
+.period-dd.on{display:block;}
+.period-dd-item{padding:7px 11px;border-radius:var(--r-xs);font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;}
+.period-dd-item:hover{background:var(--surface2);color:var(--text);}
+.period-dd-item.on{color:var(--text);font-weight:600;background:var(--surface2);}
+
+@media(max-width:1060px){
+  .ws-grid{grid-template-columns:1fr;gap:16px;}
+  .ws-aside{position:static;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -814,11 +831,14 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .m-topbar{display:flex;}
   .m-period-pill{display:inline-flex;}
   .main{padding:14px 16px calc(130px + var(--safe-b));gap:14px;}
-  .summary-strip{padding:18px 18px;border-radius:18px;gap:16px;}
-  .fin-group{gap:20px;flex:1;justify-content:space-between;}
-  .bal-amount{font-size:28px;}
-  .bal-amount.secondary{font-size:24px;}
-  .period-side{display:none;}
+  .ws-topbar{display:none;}
+  .ws-grid{grid-template-columns:1fr;gap:12px;}
+  .ws-aside{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:static;}
+  .fin-card{padding:14px 15px;border-radius:16px;}
+  .fin-card-top{margin-bottom:6px;min-height:auto;}
+  .mo-title-wrap{display:none;}
+  .bal-amount{font-size:24px;}
+  .bal-amount.secondary{font-size:22px;}
   .rem-group{padding:14px 16px 8px;border-radius:18px;}
   .edate{display:none;}
   .sel-dock{left:12px;right:12px;transform:translateY(24px) scale(0.96);bottom:calc(80px + var(--safe-b));max-width:none;padding:7px 9px;justify-content:space-between;}
@@ -1180,12 +1200,6 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </button>
       <div class="inv-dropdown" id="inv-dd" role="menu"></div>
     </div>
-    <button class="finder-row" id="rail-btn-exp" type="button">
-      <span class="finder-ico" aria-hidden="true">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><polyline points="8.5 12 12 15.5 15.5 12"/><line x1="12" y1="8.5" x2="12" y2="15.5"/></svg>
-      </span>
-      <span class="finder-txt">Экспорт</span>
-    </button>
   </div>
 
   <div class="rail-bottom">
@@ -1226,77 +1240,85 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <div id="sidebar"></div>
     </div>
 
-    <!-- Single Clean Top Summary Strip -->
-    <section class="summary-strip" aria-label="Финансовая сводка">
-      <div class="fin-group">
-        <div class="fin-metric" id="card-recv" title="Нажмите для смены базовой валюты (₽ / $ / €)">
-          <div class="bal-hdr">
+    <!-- Workspace Top Header & Controls -->
+    <header class="ws-topbar">
+      <div class="ws-title-group">
+        <h1 class="ws-page-title">Заказы</h1>
+        <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
+      </div>
+
+      <div class="toolbar-actions">
+        <div class="search-wrap" id="search-wrap">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="search" placeholder="Поиск..." aria-label="Поиск по записям"/>
+          <span class="search-kbd">Cmd+K</span>
+        </div>
+
+        <div class="filter-wrap">
+          <button class="filter-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+            <div class="fdot" id="fdot" aria-hidden="true"></div>
+          </button>
+          <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
+            <label class="flbl" for="f-status">Статус</label>
+            <select class="fsel" id="f-status">
+              <option value="all">Все</option>
+              <option value="unpaid">Не оплачено</option>
+              <option value="paid">Оплачено</option>
+            </select>
+            <div class="flbl" style="margin-top:8px;">Заказчик</div>
+            <div class="ftags" id="ftags-client"></div>
+            <div class="flbl" style="margin-top:8px;">Тип работы</div>
+            <div class="ftags" id="ftags-work"></div>
+          </div>
+        </div>
+
+        <button class="add-order-btn" id="btn-add" type="button" title="Добавить запись (N)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Новый заказ</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Organic 2-Column Content Grid -->
+    <div class="ws-grid">
+      <!-- Left Sticky Financial Column -->
+      <aside class="ws-aside" aria-label="Финансовая сводка">
+        <div class="fin-card" id="card-recv" title="Нажмите для смены базовой валюты (₽ / $ / €)">
+          <div class="fin-card-top">
             <span class="bal-label">Пришло</span>
+            <div class="mo-title-wrap">
+              <button class="mo-title-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+                <span id="mo-title">Период</span>
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+              </button>
+              <div class="period-dd" id="period-dd" role="listbox" aria-label="Выбор периода"></div>
+            </div>
+          </div>
+          <div class="bal-val-row">
+            <div class="bal-amount is-zero" id="val-recv">0 ₽</div>
             <span class="bal-trend" id="val-recv-trend"></span>
           </div>
-          <div class="bal-amount is-zero" id="val-recv">0 ₽</div>
           <div class="bal-subline" id="val-recv-multi"></div>
         </div>
 
-        <div class="fin-vsep" aria-hidden="true"></div>
-
-        <div class="fin-metric" id="card-await" title="Нажмите для смены базовой валюты (₽ / $ / €)">
-          <div class="bal-hdr">
+        <div class="fin-card" id="card-await" title="Нажмите для смены базовой валюты (₽ / $ / €)">
+          <div class="fin-card-top">
             <span class="bal-label">Ожидаем</span>
             <span class="bal-zero" id="val-await-zero">Закрыто</span>
+            <span class="bal-cnt-pill" id="val-await-cnt"></span>
           </div>
-          <div class="bal-amount secondary is-zero" id="val-await">0 ₽</div>
+          <div class="bal-val-row">
+            <div class="bal-amount secondary is-zero" id="val-await">0 ₽</div>
+          </div>
           <div class="bal-subline" id="val-await-multi"></div>
         </div>
-      </div>
+      </aside>
 
-      <div class="period-side">
-        <div class="mo-title-wrap">
-          <button class="mo-title-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
-            <span id="mo-title">Период</span>
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
-          </button>
-          <div class="period-dd" id="period-dd" role="listbox" aria-label="Выбор периода"></div>
-        </div>
+      <!-- Right Orders Feed Column -->
+      <div class="elist" id="elist" role="main">
+        <div id="list"></div>
       </div>
-    </section>
-
-    <!-- Search & Filter Toolbar -->
-    <div class="toolbar">
-      <div class="search-wrap" id="search-wrap">
-        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search" placeholder="Поиск по проектам, клиентам..." aria-label="Поиск по записям"/>
-        <span class="search-kbd">Cmd+K</span>
-      </div>
-
-      <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
-      <div class="filter-wrap">
-        <button class="filter-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
-          <div class="fdot" id="fdot" aria-hidden="true"></div>
-        </button>
-        <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
-          <label class="flbl" for="f-status">Статус</label>
-          <select class="fsel" id="f-status">
-            <option value="all">Все</option>
-            <option value="unpaid">Не оплачено</option>
-            <option value="paid">Оплачено</option>
-          </select>
-          <div class="flbl" style="margin-top:8px;">Заказчик</div>
-          <div class="ftags" id="ftags-client"></div>
-          <div class="flbl" style="margin-top:8px;">Тип работы</div>
-          <div class="ftags" id="ftags-work"></div>
-        </div>
-      </div>
-      <button class="add-order-btn" id="btn-add" type="button" title="Добавить запись (N)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        <span>Новый заказ</span>
-      </button>
-    </div>
-
-    <!-- Apple Reminders Widget Order Cards -->
-    <div class="elist" id="elist" role="main">
-      <div id="list"></div>
     </div>
   </div>
 </div>
@@ -3413,8 +3435,13 @@ function updateStatsAndAnalytics() {
 
   const isInboxZero = entries.length > 0 && ua.length === 0;
   const zeroBadge = document.getElementById('val-await-zero');
+  const awaitCntPill = document.getElementById('val-await-cnt');
   const mZeroBadge = document.getElementById('m-badge-zero');
   if (zeroBadge) zeroBadge.classList.toggle('on', isInboxZero);
+  if (awaitCntPill) {
+    awaitCntPill.classList.toggle('on', ua.length > 0);
+    if (ua.length > 0) awaitCntPill.textContent = `${ua.length} зак.`;
+  }
   if (mZeroBadge) mZeroBadge.style.display = isInboxZero ? 'inline-block' : 'none';
 
   const recv = entries.filter(isPaidInPeriod);
@@ -4438,7 +4465,7 @@ function bindEvents() {
   document.getElementById('filter-btn').addEventListener('click', toggleFP);
   document.getElementById('f-status').addEventListener('change', onFilter);
 
-  document.getElementById('mo-title-btn').addEventListener('click', togglePeriodDd);
+  document.getElementById('mo-title-btn').addEventListener('click', ev => { ev.stopPropagation(); togglePeriodDd(); });
 
 
   document.getElementById('btn-settings').addEventListener('click', () => openSettings('view'));
@@ -4447,8 +4474,6 @@ function bindEvents() {
   document.getElementById('stab-data').addEventListener('click', () => switchSettingsTab('data'));
 
   document.getElementById('btn-exp').addEventListener('click', exportData);
-  const railExp = document.getElementById('rail-btn-exp');
-  if (railExp) railExp.addEventListener('click', exportData);
   document.getElementById('btn-imp').addEventListener('click', trigImport);
   document.getElementById('imp-inp').addEventListener('change', importData);
   document.getElementById('s-close').addEventListener('click', closeSettings);
