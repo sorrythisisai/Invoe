@@ -1352,11 +1352,11 @@ body.budget-mode #sel-dock{display:none!important;}
 </style>
 <style id="xp-styles">
 /* ══════════════════════════════════════════════
-   X (TWITTER) WEEKLY PLANNER — CLEAN APPLE SCALE
+   X (TWITTER) WEEKLY PLANNER — GAPLESS MASONRY + THREADS
 ══════════════════════════════════════════════ */
 .xp-view{
   flex:1;height:100%;overflow-y:auto;overflow-x:hidden;
-  min-width:0;padding:24px 36px 72px;
+  min-width:0;padding:24px 32px 72px;
 }
 .xp-view::-webkit-scrollbar{width:5px;}
 .xp-view::-webkit-scrollbar-thumb{background:transparent;border-radius:3px;}
@@ -1408,19 +1408,28 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-btn-primary:hover{opacity:.9;}
 .xp-btn-ghost{background:var(--surface2);color:var(--text2);}
 .xp-btn-ghost:hover{background:var(--surface3);color:var(--text);}
+.xp-btn-ghost.on{background:var(--blue-bg);color:var(--blue);}
 .xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
 .xp-btn-sm{height:28px;padding:0 10px;font-size:11.5px;border-radius:999px;flex-shrink:0;}
 
+/* Gapless Dynamic Masonry Columns */
 .xp-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(400px, 1fr));
+  display:flex;
+  flex-direction:row;
+  align-items:flex-start;
   gap:16px;
-  align-items:start;
+  width:100%;
 }
-.xp-grid.is-feed{
+.xp-masonry-col{
+  flex:1;
+  min-width:0;
   display:flex;
   flex-direction:column;
-  max-width:600px;
+  gap:16px;
+}
+.xp-grid.is-feed{
+  flex-direction:column;
+  max-width:620px;
   width:100%;
   margin:0 auto;
   gap:0;
@@ -1428,6 +1437,10 @@ body.budget-mode #sel-dock{display:none!important;}
   border:0.5px solid var(--border2);
   border-radius:18px;
   box-shadow:var(--shadow-card);
+}
+.xp-grid.is-feed .xp-masonry-col{
+  width:100%;
+  gap:0;
 }
 
 .xp-day-card{
@@ -1439,6 +1452,7 @@ body.budget-mode #sel-dock{display:none!important;}
   display:flex;flex-direction:column;
   position:relative;
   z-index:1;
+  width:100%;
 }
 .xp-day-card.menu-open{z-index:120;}
 .xp-day-card.is-ready{border-color:rgba(29,155,240,0.38);}
@@ -1449,8 +1463,8 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-grid.is-feed .xp-day-card:first-child{border-radius:18px 18px 0 0;}
 .xp-grid.is-feed .xp-day-card:last-child{border-bottom:none;border-radius:0 0 18px 18px;}
 
-.xp-tw-post{display:flex;align-items:flex-start;gap:12px;width:100%;}
-.xp-tw-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.xp-tw-post{display:flex;align-items:stretch;gap:12px;width:100%;}
+.xp-tw-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:38px;}
 .xp-tw-avatar{
   width:38px;height:38px;border-radius:50%;
   background:var(--surface2);color:var(--text);
@@ -1458,6 +1472,15 @@ body.budget-mode #sel-dock{display:none!important;}
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;border:0.5px solid var(--border);
 }
+.xp-thread-line{
+  width:2px;
+  flex:1;
+  min-height:14px;
+  background:var(--border2);
+  border-radius:2px;
+  margin-top:6px;
+}
+
 .xp-week-dots{display:inline-flex;align-items:center;gap:4px;margin-left:2px;}
 .xp-week-dots span{width:13px;height:4.5px;border-radius:2px;background:var(--surface3);transition:background-color .2s var(--ease);}
 .xp-week-dots span.on{background:#1d9bf0;}
@@ -1480,7 +1503,7 @@ body.budget-mode #sel-dock{display:none!important;}
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 7px center;
-  max-width:132px;text-overflow:ellipsis;
+  max-width:144px;text-overflow:ellipsis;
 }
 .xp-preset-sel:hover{color:var(--text);}
 
@@ -1535,7 +1558,7 @@ body.budget-mode #sel-dock{display:none!important;}
 }
 .xp-caption::placeholder{color:var(--text3);opacity:0.75;}
 .xp-tw-text-actions{display:flex;align-items:center;gap:5px;flex-shrink:0;margin-top:1px;}
-.xp-hooks-btn,.xp-copy-cap{
+.xp-hooks-btn,.xp-copy-cap,.xp-thread-add-btn{
   height:28px;padding:0 9px;border:none;border-radius:999px;
   background:var(--surface2);color:var(--text2);font-size:11px;font-weight:600;
   cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;flex-shrink:0;
@@ -1546,10 +1569,142 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-btn-sm.xp-dl-ico{width:30px;height:28px;padding:0;}
 .xp-hp-act.xp-hp-ico{width:26px;padding:0;justify-content:center;}
 .xp-mini-btn.xp-mini-ico{width:24px;padding:0;justify-content:center;}
-.xp-hooks-btn:hover,.xp-copy-cap:hover{background:var(--surface3);color:var(--text);}
+.xp-hooks-btn:hover,.xp-copy-cap:hover,.xp-thread-add-btn:hover{background:var(--surface3);color:var(--text);}
 .xp-hooks-btn.on{background:rgba(29,155,240,0.14);color:#1d9bf0;}
 .xp-copy-cap.copied{background:var(--success-bg);color:var(--success);}
 
+/* Connected Thread Replies Inside Card */
+.xp-thread-list{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  margin-top:4px;
+}
+.xp-th-item{
+  display:flex;
+  align-items:stretch;
+  gap:12px;
+  padding-top:10px;
+}
+.xp-th-left{
+  width:38px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex-shrink:0;
+}
+.xp-th-av{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--surface2);color:var(--text2);
+  font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  border:0.5px solid var(--border);
+  flex-shrink:0;
+}
+.xp-th-body{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding-bottom:6px;
+}
+.xp-th-hdr{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.xp-th-meta{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-size:12px;
+  color:var(--text3);
+  min-width:0;
+}
+.xp-th-meta strong{
+  color:var(--text);
+  font-size:13px;
+  font-weight:700;
+}
+.xp-th-num{
+  font-size:10.5px;
+  font-weight:600;
+  padding:1px 6px;
+  border-radius:999px;
+  background:var(--surface2);
+  color:var(--text2);
+}
+.xp-th-acts{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  flex-shrink:0;
+}
+.xp-th-btn{
+  height:24px;
+  padding:0 8px;
+  border:none;
+  border-radius:999px;
+  background:var(--surface2);
+  color:var(--text2);
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+}
+.xp-th-btn:hover{background:var(--surface3);color:var(--text);}
+.xp-th-btn.del:hover{background:var(--danger-bg);color:var(--danger);}
+.xp-th-cap{
+  min-height:34px;
+  font-size:13.5px;
+}
+.xp-th-photo-drop{
+  border:1px dashed var(--border2);
+  background:var(--surface2);
+  border-radius:12px;
+  padding:14px 12px;
+  text-align:center;
+  font-size:12px;
+  font-weight:500;
+  color:var(--text3);
+  cursor:pointer;
+  transition:border-color .14s, background-color .14s, color .14s;
+}
+.xp-th-photo-drop:hover{
+  border-color:var(--blue);
+  background:var(--blue-bg);
+  color:var(--blue);
+}
+.xp-th-img-wrap{
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  border:0.5px solid var(--border2);
+  background:var(--surface2);
+}
+.xp-th-img{
+  width:100%;
+  max-height:240px;
+  object-fit:cover;
+  display:block;
+}
+.xp-th-img-rm{
+  position:absolute;
+  top:8px;right:8px;
+  width:24px;height:24px;
+  border:none;border-radius:50%;
+  background:rgba(20,20,22,0.78);
+  color:#fff;font-size:14px;line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.xp-th-img-rm:hover{background:var(--danger);}
+
+/* Popovers: Hooks & Thread Templates */
 .xp-hooks-pop{
   position:fixed;z-index:9900;width:500px;max-width:calc(100vw - 24px);
   background:var(--surface);border:0.5px solid var(--border2);
@@ -1581,6 +1736,17 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-hp-inp{flex:1;min-width:0;height:28px;padding:0 9px;font-size:12px;color:var(--text);background:var(--surface);border:none;border-radius:7px;font-family:inherit;outline:none;user-select:text;-webkit-user-select:text;}
 .xp-hp-addbtn{width:28px;height:28px;border:none;border-radius:7px;background:var(--blue);color:#fff;cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;}
 
+.xp-ttpl-list{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;}
+.xp-ttpl-card{
+  background:var(--surface2);border-radius:11px;padding:9px 11px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;
+  transition:background-color .12s;
+}
+.xp-ttpl-card:hover{background:var(--blue-bg);}
+.xp-ttpl-info{min-width:0;flex:1;}
+.xp-ttpl-name{font-size:12.5px;font-weight:700;color:var(--text);}
+.xp-ttpl-sub{font-size:11px;color:var(--text3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
 .xp-canvas-stage{width:100%;position:relative;}
 .xp-canvas{width:100%;height:auto;display:block;border-radius:14px;border:0.5px solid var(--border2);cursor:pointer;touch-action:pan-y;}
 .xp-canvas.has-active-slot{border-color:#1d9bf0;}
@@ -1604,6 +1770,7 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-tw-metrics{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;padding-top:2px;color:var(--text3);font-size:12px;}
 .xp-tw-icons{display:flex;align-items:center;gap:18px;opacity:0.65;}
 .xp-tw-stat{display:inline-flex;align-items:center;gap:4px;color:var(--text3);}
+.xp-foot-btns{display:flex;align-items:center;gap:6px;}
 
 body.xp-mode .app::after,
 body.xp-mode #m-period-btn,
@@ -1612,7 +1779,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 @media(max-width:768px){
   .xp-view{padding:12px 14px 48px;}
-  .xp-grid{grid-template-columns:1fr;}
+  .xp-grid{flex-direction:column;}
   .xp-tw-icons{gap:12px;}
 }
 </style>
@@ -1988,11 +2155,15 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
         </div>
       </div>
       <div class="xp-header-actions">
+        <button type="button" class="xp-btn xp-btn-ghost" id="xp-btn-thread-tpl" title="Шаблоны тредов (серия постов с текстом и фото)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+          <span>Шаблоны тредов</span>
+        </button>
         <div class="xp-view-switch" role="group" aria-label="Режим отображения">
           <button type="button" class="xp-view-btn xp-ico-only on" id="xp-mode-grid" title="Сетка недели" aria-label="Сетка недели">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           </button>
-          <button type="button" class="xp-view-btn xp-ico-only" id="xp-mode-feed" title="Лента X" aria-label="Лента X">
+          <button type="button" class="xp-view-btn xp-ico-only" id="xp-mode-feed" title="Лента треда X" aria-label="Лента треда X">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/></svg>
           </button>
         </div>
@@ -5578,6 +5749,13 @@ const TwitterPlanner = (() => {
         { key: 's3', label: 'Bot-Left' },
         { key: 'final', label: 'Bot-Right' }
       ]
+    },
+    single1: {
+      id: 'single1',
+      name: '7. 1 фото (Single 16:9)',
+      slots: [
+        { key: 'final', label: 'Фото 16:9' }
+      ]
     }
   };
 
@@ -5626,7 +5804,9 @@ const TwitterPlanner = (() => {
     images: {},
     thumbUrls: {},
     transforms: {},
-    hitRegions: []
+    hitRegions: [],
+    thread: [],
+    threadUrls: {}
   }));
 
   function getSlotTransform(d, slotKey) {
@@ -5668,7 +5848,12 @@ const TwitterPlanner = (() => {
         badgeTop: d.badgeTop,
         badgeBot: d.badgeBot,
         palette: d.palette,
-        transforms: d.transforms
+        transforms: d.transforms,
+        thread: Array.isArray(d.thread) ? d.thread.map(t => ({
+          id: String(t.id),
+          text: String(t.text || ''),
+          wantPhoto: !!t.wantPhoto
+        })) : []
       }, `day_${dayIdx}`);
     } catch (e) {}
   }
@@ -5769,6 +5954,13 @@ const TwitterPlanner = (() => {
         if (typeof val.badgeBot === 'string') st.badgeBot = val.badgeBot;
         if (Array.isArray(val.palette) && val.palette.length === 5) st.palette = [...val.palette];
         if (val.transforms && typeof val.transforms === 'object') st.transforms = val.transforms;
+        if (Array.isArray(val.thread)) {
+          st.thread = val.thread.map(t => ({
+            id: String(t.id || Math.random().toString(36).slice(2, 9)),
+            text: String(t.text || ''),
+            wantPhoto: !!t.wantPhoto
+          }));
+        }
       });
 
       const imgPromises = [];
@@ -5776,8 +5968,15 @@ const TwitterPlanner = (() => {
         ALL_SLOT_KEYS.forEach(sKey => {
           imgPromises.push(new Promise(res => {
             const r = imgsStore.get(`d${dIdx}_k_${sKey}`);
-            r.onsuccess = () => res({ dIdx, sKey, blob: r.result });
-            r.onerror = () => res({ dIdx, sKey, blob: null });
+            r.onsuccess = () => res({ kind: 'slot', dIdx, sKey, blob: r.result });
+            r.onerror = () => res({ kind: 'slot', dIdx, sKey, blob: null });
+          }));
+        });
+        state[dIdx].thread.forEach(t => {
+          imgPromises.push(new Promise(res => {
+            const r = imgsStore.get(`d${dIdx}_th_${t.id}`);
+            r.onsuccess = () => res({ kind: 'thread', dIdx, thId: t.id, blob: r.result });
+            r.onerror = () => res({ kind: 'thread', dIdx, thId: t.id, blob: null });
           }));
         });
       }
@@ -5786,9 +5985,13 @@ const TwitterPlanner = (() => {
       for (const item of blobs) {
         if (item.blob instanceof Blob) {
           try {
-            const { img, url } = await loadImageFromBlob(item.blob);
-            state[item.dIdx].images[item.sKey] = img;
-            state[item.dIdx].thumbUrls[item.sKey] = url;
+            if (item.kind === 'thread') {
+              state[item.dIdx].threadUrls[item.thId] = URL.createObjectURL(item.blob);
+            } else {
+              const { img, url } = await loadImageFromBlob(item.blob);
+              state[item.dIdx].images[item.sKey] = img;
+              state[item.dIdx].thumbUrls[item.sKey] = url;
+            }
           } catch (e) {}
         }
       }
@@ -6125,6 +6328,11 @@ const TwitterPlanner = (() => {
         drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Top-Right');
         drawImageSlot(ctx, d, 's3', pad, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Left');
         drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Right');
+      };
+    } else if (p === 'single1') {
+      contentH = FULL_H;
+      layoutFn = ctx => {
+        drawImageSlot(ctx, d, 'final', pad, padTop, CONTENT_W, FULL_H, rLg, 'Фото 16:9');
       };
     }
 
@@ -6666,9 +6874,12 @@ const TwitterPlanner = (() => {
 
     state.forEach(d => {
       Object.values(d.thumbUrls).forEach(u => URL.revokeObjectURL(u));
+      Object.values(d.threadUrls || {}).forEach(u => URL.revokeObjectURL(u));
       d.images = {};
       d.thumbUrls = {};
       d.transforms = {};
+      d.thread = [];
+      d.threadUrls = {};
       d.caption = '';
       d.labelLeft = 'assets';
       d.labelRight = 'inspo';
@@ -7072,6 +7283,426 @@ const TwitterPlanner = (() => {
     });
   }
 
+  /* 8B. THREAD REPLIES & MULTI-POST THREAD TEMPLATES */
+  const DEFAULT_THREAD_TEMPLATES = [
+    {
+      id: 'ttpl_breakdown',
+      name: 'Case Study / Breakdown (3 поста)',
+      preset: 'single1',
+      posts: [
+        { text: 'one of my fav thumbnails\n\nhere is how we built it from scratch:', wantPhoto: false },
+        { text: '1/ started with a rough sketch to lock in focal point and contrast before touching 3D or lighting:', wantPhoto: true },
+        { text: '2/ final result after color grading and glow pass.\n\nwould you click this?', wantPhoto: false }
+      ]
+    },
+    {
+      id: 'ttpl_before_after',
+      name: 'Before / After + Details (2 поста)',
+      preset: 'sketch1_final',
+      posts: [
+        { text: 'sketch vs final result for a recent video', wantPhoto: false },
+        { text: 'close-up on lighting, rim light and expression details:', wantPhoto: true }
+      ]
+    },
+    {
+      id: 'ttpl_ab_test',
+      name: 'A/B Test + Winner Reveal (2 поста)',
+      preset: 'stack2',
+      posts: [
+        { text: '2 options created for a recent upload — which one gets your click?', wantPhoto: false },
+        { text: 'option B won the A/B test with higher CTR due to cleaner silhouette and stronger contrast.', wantPhoto: false }
+      ]
+    },
+    {
+      id: 'ttpl_process4',
+      name: '4-Step Process Thread (4 поста)',
+      preset: 'single1',
+      posts: [
+        { text: 'full thumbnail design process in 4 quick steps:', wantPhoto: false },
+        { text: 'step 1: composition & rough blocking', wantPhoto: true },
+        { text: 'step 2: lighting, depth & color separation', wantPhoto: true },
+        { text: 'step 3: final polish & mobile readability check. rate 1-10:', wantPhoto: false }
+      ]
+    }
+  ];
+
+  function getCustomThreadTemplates() {
+    try {
+      const raw = JSON.parse(localStorage.getItem('ff_xp_thread_tpls') || '[]');
+      return Array.isArray(raw) ? raw : [];
+    } catch (e) { return []; }
+  }
+
+  function saveCustomThreadTemplates(list) {
+    try { localStorage.setItem('ff_xp_thread_tpls', JSON.stringify(list)); } catch (e) {}
+  }
+
+  async function saveThreadBlob(dayIdx, thId, blob) {
+    try {
+      const db = await openDB();
+      const tx = db.transaction(STORE_IMGS, 'readwrite');
+      const key = `d${dayIdx}_th_${thId}`;
+      if (blob) tx.objectStore(STORE_IMGS).put(blob, key);
+      else tx.objectStore(STORE_IMGS).delete(key);
+    } catch (e) {}
+  }
+
+  function addThreadReply(dayIdx, text = '', wantPhoto = false) {
+    const d = state[dayIdx];
+    const newId = 'th_' + Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(2, 5);
+    d.thread.push({ id: newId, text, wantPhoto: !!wantPhoto });
+    saveDayMeta(dayIdx);
+    refreshDayCardUI(dayIdx);
+    requestAnimationFrame(() => {
+      const ta = document.getElementById(`xp-th-cap-${dayIdx}-${newId}`);
+      if (ta) { autoResizeCaption(ta); ta.focus(); }
+    });
+  }
+
+  async function removeThreadReply(dayIdx, thId) {
+    const d = state[dayIdx];
+    if (d.threadUrls[thId]) {
+      URL.revokeObjectURL(d.threadUrls[thId]);
+      delete d.threadUrls[thId];
+    }
+    d.thread = d.thread.filter(t => t.id !== thId);
+    await saveThreadBlob(dayIdx, thId, null);
+    await saveDayMeta(dayIdx);
+    refreshDayCardUI(dayIdx);
+  }
+
+  async function assignPhotoToThreadReply(dayIdx, thId, file) {
+    if (!file || !file.type || !file.type.startsWith('image/')) {
+      notify('Выберите изображение (PNG, JPG, WebP)');
+      return;
+    }
+    const d = state[dayIdx];
+    if (d.threadUrls[thId]) URL.revokeObjectURL(d.threadUrls[thId]);
+    d.threadUrls[thId] = URL.createObjectURL(file);
+    const item = d.thread.find(t => t.id === thId);
+    if (item) item.wantPhoto = true;
+    await saveThreadBlob(dayIdx, thId, file);
+    await saveDayMeta(dayIdx);
+    refreshDayCardUI(dayIdx);
+  }
+
+  async function removePhotoFromThreadReply(dayIdx, thId) {
+    const d = state[dayIdx];
+    if (d.threadUrls[thId]) {
+      URL.revokeObjectURL(d.threadUrls[thId]);
+      delete d.threadUrls[thId];
+    }
+    const item = d.thread.find(t => t.id === thId);
+    if (item) item.wantPhoto = false;
+    await saveThreadBlob(dayIdx, thId, null);
+    await saveDayMeta(dayIdx);
+    refreshDayCardUI(dayIdx);
+  }
+
+  function triggerThreadPhotoDialog(dayIdx, thId) {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    inp.onchange = e => {
+      const f = e.target.files && e.target.files[0];
+      if (f) assignPhotoToThreadReply(dayIdx, thId, f);
+    };
+    inp.click();
+  }
+
+  function copyFullThread(dayIdx) {
+    const d = state[dayIdx];
+    const allTexts = [d.caption.trim(), ...d.thread.map(t => (t.text || '').trim())].filter(Boolean);
+    if (!allTexts.length) {
+      notify('Сначала напишите текст постов');
+      return;
+    }
+    const formatted = allTexts.length > 1
+      ? allTexts.map((txt, idx) => `${idx + 1}/${allTexts.length}
+${txt}`).join('
+
+──────────
+
+')
+      : allTexts[0];
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(formatted).then(() => {
+        notify(`Тред скопирован (${allTexts.length} пост.)`);
+      });
+    }
+  }
+
+  async function applyThreadTemplateToDay(dayIdx, tpl) {
+    const d = state[dayIdx];
+    // Clear existing thread replies & blobs
+    for (const oldT of d.thread) {
+      if (d.threadUrls[oldT.id]) {
+        URL.revokeObjectURL(d.threadUrls[oldT.id]);
+        delete d.threadUrls[oldT.id];
+      }
+      await saveThreadBlob(dayIdx, oldT.id, null);
+    }
+
+    if (tpl.preset && PRESETS[tpl.preset]) {
+      d.preset = tpl.preset;
+    }
+    const posts = Array.isArray(tpl.posts) ? tpl.posts : [];
+    d.caption = posts[0] ? (posts[0].text || '') : '';
+    d.thread = posts.slice(1).map((p, idx) => ({
+      id: 'th_' + Date.now().toString(36).slice(-4) + idx + Math.random().toString(36).slice(2, 4),
+      text: p.text || '',
+      wantPhoto: !!p.wantPhoto
+    }));
+
+    await saveDayMeta(dayIdx);
+    refreshDayCardUI(dayIdx);
+    updateReadyBadge();
+    notify(`Шаблон «${tpl.name}» применён к ${DAYS[dayIdx].shortRu}`);
+  }
+
+  function saveDayAsThreadTemplate(dayIdx) {
+    const d = state[dayIdx];
+    const posts = [
+      { text: (d.caption || '').trim(), wantPhoto: true },
+      ...d.thread.map(t => ({
+        text: (t.text || '').trim(),
+        wantPhoto: !!(t.wantPhoto || d.threadUrls[t.id])
+      }))
+    ];
+    if (!posts.some(p => p.text)) {
+      notify('Напишите текст хотя бы в одном посте');
+      return;
+    }
+    const custom = getCustomThreadTemplates();
+    const tplName = `Мой шаблон (${posts.length} пост. · ${DAYS[dayIdx].shortRu})`;
+    custom.unshift({
+      id: 'ctpl_' + Date.now().toString(36),
+      name: tplName,
+      preset: d.preset,
+      posts
+    });
+    saveCustomThreadTemplates(custom);
+    notify(`Сохранено: ${tplName}`);
+  }
+
+  /* Thread Templates Popover */
+  let _ttplPopEl = null;
+  let _ttplTargetDayIdx = 0;
+
+  function closeThreadTplPopover() {
+    if (_ttplPopEl) _ttplPopEl.classList.remove('on');
+    const btn = document.getElementById('xp-btn-thread-tpl');
+    if (btn) btn.classList.remove('on');
+  }
+
+  function renderThreadTplPopover() {
+    if (!_ttplPopEl) {
+      const pop = document.createElement('div');
+      pop.className = 'xp-hooks-pop';
+      pop.id = 'xp-ttpl-pop';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-label', 'Шаблоны тредов');
+      pop.addEventListener('click', e => e.stopPropagation());
+      pop.addEventListener('mousedown', e => e.stopPropagation());
+      document.body.appendChild(pop);
+      _ttplPopEl = pop;
+    }
+    const pop = _ttplPopEl;
+    pop.innerHTML = '';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'xp-hp-hdr';
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'xp-hp-title';
+    titleWrap.innerHTML = `<span>Шаблоны тредов</span>`;
+
+    const daySel = document.createElement('select');
+    daySel.className = 'xp-preset-sel';
+    daySel.title = 'День недели для вставки шаблона';
+    DAYS.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = String(d.idx);
+      opt.textContent = `${d.num} · ${d.ru}`;
+      if (d.idx === _ttplTargetDayIdx) opt.selected = true;
+      daySel.appendChild(opt);
+    });
+    daySel.addEventListener('change', () => {
+      _ttplTargetDayIdx = parseInt(daySel.value, 10) || 0;
+    });
+
+    const acts = document.createElement('div');
+    acts.className = 'xp-hp-actions';
+
+    const saveCurBtn = document.createElement('button');
+    saveCurBtn.type = 'button';
+    saveCurBtn.className = 'xp-hp-act';
+    saveCurBtn.textContent = '+ Из дня';
+    saveCurBtn.title = 'Сохранить выбранный день как шаблон треда';
+    saveCurBtn.addEventListener('click', () => {
+      saveDayAsThreadTemplate(_ttplTargetDayIdx);
+      renderThreadTplPopover();
+    });
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'xp-hp-close';
+    closeBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    closeBtn.addEventListener('click', closeThreadTplPopover);
+
+    acts.appendChild(daySel);
+    acts.appendChild(saveCurBtn);
+    acts.appendChild(closeBtn);
+    hdr.appendChild(titleWrap);
+    hdr.appendChild(acts);
+    pop.appendChild(hdr);
+
+    const list = document.createElement('div');
+    list.className = 'xp-ttpl-list';
+
+    const customList = getCustomThreadTemplates();
+    const allTemplates = [...customList.map(t => ({ ...t, isCustom: true })), ...DEFAULT_THREAD_TEMPLATES];
+
+    allTemplates.forEach(tpl => {
+      const card = document.createElement('div');
+      card.className = 'xp-ttpl-card';
+      const photoCnt = (tpl.posts || []).filter(p => p.wantPhoto).length;
+      const previewTxt = (tpl.posts || []).map((p, i) => `${i + 1}) ${p.text.split('\n')[0]}`).join(' · ');
+
+      const info = document.createElement('div');
+      info.className = 'xp-ttpl-info';
+      info.innerHTML = `
+        <div class="xp-ttpl-name">${tpl.name}</div>
+        <div class="xp-ttpl-sub">${tpl.posts.length} пост. · фото: ${photoCnt} · ${previewTxt}</div>
+      `;
+      card.appendChild(info);
+
+      if (tpl.isCustom) {
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'xp-hb-del';
+        delBtn.textContent = '×';
+        delBtn.title = 'Удалить шаблон';
+        delBtn.addEventListener('click', ev => {
+          ev.stopPropagation();
+          const next = getCustomThreadTemplates().filter(x => x.id !== tpl.id);
+          saveCustomThreadTemplates(next);
+          renderThreadTplPopover();
+        });
+        card.appendChild(delBtn);
+      }
+
+      card.addEventListener('click', () => {
+        applyThreadTemplateToDay(_ttplTargetDayIdx, tpl);
+        closeThreadTplPopover();
+      });
+
+      list.appendChild(card);
+    });
+
+    pop.appendChild(list);
+  }
+
+  function toggleThreadTplPopover(anchorBtn) {
+    closeHooksPopover();
+    closeAllCardMenus();
+    if (_ttplPopEl && _ttplPopEl.classList.contains('on')) {
+      closeThreadTplPopover();
+      return;
+    }
+    const firstEmpty = DAYS.find(d => !state[d.idx].caption.trim() && !isDayReady(d.idx));
+    _ttplTargetDayIdx = firstEmpty ? firstEmpty.idx : 0;
+
+    renderThreadTplPopover();
+    if (anchorBtn) anchorBtn.classList.add('on');
+    _ttplPopEl.classList.add('on');
+
+    const r = anchorBtn.getBoundingClientRect();
+    const popW = 500;
+    let left = r.right - popW;
+    if (left < 12) left = 12;
+    if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
+    _ttplPopEl.style.left = `${Math.round(left)}px`;
+    _ttplPopEl.style.top = `${Math.round(r.bottom + 8)}px`;
+  }
+
+  /* 8C. GAPLESS MASONRY REFLOW (UPDATES LIVE WHEN PRESETS OR THREADS CHANGE) */
+  function estimateCardWeight(dayIdx) {
+    const d = state[dayIdx];
+    const p = d.preset;
+    let ratioH = 0.65;
+    if (p === 'stack2') ratioH = 1.14;
+    else if (p === 'sketch1_final') ratioH = 0.98;
+    else if (p === 'assets_inspo') ratioH = 0.84;
+    else if (p === 'palette_final') ratioH = 0.72;
+    else if (p === 'sketch3_final') ratioH = 0.76;
+    else if (p === 'grid2x2') ratioH = 0.58;
+    else if (p === 'single1') ratioH = 0.56;
+
+    const card = document.getElementById(`xp-card-${dayIdx}`);
+    const colW = (card && card.offsetWidth > 180) ? card.offsetWidth : 460;
+    const threadH = (d.thread || []).reduce((sum, t) => {
+      const hasPhoto = !!(t.wantPhoto || (d.threadUrls && d.threadUrls[t.id]));
+      return sum + 95 + (hasPhoto ? 150 : 0);
+    }, 0);
+    return 155 + colW * ratioH + threadH;
+  }
+
+  function reflowXpMasonry() {
+    const grid = document.getElementById('xp-days-grid');
+    if (!grid) return;
+
+    const activeEl = document.activeElement;
+    const isInsideGrid = activeEl && grid.contains(activeEl);
+    const selStart = (isInsideGrid && typeof activeEl.selectionStart === 'number') ? activeEl.selectionStart : null;
+    const selEnd = (isInsideGrid && typeof activeEl.selectionEnd === 'number') ? activeEl.selectionEnd : null;
+
+    const cards = DAYS.map(d => document.getElementById(`xp-card-${d.idx}`)).filter(Boolean);
+    if (!cards.length) return;
+
+    let colCount = 1;
+    if (layoutMode !== 'feed') {
+      const w = grid.clientWidth || window.innerWidth;
+      if (w >= 1520) colCount = 3;
+      else if (w >= 840) colCount = 2;
+      else colCount = 1;
+    }
+
+    const cols = [];
+    const heights = [];
+    for (let i = 0; i < colCount; i++) {
+      const col = document.createElement('div');
+      col.className = 'xp-masonry-col';
+      cols.push(col);
+      heights.push(0);
+    }
+
+    cards.forEach((card, idx) => {
+      let targetCol = 0;
+      if (colCount > 1) {
+        let minH = heights[0];
+        for (let c = 1; c < colCount; c++) {
+          if (heights[c] < minH) {
+            minH = heights[c];
+            targetCol = c;
+          }
+        }
+      }
+      cols[targetCol].appendChild(card);
+      heights[targetCol] += estimateCardWeight(idx);
+    });
+
+    grid.innerHTML = '';
+    cols.forEach(c => grid.appendChild(c));
+
+    if (isInsideGrid && activeEl) {
+      activeEl.focus();
+      if (selStart !== null && selEnd !== null) {
+        try { activeEl.setSelectionRange(selStart, selEnd); } catch (e) {}
+      }
+    }
+  }
+
   function applyLayoutMode(mode) {
     layoutMode = mode === 'feed' ? 'feed' : 'grid';
     try { localStorage.setItem('xp_layout_mode', layoutMode); } catch (e) {}
@@ -7081,6 +7712,7 @@ const TwitterPlanner = (() => {
     if (grid) grid.classList.toggle('is-feed', layoutMode === 'feed');
     if (bGrid) bGrid.classList.toggle('on', layoutMode === 'grid');
     if (bFeed) bFeed.classList.toggle('on', layoutMode === 'feed');
+    reflowXpMasonry();
     resizeAllCaptions();
   }
 
@@ -7108,12 +7740,13 @@ const TwitterPlanner = (() => {
       const initialChar = (displayName || 'V').charAt(0).toUpperCase();
       leftCol.innerHTML = `
         <div class="xp-tw-avatar" id="xp-tw-av-${dIdx}" aria-hidden="true">${initialChar}</div>
+        <div class="xp-thread-line" id="xp-main-tline-${dIdx}" style="display:none;"></div>
       `;
 
       const bodyCol = document.createElement('div');
       bodyCol.className = 'xp-tw-body';
 
-      // 1. Шапка поста X: быстрый селект пресета + кнопка троеточия (•••) для темы и полей
+      // 1. Шапка поста X: быстрый селект пресета + кнопка троеточия (•••)
       const hdr = document.createElement('div');
       hdr.className = 'xp-tw-hdr';
 
@@ -7161,7 +7794,6 @@ const TwitterPlanner = (() => {
         toggleCardMenu(dIdx);
       });
 
-      // Компактное меню троеточия (Фон карточки и Отступы краёв)
       const cMenu = document.createElement('div');
       cMenu.className = 'xp-card-menu';
       cMenu.id = `xp-cmenu-${dIdx}`;
@@ -7220,7 +7852,7 @@ const TwitterPlanner = (() => {
       hdr.appendChild(hdrControls);
       bodyCol.appendChild(hdr);
 
-      // 2. Текст поста + кнопки «Хуки» и «Копировать»
+      // 2. Текст поста + кнопки «+ Тред», «Хуки» и «Копировать»
       const textRow = document.createElement('div');
       textRow.className = 'xp-tw-text-row';
 
@@ -7236,6 +7868,13 @@ const TwitterPlanner = (() => {
         saveDayMeta(dIdx);
       });
       ta.addEventListener('focus', () => autoResizeCaption(ta));
+
+      const addThreadBtn = document.createElement('button');
+      addThreadBtn.type = 'button';
+      addThreadBtn.className = 'xp-thread-add-btn';
+      addThreadBtn.title = 'Добавить следующий пост в тред';
+      addThreadBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Тред</span>`;
+      addThreadBtn.addEventListener('click', () => addThreadReply(dIdx));
 
       const copyBtn = document.createElement('button');
       copyBtn.type = 'button';
@@ -7275,19 +7914,20 @@ const TwitterPlanner = (() => {
         toggleHooksPopover(dIdx, hooksBtn);
       });
 
+      textActions.appendChild(addThreadBtn);
       textActions.appendChild(hooksBtn);
       textActions.appendChild(copyBtn);
       textRow.appendChild(ta);
       textRow.appendChild(textActions);
       bodyCol.appendChild(textRow);
 
-      // 3. Контекстная панель бейджей / подписей / палитры НАД холстом (чтобы никогда не перекрывать сам Canvas!)
+      // 3. Контекстная панель бейджей / подписей / палитры НАД холстом
       const extraBox = document.createElement('div');
       extraBox.className = 'xp-extra';
       extraBox.id = `xp-extra-${dIdx}`;
       bodyCol.appendChild(extraBox);
 
-      // 4. Интерактивный Canvas с верхней плавающей пилюлей управления слотом
+      // 4. Интерактивный Canvas
       const stage = document.createElement('div');
       stage.className = 'xp-canvas-stage';
       const cv = document.createElement('canvas');
@@ -7350,7 +7990,7 @@ const TwitterPlanner = (() => {
       bodyCol.appendChild(stage);
       bindCanvasDirectEvents(dIdx, cv);
 
-      // 5. Лаконичный подвал в стиле X (минималистичные иконки + кнопка Скачать PNG)
+      // 5. Подвал карточки
       const metricsRow = document.createElement('div');
       metricsRow.className = 'xp-tw-metrics';
       metricsRow.innerHTML = `
@@ -7370,6 +8010,26 @@ const TwitterPlanner = (() => {
         </div>
       `;
 
+      const footBtns = document.createElement('div');
+      footBtns.className = 'xp-foot-btns';
+
+      const copyThreadBtn = document.createElement('button');
+      copyThreadBtn.type = 'button';
+      copyThreadBtn.className = 'xp-th-btn';
+      copyThreadBtn.id = `xp-copy-th-${dIdx}`;
+      copyThreadBtn.style.display = 'none';
+      copyThreadBtn.textContent = 'Копировать тред';
+      copyThreadBtn.addEventListener('click', () => copyFullThread(dIdx));
+
+      const saveTplBtn = document.createElement('button');
+      saveTplBtn.type = 'button';
+      saveTplBtn.className = 'xp-th-btn';
+      saveTplBtn.id = `xp-save-th-${dIdx}`;
+      saveTplBtn.style.display = 'none';
+      saveTplBtn.textContent = 'В шаблон';
+      saveTplBtn.title = 'Сохранить этот тред как шаблон';
+      saveTplBtn.addEventListener('click', () => saveDayAsThreadTemplate(dIdx));
+
       const dlBtn = document.createElement('button');
       dlBtn.type = 'button';
       dlBtn.className = 'xp-btn xp-btn-primary xp-btn-sm xp-dl-ico';
@@ -7377,20 +8037,176 @@ const TwitterPlanner = (() => {
       dlBtn.setAttribute('aria-label', 'Скачать PNG');
       dlBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
       dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
-      metricsRow.appendChild(dlBtn);
+
+      footBtns.appendChild(saveTplBtn);
+      footBtns.appendChild(copyThreadBtn);
+      footBtns.appendChild(dlBtn);
+      metricsRow.appendChild(footBtns);
       bodyCol.appendChild(metricsRow);
 
       postWrap.appendChild(leftCol);
       postWrap.appendChild(bodyCol);
       card.appendChild(postWrap);
 
+      // 6. Контейнер связанных постов треда
+      const threadList = document.createElement('div');
+      threadList.className = 'xp-thread-list';
+      threadList.id = `xp-thread-list-${dIdx}`;
+      card.appendChild(threadList);
+
       grid.appendChild(card);
-      refreshDayCardUI(dIdx);
     });
+
+    DAYS.forEach(d => refreshDayCardUI(d.idx, true));
     applyLayoutMode(layoutMode);
   }
 
-  function refreshDayCardUI(dayIdx) {
+  function renderThreadRepliesUI(dayIdx) {
+    const d = state[dayIdx];
+    const list = document.getElementById(`xp-thread-list-${dayIdx}`);
+    const mainLine = document.getElementById(`xp-main-tline-${dayIdx}`);
+    const copyThBtn = document.getElementById(`xp-copy-th-${dayIdx}`);
+    const saveThBtn = document.getElementById(`xp-save-th-${dayIdx}`);
+    if (!list) return;
+
+    const hasThread = Array.isArray(d.thread) && d.thread.length > 0;
+    if (mainLine) mainLine.style.display = hasThread ? '' : 'none';
+    if (copyThBtn) {
+      copyThBtn.style.display = hasThread ? '' : 'none';
+      copyThBtn.textContent = `Копировать тред (${d.thread.length + 1})`;
+    }
+    if (saveThBtn) saveThBtn.style.display = hasThread ? '' : 'none';
+
+    list.innerHTML = '';
+    if (!hasThread) return;
+
+    const { displayName, atHandle } = getDisplayHandleParts();
+    const initialChar = (displayName || 'V').charAt(0).toUpperCase();
+    const totalPosts = d.thread.length + 1;
+
+    d.thread.forEach((item, idx) => {
+      const isLast = idx === d.thread.length - 1;
+      const row = document.createElement('div');
+      row.className = 'xp-th-item';
+
+      const left = document.createElement('div');
+      left.className = 'xp-th-left';
+      left.innerHTML = `
+        <div class="xp-th-av" aria-hidden="true">${initialChar}</div>
+        ${!isLast ? '<div class="xp-thread-line"></div>' : ''}
+      `;
+
+      const body = document.createElement('div');
+      body.className = 'xp-th-body';
+
+      const hdr = document.createElement('div');
+      hdr.className = 'xp-th-hdr';
+      hdr.innerHTML = `
+        <div class="xp-th-meta">
+          <strong>${displayName}</strong>
+          <span>${atHandle}</span>
+          <span class="xp-th-num">${idx + 2} / ${totalPosts}</span>
+        </div>
+      `;
+
+      const acts = document.createElement('div');
+      acts.className = 'xp-th-acts';
+
+      const photoBtn = document.createElement('button');
+      photoBtn.type = 'button';
+      photoBtn.className = 'xp-th-btn';
+      photoBtn.textContent = d.threadUrls[item.id] ? 'Заменить фото' : '+ Фото';
+      photoBtn.addEventListener('click', () => triggerThreadPhotoDialog(dayIdx, item.id));
+
+      const copyOneBtn = document.createElement('button');
+      copyOneBtn.type = 'button';
+      copyOneBtn.className = 'xp-th-btn';
+      copyOneBtn.title = 'Копировать этот пост';
+      copyOneBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      copyOneBtn.addEventListener('click', () => {
+        const txt = (item.text || '').trim();
+        if (!txt) { notify('Текст поста пуст'); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(() => notify('Пост скопирован'));
+        }
+      });
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'xp-th-btn del';
+      delBtn.textContent = '×';
+      delBtn.title = 'Удалить пост из треда';
+      delBtn.addEventListener('click', () => removeThreadReply(dayIdx, item.id));
+
+      acts.appendChild(photoBtn);
+      acts.appendChild(copyOneBtn);
+      acts.appendChild(delBtn);
+      hdr.appendChild(acts);
+      body.appendChild(hdr);
+
+      const ta = document.createElement('textarea');
+      ta.className = 'xp-caption xp-th-cap';
+      ta.id = `xp-th-cap-${dayIdx}-${item.id}`;
+      ta.rows = 1;
+      ta.placeholder = `Продолжение треда (${idx + 2}/${totalPosts})...`;
+      ta.value = item.text || '';
+      ta.dataset.thDay = String(dayIdx);
+      ta.dataset.thId = item.id;
+      ta.addEventListener('input', () => {
+        item.text = ta.value;
+        autoResizeCaption(ta);
+        saveDayMeta(dayIdx);
+      });
+      ta.addEventListener('focus', () => autoResizeCaption(ta));
+      body.appendChild(ta);
+
+      // Photo attachment or placeholder dropzone
+      const imgUrl = d.threadUrls[item.id];
+      if (imgUrl) {
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'xp-th-img-wrap';
+        const imgEl = document.createElement('img');
+        imgEl.className = 'xp-th-img';
+        imgEl.src = imgUrl;
+        imgEl.alt = 'Фото к посту треда';
+
+        const rmBtn = document.createElement('button');
+        rmBtn.type = 'button';
+        rmBtn.className = 'xp-th-img-rm';
+        rmBtn.textContent = '×';
+        rmBtn.title = 'Удалить фото';
+        rmBtn.addEventListener('click', () => removePhotoFromThreadReply(dayIdx, item.id));
+
+        imgWrap.appendChild(imgEl);
+        imgWrap.appendChild(rmBtn);
+        body.appendChild(imgWrap);
+      } else if (item.wantPhoto) {
+        const drop = document.createElement('div');
+        drop.className = 'xp-th-photo-drop';
+        drop.textContent = '+ Вставить фото для этого поста (клик, перетаскивание или Cmd+V)';
+        drop.addEventListener('click', () => triggerThreadPhotoDialog(dayIdx, item.id));
+        body.appendChild(drop);
+      }
+
+      // Drag & drop image directly onto thread post
+      row.addEventListener('dragover', e => { e.preventDefault(); e.stopPropagation(); });
+      row.addEventListener('drop', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file && file.type && file.type.startsWith('image/')) {
+          assignPhotoToThreadReply(dayIdx, item.id, file);
+        }
+      });
+
+      row.appendChild(left);
+      row.appendChild(body);
+      list.appendChild(row);
+      requestAnimationFrame(() => autoResizeCaption(ta));
+    });
+  }
+
+  function refreshDayCardUI(dayIdx, skipReflow = false) {
     const d = state[dayIdx];
     const presetCfg = PRESETS[d.preset];
     if (!presetCfg) return;
@@ -7540,6 +8356,8 @@ const TwitterPlanner = (() => {
 
     renderDayCanvas(dayIdx);
     updateFloatingSlotPillUI(dayIdx);
+    renderThreadRepliesUI(dayIdx);
+    if (!skipReflow) reflowXpMasonry();
   }
 
   /* 9. VIEW SWITCHING & GLOBAL EVENTS */
@@ -7558,6 +8376,7 @@ const TwitterPlanner = (() => {
     if (_activeView !== 'planner') {
       selectCanvasSlot(null, null);
       closeHooksPopover();
+      closeThreadTplPopover();
       closeAllCardMenus();
     }
     if (_activeView !== 'invoe' && typeof window._cancelLasso === 'function') {
@@ -7572,7 +8391,10 @@ const TwitterPlanner = (() => {
     if (tabBudget) { tabBudget.classList.toggle('on', _activeView === 'budget'); tabBudget.setAttribute('aria-selected', String(_activeView === 'budget')); }
     if (tabPlanner) { tabPlanner.classList.toggle('on', _activeView === 'planner'); tabPlanner.setAttribute('aria-selected', String(_activeView === 'planner')); }
 
-    if (_activeView === 'planner') resizeAllCaptions();
+    if (_activeView === 'planner') {
+      reflowXpMasonry();
+      resizeAllCaptions();
+    }
     if (_activeView === 'budget' && typeof window.renderBudgetView === 'function') window.renderBudgetView();
   }
 
@@ -7581,6 +8403,7 @@ const TwitterPlanner = (() => {
     const tabPlanner = document.getElementById('xp-tab-planner');
     const btnDlWeek = document.getElementById('xp-btn-dl-week');
     const btnClearWeek = document.getElementById('xp-btn-clear-week');
+    const btnThreadTpl = document.getElementById('xp-btn-thread-tpl');
     const plannerView = document.getElementById('x-planner-view');
 
     const handleInp = document.getElementById('xp-set-handle');
@@ -7592,7 +8415,10 @@ const TwitterPlanner = (() => {
         userHandle = handleInp.value.trim();
         try { localStorage.setItem('xp_user_handle', userHandle); } catch (e) {}
         updateAllTweetUserHeaders();
-        DAYS.forEach(d => renderDayCanvas(d.idx));
+        DAYS.forEach(d => {
+          renderDayCanvas(d.idx);
+          renderThreadRepliesUI(d.idx);
+        });
       });
     }
 
@@ -7614,11 +8440,25 @@ const TwitterPlanner = (() => {
     if (tabPlanner) tabPlanner.addEventListener('click', () => switchView('planner'));
     if (btnDlWeek) btnDlWeek.addEventListener('click', downloadWholeWeek);
     if (btnClearWeek) btnClearWeek.addEventListener('click', clearWholeWeek);
+    if (btnThreadTpl) btnThreadTpl.addEventListener('click', ev => {
+      ev.stopPropagation();
+      toggleThreadTplPopover(btnThreadTpl);
+    });
+
+    let _resizeTmr = null;
+    window.addEventListener('resize', () => {
+      if (_activeView !== 'planner') return;
+      clearTimeout(_resizeTmr);
+      _resizeTmr = setTimeout(() => reflowXpMasonry(), 120);
+    });
 
     document.addEventListener('mousedown', e => {
       if (_activeView !== 'planner') return;
       if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-hooks-btn')) {
         closeHooksPopover();
+      }
+      if (_ttplPopEl && _ttplPopEl.classList.contains('on') && !e.target.closest('#xp-ttpl-pop, #xp-btn-thread-tpl')) {
+        closeThreadTplPopover();
       }
       if (_openMenuDayIdx !== null && !e.target.closest('.xp-card-menu, .xp-dots-btn')) {
         closeAllCardMenus();
@@ -7637,7 +8477,7 @@ const TwitterPlanner = (() => {
       }, { passive: true });
     }
 
-    // Вставка картинки по Cmd+V в слот под курсором или выделенный синей рамкой слот
+    // Вставка картинки по Cmd+V в тред-пост (если фокус в нём) или в слот холста
     window.addEventListener('paste', e => {
       if (_activeView !== 'planner') return;
       const items = e.clipboardData && e.clipboardData.items;
@@ -7653,6 +8493,11 @@ const TwitterPlanner = (() => {
       if (!imgFile) return;
 
       e.preventDefault();
+      const actEl = document.activeElement;
+      if (actEl && actEl.dataset && actEl.dataset.thDay !== undefined && actEl.dataset.thId) {
+        assignPhotoToThreadReply(parseInt(actEl.dataset.thDay, 10), actEl.dataset.thId, imgFile);
+        return;
+      }
       const target = _hoveredSlot || _armedSlot || { dayIdx: 0, slotKey: PRESETS[state[0].preset].slots[0].key };
       assignFileToSlot(target.dayIdx, target.slotKey, imgFile);
     });
@@ -7665,6 +8510,7 @@ const TwitterPlanner = (() => {
 
       if (e.key === 'Escape') {
         if (_hooksPopDayIdx !== null) { e.preventDefault(); e.stopPropagation(); closeHooksPopover(); return; }
+        if (_ttplPopEl && _ttplPopEl.classList.contains('on')) { e.preventDefault(); e.stopPropagation(); closeThreadTplPopover(); return; }
         if (_openMenuDayIdx !== null) { e.preventDefault(); e.stopPropagation(); closeAllCardMenus(); return; }
         if (_armedSlot) { e.preventDefault(); e.stopPropagation(); selectCanvasSlot(null, null); return; }
       }
