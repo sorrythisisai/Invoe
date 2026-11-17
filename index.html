@@ -305,7 +305,6 @@ button:active:not(:disabled){transform:scale(0.97);}
   overflow-y:auto;
   overflow-x:hidden;
   padding:24px 32px 110px;
-  max-width:1100px;
   width:100%;
   gap:16px;
   -webkit-overflow-scrolling:touch;
@@ -581,6 +580,17 @@ button:active:not(:disabled){transform:scale(0.97);}
 ══════════════════════════════════════════════════════════════════ */
 .elist{position:relative;}
 #list{display:flex;flex-direction:column;gap:14px;}
+@media(min-width:1040px){
+  #list{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:16px;
+    align-items:start;
+  }
+  #list > .empty{
+    grid-column:1 / -1;
+  }
+}
 
 .rem-group{
   background:var(--surface);
@@ -897,6 +907,375 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .m-nav-btn.on{color:var(--blue);}
   .m-nav-add{width:44px;height:44px;margin:0 auto;border:none;border-radius:14px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   BUDGET & EXPENSE TRACKER VIEW (#budget-view) — APPLE HIG
+══════════════════════════════════════════════════════════════════ */
+.bg-view{
+  flex:1;
+  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  min-width:0;
+  padding:24px 32px 110px;
+  display:none;
+}
+.bg-view::-webkit-scrollbar{width:5px;}
+.bg-view::-webkit-scrollbar-thumb{background:transparent;border-radius:3px;}
+.bg-view:hover::-webkit-scrollbar-thumb{background:var(--border2);}
+
+.bg-container{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.bg-hero-grid{
+  display:grid;
+  grid-template-columns:1.15fr 1fr;
+  gap:16px;
+  align-items:stretch;
+}
+
+.bg-card{
+  background:var(--surface);
+  border-radius:20px;
+  padding:20px 24px;
+  border:0.5px solid var(--border);
+  box-shadow:var(--shadow-card);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:16px;
+  min-width:0;
+}
+
+.bg-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.bg-metrics-row{
+  display:flex;
+  align-items:stretch;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.bg-metric{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+}
+.bg-metric.clickable{cursor:pointer;}
+.bg-metric.clickable:hover .bg-net-val{opacity:0.78;}
+.bg-m-lbl{
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--text2);
+  margin-bottom:4px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.bg-net-val{
+  font-size:34px;
+  font-weight:700;
+  letter-spacing:-0.04em;
+  color:var(--text);
+  line-height:1.06;
+  white-space:nowrap;
+}
+.bg-net-val.pos{color:var(--success);}
+.bg-net-val.neg{color:var(--danger);}
+
+.bg-sub-val{
+  font-size:25px;
+  font-weight:600;
+  letter-spacing:-0.03em;
+  color:var(--text);
+  line-height:1.1;
+  white-space:nowrap;
+}
+.bg-sub-val.inc{color:var(--success);}
+.bg-sub-val.exp{color:var(--text);}
+
+.bg-m-hint{
+  font-size:11.5px;
+  font-weight:500;
+  color:var(--text3);
+  margin-top:5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Recurring Quick Templates Strip inside Summary Card */
+.bg-recur-bar{
+  border-top:0.5px solid var(--border);
+  padding-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.bg-recur-chips{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  flex:1;
+  min-width:0;
+}
+.bg-recur-lbl{
+  font-size:11px;
+  font-weight:600;
+  color:var(--text3);
+  margin-right:2px;
+  white-space:nowrap;
+}
+.bg-rchip{
+  height:27px;
+  padding:0 10px;
+  border-radius:8px;
+  border:0.5px solid var(--border);
+  background:var(--surface2);
+  color:var(--text);
+  font-size:11.5px;
+  font-weight:500;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+}
+.bg-rchip:hover{
+  background:var(--blue-bg);
+  border-color:var(--blue);
+  color:var(--blue);
+}
+.bg-rchip-del{
+  color:var(--text3);
+  font-size:13px;
+  line-height:1;
+  margin-left:2px;
+  padding:0 2px;
+  border-radius:4px;
+}
+.bg-rchip-del:hover{color:var(--danger);}
+.bg-rchip-add{
+  height:27px;
+  padding:0 9px;
+  border-radius:8px;
+  border:none;
+  background:transparent;
+  color:var(--blue);
+  font-size:11.5px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.bg-rchip-add:hover{background:var(--blue-bg);}
+
+/* Donut Card (Бублик расходов) */
+.bg-donut-wrap{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  flex:1;
+  min-width:0;
+}
+.bg-donut-box{
+  width:154px;
+  height:154px;
+  position:relative;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.bg-donut-svg{
+  width:100%;
+  height:100%;
+  transform:rotate(-90deg);
+  overflow:visible;
+}
+.bg-donut-seg{
+  fill:none;
+  stroke-width:20;
+  cursor:pointer;
+  transition:stroke-width .16s var(--ease), opacity .16s var(--ease);
+}
+.bg-donut-seg:hover, .bg-donut-seg.active{
+  stroke-width:24;
+}
+.bg-donut-center{
+  position:absolute;
+  inset:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  pointer-events:none;
+}
+.bg-dc-lbl{
+  font-size:10.5px;
+  font-weight:600;
+  color:var(--text3);
+  max-width:96px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bg-dc-val{
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:-0.03em;
+  color:var(--text);
+  margin-top:1px;
+}
+.bg-dc-pct{
+  font-size:10.5px;
+  font-weight:600;
+  color:var(--blue);
+  margin-top:1px;
+}
+
+.bg-legend{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  max-height:164px;
+  overflow-y:auto;
+}
+.bg-leg-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:5px 8px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background-color .12s;
+}
+.bg-leg-row:hover{background:var(--surface2);}
+.bg-leg-row.on{background:var(--blue-bg);}
+.bg-leg-left{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+}
+.bg-leg-name{
+  font-size:12.5px;
+  font-weight:500;
+  color:var(--text);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bg-top-tag{
+  font-size:9.5px;
+  font-weight:700;
+  padding:1px 5px;
+  border-radius:999px;
+  background:var(--warning-bg);
+  color:var(--warning);
+  flex-shrink:0;
+}
+.bg-leg-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.bg-leg-pct{
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--text3);
+}
+.bg-leg-amt{
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--text);
+}
+
+/* Budget Toolbar & 2-Column Feed */
+.bg-seg{
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  background:var(--surface);
+  border:0.5px solid var(--border);
+  box-shadow:var(--shadow-card);
+  padding:3px;
+  border-radius:12px;
+  height:40px;
+}
+.bg-seg-btn{
+  height:32px;
+  padding:0 12px;
+  border:none;
+  border-radius:9px;
+  background:transparent;
+  color:var(--text2);
+  font-size:12.5px;
+  font-weight:600;
+  cursor:pointer;
+}
+.bg-seg-btn:hover{color:var(--text);}
+.bg-seg-btn.on{
+  background:var(--surface2);
+  color:var(--text);
+}
+
+#bg-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+@media(min-width:1040px){
+  #bg-list{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:16px;
+    align-items:start;
+  }
+  #bg-list > .empty{
+    grid-column:1 / -1;
+  }
+}
+
+.bg-amt-inc{color:var(--success)!important;}
+.bg-auto-pill{
+  font-size:10px;
+  font-weight:600;
+  padding:1.5px 6px;
+  border-radius:5px;
+  background:var(--success-bg);
+  color:var(--success);
+}
+
+body.budget-mode #sel-dock{display:none!important;}
+
+@media(max-width:960px){
+  .bg-hero-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .bg-view{padding:14px 16px calc(130px + var(--safe-b));}
+  .bg-card{padding:16px 18px;border-radius:18px;}
+  .bg-net-val{font-size:28px;}
+  .bg-sub-val{font-size:21px;}
+  .bg-donut-wrap{flex-direction:column;align-items:flex-start;}
+  .bg-legend{width:100%;}
+}
 </style>
 <style id="xp-styles">
 /* ══════════════════════════════════════════════
@@ -1164,7 +1543,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   .xp-tw-icons{gap:12px;}
 }
 </style>
-</head></head>
+</head>
 <body>
 <div class="app" id="app-root">
 
@@ -1214,6 +1593,12 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>
       </span>
       <span class="finder-txt">Заказы</span>
+    </button>
+    <button type="button" class="finder-row" id="tab-budget" role="tab" aria-selected="false">
+      <span class="finder-ico" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+      </span>
+      <span class="finder-txt">Учёт</span>
     </button>
     <button type="button" class="finder-row" id="xp-tab-planner" role="tab" aria-selected="false">
       <span class="finder-ico" aria-hidden="true">
@@ -1361,6 +1746,162 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <!-- Clean Grouped Order Cards -->
     <div class="elist" id="elist" role="main">
       <div id="list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGET & EXPENSE TRACKER VIEW -->
+<section class="bg-view" id="budget-view" aria-label="Учёт доходов и расходов" style="display:none;">
+  <div class="bg-container">
+
+    <!-- Top Row: Balance Summary Card + Expense Donut Card -->
+    <div class="bg-hero-grid">
+      <!-- Left: Net Balance, Income (Auto Orders + Manual), Expenses & Recurring Templates -->
+      <div class="bg-card">
+        <div class="bg-card-top">
+          <div class="mo-title-wrap">
+            <button class="mo-title-btn" id="bg-period-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+              <span id="bg-period-title">Период</span>
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+            </button>
+            <div class="period-dd" id="bg-period-dd" role="listbox" aria-label="Выбор периода учёта"></div>
+          </div>
+          <span style="font-size:11.5px;font-weight:600;color:var(--text3);" id="bg-top-cat-pill"></span>
+        </div>
+
+        <div class="bg-metrics-row">
+          <div class="bg-metric clickable" id="bg-card-net" title="Нажмите для смены базовой валюты (₽ / $ / €)">
+            <div class="bg-m-lbl">Остаток за период</div>
+            <div class="bg-net-val" id="bg-val-net">0 ₽</div>
+            <div class="bg-m-hint" id="bg-sub-net">Доходы минус расходы</div>
+          </div>
+
+          <div class="fin-vsep" aria-hidden="true"></div>
+
+          <div class="bg-metric">
+            <div class="bg-m-lbl">Доходы</div>
+            <div class="bg-sub-val inc" id="bg-val-inc">0 ₽</div>
+            <div class="bg-m-hint" id="bg-sub-inc">Заказы: 0 ₽</div>
+          </div>
+
+          <div class="fin-vsep" aria-hidden="true"></div>
+
+          <div class="bg-metric">
+            <div class="bg-m-lbl">Расходы</div>
+            <div class="bg-sub-val exp" id="bg-val-exp">0 ₽</div>
+            <div class="bg-m-hint" id="bg-sub-exp">Нет трат</div>
+          </div>
+        </div>
+
+        <div class="bg-recur-bar">
+          <div class="bg-recur-chips" id="bg-recur-chips"></div>
+          <button type="button" class="bg-rchip-add" id="btn-bg-add-tpl">+ Шаблон</button>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Expense Donut Chart (Бублик расходов) -->
+      <div class="bg-card">
+        <div class="bg-card-top">
+          <span style="font-size:12.5px;font-weight:700;color:var(--text);">Расходы по категориям</span>
+          <span style="font-size:11.5px;font-weight:600;color:var(--blue);cursor:pointer;display:none;" id="bg-clear-cat">Сбросить фильтр</span>
+        </div>
+
+        <div class="bg-donut-wrap">
+          <div class="bg-donut-box">
+            <svg class="bg-donut-svg" viewBox="0 0 120 120" id="bg-donut-svg" aria-label="Диаграмма расходов"></svg>
+            <div class="bg-donut-center">
+              <span class="bg-dc-lbl" id="bg-dc-lbl">Расходы</span>
+              <span class="bg-dc-val" id="bg-dc-val">0 ₽</span>
+              <span class="bg-dc-pct" id="bg-dc-pct"></span>
+            </div>
+          </div>
+          <div class="bg-legend" id="bg-legend"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Toolbar -->
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="bg-search" placeholder="Поиск по категориям, комментариям..." aria-label="Поиск в учёте"/>
+      </div>
+
+      <div class="bg-seg" role="group" aria-label="Тип операций">
+        <button type="button" class="bg-seg-btn on" data-btype="all">Все</button>
+        <button type="button" class="bg-seg-btn" data-btype="expense">Расходы</button>
+        <button type="button" class="bg-seg-btn" data-btype="income">Доходы</button>
+      </div>
+
+      <div class="atags" id="bg-atags"></div>
+
+      <button class="add-order-btn" id="btn-bg-add" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Добавить запись</span>
+      </button>
+    </div>
+
+    <!-- 2-Column Grouped Transactions List -->
+    <div id="bg-list"></div>
+
+  </div>
+</section>
+
+<!-- Modal: Add / Edit Budget Entry -->
+<div class="moverlay" id="bg-mov" role="dialog" aria-modal="true" aria-labelledby="bg-m-title">
+  <div class="modal modal-entry">
+    <div class="sheet-handle"></div>
+    <div class="mhdr">
+      <span class="mtitle" id="bg-m-title">Новая операция</span>
+      <button class="mclose" id="bg-m-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <div class="fstatus-row" style="margin-bottom:14px;">
+      <span class="fstatus-lbl">Тип операции</span>
+      <div class="fstatus-toggle" role="group">
+        <button class="fst-btn active-unpaid" id="bg-type-exp" type="button">Расход</button>
+        <button class="fst-btn" id="bg-type-inc" type="button">Доход</button>
+      </div>
+    </div>
+
+    <div class="fgrid f-row-main">
+      <div class="ff">
+        <label for="bg-f-cat">Категория</label>
+        <input type="text" id="bg-f-cat" list="bg-cat-dl" placeholder="Еда, Подписки, Семья..." autocomplete="off"/>
+        <datalist id="bg-cat-dl"></datalist>
+        <div class="qchips" id="bg-qchips-cat"></div>
+      </div>
+      <div class="ff">
+        <label for="bg-f-amt">Сумма</label>
+        <div class="amt-cur-combo">
+          <input type="text" id="bg-f-amt" placeholder="500 или 150*2" inputmode="decimal"/>
+          <select id="bg-f-cur" aria-label="Валюта">
+            <option>₽</option><option>$</option><option>€</option>
+          </select>
+        </div>
+        <div class="ahint" id="bg-ahint" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="fgrid">
+      <div class="ff">
+        <label for="bg-f-note">Комментарий</label>
+        <input type="text" id="bg-f-note" placeholder="Продукты, от мамы, iCloud..."/>
+      </div>
+      <div class="ff">
+        <label for="bg-f-date">Дата</label>
+        <input type="date" id="bg-f-date"/>
+      </div>
+    </div>
+
+    <div class="fstatus-row" id="bg-tpl-save-row" style="cursor:pointer;">
+      <span class="fstatus-lbl">Сохранить как быстрый шаблон</span>
+      <input type="checkbox" id="bg-f-istpl" style="width:18px;height:18px;accent-color:var(--blue);cursor:pointer;"/>
+    </div>
+
+    <div class="fbtns">
+      <button class="bsubmit" id="bg-bsub" type="button">+ Добавить</button>
+      <button class="bcancel" id="bg-bdel" type="button" style="display:none;color:var(--danger);background:var(--danger-bg);">Удалить</button>
     </div>
   </div>
 </div>
@@ -1748,6 +2289,8 @@ async function saveToSafariVault() {
     tx.objectStore('vault').put({
       entries: cleanEntriesForStorage(entries),
       xpNotebook: normalizeXpNotebook(xpNotebook),
+      budgetEntries: window._budgetEntries || [],
+      budgetRecurring: window._budgetRecurring || [],
       baseCur, rates, theme, accent, tone, density, updatedAt: Date.now()
     }, 'main_state');
   } catch(e) {}
@@ -1765,6 +2308,9 @@ async function restoreFromSafariVaultIfEmpty() {
         xpNotebook = mergeXpNotebooks(xpNotebook, data.xpNotebook);
         lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
         if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
+      }
+      if (typeof window._restoreBudgetFromVault === 'function') {
+        window._restoreBudgetFromVault(data.budgetEntries, data.budgetRecurring);
       }
       if (entries.length === 0 && Array.isArray(data.entries) && data.entries.length > 0) {
         entries = normalizeLoadedEntries(data.entries);
@@ -1890,13 +2436,15 @@ let _lastSyncedFingerprint = lsG('ff_last_fp') || '';
 let _isInitialCloudLoading = false;
 let _syncInFlight = false;
 
-function computeDataFingerprint(targetEntries = entries, targetCur = baseCur, targetRates = rates, targetNb = xpNotebook) {
+function computeDataFingerprint(targetEntries = entries, targetCur = baseCur, targetRates = rates, targetNb = xpNotebook, targetBudget = (window._budgetEntries || []), targetRecur = (window._budgetRecurring || [])) {
   const nb = normalizeXpNotebook(targetNb);
   return JSON.stringify({
     baseCur: targetCur,
     rates: sanitizeRatesObject(targetRates),
     entries: cleanEntriesForStorage(targetEntries),
-    xpNotebook: { hooks: nb.hooks, outros: nb.outros, del: nb.del }
+    xpNotebook: { hooks: nb.hooks, outros: nb.outros, del: nb.del },
+    budgetEntries: targetBudget,
+    budgetRecurring: targetRecur
   });
 }
 
@@ -1951,6 +2499,8 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     rates,
     delIds: [...deletedIds].slice(-200),
     xpNotebook: normalizeXpNotebook(xpNotebook),
+    budgetEntries: window._budgetEntries || [],
+    budgetRecurring: window._budgetRecurring || [],
     entries: cleanEntriesForStorage(entries)
   });
 
@@ -2084,10 +2634,13 @@ async function safeSyncWithFirebase(manual = false) {
     }
 
     if (data && (Array.isArray(data.entries) || data.version === 2)) {
+      if (typeof window._mergeCloudBudget === 'function') {
+        window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, data.delIds);
+      }
       const cloudCur = (data.baseCur && CURS.includes(data.baseCur)) ? data.baseCur : baseCur;
       const cloudRates = (data.rates && typeof data.rates === 'object') ? sanitizeRatesObject(data.rates) : rates;
-      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook);
-      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook);
+      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || []);
+      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || []);
 
       if (incomingFp === localFp && !wasSkel) {
         _lastSyncedFingerprint = incomingFp;
@@ -3795,6 +4348,7 @@ function render() {
   updateFilterState();
   updateStatsAndAnalytics();
   renderList();
+  if (typeof window.renderBudgetView === 'function') window.renderBudgetView();
 }
 
 /* ══════════════════════════════════════════════
@@ -4419,6 +4973,8 @@ function exportData() {
     baseCur,
     rates: sanitizeRatesObject(rates),
     xpNotebook: normalizeXpNotebook(xpNotebook),
+    budgetEntries: window._budgetEntries || [],
+    budgetRecurring: window._budgetRecurring || [],
     entries: cleanEntriesForStorage(entries)
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
@@ -4455,6 +5011,9 @@ function applyImportedPayload(raw, replaceMode = true) {
     xpNotebook = replaceMode ? normalizeXpNotebook(raw.xpNotebook) : mergeXpNotebooks(xpNotebook, raw.xpNotebook);
     lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
     if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
+  }
+  if (!Array.isArray(raw) && typeof window._importBudgetData === 'function') {
+    window._importBudgetData(raw.budgetEntries, raw.budgetRecurring, replaceMode);
   }
   if (replaceMode) {
     entries = normalizeLoadedEntries(valid);
@@ -6889,30 +7448,36 @@ const TwitterPlanner = (() => {
 
   /* 9. VIEW SWITCHING & GLOBAL EVENTS */
   function switchView(mode) {
-    _activeView = mode === 'planner' ? 'planner' : 'invoe';
+    _activeView = (mode === 'planner' || mode === 'budget') ? mode : 'invoe';
     const invoeBody = document.getElementById('workspace-body');
+    const budgetView = document.getElementById('budget-view');
     const plannerView = document.getElementById('x-planner-view');
     const tabInvoe = document.getElementById('xp-tab-invoe');
+    const tabBudget = document.getElementById('tab-budget');
     const tabPlanner = document.getElementById('xp-tab-planner');
 
     document.body.classList.toggle('xp-mode', _activeView === 'planner');
+    document.body.classList.toggle('budget-mode', _activeView === 'budget');
 
-    if (_activeView === 'planner') {
-      if (invoeBody) invoeBody.style.display = 'none';
-      if (plannerView) plannerView.style.display = 'block';
-      if (tabInvoe) { tabInvoe.classList.remove('on'); tabInvoe.setAttribute('aria-selected', 'false'); }
-      if (tabPlanner) { tabPlanner.classList.add('on'); tabPlanner.setAttribute('aria-selected', 'true'); }
-      if (typeof window._cancelLasso === 'function') window._cancelLasso();
-      resizeAllCaptions();
-    } else {
+    if (_activeView !== 'planner') {
       selectCanvasSlot(null, null);
       closeHooksPopover();
       closeAllCardMenus();
-      if (plannerView) plannerView.style.display = 'none';
-      if (invoeBody) invoeBody.style.display = '';
-      if (tabInvoe) { tabInvoe.classList.add('on'); tabInvoe.setAttribute('aria-selected', 'true'); }
-      if (tabPlanner) { tabPlanner.classList.remove('on'); tabPlanner.setAttribute('aria-selected', 'false'); }
     }
+    if (_activeView !== 'invoe' && typeof window._cancelLasso === 'function') {
+      window._cancelLasso();
+    }
+
+    if (invoeBody) invoeBody.style.display = _activeView === 'invoe' ? '' : 'none';
+    if (budgetView) budgetView.style.display = _activeView === 'budget' ? 'block' : 'none';
+    if (plannerView) plannerView.style.display = _activeView === 'planner' ? 'block' : 'none';
+
+    if (tabInvoe) { tabInvoe.classList.toggle('on', _activeView === 'invoe'); tabInvoe.setAttribute('aria-selected', String(_activeView === 'invoe')); }
+    if (tabBudget) { tabBudget.classList.toggle('on', _activeView === 'budget'); tabBudget.setAttribute('aria-selected', String(_activeView === 'budget')); }
+    if (tabPlanner) { tabPlanner.classList.toggle('on', _activeView === 'planner'); tabPlanner.setAttribute('aria-selected', String(_activeView === 'planner')); }
+
+    if (_activeView === 'planner') resizeAllCaptions();
+    if (_activeView === 'budget' && typeof window.renderBudgetView === 'function') window.renderBudgetView();
   }
 
   function bindGlobalPlannerEvents() {
@@ -7023,6 +7588,813 @@ const TwitterPlanner = (() => {
   }
 
   return { switchView, renderDayCanvas };
+})();
+</script>
+<script id="budget-script">
+/* ══════════════════════════════════════════════════════════════════
+   BUDGET & EXPENSE TRACKER MODULE (AUTO ORDERS INCOME + MANUAL + DONUT)
+══════════════════════════════════════════════════════════════════ */
+(() => {
+  const CAT_PALETTE = ['#ff2d55','#ff9500','#34c759','#007aff','#af52de','#5ac8fa','#ffcc00','#ff3b30','#30b0c7','#5856d6'];
+  const DEFAULT_EXP_CATS = ['Еда', 'Подписки', 'Дом', 'Транспорт', 'Покупки'];
+  const DEFAULT_INC_CATS = ['Семья', 'Подарок', 'Кэшбэк', 'Подработка'];
+
+  let budgetEntries = [];
+  try {
+    const raw = JSON.parse(lsG('ff_budget_v1') || '[]');
+    if (Array.isArray(raw)) budgetEntries = normalizeBudgetList(raw);
+  } catch (e) {}
+
+  let budgetRecurring = [];
+  try {
+    const rawR = JSON.parse(lsG('ff_budget_recur') || '[]');
+    if (Array.isArray(rawR)) budgetRecurring = rawR.filter(x => x && x.category && x.amount > 0);
+  } catch (e) {}
+
+  window._budgetEntries = budgetEntries;
+  window._budgetRecurring = budgetRecurring;
+
+  let bgEditId = null;
+  let bgFormType = 'expense'; // 'expense' | 'income'
+  let bgTypeFilter = 'all';   // 'all' | 'expense' | 'income'
+  let bgCatFilter = '';
+  let bgSearchQuery = '';
+  let bgHoveredCat = null;
+
+  function normalizeBudgetList(list) {
+    if (!Array.isArray(list)) return [];
+    return list.filter(x => x && typeof x === 'object' && x.amount > 0).map(x => ({
+      id: String(x.id || gid()),
+      type: x.type === 'income' ? 'income' : 'expense',
+      category: String(x.category || 'Прочее').trim(),
+      amount: Math.round(Number(x.amount) * 100) / 100,
+      currency: CURS.includes(x.currency) ? x.currency : baseCur,
+      note: String(x.note || '').trim(),
+      date: String(x.date || today())
+    }));
+  }
+
+  function getCategoryColor(cat) {
+    if (!cat) return '#8e8e93';
+    const allCats = [...new Set([...DEFAULT_EXP_CATS, ...DEFAULT_INC_CATS, ...budgetEntries.map(x => x.category)])].sort((a, b) => a.localeCompare(b, 'ru'));
+    const idx = allCats.indexOf(cat);
+    if (idx !== -1) return CAT_PALETTE[idx % CAT_PALETTE.length];
+    let h = 0;
+    for (let i = 0; i < cat.length; i++) h = (h * 31 + cat.charCodeAt(i)) >>> 0;
+    return CAT_PALETTE[h % CAT_PALETTE.length];
+  }
+
+  function saveBudgetState() {
+    window._budgetEntries = budgetEntries;
+    window._budgetRecurring = budgetRecurring;
+    lsS('ff_budget_v1', JSON.stringify(budgetEntries));
+    lsS('ff_budget_recur', JSON.stringify(budgetRecurring));
+    saveToSafariVault();
+    scheduleSmartFirebaseSync();
+  }
+
+  window._restoreBudgetFromVault = (vEntries, vRecur) => {
+    if (budgetEntries.length === 0 && Array.isArray(vEntries) && vEntries.length > 0) {
+      budgetEntries = normalizeBudgetList(vEntries);
+      window._budgetEntries = budgetEntries;
+      lsS('ff_budget_v1', JSON.stringify(budgetEntries));
+    }
+    if (budgetRecurring.length === 0 && Array.isArray(vRecur) && vRecur.length > 0) {
+      budgetRecurring = vRecur;
+      window._budgetRecurring = budgetRecurring;
+      lsS('ff_budget_recur', JSON.stringify(budgetRecurring));
+    }
+    renderBudgetView();
+  };
+
+  window._mergeCloudBudget = (cEntries, cRecur, delIdsArr) => {
+    const delSet = new Set(Array.isArray(delIdsArr) ? delIdsArr.map(String) : []);
+    if (Array.isArray(cEntries)) {
+      const normalized = normalizeBudgetList(cEntries).filter(x => !delSet.has(x.id) && !deletedIds.has(x.id));
+      const map = new Map();
+      budgetEntries.forEach(x => { if (!delSet.has(x.id)) map.set(x.id, x); });
+      normalized.forEach(x => map.set(x.id, x));
+      budgetEntries = [...map.values()].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      window._budgetEntries = budgetEntries;
+      lsS('ff_budget_v1', JSON.stringify(budgetEntries));
+    }
+    if (Array.isArray(cRecur) && cRecur.length > 0 && budgetRecurring.length === 0) {
+      budgetRecurring = cRecur;
+      window._budgetRecurring = budgetRecurring;
+      lsS('ff_budget_recur', JSON.stringify(budgetRecurring));
+    }
+    renderBudgetView();
+  };
+
+  window._importBudgetData = (impEntries, impRecur, replaceMode) => {
+    if (Array.isArray(impEntries)) {
+      const norm = normalizeBudgetList(impEntries);
+      if (replaceMode) {
+        budgetEntries = norm;
+      } else {
+        const ex = new Set(budgetEntries.map(x => x.id));
+        budgetEntries = [...norm.filter(x => !ex.has(x.id)), ...budgetEntries];
+      }
+    }
+    if (Array.isArray(impRecur)) {
+      if (replaceMode) budgetRecurring = impRecur;
+      else budgetRecurring = [...budgetRecurring, ...impRecur];
+    }
+    saveBudgetState();
+    renderBudgetView();
+  };
+
+  function getPeriodTitle() {
+    const eff = effectiveYm();
+    if (eff === 'all') return 'За всё время';
+    const [y, m] = eff.split('-').map(Number);
+    return `${MONTHS_NOM_RU[(m || 1) - 1]} ${y || new Date().getFullYear()}`;
+  }
+
+  function toBaseOrRaw(amount, currency) {
+    const conv = toB(amount, currency);
+    return conv !== null ? conv : amount;
+  }
+
+  function renderDonutChart(expByCat, totalExpBase) {
+    const svg = document.getElementById('bg-donut-svg');
+    const legend = document.getElementById('bg-legend');
+    const dcLbl = document.getElementById('bg-dc-lbl');
+    const dcVal = document.getElementById('bg-dc-val');
+    const dcPct = document.getElementById('bg-dc-pct');
+    const clearBtn = document.getElementById('bg-clear-cat');
+    if (!svg || !legend) return;
+
+    if (clearBtn) clearBtn.style.display = bgCatFilter ? '' : 'none';
+
+    svg.innerHTML = '';
+    legend.innerHTML = '';
+
+    const setCenterDefault = () => {
+      if (bgHoveredCat && expByCat.has(bgHoveredCat)) {
+        const item = expByCat.get(bgHoveredCat);
+        const pct = totalExpBase > 0 ? Math.round((item.sumBase / totalExpBase) * 100) : 0;
+        if (dcLbl) dcLbl.textContent = bgHoveredCat;
+        if (dcVal) dcVal.textContent = fmtB(item.sumBase);
+        if (dcPct) dcPct.textContent = `${pct}%`;
+      } else if (bgCatFilter && expByCat.has(bgCatFilter)) {
+        const item = expByCat.get(bgCatFilter);
+        const pct = totalExpBase > 0 ? Math.round((item.sumBase / totalExpBase) * 100) : 0;
+        if (dcLbl) dcLbl.textContent = bgCatFilter;
+        if (dcVal) dcVal.textContent = fmtB(item.sumBase);
+        if (dcPct) dcPct.textContent = `${pct}%`;
+      } else {
+        if (dcLbl) dcLbl.textContent = 'Расходы';
+        if (dcVal) dcVal.textContent = fmtB(totalExpBase);
+        if (dcPct) dcPct.textContent = '';
+      }
+    };
+
+    const sortedCats = [...expByCat.entries()].sort((a, b) => b[1].sumBase - a[1].sumBase);
+    const R = 46;
+    const CIRC = 2 * Math.PI * R;
+    const svgNS = 'http://www.w3.org/2000/svg';
+
+    // Base track ring
+    const track = document.createElementNS(svgNS, 'circle');
+    track.setAttribute('cx', '60');
+    track.setAttribute('cy', '60');
+    track.setAttribute('r', String(R));
+    track.setAttribute('fill', 'none');
+    track.setAttribute('stroke', 'var(--surface2)');
+    track.setAttribute('stroke-width', '20');
+    svg.appendChild(track);
+
+    if (!sortedCats.length || totalExpBase <= 0) {
+      setCenterDefault();
+      legend.appendChild(el('div', { style: 'font-size:12.5px;color:var(--text3);padding:12px 4px;' }, ['За этот период расходов пока нет']));
+      return;
+    }
+
+    let offsetAcc = 0;
+    const gapLen = sortedCats.length > 1 ? 2.5 : 0;
+
+    sortedCats.forEach(([catName, info], idx) => {
+      const ratio = info.sumBase / totalExpBase;
+      const pct = Math.max(1, Math.round(ratio * 100));
+      const segLen = Math.max(2, ratio * CIRC - gapLen);
+      const col = getCategoryColor(catName);
+
+      const seg = document.createElementNS(svgNS, 'circle');
+      seg.setAttribute('cx', '60');
+      seg.setAttribute('cy', '60');
+      seg.setAttribute('r', String(R));
+      seg.setAttribute('class', 'bg-donut-seg' + (bgCatFilter === catName ? ' active' : ''));
+      seg.setAttribute('stroke', col);
+      seg.setAttribute('stroke-dasharray', `${segLen} ${CIRC}`);
+      seg.setAttribute('stroke-dashoffset', String(-offsetAcc));
+      if (bgCatFilter && bgCatFilter !== catName) {
+        seg.style.opacity = '0.35';
+      }
+
+      seg.addEventListener('mouseenter', () => {
+        bgHoveredCat = catName;
+        setCenterDefault();
+      });
+      seg.addEventListener('mouseleave', () => {
+        bgHoveredCat = null;
+        setCenterDefault();
+      });
+      seg.addEventListener('click', () => {
+        bgCatFilter = (bgCatFilter === catName) ? '' : catName;
+        renderBudgetView();
+      });
+
+      svg.appendChild(seg);
+      offsetAcc += ratio * CIRC;
+
+      // Legend Row
+      const row = el('div', {
+        className: 'bg-leg-row' + (bgCatFilter === catName ? ' on' : '')
+      }, [
+        el('div', { className: 'bg-leg-left' }, [
+          el('span', { className: 'eclient-dot', style: `background:${col}` }),
+          el('span', { className: 'bg-leg-name' }, [catName]),
+          idx === 0 ? el('span', { className: 'bg-top-tag' }, ['Топ']) : null
+        ]),
+        el('div', { className: 'bg-leg-right' }, [
+          el('span', { className: 'bg-leg-pct' }, [`${pct}%`]),
+          el('span', { className: 'bg-leg-amt' }, [fmtB(info.sumBase)])
+        ])
+      ]);
+
+      row.addEventListener('mouseenter', () => {
+        bgHoveredCat = catName;
+        setCenterDefault();
+      });
+      row.addEventListener('mouseleave', () => {
+        bgHoveredCat = null;
+        setCenterDefault();
+      });
+      row.addEventListener('click', () => {
+        bgCatFilter = (bgCatFilter === catName) ? '' : catName;
+        renderBudgetView();
+      });
+
+      legend.appendChild(row);
+    });
+
+    setCenterDefault();
+  }
+
+  function renderRecurringBar() {
+    const wrap = document.getElementById('bg-recur-chips');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    wrap.appendChild(el('span', { className: 'bg-recur-lbl' }, ['Шаблоны:']));
+
+    if (!budgetRecurring.length) {
+      wrap.appendChild(el('span', { style: 'font-size:11.5px;color:var(--text3);' }, ['нет сохранённых']));
+      return;
+    }
+
+    budgetRecurring.forEach((tpl, idx) => {
+      const col = getCategoryColor(tpl.category);
+      const chip = el('div', { className: 'bg-rchip', title: `Добавить в 1 клик: ${tpl.category} (${fmtCur(tpl.amount, tpl.currency)})` }, [
+        el('span', { className: 'eclient-dot', style: `background:${col}` }),
+        el('span', {}, [`${tpl.note || tpl.category} · ${fmtCur(tpl.amount, tpl.currency)}`])
+      ]);
+      const delX = el('span', { className: 'bg-rchip-del', title: 'Удалить шаблон' }, ['×']);
+      delX.addEventListener('click', ev => {
+        ev.stopPropagation();
+        budgetRecurring.splice(idx, 1);
+        saveBudgetState();
+        renderBudgetView();
+      });
+      chip.appendChild(delX);
+
+      chip.addEventListener('click', () => {
+        const snapshot = budgetEntries.map(x => ({ ...x }));
+        const newItem = {
+          id: gid(),
+          type: tpl.type === 'income' ? 'income' : 'expense',
+          category: tpl.category,
+          amount: tpl.amount,
+          currency: tpl.currency || baseCur,
+          note: tpl.note || '',
+          date: today()
+        };
+        _flashIds.add(newItem.id);
+        budgetEntries.unshift(newItem);
+        saveBudgetState();
+        renderBudgetView();
+        showToast(`Добавлено: ${newItem.note || newItem.category} (${fmtCur(newItem.amount, newItem.currency)})`, () => {
+          budgetEntries = snapshot;
+          saveBudgetState();
+          renderBudgetView();
+        });
+      });
+
+      wrap.appendChild(chip);
+    });
+  }
+
+  function renderBudgetView() {
+    setText('bg-period-title', getPeriodTitle());
+
+    // 1. Auto-transferred paid orders for the period
+    const periodOrdersIncome = entries.filter(isPaidInPeriod);
+    const ordersIncomeBase = periodOrdersIncome.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0);
+
+    // 2. Manual budget entries for the period
+    const periodBudget = budgetEntries.filter(x => matchesPeriod(x.date));
+    const manualIncomeList = periodBudget.filter(x => x.type === 'income');
+    const expenseList = periodBudget.filter(x => x.type === 'expense');
+
+    const manualIncomeBase = manualIncomeList.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0);
+    const totalIncomeBase = Math.round((ordersIncomeBase + manualIncomeBase) * 100) / 100;
+    const totalExpenseBase = Math.round(expenseList.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0) * 100) / 100;
+    const netBalanceBase = Math.round((totalIncomeBase - totalExpenseBase) * 100) / 100;
+
+    // 3. Group expenses by category for Donut & Top Category highlight
+    const expByCat = new Map();
+    expenseList.forEach(x => {
+      const cat = x.category || 'Прочее';
+      const valB = toBaseOrRaw(x.amount, x.currency);
+      const cur = expByCat.get(cat) || { sumBase: 0, count: 0 };
+      cur.sumBase = Math.round((cur.sumBase + valB) * 100) / 100;
+      cur.count += 1;
+      expByCat.set(cat, cur);
+    });
+
+    const sortedExpCats = [...expByCat.entries()].sort((a, b) => b[1].sumBase - a[1].sumBase);
+    const topCat = sortedExpCats.length ? sortedExpCats[0] : null;
+
+    // Update Summary Numbers
+    const netEl = document.getElementById('bg-val-net');
+    if (netEl) {
+      const prefix = netBalanceBase > 0 ? '+' : '';
+      netEl.textContent = prefix + fmtB(netBalanceBase);
+      netEl.classList.toggle('pos', netBalanceBase > 0);
+      netEl.classList.toggle('neg', netBalanceBase < 0);
+    }
+    setText('bg-val-inc', fmtB(totalIncomeBase));
+    setText('bg-sub-inc', manualIncomeBase > 0
+      ? `Заказы: ${fmtB(ordersIncomeBase)} · Личные: ${fmtB(manualIncomeBase)}`
+      : `Заказы: ${fmtB(ordersIncomeBase)}`);
+
+    setText('bg-val-exp', fmtB(totalExpenseBase));
+    if (topCat && totalExpenseBase > 0) {
+      const topPct = Math.round((topCat[1].sumBase / totalExpenseBase) * 100);
+      setText('bg-sub-exp', `Больше всего: ${topCat[0]} (${topPct}%)`);
+      setText('bg-top-cat-pill', `Топ трат: ${topCat[0]} · ${fmtB(topCat[1].sumBase)}`);
+    } else {
+      setText('bg-sub-exp', 'Нет трат за период');
+      setText('bg-top-cat-pill', '');
+    }
+
+    renderRecurringBar();
+    renderDonutChart(expByCat, totalExpenseBase);
+    renderBudgetList(periodBudget, periodOrdersIncome);
+  }
+  window.renderBudgetView = renderBudgetView;
+
+  function renderBudgetList(periodBudget, periodOrdersIncome) {
+    const listEl = document.getElementById('bg-list');
+    const atagsEl = document.getElementById('bg-atags');
+    if (!listEl) return;
+
+    if (atagsEl) {
+      atagsEl.innerHTML = '';
+      if (bgCatFilter) {
+        const dot = el('span', { className: 'eclient-dot', style: `background:${getCategoryColor(bgCatFilter)}` });
+        const tag = el('div', { className: 'atag' }, [dot, `${bgCatFilter} ×`]);
+        tag.addEventListener('click', () => { bgCatFilter = ''; renderBudgetView(); });
+        atagsEl.appendChild(tag);
+      }
+    }
+
+    const q = bgSearchQuery.toLowerCase();
+    const filteredManual = periodBudget.filter(x => {
+      if (bgTypeFilter !== 'all' && x.type !== bgTypeFilter) return false;
+      if (bgCatFilter && x.category !== bgCatFilter) return false;
+      if (q && !(x.category || '').toLowerCase().includes(q) && !(x.note || '').toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    const filteredAutoOrders = (bgTypeFilter === 'expense' || bgCatFilter)
+      ? []
+      : periodOrdersIncome.filter(e => {
+          if (!q) return true;
+          return (e.desc || '').toLowerCase().includes(q) || (e.name || '').toLowerCase().includes(q) || 'заказы'.includes(q);
+        });
+
+    listEl.innerHTML = '';
+
+    if (!filteredManual.length && !filteredAutoOrders.length) {
+      const empty = el('div', { className: 'empty' }, [
+        el('div', { className: 'empty-title' }, ['Операций за период нет']),
+        el('div', { className: 'empty-sub' }, ['Добавьте расход, личное поступление или быстрый шаблон.'])
+      ]);
+      const addBtn = el('button', { className: 'empty-btn', type: 'button' }, ['+ Добавить запись']);
+      addBtn.addEventListener('click', () => openBudgetModal());
+      empty.appendChild(addBtn);
+      listEl.appendChild(empty);
+      return;
+    }
+
+    const frag = document.createDocumentFragment();
+
+    // Group manual transactions by date key
+    const gs = new Map();
+    filteredManual.forEach(item => {
+      const k = grpKey(item);
+      if (!gs.has(k)) gs.set(k, []);
+      gs.get(k).push(item);
+    });
+
+    const sortedGroups = [...gs.entries()].sort((a, b) => grpSort(b[0]).localeCompare(grpSort(a[0])));
+    sortedGroups.forEach(([k, items]) => {
+      const sortedItems = [...items].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      const netGrp = sortedItems.reduce((s, x) => {
+        const v = toBaseOrRaw(x.amount, x.currency);
+        return x.type === 'income' ? s + v : s - v;
+      }, 0);
+      const grpSumStr = (netGrp > 0 ? '+' : '') + fmtB(netGrp);
+      const isRecent = (k === 'today' || k === 'yest' || k === 'cm');
+
+      const box = el('section', { className: 'rem-group' + (isRecent ? '' : ' past-group') });
+      box.appendChild(el('div', { className: 'rem-hdr' }, [
+        el('div', { className: 'rem-hdr-left' }, [
+          el('span', { className: 'rem-title' }, [grpLabel(k)]),
+          el('span', { className: 'rem-cnt' }, [String(sortedItems.length)])
+        ]),
+        el('span', { className: 'rem-sum' }, [grpSumStr])
+      ]));
+
+      sortedItems.forEach(item => {
+        let ds = '';
+        if (item.date && item.date.length >= 10) {
+          const [y, m, d] = item.date.split('-').map(Number);
+          if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+        }
+        const isInc = item.type === 'income';
+        const col = getCategoryColor(item.category);
+        const shouldFlash = _flashIds.has(item.id);
+        if (shouldFlash) _flashIds.delete(item.id);
+
+        const row = el('div', {
+          className: 'entry-card' + (shouldFlash ? ' flash-glow' : ''),
+          style: 'cursor:pointer;'
+        });
+
+        const left = el('div', { className: 'el' }, [
+          el('div', { className: 'etitle' }, [item.note || item.category]),
+          el('div', { className: 'emeta' }, [
+            el('span', { className: 'eclient-wrap' }, [
+              el('span', { className: 'eclient-dot', style: `background:${col}` }),
+              el('span', { className: 'eclient' }, [item.category])
+            ]),
+            item.note ? el('span', {}, ['·']) : null,
+            item.note ? el('span', { className: 'enote-txt' }, [isInc ? 'Личный доход' : 'Расход']) : null
+          ])
+        ]);
+
+        const right = el('div', { className: 'er' }, [
+          ds ? el('span', { className: 'edate' }, [ds]) : null,
+          el('span', { className: 'eamt' + (isInc ? ' bg-amt-inc' : '') }, [
+            `${isInc ? '+' : '−'}${fmtCur(item.amount, item.currency)}`
+          ])
+        ]);
+
+        row.appendChild(left);
+        row.appendChild(right);
+        row.addEventListener('click', () => openBudgetModal(item.id));
+        box.appendChild(row);
+      });
+
+      frag.appendChild(box);
+    });
+
+    // Auto-transferred paid orders card
+    if (filteredAutoOrders.length > 0) {
+      const autoSumBase = filteredAutoOrders.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0);
+      const box = el('section', { className: 'rem-group past-group' });
+      box.appendChild(el('div', { className: 'rem-hdr' }, [
+        el('div', { className: 'rem-hdr-left' }, [
+          el('span', { className: 'rem-title', style: 'color:var(--success);' }, ['Доход от заказов']),
+          el('span', { className: 'rem-cnt' }, [String(filteredAutoOrders.length)]),
+          el('span', { className: 'bg-auto-pill' }, ['Авто'])
+        ]),
+        el('span', { className: 'rem-sum', style: 'color:var(--success);' }, [`+${fmtB(autoSumBase)}`])
+      ]));
+
+      filteredAutoOrders.forEach(e => {
+        const pd = getEntryPaidDate(e);
+        let ds = '';
+        if (pd && pd.length >= 10) {
+          const [y, m, d] = pd.split('-').map(Number);
+          if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+        }
+        const row = el('div', { className: 'entry-card' });
+        const left = el('div', { className: 'el' }, [
+          el('div', { className: 'etitle' }, [e.desc || e.name || 'Заказ']),
+          e.name ? el('div', { className: 'emeta' }, [
+            el('span', { className: 'eclient-wrap' }, [
+              el('span', { className: 'eclient-dot', style: `background:${getClientColor(e.name)}` }),
+              el('span', { className: 'eclient' }, [e.name])
+            ])
+          ]) : null
+        ]);
+        const right = el('div', { className: 'er' }, [
+          ds ? el('span', { className: 'edate' }, [ds]) : null,
+          el('span', { className: 'eamt bg-amt-inc' }, [`+${fmtCur(e.amount, e.currency)}`])
+        ]);
+        row.appendChild(left);
+        row.appendChild(right);
+        box.appendChild(row);
+      });
+
+      frag.appendChild(box);
+    }
+
+    listEl.appendChild(frag);
+  }
+
+  /* Budget Modal Logic */
+  function setBgModalType(type) {
+    bgFormType = type === 'income' ? 'income' : 'expense';
+    const bExp = document.getElementById('bg-type-exp');
+    const bInc = document.getElementById('bg-type-inc');
+    if (bExp) bExp.className = 'fst-btn' + (bgFormType === 'expense' ? ' active-unpaid' : '');
+    if (bInc) bInc.className = 'fst-btn' + (bgFormType === 'income' ? ' active-paid' : '');
+    rebuildBudgetCategoryChips();
+  }
+
+  function rebuildBudgetCategoryChips() {
+    const dl = document.getElementById('bg-cat-dl');
+    const chipsWrap = document.getElementById('bg-qchips-cat');
+    const defaults = bgFormType === 'income' ? DEFAULT_INC_CATS : DEFAULT_EXP_CATS;
+    const fromHist = budgetEntries.filter(x => x.type === bgFormType).map(x => x.category);
+    const cats = [...new Set([...defaults, ...fromHist])];
+
+    if (dl) {
+      dl.innerHTML = '';
+      cats.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c;
+        dl.appendChild(o);
+      });
+    }
+    if (chipsWrap) {
+      chipsWrap.innerHTML = '';
+      cats.slice(0, 7).forEach(c => {
+        const dot = el('span', { className: 'eclient-dot', style: `background:${getCategoryColor(c)}` });
+        const ch = el('button', { type: 'button', className: 'qchip' }, [dot, c]);
+        ch.addEventListener('click', () => {
+          const inp = document.getElementById('bg-f-cat');
+          if (inp) inp.value = c;
+        });
+        chipsWrap.appendChild(ch);
+      });
+    }
+  }
+
+  function openBudgetModal(editItemId = null, forceTplMode = false) {
+    bgEditId = editItemId;
+    const catInp = document.getElementById('bg-f-cat');
+    const amtInp = document.getElementById('bg-f-amt');
+    const curSel = document.getElementById('bg-f-cur');
+    const noteInp = document.getElementById('bg-f-note');
+    const dateInp = document.getElementById('bg-f-date');
+    const tplChk = document.getElementById('bg-f-istpl');
+    const delBtn = document.getElementById('bg-bdel');
+    const subBtn = document.getElementById('bg-bsub');
+    const hint = document.getElementById('bg-ahint');
+
+    if (hint) { hint.textContent = ''; hint.className = 'ahint'; }
+    if (catInp) catInp.style.borderColor = '';
+    if (amtInp) amtInp.style.borderColor = '';
+
+    if (editItemId) {
+      const item = budgetEntries.find(x => x.id === editItemId);
+      if (!item) return;
+      setBgModalType(item.type);
+      setText('bg-m-title', 'Редактирование операции');
+      if (catInp) catInp.value = item.category;
+      if (amtInp) amtInp.value = String(item.amount);
+      if (curSel) curSel.value = item.currency;
+      if (noteInp) noteInp.value = item.note || '';
+      if (dateInp) dateInp.value = item.date || today();
+      if (tplChk) tplChk.checked = false;
+      if (delBtn) delBtn.style.display = '';
+      if (subBtn) subBtn.textContent = 'Сохранить';
+    } else {
+      setBgModalType('expense');
+      setText('bg-m-title', forceTplMode ? 'Новый быстрый шаблон' : 'Новая операция');
+      if (catInp) catInp.value = '';
+      if (amtInp) amtInp.value = '';
+      if (curSel) curSel.value = baseCur;
+      if (noteInp) noteInp.value = '';
+      if (dateInp) dateInp.value = today();
+      if (tplChk) tplChk.checked = Boolean(forceTplMode);
+      if (delBtn) delBtn.style.display = 'none';
+      if (subBtn) subBtn.textContent = '+ Добавить';
+    }
+
+    document.getElementById('bg-mov').classList.add('on');
+    setTimeout(() => { if (catInp) catInp.focus(); }, 70);
+  }
+
+  function closeBudgetModal() {
+    bgEditId = null;
+    document.getElementById('bg-mov').classList.remove('on');
+  }
+
+  function submitBudgetForm() {
+    const catInp = document.getElementById('bg-f-cat');
+    const amtInp = document.getElementById('bg-f-amt');
+    const curSel = document.getElementById('bg-f-cur');
+    const noteInp = document.getElementById('bg-f-note');
+    const dateInp = document.getElementById('bg-f-date');
+    const tplChk = document.getElementById('bg-f-istpl');
+    const hint = document.getElementById('bg-ahint');
+
+    const category = (catInp?.value || '').trim();
+    const parsedAmt = pAmt(amtInp?.value || '');
+    const currency = curSel?.value || baseCur;
+    const note = (noteInp?.value || '').trim();
+    const date = dateInp?.value || today();
+
+    if (!category || isNaN(parsedAmt) || parsedAmt <= 0) {
+      if (catInp) catInp.style.borderColor = !category ? 'var(--danger)' : '';
+      if (amtInp) amtInp.style.borderColor = (isNaN(parsedAmt) || parsedAmt <= 0) ? 'var(--danger)' : '';
+      if (hint && parsedAmt <= 0) { hint.textContent = 'Введите сумму больше нуля'; hint.className = 'ahint err'; }
+      return;
+    }
+
+    if (tplChk && tplChk.checked) {
+      const exists = budgetRecurring.some(t => t.category === category && t.amount === parsedAmt && t.note === note);
+      if (!exists) {
+        budgetRecurring.push({ type: bgFormType, category, amount: parsedAmt, currency, note });
+      }
+    }
+
+    if (bgEditId) {
+      const item = budgetEntries.find(x => x.id === bgEditId);
+      if (item) {
+        item.type = bgFormType;
+        item.category = category;
+        item.amount = parsedAmt;
+        item.currency = currency;
+        item.note = note;
+        item.date = date;
+        _flashIds.add(item.id);
+      }
+    } else {
+      const newId = gid();
+      budgetEntries.unshift({
+        id: newId,
+        type: bgFormType,
+        category,
+        amount: parsedAmt,
+        currency,
+        note,
+        date
+      });
+      _flashIds.add(newId);
+    }
+
+    saveBudgetState();
+    closeBudgetModal();
+    renderBudgetView();
+  }
+
+  function deleteCurrentBudgetEntry() {
+    if (!bgEditId) return;
+    const targetId = bgEditId;
+    const snapshot = budgetEntries.map(x => ({ ...x }));
+    recordDeletedIds([targetId]);
+    budgetEntries = budgetEntries.filter(x => x.id !== targetId);
+    saveBudgetState();
+    closeBudgetModal();
+    renderBudgetView();
+    showToast('Запись удалена', () => {
+      deletedIds.delete(String(targetId));
+      lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+      budgetEntries = snapshot;
+      saveBudgetState();
+      renderBudgetView();
+    });
+  }
+
+  function bindBudgetEvents() {
+    const tabBtn = document.getElementById('tab-budget');
+    if (tabBtn && typeof TwitterPlanner !== 'undefined' && TwitterPlanner.switchView) {
+      tabBtn.addEventListener('click', () => TwitterPlanner.switchView('budget'));
+    }
+
+    document.getElementById('bg-card-net')?.addEventListener('click', cycleBaseCur);
+    document.getElementById('btn-bg-add')?.addEventListener('click', () => openBudgetModal());
+    document.getElementById('btn-bg-add-tpl')?.addEventListener('click', () => openBudgetModal(null, true));
+    document.getElementById('bg-m-close')?.addEventListener('click', closeBudgetModal);
+    document.getElementById('bg-mov')?.addEventListener('click', e => {
+      if (e.target === document.getElementById('bg-mov')) closeBudgetModal();
+    });
+
+    document.getElementById('bg-type-exp')?.addEventListener('click', () => setBgModalType('expense'));
+    document.getElementById('bg-type-inc')?.addEventListener('click', () => setBgModalType('income'));
+    document.getElementById('bg-bsub')?.addEventListener('click', submitBudgetForm);
+    document.getElementById('bg-bdel')?.addEventListener('click', deleteCurrentBudgetEntry);
+
+    document.getElementById('bg-tpl-save-row')?.addEventListener('click', e => {
+      if (e.target.tagName !== 'INPUT') {
+        const chk = document.getElementById('bg-f-istpl');
+        if (chk) chk.checked = !chk.checked;
+      }
+    });
+
+    document.getElementById('bg-f-amt')?.addEventListener('input', () => {
+      const v = document.getElementById('bg-f-amt').value;
+      const h = document.getElementById('bg-ahint');
+      if (!h) return;
+      const parsed = pAmt(v);
+      if (/[+\-*/()]/.test(v) && !isNaN(parsed) && parsed > 0) {
+        h.textContent = `= ${parsed.toLocaleString('ru-RU')}`;
+        h.className = 'ahint';
+      } else {
+        h.textContent = '';
+      }
+    });
+
+    document.getElementById('bg-mov')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitBudgetForm();
+      }
+    });
+
+    document.getElementById('bg-search')?.addEventListener('input', e => {
+      bgSearchQuery = e.target.value || '';
+      renderBudgetList(
+        budgetEntries.filter(x => matchesPeriod(x.date)),
+        entries.filter(isPaidInPeriod)
+      );
+    });
+
+    document.querySelectorAll('.bg-seg-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        bgTypeFilter = btn.dataset.btype || 'all';
+        document.querySelectorAll('.bg-seg-btn').forEach(b => b.classList.toggle('on', b === btn));
+        renderBudgetView();
+      });
+    });
+
+    document.getElementById('bg-clear-cat')?.addEventListener('click', () => {
+      bgCatFilter = '';
+      renderBudgetView();
+    });
+
+    // Period dropdown inside Budget view (shares unified period selector)
+    const bgPeriodBtn = document.getElementById('bg-period-btn');
+    const bgPeriodDd = document.getElementById('bg-period-dd');
+    if (bgPeriodBtn && bgPeriodDd) {
+      bgPeriodBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (window.innerWidth <= 768) { openPeriodSheet(); return; }
+        const open = !bgPeriodDd.classList.contains('on');
+        if (open) {
+          const curYm = cmYM();
+          const eff = effectiveYm();
+          bgPeriodDd.innerHTML = '';
+          const allIt = el('div', { className: 'period-dd-item' + (eff === 'all' ? ' on' : '') }, ['За всё время']);
+          allIt.addEventListener('click', () => { bgPeriodDd.classList.remove('on'); selectPeriod('all'); });
+          bgPeriodDd.appendChild(allIt);
+
+          getAvailableMonths().forEach(ym => {
+            const [y, m] = ym.split('-').map(Number);
+            let lbl = new Date(y, m - 1, 1).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
+            lbl = lbl.charAt(0).toUpperCase() + lbl.slice(1);
+            const it = el('div', { className: 'period-dd-item' + (eff === ym ? ' on' : '') }, [lbl]);
+            it.addEventListener('click', () => { bgPeriodDd.classList.remove('on'); selectPeriod(ym === curYm ? 'current' : ym); });
+            bgPeriodDd.appendChild(it);
+          });
+          bgPeriodDd.classList.add('on');
+        } else {
+          bgPeriodDd.classList.remove('on');
+        }
+      });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('#bg-period-btn, #bg-period-dd')) {
+          bgPeriodDd.classList.remove('on');
+        }
+      });
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && document.getElementById('bg-mov')?.classList.contains('on')) {
+        closeBudgetModal();
+      }
+    });
+  }
+
+  bindBudgetEvents();
+  renderBudgetView();
 })();
 </script>
 </body>
