@@ -15,11 +15,11 @@
   --surface:#ffffff;
   --surface2:rgba(118,118,128,0.10);
   --surface3:rgba(118,118,128,0.16);
-  --rail-bg:rgba(255,255,255,0.78);
+  --rail-bg:#ececf0;
   --text:#1c1c1e;
   --text2:#636366;
   --text3:#8e8e93;
-  --border:rgba(60,60,67,0.08);
+  --border:rgba(60,60,67,0.09);
   --border2:rgba(60,60,67,0.16);
   --success:#248a3d;
   --success-bg:rgba(36,138,61,0.12);
@@ -34,22 +34,22 @@
   --shadow-md:0 20px 48px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.05);
   --shadow-dock:0 16px 40px rgba(0,0,0,0.16), 0 0 0 0.5px rgba(0,0,0,0.08);
   --r-xs:7px;--r:10px;--rl:14px;--rxl:18px;--rf:9999px;
-  --rail:64px;
+  --rail:216px;
   --ease:cubic-bezier(0.22, 1, 0.36, 1);
   --spring:cubic-bezier(0.34, 1.56, 0.64, 1);
   --safe-b:env(safe-area-inset-bottom, 0px);
 }
 html[data-theme="dark"]{
-  --bg:#000000;
-  --surface:#161618;
-  --surface2:rgba(118,118,128,0.18);
-  --surface3:rgba(118,118,128,0.28);
-  --rail-bg:rgba(22,22,24,0.82);
+  --bg:#111113;
+  --surface:#1c1c1e;
+  --surface2:rgba(255,255,255,0.08);
+  --surface3:rgba(255,255,255,0.14);
+  --rail-bg:#1a1a1c;
   --text:#f5f5f7;
   --text2:#aeaeb2;
   --text3:#7c7c80;
-  --border:rgba(255,255,255,0.075);
-  --border2:rgba(255,255,255,0.14);
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.15);
   --success:#30d158;
   --success-bg:rgba(48,209,88,0.16);
   --warning:#ff9f0a;
@@ -59,28 +59,30 @@ html[data-theme="dark"]{
   --blue:#0a84ff;
   --blue-bg:rgba(10,132,255,0.18);
   --lasso-fill:rgba(10,132,255,0.15);
-  --shadow-card:inset 0 0.5px 0 rgba(255,255,255,0.06), 0 4px 16px rgba(0,0,0,0.28);
+  --shadow-card:inset 0 0.5px 0 rgba(255,255,255,0.05), 0 4px 16px rgba(0,0,0,0.22);
   --shadow-md:0 24px 56px rgba(0,0,0,0.68), 0 0 0 0.5px rgba(255,255,255,0.10);
   --shadow-dock:0 18px 44px rgba(0,0,0,0.72), 0 0 0 0.5px rgba(255,255,255,0.11);
 }
 
 /* SURFACE TONES */
 html[data-theme="light"][data-tone="cool"]{
-  --bg:#eef2f7;--surface:#ffffff;--surface2:rgba(100,116,139,0.09);--surface3:rgba(100,116,139,0.16);
+  --bg:#eef2f7;--surface:#ffffff;--rail-bg:#e5ebf3;--surface2:rgba(100,116,139,0.09);--surface3:rgba(100,116,139,0.16);
   --text:#0f172a;--text2:#475569;--text3:#94a3b8;
 }
 html[data-theme="dark"][data-tone="cool"]{
-  --bg:#090d14;--surface:#131926;--surface2:rgba(148,163,184,0.10);--surface3:rgba(148,163,184,0.18);
+  --bg:#0b0f17;--surface:#141b29;--rail-bg:#101622;--surface2:rgba(148,163,184,0.10);--surface3:rgba(148,163,184,0.18);
   --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
 }
 html[data-theme="light"][data-tone="oled"]{
-  --bg:#f7f7f8;--surface:#ffffff;--surface2:#ededef;--surface3:#e0e0e4;
+  --bg:#f7f7f8;--surface:#ffffff;--rail-bg:#f0f0f2;--surface2:#ededef;--surface3:#e0e0e4;
 }
 html[data-theme="dark"][data-tone="oled"]{
-  --bg:#000000;--surface:#111112;--surface2:rgba(255,255,255,0.08);--surface3:rgba(255,255,255,0.14);
+  --bg:#000000;--surface:#111112;--rail-bg:#0d0d0e;--surface2:rgba(255,255,255,0.08);--surface3:rgba(255,255,255,0.14);
 }
 
 /* ACCENT COLORS */
+html[data-accent="pink"]{--blue:#ff2d55;--blue-bg:rgba(255,45,85,0.12);--lasso-fill:rgba(255,45,85,0.12);}
+html[data-theme="dark"][data-accent="pink"]{--blue:#ff375f;--blue-bg:rgba(255,55,95,0.18);--lasso-fill:rgba(255,55,95,0.16);}
 html[data-accent="indigo"]{--blue:#5856d6;--blue-bg:rgba(88,86,214,0.12);--lasso-fill:rgba(88,86,214,0.12);}
 html[data-theme="dark"][data-accent="indigo"]{--blue:#5e5ce6;--blue-bg:rgba(94,92,230,0.18);--lasso-fill:rgba(94,92,230,0.16);}
 html[data-accent="emerald"]{--blue:#0d9488;--blue-bg:rgba(13,148,136,0.12);--lasso-fill:rgba(13,148,136,0.12);}
@@ -134,12 +136,12 @@ body.lasso-active .sel-txt{
 button{
   font-family:inherit;
   font-variant-numeric:tabular-nums;
-  transition:transform .12s var(--ease),background-color .15s var(--ease),color .15s var(--ease),opacity .15s var(--ease),box-shadow .15s var(--ease);
+  transition:transform .12s var(--ease),background-color .14s var(--ease),color .14s var(--ease),opacity .14s var(--ease),box-shadow .14s var(--ease);
 }
-button:active:not(:disabled){transform:scale(0.96);}
+button:active:not(:disabled){transform:scale(0.97);}
 
 /* ══════════════════════════════════════════════════════════════════
-   SHELL: MACOS SIDEBAR RAIL (64px) + CENTERED COLUMN (880px)
+   SHELL: MACOS FINDER SIDEBAR (216px) + FULL-WIDTH WORKSPACE
 ══════════════════════════════════════════════════════════════════ */
 .app{
   display:flex;
@@ -154,73 +156,106 @@ button:active:not(:disabled){transform:scale(0.96);}
   min-width:var(--rail);
   height:100%;
   background:var(--rail-bg);
-  backdrop-filter:blur(28px) saturate(180%);
-  -webkit-backdrop-filter:blur(28px) saturate(180%);
-  border-right:0.5px solid var(--border);
+  border-right:0.5px solid var(--border2);
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:space-between;
-  padding:18px 0 20px;
+  padding:18px 12px 18px;
   z-index:200;
   flex-shrink:0;
 }
 .rail-top, .rail-bottom{
   display:flex;
   flex-direction:column;
-  align-items:center;
-  gap:10px;
+  gap:2px;
   width:100%;
 }
+.rail-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:2px 10px 16px;
+}
 .rail-logo{
-  width:36px;height:36px;
-  border-radius:10px;
+  width:26px;height:26px;
+  border-radius:7px;
   background:var(--text);
   color:var(--bg);
-  font-size:14px;
+  font-size:12px;
   font-weight:800;
   letter-spacing:-0.04em;
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:6px;
   position:relative;
-  box-shadow:0 2px 8px rgba(0,0,0,0.12);
+  flex-shrink:0;
 }
 .rail-logo-dot{
   position:absolute;
-  bottom:6px;right:6px;
-  width:5px;height:5px;
+  bottom:4px;right:4px;
+  width:4px;height:4px;
   border-radius:50%;
   background:var(--blue);
 }
-.rail-sep{
-  width:24px;height:0.5px;
-  background:var(--border2);
-  margin:4px 0;
+.rail-brand-name{
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:-0.025em;
+  color:var(--text);
 }
-.rail-btn{
-  width:40px;height:40px;
-  border-radius:11px;
+
+.finder-sec-lbl{
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--text3);
+  padding:8px 10px 5px;
+  letter-spacing:-0.005em;
+}
+
+.finder-row{
+  width:100%;
+  height:34px;
+  padding:0 10px;
+  border-radius:8px;
   border:none;
   background:transparent;
-  color:var(--text2);
+  color:var(--text);
+  font-size:13.5px;
+  font-weight:500;
   cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
   position:relative;
 }
-.rail-btn:hover{background:var(--surface2);color:var(--text);}
-.rail-btn.on{background:var(--blue-bg);color:var(--blue);}
-.rail-btn.primary-add{
-  background:var(--blue);
-  color:#ffffff;
-  box-shadow:0 4px 12px rgba(0,122,255,0.28);
+.finder-row:hover{
+  background:var(--surface2);
 }
-.rail-btn.primary-add:hover{opacity:0.9;}
+.finder-row.on{
+  background:var(--surface2);
+  font-weight:600;
+}
+.finder-ico{
+  width:18px;
+  height:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--blue);
+  flex-shrink:0;
+}
+.finder-txt{
+  flex:1;
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
-/* Invoice Popover */
-.inv-wrap{position:relative;}
+/* Invoice Popover anchored to Finder row */
+.inv-wrap{position:relative;width:100%;}
 .inv-dropdown{
   position:absolute;
-  top:0;left:calc(100% + 12px);
+  top:0;left:calc(100% + 10px);
   width:268px;
   background:var(--surface);
   border:0.5px solid var(--border2);
@@ -247,15 +282,16 @@ button:active:not(:disabled){transform:scale(0.96);}
 .inv-empty-msg{font-size:12.5px;color:var(--text3);padding:10px;}
 
 .sync-pill{
-  width:40px;height:32px;border-radius:10px;border:none;background:transparent;
-  color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  width:100%;height:32px;padding:0 10px;border-radius:8px;border:none;background:transparent;
+  color:var(--text2);font-size:12.5px;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;gap:10px;text-align:left;
 }
-.sync-pill:hover{background:var(--surface2);}
+.sync-pill:hover{background:var(--surface2);color:var(--text);}
+.sync-dot-wrap{width:18px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--success);flex-shrink:0;transition:background-color .2s;}
 .sync-pill.pending .sync-dot{background:var(--text3);}
-.sync-pill.warn{background:var(--warning-bg);}
+.sync-pill.warn{background:var(--warning-bg);color:var(--warning);}
 .sync-pill.warn .sync-dot{background:var(--warning);}
-#top-sync-lbl{display:none;}
 
 .m-period-pill{
   display:none;align-items:center;gap:5px;height:30px;padding:0 12px;
@@ -272,8 +308,8 @@ button:active:not(:disabled){transform:scale(0.96);}
 .main{
   flex:1;display:flex;flex-direction:column;
   overflow-y:auto;overflow-x:hidden;
-  padding:28px 36px 110px;
-  max-width:880px;width:100%;margin:0 auto;
+  padding:24px 32px 110px;
+  width:100%;
   gap:16px;
   -webkit-overflow-scrolling:touch;
 }
@@ -284,11 +320,11 @@ button:active:not(:disabled){transform:scale(0.96);}
 .m-topbar{display:none;align-items:center;justify-content:space-between;padding-bottom:2px;}
 .m-logo{font-size:17px;font-weight:800;letter-spacing:-0.035em;display:flex;align-items:center;gap:7px;}
 
-/* HERO SUMMARY CARD — DOMINANT FOCAL POINT */
+/* HERO SUMMARY CARD */
 .summary-strip{
   background:var(--surface);
   border-radius:20px;
-  padding:24px 28px;
+  padding:22px 26px;
   box-shadow:var(--shadow-card);
   border:0.5px solid var(--border);
   display:flex;
@@ -329,7 +365,7 @@ button:active:not(:disabled){transform:scale(0.96);}
 .bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
 
 .bal-amount{
-  font-size:38px;
+  font-size:36px;
   font-weight:700;
   letter-spacing:-.04em;
   color:var(--text);
@@ -371,7 +407,7 @@ button:active:not(:disabled){transform:scale(0.96);}
 .mo-title-btn{
   display:inline-flex;align-items:center;gap:6px;
   background:var(--surface2);border:none;cursor:pointer;
-  padding:0 14px;border-radius:11px;height:34px;
+  padding:0 14px;border-radius:11px;height:36px;
   transition:background-color .14s;
 }
 .mo-title-btn:hover{background:var(--surface3);}
@@ -389,13 +425,13 @@ button:active:not(:disabled){transform:scale(0.96);}
 .period-dd-item.on{color:var(--text);font-weight:600;background:var(--surface2);}
 
 /* ══════════════════════════════════════════════════════════════════
-   APPLE-STYLE SEARCH & FILTER BAR
+   APPLE-STYLE SEARCH, FILTER & PRIMARY ADD BUTTON BAR
 ══════════════════════════════════════════════════════════════════ */
 .toolbar{display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;}
 .search-wrap{flex:1;min-width:200px;position:relative;display:flex;align-items:center;}
 .search-icon{position:absolute;left:13px;color:var(--text3);pointer-events:none;}
 #search{
-  width:100%;height:38px;padding:0 54px 0 36px;
+  width:100%;height:40px;padding:0 54px 0 36px;
   font-size:13.5px;border:0.5px solid var(--border);border-radius:12px;
   background:var(--surface);color:var(--text);
   box-shadow:var(--shadow-card);
@@ -410,13 +446,13 @@ button:active:not(:disabled){transform:scale(0.96);}
 
 .filter-wrap{position:relative;}
 .filter-btn{
-  width:38px;height:38px;padding:0;border:0.5px solid var(--border);border-radius:12px;
+  width:40px;height:40px;padding:0;border:0.5px solid var(--border);border-radius:12px;
   background:var(--surface);color:var(--text2);box-shadow:var(--shadow-card);
   cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;
 }
 .filter-btn:hover{color:var(--text);}
 .filter-btn.on{color:var(--blue);border-color:var(--blue);}
-.fdot{position:absolute;top:8px;right:8px;width:5.5px;height:5.5px;border-radius:50%;background:var(--blue);display:none;}
+.fdot{position:absolute;top:9px;right:9px;width:5.5px;height:5.5px;border-radius:50%;background:var(--blue);display:none;}
 .fdot.on{display:block;}
 .fpanel{
   position:absolute;top:calc(100% + 6px);right:0;
@@ -444,6 +480,29 @@ button:active:not(:disabled){transform:scale(0.96);}
   font-size:12px;font-weight:500;color:var(--text);cursor:pointer;animation:popIn .12s var(--ease);
 }
 .atag:hover{background:var(--surface2);}
+
+.add-order-btn{
+  height:40px;
+  padding:0 18px;
+  border:none;
+  border-radius:12px;
+  background:var(--blue);
+  color:#ffffff;
+  font-size:13.5px;
+  font-weight:600;
+  letter-spacing:-0.01em;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  white-space:nowrap;
+  box-shadow:0 2px 10px rgba(0,0,0,0.12);
+  flex-shrink:0;
+}
+.add-order-btn:hover{
+  opacity:0.9;
+}
 
 /* ══════════════════════════════════════════════════════════════════
    APPLE REMINDERS / WALLET GROUPED ORDER LIST
@@ -800,7 +859,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .xp-view:hover::-webkit-scrollbar-thumb{background:var(--border2);}
 
 .xp-container{
-  max-width:1240px;width:100%;margin:0 auto;
+  width:100%;
   display:flex;flex-direction:column;gap:18px;
 }
 
@@ -1089,37 +1148,59 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   <button type="button" class="toast-undo" id="toast-undo" style="display:none" title="Отменить действие" aria-label="Отменить"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg><span>Отменить</span></button>
 </div>
 
-<!-- Left Vertical macOS Icon Rail -->
+<!-- Left macOS Finder-Style Sidebar -->
 <aside class="rail-nav" aria-label="Навигация">
   <div class="rail-top">
-    <div class="rail-logo" title="Invoe">In<span class="rail-logo-dot"></span></div>
-    <button type="button" class="rail-btn on" id="xp-tab-invoe" role="tab" aria-selected="true" title="Учёт заказов" aria-label="Учёт заказов">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>
+    <div class="rail-brand">
+      <div class="rail-logo" aria-hidden="true">In<span class="rail-logo-dot"></span></div>
+      <span class="rail-brand-name">Invoe</span>
+    </div>
+
+    <div class="finder-sec-lbl">Разделы</div>
+    <button type="button" class="finder-row on" id="xp-tab-invoe" role="tab" aria-selected="true">
+      <span class="finder-ico" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>
+      </span>
+      <span class="finder-txt">Заказы</span>
     </button>
-    <button type="button" class="rail-btn" id="xp-tab-planner" role="tab" aria-selected="false" title="X Showcase" aria-label="X Showcase">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    <button type="button" class="finder-row" id="xp-tab-planner" role="tab" aria-selected="false">
+      <span class="finder-ico" aria-hidden="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </span>
+      <span class="finder-txt">X Showcase</span>
     </button>
-    <div class="rail-sep"></div>
-    <button class="rail-btn primary-add" id="btn-add" type="button" title="Добавить запись (N)" aria-label="Добавить запись">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    </button>
+
+    <div class="finder-sec-lbl" style="margin-top:12px;">Инструменты</div>
     <div class="inv-wrap">
-      <button class="rail-btn" id="btn-inv" type="button" title="Сформировать инвойс" aria-label="Инвойс">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <button class="finder-row" id="btn-inv" type="button">
+        <span class="finder-ico" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </span>
+        <span class="finder-txt">Инвойс</span>
       </button>
       <div class="inv-dropdown" id="inv-dd" role="menu"></div>
     </div>
+    <button class="finder-row" id="rail-btn-exp" type="button">
+      <span class="finder-ico" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><polyline points="8.5 12 12 15.5 15.5 12"/><line x1="12" y1="8.5" x2="12" y2="15.5"/></svg>
+      </span>
+      <span class="finder-txt">Экспорт</span>
+    </button>
   </div>
+
   <div class="rail-bottom">
     <button class="sync-pill" id="top-sync-btn" type="button" title="Статус синхронизации">
-      <span class="sync-dot"></span>
-      <span id="top-sync-lbl">Сейф</span>
+      <span class="sync-dot-wrap"><span class="sync-dot"></span></span>
+      <span class="finder-txt" id="top-sync-lbl">Сейф</span>
     </button>
-    <button class="rail-btn" id="btn-settings" type="button" title="Настройки" aria-label="Настройки">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
+    <button class="finder-row" id="btn-settings" type="button">
+      <span class="finder-ico" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </span>
+      <span class="finder-txt">Настройки</span>
     </button>
   </div>
 </aside>
@@ -1207,6 +1288,10 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <div class="ftags" id="ftags-work"></div>
         </div>
       </div>
+      <button class="add-order-btn" id="btn-add" type="button" title="Добавить запись (N)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Новый заказ</span>
+      </button>
     </div>
 
     <!-- Apple Reminders Widget Order Cards -->
@@ -1421,6 +1506,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <div class="slbl">Акцентный цвет</div>
           <div class="accent-row" id="accent-row">
             <button type="button" class="acc-swatch" data-acc="blue" style="background:#007aff" title="Синий" aria-label="Синий"></button>
+            <button type="button" class="acc-swatch" data-acc="pink" style="background:#ff2d55" title="Розовый" aria-label="Розовый"></button>
             <button type="button" class="acc-swatch" data-acc="indigo" style="background:#6366f1" title="Индиго" aria-label="Индиго"></button>
             <button type="button" class="acc-swatch" data-acc="emerald" style="background:#0d9488" title="Изумрудный" aria-label="Изумрудный"></button>
             <button type="button" class="acc-swatch" data-acc="amber" style="background:#d97706" title="Янтарный" aria-label="Янтарный"></button>
@@ -4361,6 +4447,8 @@ function bindEvents() {
   document.getElementById('stab-data').addEventListener('click', () => switchSettingsTab('data'));
 
   document.getElementById('btn-exp').addEventListener('click', exportData);
+  const railExp = document.getElementById('rail-btn-exp');
+  if (railExp) railExp.addEventListener('click', exportData);
   document.getElementById('btn-imp').addEventListener('click', trigImport);
   document.getElementById('imp-inp').addEventListener('change', importData);
   document.getElementById('s-close').addEventListener('click', closeSettings);
