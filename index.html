@@ -896,7 +896,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .hero-card{padding:16px 18px;border-radius:18px;}
   .bal-amount{font-size:28px;}
   .bal-amount.secondary{font-size:24px;}
-  .mo-title-wrap{display:none;}
+  .main .mo-title-wrap{display:none;}
   .add-order-btn{display:none;}
   .rem-group{padding:14px 16px 8px;border-radius:18px;}
   .edate{display:none;}
@@ -1185,6 +1185,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   flex-shrink:0;
 }
 .entry-card:hover .bg-row-del{opacity:1;}
+@media(hover:none){.bg-row-del{opacity:0.7;}}
 .bg-row-del:hover{background:var(--danger-bg);color:var(--danger);}
 
 /* iOS Toggle Switch for Budget Template */
@@ -4098,10 +4099,7 @@ function updateFilterState() {
   document.getElementById('filter-btn').classList.toggle('on', has);
   updateTags();
 
-  document.querySelectorAll('#mo-legend .mo-leg-row').forEach((row, i) => {
-    const seg = _donutSegments[i];
-    row.classList.toggle('active-client', !!(seg && activeClientFilter && seg.label === activeClientFilter));
-  });
+
 }
 
 function updateTags() {
@@ -4810,7 +4808,7 @@ function initFinderLasso() {
   }
 
   document.addEventListener('selectstart', e => {
-    if (document.body.classList.contains('xp-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode')) return;
     if (isDragging || document.body.classList.contains('lasso-active')) {
       e.preventDefault();
       return;
@@ -4823,7 +4821,7 @@ function initFinderLasso() {
 
   window.addEventListener('mousedown', e => {
     if (e.button !== 0 || window.innerWidth <= 768) return;
-    if (document.body.classList.contains('xp-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode')) return;
     if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, .m-hero, #x-planner-view, .xp-hooks-pop, button, a, input, select, textarea, canvas, label')) return;
 
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT' || document.activeElement.tagName === 'TEXTAREA')) {
@@ -5358,11 +5356,10 @@ function bindEvents() {
     closeSettings();
     closeInvSheet();
     closePeriodSheet();
-    const isNowPlanner = !document.body.classList.contains('xp-mode');
     if (typeof TwitterPlanner !== 'undefined' && TwitterPlanner.switchView) {
-      TwitterPlanner.switchView(isNowPlanner ? 'planner' : 'invoe');
+      TwitterPlanner.switchView('planner');
     }
-    updateMobileNavState(isNowPlanner ? 'stats' : 'list');
+    updateMobileNavState('stats');
   });
   document.getElementById('m-nav-add').addEventListener('click', () => {
     if (document.body.classList.contains('budget-mode') && typeof window.openBudgetModal === 'function') {
@@ -5593,11 +5590,19 @@ function bindEvents() {
     if (e.key === 'Escape') {
       if (document.getElementById('sov').classList.contains('on')) { closeSettings(); return; }
       if (document.body.classList.contains('xp-mode')) return;
+      if (document.getElementById('bg-mov')?.classList.contains('on')) return;
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
       closeFP(); closeInvDd(); closePeriodDd();
       document.getElementById('sidebar').classList.remove('mobile-open');
+      if (document.body.classList.contains('budget-mode')) {
+        const bgS = document.getElementById('bg-search');
+        if (document.activeElement === bgS && bgS && bgS.value) {
+          document.getElementById('bg-search-clear')?.click();
+        }
+        return;
+      }
       updateMobileNavState('list');
       if (document.getElementById('mov').classList.contains('on')) dismissModal();
       else if (document.activeElement === document.getElementById('search') && document.getElementById('search').value) {
@@ -5610,13 +5615,28 @@ function bindEvents() {
     // Полная изоляция горячих клавиш: когда открыт X Planner, хоткеи списка заказов не срабатывают
     if (document.body.classList.contains('xp-mode')) return;
 
+    const isBudgetMode = document.body.classList.contains('budget-mode');
     const activeTag = document.activeElement ? document.activeElement.tagName : '';
     const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
-    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('inv-sheet-ov').classList.contains('on') || document.getElementById('period-sheet-ov').classList.contains('on');
+    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('bg-mov')?.classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('inv-sheet-ov').classList.contains('on') || document.getElementById('period-sheet-ov').classList.contains('on');
 
     if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
       e.preventDefault();
-      document.getElementById('search').focus();
+      const targetSearch = document.getElementById(isBudgetMode ? 'bg-search' : 'search');
+      if (targetSearch) targetSearch.focus();
+      return;
+    }
+
+    if (isBudgetMode) {
+      if (!inInput && !modalOpen && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        if ((k === 'n' || k === 'т') && typeof window.openBudgetModal === 'function') {
+          e.preventDefault();
+          window.openBudgetModal();
+        } else if (e.key === '/') {
+          e.preventDefault();
+          document.getElementById('bg-search')?.focus();
+        }
+      }
       return;
     }
 
@@ -7418,12 +7438,7 @@ const TwitterPlanner = (() => {
       return;
     }
     const formatted = allTexts.length > 1
-      ? allTexts.map((txt, idx) => `${idx + 1}/${allTexts.length}
-${txt}`).join('
-
-──────────
-
-')
+      ? allTexts.map((txt, idx) => `${idx + 1}/${allTexts.length}\n${txt}`).join('\n\n──────────\n\n')
       : allTexts[0];
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(formatted).then(() => {
