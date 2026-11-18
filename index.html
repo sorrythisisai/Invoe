@@ -440,8 +440,111 @@ button:active:not(:disabled){transform:scale(0.97);}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
+  gap:8px;
   min-height:25px;
+}
+.sc-hdr-right{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-shrink:0;
+}
+.sc-mode-sw{
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  background:var(--surface2);
+  padding:2px;
+  border-radius:8px;
+}
+.sc-mode-btn{
+  height:21px;
+  padding:0 8px;
+  border:none;
+  border-radius:6px;
+  background:transparent;
+  color:var(--text3);
+  font-size:10.5px;
+  font-weight:600;
+  cursor:pointer;
+}
+.sc-mode-btn:hover{color:var(--text);}
+.sc-mode-btn.on{
+  background:var(--surface);
+  color:var(--text);
+  box-shadow:0 1px 2px rgba(0,0,0,0.08);
+}
+.sc-clients-wrap{
+  display:none;
+  flex-direction:column;
+  gap:7px;
+  min-height:96px;
+  justify-content:center;
+}
+.sc-clients-wrap.on{display:flex;}
+.sc-cl-row{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  cursor:pointer;
+  padding:2px 4px;
+  border-radius:7px;
+  transition:background-color .12s;
+}
+.sc-cl-row:hover{background:var(--surface2);}
+.sc-cl-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  font-size:12px;
+}
+.sc-cl-left{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+}
+.sc-cl-name{
+  font-weight:600;
+  color:var(--text);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.sc-cl-cnt{
+  font-size:10.5px;
+  color:var(--text3);
+  font-weight:500;
+  flex-shrink:0;
+}
+.sc-cl-right{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-shrink:0;
+}
+.sc-cl-pct{
+  font-size:11px;
+  font-weight:600;
+  color:var(--text3);
+}
+.sc-cl-amt{
+  font-size:12px;
+  font-weight:700;
+  color:var(--text);
+}
+.sc-cl-track{
+  width:100%;
+  height:4px;
+  border-radius:999px;
+  background:var(--surface2);
+  overflow:hidden;
+}
+.sc-cl-fill{
+  height:100%;
+  border-radius:999px;
+  transition:width .24s var(--ease);
 }
 .sc-readout-wrap{
   display:flex;
@@ -702,9 +805,18 @@ html[data-density="compact"] .emeta{margin-top:0;flex-shrink:0;}
 }
 .badge.pop{animation:badgePulse .26s var(--spring);}
 .badge.u{box-shadow:inset 0 0 0 1.7px var(--text3);}
-.badge.u:hover{box-shadow:inset 0 0 0 1.7px var(--blue);background:var(--blue-bg);}
+.badge.u:hover{box-shadow:inset 0 0 0 1.7px var(--warning);background:var(--warning-bg);}
+.badge.s{box-shadow:inset 0 0 0 1.7px var(--warning);background:var(--warning-bg);}
+.badge.s::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--warning);display:block;}
 .badge.p{box-shadow:inset 0 0 0 1.7px var(--blue);background:transparent;}
 .badge.p::after{content:'';width:12px;height:12px;border-radius:50%;background:var(--blue);display:block;}
+
+.eage-pill{
+  font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:5px;
+  background:var(--surface2);color:var(--text2);white-space:nowrap;
+}
+.eage-pill.warn{background:var(--warning-bg);color:var(--warning);}
+.eage-pill.late{background:var(--danger-bg);color:var(--danger);}
 
 .el{flex:1;min-width:0;}
 .etitle{font-size:14.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.012em;}
@@ -854,6 +966,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .fstatus-toggle{display:flex;gap:4px;}
 .fst-btn{height:26px;padding:0 11px;border-radius:var(--r-xs);border:none;background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:var(--text2);}
 .fst-btn.active-paid{background:var(--success-bg);color:var(--success);}
+.fst-btn.active-sent{background:var(--blue-bg);color:var(--blue);}
 .fst-btn.active-unpaid{background:var(--warning-bg);color:var(--warning);}
 
 .inv-sheet-list{display:flex;flex-direction:column;gap:8px;max-height:58vh;overflow-y:auto;margin-top:4px;}
@@ -887,7 +1000,16 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .shdrtitle{font-size:15.5px;font-weight:700;}
 .sclose{background:none;border:none;cursor:pointer;color:var(--text2);width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-xs);}
 .sclose:hover{background:var(--surface2);color:var(--text);}
-.stabs{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--surface2);padding:3px;border-radius:var(--r);margin:0 20px 16px;}
+.stabs{display:grid;grid-template-columns:1fr 1fr;background:var(--surface2);padding:3px;border-radius:var(--r);margin:0 20px 16px;}
+.storage-box{
+  display:flex;flex-direction:column;gap:9px;
+  background:var(--surface2);border-radius:var(--r);padding:11px 12px;margin-top:8px;
+}
+.storage-row{display:flex;flex-direction:column;gap:4px;}
+.storage-meta{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--text2);}
+.storage-meta strong{color:var(--text);font-weight:600;}
+.storage-bar{width:100%;height:5px;border-radius:999px;background:var(--surface3);overflow:hidden;}
+.storage-fill{height:100%;border-radius:999px;background:var(--blue);transition:width .25s var(--ease);}
 .stab{height:28px;border:none;border-radius:var(--r-xs);background:transparent;color:var(--text2);font-size:12.5px;font-weight:500;cursor:pointer;}
 .stab.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
 .sbody{padding:4px 20px calc(24px + var(--safe-b));display:flex;flex-direction:column;gap:18px;}
@@ -980,6 +1102,9 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .badge{width:30px;height:30px;margin-right:-4px;}
   .badge.u{box-shadow:none;}
   .badge.u::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--text3);display:block;}
+  .badge.s{box-shadow:none;background:transparent;}
+  .badge.s::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--warning);background:var(--warning-bg);display:block;}
+  .badge.s::after{position:absolute;width:8px;height:8px;}
   .badge.p{box-shadow:none;}
   .badge.p::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--blue);display:flex;align-items:center;justify-content:center;}
   .badge.p::after{position:absolute;width:12px;height:12px;}
@@ -1705,6 +1830,12 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-cm-opt{flex:1;height:25px;border:none;border-radius:5px;background:transparent;color:var(--text2);font-size:11.5px;font-weight:500;cursor:pointer;}
 .xp-cm-opt:hover{color:var(--text);}
 .xp-cm-opt.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
+.xp-cm-act{
+  width:100%;height:30px;padding:0 10px;border:none;border-radius:8px;
+  background:var(--surface2);color:var(--text);font-size:12px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.xp-cm-act:hover{background:var(--blue-bg);color:var(--blue);}
 
 .xp-extra{display:none;flex-direction:column;gap:5px;margin-bottom:8px;}
 .xp-extra.on{display:flex;}
@@ -2034,6 +2165,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   </div>
   <div class="sel-dock-actions">
     <button type="button" class="sd-btn sd-ico" id="sd-btn-edit" title="Изменить" aria-label="Изменить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+    <button type="button" class="sd-btn" id="sd-btn-sent" title="Отметить отправленным" aria-label="Отправил"><span>Отправил</span></button>
     <button type="button" class="sd-btn sd-ico primary" id="sd-btn-paid" title="Отметить оплаченным" aria-label="Статус оплаты"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
     <button type="button" class="sd-btn sd-ico" id="sd-btn-dup" title="Дублировать" aria-label="Дублировать"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     <button type="button" class="sd-btn" id="sd-btn-inv-ru" title="Скопировать инвойс (RU)" aria-label="Инвойс RU"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>RU</span></button>
@@ -2171,16 +2303,25 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             <span class="sc-readout" id="sc-readout">Динамика доходов</span>
             <span class="sc-readout-sub" id="sc-readout-sub"></span>
           </div>
-          <div class="sc-ranges" role="group" aria-label="Диапазон графика">
-            <button type="button" class="sc-rng-btn" data-tf="1m">1м</button>
-            <button type="button" class="sc-rng-btn" data-tf="3m">3м</button>
-            <button type="button" class="sc-rng-btn on" data-tf="6m">6м</button>
-            <button type="button" class="sc-rng-btn" data-tf="1y">1г</button>
-            <button type="button" class="sc-rng-btn" data-tf="all">ВСЕ</button>
+          <div class="sc-hdr-right">
+            <div class="sc-mode-sw" role="group" aria-label="Режим аналитики">
+              <button type="button" class="sc-mode-btn on" data-cmode="trend">Динамика</button>
+              <button type="button" class="sc-mode-btn" data-cmode="clients">Клиенты</button>
+            </div>
+            <div class="sc-ranges" id="sc-ranges" role="group" aria-label="Диапазон графика">
+              <button type="button" class="sc-rng-btn" data-tf="1m">1м</button>
+              <button type="button" class="sc-rng-btn" data-tf="3m">3м</button>
+              <button type="button" class="sc-rng-btn on" data-tf="6m">6м</button>
+              <button type="button" class="sc-rng-btn" data-tf="1y">1г</button>
+              <button type="button" class="sc-rng-btn" data-tf="all">ВСЕ</button>
+            </div>
           </div>
         </div>
-        <div class="sc-svg-wrap" id="sc-svg-wrap"></div>
+        <div class="sc-svg-wrap" id="sc-svg-wrap">
+          <canvas id="sc-canvas" style="width:100%;height:100%;display:block;"></canvas>
+        </div>
         <div class="sc-axis-row" id="sc-axis-row"></div>
+        <div class="sc-clients-wrap" id="sc-clients-wrap"></div>
       </div>
     </section>
 
@@ -2202,7 +2343,9 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <label class="flbl" for="f-status">Статус</label>
           <select class="fsel" id="f-status">
             <option value="all">Все</option>
-            <option value="unpaid">Не оплачено</option>
+            <option value="awaiting">Не оплачено (все)</option>
+            <option value="unpaid">В работе</option>
+            <option value="sent">Отправлено</option>
             <option value="paid">Оплачено</option>
           </select>
           <div class="flbl" style="margin-top:8px;">Заказчик</div>
@@ -2333,8 +2476,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <div class="fgrid f-row-main">
       <div class="ff">
         <label for="bg-f-cat">Категория</label>
-        <input type="text" id="bg-f-cat" list="bg-cat-dl" placeholder="Еда, Подписки, Семья..." autocomplete="off"/>
-        <datalist id="bg-cat-dl"></datalist>
+        <input type="text" id="bg-f-cat" placeholder="Еда, Подписки, Семья..." autocomplete="off"/>
         <div class="qchips" id="bg-qchips-cat"></div>
       </div>
       <div class="ff">
@@ -2446,8 +2588,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <div class="fgrid f-row-main">
       <div class="ff">
         <label for="f-desc">Проект</label>
-        <input type="text" id="f-desc" list="dl" placeholder="thumbnail, баннер..." autocomplete="off"/>
-        <datalist id="dl"></datalist>
+        <input type="text" id="f-desc" placeholder="thumbnail, баннер..." autocomplete="off"/>
         <div class="qchips" id="qchips-desc"></div>
       </div>
       <div class="ff">
@@ -2475,8 +2616,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <span>Клиент</span>
           <button type="button" class="lbl-clear-btn" id="btn-clear-client" style="display:none;" title="Очистить клиента" aria-label="Очистить клиента"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         </label>
-        <input type="text" id="f-name" list="nl" placeholder="Имя или канал" autocomplete="off"/>
-        <datalist id="nl"></datalist>
+        <input type="text" id="f-name" placeholder="Имя или канал" autocomplete="off"/>
         <div class="qchips" id="qchips-name"></div>
       </div>
     </div>
@@ -2486,6 +2626,10 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
         <label for="f-date">Дата создания</label>
         <input type="date" id="f-date"/>
       </div>
+      <div class="ff" id="f-sentat-wrap" style="display:none;">
+        <label for="f-sentat">Дата отправки</label>
+        <input type="date" id="f-sentat"/>
+      </div>
       <div class="ff" id="f-paidat-wrap" style="display:none;">
         <label for="f-paidat">Дата прихода денег</label>
         <input type="date" id="f-paidat"/>
@@ -2493,9 +2637,10 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     </div>
 
     <div class="fstatus-row">
-      <span class="fstatus-lbl">Статус оплаты</span>
+      <span class="fstatus-lbl">Статус</span>
       <div class="fstatus-toggle" role="group">
         <button class="fst-btn active-unpaid" id="fst-unpaid" type="button">Не оплачено</button>
+        <button class="fst-btn" id="fst-sent" type="button">Отправил</button>
         <button class="fst-btn" id="fst-paid" type="button">Оплачено</button>
       </div>
     </div>
@@ -2554,13 +2699,12 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     </div>
 
     <div class="stabs" role="tablist">
-      <button type="button" class="stab on" id="stab-view" role="tab" aria-selected="true">Вид</button>
-      <button type="button" class="stab" id="stab-fin" role="tab" aria-selected="false">Финансы</button>
+      <button type="button" class="stab on" id="stab-view" role="tab" aria-selected="true">Вид и валюта</button>
       <button type="button" class="stab" id="stab-data" role="tab" aria-selected="false">База и X</button>
     </div>
 
     <div class="sbody">
-      <!-- Tab 1: Вид -->
+      <!-- Tab 1: Вид и валюта -->
       <div class="s-pane on" id="spane-view">
         <div>
           <div class="slbl">Тема оформления</div>
@@ -2600,10 +2744,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             <button class="topt" id="den-compact" type="button">Компактная</button>
           </div>
         </div>
-      </div>
 
-      <!-- Tab 2: Финансы -->
-      <div class="s-pane" id="spane-fin">
         <div>
           <div class="cplbl">Базовая валюта и курс</div>
           <div class="cpcurs" id="cp-curs"></div>
@@ -2611,11 +2752,10 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <div class="dbtns" style="margin-top:10px;">
             <button class="dbtn" id="btn-fetch-rates" type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg><span>Обновить курс</span></button>
           </div>
-          <div class="s-hint">Обновляются вручную по нажатию кнопки.</div>
         </div>
       </div>
 
-      <!-- Tab 3: База и X -->
+      <!-- Tab 2: База и X -->
       <div class="s-pane" id="spane-data">
         <div>
           <div class="slbl">Облако Firebase (Синхронизация)</div>
@@ -2628,6 +2768,23 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             </div>
           </div>
           <div class="s-hint">Автосинхронизация через 5 сек после изменений.</div>
+
+          <div class="storage-box" id="storage-usage-box">
+            <div class="storage-row">
+              <div class="storage-meta">
+                <span>Облако Firebase</span>
+                <strong id="st-cloud-val">0 КБ / 1 ГБ</strong>
+              </div>
+              <div class="storage-bar"><div class="storage-fill" id="st-cloud-bar" style="width:1%;"></div></div>
+            </div>
+            <div class="storage-row">
+              <div class="storage-meta">
+                <span>На устройстве (X Showcase + сейф)</span>
+                <strong id="st-local-val">Расчёт...</strong>
+              </div>
+              <div class="storage-bar"><div class="storage-fill" id="st-local-bar" style="width:1%;"></div></div>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -2697,19 +2854,30 @@ function sanitizeRatesObject(rawRates) {
   return clean;
 }
 
+function getEntryStatus(e) {
+  if (!e) return 'unpaid';
+  if (e.paid || e.status === 'paid') return 'paid';
+  if (e.status === 'sent') return 'sent';
+  return 'unpaid';
+}
+
 function cleanEntriesForStorage(list) {
   return list.map(e => {
+    const st = getEntryStatus(e);
+    const isPaid = st === 'paid';
     const out = {
       id: String(e.id),
       amount: e.amount,
       currency: e.currency,
       desc: e.desc || '',
       date: e.date || '',
-      paid: !!e.paid
+      paid: isPaid,
+      status: st
     };
     if (e.name) out.name = e.name;
     if (e.note) out.note = e.note;
-    if (e.paid && (e.paidAt || e.date)) out.paidAt = e.paidAt || e.date;
+    if (st === 'sent' && (e.sentAt || e.date)) out.sentAt = e.sentAt || e.date;
+    if (isPaid && (e.paidAt || e.date)) out.paidAt = e.paidAt || e.date;
     if (e.createdAt && e.createdAt !== e.date) out.createdAt = e.createdAt;
     return out;
   });
@@ -2718,7 +2886,8 @@ function cleanEntriesForStorage(list) {
 function normalizeLoadedEntries(list) {
   if (!Array.isArray(list)) return [];
   return list.map(e => {
-    const isPaid = !!e.paid;
+    const st = getEntryStatus(e);
+    const isPaid = st === 'paid';
     const out = {
       ...e,
       id: String(e.id || gid()),
@@ -2726,11 +2895,16 @@ function normalizeLoadedEntries(list) {
       desc: e.desc || '',
       note: e.note || '',
       date: e.date || '',
-      paid: isPaid
+      paid: isPaid,
+      status: st
     };
-    if (isPaid) {
+    if (st === 'sent') {
+      out.sentAt = e.sentAt || e.date || today();
+      delete out.paidAt;
+    } else if (isPaid) {
       out.paidAt = e.paidAt || e.date || today();
     } else {
+      delete out.sentAt;
       delete out.paidAt;
     }
     return out;
@@ -2962,7 +3136,115 @@ function updateSyncPill(state) {
   }
   setText('top-sync-lbl', lblText);
   setText('m-sync-lbl', lblText);
+  updateStorageMetrics();
 }
+
+function formatBytesRu(bytes) {
+  const b = Math.max(0, Number(bytes) || 0);
+  if (b < 1024) return `${b} Б`;
+  if (b < 1024 * 1024) return `${(b / 1024).toFixed(1).replace('.0', '')} КБ`;
+  if (b < 1024 * 1024 * 1024) return `${(b / (1024 * 1024)).toFixed(1).replace('.0', '')} МБ`;
+  return `${(b / (1024 * 1024 * 1024)).toFixed(2)} ГБ`;
+}
+
+async function measureIndexedDbBytes(dbName, storeNames) {
+  return new Promise(resolve => {
+    try {
+      if (!window.indexedDB) return resolve(0);
+      const req = indexedDB.open(dbName);
+      req.onerror = () => resolve(0);
+      req.onsuccess = () => {
+        const db = req.result;
+        const validStores = storeNames.filter(s => db.objectStoreNames.contains(s));
+        if (!validStores.length) { db.close(); return resolve(0); }
+        let total = 0;
+        let pending = validStores.length;
+        validStores.forEach(sName => {
+          try {
+            const tx = db.transaction(sName, 'readonly');
+            const getAllReq = tx.objectStore(sName).getAll();
+            getAllReq.onsuccess = () => {
+              const items = getAllReq.result || [];
+              items.forEach(val => {
+                if (val instanceof Blob) total += val.size;
+                else if (val) {
+                  try { total += new Blob([JSON.stringify(val)]).size; } catch (e) {}
+                }
+              });
+              pending--;
+              if (pending === 0) { db.close(); resolve(total); }
+            };
+            getAllReq.onerror = () => {
+              pending--;
+              if (pending === 0) { db.close(); resolve(total); }
+            };
+          } catch (err) {
+            pending--;
+            if (pending === 0) { db.close(); resolve(total); }
+          }
+        });
+      };
+    } catch (e) { resolve(0); }
+  });
+}
+
+async function updateStorageMetrics() {
+  const cloudValEl = document.getElementById('st-cloud-val');
+  const cloudBarEl = document.getElementById('st-cloud-bar');
+  const localValEl = document.getElementById('st-local-val');
+  const localBarEl = document.getElementById('st-local-bar');
+  if (!cloudValEl && !localValEl) return;
+
+  // 1. Firebase JSON node real byte size vs 1 GB free Spark limit
+  const payloadStr = JSON.stringify({
+    version: 2,
+    updatedAt: Date.now(),
+    baseCur,
+    rates: sanitizeRatesObject(rates),
+    delIds: [...deletedIds].slice(-200),
+    xpNotebook: normalizeXpNotebook(xpNotebook),
+    budgetEntries: window._budgetEntries || [],
+    budgetRecurring: window._budgetRecurring || [],
+    entries: cleanEntriesForStorage(entries)
+  });
+  const cloudBytes = new Blob([payloadStr]).size;
+  const FIREBASE_FREE_LIMIT = 1024 * 1024 * 1024; // 1 GB
+  const cloudPct = Math.min(100, Math.max(1, (cloudBytes / FIREBASE_FREE_LIMIT) * 100));
+  if (cloudValEl) {
+    cloudValEl.textContent = fbUrl
+      ? `${formatBytesRu(cloudBytes)} / 1 ГБ`
+      : `${formatBytesRu(cloudBytes)} (локально)`;
+  }
+  if (cloudBarEl) cloudBarEl.style.width = `${cloudPct.toFixed(2)}%`;
+
+  // 2. Device storage (X Showcase images + local vault)
+  const [xpBytes, vaultBytes] = await Promise.all([
+    measureIndexedDbBytes('InvoeXPlannerLocalDB', ['days_meta', 'slot_blobs']),
+    measureIndexedDbBytes('InvoeSafariVaultDB', ['vault'])
+  ]);
+  const appLocalBytes = xpBytes + vaultBytes + cloudBytes;
+
+  let quotaBytes = 0;
+  try {
+    if (navigator.storage && navigator.storage.estimate) {
+      const est = await navigator.storage.estimate();
+      if (est && est.quota) quotaBytes = est.quota;
+    }
+  } catch (e) {}
+
+  if (localValEl) {
+    localValEl.textContent = quotaBytes > 0
+      ? `${formatBytesRu(appLocalBytes)} / ${formatBytesRu(quotaBytes)}`
+      : formatBytesRu(appLocalBytes);
+  }
+  if (localBarEl) {
+    const locPct = quotaBytes > 0
+      ? Math.min(100, Math.max(1, (appLocalBytes / quotaBytes) * 100))
+      : Math.min(100, Math.max(2, (appLocalBytes / (250 * 1024 * 1024)) * 100));
+    localBarEl.style.width = `${locPct.toFixed(2)}%`;
+  }
+}
+window.updateStorageMetrics = updateStorageMetrics;
 
 async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false) {
   clearTimeout(_fbTimer);
@@ -3955,13 +4237,28 @@ function selectPeriod(val) {
 ══════════════════════════════════════════════ */
 let chartTf = lsG('ff_chart_tf') || '6m';
 if (!['1m', '3m', '6m', '1y', 'all'].includes(chartTf)) chartTf = '6m';
-let _scResizeObs = null;
+let chartMode = lsG('ff_chart_mode') || 'trend';
+if (!['trend', 'clients'].includes(chartMode)) chartMode = 'trend';
+let _scHoverIdx = -1;
+let _scRafPending = false;
+let _scCachedState = null;
 
 function setChartTimeframe(tf) {
   chartTf = tf;
   lsS('ff_chart_tf', tf);
+  _scHoverIdx = -1;
   document.querySelectorAll('.sc-rng-btn').forEach(b => {
     b.classList.toggle('on', b.dataset.tf === tf);
+  });
+  renderMiniStockChart();
+}
+
+function setChartMode(mode) {
+  chartMode = mode === 'clients' ? 'clients' : 'trend';
+  lsS('ff_chart_mode', chartMode);
+  _scHoverIdx = -1;
+  document.querySelectorAll('.sc-mode-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.cmode === chartMode);
   });
   renderMiniStockChart();
 }
@@ -4056,12 +4353,15 @@ function buildChartSeries(tf) {
   return pts;
 }
 
-// Monotone Cubic Hermite Spline (smooth Apple-style curve without overshoot)
-function buildMonotoneSplinePath(coords) {
+function drawMonotoneSplineCanvas(ctx, coords) {
   const n = coords.length;
-  if (!n) return '';
-  if (n === 1) return `M ${coords[0].x} ${coords[0].y}`;
-  if (n === 2) return `M ${coords[0].x} ${coords[0].y} L ${coords[1].x} ${coords[1].y}`;
+  if (!n) return;
+  ctx.moveTo(coords[0].x, coords[0].y);
+  if (n === 1) return;
+  if (n === 2) {
+    ctx.lineTo(coords[1].x, coords[1].y);
+    return;
+  }
 
   const dx = [];
   const dy = [];
@@ -4074,15 +4374,10 @@ function buildMonotoneSplinePath(coords) {
 
   const tangents = [m[0]];
   for (let i = 1; i < n - 1; i++) {
-    if (m[i - 1] * m[i] <= 0) {
-      tangents[i] = 0;
-    } else {
-      tangents[i] = (m[i - 1] + m[i]) / 2;
-    }
+    tangents[i] = (m[i - 1] * m[i] <= 0) ? 0 : (m[i - 1] + m[i]) / 2;
   }
   tangents[n - 1] = m[n - 2];
 
-  // Fritsch-Carlson monotonicity constraint
   for (let i = 0; i < n - 1; i++) {
     if (Math.abs(m[i]) < 1e-6) {
       tangents[i] = 0;
@@ -4099,30 +4394,243 @@ function buildMonotoneSplinePath(coords) {
     }
   }
 
-  let d = `M ${coords[0].x.toFixed(1)} ${coords[0].y.toFixed(1)}`;
   for (let i = 0; i < n - 1; i++) {
     const segLen = dx[i] / 3;
-    const cp1x = coords[i].x + segLen;
-    const cp1y = coords[i].y + tangents[i] * segLen;
-    const cp2x = coords[i + 1].x - segLen;
-    const cp2y = coords[i + 1].y - tangents[i + 1] * segLen;
-    d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${coords[i + 1].x.toFixed(1)} ${coords[i + 1].y.toFixed(1)}`;
+    ctx.bezierCurveTo(
+      coords[i].x + segLen,
+      coords[i].y + tangents[i] * segLen,
+      coords[i + 1].x - segLen,
+      coords[i + 1].y - tangents[i + 1] * segLen,
+      coords[i + 1].x,
+      coords[i + 1].y
+    );
   }
-  return d;
+}
+
+function paintStockCanvasFrame() {
+  _scRafPending = false;
+  if (!_scCachedState) return;
+  const {
+    canvas, W, H, padLeft, padTop, plotW, plotH,
+    coords, rawMax, isCum, effYm, blueHex, surfaceHex, borderHex, border2Hex, text3Hex
+  } = _scCachedState;
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const targetW = Math.round(W * dpr);
+  const targetH = Math.round(H * dpr);
+  if (canvas.width !== targetW || canvas.height !== targetH) {
+    canvas.width = targetW;
+    canvas.height = targetH;
+  }
+
+  const ctx = canvas.getContext('2d');
+  ctx.save();
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, H);
+
+  // Subtle horizontal reference lines + right-side scale
+  const levels = [
+    { y: padTop, label: rawMax > 0 ? fmtCompactAxis(rawMax) : '', dashed: true },
+    { y: padTop + plotH * 0.5, label: rawMax > 0 ? fmtCompactAxis(rawMax * 0.5) : '', dashed: true },
+    { y: padTop + plotH, label: '0', dashed: false }
+  ];
+
+  ctx.font = '600 9.5px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+
+  levels.forEach(lvl => {
+    const py = Math.round(lvl.y) + 0.5;
+    ctx.beginPath();
+    ctx.setLineDash(lvl.dashed ? [2, 3] : []);
+    ctx.strokeStyle = lvl.dashed ? borderHex : border2Hex;
+    ctx.lineWidth = 1;
+    ctx.moveTo(padLeft, py);
+    ctx.lineTo(padLeft + plotW, py);
+    ctx.stroke();
+
+    if (lvl.label) {
+      ctx.fillStyle = text3Hex;
+      ctx.fillText(lvl.label, W - 2, py);
+    }
+  });
+  ctx.setLineDash([]);
+
+  if (coords.length > 0) {
+    const baseY = padTop + plotH;
+
+    // Gradient fill under smooth line
+    ctx.beginPath();
+    drawMonotoneSplineCanvas(ctx, coords);
+    ctx.lineTo(coords[coords.length - 1].x, baseY);
+    ctx.lineTo(coords[0].x, baseY);
+    ctx.closePath();
+
+    const grad = ctx.createLinearGradient(0, padTop, 0, baseY);
+    grad.addColorStop(0, blueHex + '38');
+    grad.addColorStop(1, blueHex + '00');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Crisp spline curve
+    ctx.beginPath();
+    drawMonotoneSplineCanvas(ctx, coords);
+    ctx.strokeStyle = blueHex;
+    ctx.lineWidth = 2.2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    // Highlight only selected period dot when not hovering, or hovered point
+    const activeIdx = _scHoverIdx >= 0
+      ? _scHoverIdx
+      : (!isCum ? coords.findIndex(c => c.ym === effYm && c.value > 0) : -1);
+
+    if (_scHoverIdx >= 0 && coords[_scHoverIdx]) {
+      const hc = coords[_scHoverIdx];
+      ctx.beginPath();
+      ctx.setLineDash([2, 2]);
+      ctx.strokeStyle = blueHex + '99';
+      ctx.lineWidth = 1;
+      ctx.moveTo(hc.x, padTop - 2);
+      ctx.lineTo(hc.x, baseY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.beginPath();
+      ctx.arc(hc.x, hc.y, 8.5, 0, Math.PI * 2);
+      ctx.fillStyle = blueHex + '2b';
+      ctx.fill();
+    }
+
+    if (activeIdx >= 0 && coords[activeIdx]) {
+      const ac = coords[activeIdx];
+      ctx.beginPath();
+      ctx.arc(ac.x, ac.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = blueHex;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = surfaceHex;
+      ctx.stroke();
+    }
+  }
+
+  ctx.restore();
+}
+
+function renderClientRevenueBreakdown() {
+  const wrap = document.getElementById('sc-svg-wrap');
+  const axisRow = document.getElementById('sc-axis-row');
+  const rangesBox = document.getElementById('sc-ranges');
+  const clientsBox = document.getElementById('sc-clients-wrap');
+  const readout = document.getElementById('sc-readout');
+  const readoutSub = document.getElementById('sc-readout-sub');
+  if (!clientsBox) return;
+
+  if (wrap) wrap.style.display = 'none';
+  if (axisRow) axisRow.style.display = 'none';
+  if (rangesBox) rangesBox.style.display = 'none';
+  clientsBox.classList.add('on');
+  clientsBox.innerHTML = '';
+
+  const periodPaid = entries.filter(isPaidInPeriod);
+  const byClient = new Map();
+  let totalRev = 0;
+
+  periodPaid.forEach(e => {
+    const cName = (e.name || '').trim() || 'Без имени';
+    const val = toB(e.amount, e.currency) ?? e.amount;
+    totalRev = Math.round((totalRev + val) * 100) / 100;
+    const prev = byClient.get(cName) || { sum: 0, count: 0 };
+    prev.sum = Math.round((prev.sum + val) * 100) / 100;
+    prev.count += 1;
+    byClient.set(cName, prev);
+  });
+
+  const sorted = [...byClient.entries()].sort((a, b) => b[1].sum - a[1].sum);
+
+  if (readout) readout.textContent = `Выручка по клиентам · ${fmtB(totalRev)}`;
+  if (readoutSub) readoutSub.textContent = sorted.length ? `${sorted.length} клиент.` : '';
+
+  if (!sorted.length || totalRev <= 0) {
+    clientsBox.appendChild(el('div', {
+      style: 'font-size:12px;color:var(--text3);padding:18px 4px;text-align:center;'
+    }, ['За выбранный период оплаченных заказов от клиентов пока нет']));
+    return;
+  }
+
+  const topList = sorted.slice(0, 4);
+  if (sorted.length > 4) {
+    const rest = sorted.slice(4).reduce((acc, [, info]) => {
+      acc.sum = Math.round((acc.sum + info.sum) * 100) / 100;
+      acc.count += info.count;
+      return acc;
+    }, { sum: 0, count: 0 });
+    topList.push(['Остальные', rest]);
+  }
+
+  topList.forEach(([name, info]) => {
+    const pct = Math.max(1, Math.round((info.sum / totalRev) * 100));
+    const col = name === 'Остальные' ? 'var(--text3)' : getClientColor(name);
+    const isFiltered = activeClientFilter === name;
+
+    const row = el('div', {
+      className: 'sc-cl-row',
+      style: isFiltered ? 'background:var(--blue-bg);' : ''
+    }, [
+      el('div', { className: 'sc-cl-top' }, [
+        el('div', { className: 'sc-cl-left' }, [
+          el('span', { className: 'eclient-dot', style: `background:${col}` }),
+          el('span', { className: 'sc-cl-name' }, [name]),
+          el('span', { className: 'sc-cl-cnt' }, [`${info.count} зак.`])
+        ]),
+        el('div', { className: 'sc-cl-right' }, [
+          el('span', { className: 'sc-cl-pct' }, [`${pct}%`]),
+          el('span', { className: 'sc-cl-amt' }, [fmtB(info.sum)])
+        ])
+      ]),
+      el('div', { className: 'sc-cl-track' }, [
+        el('div', { className: 'sc-cl-fill', style: `width:${pct}%;background:${col};` })
+      ])
+    ]);
+
+    if (name !== 'Без имени' && name !== 'Остальные') {
+      row.addEventListener('click', () => filterByClient(name));
+    }
+    clientsBox.appendChild(row);
+  });
 }
 
 function renderMiniStockChart() {
+  document.querySelectorAll('.sc-mode-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.cmode === chartMode);
+  });
+
+  if (chartMode === 'clients') {
+    renderClientRevenueBreakdown();
+    return;
+  }
+
   const wrap = document.getElementById('sc-svg-wrap');
   const axisRow = document.getElementById('sc-axis-row');
+  const rangesBox = document.getElementById('sc-ranges');
+  const clientsBox = document.getElementById('sc-clients-wrap');
   const readout = document.getElementById('sc-readout');
   const readoutSub = document.getElementById('sc-readout-sub');
   if (!wrap || !axisRow) return;
 
-  if (!_scResizeObs && typeof ResizeObserver !== 'undefined') {
-    _scResizeObs = new ResizeObserver(() => {
-      if (wrap.offsetParent !== null) renderMiniStockChart();
-    });
-    _scResizeObs.observe(wrap);
+  if (wrap) wrap.style.display = '';
+  if (axisRow) axisRow.style.display = '';
+  if (rangesBox) rangesBox.style.display = '';
+  if (clientsBox) clientsBox.classList.remove('on');
+
+  let canvas = document.getElementById('sc-canvas');
+  if (!canvas) {
+    wrap.innerHTML = '';
+    canvas = document.createElement('canvas');
+    canvas.id = 'sc-canvas';
+    canvas.style.cssText = 'width:100%;height:100%;display:block;';
+    wrap.appendChild(canvas);
   }
 
   document.querySelectorAll('.sc-rng-btn').forEach(b => {
@@ -4155,7 +4663,7 @@ function renderMiniStockChart() {
   const W = Math.max(220, Math.round(wrap.clientWidth || 440));
   const H = Math.max(76, Math.round(wrap.clientHeight || 82));
   const padLeft = 8;
-  const padRight = 46; // space for subtle right-side Y-axis scale
+  const padRight = 48;
   const padTop = 10;
   const padBot = 8;
   const plotW = Math.max(80, W - padLeft - padRight);
@@ -4174,156 +4682,28 @@ function renderMiniStockChart() {
     return { x, y, idx, ...p };
   });
 
-  const strokeCol = 'var(--blue)';
-  const gradId = 'sc-area-grad';
-  const svgNS = 'http://www.w3.org/2000/svg';
+  const cs = getComputedStyle(document.documentElement);
+  const blueHex = (cs.getPropertyValue('--blue') || '#0a84ff').trim();
+  const surfaceHex = (cs.getPropertyValue('--surface') || '#18181a').trim();
+  const text3Hex = (cs.getPropertyValue('--text3') || '#7c7c80').trim();
+  const isDk = document.documentElement.getAttribute('data-theme') === 'dark';
 
-  const svg = document.createElementNS(svgNS, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.setAttribute('width', String(W));
-  svg.setAttribute('height', String(H));
-  svg.setAttribute('class', 'sc-svg');
+  _scCachedState = {
+    canvas, W, H, padLeft, padTop, plotW, plotH,
+    coords, rawMax, isCum, effYm,
+    blueHex,
+    surfaceHex,
+    borderHex: isDk ? 'rgba(255,255,255,0.07)' : 'rgba(60,60,67,0.09)',
+    border2Hex: isDk ? 'rgba(255,255,255,0.13)' : 'rgba(60,60,67,0.16)',
+    text3Hex,
+    defaultMain,
+    defaultSub
+  };
 
-  const defs = document.createElementNS(svgNS, 'defs');
-  const lg = document.createElementNS(svgNS, 'linearGradient');
-  lg.setAttribute('id', gradId);
-  lg.setAttribute('x1', '0'); lg.setAttribute('y1', '0');
-  lg.setAttribute('x2', '0'); lg.setAttribute('y2', '1');
-
-  const s1 = document.createElementNS(svgNS, 'stop');
-  s1.setAttribute('offset', '0%');
-  s1.setAttribute('stop-color', strokeCol);
-  s1.setAttribute('stop-opacity', '0.24');
-
-  const s2 = document.createElementNS(svgNS, 'stop');
-  s2.setAttribute('offset', '100%');
-  s2.setAttribute('stop-color', strokeCol);
-  s2.setAttribute('stop-opacity', '0.0');
-
-  lg.appendChild(s1);
-  lg.appendChild(s2);
-  defs.appendChild(lg);
-  svg.appendChild(defs);
-
-  // Horizontal reference hairlines + crisp right-side scale labels
-  const gridLevels = [
-    { y: padTop, label: rawMax > 0 ? fmtCompactAxis(rawMax) : '' },
-    { y: padTop + plotH * 0.5, label: rawMax > 0 ? fmtCompactAxis(rawMax * 0.5) : '' },
-    { y: padTop + plotH, label: '0' }
-  ];
-
-  gridLevels.forEach((lvl, li) => {
-    const gl = document.createElementNS(svgNS, 'line');
-    gl.setAttribute('x1', String(padLeft));
-    gl.setAttribute('x2', String(padLeft + plotW));
-    gl.setAttribute('y1', String(Math.round(lvl.y) + 0.5));
-    gl.setAttribute('y2', String(Math.round(lvl.y) + 0.5));
-    gl.setAttribute('stroke', li === 2 ? 'var(--border2)' : 'var(--border)');
-    gl.setAttribute('stroke-width', '1');
-    if (li < 2) gl.setAttribute('stroke-dasharray', '2 3');
-    svg.appendChild(gl);
-
-    if (lvl.label) {
-      const yTxt = document.createElementNS(svgNS, 'text');
-      yTxt.setAttribute('x', String(W - 2));
-      yTxt.setAttribute('y', String(Math.round(lvl.y) + 3));
-      yTxt.setAttribute('text-anchor', 'end');
-      yTxt.setAttribute('fill', 'var(--text3)');
-      yTxt.setAttribute('font-size', '9.5');
-      yTxt.setAttribute('font-weight', '600');
-      yTxt.textContent = lvl.label;
-      svg.appendChild(yTxt);
-    }
-  });
-
-  // Subtle vertical bars behind curve for monthly modes
-  if (!isCum && coords.length <= 14 && rawMax > 0) {
-    const barW = Math.min(18, Math.max(6, Math.floor((plotW / coords.length) * 0.42)));
-    coords.forEach(c => {
-      if (c.value <= 0) return;
-      const bh = Math.max(3, (padTop + plotH) - c.y);
-      const rect = document.createElementNS(svgNS, 'rect');
-      rect.setAttribute('x', String(c.x - barW / 2));
-      rect.setAttribute('y', String(c.y));
-      rect.setAttribute('width', String(barW));
-      rect.setAttribute('height', String(bh));
-      rect.setAttribute('rx', '4');
-      rect.setAttribute('fill', strokeCol);
-      rect.setAttribute('opacity', c.ym === effYm ? '0.22' : '0.10');
-      svg.appendChild(rect);
-    });
-  }
-
-  // Smooth cubic spline area & stroke
-  if (coords.length > 0) {
-    const linePathStr = buildMonotoneSplinePath(coords);
-    const baseY = padTop + plotH;
-    const areaPathStr = `${linePathStr} L ${coords[coords.length - 1].x.toFixed(1)} ${baseY} L ${coords[0].x.toFixed(1)} ${baseY} Z`;
-
-    const area = document.createElementNS(svgNS, 'path');
-    area.setAttribute('d', areaPathStr);
-    area.setAttribute('fill', `url(#${gradId})`);
-    svg.appendChild(area);
-
-    const path = document.createElementNS(svgNS, 'path');
-    path.setAttribute('d', linePathStr);
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke', strokeCol);
-    path.setAttribute('stroke-width', '2.2');
-    path.setAttribute('stroke-linecap', 'round');
-    path.setAttribute('stroke-linejoin', 'round');
-    svg.appendChild(path);
-  }
-
-  // Static circular nodes on monthly points (perfect 1:1 circles!)
-  const nodeEls = [];
-  coords.forEach(c => {
-    const isSelectedPeriod = !isCum && c.ym === effYm;
-    const showStaticDot = !isCum || c.rawPeriodVal > 0 || c.idx === coords.length - 1;
-    const dot = document.createElementNS(svgNS, 'circle');
-    dot.setAttribute('cx', String(c.x));
-    dot.setAttribute('cy', String(c.y));
-    dot.setAttribute('r', isSelectedPeriod ? '4' : (showStaticDot && !isCum ? '2.8' : '0'));
-    dot.setAttribute('fill', c.value > 0 ? strokeCol : 'var(--surface)');
-    dot.setAttribute('stroke', c.value > 0 ? 'var(--surface)' : 'var(--text3)');
-    dot.setAttribute('stroke-width', '1.5');
-    svg.appendChild(dot);
-    nodeEls.push(dot);
-  });
-
-  // Hover vertical guide + glowing halo + crisp active circle
-  const vLine = document.createElementNS(svgNS, 'line');
-  vLine.setAttribute('y1', String(padTop - 2));
-  vLine.setAttribute('y2', String(padTop + plotH));
-  vLine.setAttribute('stroke', strokeCol);
-  vLine.setAttribute('stroke-width', '1');
-  vLine.setAttribute('stroke-dasharray', '2 2');
-  vLine.setAttribute('opacity', '0.65');
-  vLine.style.display = 'none';
-  svg.appendChild(vLine);
-
-  const activeHalo = document.createElementNS(svgNS, 'circle');
-  activeHalo.setAttribute('r', '9');
-  activeHalo.setAttribute('fill', strokeCol);
-  activeHalo.setAttribute('opacity', '0.18');
-  activeHalo.style.display = 'none';
-  svg.appendChild(activeHalo);
-
-  const activeDot = document.createElementNS(svgNS, 'circle');
-  activeDot.setAttribute('r', '4.2');
-  activeDot.setAttribute('fill', strokeCol);
-  activeDot.setAttribute('stroke', 'var(--surface)');
-  activeDot.setAttribute('stroke-width', '2');
-  activeDot.style.display = 'none';
-  svg.appendChild(activeDot);
-
-  wrap.innerHTML = '';
-  wrap.appendChild(svg);
+  paintStockCanvasFrame();
   wrap.classList.toggle('is-clickable', !isCum);
 
-  // X-axis labels positioned to exact X coordinates of points
   axisRow.innerHTML = '';
-  const axisLabelEls = new Map();
   coords.forEach((c, idx) => {
     if (!c.axisLbl) return;
     const lbl = el('span', {
@@ -4331,105 +4711,54 @@ function renderMiniStockChart() {
       style: `left:${c.x}px;`
     }, [c.axisLbl]);
     axisRow.appendChild(lbl);
-    axisLabelEls.set(idx, lbl);
   });
 
-  let hoveredCoord = null;
-  wrap.onmousemove = ev => {
-    if (!coords.length) return;
-    const rect = wrap.getBoundingClientRect();
-    const relX = ev.clientX - rect.left;
+  let cachedRect = null;
+  const scheduleScrub = clientX => {
+    if (!_scCachedState || !_scCachedState.coords.length) return;
+    if (!cachedRect) cachedRect = wrap.getBoundingClientRect();
+    const relX = clientX - cachedRect.left;
     const clampedX = Math.max(padLeft, Math.min(padLeft + plotW, relX));
     const ratio = plotW > 0 ? (clampedX - padLeft) / plotW : 0;
-    const idx = Math.round(ratio * (coords.length - 1));
-    const c = coords[idx];
-    if (!c) return;
-    hoveredCoord = c;
-
-    vLine.setAttribute('x1', String(c.x));
-    vLine.setAttribute('x2', String(c.x));
-    vLine.style.display = '';
-
-    activeHalo.setAttribute('cx', String(c.x));
-    activeHalo.setAttribute('cy', String(c.y));
-    activeHalo.style.display = '';
-
-    activeDot.setAttribute('cx', String(c.x));
-    activeDot.setAttribute('cy', String(c.y));
-    activeDot.style.display = '';
-
-    if (readout) {
-      readout.textContent = isCum
-        ? `${c.label} · ${fmtB(c.value)}`
-        : `${c.label} · ${fmtB(c.value)}`;
+    const idx = Math.round(ratio * (_scCachedState.coords.length - 1));
+    if (idx === _scHoverIdx) return;
+    _scHoverIdx = idx;
+    const c = _scCachedState.coords[idx];
+    if (c && readout) readout.textContent = `${c.label} · ${fmtB(c.value)}`;
+    if (c && readoutSub) {
+      readoutSub.textContent = isCum
+        ? (c.rawPeriodVal > 0 ? `+${fmtB(c.rawPeriodVal)} (${pluralOrdersRu(c.count)})` : 'Без поступлений')
+        : (c.count > 0 ? pluralOrdersRu(c.count) : 'Нет оплат');
     }
-    if (readoutSub) {
-      if (isCum) {
-        readoutSub.textContent = c.rawPeriodVal > 0
-          ? `+${fmtB(c.rawPeriodVal)} (${pluralOrdersRu(c.count)})`
-          : 'Без поступлений';
-      } else {
-        readoutSub.textContent = c.count > 0 ? pluralOrdersRu(c.count) : 'Нет оплат';
-      }
+    if (!_scRafPending) {
+      _scRafPending = true;
+      requestAnimationFrame(paintStockCanvasFrame);
     }
   };
 
-  const scrubAtClientX = clientX => {
-    if (!coords.length) return;
-    const rect = wrap.getBoundingClientRect();
-    const relX = clientX - rect.left;
-    const clampedX = Math.max(padLeft, Math.min(padLeft + plotW, relX));
-    const ratio = plotW > 0 ? (clampedX - padLeft) / plotW : 0;
-    const idx = Math.round(ratio * (coords.length - 1));
-    const c = coords[idx];
-    if (!c) return;
-    hoveredCoord = c;
-
-    vLine.setAttribute('x1', String(c.x));
-    vLine.setAttribute('x2', String(c.x));
-    vLine.style.display = '';
-
-    activeHalo.setAttribute('cx', String(c.x));
-    activeHalo.setAttribute('cy', String(c.y));
-    activeHalo.style.display = '';
-
-    activeDot.setAttribute('cx', String(c.x));
-    activeDot.setAttribute('cy', String(c.y));
-    activeDot.style.display = '';
-
-    if (readout) readout.textContent = `${c.label} · ${fmtB(c.value)}`;
-    if (readoutSub) {
-      if (isCum) {
-        readoutSub.textContent = c.rawPeriodVal > 0
-          ? `+${fmtB(c.rawPeriodVal)} (${pluralOrdersRu(c.count)})`
-          : 'Без поступлений';
-      } else {
-        readoutSub.textContent = c.count > 0 ? pluralOrdersRu(c.count) : 'Нет оплат';
-      }
-    }
-  };
-
-  wrap.onmousemove = ev => scrubAtClientX(ev.clientX);
+  wrap.onmouseenter = () => { cachedRect = wrap.getBoundingClientRect(); };
+  wrap.onmousemove = ev => scheduleScrub(ev.clientX);
   wrap.ontouchstart = ev => {
-    if (ev.touches && ev.touches[0]) scrubAtClientX(ev.touches[0].clientX);
+    cachedRect = wrap.getBoundingClientRect();
+    if (ev.touches && ev.touches[0]) scheduleScrub(ev.touches[0].clientX);
   };
   wrap.ontouchmove = ev => {
-    if (ev.touches && ev.touches[0]) scrubAtClientX(ev.touches[0].clientX);
+    if (ev.touches && ev.touches[0]) scheduleScrub(ev.touches[0].clientX);
   };
-
   wrap.onmouseleave = () => {
-    hoveredCoord = null;
-    vLine.style.display = 'none';
-    activeHalo.style.display = 'none';
-    activeDot.style.display = 'none';
+    cachedRect = null;
+    _scHoverIdx = -1;
     if (readout) readout.textContent = defaultMain;
     if (readoutSub) readoutSub.textContent = defaultSub;
+    if (!_scRafPending) {
+      _scRafPending = true;
+      requestAnimationFrame(paintStockCanvasFrame);
+    }
   };
-
   wrap.onclick = () => {
-    if (!isCum && hoveredCoord && hoveredCoord.ym) {
-      const targetVal = hoveredCoord.ym === cmYM() ? 'current' : hoveredCoord.ym;
-      selectPeriod(targetVal);
+    if (!isCum && _scHoverIdx >= 0 && _scCachedState && _scCachedState.coords[_scHoverIdx]) {
+      const ym = _scCachedState.coords[_scHoverIdx].ym;
+      if (ym) selectPeriod(ym === cmYM() ? 'current' : ym);
     }
   };
 }
@@ -4618,10 +4947,11 @@ function fbCpy(text, cb) {
    10. SETTINGS, TABS, THEME & CUSTOMIZATION
 ══════════════════════════════════════════════ */
 function switchSettingsTab(tabKey) {
-  ['view', 'fin', 'data'].forEach(k => {
+  const target = tabKey === 'data' ? 'data' : 'view';
+  ['view', 'data'].forEach(k => {
     const btn = document.getElementById(`stab-${k}`);
     const pane = document.getElementById(`spane-${k}`);
-    const on = k === tabKey;
+    const on = k === target;
     if (btn) { btn.classList.toggle('on', on); btn.setAttribute('aria-selected', String(on)); }
     if (pane) pane.classList.toggle('on', on);
   });
@@ -4638,6 +4968,7 @@ function openSettings(defaultTab = 'view') {
   if (snapBtn) snapBtn.style.display = hasSnap ? '' : 'none';
   document.getElementById('sov').classList.add('on');
   updateMobileNavState('set');
+  updateStorageMetrics();
 }
 function closeSettings() {
   flushPendingRates();
@@ -4752,7 +5083,8 @@ function updateTags() {
     w.appendChild(tag);
   }
   if (st && st !== 'all') {
-    const l = st === 'unpaid' ? 'Не оплачено' : 'Оплачено';
+    const lbls = { awaiting: 'Не оплачено', unpaid: 'В работе', sent: 'Отправлено', paid: 'Оплачено' };
+    const l = lbls[st] || 'Фильтр';
     const tag = el('div', {className:'atag', role:'button', tabindex:'0'}, [l+' ×']);
     tag.addEventListener('click', clearStatusFilter);
     w.appendChild(tag);
@@ -4801,10 +5133,13 @@ function getFiltered() {
   const s = document.getElementById('search').value.toLowerCase();
   const st = document.getElementById('f-status').value;
   return entries.filter(e => {
+    const est = getEntryStatus(e);
     if (activeClientFilter && e.name !== activeClientFilter) return false;
     if (activeWorkFilter && e.desc !== activeWorkFilter) return false;
-    if (st === 'unpaid' && e.paid) return false;
-    if (st === 'paid' && !e.paid) return false;
+    if (st === 'awaiting' && est === 'paid') return false;
+    if (st === 'unpaid' && est !== 'unpaid') return false;
+    if (st === 'sent' && est !== 'sent') return false;
+    if (st === 'paid' && est !== 'paid') return false;
     if (s && !(e.desc||'').toLowerCase().includes(s) && !(e.name||'').toLowerCase().includes(s) && !(e.note||'').toLowerCase().includes(s)) return false;
     return true;
   });
@@ -4876,6 +5211,18 @@ function extractUrlFromNote(note) {
   return { text: cleanText, url: fullUrl, label };
 }
 
+function getSentAgingDays(e) {
+  if (getEntryStatus(e) !== 'sent') return null;
+  const refStr = e.sentAt || e.date || '';
+  if (!refStr || refStr.length < 10) return 0;
+  const [y, m, d] = refStr.slice(0, 10).split('-').map(Number);
+  if (!y || !m || !d) return 0;
+  const sentDate = new Date(y, m - 1, d);
+  const now = new Date();
+  const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.max(0, Math.floor((todayMid - sentDate) / 86400000));
+}
+
 function renderEntry(e) {
   let ds = '';
   if (e.date) {
@@ -4884,6 +5231,9 @@ function renderEntry(e) {
       ds = new Date(y,m-1,d).toLocaleDateString('ru-RU', {day:'numeric', month:'short'});
     }
   }
+  const st = getEntryStatus(e);
+  const isPaid = st === 'paid';
+  const isSent = st === 'sent';
   const isSel = selIds.has(e.id);
   const shouldFlash = _flashIds.has(e.id);
   if (shouldFlash) {
@@ -4895,13 +5245,12 @@ function renderEntry(e) {
   }
 
   const card = el('div', {
-    className: `entry-card${e.paid?' paid':''}${editId===e.id?' editing':''}${isSel?' sel':''}${shouldFlash?' flash-glow':''}`,
+    className: `entry-card${isPaid?' paid':''}${editId===e.id?' editing':''}${isSel?' sel':''}${shouldFlash?' flash-glow':''}`,
     data: {id: e.id}
   });
   card.setAttribute('tabindex', '0');
   card.setAttribute('aria-pressed', String(isSel));
 
-  // Клик и правый клик выделяют карточку и открывают нижний док (#sel-dock), двойной клик сразу открывает окно редактирования
   card.addEventListener('click', ev => {
     if (_justLassoed) return;
     const now = performance.now();
@@ -4943,9 +5292,10 @@ function renderEntry(e) {
   ]));
 
   const { text: noteText, url: noteUrl, label: linkLabel } = extractUrlFromNote(e.note);
-  const paidCrossMonth = e.paid && e.paidAt && e.date && e.paidAt.slice(0,7) !== e.date.slice(0,7);
+  const paidCrossMonth = isPaid && e.paidAt && e.date && e.paidAt.slice(0,7) !== e.date.slice(0,7);
+  const agingDays = getSentAgingDays(e);
 
-  if (e.name || noteText || noteUrl || paidCrossMonth) {
+  if (e.name || noteText || noteUrl || paidCrossMonth || agingDays !== null) {
     const meta = el('div', {className:'emeta'});
     if (e.name) {
       const col = getClientColor(e.name);
@@ -4957,6 +5307,11 @@ function renderEntry(e) {
     if (noteText) {
       if (e.name) meta.appendChild(document.createTextNode('·'));
       meta.appendChild(el('span', {className:'enote-txt sel-txt'}, [noteText]));
+    }
+    if (agingDays !== null) {
+      const ageCls = agingDays >= 10 ? 'eage-pill late' : (agingDays >= 5 ? 'eage-pill warn' : 'eage-pill');
+      const ageTxt = agingDays === 0 ? 'Отправлено · сегодня' : `Отправлено · ${agingDays} дн.`;
+      meta.appendChild(el('span', {className: ageCls}, [ageTxt]));
     }
     if (paidCrossMonth) {
       const [py, pm, pd] = e.paidAt.split('-').map(Number);
@@ -4997,11 +5352,13 @@ function renderEntry(e) {
   }
   right.appendChild(amtSpan);
 
+  const badgeCls = isPaid ? 'p' : (isSent ? 's' : 'u');
+  const badgeLbl = isPaid ? 'Оплачено' : (isSent ? 'Отправлено (клик — оплачено)' : 'Не оплачено (клик — отправил)');
   const badge = el('button', {
-    className: 'badge ' + (e.paid ? 'p' : 'u') + (shouldPopBadge ? ' pop' : ''),
+    className: 'badge ' + badgeCls + (shouldPopBadge ? ' pop' : ''),
     type: 'button',
-    title: e.paid ? 'Оплачено' : 'Ожидает оплаты',
-    'aria-label': e.paid ? 'Оплачено' : 'Ожидает оплаты'
+    title: badgeLbl,
+    'aria-label': badgeLbl
   });
 
   badge.addEventListener('click', ev => { ev.stopPropagation(); togPaid(e.id); });
@@ -5012,40 +5369,43 @@ function renderEntry(e) {
   return card;
 }
 
-function getTopFrequent(key, max = 5) {
+function getRankedValues(key) {
   const counts = new Map();
   entries.forEach(e => {
     const v = (e[key] || '').trim();
     if (v) counts.set(v, (counts.get(v) || 0) + 1);
   });
-  return [...counts.entries()].sort((a,b) => b[1] - a[1]).slice(0, max).map(x => x[0]);
+  return [...counts.entries()].sort((a,b) => b[1] - a[1]).map(x => x[0]);
 }
 
-function rebuildClientSel() {
-  _clientColorCache.clear();
-  const names = [...new Set(entries.map(e=>e.name).filter(Boolean))].sort();
-  const descs = [...new Set(entries.map(e=>e.desc).filter(Boolean))].sort();
-  const nl = document.getElementById('nl');
-  const dl = document.getElementById('dl');
-  if (nl) { nl.innerHTML=''; names.forEach(n => { const o=document.createElement('option'); o.value=n; nl.appendChild(o); }); }
-  if (dl) { dl.innerHTML=''; descs.forEach(d => { const o=document.createElement('option'); o.value=d; dl.appendChild(o); }); }
-
+function renderOrderSuggestionChips() {
   const qDesc = document.getElementById('qchips-desc');
+  const descVal = (document.getElementById('f-desc')?.value || '').trim().toLowerCase();
   if (qDesc) {
     qDesc.innerHTML = '';
-    getTopFrequent('desc', 5).forEach(d => {
+    const allDescs = getRankedValues('desc');
+    const filteredDescs = descVal
+      ? allDescs.filter(d => d.toLowerCase().includes(descVal) && d.toLowerCase() !== descVal).slice(0, 6)
+      : allDescs.slice(0, 5);
+    filteredDescs.forEach(d => {
       const chip = el('button', {className:'qchip', type:'button'}, [d]);
       chip.addEventListener('click', () => {
         const inp = document.getElementById('f-desc');
-        if (inp) { inp.value = d; trySmartAutoPrice(); }
+        if (inp) { inp.value = d; trySmartAutoPrice(); renderOrderSuggestionChips(); }
       });
       qDesc.appendChild(chip);
     });
   }
+
   const qName = document.getElementById('qchips-name');
+  const nameVal = (document.getElementById('f-name')?.value || '').trim().toLowerCase();
   if (qName) {
     qName.innerHTML = '';
-    getTopFrequent('name', 6).forEach(n => {
+    const allNames = getRankedValues('name');
+    const filteredNames = nameVal
+      ? allNames.filter(n => n.toLowerCase().includes(nameVal)).slice(0, 7)
+      : allNames.slice(0, 6);
+    filteredNames.forEach(n => {
       const dot = el('span', {className:'eclient-dot', style:`background:${getClientColor(n)}`});
       const chip = el('button', {className:'qchip', type:'button'}, [dot, n]);
       chip.addEventListener('click', () => {
@@ -5054,12 +5414,18 @@ function rebuildClientSel() {
           inp.value = (inp.value.trim() === n) ? '' : n;
           updateClientClearBtn();
           trySmartAutoPrice();
+          renderOrderSuggestionChips();
         }
       });
       qName.appendChild(chip);
     });
     updateClientClearBtn();
   }
+}
+
+function rebuildClientSel() {
+  _clientColorCache.clear();
+  renderOrderSuggestionChips();
 }
 
 function updateStatsAndAnalytics() {
@@ -5543,9 +5909,9 @@ function dupSel() {
   save(); selIds.clear(); render();
 }
 
-function applyBulkPaidStatus(paidStatus) {
+function applyBulkOrderStatus(nextStatus) {
   if (!selIds.size) return;
-  const targetEntries = entries.filter(e => selIds.has(e.id) && e.paid !== paidStatus);
+  const targetEntries = entries.filter(e => selIds.has(e.id) && getEntryStatus(e) !== nextStatus);
   if (!targetEntries.length) {
     clearSel();
     return;
@@ -5556,11 +5922,17 @@ function applyBulkPaidStatus(paidStatus) {
   const td = today();
 
   targetEntries.forEach(e => {
-    if (paidStatus) {
+    e.status = nextStatus;
+    if (nextStatus === 'paid') {
       e.paid = true;
       e.paidAt = e.paidAt || td;
+    } else if (nextStatus === 'sent') {
+      e.paid = false;
+      e.sentAt = e.sentAt || td;
+      delete e.paidAt;
     } else {
       e.paid = false;
+      delete e.sentAt;
       delete e.paidAt;
     }
   });
@@ -5569,13 +5941,19 @@ function applyBulkPaidStatus(paidStatus) {
   clearSel();
   render();
 
-  showToast(paidStatus ? `Отмечено оплаченными: ${cnt}` : `Снята оплата: ${cnt}`, () => {
+  const lblMap = {
+    paid: `Отмечено оплаченными: ${cnt}`,
+    sent: `Отмечено отправленными: ${cnt}`,
+    unpaid: `Возвращено в работу: ${cnt}`
+  };
+  showToast(lblMap[nextStatus] || 'Статус обновлён', () => {
     entries = snapshot; save(); render();
   });
 }
 
-function markPaid() { applyBulkPaidStatus(true); }
-function markUnpaid() { applyBulkPaidStatus(false); }
+function markPaid() { applyBulkOrderStatus('paid'); }
+function markSent() { applyBulkOrderStatus('sent'); }
+function markUnpaid() { applyBulkOrderStatus('unpaid'); }
 
 async function delSel() {
   if (!selIds.size) return;
@@ -5599,17 +5977,35 @@ function togPaid(id) {
   const e = entries.find(x => x.id === id);
   if (!e) return;
   const snapshot = cloneEntries();
-  e.paid = !e.paid;
-  if (e.paid) {
-    e.paidAt = e.paidAt || today();
+  const cur = getEntryStatus(e);
+  const td = today();
+
+  if (cur === 'unpaid') {
+    e.status = 'sent';
+    e.paid = false;
+    e.sentAt = td;
+    delete e.paidAt;
+  } else if (cur === 'sent') {
+    e.status = 'paid';
+    e.paid = true;
+    e.paidAt = e.paidAt || td;
   } else {
+    e.status = 'unpaid';
+    e.paid = false;
+    delete e.sentAt;
     delete e.paidAt;
   }
+
   _popBadgeId = id;
   save();
   render();
 
-  showToast(e.paid ? 'Статус: Оплачено' : 'Статус: Ждём оплату', () => {
+  const msgMap = {
+    sent: 'Статус: Отправлено · отсчёт начат',
+    paid: 'Статус: Оплачено',
+    unpaid: 'Статус: Не оплачено'
+  };
+  showToast(msgMap[e.status], () => {
     entries = snapshot; save(); render();
   });
 }
@@ -5688,17 +6084,28 @@ function updateClientClearBtn() {
   });
 }
 
-function setFormPaid(paid) {
-  formPaidStatus = paid;
+function setFormStatus(st) {
+  const normSt = (st === true || st === 'paid') ? 'paid' : (st === 'sent' ? 'sent' : 'unpaid');
+  formPaidStatus = normSt;
   const ub = document.getElementById('fst-unpaid');
+  const sb = document.getElementById('fst-sent');
   const pb = document.getElementById('fst-paid');
-  if (ub) ub.className = 'fst-btn' + (paid ? '' : ' active-unpaid');
-  if (pb) pb.className = 'fst-btn' + (paid ? ' active-paid' : '');
+  if (ub) ub.className = 'fst-btn' + (normSt === 'unpaid' ? ' active-unpaid' : '');
+  if (sb) sb.className = 'fst-btn' + (normSt === 'sent' ? ' active-sent' : '');
+  if (pb) pb.className = 'fst-btn' + (normSt === 'paid' ? ' active-paid' : '');
+
+  const sw = document.getElementById('f-sentat-wrap');
   const pw = document.getElementById('f-paidat-wrap');
   const dg = document.getElementById('f-dates-grid');
-  if (pw) pw.style.display = paid ? '' : 'none';
-  if (dg) dg.classList.toggle('single-col', !paid);
-  if (paid) {
+  if (sw) sw.style.display = normSt === 'sent' ? '' : 'none';
+  if (pw) pw.style.display = normSt === 'paid' ? '' : 'none';
+  if (dg) dg.classList.toggle('single-col', normSt === 'unpaid');
+
+  if (normSt === 'sent') {
+    const sa = document.getElementById('f-sentat');
+    if (sa && !sa.value) sa.value = today();
+  }
+  if (normSt === 'paid') {
     const pa = document.getElementById('f-paidat');
     if (pa && !pa.value) pa.value = today();
   }
@@ -5722,8 +6129,10 @@ function clearForm() {
   setText('bsub', '+ Добавить');
   const bc = document.getElementById('bcan'); if(bc) { bc.style.display='none'; bc.textContent='Отмена'; }
   setText('m-title', 'Новая запись');
-  setFormPaid(false);
+  setFormStatus('unpaid');
+  const sa = document.getElementById('f-sentat'); if(sa) sa.value='';
   const pa = document.getElementById('f-paidat'); if(pa) pa.value='';
+  renderOrderSuggestionChips();
   _amtManuallyTyped = false;
   _amtAutoFilled = false;
   _hasDraft = false;
@@ -5768,28 +6177,48 @@ function submitForm(keepOpen = false) {
     lsS('ff_last_client', lastClient);
   }
 
+  const st = (formPaidStatus === 'paid' || formPaidStatus === 'sent') ? formPaidStatus : 'unpaid';
+  const saVal = document.getElementById('f-sentat')?.value || today();
+  const paVal = document.getElementById('f-paidat')?.value || today();
+
   const wasEdit = editId !== null;
   if (wasEdit) {
     const e = entries.find(x => x.id === editId);
     if (e) {
       e.name = name; e.amount = amount; e.currency = currency;
       e.desc = desc; e.note = note; e.date = date;
-      const paVal = document.getElementById('f-paidat')?.value || today();
-      if (formPaidStatus) {
+      e.status = st;
+      if (st === 'paid') {
         e.paid = true;
         e.paidAt = paVal;
+      } else if (st === 'sent') {
+        e.paid = false;
+        e.sentAt = saVal;
+        delete e.paidAt;
       } else {
         e.paid = false;
+        delete e.sentAt;
         delete e.paidAt;
       }
       _flashIds.add(e.id);
     }
     editId = null;
   } else {
-    const paValNew = document.getElementById('f-paidat')?.value || today();
     const newId = gid();
-    const newEntry = { id: newId, name, amount, currency, desc, note, date, paid: formPaidStatus, createdAt: today() };
-    if (formPaidStatus) newEntry.paidAt = paValNew;
+    const newEntry = {
+      id: newId,
+      name,
+      amount,
+      currency,
+      desc,
+      note,
+      date,
+      paid: st === 'paid',
+      status: st,
+      createdAt: today()
+    };
+    if (st === 'sent') newEntry.sentAt = saVal;
+    if (st === 'paid') newEntry.paidAt = paVal;
     _flashIds.add(newId);
     entries.unshift(newEntry);
   }
@@ -5841,9 +6270,14 @@ function startEdit(id) {
   setText('bsub', 'Сохранить');
   const bc = document.getElementById('bcan'); if(bc) { bc.style.display=''; bc.textContent='Отмена'; }
   setText('m-title', `Редактирование: ${e.desc||e.name}`);
-  setFormPaid(!!e.paid);
+
+  const st = getEntryStatus(e);
+  setFormStatus(st);
+  const saEl = document.getElementById('f-sentat');
+  if (saEl) saEl.value = st === 'sent' ? (e.sentAt || e.date || today()) : today();
   const paEl = document.getElementById('f-paidat');
-  if (paEl) paEl.value = e.paid ? (e.paidAt || today()) : today();
+  if (paEl) paEl.value = st === 'paid' ? (e.paidAt || today()) : today();
+  renderOrderSuggestionChips();
   openModal();
 }
 
@@ -6063,6 +6497,7 @@ function bindEvents() {
       startEdit(id);
     }
   });
+  document.getElementById('sd-btn-sent')?.addEventListener('click', markSent);
   document.getElementById('sd-btn-paid').addEventListener('click', () => {
     const selList = entries.filter(e => selIds.has(e.id));
     const anyUnpaid = selList.some(e => !e.paid);
@@ -6155,16 +6590,18 @@ function bindEvents() {
   document.getElementById('bsub').addEventListener('click', () => submitForm(false));
   document.getElementById('bcan').addEventListener('click', cancelEdit);
   document.getElementById('f-amt').addEventListener('input', onAmtInput);
-  document.getElementById('f-desc').addEventListener('input', trySmartAutoPrice);
-  document.getElementById('f-name').addEventListener('input', () => { updateClientClearBtn(); trySmartAutoPrice(); });
+  document.getElementById('f-desc').addEventListener('input', () => { trySmartAutoPrice(); renderOrderSuggestionChips(); });
+  document.getElementById('f-name').addEventListener('input', () => { updateClientClearBtn(); trySmartAutoPrice(); renderOrderSuggestionChips(); });
   document.getElementById('btn-clear-client').addEventListener('click', () => {
     const fn = document.getElementById('f-name');
     if (fn) { fn.value = ''; fn.focus(); }
     updateClientClearBtn();
     trySmartAutoPrice();
+    renderOrderSuggestionChips();
   });
-  document.getElementById('fst-unpaid').addEventListener('click', () => setFormPaid(false));
-  document.getElementById('fst-paid').addEventListener('click', () => setFormPaid(true));
+  document.getElementById('fst-unpaid').addEventListener('click', () => setFormStatus('unpaid'));
+  document.getElementById('fst-sent')?.addEventListener('click', () => setFormStatus('sent'));
+  document.getElementById('fst-paid').addEventListener('click', () => setFormStatus('paid'));
 
   document.getElementById('mov').addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.target.closest('#bcan, #m-close')) {
@@ -6178,6 +6615,9 @@ function bindEvents() {
   document.getElementById('f-status').addEventListener('change', onFilter);
 
   document.getElementById('mo-title-btn').addEventListener('click', togglePeriodDd);
+  document.querySelectorAll('.sc-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => setChartMode(btn.dataset.cmode));
+  });
   document.querySelectorAll('.sc-rng-btn').forEach(btn => {
     btn.addEventListener('click', () => setChartTimeframe(btn.dataset.tf));
   });
@@ -6185,7 +6625,6 @@ function bindEvents() {
 
   document.getElementById('btn-settings').addEventListener('click', () => openSettings('view'));
   document.getElementById('stab-view').addEventListener('click', () => switchSettingsTab('view'));
-  document.getElementById('stab-fin').addEventListener('click', () => switchSettingsTab('fin'));
   document.getElementById('stab-data').addEventListener('click', () => switchSettingsTab('data'));
 
   document.getElementById('btn-exp').addEventListener('click', exportData);
@@ -6214,6 +6653,14 @@ function bindEvents() {
   document.getElementById('conf-cancel').addEventListener('click', () => _confClose(false));
   document.getElementById('conf-overlay').addEventListener('click', e => {
     if (e.target === document.getElementById('conf-overlay')) _confClose(false);
+  });
+
+  let _scWinResizeTmr = null;
+  window.addEventListener('resize', () => {
+    if (chartMode === 'trend' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode')) {
+      clearTimeout(_scWinResizeTmr);
+      _scWinResizeTmr = setTimeout(() => renderMiniStockChart(), 120);
+    }
   });
 
   window.addEventListener('blur', () => {
@@ -7556,6 +8003,24 @@ const TwitterPlanner = (() => {
     });
   }
 
+  async function copySingleDayPngToClipboard(dayIdx) {
+    renderDayCanvas(dayIdx, true);
+    const canvas = document.getElementById(`xp-cv-${dayIdx}`);
+    if (!canvas) return;
+    const blob = await exportCanvasToBlob(canvas);
+    renderDayCanvas(dayIdx, false);
+    if (!blob) return;
+
+    try {
+      if (navigator.clipboard && window.ClipboardItem) {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        notify('PNG скопирован в буфер обмена');
+        return;
+      }
+    } catch (err) {}
+    notify('Браузер не разрешил копирование картинки — используйте скачивание');
+  }
+
   async function downloadSingleDay(dayIdx) {
     const dayMeta = DAYS[dayIdx];
     renderDayCanvas(dayIdx, true);
@@ -8693,6 +9158,16 @@ const TwitterPlanner = (() => {
       secPad.appendChild(segPad);
       cMenu.appendChild(secPad);
 
+      const saveTplMenuBtn = document.createElement('button');
+      saveTplMenuBtn.type = 'button';
+      saveTplMenuBtn.className = 'xp-cm-act';
+      saveTplMenuBtn.textContent = 'Сохранить как шаблон треда';
+      saveTplMenuBtn.addEventListener('click', () => {
+        closeAllCardMenus();
+        saveDayAsThreadTemplate(dIdx);
+      });
+      cMenu.appendChild(saveTplMenuBtn);
+
       hdrControls.appendChild(sel);
       hdrControls.appendChild(dotsBtn);
       hdrControls.appendChild(cMenu);
@@ -8869,14 +9344,13 @@ const TwitterPlanner = (() => {
       copyThreadBtn.textContent = 'Копировать тред';
       copyThreadBtn.addEventListener('click', () => copyFullThread(dIdx));
 
-      const saveTplBtn = document.createElement('button');
-      saveTplBtn.type = 'button';
-      saveTplBtn.className = 'xp-th-btn';
-      saveTplBtn.id = `xp-save-th-${dIdx}`;
-      saveTplBtn.style.display = 'none';
-      saveTplBtn.textContent = 'В шаблон';
-      saveTplBtn.title = 'Сохранить этот тред как шаблон';
-      saveTplBtn.addEventListener('click', () => saveDayAsThreadTemplate(dIdx));
+      const copyPngBtn = document.createElement('button');
+      copyPngBtn.type = 'button';
+      copyPngBtn.className = 'xp-btn xp-btn-ghost xp-btn-sm xp-dl-ico';
+      copyPngBtn.title = 'Копировать PNG в буфер обмена';
+      copyPngBtn.setAttribute('aria-label', 'Копировать PNG');
+      copyPngBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      copyPngBtn.addEventListener('click', () => copySingleDayPngToClipboard(dIdx));
 
       const dlBtn = document.createElement('button');
       dlBtn.type = 'button';
@@ -8886,8 +9360,8 @@ const TwitterPlanner = (() => {
       dlBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
       dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
 
-      footBtns.appendChild(saveTplBtn);
       footBtns.appendChild(copyThreadBtn);
+      footBtns.appendChild(copyPngBtn);
       footBtns.appendChild(dlBtn);
       metricsRow.appendChild(footBtns);
       bodyCol.appendChild(metricsRow);
@@ -8914,7 +9388,7 @@ const TwitterPlanner = (() => {
     const list = document.getElementById(`xp-thread-list-${dayIdx}`);
     const mainLine = document.getElementById(`xp-main-tline-${dayIdx}`);
     const copyThBtn = document.getElementById(`xp-copy-th-${dayIdx}`);
-    const saveThBtn = document.getElementById(`xp-save-th-${dayIdx}`);
+
     if (!list) return;
 
     const hasThread = Array.isArray(d.thread) && d.thread.length > 0;
@@ -8923,7 +9397,7 @@ const TwitterPlanner = (() => {
       copyThBtn.style.display = hasThread ? '' : 'none';
       copyThBtn.textContent = `Копировать тред (${d.thread.length + 1})`;
     }
-    if (saveThBtn) saveThBtn.style.display = hasThread ? '' : 'none';
+
 
     list.innerHTML = '';
     if (!hasThread) return;
@@ -10015,28 +10489,23 @@ const TwitterPlanner = (() => {
   }
 
   function rebuildBudgetCategoryChips() {
-    const dl = document.getElementById('bg-cat-dl');
     const chipsWrap = document.getElementById('bg-qchips-cat');
     const defaults = bgFormType === 'income' ? DEFAULT_INC_CATS : DEFAULT_EXP_CATS;
     const fromHist = budgetEntries.filter(x => x.type === bgFormType).map(x => x.category);
     const cats = [...new Set([...defaults, ...fromHist])];
+    const query = (document.getElementById('bg-f-cat')?.value || '').trim().toLowerCase();
 
-    if (dl) {
-      dl.innerHTML = '';
-      cats.forEach(c => {
-        const o = document.createElement('option');
-        o.value = c;
-        dl.appendChild(o);
-      });
-    }
     if (chipsWrap) {
       chipsWrap.innerHTML = '';
-      cats.slice(0, 7).forEach(c => {
+      const filtered = query
+        ? cats.filter(c => c.toLowerCase().includes(query) && c.toLowerCase() !== query).slice(0, 7)
+        : cats.slice(0, 7);
+      filtered.forEach(c => {
         const dot = el('span', { className: 'eclient-dot', style: `background:${getCategoryColor(c)}` });
         const ch = el('button', { type: 'button', className: 'qchip' }, [dot, c]);
         ch.addEventListener('click', () => {
           const inp = document.getElementById('bg-f-cat');
-          if (inp) inp.value = c;
+          if (inp) { inp.value = c; rebuildBudgetCategoryChips(); }
         });
         chipsWrap.appendChild(ch);
       });
@@ -10198,6 +10667,7 @@ const TwitterPlanner = (() => {
       }
     });
 
+    document.getElementById('bg-f-cat')?.addEventListener('input', rebuildBudgetCategoryChips);
     document.getElementById('bg-f-amt')?.addEventListener('input', () => {
       const v = document.getElementById('bg-f-amt').value;
       const h = document.getElementById('bg-ahint');
