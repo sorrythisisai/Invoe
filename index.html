@@ -918,22 +918,86 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .hero-chart-side{border-left:none;border-top:0.5px solid var(--border);padding-left:0;padding-top:14px;}
 }
 
+.m-global-topbar{
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 16px;
+  background:var(--bg);
+  border-bottom:0.5px solid var(--border);
+  flex-shrink:0;
+  z-index:220;
+}
+.m-gt-left{display:flex;align-items:center;gap:8px;min-width:0;}
+.m-gt-title{font-size:16px;font-weight:700;letter-spacing:-0.025em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.m-gt-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.m-gt-pill{
+  display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 11px;
+  border-radius:var(--rf);background:var(--surface);border:0.5px solid var(--border);
+  color:var(--text);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+.m-gt-pill:active{background:var(--surface2);}
+.m-gt-ico{
+  width:30px;height:30px;padding:0;border-radius:50%;
+  background:var(--surface);border:0.5px solid var(--border);
+  color:var(--text2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.m-gt-ico .sync-dot{width:7px;height:7px;}
+.m-gt-ico.pending .sync-dot{background:var(--text3);}
+.m-gt-ico.warn .sync-dot{background:var(--warning);}
+
+.fpanel-back,.xp-sheet-back{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:580;
+}
+.fpanel-back.on,.xp-sheet-back.on{display:block;}
+
 @media(max-width:768px){
+  .app{flex-direction:column;}
   .rail-nav{display:none;}
-  .m-topbar{display:flex;}
+  .m-global-topbar{display:flex;}
+  .m-topbar{display:none!important;}
   .m-period-pill{display:inline-flex;}
-  .main{padding:14px 16px calc(130px + var(--safe-b));gap:14px;}
-  .hero-card{padding:16px 18px;border-radius:18px;}
-  .bal-amount{font-size:28px;}
-  .bal-amount.secondary{font-size:24px;}
+  .main{padding:12px 14px calc(118px + var(--safe-b));gap:12px;}
+  .hero-card{padding:15px 16px;border-radius:18px;gap:14px;}
+  .fin-group{gap:16px;}
+  .fin-metric{flex:1;}
+  .bal-amount{font-size:clamp(22px, 6.4vw, 28px);}
+  .bal-amount.secondary{font-size:clamp(19px, 5.5vw, 24px);}
   .main .mo-title-wrap{display:none;}
+  .sc-hdr{flex-wrap:wrap;gap:6px;}
+  .sc-ranges{margin-left:auto;}
+  .toolbar{gap:8px;}
+  .search-wrap{min-width:0;}
   .add-order-btn{display:none;}
-  .rem-group{padding:14px 16px 8px;border-radius:18px;}
+  .rem-group{padding:13px 15px 8px;border-radius:18px;}
+  .entry-card{gap:10px;padding:10px 8px;margin:0 -8px 1px;}
+  .enote-txt{max-width:170px;}
   .edate{display:none;}
-  .sel-dock{left:12px;right:12px;transform:translateY(24px) scale(0.96);bottom:calc(80px + var(--safe-b));max-width:none;padding:7px 9px;justify-content:space-between;}
+  .badge{width:30px;height:30px;margin-right:-4px;}
+  .badge.u{box-shadow:none;}
+  .badge.u::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--text3);display:block;}
+  .badge.p{box-shadow:none;}
+  .badge.p::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--blue);display:flex;align-items:center;justify-content:center;}
+  .badge.p::after{position:absolute;width:12px;height:12px;}
+
+  /* Filter Panel as iOS Bottom Sheet on Mobile */
+  .fpanel{
+    position:fixed!important;top:auto!important;left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;max-width:100%!important;border-radius:22px 22px 0 0!important;
+    padding:16px 18px calc(24px + var(--safe-b))!important;z-index:620!important;
+    max-height:82dvh;overflow-y:auto;
+  }
+  .fpanel .fsel{height:40px;font-size:16px;}
+  .fpanel .ftag{padding:7px 12px;font-size:13px;}
+
+  .sel-dock{left:12px;right:12px;transform:translateY(24px) scale(0.96);bottom:calc(78px + var(--safe-b));max-width:none;padding:7px 9px;justify-content:space-between;gap:8px;}
   .sel-dock.on{transform:translateY(0) scale(1);}
-  .toast{left:50%;bottom:calc(84px + var(--safe-b));}
-  body.has-sel-dock .toast{bottom:calc(148px + var(--safe-b));}
+  .sel-dock-info{padding-right:8px;}
+  .sel-dock-sum{font-size:13px;}
+  .toast{left:50%;bottom:calc(82px + var(--safe-b));}
+  body.has-sel-dock .toast{bottom:calc(144px + var(--safe-b));}
   .moverlay{align-items:flex-end;padding:0;}
   .modal{max-width:100%;border-radius:22px 22px 0 0;border-bottom:none;padding:12px 18px calc(22px + var(--safe-b));max-height:92dvh;transform:translateY(100%);}
   .moverlay.on .modal{transform:translateY(0);}
@@ -946,7 +1010,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 
   .m-bottom-nav{
     display:grid;grid-template-columns:1fr 1fr 54px 1fr 1fr;align-items:center;gap:2px;
-    position:fixed;left:16px;right:16px;bottom:calc(12px + var(--safe-b));height:58px;padding:0 6px;
+    position:fixed;left:14px;right:14px;bottom:calc(10px + var(--safe-b));height:58px;padding:0 6px;
     background:var(--rail-bg);border:0.5px solid var(--border2);border-radius:20px;z-index:520;
     box-shadow:var(--shadow-dock);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
   }
@@ -1373,12 +1437,19 @@ body.budget-mode #sel-dock{display:none!important;}
   .bg-hero-grid{grid-template-columns:1fr;}
 }
 @media(max-width:768px){
-  .bg-view{padding:14px 16px calc(130px + var(--safe-b));}
-  .bg-card{padding:16px 18px;border-radius:18px;}
-  .bg-net-val{font-size:28px;}
-  .bg-sub-val{font-size:21px;}
-  .bg-donut-wrap{flex-direction:column;align-items:flex-start;}
-  .bg-legend{width:100%;}
+  .bg-view{padding:12px 14px calc(118px + var(--safe-b));}
+  .bg-card{padding:15px 16px;border-radius:18px;gap:12px;}
+  .bg-card .mo-title-wrap{display:none;}
+  .bg-net-val{font-size:26px;}
+  .bg-sub-val{font-size:20px;}
+  .bg-donut-wrap{gap:14px;}
+  .bg-donut-box{width:118px;height:118px;}
+  .bg-donut-center{inset:22px;}
+  .bg-dc-val{font-size:13px;}
+}
+@media(max-width:420px){
+  .bg-donut-wrap{flex-direction:column;align-items:stretch;}
+  .bg-donut-box{width:132px;height:132px;margin:0 auto;}
 }
 </style>
 <style id="xp-styles">
@@ -1526,6 +1597,19 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-day-card.is-ready .xp-day-dot{background:#1d9bf0;opacity:1;}
 
 .xp-hdr-controls{display:flex;align-items:center;gap:5px;flex-shrink:0;position:relative;}
+.xp-preset-btn{
+  height:28px;padding:0 9px 0 7px;
+  font-size:11.5px;font-weight:600;color:var(--text2);
+  background:var(--surface2);border:none;border-radius:8px;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  max-width:172px;white-space:nowrap;
+}
+.xp-preset-btn:hover,.xp-preset-btn.on{background:var(--surface3);color:var(--text);}
+.xp-preset-btn.on{background:var(--blue-bg);color:var(--blue);}
+.xp-pres-ico{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0.85;}
+.xp-pres-lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.xp-pres-chev{flex-shrink:0;opacity:0.65;}
+
 .xp-preset-sel{
   height:28px;padding:0 22px 0 9px;
   font-size:11.5px;font-weight:500;color:var(--text2);
@@ -1534,9 +1618,68 @@ body.budget-mode #sel-dock{display:none!important;}
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 7px center;
-  max-width:144px;text-overflow:ellipsis;
 }
-.xp-preset-sel:hover{color:var(--text);}
+
+/* Visual Layout Preview Grid Popover */
+.xp-preset-pop{
+  position:fixed;z-index:9910;width:368px;max-width:calc(100vw - 24px);
+  background:var(--surface);border:0.5px solid var(--border2);
+  border-radius:16px;box-shadow:var(--shadow-md);
+  padding:12px;display:none;flex-direction:column;gap:10px;
+  animation:popIn .14s var(--ease);
+}
+.xp-preset-pop.on{display:flex;}
+.xp-pp-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:8px;
+}
+.xp-pp-card{
+  background:var(--surface2);
+  border:1.5px solid transparent;
+  border-radius:12px;
+  padding:8px 8px 7px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  text-align:center;
+  transition:background-color .14s, border-color .14s, transform .12s;
+}
+.xp-pp-card:hover{background:var(--surface3);}
+.xp-pp-card.on{
+  background:var(--blue-bg);
+  border-color:var(--blue);
+}
+.xp-pp-thumb{
+  width:100%;
+  height:52px;
+  border-radius:8px;
+  background:var(--surface);
+  border:0.5px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:5px;
+  overflow:hidden;
+}
+.xp-pp-thumb svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.xp-pp-name{
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--text);
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+.xp-pp-card.on .xp-pp-name{color:var(--blue);}
 
 .xp-dots-btn{
   width:28px;height:28px;border-radius:8px;
@@ -1809,14 +1952,76 @@ body.xp-mode #sel-dock{display:none!important;}
 body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 @media(max-width:768px){
-  .xp-view{padding:12px 14px 48px;}
+  .xp-view{padding:12px 14px calc(118px + var(--safe-b));}
+  .xp-header{gap:10px;}
+  .xp-view-switch{display:none;}
   .xp-grid{flex-direction:column;}
-  .xp-tw-icons{gap:12px;}
+  .xp-day-card{padding:14px 14px;border-radius:16px;}
+  .xp-tw-post{gap:10px;}
+  .xp-tw-left,.xp-th-left{width:32px;}
+  .xp-tw-avatar{width:32px;height:32px;font-size:13px;}
+  .xp-th-av{width:26px;height:26px;font-size:11px;}
+  .xp-tw-name{max-width:96px;font-size:13.5px;}
+  .xp-tw-handle{font-size:12px;}
+  .xp-preset-btn{max-width:136px;padding:0 7px 0 6px;gap:5px;font-size:11px;}
+  .xp-tw-icons{gap:10px;}
+
+  /* Mobile Floating Slot Toolbar wraps cleanly inside canvas */
+  .xp-slot-float{
+    top:8px;left:8px;right:8px;transform:none;
+    max-width:none;width:auto;flex-wrap:wrap;justify-content:center;
+    border-radius:14px;padding:6px 8px;gap:6px;
+  }
+  .xp-sf-btn{height:28px;padding:0 9px;font-size:11px;}
+  .xp-sf-btn.xp-sf-ico{width:28px;padding:0;}
+  .xp-sf-range{width:76px;}
+
+  /* Mobile Bottom Sheets for Hooks, Thread Templates, Layout Preview & Card Menu */
+  .xp-hooks-pop, .xp-preset-pop{
+    top:auto!important;left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;max-width:100%!important;
+    border-radius:22px 22px 0 0!important;
+    padding:14px 16px calc(24px + var(--safe-b))!important;
+    max-height:84dvh;overflow-y:auto;z-index:630!important;
+  }
+  .xp-card-menu{
+    position:fixed!important;top:auto!important;left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;max-width:100%!important;
+    border-radius:22px 22px 0 0!important;
+    padding:16px 18px calc(26px + var(--safe-b))!important;
+    z-index:630!important;
+  }
+  .xp-hp-inp{font-size:16px!important;height:36px;}
+}
+@media(max-width:560px){
+  .xp-hp-cols{grid-template-columns:1fr;}
+  .xp-hp-list{max-height:130px;}
 }
 </style>
 </head>
 <body>
 <div class="app" id="app-root">
+
+<!-- Unified Mobile Top Header (Visible on <= 768px across all sections) -->
+<header class="m-global-topbar" id="m-global-topbar" aria-label="Мобильная шапка">
+  <div class="m-gt-left">
+    <div class="rail-logo" aria-hidden="true">In<span class="rail-logo-dot"></span></div>
+    <span class="m-gt-title" id="m-gt-title">Заказы</span>
+  </div>
+  <div class="m-gt-actions">
+    <button type="button" class="m-gt-ico" id="m-sync-btn" title="Синхронизация" aria-label="Синхронизация">
+      <span class="sync-dot"></span>
+    </button>
+    <button type="button" class="m-gt-pill" id="m-inv-btn" aria-label="Инвойс">Инвойс</button>
+    <button type="button" class="m-gt-pill" id="m-period-btn" aria-label="Выбрать период">
+      <span id="m-period-lbl">Месяц</span>
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="fpanel-back" id="fpanel-back"></div>
+<div class="xp-sheet-back" id="xp-sheet-back"></div>
 
 <!-- Unified Floating Action Bar for Selected Orders -->
 <div class="sel-dock" id="sel-dock" role="toolbar" aria-label="Действия с выделенными заказами">
@@ -1911,14 +2116,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 <div class="body" id="workspace-body">
   <div class="main" id="main-area">
 
-    <!-- Mobile Top Header -->
-    <div class="m-topbar">
-      <span class="m-logo"><span class="logo-dot"></span>Invoe</span>
-      <button class="m-period-pill" id="m-period-btn" type="button" aria-label="Выбрать месяц">
-        <span id="m-period-lbl">Месяц</span>
-        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
-      </button>
-    </div>
+
 
     <!-- Hidden backward-compat nodes -->
     <div style="display:none;" aria-hidden="true">
@@ -2730,19 +2928,23 @@ function getFirebaseEndpoint() {
 
 function updateSyncPill(state) {
   const pill = document.getElementById('top-sync-btn');
+  const mBtn = document.getElementById('m-sync-btn');
+  [pill, mBtn].forEach(elNode => {
+    if (!elNode) return;
+    elNode.classList.remove('warn', 'pending');
+    if (fbUrl && state === 'pending') elNode.classList.add('pending');
+    if (fbUrl && state === 'err') elNode.classList.add('warn');
+  });
   if (!pill) return;
-  pill.classList.remove('warn', 'pending');
   if (!fbUrl) {
     setText('top-sync-lbl', 'Сейф');
   } else if (state === 'pending') {
-    pill.classList.add('pending');
     setText('top-sync-lbl', 'Ждём 5с...');
   } else if (state === 'syncing') {
     setText('top-sync-lbl', 'Синхр...');
   } else if (state === 'ok') {
     setText('top-sync-lbl', 'Облако');
   } else if (state === 'err') {
-    pill.classList.add('warn');
     setText('top-sync-lbl', 'Ошибка');
   }
 }
@@ -4061,6 +4263,49 @@ function renderMiniStockChart() {
     }
   };
 
+  const scrubAtClientX = clientX => {
+    if (!coords.length) return;
+    const rect = wrap.getBoundingClientRect();
+    const relX = clientX - rect.left;
+    const clampedX = Math.max(padLeft, Math.min(padLeft + plotW, relX));
+    const ratio = plotW > 0 ? (clampedX - padLeft) / plotW : 0;
+    const idx = Math.round(ratio * (coords.length - 1));
+    const c = coords[idx];
+    if (!c) return;
+    hoveredCoord = c;
+
+    vLine.setAttribute('x1', String(c.x));
+    vLine.setAttribute('x2', String(c.x));
+    vLine.style.display = '';
+
+    activeHalo.setAttribute('cx', String(c.x));
+    activeHalo.setAttribute('cy', String(c.y));
+    activeHalo.style.display = '';
+
+    activeDot.setAttribute('cx', String(c.x));
+    activeDot.setAttribute('cy', String(c.y));
+    activeDot.style.display = '';
+
+    if (readout) readout.textContent = `${c.label} · ${fmtB(c.value)}`;
+    if (readoutSub) {
+      if (isCum) {
+        readoutSub.textContent = c.rawPeriodVal > 0
+          ? `+${fmtB(c.rawPeriodVal)} (${pluralOrdersRu(c.count)})`
+          : 'Без поступлений';
+      } else {
+        readoutSub.textContent = c.count > 0 ? pluralOrdersRu(c.count) : 'Нет оплат';
+      }
+    }
+  };
+
+  wrap.onmousemove = ev => scrubAtClientX(ev.clientX);
+  wrap.ontouchstart = ev => {
+    if (ev.touches && ev.touches[0]) scrubAtClientX(ev.touches[0].clientX);
+  };
+  wrap.ontouchmove = ev => {
+    if (ev.touches && ev.touches[0]) scrubAtClientX(ev.touches[0].clientX);
+  };
+
   wrap.onmouseleave = () => {
     hoveredCoord = null;
     vLine.style.display = 'none';
@@ -4286,8 +4531,10 @@ function openSettings(defaultTab = 'view') {
 function closeSettings() {
   flushPendingRates();
   document.getElementById('sov').classList.remove('on');
-  const sbOpen = document.getElementById('sidebar').classList.contains('mobile-open');
-  updateMobileNavState(sbOpen ? 'stats' : 'list');
+  const activeTab = document.body.classList.contains('xp-mode')
+    ? 'stats'
+    : (document.body.classList.contains('budget-mode') ? 'inv' : 'list');
+  updateMobileNavState(activeTab);
 }
 function updateSettingsUI() {
   document.getElementById('t-light').classList.toggle('on', theme==='light');
@@ -4344,15 +4591,18 @@ function pruneHiddenSelections() {
 }
 
 function toggleFP() {
-  const p=document.getElementById('fpanel'), b=document.getElementById('filter-btn');
+  const p=document.getElementById('fpanel'), b=document.getElementById('filter-btn'), bk=document.getElementById('fpanel-back');
   const o=!p.classList.contains('on');
   p.classList.toggle('on',o); b.classList.toggle('on',o);
+  if (bk) bk.classList.toggle('on', o && window.innerWidth <= 768);
   b.setAttribute('aria-expanded', String(o));
   if (o) buildFilterTags();
 }
 function closeFP() {
   document.getElementById('fpanel').classList.remove('on');
   document.getElementById('filter-btn').classList.remove('on');
+  const bk = document.getElementById('fpanel-back');
+  if (bk) bk.classList.remove('on');
   document.getElementById('filter-btn').setAttribute('aria-expanded','false');
 }
 function onFilter() { pruneHiddenSelections(); updateFilterState(); renderList(); }
@@ -5633,9 +5883,18 @@ function bindEvents() {
     }
     updateMobileNavState('stats');
   });
+  document.getElementById('m-inv-btn')?.addEventListener('click', openInvSheet);
+  document.getElementById('m-sync-btn')?.addEventListener('click', () => {
+    if (fbUrl) safeSyncWithFirebase(true);
+    else openSettings('data');
+  });
+  document.getElementById('fpanel-back')?.addEventListener('click', closeFP);
+
   document.getElementById('m-nav-add').addEventListener('click', () => {
     if (document.body.classList.contains('budget-mode') && typeof window.openBudgetModal === 'function') {
       window.openBudgetModal();
+    } else if (document.body.classList.contains('xp-mode') && typeof TwitterPlanner !== 'undefined' && TwitterPlanner.openMobileAdd) {
+      TwitterPlanner.openMobileAdd();
     } else {
       openModal();
     }
@@ -5990,66 +6249,126 @@ const TwitterPlanner = (() => {
   const ALL_SLOT_KEYS = ['s1', 's2', 's3', 'final'];
 
   const PRESETS = {
-    stack2: {
-      id: 'stack2',
-      name: '1. Vertical Stack (2 × 16:9)',
+    single1: {
+      id: 'single1',
+      name: '1 фото',
       slots: [
-        { key: 's1', label: 'Top 16:9' },
-        { key: 'final', label: 'Bottom 16:9' }
-      ]
-    },
-    sketch3_final: {
-      id: 'sketch3_final',
-      name: '2. 3 Sketches + Final',
-      slots: [
-        { key: 's1', label: 'Sketch 1' },
-        { key: 's2', label: 'Sketch 2' },
-        { key: 's3', label: 'Sketch 3' },
-        { key: 'final', label: 'Final 16:9' }
+        { key: 'final', label: 'Фото 16:9' }
       ]
     },
     sketch1_final: {
       id: 'sketch1_final',
-      name: '3. 1 Sketch + Final',
+      name: 'Скетч + финал',
       slots: [
-        { key: 's1', label: 'Sketch (72%)' },
-        { key: 'final', label: 'Final 16:9' }
+        { key: 's1', label: 'Скетч' },
+        { key: 'final', label: 'Финал 16:9' }
+      ]
+    },
+    sketch3_final: {
+      id: 'sketch3_final',
+      name: '3 скетча + финал',
+      slots: [
+        { key: 's1', label: 'Скетч 1' },
+        { key: 's2', label: 'Скетч 2' },
+        { key: 's3', label: 'Скетч 3' },
+        { key: 'final', label: 'Финал 16:9' }
       ]
     },
     assets_inspo: {
       id: 'assets_inspo',
-      name: '4. Assets & Inspo + Final',
+      name: 'Исходники + финал',
       slots: [
         { key: 's1', label: 'Assets' },
         { key: 's2', label: 'Inspo' },
-        { key: 'final', label: 'Final 16:9' }
+        { key: 'final', label: 'Финал 16:9' }
       ]
     },
     palette_final: {
       id: 'palette_final',
-      name: '5. Color Palette + Final',
+      name: 'Палитра + финал',
       slots: [
-        { key: 'final', label: 'Final 16:9' }
+        { key: 'final', label: 'Финал 16:9' }
+      ]
+    },
+    stack2: {
+      id: 'stack2',
+      name: '2 в столбик',
+      slots: [
+        { key: 's1', label: 'Верх 16:9' },
+        { key: 'final', label: 'Низ 16:9' }
       ]
     },
     grid2x2: {
       id: 'grid2x2',
-      name: '6. 2×2 Grid (4 × 16:9)',
+      name: 'Сетка 2×2',
       slots: [
-        { key: 's1', label: 'Top-Left' },
-        { key: 's2', label: 'Top-Right' },
-        { key: 's3', label: 'Bot-Left' },
-        { key: 'final', label: 'Bot-Right' }
-      ]
-    },
-    single1: {
-      id: 'single1',
-      name: '7. 1 фото (Single 16:9)',
-      slots: [
-        { key: 'final', label: 'Фото 16:9' }
+        { key: 's1', label: 'Верх-лево' },
+        { key: 's2', label: 'Верх-право' },
+        { key: 's3', label: 'Низ-лево' },
+        { key: 'final', label: 'Низ-право' }
       ]
     }
   };
+
+  function getPresetWireframeSvg(presetId, mini = false) {
+    const w = mini ? 22 : 96;
+    const h = mini ? 15 : 44;
+    const fillFinal = 'currentColor';
+    const opFinal = mini ? '0.85' : '0.26';
+    const opSub = mini ? '0.35' : '0.12';
+    const strokeCol = 'currentColor';
+    const sw = mini ? '1.1' : '1.2';
+
+    if (presetId === 'single1') {
+      return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+        <rect x="14" y="4" width="68" height="36" rx="4" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.55" stroke-width="${sw}"/>
+      </svg>`;
+    }
+    if (presetId === 'sketch1_final') {
+      return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+        <rect x="29" y="3" width="38" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
+        <rect x="18" y="20" width="60" height="21" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+      </svg>`;
+    }
+    if (presetId === 'sketch3_final') {
+      return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+        <rect x="18" y="3" width="18" height="12" rx="2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
+        <rect x="39" y="3" width="18" height="12" rx="2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
+        <rect x="60" y="3" width="18" height="12" rx="2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
+        <rect x="18" y="18" width="60" height="23" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+      </svg>`;
+    }
+    if (presetId === 'assets_inspo') {
+      return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+        <rect x="22" y="3" width="24" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
+        <rect x="50" y="3" width="24" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
+        <rect x="18" y="20" width="60" height="21" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+      </svg>`;
+    }
+    if (presetId === 'palette_final') {
+      return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+        <rect x="22" y="4" width="8.5" height="8.5" rx="2" fill="#ff2d55"/>
+        <rect x="33" y="4" width="8.5" height="8.5" rx="2" fill="#ff9500"/>
+        <rect x="44" y="4" width="8.5" height="8.5" rx="2" fill="#34c759"/>
+        <rect x="55" y="4" width="8.5" height="8.5" rx="2" fill="#007aff"/>
+        <rect x="66" y="4" width="8.5" height="8.5" rx="2" fill="#af52de"/>
+        <rect x="18" y="16" width="60" height="25" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+      </svg>`;
+    }
+    if (presetId === 'stack2') {
+      return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+        <rect x="20" y="3" width="56" height="17" rx="3" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
+        <rect x="20" y="23" width="56" height="18" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+      </svg>`;
+    }
+    // grid2x2
+    return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+      <rect x="18" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
+      <rect x="50" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
+      <rect x="18" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
+      <rect x="50" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+    </svg>`;
+  }
 
   const CONTENT_W = 1920;
   const PAD = 56;
@@ -7339,11 +7658,122 @@ const TwitterPlanner = (() => {
     return pop;
   }
 
+  function syncXpSheetBackdrop() {
+    const bk = document.getElementById('xp-sheet-back');
+    if (!bk) return;
+    const anyOpen = Boolean(
+      (_hooksPopEl && _hooksPopEl.classList.contains('on')) ||
+      (_ttplPopEl && _ttplPopEl.classList.contains('on')) ||
+      (_presetPopEl && _presetPopEl.classList.contains('on')) ||
+      _openMenuDayIdx !== null
+    );
+    bk.classList.toggle('on', anyOpen && window.innerWidth <= 768);
+  }
+
   function closeHooksPopover() {
     _hooksPopDayIdx = null;
     if (_hooksPopEl) _hooksPopEl.classList.remove('on');
     document.querySelectorAll('.xp-hooks-btn.on').forEach(b => b.classList.remove('on'));
     syncActiveCardElevation();
+    syncXpSheetBackdrop();
+  }
+
+  /* Visual Layout Preview Picker Popover */
+  let _presetPopEl = null;
+  let _presetPopDayIdx = null;
+
+  function closePresetPopover() {
+    _presetPopDayIdx = null;
+    if (_presetPopEl) _presetPopEl.classList.remove('on');
+    document.querySelectorAll('.xp-preset-btn.on').forEach(b => b.classList.remove('on'));
+    syncXpSheetBackdrop();
+  }
+
+  function renderPresetPopover() {
+    if (!_presetPopEl) {
+      const pop = document.createElement('div');
+      pop.className = 'xp-preset-pop';
+      pop.id = 'xp-preset-pop';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-label', 'Выбор макета');
+      pop.addEventListener('click', e => e.stopPropagation());
+      pop.addEventListener('mousedown', e => e.stopPropagation());
+      document.body.appendChild(pop);
+      _presetPopEl = pop;
+    }
+    const pop = _presetPopEl;
+    if (_presetPopDayIdx === null) return;
+    const dIdx = _presetPopDayIdx;
+    const dState = state[dIdx];
+    pop.innerHTML = '';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'xp-hp-hdr';
+    hdr.innerHTML = `<div class="xp-hp-title"><span>Макет (${DAYS[dIdx].shortRu})</span></div>`;
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'xp-hp-close';
+    closeBtn.setAttribute('aria-label', 'Закрыть');
+    closeBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    closeBtn.addEventListener('click', closePresetPopover);
+    hdr.appendChild(closeBtn);
+    pop.appendChild(hdr);
+
+    const grid = document.createElement('div');
+    grid.className = 'xp-pp-grid';
+
+    Object.values(PRESETS).forEach(pr => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'xp-pp-card' + (dState.preset === pr.id ? ' on' : '');
+      card.innerHTML = `
+        <div class="xp-pp-thumb">${getPresetWireframeSvg(pr.id, false)}</div>
+        <span class="xp-pp-name">${pr.name}</span>
+      `;
+      card.addEventListener('click', () => {
+        dState.preset = pr.id;
+        _armedSlot = null;
+        saveDayMeta(dIdx);
+        refreshDayCardUI(dIdx);
+        updateReadyBadge();
+        closePresetPopover();
+      });
+      grid.appendChild(card);
+    });
+
+    pop.appendChild(grid);
+  }
+
+  function togglePresetPopover(dayIdx, btnEl) {
+    closeHooksPopover();
+    closeThreadTplPopover();
+    closeAllCardMenus();
+    if (_presetPopDayIdx === dayIdx && _presetPopEl && _presetPopEl.classList.contains('on')) {
+      closePresetPopover();
+      return;
+    }
+    _presetPopDayIdx = dayIdx;
+    document.querySelectorAll('.xp-preset-btn.on').forEach(b => b.classList.remove('on'));
+    if (btnEl) btnEl.classList.add('on');
+
+    renderPresetPopover();
+    _presetPopEl.classList.add('on');
+    syncXpSheetBackdrop();
+
+    if (btnEl && window.innerWidth > 768) {
+      const r = btnEl.getBoundingClientRect();
+      const popW = 368;
+      const popH = _presetPopEl.offsetHeight || 310;
+      let left = r.right - popW;
+      if (left < 12) left = 12;
+      if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
+      let top = r.bottom + 8;
+      if (top + popH > window.innerHeight - 12) {
+        top = Math.max(12, r.top - popH - 8);
+      }
+      _presetPopEl.style.left = `${Math.round(left)}px`;
+      _presetPopEl.style.top = `${Math.round(top)}px`;
+    }
   }
 
   function positionHooksPopover(anchorBtn) {
@@ -7497,6 +7927,8 @@ const TwitterPlanner = (() => {
 
   function toggleHooksPopover(dayIdx, btnEl) {
     closeAllCardMenus();
+    closePresetPopover();
+    closeThreadTplPopover();
     if (_hooksPopDayIdx === dayIdx && _hooksPopEl && _hooksPopEl.classList.contains('on')) {
       closeHooksPopover();
       return;
@@ -7510,6 +7942,7 @@ const TwitterPlanner = (() => {
     renderHooksPopover();
     pop.classList.add('on');
     positionHooksPopover(btnEl);
+    syncXpSheetBackdrop();
   }
 
   window._onXpNotebookUpdated = () => {
@@ -7524,10 +7957,13 @@ const TwitterPlanner = (() => {
     document.querySelectorAll('.xp-card-menu.on').forEach(m => m.classList.remove('on'));
     document.querySelectorAll('.xp-dots-btn.on').forEach(b => b.classList.remove('on'));
     syncActiveCardElevation();
+    syncXpSheetBackdrop();
   }
 
   function toggleCardMenu(dayIdx) {
     closeHooksPopover();
+    closePresetPopover();
+    closeThreadTplPopover();
     const menu = document.getElementById(`xp-cmenu-${dayIdx}`);
     const btn = document.getElementById(`xp-dots-${dayIdx}`);
     if (!menu || !btn) return;
@@ -7538,6 +7974,7 @@ const TwitterPlanner = (() => {
       menu.classList.add('on');
       btn.classList.add('on');
       syncActiveCardElevation();
+      syncXpSheetBackdrop();
     }
   }
 
@@ -7780,6 +8217,7 @@ const TwitterPlanner = (() => {
     if (_ttplPopEl) _ttplPopEl.classList.remove('on');
     const btn = document.getElementById('xp-btn-thread-tpl');
     if (btn) btn.classList.remove('on');
+    syncXpSheetBackdrop();
   }
 
   function renderThreadTplPopover() {
@@ -7892,6 +8330,7 @@ const TwitterPlanner = (() => {
 
   function toggleThreadTplPopover(anchorBtn) {
     closeHooksPopover();
+    closePresetPopover();
     closeAllCardMenus();
     if (_ttplPopEl && _ttplPopEl.classList.contains('on')) {
       closeThreadTplPopover();
@@ -7903,14 +8342,17 @@ const TwitterPlanner = (() => {
     renderThreadTplPopover();
     if (anchorBtn) anchorBtn.classList.add('on');
     _ttplPopEl.classList.add('on');
+    syncXpSheetBackdrop();
 
-    const r = anchorBtn.getBoundingClientRect();
-    const popW = 500;
-    let left = r.right - popW;
-    if (left < 12) left = 12;
-    if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
-    _ttplPopEl.style.left = `${Math.round(left)}px`;
-    _ttplPopEl.style.top = `${Math.round(r.bottom + 8)}px`;
+    if (anchorBtn && window.innerWidth > 768) {
+      const r = anchorBtn.getBoundingClientRect();
+      const popW = 500;
+      let left = r.right - popW;
+      if (left < 12) left = 12;
+      if (left + popW > window.innerWidth - 12) left = window.innerWidth - popW - 12;
+      _ttplPopEl.style.left = `${Math.round(left)}px`;
+      _ttplPopEl.style.top = `${Math.round(r.bottom + 8)}px`;
+    }
   }
 
   /* 8C. GAPLESS MASONRY REFLOW (UPDATES LIVE WHEN PRESETS OR THREADS CHANGE) */
@@ -8051,23 +8493,20 @@ const TwitterPlanner = (() => {
       const hdrControls = document.createElement('div');
       hdrControls.className = 'xp-hdr-controls';
 
-      const sel = document.createElement('select');
-      sel.className = 'xp-preset-sel';
+      const sel = document.createElement('button');
+      sel.type = 'button';
+      sel.className = 'xp-preset-btn';
       sel.id = `xp-pres-${dIdx}`;
-      sel.title = 'Шаблон раскладки';
-      Object.values(PRESETS).forEach(pr => {
-        const opt = document.createElement('option');
-        opt.value = pr.id;
-        opt.textContent = pr.name;
-        if (pr.id === dState.preset) opt.selected = true;
-        sel.appendChild(opt);
-      });
-      sel.addEventListener('change', () => {
-        dState.preset = sel.value;
-        _armedSlot = null;
-        saveDayMeta(dIdx);
-        refreshDayCardUI(dIdx);
-        updateReadyBadge();
+      sel.title = 'Выбрать макет карточки';
+      const curPr = PRESETS[dState.preset] || PRESETS.sketch1_final;
+      sel.innerHTML = `
+        <span class="xp-pres-ico">${getPresetWireframeSvg(curPr.id, true)}</span>
+        <span class="xp-pres-lbl">${curPr.name}</span>
+        <svg class="xp-pres-chev" width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
+      `;
+      sel.addEventListener('click', ev => {
+        ev.stopPropagation();
+        togglePresetPopover(dIdx, sel);
       });
 
       const dotsBtn = document.createElement('button');
@@ -8504,7 +8943,12 @@ const TwitterPlanner = (() => {
     const extraBox = document.getElementById(`xp-extra-${dayIdx}`);
     const capEl = document.getElementById(`xp-cap-${dayIdx}`);
 
-    if (sel && sel.value !== d.preset) sel.value = d.preset;
+    if (sel) {
+      const icoEl = sel.querySelector('.xp-pres-ico');
+      const lblEl = sel.querySelector('.xp-pres-lbl');
+      if (icoEl) icoEl.innerHTML = getPresetWireframeSvg(presetCfg.id, true);
+      if (lblEl) lblEl.textContent = presetCfg.name;
+    }
     if (cMenu) {
       cMenu.querySelectorAll('[data-bg]').forEach(b => {
         b.classList.toggle('on', b.dataset.bg === d.bgTheme);
@@ -8663,6 +9107,7 @@ const TwitterPlanner = (() => {
     if (_activeView !== 'planner') {
       selectCanvasSlot(null, null);
       closeHooksPopover();
+      closePresetPopover();
       closeThreadTplPopover();
       closeAllCardMenus();
     }
@@ -8677,6 +9122,13 @@ const TwitterPlanner = (() => {
     if (tabInvoe) { tabInvoe.classList.toggle('on', _activeView === 'invoe'); tabInvoe.setAttribute('aria-selected', String(_activeView === 'invoe')); }
     if (tabBudget) { tabBudget.classList.toggle('on', _activeView === 'budget'); tabBudget.setAttribute('aria-selected', String(_activeView === 'budget')); }
     if (tabPlanner) { tabPlanner.classList.toggle('on', _activeView === 'planner'); tabPlanner.setAttribute('aria-selected', String(_activeView === 'planner')); }
+
+    const mGtTitle = document.getElementById('m-gt-title');
+    if (mGtTitle) {
+      mGtTitle.textContent = _activeView === 'planner'
+        ? 'X Showcase'
+        : (_activeView === 'budget' ? 'Учёт' : 'Заказы');
+    }
 
     if (_activeView === 'invoe') {
       requestAnimationFrame(() => renderMiniStockChart());
@@ -8742,10 +9194,20 @@ const TwitterPlanner = (() => {
       _resizeTmr = setTimeout(() => reflowXpMasonry(), 120);
     });
 
+    document.getElementById('xp-sheet-back')?.addEventListener('click', () => {
+      closeHooksPopover();
+      closePresetPopover();
+      closeThreadTplPopover();
+      closeAllCardMenus();
+    });
+
     document.addEventListener('mousedown', e => {
       if (_activeView !== 'planner') return;
       if (_hooksPopDayIdx !== null && !e.target.closest('.xp-hooks-pop, .xp-hooks-btn')) {
         closeHooksPopover();
+      }
+      if (_presetPopDayIdx !== null && !e.target.closest('#xp-preset-pop, .xp-preset-btn')) {
+        closePresetPopover();
       }
       if (_ttplPopEl && _ttplPopEl.classList.contains('on') && !e.target.closest('#xp-ttpl-pop, #xp-btn-thread-tpl')) {
         closeThreadTplPopover();
@@ -8753,7 +9215,7 @@ const TwitterPlanner = (() => {
       if (_openMenuDayIdx !== null && !e.target.closest('.xp-card-menu, .xp-dots-btn')) {
         closeAllCardMenus();
       }
-      if (_armedSlot && !e.target.closest('.xp-canvas, .xp-slot-float, .topbar, .soverlay, .confirm-overlay')) {
+      if (_armedSlot && !e.target.closest('.xp-canvas, .xp-slot-float, .topbar, .m-global-topbar, .soverlay, .confirm-overlay')) {
         selectCanvasSlot(null, null);
       }
     });
@@ -8800,6 +9262,7 @@ const TwitterPlanner = (() => {
 
       if (e.key === 'Escape') {
         if (_hooksPopDayIdx !== null) { e.preventDefault(); e.stopPropagation(); closeHooksPopover(); return; }
+        if (_presetPopDayIdx !== null) { e.preventDefault(); e.stopPropagation(); closePresetPopover(); return; }
         if (_ttplPopEl && _ttplPopEl.classList.contains('on')) { e.preventDefault(); e.stopPropagation(); closeThreadTplPopover(); return; }
         if (_openMenuDayIdx !== null) { e.preventDefault(); e.stopPropagation(); closeAllCardMenus(); return; }
         if (_armedSlot) { e.preventDefault(); e.stopPropagation(); selectCanvasSlot(null, null); return; }
@@ -8819,7 +9282,12 @@ const TwitterPlanner = (() => {
     init();
   }
 
-  return { switchView, renderDayCanvas };
+  function openMobileAdd() {
+    const btn = document.getElementById('xp-btn-thread-tpl');
+    toggleThreadTplPopover(btn);
+  }
+
+  return { switchView, renderDayCanvas, openMobileAdd };
 })();
 </script>
 <script id="budget-script">
