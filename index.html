@@ -7,7 +7,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Invoe"/>
 <title>Invoe</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='105' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='280' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%233ba55d'/%3E%3C/svg%3E"/>
+<meta name="theme-color" content="#0e0e10" media="(prefers-color-scheme: dark)"/>
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='105' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='280' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%230a84ff'/%3E%3C/svg%3E"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23111110'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-weight='800' font-size='270' letter-spacing='-12'%3EIn%3C/text%3E%3Ccircle cx='395' cy='345' r='32' fill='%230a84ff'/%3E%3C/svg%3E"/>
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Invoe%22%2C%22short_name%22%3A%22Invoe%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230e0e10%22%2C%22theme_color%22%3A%22%230e0e10%22%7D"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -37,6 +41,7 @@
   --rail:206px;
   --ease:cubic-bezier(0.22, 1, 0.36, 1);
   --spring:cubic-bezier(0.34, 1.56, 0.64, 1);
+  --safe-t:env(safe-area-inset-top, 0px);
   --safe-b:env(safe-area-inset-bottom, 0px);
 }
 html[data-theme="dark"]{
@@ -631,21 +636,25 @@ button:active:not(:disabled){transform:scale(0.97);}
 .sc-axis-lbl.on{color:var(--text);}
 
 /* ══════════════════════════════════════════════════════════════════
-   CLEAN TOOLBAR: SEARCH + FILTER + PROMINENT "+ НОВЫЙ ЗАКАЗ"
+   CLEAN TOOLBAR: UNIFIED SEARCH + FILTER CAPSULE + "+ НОВЫЙ ЗАКАЗ"
 ══════════════════════════════════════════════════════════════════ */
 .toolbar{display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;}
-.search-wrap{flex:1;min-width:200px;position:relative;display:flex;align-items:center;}
+.search-wrap{
+  flex:1;min-width:200px;height:40px;position:relative;display:flex;align-items:center;
+  border:0.5px solid var(--border);border-radius:12px;
+  background:var(--surface);box-shadow:var(--shadow-card);
+  transition:box-shadow .14s, border-color .14s;
+}
+.search-wrap:focus-within{border-color:var(--blue);box-shadow:0 0 0 2.5px var(--blue-bg), var(--shadow-card);}
 .search-icon{position:absolute;left:13px;color:var(--text3);pointer-events:none;}
 #search,#bg-search{
-  width:100%;height:40px;padding:0 38px 0 36px;
-  font-size:13.5px;border:0.5px solid var(--border);border-radius:12px;
-  background:var(--surface);color:var(--text);
-  box-shadow:var(--shadow-card);
-  font-family:inherit;outline:none;transition:box-shadow .14s, border-color .14s;
+  flex:1;min-width:0;width:100%;height:100%;padding:0 10px 0 36px;
+  font-size:13.5px;border:none;border-radius:12px;
+  background:transparent;color:var(--text);
+  font-family:inherit;outline:none;
   user-select:text;-webkit-user-select:text;
 }
-#search{padding-right:52px;}
-#search:focus,#bg-search:focus{border-color:var(--blue);box-shadow:0 0 0 2.5px var(--blue-bg), var(--shadow-card);}
+#bg-search{padding-right:36px;}
 #search::placeholder,#bg-search::placeholder{color:var(--text3);}
 .bg-search-clear{
   position:absolute;right:10px;width:20px;height:20px;border:none;border-radius:50%;
@@ -654,19 +663,20 @@ button:active:not(:disabled){transform:scale(0.97);}
 }
 .bg-search-clear.on{display:inline-flex;}
 .bg-search-clear:hover{background:var(--surface3);color:var(--text);}
-.search-kbd{position:absolute;right:12px;pointer-events:none;font-size:10.5px;font-weight:600;color:var(--text3);opacity:0;transition:opacity .14s;}
+.search-kbd{pointer-events:none;font-size:10.5px;font-weight:600;color:var(--text3);opacity:0;transition:opacity .14s;margin-right:6px;flex-shrink:0;}
 .search-wrap:hover .search-kbd{opacity:0.75;}
-#search:focus ~ .search-kbd{opacity:0!important;}
+.search-wrap:focus-within .search-kbd{opacity:0!important;}
 
-.filter-wrap{position:relative;}
+.search-cap-sep{width:0.5px;height:18px;background:var(--border2);flex-shrink:0;}
+.filter-wrap{position:relative;display:flex;align-items:center;height:100%;padding:0 3px;flex-shrink:0;}
 .filter-btn{
-  width:40px;height:40px;padding:0;border:0.5px solid var(--border);border-radius:12px;
-  background:var(--surface);color:var(--text2);box-shadow:var(--shadow-card);
+  width:34px;height:34px;padding:0;border:none;border-radius:9px;
+  background:transparent;color:var(--text2);
   cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;
 }
-.filter-btn:hover{color:var(--text);}
-.filter-btn.on{color:var(--blue);border-color:var(--blue);}
-.fdot{position:absolute;top:9px;right:9px;width:5.5px;height:5.5px;border-radius:50%;background:var(--blue);display:none;}
+.filter-btn:hover{background:var(--surface2);color:var(--text);}
+.filter-btn.on{color:var(--blue);background:var(--blue-bg);}
+.fdot{position:absolute;top:7px;right:7px;width:5.5px;height:5.5px;border-radius:50%;background:var(--blue);display:none;}
 .fdot.on{display:block;}
 .fpanel{
   position:absolute;top:calc(100% + 6px);right:0;
@@ -994,9 +1004,9 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .soverlay{position:fixed;inset:0;z-index:700;display:none;}
 .soverlay.on{display:block;}
 .sback{position:absolute;inset:0;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);}
-.spanel{position:absolute;top:0;right:0;bottom:0;width:350px;background:var(--surface);border-left:0.5px solid var(--border2);display:flex;flex-direction:column;box-shadow:var(--shadow-md);transform:translateX(100%);transition:transform .22s var(--ease);overflow-y:auto;}
+.spanel{position:absolute;top:0;right:0;bottom:0;width:350px;background:var(--surface);border-left:0.5px solid var(--border2);display:flex;flex-direction:column;box-shadow:var(--shadow-md);transform:translateX(100%);transition:transform .22s var(--ease);overflow-y:auto;padding-top:var(--safe-t);}
 .soverlay.on .spanel{transform:none;}
-.shdr{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 12px;}
+.shdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;}
 .shdrtitle{font-size:15.5px;font-weight:700;}
 .sclose{background:none;border:none;cursor:pointer;color:var(--text2);width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-xs);}
 .sclose:hover{background:var(--surface2);color:var(--text);}
@@ -1045,7 +1055,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  padding:10px 16px;
+  padding:calc(10px + var(--safe-t)) 16px 10px;
   background:var(--bg);
   border-bottom:0.5px solid var(--border);
   flex-shrink:0;
@@ -1078,7 +1088,9 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .fpanel-back.on,.xp-sheet-back.on{display:block;}
 
 @media(max-width:768px){
-  .app{flex-direction:column;}
+  .app{flex-direction:column;position:fixed;inset:0;width:100%;height:100%;}
+  body.kb-open .m-bottom-nav{opacity:0;pointer-events:none;transform:translateY(20px);}
+  body.xp-mode #xp-btn-dl-week{display:none;}
   .rail-nav{display:none;}
   .m-global-topbar{display:flex;}
   .m-topbar{display:none!important;}
@@ -1763,6 +1775,7 @@ body.budget-mode #sel-dock{display:none!important;}
 }
 .xp-pp-card{
   background:var(--surface2);
+  color:var(--text);
   border:1.5px solid transparent;
   border-radius:12px;
   padding:8px 8px 7px;
@@ -1772,24 +1785,29 @@ body.budget-mode #sel-dock{display:none!important;}
   gap:6px;
   cursor:pointer;
   text-align:center;
-  transition:background-color .14s, border-color .14s, transform .12s;
+  transition:background-color .14s, border-color .14s, transform .12s, color .14s;
 }
 .xp-pp-card:hover{background:var(--surface3);}
 .xp-pp-card.on{
   background:var(--blue-bg);
   border-color:var(--blue);
+  color:var(--blue);
 }
 .xp-pp-thumb{
   width:100%;
-  height:52px;
+  height:54px;
   border-radius:8px;
-  background:var(--surface);
-  border:0.5px solid var(--border);
+  background:var(--bg);
+  border:0.5px solid var(--border2);
   display:flex;
   align-items:center;
   justify-content:center;
   padding:5px;
   overflow:hidden;
+}
+.xp-pp-card.on .xp-pp-thumb{
+  background:var(--surface);
+  border-color:rgba(10,132,255,0.35);
 }
 .xp-pp-thumb svg{
   width:100%;
@@ -2080,7 +2098,6 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-foot-btns{display:flex;align-items:center;gap:6px;}
 
 body.xp-mode .app::after,
-body.xp-mode #m-period-btn,
 body.xp-mode #sel-dock{display:none!important;}
 body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
@@ -2150,6 +2167,10 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <button type="button" class="m-gt-pill" id="m-period-btn" aria-label="Выбрать период">
       <span id="m-period-lbl">Месяц</span>
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
+    </button>
+    <button type="button" class="m-gt-pill" id="m-xp-dl-btn" style="display:none;background:var(--blue);color:#fff;border-color:transparent;" aria-label="Скачать PNG">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>PNG</span>
     </button>
   </div>
 </header>
@@ -2325,35 +2346,36 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       </div>
     </section>
 
-    <!-- Search, Filter & Primary "+ Новый заказ" Toolbar -->
+    <!-- Search + Filter Capsule & Primary "+ Новый заказ" Toolbar -->
     <div class="toolbar">
       <div class="search-wrap" id="search-wrap">
         <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="search" placeholder="Поиск по проектам, клиентам..." aria-label="Поиск по записям"/>
         <span class="search-kbd">Cmd+K</span>
+        <span class="search-cap-sep" aria-hidden="true"></span>
+        <div class="filter-wrap">
+          <button class="filter-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+            <div class="fdot" id="fdot" aria-hidden="true"></div>
+          </button>
+          <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
+            <label class="flbl" for="f-status">Статус</label>
+            <select class="fsel" id="f-status">
+              <option value="all">Все</option>
+              <option value="awaiting">Не оплачено (все)</option>
+              <option value="unpaid">В работе</option>
+              <option value="sent">Отправлено</option>
+              <option value="paid">Оплачено</option>
+            </select>
+            <div class="flbl" style="margin-top:8px;">Заказчик</div>
+            <div class="ftags" id="ftags-client"></div>
+            <div class="flbl" style="margin-top:8px;">Тип работы</div>
+            <div class="ftags" id="ftags-work"></div>
+          </div>
+        </div>
       </div>
 
       <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
-      <div class="filter-wrap">
-        <button class="filter-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
-          <div class="fdot" id="fdot" aria-hidden="true"></div>
-        </button>
-        <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
-          <label class="flbl" for="f-status">Статус</label>
-          <select class="fsel" id="f-status">
-            <option value="all">Все</option>
-            <option value="awaiting">Не оплачено (все)</option>
-            <option value="unpaid">В работе</option>
-            <option value="sent">Отправлено</option>
-            <option value="paid">Оплачено</option>
-          </select>
-          <div class="flbl" style="margin-top:8px;">Заказчик</div>
-          <div class="ftags" id="ftags-client"></div>
-          <div class="flbl" style="margin-top:8px;">Тип работы</div>
-          <div class="ftags" id="ftags-work"></div>
-        </div>
-      </div>
 
       <button class="add-order-btn" id="btn-add" type="button" title="Добавить запись (N)">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -2711,16 +2733,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
           <div class="trow">
             <button class="topt" id="t-light" type="button">Светлая</button>
             <button class="topt" id="t-dark" type="button">Тёмная</button>
+            <button class="topt" id="t-oled" type="button">OLED</button>
             <button class="topt" id="t-auto" type="button">Авто</button>
-          </div>
-        </div>
-
-        <div>
-          <div class="slbl">Оттенок фона</div>
-          <div class="trow">
-            <button class="topt" id="tone-warm" type="button">Тёплый</button>
-            <button class="topt" id="tone-cool" type="button">Холодный</button>
-            <button class="topt" id="tone-oled" type="button">Чистый OLED</button>
           </div>
         </div>
 
@@ -4979,24 +4993,35 @@ function closeSettings() {
   updateMobileNavState(activeTab);
 }
 function updateSettingsUI() {
-  document.getElementById('t-light').classList.toggle('on', theme==='light');
-  document.getElementById('t-dark').classList.toggle('on', theme==='dark');
-  document.getElementById('t-auto').classList.toggle('on', theme==='auto');
+  const isOled = theme === 'dark' && tone === 'oled';
+  document.getElementById('t-light')?.classList.toggle('on', theme === 'light');
+  document.getElementById('t-dark')?.classList.toggle('on', theme === 'dark' && !isOled);
+  document.getElementById('t-oled')?.classList.toggle('on', isOled);
+  document.getElementById('t-auto')?.classList.toggle('on', theme === 'auto');
 
-  document.getElementById('tone-warm').classList.toggle('on', tone==='warm');
-  document.getElementById('tone-cool').classList.toggle('on', tone==='cool');
-  document.getElementById('tone-oled').classList.toggle('on', tone==='oled');
-
-  document.getElementById('den-normal').classList.toggle('on', density==='normal');
-  document.getElementById('den-compact').classList.toggle('on', density==='compact');
+  document.getElementById('den-normal')?.classList.toggle('on', density === 'normal');
+  document.getElementById('den-compact')?.classList.toggle('on', density === 'compact');
 
   document.querySelectorAll('#accent-row .acc-swatch').forEach(sw => {
     sw.classList.toggle('on', sw.dataset.acc === accent);
   });
 }
 
-function setTheme(v) { theme=v; lsS('ff_theme',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
-function setTone(v) { tone=v; lsS('ff_tone',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
+function setTheme(v) {
+  if (v === 'oled') {
+    theme = 'dark';
+    tone = 'oled';
+  } else {
+    theme = v;
+    if (tone === 'oled') tone = 'warm';
+  }
+  lsS('ff_theme', theme);
+  lsS('ff_tone', tone);
+  applyAppearance();
+  updateSettingsUI();
+  saveToSafariVault();
+}
+function setTone(v) { tone = v; lsS('ff_tone', v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
 function setAccent(v) { accent=v; lsS('ff_accent',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
 function setDensity(v) { density=v; lsS('ff_density',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
 
@@ -6437,6 +6462,19 @@ function bindEvents() {
     updateMobileNavState('stats');
   });
   document.getElementById('m-inv-btn')?.addEventListener('click', openInvSheet);
+  document.getElementById('m-xp-dl-btn')?.addEventListener('click', () => {
+    if (typeof TwitterPlanner !== 'undefined' && TwitterPlanner.downloadWholeWeek) {
+      TwitterPlanner.downloadWholeWeek();
+    }
+  });
+
+  if (window.visualViewport) {
+    const onVvResize = () => {
+      const kbOpen = window.innerHeight - window.visualViewport.height > 130;
+      document.body.classList.toggle('kb-open', kbOpen);
+    };
+    window.visualViewport.addEventListener('resize', onVvResize, { passive: true });
+  }
   document.getElementById('m-sync-btn')?.addEventListener('click', () => {
     if (fbUrl) safeSyncWithFirebase(true);
     else openSettings('data');
@@ -6633,13 +6671,10 @@ function bindEvents() {
   document.getElementById('s-close').addEventListener('click', closeSettings);
   document.getElementById('sov').querySelector('.sback').addEventListener('click', closeSettings);
 
-  document.getElementById('t-light').addEventListener('click', () => setTheme('light'));
-  document.getElementById('t-dark').addEventListener('click', () => setTheme('dark'));
-  document.getElementById('t-auto').addEventListener('click', () => setTheme('auto'));
-
-  document.getElementById('tone-warm').addEventListener('click', () => setTone('warm'));
-  document.getElementById('tone-cool').addEventListener('click', () => setTone('cool'));
-  document.getElementById('tone-oled').addEventListener('click', () => setTone('oled'));
+  document.getElementById('t-light')?.addEventListener('click', () => setTheme('light'));
+  document.getElementById('t-dark')?.addEventListener('click', () => setTheme('dark'));
+  document.getElementById('t-oled')?.addEventListener('click', () => setTheme('oled'));
+  document.getElementById('t-auto')?.addEventListener('click', () => setTheme('auto'));
 
   document.getElementById('den-normal').addEventListener('click', () => setDensity('normal'));
   document.getElementById('den-compact').addEventListener('click', () => setDensity('compact'));
@@ -6883,35 +6918,37 @@ const TwitterPlanner = (() => {
     const w = mini ? 22 : 96;
     const h = mini ? 15 : 44;
     const fillFinal = 'currentColor';
-    const opFinal = mini ? '0.85' : '0.26';
-    const opSub = mini ? '0.35' : '0.12';
+    const opFinal = mini ? '0.92' : '0.78';
+    const opSub = mini ? '0.42' : '0.26';
     const strokeCol = 'currentColor';
-    const sw = mini ? '1.1' : '1.2';
+    const sw = mini ? '1.2' : '1.4';
+    const stMain = '0.95';
+    const stSub = '0.72';
 
     if (presetId === 'single1') {
       return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
-        <rect x="14" y="4" width="68" height="36" rx="4" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.55" stroke-width="${sw}"/>
+        <rect x="14" y="4" width="68" height="36" rx="4.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
     if (presetId === 'sketch1_final') {
       return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
-        <rect x="29" y="3" width="38" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
-        <rect x="18" y="20" width="60" height="21" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+        <rect x="29" y="3" width="38" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <rect x="18" y="20" width="60" height="21" rx="3.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
     if (presetId === 'sketch3_final') {
       return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
-        <rect x="18" y="3" width="18" height="12" rx="2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
-        <rect x="39" y="3" width="18" height="12" rx="2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
-        <rect x="60" y="3" width="18" height="12" rx="2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
-        <rect x="18" y="18" width="60" height="23" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+        <rect x="18" y="3" width="18" height="12" rx="2.2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <rect x="39" y="3" width="18" height="12" rx="2.2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <rect x="60" y="3" width="18" height="12" rx="2.2" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <rect x="18" y="18" width="60" height="23" rx="3.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
     if (presetId === 'assets_inspo') {
       return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
-        <rect x="22" y="3" width="24" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
-        <rect x="50" y="3" width="24" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.45" stroke-width="${sw}"/>
-        <rect x="18" y="20" width="60" height="21" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+        <rect x="22" y="3" width="24" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <rect x="50" y="3" width="24" height="14" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <rect x="18" y="20" width="60" height="21" rx="3.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
     if (presetId === 'palette_final') {
@@ -6921,21 +6958,21 @@ const TwitterPlanner = (() => {
         <rect x="44" y="4" width="8.5" height="8.5" rx="2" fill="#34c759"/>
         <rect x="55" y="4" width="8.5" height="8.5" rx="2" fill="#007aff"/>
         <rect x="66" y="4" width="8.5" height="8.5" rx="2" fill="#af52de"/>
-        <rect x="18" y="16" width="60" height="25" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+        <rect x="18" y="16" width="60" height="25" rx="3.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
     if (presetId === 'stack2') {
       return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
-        <rect x="20" y="3" width="56" height="17" rx="3" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
-        <rect x="20" y="23" width="56" height="18" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+        <rect x="20" y="3" width="56" height="17" rx="3" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <rect x="20" y="23" width="56" height="18" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
     // grid2x2
     return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
-      <rect x="18" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
-      <rect x="50" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
-      <rect x="18" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="0.5" stroke-width="${sw}"/>
-      <rect x="50" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="0.65" stroke-width="${sw}"/>
+      <rect x="18" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+      <rect x="50" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+      <rect x="18" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+      <rect x="50" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
     </svg>`;
   }
 
@@ -7517,13 +7554,19 @@ const TwitterPlanner = (() => {
     }
 
     const totalH = padTop + contentH + padBot;
-    if (canvas.width !== canvasW || canvas.height !== totalH) {
-      canvas.width = canvasW;
-      canvas.height = totalH;
+    const isMobilePreview = !hideActiveOutline && window.innerWidth <= 768;
+    const renderScale = isMobilePreview ? 0.5 : 1;
+    const targetCvW = Math.round(canvasW * renderScale);
+    const targetCvH = Math.round(totalH * renderScale);
+
+    if (canvas.width !== targetCvW || canvas.height !== targetCvH) {
+      canvas.width = targetCvW;
+      canvas.height = targetCvH;
     }
 
     const ctx = getSrgbContext(canvas);
     ctx.save();
+    ctx.scale(renderScale, renderScale);
     ctx.fillStyle = isDark ? '#111110' : '#FFFFFF';
     ctx.fillRect(0, 0, canvasW, totalH);
     if (layoutFn) layoutFn(ctx);
@@ -7559,13 +7602,16 @@ const TwitterPlanner = (() => {
     if (!canvas || !d || !d.hitRegions.length) return null;
     const rect = canvas.getBoundingClientRect();
     if (!rect.width || !rect.height) return null;
-    const cx = (clientX - rect.left) * (canvas.width / rect.width);
-    const cy = (clientY - rect.top) * (canvas.height / rect.height);
+    const pad = d.padMode === 'S' ? 24 : (d.padMode === '0' ? 0 : PAD);
+    const logicalW = CONTENT_W + pad * 2;
+    const scaleFactor = logicalW / rect.width;
+    const cx = (clientX - rect.left) * scaleFactor;
+    const cy = (clientY - rect.top) * scaleFactor;
 
     for (let i = d.hitRegions.length - 1; i >= 0; i--) {
       const r = d.hitRegions[i];
       if (cx >= r.x && cx <= r.x + r.w && cy >= r.y && cy <= r.y + r.h) {
-        return { region: r, scaleFactor: canvas.width / rect.width };
+        return { region: r, scaleFactor };
       }
     }
     return null;
@@ -9158,16 +9204,6 @@ const TwitterPlanner = (() => {
       secPad.appendChild(segPad);
       cMenu.appendChild(secPad);
 
-      const saveTplMenuBtn = document.createElement('button');
-      saveTplMenuBtn.type = 'button';
-      saveTplMenuBtn.className = 'xp-cm-act';
-      saveTplMenuBtn.textContent = 'Сохранить как шаблон треда';
-      saveTplMenuBtn.addEventListener('click', () => {
-        closeAllCardMenus();
-        saveDayAsThreadTemplate(dIdx);
-      });
-      cMenu.appendChild(saveTplMenuBtn);
-
       hdrControls.appendChild(sel);
       hdrControls.appendChild(dotsBtn);
       hdrControls.appendChild(cMenu);
@@ -9175,7 +9211,7 @@ const TwitterPlanner = (() => {
       hdr.appendChild(hdrControls);
       bodyCol.appendChild(hdr);
 
-      // 2. Текст поста + кнопки «+ Тред», «Хуки» и «Копировать»
+      // 2. Текст поста + кнопки «+ Тред», «Хуки» и единая кнопка «Копировать» (пост или весь тред)
       const textRow = document.createElement('div');
       textRow.className = 'xp-tw-text-row';
 
@@ -9202,24 +9238,33 @@ const TwitterPlanner = (() => {
       const copyBtn = document.createElement('button');
       copyBtn.type = 'button';
       copyBtn.className = 'xp-copy-cap xp-icon-pill';
+      copyBtn.id = `xp-copy-cap-${dIdx}`;
       copyBtn.title = 'Копировать текст поста';
-      copyBtn.setAttribute('aria-label', 'Копировать текст поста');
+      copyBtn.setAttribute('aria-label', 'Копировать текст');
       copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
       copyBtn.addEventListener('click', () => {
-        const txt = ta.value.trim();
-        if (!txt) { notify('Сначала напишите текст поста'); return; }
-        const onCopied = () => {
+        const hasTh = Array.isArray(dState.thread) && dState.thread.length > 0;
+        const onCopied = (msg) => {
           copyBtn.classList.add('copied');
           copyBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-          notify('Текст поста скопирован');
+          notify(msg);
           setTimeout(() => {
             copyBtn.classList.remove('copied');
             copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
           }, 1400);
         };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(txt).then(onCopied);
+        if (hasTh) {
+          const allTexts = [dState.caption.trim(), ...dState.thread.map(t => (t.text || '').trim())].filter(Boolean);
+          if (!allTexts.length) { notify('Сначала напишите текст постов'); return; }
+          const formatted = allTexts.length > 1
+            ? allTexts.map((txt, idx) => `${idx + 1}/${allTexts.length}\n${txt}`).join('\n\n──────────\n\n')
+            : allTexts[0];
+          cpyText(formatted, () => onCopied(`Тред скопирован (${allTexts.length} пост.)`));
+          return;
         }
+        const txt = ta.value.trim();
+        if (!txt) { notify('Сначала напишите текст поста'); return; }
+        cpyText(txt, () => onCopied('Текст поста скопирован'));
       });
 
       const textActions = document.createElement('div');
@@ -9336,14 +9381,6 @@ const TwitterPlanner = (() => {
       const footBtns = document.createElement('div');
       footBtns.className = 'xp-foot-btns';
 
-      const copyThreadBtn = document.createElement('button');
-      copyThreadBtn.type = 'button';
-      copyThreadBtn.className = 'xp-th-btn';
-      copyThreadBtn.id = `xp-copy-th-${dIdx}`;
-      copyThreadBtn.style.display = 'none';
-      copyThreadBtn.textContent = 'Копировать тред';
-      copyThreadBtn.addEventListener('click', () => copyFullThread(dIdx));
-
       const copyPngBtn = document.createElement('button');
       copyPngBtn.type = 'button';
       copyPngBtn.className = 'xp-btn xp-btn-ghost xp-btn-sm xp-dl-ico';
@@ -9360,7 +9397,6 @@ const TwitterPlanner = (() => {
       dlBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
       dlBtn.addEventListener('click', () => downloadSingleDay(dIdx));
 
-      footBtns.appendChild(copyThreadBtn);
       footBtns.appendChild(copyPngBtn);
       footBtns.appendChild(dlBtn);
       metricsRow.appendChild(footBtns);
@@ -9387,15 +9423,14 @@ const TwitterPlanner = (() => {
     const d = state[dayIdx];
     const list = document.getElementById(`xp-thread-list-${dayIdx}`);
     const mainLine = document.getElementById(`xp-main-tline-${dayIdx}`);
-    const copyThBtn = document.getElementById(`xp-copy-th-${dayIdx}`);
+    const copyCapBtn = document.getElementById(`xp-copy-cap-${dayIdx}`);
 
     if (!list) return;
 
     const hasThread = Array.isArray(d.thread) && d.thread.length > 0;
     if (mainLine) mainLine.style.display = hasThread ? '' : 'none';
-    if (copyThBtn) {
-      copyThBtn.style.display = hasThread ? '' : 'none';
-      copyThBtn.textContent = `Копировать тред (${d.thread.length + 1})`;
+    if (copyCapBtn) {
+      copyCapBtn.title = hasThread ? `Копировать весь тред (${d.thread.length + 1} пост.)` : 'Копировать текст поста';
     }
 
 
@@ -9725,6 +9760,12 @@ const TwitterPlanner = (() => {
         ? 'X Showcase'
         : (_activeView === 'budget' ? 'Учёт' : 'Заказы');
     }
+    const mInvBtn = document.getElementById('m-inv-btn');
+    const mPerBtn = document.getElementById('m-period-btn');
+    const mXpDlBtn = document.getElementById('m-xp-dl-btn');
+    if (mInvBtn) mInvBtn.style.display = _activeView === 'invoe' ? '' : 'none';
+    if (mPerBtn) mPerBtn.style.display = (_activeView === 'invoe' || _activeView === 'budget') ? '' : 'none';
+    if (mXpDlBtn) mXpDlBtn.style.display = _activeView === 'planner' ? '' : 'none';
 
     if (_activeView === 'invoe') {
       requestAnimationFrame(() => renderMiniStockChart());
@@ -9883,7 +9924,7 @@ const TwitterPlanner = (() => {
     toggleThreadTplPopover(btn);
   }
 
-  return { switchView, renderDayCanvas, openMobileAdd };
+  return { switchView, renderDayCanvas, openMobileAdd, downloadWholeWeek };
 })();
 </script>
 <script id="budget-script">
@@ -10007,12 +10048,34 @@ const TwitterPlanner = (() => {
     return `${MONTHS_NOM_RU[(m || 1) - 1]} ${y || new Date().getFullYear()}`;
   }
 
-  function toBaseOrRaw(amount, currency) {
-    const conv = toB(amount, currency);
-    return conv !== null ? conv : amount;
+  function summarizeBudgetGroup(items) {
+    const byCur = sBC(items);
+    const curKeys = Object.keys(byCur);
+    const baseTot = totB(items);
+    let mainStr = fmtB(0);
+    let subStr = '';
+    if (baseTot !== null) {
+      mainStr = fmtB(baseTot);
+      if (curKeys.length > 1) subStr = fmtMap(byCur);
+    } else if (curKeys.length === 1) {
+      const c = curKeys[0];
+      mainStr = fmtCur(byCur[c], c);
+    } else if (curKeys.length > 1) {
+      mainStr = fmtMap(byCur);
+    }
+    return { byCur, curKeys, baseTot, mainStr, subStr };
   }
 
-  function renderDonutChart(expByCat, totalExpBase) {
+  function formatSignedBudgetSum(items, signChar) {
+    const info = summarizeBudgetGroup(items);
+    if (info.baseTot !== null) {
+      return `${signChar}${fmtB(info.baseTot)}`;
+    }
+    const parts = Object.entries(info.byCur).map(([c, v]) => `${signChar}${fmtCur(v, c)}`);
+    return parts.length ? parts.join(' · ') : `${signChar}${fmtB(0)}`;
+  }
+
+  function renderDonutChart(expByCat, totalExpInfo) {
     const svg = document.getElementById('bg-donut-svg');
     const legend = document.getElementById('bg-legend');
     const dcLbl = document.getElementById('bg-dc-lbl');
@@ -10026,32 +10089,33 @@ const TwitterPlanner = (() => {
     svg.innerHTML = '';
     legend.innerHTML = '';
 
+    const totalWeight = [...expByCat.values()].reduce((s, info) => s + info.arcWeight, 0);
+
     const setCenterDefault = () => {
       if (bgHoveredCat && expByCat.has(bgHoveredCat)) {
         const item = expByCat.get(bgHoveredCat);
-        const pct = totalExpBase > 0 ? Math.round((item.sumBase / totalExpBase) * 100) : 0;
+        const pct = totalWeight > 0 ? Math.round((item.arcWeight / totalWeight) * 100) : 0;
         if (dcLbl) dcLbl.textContent = bgHoveredCat;
-        if (dcVal) dcVal.textContent = fmtB(item.sumBase);
+        if (dcVal) dcVal.textContent = item.sumInfo.mainStr;
         if (dcPct) dcPct.textContent = `${pct}%`;
       } else if (bgCatFilter && expByCat.has(bgCatFilter)) {
         const item = expByCat.get(bgCatFilter);
-        const pct = totalExpBase > 0 ? Math.round((item.sumBase / totalExpBase) * 100) : 0;
+        const pct = totalWeight > 0 ? Math.round((item.arcWeight / totalWeight) * 100) : 0;
         if (dcLbl) dcLbl.textContent = bgCatFilter;
-        if (dcVal) dcVal.textContent = fmtB(item.sumBase);
+        if (dcVal) dcVal.textContent = item.sumInfo.mainStr;
         if (dcPct) dcPct.textContent = `${pct}%`;
       } else {
         if (dcLbl) dcLbl.textContent = 'Расходы';
-        if (dcVal) dcVal.textContent = fmtB(totalExpBase);
+        if (dcVal) dcVal.textContent = totalExpInfo.mainStr;
         if (dcPct) dcPct.textContent = '';
       }
     };
 
-    const sortedCats = [...expByCat.entries()].sort((a, b) => b[1].sumBase - a[1].sumBase);
+    const sortedCats = [...expByCat.entries()].sort((a, b) => b[1].arcWeight - a[1].arcWeight);
     const R = 44;
     const CIRC = 2 * Math.PI * R;
     const svgNS = 'http://www.w3.org/2000/svg';
 
-    // Base track ring
     const track = document.createElementNS(svgNS, 'circle');
     track.setAttribute('cx', '60');
     track.setAttribute('cy', '60');
@@ -10061,7 +10125,7 @@ const TwitterPlanner = (() => {
     track.setAttribute('stroke-width', '14');
     svg.appendChild(track);
 
-    if (!sortedCats.length || totalExpBase <= 0) {
+    if (!sortedCats.length || totalWeight <= 0) {
       setCenterDefault();
       legend.appendChild(el('div', { style: 'font-size:12.5px;color:var(--text3);padding:12px 4px;' }, ['За этот период расходов пока нет']));
       return;
@@ -10071,7 +10135,7 @@ const TwitterPlanner = (() => {
     const gapLen = sortedCats.length > 1 ? 2.5 : 0;
 
     sortedCats.forEach(([catName, info], idx) => {
-      const ratio = info.sumBase / totalExpBase;
+      const ratio = info.arcWeight / totalWeight;
       const pct = Math.max(1, Math.round(ratio * 100));
       const segLen = Math.max(2, ratio * CIRC - gapLen);
       const col = getCategoryColor(catName);
@@ -10104,7 +10168,6 @@ const TwitterPlanner = (() => {
       svg.appendChild(seg);
       offsetAcc += ratio * CIRC;
 
-      // Legend Row
       const row = el('div', {
         className: 'bg-leg-row' + (bgCatFilter === catName ? ' on' : '')
       }, [
@@ -10115,7 +10178,7 @@ const TwitterPlanner = (() => {
         ]),
         el('div', { className: 'bg-leg-right' }, [
           el('span', { className: 'bg-leg-pct' }, [`${pct}%`]),
-          el('span', { className: 'bg-leg-amt' }, [fmtB(info.sumBase)])
+          el('span', { className: 'bg-leg-amt' }, [info.sumInfo.mainStr])
         ])
       ]);
 
@@ -10193,152 +10256,167 @@ const TwitterPlanner = (() => {
   function renderBudgetView() {
     setText('bg-period-title', getPeriodTitle());
 
-    // 1. Auto-transferred paid orders for the period
     const periodOrdersIncome = entries.filter(isPaidInPeriod);
-    const ordersIncomeBase = periodOrdersIncome.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0);
+    const ordersIncInfo = summarizeBudgetGroup(periodOrdersIncome);
 
-    // 2. Manual budget entries for the period
     const periodBudget = budgetEntries.filter(x => matchesPeriod(x.date));
     const manualIncomeList = periodBudget.filter(x => x.type === 'income');
     const expenseList = periodBudget.filter(x => x.type === 'expense');
 
-    const manualIncomeBase = manualIncomeList.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0);
-    const totalIncomeBase = Math.round((ordersIncomeBase + manualIncomeBase) * 100) / 100;
-    const totalExpenseBase = Math.round(expenseList.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0) * 100) / 100;
-    const netBalanceBase = Math.round((totalIncomeBase - totalExpenseBase) * 100) / 100;
+    const manualIncInfo = summarizeBudgetGroup(manualIncomeList);
+    const totalIncInfo = summarizeBudgetGroup([...periodOrdersIncome, ...manualIncomeList]);
+    const totalExpInfo = summarizeBudgetGroup(expenseList);
 
-    // 3. Group expenses by category for Donut & Top Category highlight
-    const expByCat = new Map();
+    // Group expenses by category with exact multi-currency summaries
+    const expItemsByCat = new Map();
     expenseList.forEach(x => {
       const cat = x.category || 'Прочее';
-      const valB = toBaseOrRaw(x.amount, x.currency);
-      const cur = expByCat.get(cat) || { sumBase: 0, count: 0 };
-      cur.sumBase = Math.round((cur.sumBase + valB) * 100) / 100;
-      cur.count += 1;
-      expByCat.set(cat, cur);
+      if (!expItemsByCat.has(cat)) expItemsByCat.set(cat, []);
+      expItemsByCat.get(cat).push(x);
     });
 
-    const sortedExpCats = [...expByCat.entries()].sort((a, b) => b[1].sumBase - a[1].sumBase);
+    const expByCat = new Map();
+    expItemsByCat.forEach((catItems, catName) => {
+      const sumInfo = summarizeBudgetGroup(catItems);
+      const arcWeight = sumInfo.baseTot !== null
+        ? sumInfo.baseTot
+        : catItems.reduce((s, x) => s + (toB(x.amount, x.currency) ?? x.amount), 0);
+      expByCat.set(catName, { sumInfo, arcWeight, count: catItems.length });
+    });
+
+    const sortedExpCats = [...expByCat.entries()].sort((a, b) => b[1].arcWeight - a[1].arcWeight);
     const topCat = sortedExpCats.length ? sortedExpCats[0] : null;
+    const totalArcWeight = sortedExpCats.reduce((s, [, info]) => s + info.arcWeight, 0);
 
-    // Update Summary Numbers
+    // Net Balance: exact converted sum if rates exist, otherwise clean per-currency wallets
     const netEl = document.getElementById('bg-val-net');
+    const subNetEl = document.getElementById('bg-sub-net');
     if (netEl) {
-      const prefix = netBalanceBase > 0 ? '+' : '';
-      netEl.textContent = prefix + fmtB(netBalanceBase);
-      netEl.classList.toggle('pos', netBalanceBase > 0);
-      netEl.classList.toggle('neg', netBalanceBase < 0);
-    }
-    setText('bg-val-inc', fmtB(totalIncomeBase));
-    setText('bg-sub-inc', manualIncomeBase > 0
-      ? `Заказы: ${fmtB(ordersIncomeBase)} · Личные: ${fmtB(manualIncomeBase)}`
-      : `Заказы: ${fmtB(ordersIncomeBase)}`);
+      if (totalIncInfo.baseTot !== null && totalExpInfo.baseTot !== null) {
+        const netBalanceBase = Math.round((totalIncInfo.baseTot - totalExpInfo.baseTot) * 100) / 100;
+        const prefix = netBalanceBase > 0 ? '+' : '';
+        netEl.textContent = prefix + fmtB(netBalanceBase);
+        netEl.classList.toggle('pos', netBalanceBase > 0);
+        netEl.classList.toggle('neg', netBalanceBase < 0);
 
-    setText('bg-val-exp', fmtB(totalExpenseBase));
-    if (topCat && totalExpenseBase > 0) {
-      const topPct = Math.round((topCat[1].sumBase / totalExpenseBase) * 100);
+        if (subNetEl) {
+          const allCurs = [...new Set([...totalIncInfo.curKeys, ...totalExpInfo.curKeys])];
+          if (allCurs.length > 1) {
+            const perCurParts = allCurs.map(c => {
+              const diff = Math.round(((totalIncInfo.byCur[c] || 0) - (totalExpInfo.byCur[c] || 0)) * 100) / 100;
+              return (diff > 0 ? '+' : '') + fmtCur(diff, c);
+            });
+            subNetEl.textContent = perCurParts.join(' · ');
+          } else {
+            subNetEl.textContent = 'Доходы − расходы';
+          }
+        }
+      } else {
+        const allCurs = [...new Set([...totalIncInfo.curKeys, ...totalExpInfo.curKeys])];
+        const perCurDiffs = allCurs.map(c => ({
+          cur: c,
+          diff: Math.round(((totalIncInfo.byCur[c] || 0) - (totalExpInfo.byCur[c] || 0)) * 100) / 100
+        }));
+        const formattedWallets = perCurDiffs.map(x => (x.diff > 0 ? '+' : '') + fmtCur(x.diff, x.cur));
+        netEl.textContent = formattedWallets.length ? formattedWallets.join(' · ') : fmtB(0);
+        const hasPos = perCurDiffs.some(x => x.diff > 0);
+        const hasNeg = perCurDiffs.some(x => x.diff < 0);
+        netEl.classList.toggle('pos', hasPos && !hasNeg);
+        netEl.classList.toggle('neg', hasNeg && !hasPos);
+        if (subNetEl) subNetEl.textContent = 'Укажите курс в настройках для общего итога';
+      }
+    }
+
+    setText('bg-val-inc', totalIncInfo.mainStr);
+    setText('bg-sub-inc', manualIncomeList.length > 0
+      ? `Заказы: ${ordersIncInfo.mainStr} · Личные: ${manualIncInfo.mainStr}`
+      : `Заказы: ${ordersIncInfo.mainStr}`);
+
+    setText('bg-val-exp', totalExpInfo.mainStr);
+    if (topCat && expenseList.length > 0) {
+      const topPct = totalArcWeight > 0 ? Math.round((topCat[1].arcWeight / totalArcWeight) * 100) : 0;
       setText('bg-sub-exp', `Больше всего: ${topCat[0]} (${topPct}%)`);
-      setText('bg-top-cat-pill', `Топ трат: ${topCat[0]} · ${fmtB(topCat[1].sumBase)}`);
+      setText('bg-top-cat-pill', `Топ трат: ${topCat[0]} · ${topCat[1].sumInfo.mainStr}`);
     } else {
       setText('bg-sub-exp', 'Нет трат за период');
       setText('bg-top-cat-pill', '');
     }
 
     renderRecurringBar();
-    renderDonutChart(expByCat, totalExpenseBase);
+    renderDonutChart(expByCat, totalExpInfo);
     renderBudgetList(periodBudget, periodOrdersIncome);
   }
   window.renderBudgetView = renderBudgetView;
 
-  function buildManualGroupCards(itemsList, isIncomeCol) {
-    const frag = document.createDocumentFragment();
-    const gs = new Map();
-    itemsList.forEach(item => {
-      const k = grpKey(item);
-      if (!gs.has(k)) gs.set(k, []);
-      gs.get(k).push(item);
+  function renderBudgetTransactionRow(item) {
+    const isInc = item.type === 'income';
+    let ds = '';
+    if (item.date && item.date.length >= 10) {
+      const [y, m, d] = item.date.split('-').map(Number);
+      if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+    }
+    const col = getCategoryColor(item.category);
+    const shouldFlash = _flashIds.has(item.id);
+    if (shouldFlash) _flashIds.delete(item.id);
+
+    const row = el('div', {
+      className: 'entry-card' + (shouldFlash ? ' flash-glow' : ''),
+      style: 'cursor:pointer;'
     });
 
-    const sortedGroups = [...gs.entries()].sort((a, b) => grpSort(b[0]).localeCompare(grpSort(a[0])));
-    sortedGroups.forEach(([k, items]) => {
-      const sortedItems = [...items].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-      const grpSum = sortedItems.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0);
-      const grpSumStr = (isIncomeCol ? '+' : '−') + fmtB(grpSum);
-      const isRecent = (k === 'today' || k === 'yest' || k === 'cm');
+    const left = el('div', { className: 'el' }, [
+      el('div', { className: 'etitle' }, [item.note || item.category]),
+      el('div', { className: 'emeta' }, [
+        el('span', { className: 'eclient-wrap' }, [
+          el('span', { className: 'eclient-dot', style: `background:${col}` }),
+          el('span', { className: 'eclient' }, [item.category])
+        ])
+      ])
+    ]);
 
-      const box = el('section', { className: 'rem-group' + (isRecent ? '' : ' past-group') });
-      box.appendChild(el('div', { className: 'rem-hdr' }, [
-        el('div', { className: 'rem-hdr-left' }, [
-          el('span', { className: 'rem-title' }, [grpLabel(k)]),
-          el('span', { className: 'rem-cnt' }, [String(sortedItems.length)])
-        ]),
-        el('span', { className: 'rem-sum', style: isIncomeCol ? 'color:var(--success);' : '' }, [grpSumStr])
-      ]));
-
-      sortedItems.forEach(item => {
-        let ds = '';
-        if (item.date && item.date.length >= 10) {
-          const [y, m, d] = item.date.split('-').map(Number);
-          if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
-        }
-        const col = getCategoryColor(item.category);
-        const shouldFlash = _flashIds.has(item.id);
-        if (shouldFlash) _flashIds.delete(item.id);
-
-        const row = el('div', {
-          className: 'entry-card' + (shouldFlash ? ' flash-glow' : ''),
-          style: 'cursor:pointer;'
-        });
-
-        const left = el('div', { className: 'el' }, [
-          el('div', { className: 'etitle' }, [item.note || item.category]),
-          el('div', { className: 'emeta' }, [
-            el('span', { className: 'eclient-wrap' }, [
-              el('span', { className: 'eclient-dot', style: `background:${col}` }),
-              el('span', { className: 'eclient' }, [item.category])
-            ])
-          ])
-        ]);
-
-        const delBtn = el('button', {
-          type: 'button',
-          className: 'bg-row-del',
-          title: 'Удалить операцию',
-          'aria-label': 'Удалить'
-        }, ['×']);
-        delBtn.addEventListener('click', ev => {
-          ev.stopPropagation();
-          const snapshot = budgetEntries.map(x => ({ ...x }));
-          recordDeletedIds([item.id]);
-          budgetEntries = budgetEntries.filter(x => x.id !== item.id);
-          saveBudgetState();
-          renderBudgetView();
-          showToast('Операция удалена', () => {
-            deletedIds.delete(String(item.id));
-            lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
-            budgetEntries = snapshot;
-            saveBudgetState();
-            renderBudgetView();
-          });
-        });
-
-        const right = el('div', { className: 'er' }, [
-          ds ? el('span', { className: 'edate' }, [ds]) : null,
-          el('span', { className: 'eamt' + (isIncomeCol ? ' bg-amt-inc' : '') }, [
-            `${isIncomeCol ? '+' : '−'}${fmtCur(item.amount, item.currency)}`
-          ]),
-          delBtn
-        ]);
-
-        row.appendChild(left);
-        row.appendChild(right);
-        row.addEventListener('click', () => openBudgetModal(item.id));
-        box.appendChild(row);
+    const delBtn = el('button', {
+      type: 'button',
+      className: 'bg-row-del',
+      title: 'Удалить операцию',
+      'aria-label': 'Удалить'
+    }, ['×']);
+    delBtn.addEventListener('click', ev => {
+      ev.stopPropagation();
+      const snapshot = budgetEntries.map(x => ({ ...x }));
+      recordDeletedIds([item.id]);
+      budgetEntries = budgetEntries.filter(x => x.id !== item.id);
+      saveBudgetState();
+      renderBudgetView();
+      showToast('Операция удалена', () => {
+        deletedIds.delete(String(item.id));
+        lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+        budgetEntries = snapshot;
+        saveBudgetState();
+        renderBudgetView();
       });
-
-      frag.appendChild(box);
     });
-    return frag;
+
+    const right = el('div', { className: 'er' }, [
+      ds ? el('span', { className: 'edate' }, [ds]) : null,
+      el('span', { className: 'eamt' + (isInc ? ' bg-amt-inc' : '') }, [
+        `${isInc ? '+' : '−'}${fmtCur(item.amount, item.currency)}`
+      ]),
+      delBtn
+    ]);
+
+    row.appendChild(left);
+    row.appendChild(right);
+    row.addEventListener('click', () => openBudgetModal(item.id));
+    return row;
+  }
+
+  function formatMixedGroupHeaderSum(items) {
+    const incs = items.filter(x => x.type === 'income');
+    const exps = items.filter(x => x.type !== 'income');
+    const parts = [];
+    if (incs.length > 0) parts.push(formatSignedBudgetSum(incs, '+'));
+    if (exps.length > 0) parts.push(formatSignedBudgetSum(exps, '−'));
+    return parts.join(' · ');
   }
 
   function renderBudgetList(periodBudget, periodOrdersIncome) {
@@ -10351,6 +10429,12 @@ const TwitterPlanner = (() => {
 
     if (atagsEl) {
       atagsEl.innerHTML = '';
+      if (bgTypeFilter !== 'all') {
+        const lbl = bgTypeFilter === 'income' ? 'Только доходы ×' : 'Только расходы ×';
+        const tag = el('div', { className: 'atag' }, [lbl]);
+        tag.addEventListener('click', () => { bgTypeFilter = 'all'; renderBudgetView(); });
+        atagsEl.appendChild(tag);
+      }
       if (bgCatFilter) {
         const dot = el('span', { className: 'eclient-dot', style: `background:${getCategoryColor(bgCatFilter)}` });
         const tag = el('div', { className: 'atag' }, [dot, `${bgCatFilter} ×`]);
@@ -10361,121 +10445,126 @@ const TwitterPlanner = (() => {
 
     const q = bgSearchQuery.trim().toLowerCase();
 
-    // Left Column Data: Income (Auto Paid Orders + Manual Income)
-    const manualIncomes = periodBudget.filter(x => {
-      if (x.type !== 'income') return false;
-      if (bgCatFilter) return false;
+    const filteredManual = periodBudget.filter(x => {
+      if (bgTypeFilter !== 'all' && x.type !== bgTypeFilter) return false;
+      if (bgCatFilter && (x.type !== 'expense' || x.category !== bgCatFilter)) return false;
       if (q && !(x.category || '').toLowerCase().includes(q) && !(x.note || '').toLowerCase().includes(q)) return false;
       return true;
     });
 
-    const autoOrders = bgCatFilter
+    const autoOrders = (bgCatFilter || bgTypeFilter === 'expense')
       ? []
       : periodOrdersIncome.filter(e => {
           if (!q) return true;
           return (e.desc || '').toLowerCase().includes(q) || (e.name || '').toLowerCase().includes(q) || 'заказы'.includes(q);
         });
 
-    // Right Column Data: Expenses
-    const manualExpenses = periodBudget.filter(x => {
-      if (x.type !== 'expense') return false;
-      if (bgCatFilter && x.category !== bgCatFilter) return false;
-      if (q && !(x.category || '').toLowerCase().includes(q) && !(x.note || '').toLowerCase().includes(q)) return false;
-      return true;
-    });
-
-    const incColSum = Math.round((
-      autoOrders.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0) +
-      manualIncomes.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0)
-    ) * 100) / 100;
-
-    const expColSum = Math.round(
-      manualExpenses.reduce((s, x) => s + toBaseOrRaw(x.amount, x.currency), 0) * 100
-    ) / 100;
-
     listEl.innerHTML = '';
 
-    const splitGrid = el('div', { className: 'bg-split-grid' });
+    if (!filteredManual.length && !autoOrders.length) {
+      const empty = el('div', { className: 'empty' });
+      const emptySvg = document.createElement('div');
+      emptySvg.className = 'empty-ico';
+      emptySvg.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg>`;
+      empty.appendChild(emptySvg);
+      empty.appendChild(el('div', { className: 'empty-title' }, ['Операций пока нет']));
+      empty.appendChild(el('div', { className: 'empty-sub' }, ['Добавьте расход, личный доход или используйте быстрый шаблон сверху.']));
+      const ebtn = el('button', { className: 'empty-btn', type: 'button' }, ['+ Добавить операцию']);
+      ebtn.addEventListener('click', () => openBudgetModal());
+      empty.appendChild(ebtn);
+      listEl.appendChild(empty);
+      return;
+    }
 
-    // ── LEFT COLUMN: ДОХОДЫ ──
-    const leftCol = el('div', { className: 'bg-col' });
-    leftCol.appendChild(el('div', { className: 'bg-col-hdr' }, [
-      el('span', { className: 'bg-col-title' }, [
-        el('span', { className: 'bg-col-dot', style: 'background:var(--success);' }),
-        'Доходы'
-      ]),
-      el('span', { className: 'bg-col-sum inc' }, [`+${fmtB(incColSum)}`])
-    ]));
+    // Build chronological group cards identical to Orders tracker
+    const groupCards = [];
 
-    if (!autoOrders.length && !manualIncomes.length) {
-      leftCol.appendChild(el('div', { className: 'bg-col-empty' }, [
-        bgCatFilter ? 'Выбран фильтр по категории расходов' : 'Доходов за этот период нет'
+    const gs = new Map();
+    filteredManual.forEach(item => {
+      const k = grpKey(item);
+      if (!gs.has(k)) gs.set(k, []);
+      gs.get(k).push(item);
+    });
+
+    const sortedGroups = [...gs.entries()].sort((a, b) => grpSort(b[0]).localeCompare(grpSort(a[0])));
+    sortedGroups.forEach(([k, items]) => {
+      const sortedItems = [...items].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      const grpSumStr = formatMixedGroupHeaderSum(sortedItems);
+      const isRecent = (k === 'today' || k === 'yest' || k === 'cm');
+
+      const box = el('section', { className: 'rem-group' + (isRecent ? '' : ' past-group') });
+      box.appendChild(el('div', { className: 'rem-hdr' }, [
+        el('div', { className: 'rem-hdr-left' }, [
+          el('span', { className: 'rem-title' }, [grpLabel(k)]),
+          el('span', { className: 'rem-cnt' }, [String(sortedItems.length)])
+        ]),
+        grpSumStr ? el('span', { className: 'rem-sum' }, [grpSumStr]) : null
       ]));
-    } else {
-      if (manualIncomes.length > 0) {
-        leftCol.appendChild(buildManualGroupCards(manualIncomes, true));
-      }
-      if (autoOrders.length > 0) {
-        const autoSumBase = autoOrders.reduce((s, e) => s + toBaseOrRaw(e.amount, e.currency), 0);
-        const box = el('section', { className: 'rem-group past-group' });
-        box.appendChild(el('div', { className: 'rem-hdr' }, [
-          el('div', { className: 'rem-hdr-left' }, [
-            el('span', { className: 'rem-title', style: 'color:var(--success);' }, ['Доход от заказов']),
-            el('span', { className: 'rem-cnt' }, [String(autoOrders.length)]),
-            el('span', { className: 'bg-auto-pill' }, ['Авто'])
-          ]),
-          el('span', { className: 'rem-sum', style: 'color:var(--success);' }, [`+${fmtB(autoSumBase)}`])
-        ]));
 
-        autoOrders.forEach(e => {
-          const pd = getEntryPaidDate(e);
-          let ds = '';
-          if (pd && pd.length >= 10) {
-            const [y, m, d] = pd.split('-').map(Number);
-            if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
-          }
-          const row = el('div', { className: 'entry-card' });
-          const left = el('div', { className: 'el' }, [
-            el('div', { className: 'etitle' }, [e.desc || e.name || 'Заказ']),
-            e.name ? el('div', { className: 'emeta' }, [
-              el('span', { className: 'eclient-wrap' }, [
-                el('span', { className: 'eclient-dot', style: `background:${getClientColor(e.name)}` }),
-                el('span', { className: 'eclient' }, [e.name])
-              ])
-            ]) : null
-          ]);
-          const right = el('div', { className: 'er' }, [
-            ds ? el('span', { className: 'edate' }, [ds]) : null,
-            el('span', { className: 'eamt bg-amt-inc' }, [`+${fmtCur(e.amount, e.currency)}`])
-          ]);
-          row.appendChild(left);
-          row.appendChild(right);
-          box.appendChild(row);
-        });
+      sortedItems.forEach(item => box.appendChild(renderBudgetTransactionRow(item)));
+      groupCards.push({ node: box, weight: 1.4 + sortedItems.length });
+    });
 
-        leftCol.appendChild(box);
-      }
+    if (autoOrders.length > 0) {
+      const autoSumStr = formatSignedBudgetSum(autoOrders, '+');
+      const box = el('section', { className: 'rem-group past-group' });
+      box.appendChild(el('div', { className: 'rem-hdr' }, [
+        el('div', { className: 'rem-hdr-left' }, [
+          el('span', { className: 'rem-title', style: 'color:var(--success);' }, ['Доход от заказов']),
+          el('span', { className: 'rem-cnt' }, [String(autoOrders.length)]),
+          el('span', { className: 'bg-auto-pill' }, ['Авто'])
+        ]),
+        el('span', { className: 'rem-sum', style: 'color:var(--success);' }, [autoSumStr])
+      ]));
+
+      autoOrders.forEach(e => {
+        const pd = getEntryPaidDate(e);
+        let ds = '';
+        if (pd && pd.length >= 10) {
+          const [y, m, d] = pd.split('-').map(Number);
+          if (y && m && d) ds = new Date(y, m - 1, d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+        }
+        const row = el('div', { className: 'entry-card' });
+        const left = el('div', { className: 'el' }, [
+          el('div', { className: 'etitle' }, [e.desc || e.name || 'Заказ']),
+          e.name ? el('div', { className: 'emeta' }, [
+            el('span', { className: 'eclient-wrap' }, [
+              el('span', { className: 'eclient-dot', style: `background:${getClientColor(e.name)}` }),
+              el('span', { className: 'eclient' }, [e.name])
+            ])
+          ]) : null
+        ]);
+        const right = el('div', { className: 'er' }, [
+          ds ? el('span', { className: 'edate' }, [ds]) : null,
+          el('span', { className: 'eamt bg-amt-inc' }, [`+${fmtCur(e.amount, e.currency)}`])
+        ]);
+        row.appendChild(left);
+        row.appendChild(right);
+        box.appendChild(row);
+      });
+
+      groupCards.push({ node: box, weight: 1.4 + autoOrders.length });
     }
 
-    // ── RIGHT COLUMN: РАСХОДЫ ──
-    const rightCol = el('div', { className: 'bg-col' });
-    rightCol.appendChild(el('div', { className: 'bg-col-hdr' }, [
-      el('span', { className: 'bg-col-title' }, [
-        el('span', { className: 'bg-col-dot', style: 'background:var(--danger);' }),
-        'Расходы'
-      ]),
-      el('span', { className: 'bg-col-sum exp' }, [`−${fmtB(expColSum)}`])
-    ]));
+    // Balanced 2-Column Masonry Layout identical to Orders tracker
+    const colsWrap = el('div', { className: 'masonry-cols' });
+    const col1 = el('div', { className: 'masonry-col' });
+    const col2 = el('div', { className: 'masonry-col' });
+    let h1 = 0, h2 = 0;
 
-    if (!manualExpenses.length) {
-      rightCol.appendChild(el('div', { className: 'bg-col-empty' }, ['Расходов за этот период нет']));
-    } else {
-      rightCol.appendChild(buildManualGroupCards(manualExpenses, false));
-    }
+    groupCards.forEach((gCard, idx) => {
+      if (idx === 0 || (idx > 1 && h1 <= h2)) {
+        col1.appendChild(gCard.node);
+        h1 += gCard.weight;
+      } else {
+        col2.appendChild(gCard.node);
+        h2 += gCard.weight;
+      }
+    });
 
-    splitGrid.appendChild(leftCol);
-    splitGrid.appendChild(rightCol);
-    listEl.appendChild(splitGrid);
+    colsWrap.appendChild(col1);
+    if (col2.childNodes.length > 0) colsWrap.appendChild(col2);
+    listEl.appendChild(colsWrap);
   }
 
   /* Budget Modal Logic */
@@ -10648,6 +10737,24 @@ const TwitterPlanner = (() => {
     }
 
     document.getElementById('bg-card-net')?.addEventListener('click', cycleBaseCur);
+    const incMetric = document.getElementById('bg-val-inc')?.closest('.bg-metric');
+    const expMetric = document.getElementById('bg-val-exp')?.closest('.bg-metric');
+    if (incMetric) {
+      incMetric.classList.add('clickable');
+      incMetric.title = 'Фильтр: только доходы';
+      incMetric.addEventListener('click', () => {
+        bgTypeFilter = (bgTypeFilter === 'income') ? 'all' : 'income';
+        renderBudgetView();
+      });
+    }
+    if (expMetric) {
+      expMetric.classList.add('clickable');
+      expMetric.title = 'Фильтр: только расходы';
+      expMetric.addEventListener('click', () => {
+        bgTypeFilter = (bgTypeFilter === 'expense') ? 'all' : 'expense';
+        renderBudgetView();
+      });
+    }
     document.getElementById('btn-bg-add')?.addEventListener('click', () => openBudgetModal());
     document.getElementById('btn-bg-add-tpl')?.addEventListener('click', () => openBudgetModal(null, true));
     document.getElementById('bg-m-close')?.addEventListener('click', closeBudgetModal);
