@@ -1569,6 +1569,49 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   background:var(--success-bg);
   color:var(--success);
 }
+.bg-adj-pill{
+  font-size:10px;
+  font-weight:600;
+  padding:1.5px 6px;
+  border-radius:5px;
+  background:var(--blue-bg);
+  color:var(--blue);
+}
+.bg-adj-btn{
+  height:20px;
+  padding:0 7px;
+  border:none;
+  border-radius:6px;
+  background:var(--surface2);
+  color:var(--text2);
+  font-size:10.5px;
+  font-weight:600;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+}
+.bg-adj-btn:hover{
+  background:var(--blue-bg);
+  color:var(--blue);
+}
+.bg-adj-diff-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  background:var(--surface2);
+  border-radius:var(--r);
+  margin-bottom:13px;
+  font-size:12.5px;
+  color:var(--text2);
+}
+.bg-adj-diff-val{
+  font-weight:700;
+  color:var(--text);
+}
+.bg-adj-diff-val.pos{color:var(--success);}
+.bg-adj-diff-val.neg{color:var(--danger);}
 
 body.budget-mode #sel-dock{display:none!important;}
 
@@ -2411,7 +2454,13 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
         <div class="bg-metrics-row">
           <div class="bg-metric clickable" id="bg-card-net" title="Нажмите для смены базовой валюты (₽ / $ / €)">
-            <div class="bg-m-lbl">Остаток</div>
+            <div class="bg-m-lbl">
+              <span>Остаток</span>
+              <button type="button" class="bg-adj-btn" id="btn-bg-reconcile" title="Сверить и скорректировать фактический остаток" aria-label="Корректировка баланса">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <span>Сверить</span>
+              </button>
+            </div>
             <div class="bg-net-val" id="bg-val-net">0 ₽</div>
             <div class="bg-m-hint" id="bg-sub-net">Доходы − расходы</div>
           </div>
@@ -2540,6 +2589,55 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
     <div class="fbtns">
       <button class="bsubmit" id="bg-bsub" type="button">+ Добавить</button>
       <button class="bcancel" id="bg-bdel" type="button" style="display:none;color:var(--danger);background:var(--danger-bg);">Удалить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Balance Adjustment (Корректировка баланса) -->
+<div class="moverlay" id="bg-adj-mov" role="dialog" aria-modal="true" aria-labelledby="bg-adj-title">
+  <div class="modal">
+    <div class="sheet-handle"></div>
+    <div class="mhdr">
+      <span class="mtitle" id="bg-adj-title">Корректировка баланса</span>
+      <button class="mclose" id="bg-adj-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <div class="bg-adj-diff-box">
+      <span>Расчётный остаток на сайте</span>
+      <span class="bg-adj-diff-val" id="bg-adj-cur-val">0 ₽</span>
+    </div>
+
+    <div class="fgrid">
+      <div class="ff">
+        <label for="bg-adj-actual">Фактический остаток</label>
+        <div class="amt-cur-combo">
+          <input type="text" id="bg-adj-actual" placeholder="45099.49" inputmode="decimal"/>
+          <select id="bg-adj-cur" aria-label="Валюта">
+            <option>₽</option><option>$</option><option>€</option>
+          </select>
+        </div>
+      </div>
+      <div class="ff">
+        <label for="bg-adj-date">Дата сверки</label>
+        <input type="date" id="bg-adj-date"/>
+      </div>
+    </div>
+
+    <div class="fgrid single-col">
+      <div class="ff">
+        <label for="bg-adj-note">Комментарий</label>
+        <input type="text" id="bg-adj-note" placeholder="Входящий остаток, наличные, сверка..."/>
+      </div>
+    </div>
+
+    <div class="bg-adj-diff-box" style="margin-bottom:4px;">
+      <span>Будет добавлена корректировка</span>
+      <span class="bg-adj-diff-val" id="bg-adj-delta-val">0 ₽</span>
+    </div>
+
+    <div class="fbtns">
+      <button class="bsubmit" id="bg-adj-sub" type="button">Применить</button>
+      <button class="bcancel" id="bg-adj-reset" type="button" style="display:none;color:var(--danger);background:var(--danger-bg);">Сбросить</button>
     </div>
   </div>
 </div>
@@ -6763,7 +6861,7 @@ function bindEvents() {
     if (e.key === 'Escape') {
       if (document.getElementById('sov').classList.contains('on')) { closeSettings(); return; }
       if (document.body.classList.contains('xp-mode')) return;
-      if (document.getElementById('bg-mov')?.classList.contains('on')) return;
+      if (document.getElementById('bg-mov')?.classList.contains('on') || document.getElementById('bg-adj-mov')?.classList.contains('on')) return;
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
@@ -9998,15 +10096,22 @@ const TwitterPlanner = (() => {
 
   function normalizeBudgetList(list) {
     if (!Array.isArray(list)) return [];
-    return list.filter(x => x && typeof x === 'object' && x.amount > 0).map(x => ({
-      id: String(x.id || gid()),
-      type: x.type === 'income' ? 'income' : 'expense',
-      category: String(x.category || 'Прочее').trim(),
-      amount: Math.round(Number(x.amount) * 100) / 100,
-      currency: CURS.includes(x.currency) ? x.currency : baseCur,
-      note: String(x.note || '').trim(),
-      date: String(x.date || today())
-    }));
+    return list.filter(x => x && typeof x === 'object' && x.amount > 0).map(x => {
+      const out = {
+        id: String(x.id || gid()),
+        type: x.type === 'income' ? 'income' : 'expense',
+        category: String(x.category || 'Прочее').trim(),
+        amount: Math.round(Number(x.amount) * 100) / 100,
+        currency: CURS.includes(x.currency) ? x.currency : baseCur,
+        note: String(x.note || '').trim(),
+        date: String(x.date || today())
+      };
+      if (x.isAdjustment || out.category === 'Корректировка') {
+        out.isAdjustment = true;
+        out.category = 'Корректировка';
+      }
+      return out;
+    });
   }
 
   function getCategoryColor(cat) {
@@ -10308,6 +10413,22 @@ const TwitterPlanner = (() => {
     });
   }
 
+  function computeNetBalanceSnapshot(periodBudget, periodOrdersIncome) {
+    const allInc = [...periodOrdersIncome, ...periodBudget.filter(x => x.type === 'income')];
+    const allExp = periodBudget.filter(x => x.type === 'expense');
+    const incInfo = summarizeBudgetGroup(allInc);
+    const expInfo = summarizeBudgetGroup(allExp);
+    const adjItems = periodBudget.filter(x => x.isAdjustment);
+    const adjSignedBase = adjItems.reduce((s, x) => {
+      const val = toB(x.amount, x.currency) ?? x.amount;
+      return s + (x.type === 'income' ? val : -val);
+    }, 0);
+    const netBase = (incInfo.baseTot !== null && expInfo.baseTot !== null)
+      ? Math.round((incInfo.baseTot - expInfo.baseTot) * 100) / 100
+      : null;
+    return { incInfo, expInfo, netBase, adjItems, adjSignedBase: Math.round(adjSignedBase * 100) / 100 };
+  }
+
   function renderBudgetView() {
     setText('bg-period-title', getPeriodTitle());
 
@@ -10315,14 +10436,17 @@ const TwitterPlanner = (() => {
     const ordersIncInfo = summarizeBudgetGroup(periodOrdersIncome);
 
     const periodBudget = budgetEntries.filter(x => matchesPeriod(x.date));
-    const manualIncomeList = periodBudget.filter(x => x.type === 'income');
-    const expenseList = periodBudget.filter(x => x.type === 'expense');
+    const regularBudget = periodBudget.filter(x => !x.isAdjustment);
+    const manualIncomeList = regularBudget.filter(x => x.type === 'income');
+    const expenseList = regularBudget.filter(x => x.type === 'expense');
 
     const manualIncInfo = summarizeBudgetGroup(manualIncomeList);
     const totalIncInfo = summarizeBudgetGroup([...periodOrdersIncome, ...manualIncomeList]);
     const totalExpInfo = summarizeBudgetGroup(expenseList);
 
-    // Group expenses by category with exact multi-currency summaries
+    const { incInfo: netIncInfo, expInfo: netExpInfo, netBase, adjItems, adjSignedBase } = computeNetBalanceSnapshot(periodBudget, periodOrdersIncome);
+
+    // Group real expenses (excluding balance adjustments) by category for Donut chart
     const expItemsByCat = new Map();
     expenseList.forEach(x => {
       const cat = x.category || 'Прочее';
@@ -10343,34 +10467,36 @@ const TwitterPlanner = (() => {
     const topCat = sortedExpCats.length ? sortedExpCats[0] : null;
     const totalArcWeight = sortedExpCats.reduce((s, [, info]) => s + info.arcWeight, 0);
 
-    // Net Balance: exact converted sum if rates exist, otherwise clean per-currency wallets
+    // Net Balance (includes adjustments so actual balance matches user's real account)
     const netEl = document.getElementById('bg-val-net');
     const subNetEl = document.getElementById('bg-sub-net');
     if (netEl) {
-      if (totalIncInfo.baseTot !== null && totalExpInfo.baseTot !== null) {
-        const netBalanceBase = Math.round((totalIncInfo.baseTot - totalExpInfo.baseTot) * 100) / 100;
-        const prefix = netBalanceBase > 0 ? '+' : '';
-        netEl.textContent = prefix + fmtB(netBalanceBase);
-        netEl.classList.toggle('pos', netBalanceBase > 0);
-        netEl.classList.toggle('neg', netBalanceBase < 0);
+      if (netBase !== null) {
+        const prefix = netBase > 0 ? '+' : '';
+        netEl.textContent = prefix + fmtB(netBase);
+        netEl.classList.toggle('pos', netBase > 0);
+        netEl.classList.toggle('neg', netBase < 0);
 
         if (subNetEl) {
-          const allCurs = [...new Set([...totalIncInfo.curKeys, ...totalExpInfo.curKeys])];
+          const allCurs = [...new Set([...netIncInfo.curKeys, ...netExpInfo.curKeys])];
           if (allCurs.length > 1) {
             const perCurParts = allCurs.map(c => {
-              const diff = Math.round(((totalIncInfo.byCur[c] || 0) - (totalExpInfo.byCur[c] || 0)) * 100) / 100;
+              const diff = Math.round(((netIncInfo.byCur[c] || 0) - (netExpInfo.byCur[c] || 0)) * 100) / 100;
               return (diff > 0 ? '+' : '') + fmtCur(diff, c);
             });
             subNetEl.textContent = perCurParts.join(' · ');
+          } else if (adjItems.length > 0 && Math.abs(adjSignedBase) >= 0.01) {
+            const adjPref = adjSignedBase > 0 ? '+' : '';
+            subNetEl.textContent = `Корректировка: ${adjPref}${fmtB(adjSignedBase)}`;
           } else {
             subNetEl.textContent = 'Доходы − расходы';
           }
         }
       } else {
-        const allCurs = [...new Set([...totalIncInfo.curKeys, ...totalExpInfo.curKeys])];
+        const allCurs = [...new Set([...netIncInfo.curKeys, ...netExpInfo.curKeys])];
         const perCurDiffs = allCurs.map(c => ({
           cur: c,
-          diff: Math.round(((totalIncInfo.byCur[c] || 0) - (totalExpInfo.byCur[c] || 0)) * 100) / 100
+          diff: Math.round(((netIncInfo.byCur[c] || 0) - (netExpInfo.byCur[c] || 0)) * 100) / 100
         }));
         const formattedWallets = perCurDiffs.map(x => (x.diff > 0 ? '+' : '') + fmtCur(x.diff, x.cur));
         netEl.textContent = formattedWallets.length ? formattedWallets.join(' · ') : fmtB(0);
@@ -10422,10 +10548,12 @@ const TwitterPlanner = (() => {
     const left = el('div', { className: 'el' }, [
       el('div', { className: 'etitle' }, [item.note || item.category]),
       el('div', { className: 'emeta' }, [
-        el('span', { className: 'eclient-wrap' }, [
-          el('span', { className: 'eclient-dot', style: `background:${col}` }),
-          el('span', { className: 'eclient' }, [item.category])
-        ])
+        item.isAdjustment
+          ? el('span', { className: 'bg-adj-pill' }, ['Корректировка'])
+          : el('span', { className: 'eclient-wrap' }, [
+              el('span', { className: 'eclient-dot', style: `background:${col}` }),
+              el('span', { className: 'eclient' }, [item.category])
+            ])
       ])
     ]);
 
@@ -10910,9 +11038,193 @@ const TwitterPlanner = (() => {
       });
     }
 
+    /* Balance Reconciliation / Adjustment Modal */
+    function getDefaultAdjustmentDate() {
+      const td = today();
+      if (matchesPeriod(td)) return td;
+      const eff = effectiveYm();
+      if (eff && eff !== 'all' && eff.length === 7) return `${eff}-01`;
+      return td;
+    }
+
+    function getCurrentBalanceInCurrency(targetCur) {
+      const periodOrdersIncome = entries.filter(isPaidInPeriod);
+      const periodBudget = budgetEntries.filter(x => matchesPeriod(x.date));
+      const allInc = [...periodOrdersIncome, ...periodBudget.filter(x => x.type === 'income')];
+      const allExp = periodBudget.filter(x => x.type === 'expense');
+
+      const toTarget = (amt, cur) => {
+        if (cur === targetCur) return amt;
+        const inBase = toB(amt, cur);
+        if (inBase === null) return null;
+        if (targetCur === baseCur) return inBase;
+        const rBack = rates[rateKey(targetCur, baseCur)];
+        return (rBack && rBack > 0) ? Math.round((inBase / rBack) * 100) / 100 : null;
+      };
+
+      let sum = 0;
+      for (const item of allInc) {
+        const v = toTarget(item.amount, item.currency);
+        if (v === null) return null;
+        sum += v;
+      }
+      for (const item of allExp) {
+        const v = toTarget(item.amount, item.currency);
+        if (v === null) return null;
+        sum -= v;
+      }
+      return Math.round(sum * 100) / 100;
+    }
+
+    function updateAdjPreview() {
+      const curSel = document.getElementById('bg-adj-cur');
+      const actInp = document.getElementById('bg-adj-actual');
+      const curValEl = document.getElementById('bg-adj-cur-val');
+      const deltaEl = document.getElementById('bg-adj-delta-val');
+      if (!curSel || !actInp || !curValEl || !deltaEl) return;
+
+      const c = curSel.value || baseCur;
+      const curBal = getCurrentBalanceInCurrency(c);
+      curValEl.textContent = curBal !== null ? fmtCur(curBal, c) : 'Нет курса';
+
+      const parsedActual = pAmt(actInp.value);
+      if (curBal === null || isNaN(parsedActual)) {
+        deltaEl.textContent = '—';
+        deltaEl.className = 'bg-adj-diff-val';
+        return;
+      }
+      const delta = Math.round((parsedActual - curBal) * 100) / 100;
+      if (Math.abs(delta) < 0.01) {
+        deltaEl.textContent = `0 ${c} (сходится)`;
+        deltaEl.className = 'bg-adj-diff-val';
+      } else {
+        const pref = delta > 0 ? '+' : '−';
+        deltaEl.textContent = `${pref}${fmtCur(Math.abs(delta), c)}`;
+        deltaEl.className = 'bg-adj-diff-val ' + (delta > 0 ? 'pos' : 'neg');
+      }
+    }
+
+    function openBalanceAdjModal() {
+      const curSel = document.getElementById('bg-adj-cur');
+      const actInp = document.getElementById('bg-adj-actual');
+      const dateInp = document.getElementById('bg-adj-date');
+      const noteInp = document.getElementById('bg-adj-note');
+      const resetBtn = document.getElementById('bg-adj-reset');
+
+      if (curSel) curSel.value = baseCur;
+      const curBal = getCurrentBalanceInCurrency(baseCur);
+      if (actInp) actInp.value = curBal !== null ? String(curBal) : '';
+      if (dateInp) dateInp.value = getDefaultAdjustmentDate();
+      if (noteInp) noteInp.value = '';
+
+      const periodAdjs = budgetEntries.filter(x => x.isAdjustment && matchesPeriod(x.date));
+      if (resetBtn) resetBtn.style.display = periodAdjs.length > 0 ? '' : 'none';
+
+      updateAdjPreview();
+      document.getElementById('bg-adj-mov')?.classList.add('on');
+      setTimeout(() => {
+        if (actInp) { actInp.focus(); actInp.select(); }
+      }, 70);
+    }
+
+    function closeBalanceAdjModal() {
+      document.getElementById('bg-adj-mov')?.classList.remove('on');
+    }
+
+    function submitBalanceAdjustment() {
+      const curSel = document.getElementById('bg-adj-cur');
+      const actInp = document.getElementById('bg-adj-actual');
+      const dateInp = document.getElementById('bg-adj-date');
+      const noteInp = document.getElementById('bg-adj-note');
+
+      const c = curSel?.value || baseCur;
+      const curBal = getCurrentBalanceInCurrency(c);
+      const parsedActual = pAmt(actInp?.value || '');
+      if (curBal === null || isNaN(parsedActual)) {
+        showToast('Укажите корректный фактический остаток');
+        return;
+      }
+
+      const delta = Math.round((parsedActual - curBal) * 100) / 100;
+      if (Math.abs(delta) < 0.01) {
+        closeBalanceAdjModal();
+        showToast('Остаток уже сходится');
+        return;
+      }
+
+      const snapshot = budgetEntries.map(x => ({ ...x }));
+      const newId = gid();
+      const adjEntry = {
+        id: newId,
+        type: delta > 0 ? 'income' : 'expense',
+        category: 'Корректировка',
+        isAdjustment: true,
+        amount: Math.abs(delta),
+        currency: c,
+        note: (noteInp?.value || '').trim() || 'Сверка остатка',
+        date: dateInp?.value || getDefaultAdjustmentDate()
+      };
+      _flashIds.add(newId);
+      budgetEntries.unshift(adjEntry);
+      saveBudgetState();
+      closeBalanceAdjModal();
+      renderBudgetView();
+
+      const pref = delta > 0 ? '+' : '−';
+      showToast(`Баланс скорректирован (${pref}${fmtCur(Math.abs(delta), c)})`, () => {
+        recordDeletedIds([newId]);
+        budgetEntries = snapshot;
+        saveBudgetState();
+        renderBudgetView();
+      });
+    }
+
+    document.getElementById('btn-bg-reconcile')?.addEventListener('click', e => {
+      e.stopPropagation();
+      openBalanceAdjModal();
+    });
+    document.getElementById('bg-adj-close')?.addEventListener('click', closeBalanceAdjModal);
+    document.getElementById('bg-adj-mov')?.addEventListener('click', e => {
+      if (e.target === document.getElementById('bg-adj-mov')) closeBalanceAdjModal();
+    });
+    document.getElementById('bg-adj-actual')?.addEventListener('input', updateAdjPreview);
+    document.getElementById('bg-adj-cur')?.addEventListener('change', () => {
+      const c = document.getElementById('bg-adj-cur')?.value || baseCur;
+      const b = getCurrentBalanceInCurrency(c);
+      const actInp = document.getElementById('bg-adj-actual');
+      if (actInp && b !== null) actInp.value = String(b);
+      updateAdjPreview();
+    });
+    document.getElementById('bg-adj-sub')?.addEventListener('click', submitBalanceAdjustment);
+    document.getElementById('bg-adj-mov')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitBalanceAdjustment();
+      }
+    });
+    document.getElementById('bg-adj-reset')?.addEventListener('click', () => {
+      const toRemove = budgetEntries.filter(x => x.isAdjustment && matchesPeriod(x.date));
+      if (!toRemove.length) return;
+      const snapshot = budgetEntries.map(x => ({ ...x }));
+      const remIds = toRemove.map(x => x.id);
+      recordDeletedIds(remIds);
+      budgetEntries = budgetEntries.filter(x => !(x.isAdjustment && matchesPeriod(x.date)));
+      saveBudgetState();
+      closeBalanceAdjModal();
+      renderBudgetView();
+      showToast('Корректировки за период сброшены', () => {
+        remIds.forEach(id => deletedIds.delete(String(id)));
+        lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+        budgetEntries = snapshot;
+        saveBudgetState();
+        renderBudgetView();
+      });
+    });
+
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && document.getElementById('bg-mov')?.classList.contains('on')) {
-        closeBudgetModal();
+      if (e.key === 'Escape') {
+        if (document.getElementById('bg-mov')?.classList.contains('on')) closeBudgetModal();
+        if (document.getElementById('bg-adj-mov')?.classList.contains('on')) closeBalanceAdjModal();
       }
     });
   }
