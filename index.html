@@ -2466,6 +2466,11 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
       <div class="atags" id="bg-atags"></div>
 
+      <button type="button" id="btn-bg-imp" title="Импорт выписки (.json) в Учёт" aria-label="Импорт в Учёт" style="height:40px;padding:0 13px;border:0.5px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:var(--shadow-card);flex-shrink:0;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span>Импорт</span>
+      </button>
+
       <button class="add-order-btn" id="btn-bg-add" type="button">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         <span>Добавить запись</span>
@@ -6340,6 +6345,11 @@ function extractValidEntries(raw) {
   return arr.filter(x => x && typeof x === 'object' && typeof x.amount === 'number' && x.amount > 0 && isFinite(x.amount) && typeof x.currency === 'string' && x.currency);
 }
 
+function extractValidBudgetEntries(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw) || !Array.isArray(raw.budgetEntries)) return [];
+  return raw.budgetEntries.filter(x => x && typeof x === 'object' && typeof x.amount === 'number' && x.amount > 0 && isFinite(x.amount));
+}
+
 function applyImportedPayload(raw, replaceMode = true) {
   const valid = extractValidEntries(raw);
   if (!valid) throw new Error('Invalid');
@@ -6387,8 +6397,36 @@ function handleFileObject(file) {
   r.onload = async e2 => {
     try {
       const raw = JSON.parse(e2.target.result);
-      const v = extractValidEntries(raw);
-      if (!v || !v.length) { showToast('Нет корректных записей в файле.'); return; }
+      const v = extractValidEntries(raw) || [];
+      const bValid = extractValidBudgetEntries(raw);
+
+      if (!v.length && bValid.length > 0) {
+        const existingBgCnt = Array.isArray(window._budgetEntries) ? window._budgetEntries.length : 0;
+        let replaceBudget = false;
+        if (existingBgCnt > 0) {
+          const choice = await showConfirm(
+            'Импорт выписки в Учёт',
+            `Найдено операций: ${bValid.length}. Добавить к текущим записям или заменить раздел Учёт?`,
+            'safe',
+            'Добавить',
+            'Заменить'
+          );
+          if (!choice) return;
+          replaceBudget = (choice === 'alt');
+        }
+        const resInfo = typeof window._importBudgetData === 'function'
+          ? window._importBudgetData(bValid, Array.isArray(raw.budgetRecurring) ? raw.budgetRecurring : [], replaceBudget)
+          : { added: bValid.length, total: bValid.length };
+        closeSettings();
+        if (typeof TwitterPlanner !== 'undefined' && TwitterPlanner.switchView) {
+          TwitterPlanner.switchView('budget');
+          updateMobileNavState('inv');
+        }
+        showToast(`Загружено в Учёт: ${resInfo.added} оп.`);
+        return;
+      }
+
+      if (!v.length) { showToast('Нет корректных записей в файле.'); return; }
 
       if (entries.length === 0) {
         applyImportedPayload(raw, true);
@@ -10024,21 +10062,38 @@ const TwitterPlanner = (() => {
   };
 
   window._importBudgetData = (impEntries, impRecur, replaceMode) => {
+    let addedCount = 0;
+    let totalCount = 0;
     if (Array.isArray(impEntries)) {
       const norm = normalizeBudgetList(impEntries);
+      totalCount = norm.length;
+      norm.forEach(x => deletedIds.delete(String(x.id)));
+      lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
       if (replaceMode) {
         budgetEntries = norm;
+        addedCount = norm.length;
       } else {
-        const ex = new Set(budgetEntries.map(x => x.id));
-        budgetEntries = [...norm.filter(x => !ex.has(x.id)), ...budgetEntries];
+        const exIds = new Set(budgetEntries.map(x => x.id));
+        const exSigs = new Set(budgetEntries.map(x => `${x.date}|${x.type}|${x.category}|${x.amount}|${x.note}`));
+        const fresh = norm.filter(x => {
+          const sig = `${x.date}|${x.type}|${x.category}|${x.amount}|${x.note}`;
+          if (exIds.has(x.id) || exSigs.has(sig)) return false;
+          exIds.add(x.id);
+          exSigs.add(sig);
+          return true;
+        });
+        addedCount = fresh.length;
+        budgetEntries = [...fresh, ...budgetEntries];
       }
+      budgetEntries.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
     }
-    if (Array.isArray(impRecur)) {
+    if (Array.isArray(impRecur) && impRecur.length > 0) {
       if (replaceMode) budgetRecurring = impRecur;
       else budgetRecurring = [...budgetRecurring, ...impRecur];
     }
     saveBudgetState();
     renderBudgetView();
+    return { added: addedCount, total: totalCount };
   };
 
   function getPeriodTitle() {
@@ -10756,6 +10811,7 @@ const TwitterPlanner = (() => {
       });
     }
     document.getElementById('btn-bg-add')?.addEventListener('click', () => openBudgetModal());
+    document.getElementById('btn-bg-imp')?.addEventListener('click', trigImport);
     document.getElementById('btn-bg-add-tpl')?.addEventListener('click', () => openBudgetModal(null, true));
     document.getElementById('bg-m-close')?.addEventListener('click', closeBudgetModal);
     document.getElementById('bg-mov')?.addEventListener('click', e => {
