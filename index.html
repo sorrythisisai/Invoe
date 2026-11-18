@@ -939,12 +939,14 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 }
 .m-gt-pill:active{background:var(--surface2);}
 .m-gt-ico{
-  width:30px;height:30px;padding:0;border-radius:50%;
+  height:30px;padding:0 10px;border-radius:var(--rf);
   background:var(--surface);border:0.5px solid var(--border);
-  color:var(--text2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  color:var(--text2);font-size:11.5px;font-weight:600;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;white-space:nowrap;
 }
 .m-gt-ico .sync-dot{width:7px;height:7px;}
 .m-gt-ico.pending .sync-dot{background:var(--text3);}
+.m-gt-ico.warn{background:var(--warning-bg);color:var(--warning);}
 .m-gt-ico.warn .sync-dot{background:var(--warning);}
 
 .fpanel-back,.xp-sheet-back{
@@ -2011,6 +2013,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
   <div class="m-gt-actions">
     <button type="button" class="m-gt-ico" id="m-sync-btn" title="Синхронизация" aria-label="Синхронизация">
       <span class="sync-dot"></span>
+      <span id="m-sync-lbl">Сейф</span>
     </button>
     <button type="button" class="m-gt-pill" id="m-inv-btn" aria-label="Инвойс">Инвойс</button>
     <button type="button" class="m-gt-pill" id="m-period-btn" aria-label="Выбрать период">
@@ -2620,7 +2623,8 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
             <input type="url" class="cloud-inp" id="fb-url" placeholder="Ссылка https://...firebasedatabase.app" autocomplete="off"/>
             <input type="password" class="cloud-inp" id="fb-sec" placeholder="Секретный пароль из вкладки Rules" autocomplete="off"/>
             <div class="dbtns">
-              <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить и синхронизировать</button>
+              <button class="dbtn primary" id="btn-fb-save" type="button">Сохранить</button>
+              <button class="dbtn" id="btn-fb-pull" type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Подгрузить из облака</span></button>
             </div>
           </div>
           <div class="s-hint">Автосинхронизация через 5 сек после изменений.</div>
@@ -2761,6 +2765,8 @@ async function saveToSafariVault() {
       xpNotebook: normalizeXpNotebook(xpNotebook),
       budgetEntries: window._budgetEntries || [],
       budgetRecurring: window._budgetRecurring || [],
+      fbUrl: fbUrl || '',
+      fbSec: fbSec || '',
       baseCur, rates, theme, accent, tone, density, updatedAt: Date.now()
     }, 'main_state');
   } catch(e) {}
@@ -2774,6 +2780,15 @@ async function restoreFromSafariVaultIfEmpty() {
     req.onsuccess = () => {
       const data = req.result;
       if (!data) return;
+      let restoredCloudCreds = false;
+      if (!fbUrl && data.fbUrl) {
+        fbUrl = String(data.fbUrl).trim();
+        fbSec = String(data.fbSec || '').trim();
+        lsS('ff_fb_url', fbUrl);
+        lsS('ff_fb_sec', fbSec);
+        updateSyncPill('pending');
+        restoredCloudCreds = true;
+      }
       if (data.xpNotebook) {
         xpNotebook = mergeXpNotebooks(xpNotebook, data.xpNotebook);
         lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
@@ -2793,6 +2808,9 @@ async function restoreFromSafariVaultIfEmpty() {
         buildCP();
         render();
         showToast('Восстановлено из локального сейфа');
+      }
+      if (restoredCloudCreds && fbUrl) {
+        safeSyncWithFirebase(false);
       }
     };
   } catch(e) {}
@@ -2935,18 +2953,15 @@ function updateSyncPill(state) {
     if (fbUrl && state === 'pending') elNode.classList.add('pending');
     if (fbUrl && state === 'err') elNode.classList.add('warn');
   });
-  if (!pill) return;
-  if (!fbUrl) {
-    setText('top-sync-lbl', 'Сейф');
-  } else if (state === 'pending') {
-    setText('top-sync-lbl', 'Ждём 5с...');
-  } else if (state === 'syncing') {
-    setText('top-sync-lbl', 'Синхр...');
-  } else if (state === 'ok') {
-    setText('top-sync-lbl', 'Облако');
-  } else if (state === 'err') {
-    setText('top-sync-lbl', 'Ошибка');
+  let lblText = 'Сейф';
+  if (fbUrl) {
+    if (state === 'pending') lblText = 'Ждём 5с...';
+    else if (state === 'syncing') lblText = 'Синхр...';
+    else if (state === 'ok') lblText = 'Облако';
+    else if (state === 'err') lblText = 'Ошибка';
   }
+  setText('top-sync-lbl', lblText);
+  setText('m-sync-lbl', lblText);
 }
 
 async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false) {
@@ -3091,8 +3106,9 @@ async function safeSyncWithFirebase(manual = false) {
     const beforeFilterLen = entries.length;
     entries = entries.filter(e => !deletedIds.has(String(e.id)));
     const localWasPruned = entries.length !== beforeFilterLen;
+    const isFreshEmptyDevice = entries.length === 0 && !_hasUnsynced && cloudEntries.length > 0;
 
-    if (_hasUnsynced || localWasPruned || nbChangedVsCloud) {
+    if (!isFreshEmptyDevice && (_hasUnsynced || localWasPruned || nbChangedVsCloud)) {
       const localIds = new Set(entries.map(e => String(e.id)));
       const missingFromCloud = cloudEntries.filter(e => !localIds.has(String(e.id)));
       if (missingFromCloud.length > 0 || localWasPruned) {
@@ -3153,6 +3169,101 @@ async function safeSyncWithFirebase(manual = false) {
     setSkeletonLoading(false);
     render();
     updateSyncPill('err');
+  }
+}
+
+async function forcePullFromFirebase() {
+  clearTimeout(_fbTimer);
+  _fbTimer = null;
+  const inpUrl = document.getElementById('fb-url');
+  const inpSec = document.getElementById('fb-sec');
+  if (inpUrl) {
+    fbUrl = inpUrl.value.trim();
+    lsS('ff_fb_url', fbUrl);
+  }
+  if (inpSec) {
+    fbSec = inpSec.value.trim();
+    lsS('ff_fb_sec', fbSec);
+  }
+  saveToSafariVault();
+
+  const ep = getFirebaseEndpoint();
+  if (!ep) {
+    showToast('Сначала укажите ссылку Firebase');
+    return;
+  }
+
+  const pullBtn = document.getElementById('btn-fb-pull');
+  if (pullBtn) pullBtn.disabled = true;
+  updateSyncPill('syncing');
+
+  try {
+    const res = await fetch(ep);
+    if (!res.ok) {
+      if (res.status === 401 || res.status === 403) {
+        showToast('Доступ закрыт: проверьте пароль и Rules в Firebase');
+      } else {
+        showToast(`Ошибка загрузки из облака (код ${res.status})`);
+      }
+      throw new Error('HTTP ' + res.status);
+    }
+    const data = await res.json();
+    if (!data || typeof data !== 'object') {
+      updateSyncPill('ok');
+      showToast('В облаке пока нет сохранённых данных');
+      return;
+    }
+
+    const prevSnapshot = cloneEntries();
+    if (entries.length > 0) saveEmergencySnapshot();
+
+    const cloudEntries = Array.isArray(data.entries) ? normalizeLoadedEntries(data.entries) : [];
+    const cloudCur = (data.baseCur && CURS.includes(data.baseCur)) ? data.baseCur : baseCur;
+    const cloudRates = (data.rates && typeof data.rates === 'object') ? sanitizeRatesObject(data.rates) : rates;
+
+    // Clear deletedIds for items that exist in cloud so nothing is hidden
+    cloudEntries.forEach(e => deletedIds.delete(String(e.id)));
+    lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+
+    entries = cloudEntries;
+    baseCur = cloudCur;
+    rates = cloudRates;
+
+    if (data.xpNotebook) {
+      xpNotebook = normalizeXpNotebook(data.xpNotebook);
+      lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
+      if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
+    }
+
+    if (typeof window._importBudgetData === 'function' && (Array.isArray(data.budgetEntries) || Array.isArray(data.budgetRecurring))) {
+      window._importBudgetData(data.budgetEntries || [], data.budgetRecurring || [], true);
+    }
+
+    lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
+    lsS('ff_cur', baseCur);
+    lsS('ff_rates', JSON.stringify(rates));
+
+    _hasUnsynced = false;
+    lsS('ff_unsynced', '0');
+    const fp = computeDataFingerprint();
+    _lastSyncedFingerprint = fp;
+    lsS('ff_last_fp', fp);
+
+    saveToSafariVault();
+    _donutDirty = true;
+    buildCP();
+    render();
+    updateSyncPill('ok');
+
+    showToast(`Подгружено из облака: ${entries.length} зак.`, prevSnapshot.length ? () => {
+      entries = prevSnapshot;
+      save();
+      render();
+    } : null);
+  } catch (err) {
+    updateSyncPill('err');
+  } finally {
+    if (pullBtn) pullBtn.disabled = false;
   }
 }
 
@@ -5745,6 +5856,8 @@ function exportData() {
     updatedAt: new Date().toISOString(),
     baseCur,
     rates: sanitizeRatesObject(rates),
+    fbUrl: fbUrl || '',
+    fbSec: fbSec || '',
     xpNotebook: normalizeXpNotebook(xpNotebook),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
@@ -5776,6 +5889,12 @@ function applyImportedPayload(raw, replaceMode = true) {
   clearSel();
   if (!Array.isArray(raw) && raw.baseCur && CURS.includes(raw.baseCur)) {
     baseCur = raw.baseCur;
+  }
+  if (!Array.isArray(raw) && !fbUrl && raw.fbUrl) {
+    fbUrl = String(raw.fbUrl).trim();
+    fbSec = String(raw.fbSec || '').trim();
+    lsS('ff_fb_url', fbUrl);
+    lsS('ff_fb_sec', fbSec);
   }
   if (!Array.isArray(raw) && raw.rates && typeof raw.rates === 'object') {
     rates = sanitizeRatesObject({...rates, ...raw.rates});
@@ -5974,6 +6093,7 @@ function bindEvents() {
     fbSec = document.getElementById('fb-sec').value.trim();
     lsS('ff_fb_url', fbUrl);
     lsS('ff_fb_sec', fbSec);
+    saveToSafariVault();
     if (!fbUrl) {
       clearTimeout(_fbTimer);
       updateSyncPill('local');
@@ -5982,6 +6102,8 @@ function bindEvents() {
     }
     safeSyncWithFirebase(true);
   });
+
+  document.getElementById('btn-fb-pull')?.addEventListener('click', forcePullFromFirebase);
 
   document.getElementById('btn-fetch-rates').addEventListener('click', fetchFreeRatesManually);
   document.getElementById('btn-restore-snap').addEventListener('click', restoreEmergencySnapshot);
