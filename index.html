@@ -32,6 +32,7 @@
   --danger:#d70015;
   --danger-bg:rgba(215,0,21,0.11);
   --blue:#007aff;
+  --on-accent:#ffffff;
   --blue-bg:rgba(0,122,255,0.12);
   --lasso-fill:rgba(0,122,255,0.11);
   --shadow-card:0 1px 3px rgba(0,0,0,0.03), 0 6px 18px rgba(0,0,0,0.02);
@@ -70,14 +71,6 @@ html[data-theme="dark"]{
 }
 
 /* SURFACE TONES */
-html[data-theme="light"][data-tone="cool"]{
-  --bg:#eef2f7;--surface:#ffffff;--rail-bg:#e5ebf3;--surface2:rgba(100,116,139,0.09);--surface3:rgba(100,116,139,0.16);
-  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
-}
-html[data-theme="dark"][data-tone="cool"]{
-  --bg:#090d14;--surface:#131926;--rail-bg:#0e131e;--surface2:rgba(148,163,184,0.10);--surface3:rgba(148,163,184,0.18);
-  --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
-}
 html[data-theme="light"][data-tone="oled"]{
   --bg:#f7f7f8;--surface:#ffffff;--rail-bg:#f0f0f2;--surface2:#ededef;--surface3:#e0e0e4;
 }
@@ -97,7 +90,7 @@ html[data-theme="dark"][data-accent="amber"]{--blue:#fbbf24;--blue-bg:rgba(251,1
 html[data-accent="rose"]{--blue:#e11d48;--blue-bg:rgba(225,29,72,0.12);--lasso-fill:rgba(225,29,72,0.12);}
 html[data-theme="dark"][data-accent="rose"]{--blue:#fb7185;--blue-bg:rgba(251,113,133,0.18);--lasso-fill:rgba(251,113,133,0.16);}
 html[data-accent="mono"]{--blue:#27272a;--blue-bg:rgba(39,39,42,0.10);--lasso-fill:rgba(39,39,42,0.10);}
-html[data-theme="dark"][data-accent="mono"]{--blue:#e4e4e7;--blue-bg:rgba(228,228,231,0.16);--lasso-fill:rgba(228,228,231,0.15);}
+html[data-theme="dark"][data-accent="mono"]{--blue:#e4e4e7;--on-accent:#111112;--blue-bg:rgba(228,228,231,0.16);--lasso-fill:rgba(228,228,231,0.15);}
 
 html,body{
   height:100%;
@@ -287,11 +280,6 @@ button:active:not(:disabled){transform:scale(0.97);}
 .sync-pill.warn{background:var(--warning-bg);color:var(--warning);}
 .sync-pill.warn .sync-dot{background:var(--warning);}
 
-.m-period-pill{
-  display:none;align-items:center;gap:5px;height:30px;padding:0 12px;
-  border-radius:var(--rf);background:var(--surface);border:0.5px solid var(--border);
-  color:var(--text);font-size:12px;font-weight:600;cursor:pointer;
-}
 
 /* ══════════════════════════════════════════════════════════════════
    MAIN WORKSPACE (Left-aligned next to sidebar, comfortable max-width)
@@ -318,8 +306,6 @@ button:active:not(:disabled){transform:scale(0.97);}
 .main::-webkit-scrollbar-thumb{background:transparent;border-radius:3px;}
 .main:hover::-webkit-scrollbar-thumb{background:var(--border2);}
 
-.m-topbar{display:none;align-items:center;justify-content:space-between;padding-bottom:2px;}
-.m-logo{font-size:17px;font-weight:800;letter-spacing:-0.035em;display:flex;align-items:center;gap:7px;}
 
 /* UNIFIED TOP HERO CARD: FINANCES (LEFT) + MINI LINEAR CHART (RIGHT) */
 .hero-card{
@@ -610,12 +596,6 @@ button:active:not(:disabled){transform:scale(0.97);}
 .sc-svg-wrap.is-clickable{
   cursor:pointer;
 }
-.sc-svg{
-  width:100%;
-  height:100%;
-  display:block;
-  overflow:visible;
-}
 .sc-axis-row{
   position:relative;
   height:14px;
@@ -711,7 +691,7 @@ button:active:not(:disabled){transform:scale(0.97);}
   border:none;
   border-radius:12px;
   background:var(--blue);
-  color:#ffffff;
+  color:var(--on-accent);
   font-size:13.5px;
   font-weight:600;
   letter-spacing:-0.01em;
@@ -865,7 +845,7 @@ html[data-density="compact"] .emeta{margin-top:0;flex-shrink:0;}
 .empty-ico{color:var(--text3);opacity:.35;margin-bottom:2px;}
 .empty-title{font-size:15px;font-weight:600;color:var(--text);opacity:.6;}
 .empty-sub{font-size:13px;color:var(--text3);text-align:center;max-width:280px;line-height:1.5;}
-.empty-btn{height:36px;padding:0 18px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:600;margin-top:6px;}
+.empty-btn{height:36px;padding:0 18px;background:var(--blue);color:var(--on-accent);border:none;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:600;margin-top:6px;}
 
 /* FLOATING SELECTION ACTION BAR */
 .sel-dock{
@@ -887,7 +867,7 @@ html[data-density="compact"] .emeta{margin-top:0;flex-shrink:0;}
   font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
 }
 .sd-btn:hover{background:var(--surface3);}
-.sd-btn.primary{background:var(--blue);color:#fff;}
+.sd-btn.primary{background:var(--blue);color:var(--on-accent);}
 .sd-btn.danger{color:var(--danger);background:var(--danger-bg);}
 .sd-btn.danger:hover{background:var(--danger);color:#fff;}
 .sd-btn.ghost{background:transparent;color:var(--text3);padding:0 8px;}
@@ -969,7 +949,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .lbl-clear-btn{background:none;border:none;color:var(--text3);cursor:pointer;padding:0 2px;display:inline-flex;align-items:center;}
 .lbl-clear-btn:hover{color:var(--danger);}
 .fbtns{display:flex;gap:8px;margin-top:12px;}
-.bsubmit{flex:1;height:40px;background:var(--blue);color:#ffffff;border:none;border-radius:var(--r);cursor:pointer;font-size:13.5px;font-weight:600;}
+.bsubmit{flex:1;height:40px;background:var(--blue);color:var(--on-accent);border:none;border-radius:var(--r);cursor:pointer;font-size:13.5px;font-weight:600;}
 .bcancel{height:40px;padding:0 16px;background:var(--surface2);border:none;border-radius:var(--r);cursor:pointer;font-size:13.5px;color:var(--text2);}
 .fstatus-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--surface2);border-radius:var(--r);margin-bottom:12px;gap:12px;}
 .fstatus-lbl{font-size:12.5px;font-weight:500;color:var(--text2);}
@@ -986,7 +966,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .inv-sheet-sub{font-size:12.5px;font-weight:600;color:var(--text2);margin-top:2px;}
 .inv-sheet-btns{display:flex;gap:6px;flex-shrink:0;}
 .inv-sheet-btn{height:34px;padding:0 13px;border-radius:var(--r);border:none;background:var(--surface);color:var(--text);font-size:12.5px;font-weight:700;cursor:pointer;}
-.inv-sheet-btn.primary{background:var(--blue);color:#fff;}
+.inv-sheet-btn.primary{background:var(--blue);color:var(--on-accent);}
 
 .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .15s;backdrop-filter:blur(4px);padding:16px;}
 .confirm-overlay.on{opacity:1;pointer-events:all;}
@@ -996,7 +976,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .confirm-msg{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.5;}
 .confirm-btns{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;}
 .confirm-ok{height:34px;padding:0 15px;background:var(--danger);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:600;}
-.confirm-ok.safe{background:var(--blue);}
+.confirm-ok.safe{background:var(--blue);color:var(--on-accent);}
 .confirm-alt{height:34px;padding:0 13px;background:var(--surface2);border:none;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:600;color:var(--text);display:none;}
 .confirm-cancel{height:34px;padding:0 13px;background:var(--surface2);border:none;border-radius:var(--r);cursor:pointer;font-size:13px;color:var(--text2);}
 
@@ -1038,7 +1018,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .dbtns{display:flex;gap:6px;flex-wrap:wrap;}
 .dbtn{flex:1;min-width:100px;height:35px;border:none;border-radius:var(--r);background:var(--surface2);cursor:pointer;font-size:12.5px;font-weight:500;color:var(--text);}
 .dbtn:hover{background:var(--surface3);}
-.dbtn.primary{background:var(--blue);color:#ffffff;font-weight:600;}
+.dbtn.primary{background:var(--blue);color:var(--on-accent);font-weight:600;}
 .s-hint{font-size:11.5px;color:var(--text3);line-height:1.45;margin-top:5px;}
 .cloud-box{display:flex;flex-direction:column;gap:8px;}
 .cloud-inp{height:35px;font-size:13px;}
@@ -1093,8 +1073,6 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   body.xp-mode #xp-btn-dl-week{display:none;}
   .rail-nav{display:none;}
   .m-global-topbar{display:flex;}
-  .m-topbar{display:none!important;}
-  .m-period-pill{display:inline-flex;}
   .main{padding:12px 14px calc(118px + var(--safe-b));gap:12px;}
   .hero-card{padding:15px 16px;border-radius:18px;gap:14px;}
   .fin-group{gap:16px;}
@@ -1155,7 +1133,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   }
   .m-nav-btn{height:46px;border:none;background:transparent;border-radius:14px;color:var(--text3);display:flex;align-items:center;justify-content:center;cursor:pointer;}
   .m-nav-btn.on{color:var(--blue);}
-  .m-nav-add{width:44px;height:44px;margin:0 auto;border:none;border-radius:14px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .m-nav-add{width:44px;height:44px;margin:0 auto;border:none;border-radius:14px;background:var(--blue);color:var(--on-accent);display:flex;align-items:center;justify-content:center;cursor:pointer;}
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1505,58 +1483,17 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   color:var(--text);
 }
 
-/* Budget 2-Column Split: Left = Income, Right = Expenses */
-.bg-split-grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:16px;
-  align-items:start;
-  width:100%;
+.bg-metric.is-filtered .bg-m-lbl{color:var(--blue);}
+.bg-metric.is-filtered .bg-m-lbl::after{
+  content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);display:inline-block;
 }
-.bg-col{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  min-width:0;
+.bg-imp-btn{
+  height:40px;padding:0 13px;border:0.5px solid var(--border);border-radius:12px;
+  background:var(--surface);color:var(--text2);font-size:13px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  box-shadow:var(--shadow-card);flex-shrink:0;
 }
-.bg-col-hdr{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:2px 6px;
-}
-.bg-col-title{
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:-0.015em;
-  color:var(--text2);
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-}
-.bg-col-dot{
-  width:7px;height:7px;border-radius:50%;flex-shrink:0;
-}
-.bg-col-sum{
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:-0.015em;
-}
-.bg-col-sum.inc{color:var(--success);}
-.bg-col-sum.exp{color:var(--text2);}
-.bg-col-empty{
-  background:var(--surface);
-  border-radius:var(--rxl);
-  border:0.5px solid var(--border);
-  padding:28px 20px;
-  text-align:center;
-  font-size:12.5px;
-  color:var(--text3);
-  box-shadow:var(--shadow-card);
-}
-@media(max-width:960px){
-  .bg-split-grid{grid-template-columns:1fr;}
-}
+.bg-imp-btn:hover{background:var(--surface2);color:var(--text);}
 
 
 
@@ -1688,7 +1625,7 @@ body.budget-mode #sel-dock{display:none!important;}
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
   white-space:nowrap;
 }
-.xp-btn-primary{background:var(--blue);color:#fff;}
+.xp-btn-primary{background:var(--blue);color:var(--on-accent);}
 .xp-btn-primary:hover{opacity:.9;}
 .xp-btn-ghost{background:var(--surface2);color:var(--text2);}
 .xp-btn-ghost:hover{background:var(--surface3);color:var(--text);}
@@ -1696,22 +1633,22 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-btn-danger:hover{background:var(--danger-bg);color:var(--danger);}
 .xp-btn-sm{height:28px;padding:0 10px;font-size:11.5px;border-radius:999px;flex-shrink:0;}
 
-/* Gapless Dynamic Masonry Columns */
+/* Chronological Grid (Mon -> Sun, no jumping between columns) */
 .xp-grid{
-  display:flex;
-  flex-direction:row;
-  align-items:flex-start;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  align-items:start;
   gap:16px;
   width:100%;
 }
-.xp-masonry-col{
-  flex:1;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
+@media(min-width:1520px){
+  .xp-grid:not(.is-feed){grid-template-columns:repeat(3, minmax(0, 1fr));}
+}
+@media(max-width:860px){
+  .xp-grid{grid-template-columns:1fr;}
 }
 .xp-grid.is-feed{
+  display:flex;
   flex-direction:column;
   max-width:620px;
   width:100%;
@@ -1721,10 +1658,6 @@ body.budget-mode #sel-dock{display:none!important;}
   border:0.5px solid var(--border2);
   border-radius:18px;
   box-shadow:var(--shadow-card);
-}
-.xp-grid.is-feed .xp-masonry-col{
-  width:100%;
-  gap:0;
 }
 
 .xp-day-card{
@@ -1891,12 +1824,6 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-cm-opt{flex:1;height:25px;border:none;border-radius:5px;background:transparent;color:var(--text2);font-size:11.5px;font-weight:500;cursor:pointer;}
 .xp-cm-opt:hover{color:var(--text);}
 .xp-cm-opt.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
-.xp-cm-act{
-  width:100%;height:30px;padding:0 10px;border:none;border-radius:8px;
-  background:var(--surface2);color:var(--text);font-size:12px;font-weight:600;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.xp-cm-act:hover{background:var(--blue-bg);color:var(--blue);}
 
 .xp-extra{display:none;flex-direction:column;gap:5px;margin-bottom:8px;}
 .xp-extra.on{display:flex;}
@@ -2102,7 +2029,7 @@ body.budget-mode #sel-dock{display:none!important;}
 .xp-hb-del:hover{background:var(--danger-bg);color:var(--danger);}
 .xp-hp-add{display:flex;align-items:center;gap:4px;margin-top:auto;padding-top:2px;}
 .xp-hp-inp{flex:1;min-width:0;height:28px;padding:0 9px;font-size:12px;color:var(--text);background:var(--surface);border:none;border-radius:7px;font-family:inherit;outline:none;user-select:text;-webkit-user-select:text;}
-.xp-hp-addbtn{width:28px;height:28px;border:none;border-radius:7px;background:var(--blue);color:#fff;cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;}
+.xp-hp-addbtn{width:28px;height:28px;border:none;border-radius:7px;background:var(--blue);color:var(--on-accent);cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;}
 
 .xp-ttpl-list{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;}
 .xp-ttpl-card{
@@ -2142,13 +2069,12 @@ body.budget-mode #sel-dock{display:none!important;}
 
 body.xp-mode .app::after,
 body.xp-mode #sel-dock{display:none!important;}
-body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 @media(max-width:768px){
   .xp-view{padding:12px 14px calc(118px + var(--safe-b));}
   .xp-header{gap:10px;}
   .xp-view-switch{display:none;}
-  .xp-grid{flex-direction:column;}
+  .xp-grid{grid-template-columns:1fr;}
   .xp-day-card{padding:14px 14px;border-radius:16px;}
   .xp-tw-post{gap:10px;}
   .xp-tw-left,.xp-th-left{width:32px;}
@@ -2211,7 +2137,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <span id="m-period-lbl">Месяц</span>
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>
     </button>
-    <button type="button" class="m-gt-pill" id="m-xp-dl-btn" style="display:none;background:var(--blue);color:#fff;border-color:transparent;" aria-label="Скачать PNG">
+    <button type="button" class="m-gt-pill" id="m-xp-dl-btn" style="display:none;background:var(--blue);color:var(--on-accent);border-color:transparent;" aria-label="Скачать PNG">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       <span>PNG</span>
     </button>
@@ -2317,13 +2243,6 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
 
 
-    <!-- Hidden backward-compat nodes -->
-    <div style="display:none;" aria-hidden="true">
-      <div id="m-card-await"></div><div id="m-card-recv"></div>
-      <span id="m-badge-zero"></span><span id="m-val-await"></span><span id="m-sub-await"></span>
-      <span id="m-recv-lbl"></span><span id="m-badge-trend"></span><span id="m-val-recv"></span><span id="m-sub-recv"></span>
-      <div id="sidebar"></div>
-    </div>
 
     <!-- Unified Hero Card: Finances (Left) + Miniature Stocks Chart (Right) -->
     <section class="hero-card" aria-label="Финансовая сводка">
@@ -2515,7 +2434,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
 
       <div class="atags" id="bg-atags"></div>
 
-      <button type="button" id="btn-bg-imp" title="Импорт выписки (.json) в Учёт" aria-label="Импорт в Учёт" style="height:40px;padding:0 13px;border:0.5px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:var(--shadow-card);flex-shrink:0;">
+      <button type="button" id="btn-bg-imp" class="bg-imp-btn" title="Импорт выписки (.json) в Учёт" aria-label="Импорт в Учёт">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         <span>Импорт</span>
       </button>
@@ -2611,7 +2530,7 @@ body.xp-mode .icon-btn#btn-settings{display:flex!important;}
       <div class="ff">
         <label for="bg-adj-actual">Фактический остаток</label>
         <div class="amt-cur-combo">
-          <input type="text" id="bg-adj-actual" placeholder="45099.49" inputmode="decimal"/>
+          <input type="text" id="bg-adj-actual" placeholder="0" inputmode="decimal"/>
           <select id="bg-adj-cur" aria-label="Валюта">
             <option>₽</option><option>$</option><option>€</option>
           </select>
@@ -2996,6 +2915,7 @@ function cleanEntriesForStorage(list) {
     if (st === 'sent' && (e.sentAt || e.date)) out.sentAt = e.sentAt || e.date;
     if (isPaid && (e.paidAt || e.date)) out.paidAt = e.paidAt || e.date;
     if (e.createdAt && e.createdAt !== e.date) out.createdAt = e.createdAt;
+    if (e.updatedAt) out.updatedAt = Number(e.updatedAt) || 0;
     return out;
   });
 }
@@ -3013,7 +2933,8 @@ function normalizeLoadedEntries(list) {
       note: e.note || '',
       date: e.date || '',
       paid: isPaid,
-      status: st
+      status: st,
+      updatedAt: Number(e.updatedAt) || 0
     };
     if (st === 'sent') {
       out.sentAt = e.sentAt || e.date || today();
@@ -3054,6 +2975,7 @@ async function saveToSafariVault() {
     tx.objectStore('vault').put({
       entries: cleanEntriesForStorage(entries),
       xpNotebook: normalizeXpNotebook(xpNotebook),
+      xpThreadTpls: normalizeXpThreadTpls(xpThreadTpls),
       budgetEntries: window._budgetEntries || [],
       budgetRecurring: window._budgetRecurring || [],
       fbUrl: fbUrl || '',
@@ -3085,6 +3007,11 @@ async function restoreFromSafariVaultIfEmpty() {
         lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
         if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
       }
+      if (Array.isArray(data.xpThreadTpls) && data.xpThreadTpls.length > 0) {
+        xpThreadTpls = mergeXpThreadTpls(xpThreadTpls, data.xpThreadTpls, deletedIds);
+        lsS('ff_xp_thread_tpls', JSON.stringify(xpThreadTpls));
+        if (typeof window._onXpThreadTplsUpdated === 'function') window._onXpThreadTplsUpdated();
+      }
       if (typeof window._restoreBudgetFromVault === 'function') {
         window._restoreBudgetFromVault(data.budgetEntries, data.budgetRecurring);
       }
@@ -3108,8 +3035,14 @@ async function restoreFromSafariVaultIfEmpty() {
 }
 
 function saveEmergencySnapshot() {
-  if (entries && entries.length > 0) {
-    lsS('ff_pre_sync_snap', JSON.stringify(cleanEntriesForStorage(entries)));
+  const bList = Array.isArray(window._budgetEntries) ? window._budgetEntries : [];
+  const bRec = Array.isArray(window._budgetRecurring) ? window._budgetRecurring : [];
+  if ((entries && entries.length > 0) || bList.length > 0) {
+    lsS('ff_pre_sync_snap', JSON.stringify({
+      entries: cleanEntriesForStorage(entries),
+      budgetEntries: bList,
+      budgetRecurring: bRec
+    }));
     const btn = document.getElementById('btn-restore-snap');
     if (btn) btn.style.display = '';
   }
@@ -3117,15 +3050,24 @@ function saveEmergencySnapshot() {
 
 function restoreEmergencySnapshot() {
   try {
-    const raw = JSON.parse(lsG('ff_pre_sync_snap') || '[]');
-    if (Array.isArray(raw) && raw.length > 0) {
-      entries = normalizeLoadedEntries(raw);
-      raw.forEach(e => deletedIds.delete(String(e.id)));
+    const raw = JSON.parse(lsG('ff_pre_sync_snap') || 'null');
+    if (!raw) return;
+    const snapEntries = Array.isArray(raw) ? raw : (Array.isArray(raw.entries) ? raw.entries : []);
+    const snapBudget = (!Array.isArray(raw) && Array.isArray(raw.budgetEntries)) ? raw.budgetEntries : null;
+    const snapRecur = (!Array.isArray(raw) && Array.isArray(raw.budgetRecurring)) ? raw.budgetRecurring : null;
+    if (snapEntries.length > 0 || (snapBudget && snapBudget.length > 0)) {
+      entries = normalizeLoadedEntries(snapEntries);
+      snapEntries.forEach(e => deletedIds.delete(String(e.id)));
+      if (snapBudget) snapBudget.forEach(e => deletedIds.delete(String(e.id)));
+      if (snapRecur) snapRecur.forEach(t => t && t.id && deletedIds.delete(String(t.id)));
       lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+      if (snapBudget !== null && typeof window._importBudgetData === 'function') {
+        window._importBudgetData(snapBudget, snapRecur || [], true, true);
+      }
       save();
       render();
       closeSettings();
-      showToast(`Восстановлено записей: ${entries.length}`);
+      showToast(`Восстановлено: ${entries.length} зак.`);
     }
   } catch(e) {}
 }
@@ -3206,6 +3148,68 @@ window.updateXpNotebook = (nextNb) => {
   if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
 };
 
+// X PLANNER TEXT-ONLY THREAD TEMPLATES (SYNCED WITHOUT IMAGES)
+function normalizeXpThreadTpls(raw) {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set();
+  const out = [];
+  raw.forEach(t => {
+    if (!t || typeof t !== 'object') return;
+    const id = String(t.id || ('ctpl_' + gid()));
+    if (seen.has(id)) return;
+    seen.add(id);
+    const posts = Array.isArray(t.posts)
+      ? t.posts.map(p => ({
+          text: String((p && p.text) || ''),
+          wantPhoto: Boolean(p && p.wantPhoto)
+        }))
+      : [];
+    if (!posts.length) return;
+    out.push({
+      id,
+      name: String(t.name || 'Шаблон треда').trim(),
+      preset: String(t.preset || 'single1'),
+      updatedAt: Number(t.updatedAt) || 0,
+      posts
+    });
+  });
+  return out;
+}
+
+function mergeXpThreadTpls(localList, cloudList, delSet = deletedIds) {
+  const map = new Map();
+  normalizeXpThreadTpls(localList).forEach(t => {
+    if (!delSet.has(t.id)) map.set(t.id, t);
+  });
+  normalizeXpThreadTpls(cloudList).forEach(t => {
+    if (delSet.has(t.id)) return;
+    const prev = map.get(t.id);
+    if (!prev || (t.updatedAt || 0) > (prev.updatedAt || 0)) {
+      map.set(t.id, t);
+    }
+  });
+  return [...map.values()].sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+}
+
+let xpThreadTpls;
+try {
+  xpThreadTpls = normalizeXpThreadTpls(JSON.parse(lsG('ff_xp_thread_tpls') || '[]'));
+} catch (e) {
+  xpThreadTpls = [];
+}
+
+window.getXpThreadTpls = () => xpThreadTpls;
+window.updateXpThreadTpls = (nextList, removedIds = []) => {
+  if (Array.isArray(removedIds) && removedIds.length) {
+    recordDeletedIds(removedIds);
+  }
+  xpThreadTpls = normalizeXpThreadTpls(nextList);
+  lsS('ff_xp_thread_tpls', JSON.stringify(xpThreadTpls));
+  saveToSafariVault();
+  scheduleSmartFirebaseSync();
+  if (typeof window._onXpThreadTplsUpdated === 'function') window._onXpThreadTplsUpdated();
+};
+
 // SMART FIREBASE CLOUD SYNC
 let fbUrl = lsG('ff_fb_url') || '';
 let fbSec = lsG('ff_fb_sec') || '';
@@ -3215,13 +3219,22 @@ let _lastSyncedFingerprint = lsG('ff_last_fp') || '';
 let _isInitialCloudLoading = false;
 let _syncInFlight = false;
 
-function computeDataFingerprint(targetEntries = entries, targetCur = baseCur, targetRates = rates, targetNb = xpNotebook, targetBudget = (window._budgetEntries || []), targetRecur = (window._budgetRecurring || [])) {
+function computeDataFingerprint(
+  targetEntries = entries,
+  targetCur = baseCur,
+  targetRates = rates,
+  targetNb = xpNotebook,
+  targetBudget = (window._budgetEntries || []),
+  targetRecur = (window._budgetRecurring || []),
+  targetThreadTpls = xpThreadTpls
+) {
   const nb = normalizeXpNotebook(targetNb);
   return JSON.stringify({
     baseCur: targetCur,
     rates: sanitizeRatesObject(targetRates),
     entries: cleanEntriesForStorage(targetEntries),
     xpNotebook: { hooks: nb.hooks, outros: nb.outros, del: nb.del },
+    xpThreadTpls: normalizeXpThreadTpls(targetThreadTpls),
     budgetEntries: targetBudget,
     budgetRecurring: targetRecur
   });
@@ -3253,7 +3266,6 @@ function updateSyncPill(state) {
   }
   setText('top-sync-lbl', lblText);
   setText('m-sync-lbl', lblText);
-  updateStorageMetrics();
 }
 
 function formatBytesRu(bytes) {
@@ -3320,6 +3332,7 @@ async function updateStorageMetrics() {
     rates: sanitizeRatesObject(rates),
     delIds: [...deletedIds].slice(-200),
     xpNotebook: normalizeXpNotebook(xpNotebook),
+    xpThreadTpls: normalizeXpThreadTpls(xpThreadTpls),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
     entries: cleanEntriesForStorage(entries)
@@ -3387,6 +3400,7 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     rates,
     delIds: [...deletedIds].slice(-200),
     xpNotebook: normalizeXpNotebook(xpNotebook),
+    xpThreadTpls: normalizeXpThreadTpls(xpThreadTpls),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
     entries: cleanEntriesForStorage(entries)
@@ -3449,8 +3463,29 @@ function scheduleSmartFirebaseSync() {
 
 function setSkeletonLoading(on) {
   _isInitialCloudLoading = on;
-  const root = document.getElementById('app-root');
-  if (root) root.classList.toggle('skel-loading', on);
+}
+
+function mergeEntriesByUpdatedAt(localList, cloudList, preferLocalOnTie = false) {
+  const map = new Map();
+  localList.forEach(e => {
+    const id = String(e.id);
+    if (!deletedIds.has(id)) map.set(id, e);
+  });
+  cloudList.forEach(ce => {
+    const id = String(ce.id);
+    if (deletedIds.has(id)) return;
+    const le = map.get(id);
+    if (!le) {
+      map.set(id, ce);
+    } else {
+      const lt = Number(le.updatedAt) || 0;
+      const ct = Number(ce.updatedAt) || 0;
+      if (ct > lt || (ct === lt && !preferLocalOnTie)) {
+        map.set(id, ce);
+      }
+    }
+  });
+  return [...map.values()].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 }
 
 async function safeSyncWithFirebase(manual = false) {
@@ -3486,17 +3521,36 @@ async function safeSyncWithFirebase(manual = false) {
       recordDeletedIds(data.delIds);
     }
 
-    let nbChangedVsCloud = false;
+    let extraChangedVsCloud = false;
     if (data && data.xpNotebook) {
       const mergedNb = mergeXpNotebooks(xpNotebook, data.xpNotebook);
       const cloudNbStr = JSON.stringify(normalizeXpNotebook(data.xpNotebook));
       const mergedNbStr = JSON.stringify(mergedNb);
-      if (mergedNbStr !== cloudNbStr) nbChangedVsCloud = true;
+      if (mergedNbStr !== cloudNbStr) extraChangedVsCloud = true;
       xpNotebook = mergedNb;
       lsS('ff_xp_notebook', mergedNbStr);
       if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
     } else if (data) {
-      nbChangedVsCloud = true;
+      extraChangedVsCloud = true;
+    }
+
+    if (data && Array.isArray(data.xpThreadTpls)) {
+      const mergedTpls = mergeXpThreadTpls(xpThreadTpls, data.xpThreadTpls, deletedIds);
+      const cloudTplStr = JSON.stringify(normalizeXpThreadTpls(data.xpThreadTpls));
+      const mergedTplStr = JSON.stringify(mergedTpls);
+      if (mergedTplStr !== cloudTplStr) extraChangedVsCloud = true;
+      xpThreadTpls = mergedTpls;
+      lsS('ff_xp_thread_tpls', mergedTplStr);
+      if (typeof window._onXpThreadTplsUpdated === 'function') window._onXpThreadTplsUpdated();
+    } else if (data && xpThreadTpls.length > 0) {
+      extraChangedVsCloud = true;
+    }
+
+    let budgetChangedVsCloud = false;
+    if (data && typeof window._mergeCloudBudget === 'function') {
+      budgetChangedVsCloud = Boolean(window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, data.delIds, _hasUnsynced));
+    } else if (data && ((window._budgetEntries || []).length > 0 || (window._budgetRecurring || []).length > 0)) {
+      budgetChangedVsCloud = true;
     }
 
     const rawCloudEntries = (data && Array.isArray(data.entries)) ? normalizeLoadedEntries(data.entries) : [];
@@ -3505,14 +3559,14 @@ async function safeSyncWithFirebase(manual = false) {
     const beforeFilterLen = entries.length;
     entries = entries.filter(e => !deletedIds.has(String(e.id)));
     const localWasPruned = entries.length !== beforeFilterLen;
-    const isFreshEmptyDevice = entries.length === 0 && !_hasUnsynced && cloudEntries.length > 0;
+    const isFreshEmptyDevice = entries.length === 0 && (window._budgetEntries || []).length === 0 && !_hasUnsynced && (cloudEntries.length > 0 || (data && Array.isArray(data.budgetEntries) && data.budgetEntries.length > 0));
 
-    if (!isFreshEmptyDevice && (_hasUnsynced || localWasPruned || nbChangedVsCloud)) {
-      const localIds = new Set(entries.map(e => String(e.id)));
-      const missingFromCloud = cloudEntries.filter(e => !localIds.has(String(e.id)));
-      if (missingFromCloud.length > 0 || localWasPruned) {
+    if (!isFreshEmptyDevice && (_hasUnsynced || localWasPruned || extraChangedVsCloud || budgetChangedVsCloud)) {
+      const mergedEntries = mergeEntriesByUpdatedAt(entries, cloudEntries, _hasUnsynced);
+      const changedLocalEntries = JSON.stringify(cleanEntriesForStorage(mergedEntries)) !== JSON.stringify(cleanEntriesForStorage(entries));
+      if (changedLocalEntries || localWasPruned) {
         saveEmergencySnapshot();
-        entries = [...entries, ...missingFromCloud];
+        entries = mergedEntries;
         lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
         saveToSafariVault();
         _donutDirty = true;
@@ -3523,13 +3577,11 @@ async function safeSyncWithFirebase(manual = false) {
     }
 
     if (data && (Array.isArray(data.entries) || data.version === 2)) {
-      if (typeof window._mergeCloudBudget === 'function') {
-        window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, data.delIds);
-      }
       const cloudCur = (data.baseCur && CURS.includes(data.baseCur)) ? data.baseCur : baseCur;
       const cloudRates = (data.rates && typeof data.rates === 'object') ? sanitizeRatesObject(data.rates) : rates;
-      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || []);
-      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || []);
+      const mergedEntries = isFreshEmptyDevice ? cloudEntries : mergeEntriesByUpdatedAt(entries, cloudEntries, false);
+      const incomingFp = computeDataFingerprint(mergedEntries, cloudCur, cloudRates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], xpThreadTpls);
+      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], xpThreadTpls);
 
       if (incomingFp === localFp && !wasSkel) {
         _lastSyncedFingerprint = incomingFp;
@@ -3541,7 +3593,7 @@ async function safeSyncWithFirebase(manual = false) {
 
       const prevSnapshot = cloneEntries();
       if (entries.length > 0) saveEmergencySnapshot();
-      entries = cloudEntries;
+      entries = mergedEntries;
       baseCur = cloudCur;
       rates = cloudRates;
 
@@ -3633,9 +3685,16 @@ async function forcePullFromFirebase() {
       lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
       if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
     }
+    if (Array.isArray(data.xpThreadTpls)) {
+      xpThreadTpls = normalizeXpThreadTpls(data.xpThreadTpls);
+      xpThreadTpls.forEach(t => deletedIds.delete(String(t.id)));
+      lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+      lsS('ff_xp_thread_tpls', JSON.stringify(xpThreadTpls));
+      if (typeof window._onXpThreadTplsUpdated === 'function') window._onXpThreadTplsUpdated();
+    }
 
     if (typeof window._importBudgetData === 'function' && (Array.isArray(data.budgetEntries) || Array.isArray(data.budgetRecurring))) {
-      window._importBudgetData(data.budgetEntries || [], data.budgetRecurring || [], true);
+      window._importBudgetData(data.budgetEntries || [], data.budgetRecurring || [], true, true);
     }
 
     lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
@@ -3690,13 +3749,11 @@ let theme = lsG('ff_theme') || 'auto';
 let accent = lsG('ff_accent') || 'blue';
 let tone = lsG('ff_tone') || 'warm';
 let density = lsG('ff_density') || 'normal';
-let moCollapsed = lsG('ff_mo_collapsed') === '1';
 
 let baseCur = lsG('ff_cur') || '₽';
 if (!CURS.includes(baseCur)) baseCur = '₽';
 let lastCur = lsG('ff_last_cur') || baseCur;
 if (!CURS.includes(lastCur)) lastCur = baseCur;
-let lastClient = lsG('ff_last_client') || '';
 
 let rates;
 try {
@@ -3705,8 +3762,8 @@ try {
 } catch(e) { rates = {}; }
 
 let pYm = lsG('ff_period_ym') || 'current';
-let moTab = lsG('ff_motab') || 'earned';
-if (!['earned', 'orders', 'awaiting'].includes(moTab)) moTab = 'earned';
+let _ordersDirty = false;
+let _budgetDirty = false;
 
 let selIds = new Set();
 let _lastClickedCardId = null;
@@ -3730,15 +3787,8 @@ const _clientColorCache = new Map();
 function getClientColor(name) {
   if (!name || name === '—') return '#9e9e95';
   if (_clientColorCache.has(name)) return _clientColorCache.get(name);
-  const allClients = [...new Set(entries.map(e => e.name).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'ru'));
-  const idx = allClients.indexOf(name);
-  if (idx !== -1) {
-    const col = CLIENT_PALETTE[idx % CLIENT_PALETTE.length];
-    _clientColorCache.set(name, col);
-    return col;
-  }
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  let hash = 5381;
+  for (let i = 0; i < name.length; i++) hash = ((hash << 5) + hash + name.charCodeAt(i)) >>> 0;
   const col = CLIENT_PALETTE[hash % CLIENT_PALETTE.length];
   _clientColorCache.set(name, col);
   return col;
@@ -3828,7 +3878,8 @@ function animateNumberText(id, targetNum, formatFn, fallbackStr = '0', unitKey =
     const p = Math.min(1, (now - t0) / dur);
     const ease = 1 - Math.pow(1 - p, 3);
     const cur = prevVal + (targetNum - prevVal) * ease;
-    node.textContent = formatFn(p >= 1 ? targetNum : Math.round(cur));
+    const stepVal = p >= 1 ? targetNum : (Number.isInteger(targetNum) ? Math.round(cur) : Math.round(cur * 100) / 100);
+    node.textContent = formatFn(stepVal);
     if (p < 1) {
       _animMap.set(id, requestAnimationFrame(step));
     } else {
@@ -3973,13 +4024,6 @@ function fmtMap(map, fb='', loc='ru-RU') {
   const p = Object.entries(map).map(([c,v]) => fmtCur(v,c,loc));
   return p.length ? p.join(', ') : (fb || fmtB(0));
 }
-function multiChips(map) {
-  const wrap = document.createDocumentFragment();
-  for (const [c,v] of Object.entries(map)) {
-    wrap.appendChild(el('span', {className:'bal-chip'}, [fmtCur(v,c)]));
-  }
-  return wrap;
-}
 
 function getSelectionSumInfo() {
   const selList = entries.filter(e => selIds.has(e.id));
@@ -4059,20 +4103,18 @@ function getComparableMonthSum(ym, maxDayLimit = null) {
 
 function renderMonthTrend() {
   const trendEl = document.getElementById('val-recv-trend');
-  const mTrendEl = document.getElementById('m-badge-trend');
   if (!trendEl) return;
 
   const eff = effectiveYm();
   if (eff === 'all') {
     trendEl.className = 'bal-trend';
     trendEl.textContent = '';
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill'; mTrendEl.textContent = ''; }
     return;
   }
 
   const isCurrentMonth = eff === cmYM();
   const prevYm = prevMonthYm(eff);
-  const [py, pm] = prevYm.split('-').map(Number);
+  const [, pm] = prevYm.split('-').map(Number);
   const prevMonthName = MONTHS_GEN_RU[(pm || 1) - 1];
 
   const curSum = getComparableMonthSum(eff, null);
@@ -4081,15 +4123,6 @@ function renderMonthTrend() {
   if (curSum <= 0) {
     trendEl.className = 'bal-trend';
     trendEl.textContent = '';
-    if (mTrendEl) {
-      if (prevFullSum > 0) {
-        mTrendEl.className = 'm-hero-pill flat';
-        mTrendEl.textContent = `пр: ${fmtB(prevFullSum)}`;
-      } else {
-        mTrendEl.className = 'm-hero-pill';
-        mTrendEl.textContent = '';
-      }
-    }
     return;
   }
 
@@ -4101,7 +4134,6 @@ function renderMonthTrend() {
     trendEl.className = 'bal-trend up';
     trendEl.textContent = '+ новый рост';
     trendEl.title = `В ${prevMonthName} было 0`;
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill up'; mTrendEl.textContent = '+ рост'; }
     return;
   }
 
@@ -4111,17 +4143,14 @@ function renderMonthTrend() {
     trendEl.className = 'bal-trend up';
     trendEl.textContent = `+${pct}%`;
     trendEl.title = `К прошлому месяцу (в ${prevMonthName}: ${prevFormatted})`;
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill up'; mTrendEl.textContent = `+${pct}%`; }
   } else if (pct < 0) {
     trendEl.className = 'bal-trend down';
     trendEl.textContent = `${pct}%`;
     trendEl.title = `К прошлому месяцу (в ${prevMonthName}: ${prevFormatted})`;
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill down'; mTrendEl.textContent = `${pct}%`; }
   } else {
     trendEl.className = 'bal-trend flat';
     trendEl.textContent = '0%';
     trendEl.title = `На уровне прошлого месяца (в ${prevMonthName}: ${prevFormatted})`;
-    if (mTrendEl) { mTrendEl.className = 'm-hero-pill flat'; mTrendEl.textContent = '0%'; }
   }
 }
 
@@ -4232,23 +4261,23 @@ function getAvailableMonths() {
     if (e.date && e.date.length >= 7) set.add(e.date.slice(0,7));
     if (e.paidAt && e.paidAt.length >= 7) set.add(e.paidAt.slice(0,7));
   });
+  (window._budgetEntries || []).forEach(b => {
+    if (b && b.date && b.date.length >= 7) set.add(b.date.slice(0,7));
+  });
   return [...set].sort((a,b) => b.localeCompare(a));
 }
 
 function updateMobilePeriodPillText() {
   const eff = effectiveYm();
   const btnLbl = document.getElementById('m-period-lbl');
-  const recvLbl = document.getElementById('m-recv-lbl');
   if (!btnLbl) return;
   if (eff === 'all') {
     btnLbl.textContent = 'Всё время';
-    if (recvLbl) recvLbl.textContent = 'Пришло (всё)';
   } else {
     const [y, m] = eff.split('-').map(Number);
     const mName = MONTHS_NOM_RU[(m || 1) - 1];
     const isCurYear = y === new Date().getFullYear();
     btnLbl.textContent = isCurYear ? mName : `${mName} '${String(y).slice(-2)}`;
-    if (recvLbl) recvLbl.textContent = `Пришло · ${mName.slice(0,3).toLowerCase()}`;
   }
 }
 
@@ -4258,6 +4287,7 @@ function openPeriodSheet() {
   listEl.innerHTML = '';
   const curYm = cmYM();
   const eff = effectiveYm();
+  const isBg = document.body.classList.contains('budget-mode');
 
   const createRow = (title, sub, valKey, isSel) => {
     const card = el('div', {
@@ -4280,16 +4310,23 @@ function openPeriodSheet() {
     return card;
   };
 
-  const allPaid = entries.filter(e => e.paid);
-  listEl.appendChild(createRow('За всё время', fmtMap(sBC(allPaid), fmtB(0)), 'all', eff === 'all'));
+  const allSub = (isBg && typeof window._getBudgetPeriodSubtitle === 'function')
+    ? window._getBudgetPeriodSubtitle('all')
+    : fmtMap(sBC(entries.filter(e => e.paid)), fmtB(0));
+  listEl.appendChild(createRow('За всё время', allSub, 'all', eff === 'all'));
 
   getAvailableMonths().forEach(ym => {
     const [y,m] = ym.split('-').map(Number);
     const d = new Date(y, m-1, 1);
     let lbl = d.toLocaleDateString('ru-RU', {month:'long', year:'numeric'});
     lbl = lbl.charAt(0).toUpperCase() + lbl.slice(1);
-    const mPaid = entries.filter(e => e.paid && getEntryPaidDate(e).startsWith(ym));
-    const subSum = mPaid.length ? `Пришло: ${fmtMap(sBC(mPaid), fmtB(0))}` : 'Нет оплат';
+    let subSum;
+    if (isBg && typeof window._getBudgetPeriodSubtitle === 'function') {
+      subSum = window._getBudgetPeriodSubtitle(ym);
+    } else {
+      const mPaid = entries.filter(e => e.paid && getEntryPaidDate(e).startsWith(ym));
+      subSum = mPaid.length ? `Пришло: ${fmtMap(sBC(mPaid), fmtB(0))}` : 'Нет оплат';
+    }
     const isSel = eff === ym;
     listEl.appendChild(createRow(lbl, subSum, ym === curYm ? 'current' : ym, isSel));
   });
@@ -5072,6 +5109,7 @@ function switchSettingsTab(tabKey) {
     if (btn) { btn.classList.toggle('on', on); btn.setAttribute('aria-selected', String(on)); }
     if (pane) pane.classList.toggle('on', on);
   });
+  if (target === 'data') updateStorageMetrics();
 }
 
 function openSettings(defaultTab = 'view') {
@@ -5085,7 +5123,6 @@ function openSettings(defaultTab = 'view') {
   if (snapBtn) snapBtn.style.display = hasSnap ? '' : 'none';
   document.getElementById('sov').classList.add('on');
   updateMobileNavState('set');
-  updateStorageMetrics();
 }
 function closeSettings() {
   flushPendingRates();
@@ -5124,7 +5161,6 @@ function setTheme(v) {
   updateSettingsUI();
   saveToSafariVault();
 }
-function setTone(v) { tone = v; lsS('ff_tone', v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
 function setAccent(v) { accent=v; lsS('ff_accent',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
 function setDensity(v) { density=v; lsS('ff_density',v); applyAppearance(); updateSettingsUI(); saveToSafariVault(); }
 
@@ -5228,7 +5264,6 @@ function filterByClient(name){
   buildFilterTags();
   updateFilterState();
   renderList();
-  document.getElementById('sidebar').classList.remove('mobile-open');
   updateMobileNavState('list');
 }
 function filterByWork(desc){ activeWorkFilter = (activeWorkFilter===desc)?'':desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
@@ -5565,18 +5600,14 @@ function updateStatsAndAnalytics() {
   const uaKeys = Object.keys(uaMap);
   if (uaTot !== null) {
     animateNumberText('val-await', uaTot, fmtB, fmtB(0), baseCur);
-    animateNumberText('m-val-await', uaTot, fmtB, fmtB(0), baseCur);
   } else if (uaKeys.length === 1) {
     const c = uaKeys[0];
     animateNumberText('val-await', uaMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
-    animateNumberText('m-val-await', uaMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
   } else {
     const partialBase = ua.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0);
     animateNumberText('val-await', partialBase, fmtB, fmtB(0), baseCur);
-    animateNumberText('m-val-await', partialBase, fmtB, fmtB(0), baseCur);
   }
   const awMulti = document.getElementById('val-await-multi');
-  const mSubAwait = document.getElementById('m-sub-await');
   if (awMulti) {
     if (uaKeys.length > 1 || (uaTot === null && uaKeys.length > 0)) {
       awMulti.textContent = Object.entries(uaMap).map(([c,v]) => fmtCur(v,c)).join(' · ');
@@ -5584,17 +5615,10 @@ function updateStatsAndAnalytics() {
       awMulti.textContent = '';
     }
   }
-  if (mSubAwait) {
-    mSubAwait.textContent = (uaKeys.length > 1 || (uaTot === null && uaKeys.length > 0))
-      ? fmtMap(uaMap)
-      : (ua.length ? `Ждём: ${ua.length} зак.` : 'Нет долгов');
-  }
 
   const isInboxZero = entries.length > 0 && ua.length === 0;
   const zeroBadge = document.getElementById('val-await-zero');
-  const mZeroBadge = document.getElementById('m-badge-zero');
   if (zeroBadge) zeroBadge.classList.toggle('on', isInboxZero);
-  if (mZeroBadge) mZeroBadge.style.display = isInboxZero ? 'inline-block' : 'none';
 
   const recv = entries.filter(isPaidInPeriod);
   const recvMap = sBC(recv);
@@ -5602,29 +5626,20 @@ function updateStatsAndAnalytics() {
   const recvKeys = Object.keys(recvMap);
   if (recvTot !== null) {
     animateNumberText('val-recv', recvTot, fmtB, fmtB(0), baseCur);
-    animateNumberText('m-val-recv', recvTot, fmtB, fmtB(0), baseCur);
   } else if (recvKeys.length === 1) {
     const c = recvKeys[0];
     animateNumberText('val-recv', recvMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
-    animateNumberText('m-val-recv', recvMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
   } else {
     const partialBase = recv.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0);
     animateNumberText('val-recv', partialBase, fmtB, fmtB(0), baseCur);
-    animateNumberText('m-val-recv', partialBase, fmtB, fmtB(0), baseCur);
   }
   const recvMulti = document.getElementById('val-recv-multi');
-  const mSubRecv = document.getElementById('m-sub-recv');
   if (recvMulti) {
     if (recvKeys.length > 1 || (recvTot === null && recvKeys.length > 0)) {
       recvMulti.textContent = Object.entries(recvMap).map(([c,v]) => fmtCur(v,c)).join(' · ');
     } else {
       recvMulti.textContent = '';
     }
-  }
-  if (mSubRecv) {
-    mSubRecv.textContent = (recvKeys.length > 1 || (recvTot === null && recvKeys.length > 0))
-      ? fmtMap(recvMap)
-      : (recv.length ? `Закрыто: ${recv.length} зак.` : 'Пока без оплат');
   }
 
   renderMonthTrend();
@@ -5721,13 +5736,42 @@ function renderList() {
   updateSelectionUI();
 }
 
-function render() {
-  rebuildClientSel();
-  updateFilterState();
-  updateStatsAndAnalytics();
-  renderList();
-  if (typeof window.renderBudgetView === 'function') window.renderBudgetView();
+function render(forceAll = false) {
+  const isOrdersVisible = forceAll || (!document.body.classList.contains('budget-mode') && !document.body.classList.contains('xp-mode'));
+  const isBudgetVisible = forceAll || document.body.classList.contains('budget-mode');
+
+  if (isOrdersVisible) {
+    _ordersDirty = false;
+    rebuildClientSel();
+    updateFilterState();
+    updateStatsAndAnalytics();
+    renderList();
+  } else {
+    _ordersDirty = true;
+    updateMobilePeriodPillText();
+  }
+
+  if (isBudgetVisible) {
+    _budgetDirty = false;
+    if (typeof window.renderBudgetView === 'function') window.renderBudgetView();
+  } else {
+    _budgetDirty = true;
+  }
 }
+
+window._flushTabRender = (view) => {
+  if (view === 'invoe' && _ordersDirty) {
+    _ordersDirty = false;
+    _donutDirty = true;
+    rebuildClientSel();
+    updateFilterState();
+    updateStatsAndAnalytics();
+    renderList();
+  } else if (view === 'budget' && _budgetDirty) {
+    _budgetDirty = false;
+    if (typeof window.renderBudgetView === 'function') window.renderBudgetView();
+  }
+};
 
 /* ══════════════════════════════════════════════
    13. UNIFIED SELECTION DOCK & CONFLICT-FREE LASSO
@@ -5949,7 +5993,7 @@ function initFinderLasso() {
   window.addEventListener('mousedown', e => {
     if (e.button !== 0 || window.innerWidth <= 768) return;
     if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode')) return;
-    if (e.target.closest('#sidebar, .topbar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, .m-hero, #x-planner-view, .xp-hooks-pop, button, a, input, select, textarea, canvas, label')) return;
+    if (e.target.closest('.rail-nav, .m-global-topbar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, #x-planner-view, .xp-hooks-pop, button, a, input, select, textarea, canvas, label')) return;
 
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT' || document.activeElement.tagName === 'TEXTAREA')) {
       document.activeElement.blur();
@@ -6022,13 +6066,15 @@ function initFinderLasso() {
 function dupSel() {
   if (!selIds.size) return;
   const td = today();
+  const nowTs = Date.now();
   const toA = [];
   for (const id of [...selIds]) {
     const e = entries.find(x => x.id === id);
     if (e) {
       const newId = gid();
-      const c = {...e, id: newId, paid: false, date: td, createdAt: td};
+      const c = {...e, id: newId, paid: false, status: 'unpaid', date: td, createdAt: td, updatedAt: nowTs};
       delete c.paidAt;
+      delete c.sentAt;
       _flashIds.add(newId);
       toA.push(c);
     }
@@ -6049,8 +6095,10 @@ function applyBulkOrderStatus(nextStatus) {
   const cnt = targetEntries.length;
   const td = today();
 
+  const nowTs = Date.now();
   targetEntries.forEach(e => {
     e.status = nextStatus;
+    e.updatedAt = nowTs;
     if (nextStatus === 'paid') {
       e.paid = true;
       e.paidAt = e.paidAt || td;
@@ -6124,6 +6172,7 @@ function togPaid(id) {
     delete e.paidAt;
   }
 
+  e.updatedAt = Date.now();
   _popBadgeId = id;
   save();
   render();
@@ -6142,7 +6191,6 @@ function togPaid(id) {
    14. MODAL, DRAFTS & SERIAL ENTRY WITH HIGHLIGHT GLOW
 ══════════════════════════════════════════════ */
 function openModal() {
-  document.getElementById('sidebar').classList.remove('mobile-open');
   if (editId === null && !_hasDraft) {
     clearForm();
   } else if (editId === null && _hasDraft) {
@@ -6300,14 +6348,11 @@ function submitForm(keepOpen = false) {
 
   lastCur = currency;
   lsS('ff_last_cur', lastCur);
-  if (name) {
-    lastClient = name;
-    lsS('ff_last_client', lastClient);
-  }
 
   const st = (formPaidStatus === 'paid' || formPaidStatus === 'sent') ? formPaidStatus : 'unpaid';
   const saVal = document.getElementById('f-sentat')?.value || today();
   const paVal = document.getElementById('f-paidat')?.value || today();
+  const nowTs = Date.now();
 
   const wasEdit = editId !== null;
   if (wasEdit) {
@@ -6316,6 +6361,7 @@ function submitForm(keepOpen = false) {
       e.name = name; e.amount = amount; e.currency = currency;
       e.desc = desc; e.note = note; e.date = date;
       e.status = st;
+      e.updatedAt = nowTs;
       if (st === 'paid') {
         e.paid = true;
         e.paidAt = paVal;
@@ -6343,7 +6389,8 @@ function submitForm(keepOpen = false) {
       date,
       paid: st === 'paid',
       status: st,
-      createdAt: today()
+      createdAt: today(),
+      updatedAt: nowTs
     };
     if (st === 'sent') newEntry.sentAt = saVal;
     if (st === 'paid') newEntry.paidAt = paVal;
@@ -6418,9 +6465,8 @@ function exportData() {
     updatedAt: new Date().toISOString(),
     baseCur,
     rates: sanitizeRatesObject(rates),
-    fbUrl: fbUrl || '',
-    fbSec: fbSec || '',
     xpNotebook: normalizeXpNotebook(xpNotebook),
+    xpThreadTpls: normalizeXpThreadTpls(xpThreadTpls),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
     entries: cleanEntriesForStorage(entries)
@@ -6471,10 +6517,22 @@ function applyImportedPayload(raw, replaceMode = true) {
     lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
     if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
   }
+  if (!Array.isArray(raw) && Array.isArray(raw.xpThreadTpls)) {
+    if (replaceMode) {
+      recordDeletedIds(xpThreadTpls.map(t => t.id));
+      xpThreadTpls = normalizeXpThreadTpls(raw.xpThreadTpls);
+      xpThreadTpls.forEach(t => deletedIds.delete(String(t.id)));
+    } else {
+      xpThreadTpls = mergeXpThreadTpls(xpThreadTpls, raw.xpThreadTpls, deletedIds);
+    }
+    lsS('ff_xp_thread_tpls', JSON.stringify(xpThreadTpls));
+    if (typeof window._onXpThreadTplsUpdated === 'function') window._onXpThreadTplsUpdated();
+  }
   if (!Array.isArray(raw) && typeof window._importBudgetData === 'function') {
     window._importBudgetData(raw.budgetEntries, raw.budgetRecurring, replaceMode);
   }
   if (replaceMode) {
+    recordDeletedIds(entries.map(x => String(x.id)));
     entries = normalizeLoadedEntries(valid);
   } else {
     const ex = new Set(entries.map(x => String(x.id)));
@@ -6570,14 +6628,6 @@ function bindEvents() {
   document.getElementById('btn-inv').addEventListener('click', toggleInvDd);
   document.getElementById('m-period-btn').addEventListener('click', openPeriodSheet);
 
-  document.getElementById('m-card-await').addEventListener('click', cycleBaseCur);
-  document.getElementById('m-card-recv').addEventListener('click', () => {
-    const sb = document.getElementById('sidebar');
-    sb.classList.add('mobile-open');
-    _donutDirty = true;
-    renderAnalytics();
-    updateMobileNavState('stats');
-  });
 
   document.getElementById('m-nav-list').addEventListener('click', () => {
     closeSettings();
@@ -6778,7 +6828,7 @@ function bindEvents() {
   document.getElementById('fst-paid').addEventListener('click', () => setFormStatus('paid'));
 
   document.getElementById('mov').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.target.closest('#bcan, #m-close')) {
+    if (e.key === 'Enter' && !e.target.closest('#bcan, #m-close, .fst-btn, .qchip, #btn-clear-client')) {
       e.preventDefault();
       submitForm(e.shiftKey || e.metaKey || e.ctrlKey);
     }
@@ -6866,7 +6916,6 @@ function bindEvents() {
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
       closeFP(); closeInvDd(); closePeriodDd();
-      document.getElementById('sidebar').classList.remove('mobile-open');
       if (document.body.classList.contains('budget-mode')) {
         const bgS = document.getElementById('bg-search');
         if (document.activeElement === bgS && bgS && bgS.value) {
@@ -6889,7 +6938,7 @@ function bindEvents() {
     const isBudgetMode = document.body.classList.contains('budget-mode');
     const activeTag = document.activeElement ? document.activeElement.tagName : '';
     const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
-    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('bg-mov')?.classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('inv-sheet-ov').classList.contains('on') || document.getElementById('period-sheet-ov').classList.contains('on');
+    const modalOpen = document.getElementById('mov').classList.contains('on') || document.getElementById('bg-mov')?.classList.contains('on') || document.getElementById('bg-adj-mov')?.classList.contains('on') || document.getElementById('sov').classList.contains('on') || document.getElementById('inv-sheet-ov').classList.contains('on') || document.getElementById('period-sheet-ov').classList.contains('on');
 
     if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
       e.preventDefault();
@@ -6957,13 +7006,16 @@ function bindEvents() {
 /* ══════════════════════════════════════════════
    17. INIT
 ══════════════════════════════════════════════ */
+window._startCloudAndVaultBootstrap = () => {
+  restoreFromSafariVaultIfEmpty();
+  if (fbUrl) safeSyncWithFirebase(false);
+};
+
 (function init() {
   applyAppearance();
   updateSyncPill(fbUrl ? (_hasUnsynced ? 'pending' : 'ok') : 'local');
   bindEvents();
   render();
-  restoreFromSafariVaultIfEmpty();
-  if (fbUrl) safeSyncWithFirebase(false);
 })();
 </script>
 <script id="xp-script">
@@ -7515,7 +7567,7 @@ const TwitterPlanner = (() => {
       ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      const promptTxt = isSelectedSlot ? `${placeholderLabel} · Cmd+V` : `+ ${placeholderLabel || '16:9'}`;
+      const promptTxt = (isSelectedSlot && window.innerWidth > 768) ? `${placeholderLabel} · Cmd+V` : `+ ${placeholderLabel || '16:9'}`;
       ctx.fillText(promptTxt, x + w / 2, y + h / 2);
     }
     ctx.restore();
@@ -7922,9 +7974,13 @@ const TwitterPlanner = (() => {
       const sKey = hit.region.key;
       const hasImg = Boolean(state[dayIdx].images[sKey]);
 
-      // Одиночный клик всегда выделяет слот (даже пустой — для мгновенной вставки по Cmd+V!)
       selectCanvasSlot(dayIdx, sKey);
-      if (!hasImg) return;
+      if (!hasImg) {
+        if (e.pointerType === 'touch' || window.innerWidth <= 768) {
+          triggerFileDialog(dayIdx, sKey);
+        }
+        return;
+      }
 
       if (e.shiftKey) {
         swapSourceKey = sKey;
@@ -8825,15 +8881,21 @@ const TwitterPlanner = (() => {
   ];
 
   function getCustomThreadTemplates() {
-    try {
-      const raw = JSON.parse(localStorage.getItem('ff_xp_thread_tpls') || '[]');
-      return Array.isArray(raw) ? raw : [];
-    } catch (e) { return []; }
+    if (typeof window.getXpThreadTpls === 'function') return window.getXpThreadTpls();
+    return [];
   }
 
-  function saveCustomThreadTemplates(list) {
-    try { localStorage.setItem('ff_xp_thread_tpls', JSON.stringify(list)); } catch (e) {}
+  function saveCustomThreadTemplates(list, removedIds = []) {
+    if (typeof window.updateXpThreadTpls === 'function') {
+      window.updateXpThreadTpls(list, removedIds);
+    }
   }
+
+  window._onXpThreadTplsUpdated = () => {
+    if (_ttplPopEl && _ttplPopEl.classList.contains('on')) {
+      renderThreadTplPopover();
+    }
+  };
 
   async function saveThreadBlob(dayIdx, thId, blob) {
     try {
@@ -8908,22 +8970,6 @@ const TwitterPlanner = (() => {
     inp.click();
   }
 
-  function copyFullThread(dayIdx) {
-    const d = state[dayIdx];
-    const allTexts = [d.caption.trim(), ...d.thread.map(t => (t.text || '').trim())].filter(Boolean);
-    if (!allTexts.length) {
-      notify('Сначала напишите текст постов');
-      return;
-    }
-    const formatted = allTexts.length > 1
-      ? allTexts.map((txt, idx) => `${idx + 1}/${allTexts.length}\n${txt}`).join('\n\n──────────\n\n')
-      : allTexts[0];
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(formatted).then(() => {
-        notify(`Тред скопирован (${allTexts.length} пост.)`);
-      });
-    }
-  }
 
   async function applyThreadTemplateToDay(dayIdx, tpl) {
     const d = state[dayIdx];
@@ -8968,13 +9014,14 @@ const TwitterPlanner = (() => {
     }
     const custom = getCustomThreadTemplates();
     const tplName = `Мой шаблон (${posts.length} пост. · ${DAYS[dayIdx].shortRu})`;
-    custom.unshift({
-      id: 'ctpl_' + Date.now().toString(36),
+    const nextCustom = [{
+      id: 'ctpl_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
       name: tplName,
       preset: d.preset,
+      updatedAt: Date.now(),
       posts
-    });
-    saveCustomThreadTemplates(custom);
+    }, ...custom];
+    saveCustomThreadTemplates(nextCustom);
     notify(`Сохранено: ${tplName}`);
   }
 
@@ -9080,7 +9127,7 @@ const TwitterPlanner = (() => {
         delBtn.addEventListener('click', ev => {
           ev.stopPropagation();
           const next = getCustomThreadTemplates().filter(x => x.id !== tpl.id);
-          saveCustomThreadTemplates(next);
+          saveCustomThreadTemplates(next, [tpl.id]);
           renderThreadTplPopover();
         });
         card.appendChild(delBtn);
@@ -9124,83 +9171,6 @@ const TwitterPlanner = (() => {
     }
   }
 
-  /* 8C. GAPLESS MASONRY REFLOW (UPDATES LIVE WHEN PRESETS OR THREADS CHANGE) */
-  function estimateCardWeight(dayIdx) {
-    const d = state[dayIdx];
-    const p = d.preset;
-    let ratioH = 0.65;
-    if (p === 'stack2') ratioH = 1.14;
-    else if (p === 'sketch1_final') ratioH = 0.98;
-    else if (p === 'assets_inspo') ratioH = 0.84;
-    else if (p === 'palette_final') ratioH = 0.72;
-    else if (p === 'sketch3_final') ratioH = 0.76;
-    else if (p === 'grid2x2') ratioH = 0.58;
-    else if (p === 'single1') ratioH = 0.56;
-
-    const card = document.getElementById(`xp-card-${dayIdx}`);
-    const colW = (card && card.offsetWidth > 180) ? card.offsetWidth : 460;
-    const threadH = (d.thread || []).reduce((sum, t) => {
-      const hasPhoto = !!(t.wantPhoto || (d.threadUrls && d.threadUrls[t.id]));
-      return sum + 95 + (hasPhoto ? 150 : 0);
-    }, 0);
-    return 155 + colW * ratioH + threadH;
-  }
-
-  function reflowXpMasonry() {
-    const grid = document.getElementById('xp-days-grid');
-    if (!grid) return;
-
-    const activeEl = document.activeElement;
-    const isInsideGrid = activeEl && grid.contains(activeEl);
-    const selStart = (isInsideGrid && typeof activeEl.selectionStart === 'number') ? activeEl.selectionStart : null;
-    const selEnd = (isInsideGrid && typeof activeEl.selectionEnd === 'number') ? activeEl.selectionEnd : null;
-
-    const cards = DAYS.map(d => document.getElementById(`xp-card-${d.idx}`)).filter(Boolean);
-    if (!cards.length) return;
-
-    let colCount = 1;
-    if (layoutMode !== 'feed') {
-      const w = grid.clientWidth || window.innerWidth;
-      if (w >= 1520) colCount = 3;
-      else if (w >= 840) colCount = 2;
-      else colCount = 1;
-    }
-
-    const cols = [];
-    const heights = [];
-    for (let i = 0; i < colCount; i++) {
-      const col = document.createElement('div');
-      col.className = 'xp-masonry-col';
-      cols.push(col);
-      heights.push(0);
-    }
-
-    cards.forEach((card, idx) => {
-      let targetCol = 0;
-      if (colCount > 1) {
-        let minH = heights[0];
-        for (let c = 1; c < colCount; c++) {
-          if (heights[c] < minH) {
-            minH = heights[c];
-            targetCol = c;
-          }
-        }
-      }
-      cols[targetCol].appendChild(card);
-      heights[targetCol] += estimateCardWeight(idx);
-    });
-
-    grid.innerHTML = '';
-    cols.forEach(c => grid.appendChild(c));
-
-    if (isInsideGrid && activeEl) {
-      activeEl.focus();
-      if (selStart !== null && selEnd !== null) {
-        try { activeEl.setSelectionRange(selStart, selEnd); } catch (e) {}
-      }
-    }
-  }
-
   function applyLayoutMode(mode) {
     layoutMode = mode === 'feed' ? 'feed' : 'grid';
     try { localStorage.setItem('xp_layout_mode', layoutMode); } catch (e) {}
@@ -9210,7 +9180,6 @@ const TwitterPlanner = (() => {
     if (grid) grid.classList.toggle('is-feed', layoutMode === 'feed');
     if (bGrid) bGrid.classList.toggle('on', layoutMode === 'grid');
     if (bFeed) bFeed.classList.toggle('on', layoutMode === 'feed');
-    reflowXpMasonry();
     resizeAllCaptions();
   }
 
@@ -9855,7 +9824,6 @@ const TwitterPlanner = (() => {
     renderDayCanvas(dayIdx);
     updateFloatingSlotPillUI(dayIdx);
     renderThreadRepliesUI(dayIdx);
-    if (!skipReflow) reflowXpMasonry();
   }
 
   /* 9. VIEW SWITCHING & GLOBAL EVENTS */
@@ -9904,13 +9872,16 @@ const TwitterPlanner = (() => {
     if (mXpDlBtn) mXpDlBtn.style.display = _activeView === 'planner' ? '' : 'none';
 
     if (_activeView === 'invoe') {
+      if (typeof window._flushTabRender === 'function') window._flushTabRender('invoe');
       requestAnimationFrame(() => renderMiniStockChart());
     }
     if (_activeView === 'planner') {
-      reflowXpMasonry();
       resizeAllCaptions();
     }
-    if (_activeView === 'budget' && typeof window.renderBudgetView === 'function') window.renderBudgetView();
+    if (_activeView === 'budget') {
+      if (typeof window._flushTabRender === 'function') window._flushTabRender('budget');
+      else if (typeof window.renderBudgetView === 'function') window.renderBudgetView();
+    }
   }
 
   function bindGlobalPlannerEvents() {
@@ -9960,12 +9931,6 @@ const TwitterPlanner = (() => {
       toggleThreadTplPopover(btnThreadTpl);
     });
 
-    let _resizeTmr = null;
-    window.addEventListener('resize', () => {
-      if (_activeView !== 'planner') return;
-      clearTimeout(_resizeTmr);
-      _resizeTmr = setTimeout(() => reflowXpMasonry(), 120);
-    });
 
     document.getElementById('xp-sheet-back')?.addEventListener('click', () => {
       closeHooksPopover();
@@ -10078,10 +10043,33 @@ const TwitterPlanner = (() => {
     if (Array.isArray(raw)) budgetEntries = normalizeBudgetList(raw);
   } catch (e) {}
 
+  function normalizeRecurringList(list) {
+    if (!Array.isArray(list)) return [];
+    const seen = new Set();
+    const out = [];
+    list.forEach(x => {
+      if (!x || !x.category || !(Number(x.amount) > 0)) return;
+      const sig = `${x.type === 'income' ? 'income' : 'expense'}|${String(x.category).trim()}|${Math.round(Number(x.amount) * 100) / 100}|${CURS.includes(x.currency) ? x.currency : baseCur}|${String(x.note || '').trim()}`;
+      const id = String(x.id || ('tpl_' + sig));
+      if (seen.has(id) || seen.has(sig)) return;
+      seen.add(id);
+      seen.add(sig);
+      out.push({
+        id,
+        type: x.type === 'income' ? 'income' : 'expense',
+        category: String(x.category).trim(),
+        amount: Math.round(Number(x.amount) * 100) / 100,
+        currency: CURS.includes(x.currency) ? x.currency : baseCur,
+        note: String(x.note || '').trim()
+      });
+    });
+    return out;
+  }
+
   let budgetRecurring = [];
   try {
     const rawR = JSON.parse(lsG('ff_budget_recur') || '[]');
-    if (Array.isArray(rawR)) budgetRecurring = rawR.filter(x => x && x.category && x.amount > 0);
+    if (Array.isArray(rawR)) budgetRecurring = normalizeRecurringList(rawR);
   } catch (e) {}
 
   window._budgetEntries = budgetEntries;
@@ -10093,10 +10081,11 @@ const TwitterPlanner = (() => {
   let bgCatFilter = '';
   let bgSearchQuery = '';
   let bgHoveredCat = null;
+  let openBalanceAdjModal = () => {};
 
   function normalizeBudgetList(list) {
     if (!Array.isArray(list)) return [];
-    return list.filter(x => x && typeof x === 'object' && x.amount > 0).map(x => {
+    return list.filter(x => x && typeof x === 'object' && Number(x.amount) > 0).map(x => {
       const out = {
         id: String(x.id || gid()),
         type: x.type === 'income' ? 'income' : 'expense',
@@ -10104,9 +10093,10 @@ const TwitterPlanner = (() => {
         amount: Math.round(Number(x.amount) * 100) / 100,
         currency: CURS.includes(x.currency) ? x.currency : baseCur,
         note: String(x.note || '').trim(),
-        date: String(x.date || today())
+        date: String(x.date || today()),
+        updatedAt: Number(x.updatedAt) || 0
       };
-      if (x.isAdjustment || out.category === 'Корректировка') {
+      if (x.isAdjustment === true) {
         out.isAdjustment = true;
         out.category = 'Корректировка';
       }
@@ -10116,11 +10106,8 @@ const TwitterPlanner = (() => {
 
   function getCategoryColor(cat) {
     if (!cat) return '#8e8e93';
-    const allCats = [...new Set([...DEFAULT_EXP_CATS, ...DEFAULT_INC_CATS, ...budgetEntries.map(x => x.category)])].sort((a, b) => a.localeCompare(b, 'ru'));
-    const idx = allCats.indexOf(cat);
-    if (idx !== -1) return CAT_PALETTE[idx % CAT_PALETTE.length];
-    let h = 0;
-    for (let i = 0; i < cat.length; i++) h = (h * 31 + cat.charCodeAt(i)) >>> 0;
+    let h = 5381;
+    for (let i = 0; i < cat.length; i++) h = ((h << 5) + h + cat.charCodeAt(i)) >>> 0;
     return CAT_PALETTE[h % CAT_PALETTE.length];
   }
 
@@ -10140,44 +10127,74 @@ const TwitterPlanner = (() => {
       lsS('ff_budget_v1', JSON.stringify(budgetEntries));
     }
     if (budgetRecurring.length === 0 && Array.isArray(vRecur) && vRecur.length > 0) {
-      budgetRecurring = vRecur;
+      budgetRecurring = normalizeRecurringList(vRecur);
       window._budgetRecurring = budgetRecurring;
       lsS('ff_budget_recur', JSON.stringify(budgetRecurring));
     }
-    renderBudgetView();
+    if (document.body.classList.contains('budget-mode')) renderBudgetView();
+    else _budgetDirty = true;
   };
 
-  window._mergeCloudBudget = (cEntries, cRecur, delIdsArr) => {
-    const delSet = new Set(Array.isArray(delIdsArr) ? delIdsArr.map(String) : []);
-    if (Array.isArray(cEntries)) {
-      const normalized = normalizeBudgetList(cEntries).filter(x => !delSet.has(x.id) && !deletedIds.has(x.id));
-      const map = new Map();
-      budgetEntries.forEach(x => { if (!delSet.has(x.id)) map.set(x.id, x); });
-      normalized.forEach(x => map.set(x.id, x));
-      budgetEntries = [...map.values()].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-      window._budgetEntries = budgetEntries;
-      lsS('ff_budget_v1', JSON.stringify(budgetEntries));
-    }
-    if (Array.isArray(cRecur) && cRecur.length > 0 && budgetRecurring.length === 0) {
-      budgetRecurring = cRecur;
-      window._budgetRecurring = budgetRecurring;
-      lsS('ff_budget_recur', JSON.stringify(budgetRecurring));
-    }
-    renderBudgetView();
+  window._mergeCloudBudget = (cEntries, cRecur, delIdsArr, preferLocalOnTie = false) => {
+    const delSet = new Set([
+      ...(Array.isArray(delIdsArr) ? delIdsArr.map(String) : []),
+      ...deletedIds
+    ]);
+    let changedVsCloud = false;
+
+    const normCloudEntries = Array.isArray(cEntries) ? normalizeBudgetList(cEntries).filter(x => !delSet.has(x.id)) : [];
+    const eMap = new Map();
+    budgetEntries.forEach(x => { if (!delSet.has(x.id)) eMap.set(x.id, x); });
+    normCloudEntries.forEach(cx => {
+      const lx = eMap.get(cx.id);
+      if (!lx) {
+        eMap.set(cx.id, cx);
+      } else {
+        const lt = Number(lx.updatedAt) || 0;
+        const ct = Number(cx.updatedAt) || 0;
+        if (ct > lt || (ct === lt && !preferLocalOnTie)) {
+          eMap.set(cx.id, cx);
+        }
+      }
+    });
+    const mergedEntries = [...eMap.values()].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    if (JSON.stringify(mergedEntries) !== JSON.stringify(normCloudEntries)) changedVsCloud = true;
+    budgetEntries = mergedEntries;
+    window._budgetEntries = budgetEntries;
+    lsS('ff_budget_v1', JSON.stringify(budgetEntries));
+
+    const normCloudRecur = Array.isArray(cRecur) ? normalizeRecurringList(cRecur).filter(t => !delSet.has(t.id)) : [];
+    const rMap = new Map();
+    budgetRecurring.forEach(t => { if (!delSet.has(t.id)) rMap.set(t.id, t); });
+    normCloudRecur.forEach(t => { if (!rMap.has(t.id)) rMap.set(t.id, t); });
+    const mergedRecur = [...rMap.values()];
+    if (JSON.stringify(mergedRecur) !== JSON.stringify(normCloudRecur)) changedVsCloud = true;
+    budgetRecurring = mergedRecur;
+    window._budgetRecurring = budgetRecurring;
+    lsS('ff_budget_recur', JSON.stringify(budgetRecurring));
+
+    if (document.body.classList.contains('budget-mode')) renderBudgetView();
+    else _budgetDirty = true;
+    return changedVsCloud;
   };
 
-  window._importBudgetData = (impEntries, impRecur, replaceMode) => {
+  window._importBudgetData = (impEntries, impRecur, replaceMode, skipSync = false) => {
     let addedCount = 0;
     let totalCount = 0;
     if (Array.isArray(impEntries)) {
       const norm = normalizeBudgetList(impEntries);
       totalCount = norm.length;
-      norm.forEach(x => deletedIds.delete(String(x.id)));
-      lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
       if (replaceMode) {
+        if (!skipSync && budgetEntries.length > 0) {
+          recordDeletedIds(budgetEntries.map(x => x.id));
+        }
+        norm.forEach(x => deletedIds.delete(String(x.id)));
+        lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
         budgetEntries = norm;
         addedCount = norm.length;
       } else {
+        norm.forEach(x => deletedIds.delete(String(x.id)));
+        lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
         const exIds = new Set(budgetEntries.map(x => x.id));
         const exSigs = new Set(budgetEntries.map(x => `${x.date}|${x.type}|${x.category}|${x.amount}|${x.note}`));
         const fresh = norm.filter(x => {
@@ -10192,13 +10209,43 @@ const TwitterPlanner = (() => {
       }
       budgetEntries.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
     }
-    if (Array.isArray(impRecur) && impRecur.length > 0) {
-      if (replaceMode) budgetRecurring = impRecur;
-      else budgetRecurring = [...budgetRecurring, ...impRecur];
+    if (Array.isArray(impRecur)) {
+      const normR = normalizeRecurringList(impRecur);
+      if (replaceMode) {
+        if (!skipSync && budgetRecurring.length > 0) {
+          recordDeletedIds(budgetRecurring.map(t => t.id));
+        }
+        normR.forEach(t => deletedIds.delete(String(t.id)));
+        lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+        budgetRecurring = normR;
+      } else if (normR.length > 0) {
+        budgetRecurring = normalizeRecurringList([...budgetRecurring, ...normR]);
+      }
     }
-    saveBudgetState();
-    renderBudgetView();
+    if (skipSync) {
+      window._budgetEntries = budgetEntries;
+      window._budgetRecurring = budgetRecurring;
+      lsS('ff_budget_v1', JSON.stringify(budgetEntries));
+      lsS('ff_budget_recur', JSON.stringify(budgetRecurring));
+    } else {
+      saveBudgetState();
+    }
+    if (document.body.classList.contains('budget-mode')) renderBudgetView();
+    else _budgetDirty = true;
     return { added: addedCount, total: totalCount };
+  };
+
+  window._getBudgetPeriodSubtitle = (ym) => {
+    const matchFn = d => ym === 'all' ? true : (d || '').startsWith(ym);
+    const pOrders = entries.filter(e => e.paid && matchFn(getEntryPaidDate(e)));
+    const pBudget = budgetEntries.filter(x => matchFn(x.date));
+    const snap = computeNetBalanceSnapshot(pBudget, pOrders);
+    const expOnly = summarizeBudgetGroup(pBudget.filter(x => !x.isAdjustment && x.type === 'expense'));
+    if (snap.netBase !== null) {
+      const pref = snap.netBase > 0 ? '+' : '';
+      return `Остаток: ${pref}${fmtB(snap.netBase)} · Траты: ${expOnly.mainStr}`;
+    }
+    return `Траты: ${expOnly.mainStr}`;
   };
 
   function getPeriodTitle() {
@@ -10322,6 +10369,7 @@ const TwitterPlanner = (() => {
       });
       seg.addEventListener('click', () => {
         bgCatFilter = (bgCatFilter === catName) ? '' : catName;
+        if (bgCatFilter && bgTypeFilter === 'income') bgTypeFilter = 'all';
         renderBudgetView();
       });
 
@@ -10352,6 +10400,7 @@ const TwitterPlanner = (() => {
       });
       row.addEventListener('click', () => {
         bgCatFilter = (bgCatFilter === catName) ? '' : catName;
+        if (bgCatFilter && bgTypeFilter === 'income') bgTypeFilter = 'all';
         renderBudgetView();
       });
 
@@ -10381,6 +10430,7 @@ const TwitterPlanner = (() => {
       const delX = el('span', { className: 'bg-rchip-del', title: 'Удалить шаблон' }, ['×']);
       delX.addEventListener('click', ev => {
         ev.stopPropagation();
+        if (tpl.id) recordDeletedIds([tpl.id]);
         budgetRecurring.splice(idx, 1);
         saveBudgetState();
         renderBudgetView();
@@ -10396,7 +10446,8 @@ const TwitterPlanner = (() => {
           amount: tpl.amount,
           currency: tpl.currency || baseCur,
           note: tpl.note || '',
-          date: today()
+          date: today(),
+          updatedAt: Date.now()
         };
         _flashIds.add(newItem.id);
         budgetEntries.unshift(newItem);
@@ -10419,14 +10470,17 @@ const TwitterPlanner = (() => {
     const incInfo = summarizeBudgetGroup(allInc);
     const expInfo = summarizeBudgetGroup(allExp);
     const adjItems = periodBudget.filter(x => x.isAdjustment);
-    const adjSignedBase = adjItems.reduce((s, x) => {
-      const val = toB(x.amount, x.currency) ?? x.amount;
-      return s + (x.type === 'income' ? val : -val);
-    }, 0);
+    let adjSignedBase = 0;
+    let adjConvertOk = true;
+    for (const x of adjItems) {
+      const val = toB(x.amount, x.currency);
+      if (val === null) { adjConvertOk = false; break; }
+      adjSignedBase += (x.type === 'income' ? val : -val);
+    }
     const netBase = (incInfo.baseTot !== null && expInfo.baseTot !== null)
       ? Math.round((incInfo.baseTot - expInfo.baseTot) * 100) / 100
       : null;
-    return { incInfo, expInfo, netBase, adjItems, adjSignedBase: Math.round(adjSignedBase * 100) / 100 };
+    return { incInfo, expInfo, netBase, adjItems, adjSignedBase: adjConvertOk ? Math.round(adjSignedBase * 100) / 100 : null };
   }
 
   function renderBudgetView() {
@@ -10485,7 +10539,7 @@ const TwitterPlanner = (() => {
               return (diff > 0 ? '+' : '') + fmtCur(diff, c);
             });
             subNetEl.textContent = perCurParts.join(' · ');
-          } else if (adjItems.length > 0 && Math.abs(adjSignedBase) >= 0.01) {
+          } else if (adjItems.length > 0 && adjSignedBase !== null && Math.abs(adjSignedBase) >= 0.01) {
             const adjPref = adjSignedBase > 0 ? '+' : '';
             subNetEl.textContent = `Корректировка: ${adjPref}${fmtB(adjSignedBase)}`;
           } else {
@@ -10522,6 +10576,11 @@ const TwitterPlanner = (() => {
       setText('bg-sub-exp', 'Нет трат за период');
       setText('bg-top-cat-pill', '');
     }
+
+    const incM = document.getElementById('bg-val-inc')?.closest('.bg-metric');
+    const expM = document.getElementById('bg-val-exp')?.closest('.bg-metric');
+    if (incM) incM.classList.toggle('is-filtered', bgTypeFilter === 'income');
+    if (expM) expM.classList.toggle('is-filtered', bgTypeFilter === 'expense');
 
     renderRecurringBar();
     renderDonutChart(expByCat, totalExpInfo);
@@ -10589,7 +10648,7 @@ const TwitterPlanner = (() => {
 
     row.appendChild(left);
     row.appendChild(right);
-    row.addEventListener('click', () => openBudgetModal(item.id));
+    row.addEventListener('click', () => item.isAdjustment ? openBalanceAdjModal() : openBudgetModal(item.id));
     return row;
   }
 
@@ -10859,12 +10918,13 @@ const TwitterPlanner = (() => {
     }
 
     if (tplChk && tplChk.checked) {
-      const exists = budgetRecurring.some(t => t.category === category && t.amount === parsedAmt && t.note === note);
+      const exists = budgetRecurring.some(t => t.type === bgFormType && t.category === category && t.amount === parsedAmt && t.currency === currency && t.note === note);
       if (!exists) {
-        budgetRecurring.push({ type: bgFormType, category, amount: parsedAmt, currency, note });
+        budgetRecurring.push({ id: 'tpl_' + gid(), type: bgFormType, category, amount: parsedAmt, currency, note });
       }
     }
 
+    const nowTs = Date.now();
     if (bgEditId) {
       const item = budgetEntries.find(x => x.id === bgEditId);
       if (item) {
@@ -10874,6 +10934,8 @@ const TwitterPlanner = (() => {
         item.currency = currency;
         item.note = note;
         item.date = date;
+        item.updatedAt = nowTs;
+        delete item.isAdjustment;
         _flashIds.add(item.id);
       }
     } else {
@@ -10885,7 +10947,8 @@ const TwitterPlanner = (() => {
         amount: parsedAmt,
         currency,
         note,
-        date
+        date,
+        updatedAt: nowTs
       });
       _flashIds.add(newId);
     }
@@ -10927,6 +10990,7 @@ const TwitterPlanner = (() => {
       incMetric.title = 'Фильтр: только доходы';
       incMetric.addEventListener('click', () => {
         bgTypeFilter = (bgTypeFilter === 'income') ? 'all' : 'income';
+        if (bgTypeFilter === 'income') bgCatFilter = '';
         renderBudgetView();
       });
     }
@@ -11104,7 +11168,7 @@ const TwitterPlanner = (() => {
       }
     }
 
-    function openBalanceAdjModal() {
+    openBalanceAdjModal = function() {
       const curSel = document.getElementById('bg-adj-cur');
       const actInp = document.getElementById('bg-adj-actual');
       const dateInp = document.getElementById('bg-adj-date');
@@ -11162,7 +11226,8 @@ const TwitterPlanner = (() => {
         amount: Math.abs(delta),
         currency: c,
         note: (noteInp?.value || '').trim() || 'Сверка остатка',
-        date: dateInp?.value || getDefaultAdjustmentDate()
+        date: dateInp?.value || getDefaultAdjustmentDate(),
+        updatedAt: Date.now()
       };
       _flashIds.add(newId);
       budgetEntries.unshift(adjEntry);
@@ -11230,7 +11295,9 @@ const TwitterPlanner = (() => {
   }
 
   bindBudgetEvents();
-  renderBudgetView();
+  if (typeof window._startCloudAndVaultBootstrap === 'function') {
+    window._startCloudAndVaultBootstrap();
+  }
 })();
 </script>
 </body>
