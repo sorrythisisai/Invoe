@@ -2296,6 +2296,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   gap:14px;
 }
 .ch-wall-item{
+  position:relative;isolation:isolate;
   background:var(--surface);border:0.5px solid var(--border);
   border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-card);
   cursor:pointer;display:flex;flex-direction:column;
@@ -2303,7 +2304,8 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 }
 .ch-wall-item:hover{border-color:var(--blue);}
 .ch-wall-img-wrap{
-  position:relative;aspect-ratio:16 / 9;background:var(--surface2);overflow:hidden;
+  position:relative;z-index:1;width:100%;flex-shrink:0;
+  aspect-ratio:16 / 9;background:var(--surface2);overflow:hidden;
 }
 .ch-wall-img-wrap img{
   width:100%;height:100%;object-fit:cover;display:block;
@@ -2356,16 +2358,20 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .ch-detail-inp:focus{border-color:var(--blue);background:var(--surface);}
 
 .ch-thumb-del{
-  position:absolute;top:8px;right:8px;
+  position:absolute;top:8px;right:8px;z-index:10;
   width:26px;height:26px;border:none;border-radius:7px;
-  background:rgba(14,14,16,0.78);color:#fff;cursor:pointer;
+  background:rgba(14,14,16,0.82);color:#fff;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity .14s, background-color .14s;
+  opacity:0;pointer-events:none;
+  transform:translateZ(0);
+  transition:opacity .14s var(--ease), background-color .14s var(--ease), transform .12s var(--ease);
 }
-.ch-wall-item:hover .ch-thumb-del{opacity:1;}
+.ch-wall-item:hover .ch-thumb-del,
+.ch-wall-item:focus-within .ch-thumb-del,
+.ch-thumb-del:hover{opacity:1;pointer-events:auto;}
 .ch-thumb-del:hover{background:var(--danger);}
 .ch-local-badge{
-  position:absolute;bottom:7px;left:7px;
+  position:absolute;bottom:7px;left:7px;z-index:3;
   font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;
   background:rgba(14,14,16,0.78);color:#fff;
 }
@@ -2406,7 +2412,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .ch-folder-bar::-webkit-scrollbar{display:none;}
   .ch-quick-bar{padding:8px 10px 8px 12px;}
   .ch-quick-inp{font-size:15px;}
-  .ch-thumb-del{opacity:1;}
+  .ch-thumb-del{opacity:1;pointer-events:auto;}
 }
 </style>
 </head>
@@ -13077,24 +13083,31 @@ const TwitterPlanner = (() => {
     const flatForLb = items.map(it => ({ ...it, channelName: ch.name, channelId: ch.id }));
     const grid = el('div', { className: 'ch-wall-grid' });
     items.forEach((it, idx) => {
-      const delBtn = el('button', { type: 'button', className: 'ch-thumb-del', title: 'Удалить превью' });
+      const delBtn = el('button', { type: 'button', className: 'ch-thumb-del', title: 'Удалить превью', 'aria-label': 'Удалить превью' });
       delBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
       delBtn.addEventListener('click', async ev => {
         ev.stopPropagation();
-        if (it.kind === 'local' && it.imgId) await deleteLocalImgBlob(it.imgId);
+        const prevItems = [...ch.items];
+        const isLoc = it.kind === 'local';
+        if (isLoc && it.imgId) await deleteLocalImgBlob(it.imgId);
         ch.items = ch.items.filter(x => x.id !== it.id);
         ch.updatedAt = Date.now();
-        saveChannelsState(it.kind === 'local');
+        saveChannelsState(isLoc);
         renderChannelsView();
-        showToast('Превью удалено');
+        showToast('Превью удалено', !isLoc ? () => {
+          ch.items = prevItems;
+          ch.updatedAt = Date.now();
+          saveChannelsState();
+          renderChannelsView();
+        } : null);
       });
 
       const card = el('div', { className: 'ch-wall-item' }, [
         el('div', { className: 'ch-wall-img-wrap' }, [
           createThumbImgElement(it),
-          it.kind === 'local' ? el('span', { className: 'ch-local-badge' }, ['Локально']) : null,
-          delBtn
+          it.kind === 'local' ? el('span', { className: 'ch-local-badge' }, ['Локально']) : null
         ]),
+        delBtn,
         el('div', { className: 'ch-wall-meta' }, [
           el('span', { className: 'ch-wall-title', title: it.title || it.videoId || '' }, [it.title || it.videoId || 'Превью'])
         ])
