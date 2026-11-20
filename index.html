@@ -1800,6 +1800,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .xp-extra{display:none;flex-direction:column;gap:5px;margin-bottom:8px;}
 .xp-extra.on{display:flex;}
 .xp-lbl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;}
+.xp-lbl-inputs.cols-3{grid-template-columns:1.15fr 0.85fr 1fr;}
 .xp-inp-sm{width:100%;height:28px;padding:0 9px;font-size:12px;color:var(--text);background:var(--surface2);border:none;border-radius:var(--r-xs);font-family:inherit;outline:none;user-select:text;-webkit-user-select:text;}
 .xp-palette-bar{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;background:var(--surface2);border-radius:var(--r);padding:5px 8px;}
 .xp-swatches{display:flex;align-items:center;gap:6px;}
@@ -2096,6 +2097,8 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .m-nav-add{width:44px;height:44px;margin:0 auto;border:none;border-radius:var(--r);background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 }
 @media(max-width:560px){
+  .xp-lbl-inputs.cols-3{grid-template-columns:1fr 1fr;}
+  .xp-lbl-inputs.cols-3 input:last-child{grid-column:1 / -1;}
   .xp-hp-cols{grid-template-columns:1fr;}
   .xp-hp-list{max-height:130px;}
 }
@@ -8004,10 +8007,9 @@ const TwitterPlanner = (() => {
       return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
         <rect x="18" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
         <rect x="50" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
-        <rect x="18" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="0.12" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
-        <circle cx="25.5" cy="32" r="4" fill="${fillFinal}" fill-opacity="0.72"/>
-        <rect x="32" y="29" width="11" height="2.4" rx="1.2" fill="${fillFinal}" fill-opacity="0.78"/>
-        <rect x="32" y="33.2" width="8" height="1.8" rx="0.9" fill="${fillFinal}" fill-opacity="0.45"/>
+        <circle cx="25" cy="32" r="4.8" fill="${fillFinal}" fill-opacity="0.78"/>
+        <rect x="32.5" y="28.6" width="12" height="2.7" rx="1.3" fill="${fillFinal}" fill-opacity="0.82"/>
+        <rect x="32.5" y="33.2" width="9" height="1.9" rx="0.95" fill="${fillFinal}" fill-opacity="0.45"/>
         <rect x="50" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
@@ -8064,6 +8066,7 @@ const TwitterPlanner = (() => {
     badgeBot: '',
     chName: '',
     chSubs: '',
+    chEyebrow: '',
     palette: ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'],
     images: {},
     thumbUrls: {},
@@ -8113,6 +8116,7 @@ const TwitterPlanner = (() => {
         badgeBot: d.badgeBot,
         chName: d.chName || '',
         chSubs: d.chSubs || '',
+        chEyebrow: d.chEyebrow || '',
         palette: d.palette,
         transforms: d.transforms,
         thread: Array.isArray(d.thread) ? d.thread.map(t => ({
@@ -8220,6 +8224,7 @@ const TwitterPlanner = (() => {
         if (typeof val.badgeBot === 'string') st.badgeBot = val.badgeBot;
         if (typeof val.chName === 'string') st.chName = val.chName;
         if (typeof val.chSubs === 'string') st.chSubs = val.chSubs;
+        if (typeof val.chEyebrow === 'string') st.chEyebrow = val.chEyebrow;
         if (Array.isArray(val.palette) && val.palette.length === 5) st.palette = [...val.palette];
         if (val.transforms && typeof val.transforms === 'object') st.transforms = val.transforms;
         if (Array.isArray(val.thread)) {
@@ -8477,46 +8482,161 @@ const TwitterPlanner = (() => {
     return t + '…';
   }
 
+  function formatChannelSubsParts(raw) {
+    const clean = (raw || '').trim();
+    if (!clean) return null;
+    const m = clean.match(/^([\d\s.,]+)\s*(к|k|тыс\.?|млн\.?|м|m|млрд\.?|b)?\s*(subscribers?|subs?|подписчик[а-я]*)?$/i);
+    if (m) {
+      let numPart = m[1].trim();
+      const rawUnit = (m[2] || '').toLowerCase().replace(/\.$/, '');
+      let unit = '';
+      if (rawUnit === 'k' || rawUnit === 'к' || rawUnit === 'тыс') unit = 'K';
+      else if (rawUnit === 'm' || rawUnit === 'м' || rawUnit === 'млн') unit = 'M';
+      else if (rawUnit === 'b' || rawUnit === 'млрд') unit = 'B';
+      if (unit) {
+        numPart = numPart.replace(/,/g, '.').replace(/\s+/g, '');
+      }
+      return { num: numPart + unit, suffix: 'subscribers' };
+    }
+    const stripped = clean
+      .replace(/\s*(subscribers?|subs?|подписчик[а-я]*)$/i, '')
+      .replace(/(\d)\s*(тыс\.?|к)\b/gi, '$1K')
+      .replace(/(\d)\s*(млн\.?|м)\b/gi, '$1M')
+      .replace(/(\d)\s*(млрд\.?|b)\b/gi, '$1B')
+      .replace(/(\d),(\d)/g, '$1.$2')
+      .trim();
+    return stripped ? { num: stripped, suffix: 'subscribers' } : null;
+  }
+
+  function drawMiniYouTubeIcon(ctx, x, cy, w, h, isPlaceholder, isDark) {
+    const y = Math.round(cy - h / 2);
+    const r = Math.round(h * 0.28);
+    ctx.save();
+    ctx.fillStyle = isPlaceholder
+      ? (isDark ? 'rgba(255, 255, 255, 0.22)' : 'rgba(0, 0, 0, 0.16)')
+      : (isDark ? '#ff3b30' : '#ff1e1e');
+    traceRoundRect(ctx, x, y, w, h, r);
+    ctx.fill();
+
+    // Centered white play triangle
+    const triH = h * 0.44;
+    const triW = triH * 0.86;
+    const cx = x + w / 2 + 1;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.moveTo(cx - triW * 0.48, cy - triH / 2);
+    ctx.lineTo(cx + triW * 0.56, cy);
+    ctx.lineTo(cx - triW * 0.48, cy + triH / 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
   function drawChannelInfoCard(ctx, d, x, y, w, h, radius, isExport) {
     const isDark = d.bgTheme === 'dark';
-    const cardBg = isDark ? '#18181a' : '#fafafa';
-
-    // Card surface + soft shadow + hairline border
-    fillWithFreeformShadow(ctx, x, y, w, h, radius, cardBg, isDark);
-    ctx.save();
-    traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
-    ctx.lineWidth = 1.2;
-    ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(0, 0, 0, 0.06)';
-    ctx.stroke();
-    ctx.restore();
-
-    const padX = 76;
-    const avSize = 236;
+    const avSize = 276;
     const avR = avSize / 2;
-    const gap = 48;
-    const avX = x + padX;
+    const gap = 46;
+    const safePadX = 36;
+    const maxTextW = Math.max(200, w - safePadX * 2 - avSize - gap);
+
+    const rawName = (d.chName || '').trim();
+    const rawSubs = (d.chSubs || '').trim();
+    const rawEyebrow = (d.chEyebrow || '').trim();
+
+    const isPlaceholderName = !rawName && !isExport;
+    const showName = rawName || (isPlaceholderName ? 'Ник' : '');
+
+    const parsedSubs = formatChannelSubsParts(rawSubs);
+    const isPlaceholderSubs = !parsedSubs && !isExport && !rawName;
+    const subsObj = parsedSubs || (isPlaceholderSubs ? { num: '', suffix: 'Подписчики' } : null);
+
+    const showEyebrow = rawEyebrow;
+
+    // Pre-measure text lines to organically center [avatar + gap + text] inside the cell
+    let eyebrowSize = 25;
+    let fittedEyebrow = '';
+    let eyebrowW = 0;
+    if (showEyebrow) {
+      ctx.font = `600 ${eyebrowSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+      fittedEyebrow = fitCanvasTextEllipsis(ctx, showEyebrow, maxTextW);
+      eyebrowW = ctx.measureText(fittedEyebrow).width;
+    }
+
+    let nameSize = 74;
+    let fittedName = showName;
+    let nameW = 0;
+    if (showName) {
+      while (nameSize > 44) {
+        ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+        if (ctx.measureText(showName).width <= maxTextW) break;
+        nameSize -= 2;
+      }
+      ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+      fittedName = fitCanvasTextEllipsis(ctx, showName, maxTextW);
+      nameW = ctx.measureText(fittedName).width;
+    }
+
+    const ytIconW = 34;
+    const ytIconH = 24;
+    const ytIconGap = 12;
+    let subsSize = 35;
+    let subsNumW = 0;
+    let subsSufW = 0;
+    let subsTotalW = 0;
+    if (subsObj) {
+      while (subsSize > 24) {
+        ctx.font = `600 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+        subsNumW = subsObj.num ? ctx.measureText(subsObj.num + ' ').width : 0;
+        ctx.font = `400 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+        subsSufW = ctx.measureText(subsObj.suffix).width;
+        subsTotalW = ytIconW + ytIconGap + subsNumW + subsSufW;
+        if (subsTotalW <= maxTextW) break;
+        subsSize -= 1;
+      }
+    }
+
+    const hasAnyText = Boolean(showEyebrow || showName || subsObj);
+    const actualTextW = hasAnyText ? Math.min(maxTextW, Math.max(eyebrowW, nameW, subsTotalW)) : 0;
+    const groupW = hasAnyText ? (avSize + gap + actualTextW) : avSize;
+    const groupStartX = x + Math.round((w - groupW) / 2);
+
+    const avX = groupStartX;
     const avY = y + Math.round((h - avSize) / 2);
     const avCx = avX + avR;
     const avCy = avY + avR;
 
-    // Register avatar circle as slot s3 (click / drop / Cmd+V / pan / zoom)
+    // Register avatar circle as interactive slot s3 (click / drop / Cmd+V / pan / zoom)
     d.hitRegions.push({ key: 's3', label: 'Аватарка', x: avX, y: avY, w: avSize, h: avSize });
 
     const img = d.images['s3'];
     const isSel = _armedSlot && _armedSlot.dayIdx === d.dayIdx && _armedSlot.slotKey === 's3';
     const isHov = !isSel && _hoveredSlot && _hoveredSlot.dayIdx === d.dayIdx && _hoveredSlot.slotKey === 's3';
 
-    // Subtle elevation shadow behind avatar circle
-    ctx.save();
-    ctx.shadowColor = isDark ? 'rgba(0, 0, 0, 0.45)' : 'rgba(15, 17, 21, 0.10)';
-    ctx.shadowBlur = 18;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 6;
-    ctx.fillStyle = isDark ? '#242426' : '#ededeb';
-    ctx.beginPath();
-    ctx.arc(avCx, avCy, avR, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
+    // Soft two-layer shadow so circular avatar sits organically on light or dark canvas
+    if (img || !isExport) {
+      ctx.save();
+      ctx.shadowColor = isDark ? 'rgba(0, 0, 0, 0.55)' : 'rgba(15, 17, 21, 0.11)';
+      ctx.shadowBlur = 28;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 10;
+      ctx.fillStyle = isDark ? '#202022' : '#f0f0ee';
+      ctx.beginPath();
+      ctx.arc(avCx, avCy, avR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.shadowColor = isDark ? 'rgba(0, 0, 0, 0.35)' : 'rgba(15, 17, 21, 0.06)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 2;
+      ctx.fillStyle = isDark ? '#202022' : '#f0f0ee';
+      ctx.beginPath();
+      ctx.arc(avCx, avCy, avR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
 
     // Clipped circular avatar
     ctx.save();
@@ -8546,97 +8666,88 @@ const TwitterPlanner = (() => {
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(img, 0, 0, iw, ih, drawX, drawY, drawW, drawH);
-    } else {
-      ctx.fillStyle = isSel ? (isDark ? '#1c2430' : '#eef5ff') : (isDark ? '#222224' : '#efefe9');
+    } else if (!isExport) {
+      ctx.fillStyle = isSel ? (isDark ? '#1c2430' : '#eef5ff') : (isDark ? '#1f1f22' : '#f2f2ef');
       ctx.fillRect(avX, avY, avSize, avSize);
-      if (!isExport) {
-        ctx.fillStyle = isSel ? '#1d9bf0' : (isDark ? '#6e6e73' : '#9a9a94');
-        ctx.font = '600 26px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(isSel ? 'Cmd+V' : '+ Аватар', avCx, avCy);
-      }
+      ctx.fillStyle = isSel ? '#1d9bf0' : (isDark ? '#6e6e73' : '#9a9a94');
+      ctx.font = '600 28px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(isSel ? 'Cmd+V' : '+ Аватар', avCx, avCy);
     }
     ctx.restore();
 
-    // Avatar ring
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(avCx, avCy, avR - 0.5, 0, Math.PI * 2);
-    ctx.lineWidth = isSel ? 5 : (isHov ? 3 : 1.5);
-    ctx.strokeStyle = isSel
-      ? '#1d9bf0'
-      : (isHov ? 'rgba(29, 155, 240, 0.5)' : (isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)'));
-    ctx.stroke();
-    ctx.restore();
+    // Subtle inner contour ring (keeps light avatars crisp on white background)
+    if (img || !isExport) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(avCx, avCy, avR - 1, 0, Math.PI * 2);
+      ctx.lineWidth = isSel ? 5 : (isHov ? 3 : 1.5);
+      ctx.strokeStyle = isSel
+        ? '#1d9bf0'
+        : (isHov ? 'rgba(29, 155, 240, 0.5)' : (isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.08)'));
+      ctx.stroke();
+      ctx.restore();
+    }
 
-    // Channel Name + Subscriber Count (clean, zero clutter)
+    if (!hasAnyText) return;
+
+    // Vertically stack present text lines centered on avCy
+    const lines = [];
+    if (showEyebrow) lines.push({ kind: 'eyebrow', h: eyebrowSize });
+    if (showName) lines.push({ kind: 'name', h: nameSize });
+    if (subsObj) lines.push({ kind: 'subs', h: subsSize });
+
+    const getLineGap = (prevKind, nextKind) => {
+      if (prevKind === 'eyebrow') return 14;
+      return 22;
+    };
+
+    let totalBlockH = 0;
+    lines.forEach((ln, idx) => {
+      totalBlockH += ln.h;
+      if (idx > 0) totalBlockH += getLineGap(lines[idx - 1].kind, ln.kind);
+    });
+
     const textX = avX + avSize + gap;
-    const maxTextW = Math.max(180, (x + w - padX) - textX);
-    const rawName = (d.chName || '').trim();
-    const rawSubs = (d.chSubs || '').trim();
-
-    const showName = rawName || (!isExport ? 'Название канала' : '');
-    const showSubs = rawSubs || (!isExport && !rawName ? '238K subscribers' : '');
-
-    if (!showName && !showSubs) return;
+    let curY = avCy - totalBlockH / 2;
 
     ctx.save();
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
 
-    let nameSize = 62;
-    let fittedName = showName;
-    if (showName) {
-      while (nameSize > 38) {
+    lines.forEach((ln, idx) => {
+      if (idx > 0) curY += getLineGap(lines[idx - 1].kind, ln.kind);
+      const midY = curY + ln.h / 2;
+
+      if (ln.kind === 'eyebrow') {
+        ctx.font = `600 ${eyebrowSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+        ctx.fillStyle = isDark ? 'rgba(245, 245, 247, 0.45)' : 'rgba(17, 17, 16, 0.42)';
+        ctx.fillText(fittedEyebrow, textX, midY);
+      } else if (ln.kind === 'name') {
         ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
-        if (ctx.measureText(showName).width <= maxTextW) break;
-        nameSize -= 2;
+        ctx.fillStyle = isPlaceholderName
+          ? (isDark ? 'rgba(245, 245, 247, 0.30)' : 'rgba(17, 17, 16, 0.25)')
+          : (isDark ? '#f5f5f7' : '#111110');
+        ctx.fillText(fittedName, textX, midY);
+      } else if (ln.kind === 'subs') {
+        drawMiniYouTubeIcon(ctx, textX, midY, ytIconW, ytIconH, isPlaceholderSubs, isDark);
+        let sx = textX + ytIconW + ytIconGap;
+        if (subsObj.num) {
+          ctx.font = `600 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+          ctx.fillStyle = isDark ? '#d1d1d6' : '#3a3a3c';
+          ctx.fillText(subsObj.num, sx, midY + 1);
+          sx += subsNumW;
+        }
+        ctx.font = `400 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+        ctx.fillStyle = isPlaceholderSubs
+          ? (isDark ? 'rgba(152, 152, 157, 0.40)' : 'rgba(110, 110, 115, 0.36)')
+          : (isDark ? '#8e8e93' : '#7a7a80');
+        ctx.fillText(subsObj.suffix, sx, midY + 1);
       }
-      ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
-      fittedName = fitCanvasTextEllipsis(ctx, showName, maxTextW);
-    }
 
-    let subsSize = 33;
-    let fittedSubs = showSubs;
-    if (showSubs) {
-      while (subsSize > 24) {
-        ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
-        if (ctx.measureText(showSubs).width <= maxTextW) break;
-        subsSize -= 1;
-      }
-      ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
-      fittedSubs = fitCanvasTextEllipsis(ctx, showSubs, maxTextW);
-    }
-
-    const lineGap = 20;
-    if (showName && showSubs) {
-      const totalBlockH = nameSize + lineGap + subsSize;
-      const nameY = avCy - totalBlockH / 2 + nameSize * 0.5;
-      const subsY = avCy + totalBlockH / 2 - subsSize * 0.45;
-
-      ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
-      ctx.fillStyle = rawName
-        ? (isDark ? '#f5f5f7' : '#111110')
-        : (isDark ? 'rgba(245, 245, 247, 0.34)' : 'rgba(17, 17, 16, 0.28)');
-      ctx.fillText(fittedName, textX, nameY);
-
-      ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
-      ctx.fillStyle = rawSubs
-        ? (isDark ? '#98989d' : '#6e6e73')
-        : (isDark ? 'rgba(152, 152, 157, 0.42)' : 'rgba(110, 110, 115, 0.38)');
-      ctx.fillText(fittedSubs, textX, subsY);
-    } else if (showName) {
-      ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
-      ctx.fillStyle = rawName
-        ? (isDark ? '#f5f5f7' : '#111110')
-        : (isDark ? 'rgba(245, 245, 247, 0.34)' : 'rgba(17, 17, 16, 0.28)');
-      ctx.fillText(fittedName, textX, avCy + 2);
-    } else if (showSubs) {
-      ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
-      ctx.fillStyle = isDark ? '#98989d' : '#6e6e73';
-      ctx.fillText(fittedSubs, textX, avCy + 2);
-    }
+      curY += ln.h;
+    });
 
     ctx.restore();
   }
@@ -9399,6 +9510,7 @@ const TwitterPlanner = (() => {
       d.badgeBot = '';
       d.chName = '';
       d.chSubs = '';
+      d.chEyebrow = '';
       d.padMode = 'L';
       d.bgTheme = 'light';
       d.palette = ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'];
@@ -10867,12 +10979,12 @@ const TwitterPlanner = (() => {
       } else if (d.preset === 'channel_grid') {
         extraBox.classList.add('on');
         const lblRow = document.createElement('div');
-        lblRow.className = 'xp-lbl-inputs';
+        lblRow.className = 'xp-lbl-inputs cols-3';
 
         const inpCh = document.createElement('input');
         inpCh.type = 'text';
         inpCh.className = 'xp-inp-sm';
-        inpCh.placeholder = 'Название канала (Jake Bruce)';
+        inpCh.placeholder = 'Ник';
         inpCh.value = d.chName || '';
         inpCh.addEventListener('input', () => {
           d.chName = inpCh.value;
@@ -10883,7 +10995,7 @@ const TwitterPlanner = (() => {
         const inpSubs = document.createElement('input');
         inpSubs.type = 'text';
         inpSubs.className = 'xp-inp-sm';
-        inpSubs.placeholder = 'Подписчики (238K subscribers)';
+        inpSubs.placeholder = 'Подписчики (кол-во)';
         inpSubs.value = d.chSubs || '';
         inpSubs.addEventListener('input', () => {
           d.chSubs = inpSubs.value;
@@ -10891,8 +11003,20 @@ const TwitterPlanner = (() => {
           scheduleRenderCanvas(dayIdx);
         });
 
+        const inpEye = document.createElement('input');
+        inpEye.type = 'text';
+        inpEye.className = 'xp-inp-sm';
+        inpEye.placeholder = 'Сверху (опц.)';
+        inpEye.value = d.chEyebrow || '';
+        inpEye.addEventListener('input', () => {
+          d.chEyebrow = inpEye.value;
+          scheduleSaveDayMeta(dayIdx);
+          scheduleRenderCanvas(dayIdx);
+        });
+
         lblRow.appendChild(inpCh);
         lblRow.appendChild(inpSubs);
+        lblRow.appendChild(inpEye);
         extraBox.appendChild(lblRow);
       } else if (d.preset === 'assets_inspo') {
         extraBox.classList.add('on');
