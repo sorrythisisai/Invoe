@@ -7934,6 +7934,16 @@ const TwitterPlanner = (() => {
         { key: 's3', label: 'Низ-лево' },
         { key: 'final', label: 'Низ-право' }
       ]
+    },
+    channel_grid: {
+      id: 'channel_grid',
+      name: '3 превью + канал',
+      slots: [
+        { key: 's1', label: 'Превью 1' },
+        { key: 's2', label: 'Превью 2' },
+        { key: 's3', label: 'Аватарка' },
+        { key: 'final', label: 'Превью 3' }
+      ]
     }
   };
 
@@ -7990,6 +8000,17 @@ const TwitterPlanner = (() => {
         <rect x="20" y="23" width="56" height="18" rx="3" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
       </svg>`;
     }
+    if (presetId === 'channel_grid') {
+      return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
+        <rect x="18" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
+        <rect x="50" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
+        <rect x="18" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="0.12" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
+        <circle cx="25.5" cy="32" r="4" fill="${fillFinal}" fill-opacity="0.72"/>
+        <rect x="32" y="29" width="11" height="2.4" rx="1.2" fill="${fillFinal}" fill-opacity="0.78"/>
+        <rect x="32" y="33.2" width="8" height="1.8" rx="0.9" fill="${fillFinal}" fill-opacity="0.45"/>
+        <rect x="50" y="23" width="28" height="18" rx="2.5" fill="${fillFinal}" fill-opacity="${opFinal}" stroke="${strokeCol}" stroke-opacity="${stMain}" stroke-width="${sw}"/>
+      </svg>`;
+    }
     // grid2x2
     return `<svg width="${w}" height="${h}" viewBox="0 0 96 44" fill="none">
       <rect x="18" y="3" width="28" height="17" rx="2.5" fill="${fillFinal}" fill-opacity="${opSub}" stroke="${strokeCol}" stroke-opacity="${stSub}" stroke-width="${sw}"/>
@@ -8041,6 +8062,8 @@ const TwitterPlanner = (() => {
     labelRight: 'inspo',
     badgeTop: '',
     badgeBot: '',
+    chName: '',
+    chSubs: '',
     palette: ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'],
     images: {},
     thumbUrls: {},
@@ -8088,6 +8111,8 @@ const TwitterPlanner = (() => {
         labelRight: d.labelRight,
         badgeTop: d.badgeTop,
         badgeBot: d.badgeBot,
+        chName: d.chName || '',
+        chSubs: d.chSubs || '',
         palette: d.palette,
         transforms: d.transforms,
         thread: Array.isArray(d.thread) ? d.thread.map(t => ({
@@ -8193,6 +8218,8 @@ const TwitterPlanner = (() => {
         if (typeof val.labelRight === 'string') st.labelRight = val.labelRight;
         if (typeof val.badgeTop === 'string') st.badgeTop = val.badgeTop;
         if (typeof val.badgeBot === 'string') st.badgeBot = val.badgeBot;
+        if (typeof val.chName === 'string') st.chName = val.chName;
+        if (typeof val.chSubs === 'string') st.chSubs = val.chSubs;
         if (Array.isArray(val.palette) && val.palette.length === 5) st.palette = [...val.palette];
         if (val.transforms && typeof val.transforms === 'object') st.transforms = val.transforms;
         if (Array.isArray(val.thread)) {
@@ -8441,6 +8468,179 @@ const TwitterPlanner = (() => {
     ctx.restore();
   }
 
+  function fitCanvasTextEllipsis(ctx, text, maxW) {
+    if (ctx.measureText(text).width <= maxW) return text;
+    let t = text;
+    while (t.length > 1 && ctx.measureText(t + '…').width > maxW) {
+      t = t.slice(0, -1);
+    }
+    return t + '…';
+  }
+
+  function drawChannelInfoCard(ctx, d, x, y, w, h, radius, isExport) {
+    const isDark = d.bgTheme === 'dark';
+    const cardBg = isDark ? '#18181a' : '#fafafa';
+
+    // Card surface + soft shadow + hairline border
+    fillWithFreeformShadow(ctx, x, y, w, h, radius, cardBg, isDark);
+    ctx.save();
+    traceRoundRect(ctx, x + 0.5, y + 0.5, w - 1, h - 1, radius);
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(0, 0, 0, 0.06)';
+    ctx.stroke();
+    ctx.restore();
+
+    const padX = 76;
+    const avSize = 236;
+    const avR = avSize / 2;
+    const gap = 48;
+    const avX = x + padX;
+    const avY = y + Math.round((h - avSize) / 2);
+    const avCx = avX + avR;
+    const avCy = avY + avR;
+
+    // Register avatar circle as slot s3 (click / drop / Cmd+V / pan / zoom)
+    d.hitRegions.push({ key: 's3', label: 'Аватарка', x: avX, y: avY, w: avSize, h: avSize });
+
+    const img = d.images['s3'];
+    const isSel = _armedSlot && _armedSlot.dayIdx === d.dayIdx && _armedSlot.slotKey === 's3';
+    const isHov = !isSel && _hoveredSlot && _hoveredSlot.dayIdx === d.dayIdx && _hoveredSlot.slotKey === 's3';
+
+    // Subtle elevation shadow behind avatar circle
+    ctx.save();
+    ctx.shadowColor = isDark ? 'rgba(0, 0, 0, 0.45)' : 'rgba(15, 17, 21, 0.10)';
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 6;
+    ctx.fillStyle = isDark ? '#242426' : '#ededeb';
+    ctx.beginPath();
+    ctx.arc(avCx, avCy, avR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Clipped circular avatar
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(avCx, avCy, avR, 0, Math.PI * 2);
+    ctx.clip();
+
+    if (img && img.naturalWidth > 0 && img.naturalHeight > 0) {
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      const imgRatio = iw / ih;
+      let baseW = avSize, baseH = avSize;
+      if (imgRatio > 1) {
+        baseH = avSize;
+        baseW = avSize * imgRatio;
+      } else {
+        baseW = avSize;
+        baseH = avSize / imgRatio;
+      }
+      const tr = getSlotTransform(d, 's3');
+      const scale = Math.max(0.2, Math.min(4.0, tr.scale || 1));
+      const drawW = baseW * scale;
+      const drawH = baseH * scale;
+      const drawX = avX + (avSize - drawW) / 2 + (tr.panX || 0);
+      const drawY = avY + (avSize - drawH) / 2 + (tr.panY || 0);
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, iw, ih, drawX, drawY, drawW, drawH);
+    } else {
+      ctx.fillStyle = isSel ? (isDark ? '#1c2430' : '#eef5ff') : (isDark ? '#222224' : '#efefe9');
+      ctx.fillRect(avX, avY, avSize, avSize);
+      if (!isExport) {
+        ctx.fillStyle = isSel ? '#1d9bf0' : (isDark ? '#6e6e73' : '#9a9a94');
+        ctx.font = '600 26px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(isSel ? 'Cmd+V' : '+ Аватар', avCx, avCy);
+      }
+    }
+    ctx.restore();
+
+    // Avatar ring
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(avCx, avCy, avR - 0.5, 0, Math.PI * 2);
+    ctx.lineWidth = isSel ? 5 : (isHov ? 3 : 1.5);
+    ctx.strokeStyle = isSel
+      ? '#1d9bf0'
+      : (isHov ? 'rgba(29, 155, 240, 0.5)' : (isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)'));
+    ctx.stroke();
+    ctx.restore();
+
+    // Channel Name + Subscriber Count (clean, zero clutter)
+    const textX = avX + avSize + gap;
+    const maxTextW = Math.max(180, (x + w - padX) - textX);
+    const rawName = (d.chName || '').trim();
+    const rawSubs = (d.chSubs || '').trim();
+
+    const showName = rawName || (!isExport ? 'Название канала' : '');
+    const showSubs = rawSubs || (!isExport && !rawName ? '238K subscribers' : '');
+
+    if (!showName && !showSubs) return;
+
+    ctx.save();
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+
+    let nameSize = 62;
+    let fittedName = showName;
+    if (showName) {
+      while (nameSize > 38) {
+        ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+        if (ctx.measureText(showName).width <= maxTextW) break;
+        nameSize -= 2;
+      }
+      ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+      fittedName = fitCanvasTextEllipsis(ctx, showName, maxTextW);
+    }
+
+    let subsSize = 33;
+    let fittedSubs = showSubs;
+    if (showSubs) {
+      while (subsSize > 24) {
+        ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+        if (ctx.measureText(showSubs).width <= maxTextW) break;
+        subsSize -= 1;
+      }
+      ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+      fittedSubs = fitCanvasTextEllipsis(ctx, showSubs, maxTextW);
+    }
+
+    const lineGap = 20;
+    if (showName && showSubs) {
+      const totalBlockH = nameSize + lineGap + subsSize;
+      const nameY = avCy - totalBlockH / 2 + nameSize * 0.5;
+      const subsY = avCy + totalBlockH / 2 - subsSize * 0.45;
+
+      ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+      ctx.fillStyle = rawName
+        ? (isDark ? '#f5f5f7' : '#111110')
+        : (isDark ? 'rgba(245, 245, 247, 0.34)' : 'rgba(17, 17, 16, 0.28)');
+      ctx.fillText(fittedName, textX, nameY);
+
+      ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+      ctx.fillStyle = rawSubs
+        ? (isDark ? '#98989d' : '#6e6e73')
+        : (isDark ? 'rgba(152, 152, 157, 0.42)' : 'rgba(110, 110, 115, 0.38)');
+      ctx.fillText(fittedSubs, textX, subsY);
+    } else if (showName) {
+      ctx.font = `700 ${nameSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif`;
+      ctx.fillStyle = rawName
+        ? (isDark ? '#f5f5f7' : '#111110')
+        : (isDark ? 'rgba(245, 245, 247, 0.34)' : 'rgba(17, 17, 16, 0.28)');
+      ctx.fillText(fittedName, textX, avCy + 2);
+    } else if (showSubs) {
+      ctx.font = `500 ${subsSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif`;
+      ctx.fillStyle = isDark ? '#98989d' : '#6e6e73';
+      ctx.fillText(fittedSubs, textX, avCy + 2);
+    }
+
+    ctx.restore();
+  }
+
   function drawAuthorHandle(ctx, canvasW, totalH, pad, hBand, isDark) {
     const cleanRaw = (userHandle || '').trim();
     if (!cleanRaw || handlePos === 'off') return;
@@ -8593,6 +8793,18 @@ const TwitterPlanner = (() => {
         drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Top-Right');
         drawImageSlot(ctx, d, 's3', pad, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Left');
         drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Bottom-Right');
+      };
+    } else if (p === 'channel_grid') {
+      const gridGap = 20;
+      const cellW = (CONTENT_W - gridGap) / 2;
+      const cellH = Math.round(cellW * 9 / 16);
+      contentH = cellH * 2 + gridGap;
+
+      layoutFn = ctx => {
+        drawImageSlot(ctx, d, 's1', pad, padTop, cellW, cellH, rSm, 'Превью 1');
+        drawImageSlot(ctx, d, 's2', pad + cellW + gridGap, padTop, cellW, cellH, rSm, 'Превью 2');
+        drawChannelInfoCard(ctx, d, pad, padTop + cellH + gridGap, cellW, cellH, rSm, hideActiveOutline);
+        drawImageSlot(ctx, d, 'final', pad + cellW + gridGap, padTop + cellH + gridGap, cellW, cellH, rSm, 'Превью 3');
       };
     } else if (p === 'single1') {
       contentH = FULL_H;
@@ -9185,6 +9397,8 @@ const TwitterPlanner = (() => {
       d.labelRight = 'inspo';
       d.badgeTop = '';
       d.badgeBot = '';
+      d.chName = '';
+      d.chSubs = '';
       d.padMode = 'L';
       d.bgTheme = 'light';
       d.palette = ['#111110', '#2563eb', '#f59e0b', '#10b981', '#f4f4f1'];
@@ -10038,7 +10252,7 @@ const TwitterPlanner = (() => {
     else if (p === 'assets_inspo') ratioH = 0.84;
     else if (p === 'palette_final') ratioH = 0.72;
     else if (p === 'sketch3_final') ratioH = 0.76;
-    else if (p === 'grid2x2') ratioH = 0.58;
+    else if (p === 'grid2x2' || p === 'channel_grid') ratioH = 0.58;
     else if (p === 'single1') ratioH = 0.56;
 
     const card = document.getElementById(`xp-card-${dayIdx}`);
@@ -10649,6 +10863,36 @@ const TwitterPlanner = (() => {
 
         lblRow.appendChild(inpTop);
         lblRow.appendChild(inpBot);
+        extraBox.appendChild(lblRow);
+      } else if (d.preset === 'channel_grid') {
+        extraBox.classList.add('on');
+        const lblRow = document.createElement('div');
+        lblRow.className = 'xp-lbl-inputs';
+
+        const inpCh = document.createElement('input');
+        inpCh.type = 'text';
+        inpCh.className = 'xp-inp-sm';
+        inpCh.placeholder = 'Название канала (Jake Bruce)';
+        inpCh.value = d.chName || '';
+        inpCh.addEventListener('input', () => {
+          d.chName = inpCh.value;
+          scheduleSaveDayMeta(dayIdx);
+          scheduleRenderCanvas(dayIdx);
+        });
+
+        const inpSubs = document.createElement('input');
+        inpSubs.type = 'text';
+        inpSubs.className = 'xp-inp-sm';
+        inpSubs.placeholder = 'Подписчики (238K subscribers)';
+        inpSubs.value = d.chSubs || '';
+        inpSubs.addEventListener('input', () => {
+          d.chSubs = inpSubs.value;
+          scheduleSaveDayMeta(dayIdx);
+          scheduleRenderCanvas(dayIdx);
+        });
+
+        lblRow.appendChild(inpCh);
+        lblRow.appendChild(inpSubs);
         extraBox.appendChild(lblRow);
       } else if (d.preset === 'assets_inspo') {
         extraBox.classList.add('on');
