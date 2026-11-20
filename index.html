@@ -580,135 +580,510 @@ button:active:not(:disabled){transform:scale(0.97);}
 .add-order-btn:hover{opacity:0.9;}
 
 /* ══════════════════════════════════════════════════════════════════
-   ORDERS ANALYTICS (RIGHT STICKY COLUMN)
+   ORDERS FULL-WIDTH WORKSPACE (KPI ROW + TABLE + ANALYTICS TAB)
 ══════════════════════════════════════════════════════════════════ */
-.fin-group{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:stretch;
-  gap:16px;
-  min-width:0;
-}
-.fin-vsep{
-  width:0.5px;
-  background:var(--border2);
-  align-self:stretch;
-  margin:2px 0;
-}
-.fin-metric{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  min-width:0;
-}
-.bal-hdr{display:flex;align-items:center;gap:6px;margin-bottom:5px;min-height:18px;}
-.bal-label{font-size:11.5px;font-weight:600;color:var(--text2);letter-spacing:-.005em;}
-.bal-trend,.bal-zero{
-  font-size:10px;font-weight:600;padding:1.5px 6px;border-radius:var(--r-xs);white-space:nowrap;display:none;
-}
-.bal-zero.on{display:inline-block;background:var(--success-bg);color:var(--success);}
-.bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
-.bal-trend.down{display:inline-block;background:var(--warning-bg);color:var(--warning);}
-.bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
-
-.bal-amount{
-  font-size:26px;
-  font-weight:700;
-  letter-spacing:-.035em;
-  color:var(--text);
-  line-height:1.1;
-  max-width:100%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.bal-amount.secondary{
-  font-size:24px;
-  font-weight:600;
-  color:var(--text2);
-}
-.bal-amount.is-zero{color:var(--text3);}
-.bal-subline{
-  font-size:11.5px;
-  font-weight:500;
-  color:var(--text3);
-  margin-top:5px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  min-height:15px;
-}
-.bal-subline:empty{display:none;}
-
-/* Miniature Stocks Spline Chart */
-.sc-hdr{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:8px;
-  min-height:28px;
-}
-.sc-readout-wrap{
-  display:flex;
-  flex-direction:column;
-  gap:1px;
-  min-width:0;
-  overflow:hidden;
-}
-.sc-readout{
-  font-size:13px;
-  font-weight:700;
-  color:var(--text);
-  letter-spacing:-0.015em;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.sc-readout-sub{
-  font-size:11px;
-  font-weight:500;
-  color:var(--text3);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.sc-mode-sw{
+.ord-sub-sw{
   display:inline-flex;
   align-items:center;
   gap:2px;
   background:var(--surface2);
-  padding:2px;
-  border-radius:var(--r-xs);
+  padding:3px;
+  border-radius:var(--r);
   flex-shrink:0;
 }
-.sc-mode-btn{
-  height:22px;
-  padding:0 8px;
+.ord-sub-btn{
+  height:28px;
+  padding:0 12px;
   border:none;
-  border-radius:5px;
+  border-radius:var(--r-xs);
   background:transparent;
-  color:var(--text3);
-  font-size:10.5px;
+  color:var(--text2);
+  font-size:12.5px;
   font-weight:600;
   cursor:pointer;
+  white-space:nowrap;
 }
-.sc-mode-btn:hover{color:var(--text);}
-.sc-mode-btn.on{
+.ord-sub-btn:hover{color:var(--text);}
+.ord-sub-btn.on{
   background:var(--surface);
   color:var(--text);
   box-shadow:0 1px 2px rgba(0,0,0,0.08);
 }
+
+.ord-pane{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  width:100%;
+}
+
+/* 3-Card Full-Width KPI Row */
+.ord-kpi-row{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:14px;
+  width:100%;
+}
+.ord-kpi-card{
+  background:var(--surface);
+  border-radius:var(--r-card);
+  padding:16px 20px;
+  border:0.5px solid var(--border);
+  box-shadow:var(--shadow-card);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:8px;
+  min-width:0;
+  transition:border-color .16s var(--ease), background-color .16s var(--ease), box-shadow .16s var(--ease);
+}
+.ord-kpi-card.is-click{cursor:pointer;}
+.ord-kpi-card.is-click:hover{border-color:var(--border2);}
+.ord-kpi-card.is-active{
+  border-color:var(--blue);
+  box-shadow:inset 0 0 0 1px var(--blue), var(--shadow-card);
+}
+
+.ord-kpi-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-height:24px;
+}
+.ord-kpi-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+.bal-label{
+  font-size:12px;
+  font-weight:600;
+  color:var(--text2);
+  letter-spacing:-0.005em;
+  white-space:nowrap;
+}
+.ord-kpi-period-btn{
+  height:24px!important;
+  padding:0 8px!important;
+  border-radius:var(--r-xs)!important;
+}
+.ord-kpi-period-btn span{font-size:11.5px!important;}
+
+.bal-trend,.bal-zero,.ord-kpi-pill{
+  font-size:10.5px;
+  font-weight:600;
+  padding:2px 7px;
+  border-radius:var(--r-xs);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.bal-trend,.bal-zero{display:none;}
+.bal-zero.on{display:inline-block;background:var(--success-bg);color:var(--success);}
+.bal-trend.up{display:inline-block;background:var(--success-bg);color:var(--success);}
+.bal-trend.down{display:inline-block;background:var(--warning-bg);color:var(--warning);}
+.bal-trend.flat{display:inline-block;background:var(--surface2);color:var(--text2);}
+.ord-kpi-pill{background:var(--surface2);color:var(--text2);}
+.ord-kpi-pill:empty{display:none;}
+
+.ord-kpi-val{
+  font-size:clamp(22px, 2vw, 27px);
+  font-weight:700;
+  letter-spacing:-0.035em;
+  color:var(--text);
+  line-height:1.12;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.ord-kpi-val.secondary{color:var(--text);}
+.ord-kpi-val.is-zero{color:var(--text3);}
+.ord-kpi-sub{
+  font-size:12px;
+  font-weight:500;
+  color:var(--text3);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-height:16px;
+}
+.ord-kpi-sub:empty{visibility:hidden;}
+
+.ord-kpi-12m-body{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  min-width:0;
+}
+.ord-kpi-spark{
+  width:112px;
+  height:36px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+}
+.ord-kpi-spark svg{
+  width:100%;
+  height:100%;
+  display:block;
+  overflow:visible;
+}
+
+/* Table Controls & Status Tabs Bar */
+.ord-table-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.ord-st-tabs{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:var(--surface);
+  border:0.5px solid var(--border);
+  padding:4px;
+  border-radius:var(--r);
+  box-shadow:var(--shadow-card);
+  max-width:100%;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.ord-st-tabs::-webkit-scrollbar{display:none;}
+.ord-st-tab{
+  height:28px;
+  padding:0 11px;
+  border:none;
+  border-radius:var(--r-xs);
+  background:transparent;
+  color:var(--text2);
+  font-size:12.5px;
+  font-weight:500;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.ord-st-tab:hover{color:var(--text);background:var(--surface2);}
+.ord-st-tab.on{
+  background:var(--surface2);
+  color:var(--text);
+  font-weight:600;
+}
+.ord-st-cnt{
+  font-size:11px;
+  font-weight:600;
+  color:var(--text3);
+  padding:0.5px 5.5px;
+  border-radius:5px;
+  background:var(--surface2);
+}
+.ord-st-tab.on .ord-st-cnt{
+  background:var(--surface);
+  color:var(--text);
+}
+
+.ord-bar-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.ord-list-period-btn{
+  background:var(--surface)!important;
+  border:0.5px solid var(--border)!important;
+  box-shadow:var(--shadow-card);
+  height:34px!important;
+  padding:0 11px!important;
+}
+.ord-list-period-btn:hover{background:var(--surface2)!important;}
+.ord-lp-prefix{color:var(--text3)!important;font-weight:500!important;}
+.period-dd.align-right{left:auto;right:0;}
+
+/* Full-Width Linear/Stripe Orders Table */
+.ord-table-card{
+  background:var(--surface);
+  border-radius:var(--r-card);
+  border:0.5px solid var(--border);
+  box-shadow:var(--shadow-card);
+  overflow:hidden;
+  width:100%;
+}
+.ord-thead{
+  display:grid;
+  grid-template-columns:36px minmax(0, 1fr) 144px 236px 96px 124px;
+  align-items:center;
+  gap:12px;
+  padding:10px 18px;
+  border-bottom:0.5px solid var(--border2);
+  background:var(--surface2);
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--text3);
+  user-select:none;
+}
+.ord-th-amt{text-align:right;}
+.ord-tbody{
+  display:flex;
+  flex-direction:column;
+}
+
+.ord-chk{
+  width:16px;
+  height:16px;
+  border-radius:5px;
+  border:1.5px solid var(--border2);
+  background:transparent;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  padding:0;
+  flex-shrink:0;
+  transition:background-color .14s var(--ease), border-color .14s var(--ease), opacity .14s var(--ease);
+}
+.ord-chk:hover{border-color:var(--blue);}
+.ord-chk.on{
+  background:var(--blue);
+  border-color:var(--blue);
+}
+
+.ord-row{
+  display:grid;
+  grid-template-columns:36px minmax(0, 1fr) 144px 236px 96px 124px;
+  align-items:center;
+  gap:12px;
+  padding:12px 18px;
+  margin:0;
+  border-radius:0;
+  cursor:pointer;
+  position:relative;
+  contain:layout style;
+  transition:background-color .12s var(--ease), opacity .16s var(--ease);
+}
+.ord-row:not(:last-child)::after{
+  content:'';
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:0;
+  height:0.5px;
+  background:var(--border);
+  pointer-events:none;
+}
+.ord-row:hover{background:var(--surface2);}
+.ord-row.sel{background:var(--blue-bg);}
+.ord-row.sel:hover{background:var(--blue-bg);}
+.ord-row.editing{background:var(--blue-bg);box-shadow:inset 2.5px 0 0 var(--blue);}
+.ord-row.flash-glow{animation:cardFlashGlow 1.5s var(--ease) forwards;}
+
+.ord-row .ord-chk{opacity:0.28;}
+.ord-row:hover .ord-chk,
+.ord-row.sel .ord-chk{opacity:1;}
+
+html[data-density="compact"] .ord-row{padding:7.5px 18px;}
+
+.ord-cell-main{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+.ord-main-txt{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+  flex:1;
+}
+.ord-client{
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--text);
+  white-space:nowrap;
+  flex-shrink:0;
+  letter-spacing:-0.012em;
+}
+.ord-sep{
+  color:var(--text3);
+  opacity:0.55;
+  flex-shrink:0;
+}
+.ord-proj{
+  font-size:13.5px;
+  font-weight:400;
+  color:var(--text2);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+.ord-row.paid .ord-client{color:var(--text2);}
+.ord-row.paid .ord-proj{color:var(--text3);}
+.ord-row.paid .eclient-dot{opacity:0.55;}
+
+.ord-cell-type{
+  display:flex;
+  align-items:center;
+  min-width:0;
+}
+.ord-type-tag{
+  display:inline-flex;
+  align-items:center;
+  max-width:100%;
+  height:23px;
+  padding:0 8px;
+  border-radius:6px;
+  border:0.5px solid var(--border);
+  background:var(--surface2);
+  color:var(--text2);
+  font-size:11.5px;
+  font-weight:500;
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.ord-type-tag:hover{
+  background:var(--surface3);
+  color:var(--text);
+}
+
+.ord-cell-status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+}
+.ord-st-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  height:24px;
+  padding:0 9px;
+  border-radius:var(--r-xs);
+  border:none;
+  font-size:11.5px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:filter .14s, transform .12s var(--ease);
+}
+.ord-st-pill:hover{filter:brightness(1.08);}
+.ord-st-pill.pop{animation:badgePulse .26s var(--spring);}
+.ord-st-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+.ord-st-pill.st-unpaid{background:var(--surface2);color:var(--text2);}
+.ord-st-pill.st-unpaid .ord-st-dot{background:var(--text3);}
+.ord-st-pill.st-sent{background:var(--warning-bg);color:var(--warning);}
+.ord-st-pill.st-sent .ord-st-dot{background:var(--warning);}
+.ord-st-pill.st-late{background:var(--danger-bg);color:var(--danger);}
+.ord-st-pill.st-late .ord-st-dot{background:var(--danger);}
+.ord-st-pill.st-paid{background:var(--success-bg);color:var(--success);}
+.ord-st-pill.st-paid .ord-st-dot{background:var(--success);}
+
+.ord-quick-act{
+  height:24px;
+  padding:0 8px;
+  border-radius:6px;
+  border:0.5px solid var(--border2);
+  background:var(--surface);
+  color:var(--text);
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .14s var(--ease), background-color .14s, border-color .14s, color .14s;
+}
+.ord-row:hover .ord-quick-act,
+.ord-row:focus-within .ord-quick-act{
+  opacity:1;
+  pointer-events:auto;
+}
+.ord-quick-act:hover{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#ffffff;
+}
+
+.ord-cell-date{
+  font-size:12.5px;
+  color:var(--text3);
+  white-space:nowrap;
+}
+.ord-cell-amt{
+  font-size:14px;
+  font-weight:600;
+  color:var(--text);
+  letter-spacing:-0.02em;
+  text-align:right;
+  white-space:nowrap;
+}
+.ord-row.paid .ord-cell-amt{color:var(--text2);}
+.ord-cell-amt .cur-sym{font-size:0.88em;font-weight:500;opacity:0.6;}
+
+/* Full-Width Analytics Sub-Tab */
+.ord-an-grid{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  width:100%;
+}
+.ord-an-card{
+  padding:20px 24px;
+  gap:16px;
+}
+.sc-hdr{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.sc-readout-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+}
+.sc-readout{
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
+  letter-spacing:-0.02em;
+}
+.sc-readout-sub{
+  font-size:12px;
+  font-weight:500;
+  color:var(--text3);
+}
 .sc-svg-wrap{
   width:100%;
-  height:112px;
+  height:220px;
   position:relative;
   cursor:crosshair;
 }
 .sc-svg-wrap.is-clickable{cursor:pointer;}
 .sc-axis-row{
   position:relative;
-  height:14px;
-  font-size:10px;
+  height:16px;
+  font-size:11px;
   font-weight:600;
   color:var(--text3);
   user-select:none;
@@ -724,62 +1099,113 @@ button:active:not(:disabled){transform:scale(0.97);}
 .sc-axis-lbl.is-last{transform:translateX(-100%);}
 .sc-axis-lbl.on{color:var(--text);}
 
-/* Quiet Bottom Timeframe Row (Apple Stocks Style) */
 .sc-ranges{
-  display:flex;
+  display:inline-flex;
   align-items:center;
-  justify-content:space-between;
-  gap:4px;
-  padding-top:6px;
-  border-top:0.5px solid var(--border);
+  gap:2px;
+  background:var(--surface2);
+  padding:3px;
+  border-radius:var(--r);
+  flex-shrink:0;
 }
 .sc-rng-btn{
-  flex:1;
-  height:24px;
-  padding:0 6px;
+  height:26px;
+  padding:0 10px;
   border:none;
   border-radius:var(--r-xs);
   background:transparent;
-  color:var(--text3);
-  font-size:11px;
+  color:var(--text2);
+  font-size:11.5px;
   font-weight:600;
   cursor:pointer;
 }
-.sc-rng-btn:hover{color:var(--text);background:var(--surface2);}
+.sc-rng-btn:hover{color:var(--text);}
 .sc-rng-btn.on{
-  background:var(--surface2);
-  color:var(--blue);
+  background:var(--surface);
+  color:var(--text);
+  box-shadow:0 1px 2px rgba(0,0,0,0.08);
 }
 
 .sc-clients-wrap{
-  display:none;
+  display:flex;
   flex-direction:column;
   gap:8px;
-  min-height:120px;
-  justify-content:center;
 }
-.sc-clients-wrap.on{display:flex;}
 .sc-cl-row{
-  display:flex;flex-direction:column;gap:4px;cursor:pointer;
-  padding:4px 6px;border-radius:var(--r-xs);transition:background-color .12s;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+  padding:8px 10px;
+  border-radius:var(--r);
+  transition:background-color .12s;
 }
 .sc-cl-row:hover{background:var(--surface2);}
 .sc-cl-row.on{background:var(--blue-bg);}
-.sc-cl-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;}
-.sc-cl-left{display:flex;align-items:center;gap:6px;min-width:0;}
+.sc-cl-top{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;}
+.sc-cl-left{display:flex;align-items:center;gap:8px;min-width:0;}
 .sc-cl-name{font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.sc-cl-cnt{font-size:10.5px;color:var(--text3);font-weight:500;flex-shrink:0;}
-.sc-cl-right{display:flex;align-items:center;gap:7px;flex-shrink:0;}
-.sc-cl-pct{font-size:11px;font-weight:600;color:var(--text3);}
-.sc-cl-amt{font-size:12px;font-weight:700;color:var(--text);}
-.sc-cl-track{width:100%;height:4px;border-radius:999px;background:var(--surface2);overflow:hidden;}
+.sc-cl-cnt{font-size:11.5px;color:var(--text3);font-weight:500;flex-shrink:0;}
+.sc-cl-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.sc-cl-pct{font-size:12px;font-weight:600;color:var(--text3);}
+.sc-cl-amt{font-size:13.5px;font-weight:700;color:var(--text);}
+.sc-cl-track{width:100%;height:5px;border-radius:999px;background:var(--surface2);overflow:hidden;}
 .sc-cl-fill{height:100%;border-radius:999px;transition:width .24s var(--ease);}
 
+/* Slide-over Drawer for Order Create / Edit */
+.moverlay.drawer-mode{
+  justify-content:flex-end;
+  align-items:stretch;
+  padding:0;
+}
+.moverlay.drawer-mode .modal{
+  max-width:440px;
+  width:100%;
+  height:100%;
+  max-height:none;
+  border-radius:0;
+  border:none;
+  border-left:0.5px solid var(--border2);
+  padding:22px 24px 28px;
+  display:flex;
+  flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .24s var(--ease);
+}
+.moverlay.drawer-mode.on .modal{
+  transform:translateX(0);
+}
+.drawer-body{
+  flex:1;
+  overflow-y:auto;
+  padding-right:2px;
+}
+.drawer-textarea{
+  width:100%;
+  min-height:74px;
+  padding:10px 12px;
+  font-size:14px;
+  line-height:1.45;
+  border:1px solid transparent;
+  border-radius:var(--r);
+  background:var(--surface2);
+  color:var(--text);
+  font-family:inherit;
+  outline:none;
+  resize:vertical;
+  transition:border-color .14s, background-color .14s;
+  user-select:text;
+  -webkit-user-select:text;
+}
+.drawer-textarea:focus{
+  border-color:var(--blue);
+  background:var(--surface);
+}
+
 /* ══════════════════════════════════════════════════════════════════
-   CLEAN CHRONOLOGICAL ORDER & TRANSACTION LISTS
+   SHARED LIST, BUDGET CARDS, SKELETON & EMPTY STATES
 ══════════════════════════════════════════════════════════════════ */
-.elist{position:relative;}
-#list,#bg-list{display:flex;flex-direction:column;gap:14px;}
+#bg-list{display:flex;flex-direction:column;gap:14px;}
 
 .rem-group{
   background:var(--surface);
@@ -807,7 +1233,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 .rem-sum{font-size:13px;font-weight:600;color:var(--text2);letter-spacing:-0.015em;}
 .rem-sum.is-inc{color:var(--success);}
 
-.entry-card{
+.entry-card:not(.ord-row){
   background:transparent;
   border:none;
   border-radius:var(--r);
@@ -822,68 +1248,35 @@ button:active:not(:disabled){transform:scale(0.97);}
   position:relative;
 }
 .entry-card.is-click{cursor:pointer;}
-.entry-card:not(:last-child)::after{
+.entry-card:not(.ord-row):not(:last-child)::after{
   content:'';position:absolute;left:10px;right:10px;bottom:0;height:0.5px;background:var(--border);pointer-events:none;
 }
 .entry-card.flash-glow{animation:cardFlashGlow 1.5s var(--ease) forwards;}
 .sel-txt{user-select:text;-webkit-user-select:text;cursor:text;}
-html[data-density="compact"] .entry-card{padding:7px 10px;}
+html[data-density="compact"] .entry-card:not(.ord-row){padding:7px 10px;}
 html[data-density="compact"] .el{display:flex;align-items:center;gap:10px;}
 html[data-density="compact"] .emeta{margin-top:0;flex-shrink:0;}
 
-.entry-card:hover{background:var(--surface2);}
-.entry-card.sel{background:var(--blue-bg);}
-.entry-card.sel:hover{background:var(--blue-bg);}
-.entry-card.paid .etitle{color:var(--text2);}
-.entry-card.paid .emeta{color:var(--text3);}
-.entry-card.paid .eamt{color:var(--text2);font-weight:600;}
-.entry-card.paid .eclient-dot{filter:grayscale(1);opacity:0.45;}
-.entry-card.editing{opacity:0.35;}
-
-/* Left-aligned 3-step Apple Reminders Status Circle */
-.badge{
-  width:20px;height:20px;padding:0;border-radius:50%;cursor:pointer;border:none;background:transparent;
-  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;
-  transition:transform .14s var(--ease), box-shadow .16s var(--ease), background-color .16s var(--ease);
-}
-.badge.pop{animation:badgePulse .26s var(--spring);}
-.badge.u{box-shadow:inset 0 0 0 1.7px var(--text3);}
-.badge.u:hover{box-shadow:inset 0 0 0 1.7px var(--warning);background:var(--warning-bg);}
-.badge.s{box-shadow:inset 0 0 0 1.7px var(--warning);background:var(--warning-bg);}
-.badge.s::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--warning);display:block;transition:background-color .14s var(--ease);}
-.badge.s:hover{box-shadow:inset 0 0 0 1.7px var(--blue);background:var(--blue-bg);}
-.badge.s:hover::after{background:var(--blue);}
-.badge.p{box-shadow:inset 0 0 0 1.7px var(--blue);background:transparent;}
-.badge.p::after{content:'';width:12px;height:12px;border-radius:50%;background:var(--blue);display:block;}
-
-.eage-pill{
-  font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:var(--r-xs);
-  background:var(--surface2);color:var(--text2);white-space:nowrap;
-}
-.eage-pill.warn{background:var(--warning-bg);color:var(--warning);}
-.eage-pill.late{background:var(--danger-bg);color:var(--danger);}
-.epaid-cross{font-size:10.5px;color:var(--success);font-weight:600;}
+.entry-card:not(.ord-row):hover{background:var(--surface2);}
 
 .el{flex:1;min-width:0;}
 .etitle{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.012em;}
 .emeta{font-size:12px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .eclient-wrap{display:inline-flex;align-items:center;gap:5px;}
-.eclient-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.eclient-dot{width:6.5px;height:6.5px;border-radius:50%;flex-shrink:0;}
 .eclient{color:var(--text2);font-weight:500;}
-.enote-txt{color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;}
 .elink{
   display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:var(--text2);
-  background:var(--surface2);padding:1.5px 7px;border-radius:var(--r-xs);border:none;text-decoration:none;
+  background:var(--surface2);padding:1.5px 7px;border-radius:var(--r-xs);border:none;text-decoration:none;flex-shrink:0;
 }
 .elink:hover{background:var(--blue-bg);color:var(--blue);}
 .er{display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .edate{font-size:12px;color:var(--text3);white-space:nowrap;}
 .eamt{font-size:14.5px;font-weight:600;color:var(--text);letter-spacing:-.02em;text-align:right;white-space:nowrap;}
-.eamt .cur-sym{font-size:0.88em;font-weight:500;opacity:0.6;}
 
 /* Shimmer Skeleton Cards */
 @keyframes skelSweep{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-.skel-card{background:var(--surface);border-radius:var(--r-card);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:0.5px solid var(--border);}
+.skel-card{background:var(--surface);padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:0.5px solid var(--border);}
 .skel-left{display:flex;flex-direction:column;gap:8px;flex:1;}
 .skel-right{display:flex;align-items:center;gap:12px;}
 .skel-line,.skel-pill{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);background-size:200% 100%;animation:skelSweep 1.5s infinite linear;}
@@ -891,16 +1284,17 @@ html[data-density="compact"] .emeta{margin-top:0;flex-shrink:0;}
 .skel-line.w-title{width:42%;height:14px;}
 .skel-line.w-sub{width:24%;height:10px;}
 .skel-line.w-amt{width:56px;height:14px;}
-.skel-pill{width:20px;height:20px;border-radius:50%;}
+.skel-pill{width:76px;height:22px;border-radius:var(--r-xs);}
 
 .empty{
   background:var(--surface);border-radius:var(--r-card);border:0.5px solid var(--border);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:52px 24px;gap:8px;box-shadow:var(--shadow-card);
 }
+.ord-table-card .empty{border:none;box-shadow:none;border-radius:0;}
 .empty-ico{color:var(--text3);opacity:.35;margin-bottom:2px;}
 .empty-title{font-size:15px;font-weight:600;color:var(--text);opacity:.6;}
-.empty-sub{font-size:13px;color:var(--text3);text-align:center;max-width:280px;line-height:1.5;}
+.empty-sub{font-size:13px;color:var(--text3);text-align:center;max-width:290px;line-height:1.5;}
 .empty-btn{height:36px;padding:0 18px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:600;margin-top:6px;}
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1611,7 +2005,10 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .m-global-topbar{display:flex;}
 
   .view-toolbar{height:auto;min-height:0;padding:10px 14px;background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none;}
-  .vt-inner{gap:8px;}
+  .vt-inner{gap:8px;flex-wrap:wrap;}
+  .vt-left{width:100%;}
+  .ord-sub-sw{width:100%;display:grid;grid-template-columns:1fr 1fr;}
+  .ord-sub-btn{width:100%;text-align:center;}
   .vt-title{display:none;}
   .view-toolbar .mo-title-wrap{display:none;}
   .view-toolbar .add-order-btn{display:none;}
@@ -1628,17 +2025,44 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .side-card{padding:15px 16px;}
   .rem-group{padding:13px 15px 8px;}
   .entry-card{gap:10px;padding:10px 8px;margin:0 -8px 1px;}
-  .enote-txt{max-width:170px;}
   .edate{display:none;}
-  .badge{width:28px;height:28px;margin-left:-4px;}
-  .badge.u{box-shadow:none;}
-  .badge.u::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--text3);display:block;}
-  .badge.s{box-shadow:none;background:transparent;}
-  .badge.s::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--warning);background:var(--warning-bg);display:block;}
-  .badge.s::after{position:absolute;width:8px;height:8px;}
-  .badge.p{box-shadow:none;}
-  .badge.p::before{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.7px var(--blue);display:flex;align-items:center;justify-content:center;}
-  .badge.p::after{position:absolute;width:12px;height:12px;}
+  .ord-kpi-row{grid-template-columns:1fr 1fr;gap:10px;}
+  .ord-kpi-card{padding:14px 15px;}
+  #kpi-12m-card{grid-column:1 / -1;}
+  .ord-kpi-val{font-size:21px;}
+  .ord-thead{display:none;}
+  .ord-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px 10px;
+    padding:12px 14px;
+  }
+  .ord-row:not(:last-child)::after{left:14px;right:14px;}
+  .ord-row .ord-chk{display:none;}
+  .ord-cell-main{order:1;flex:1 1 calc(100% - 96px);min-width:0;}
+  .ord-cell-amt{order:2;flex:0 0 auto;font-size:14.5px;}
+  .ord-cell-status{order:3;flex:0 0 auto;}
+  .ord-cell-type{order:4;flex:0 0 auto;max-width:130px;}
+  .ord-cell-date{order:5;margin-left:auto;font-size:11.5px;}
+  .ord-quick-act{display:none;}
+  .ord-table-bar{gap:8px;}
+  .ord-st-tabs{width:100%;}
+  .ord-bar-right{width:100%;justify-content:flex-end;}
+  .ord-an-card{padding:16px;}
+  .sc-svg-wrap{height:170px;}
+  .moverlay.drawer-mode{align-items:flex-end;justify-content:center;}
+  .moverlay.drawer-mode .modal{
+    max-width:100%;
+    height:auto;
+    max-height:92dvh;
+    border-left:none;
+    border-radius:20px 20px 0 0;
+    padding:12px 18px calc(22px + var(--safe-b));
+    transform:translateY(100%);
+  }
+  .moverlay.drawer-mode.on .modal{transform:translateY(0);}
+  .drawer-textarea{font-size:16px!important;}
 
   .bg-metrics-row{grid-template-columns:1fr;gap:8px;}
   .bg-donut-wrap{gap:14px;}
@@ -1708,13 +2132,13 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 #sc-canvas{width:100%;height:100%;display:block;}
 .is-hidden{display:none!important;}
 .bg-sub-val.exp{color:var(--text);}
-.bal-amount{font-size:clamp(21px, 1.75vw, 26px);}
-.bal-amount.secondary{font-size:clamp(19px, 1.6vw, 23px);}
 @media(max-width:768px){
   .bg-metrics-row{grid-template-columns:repeat(2, minmax(0, 1fr));gap:8px;}
   .bg-net-hero{font-size:25px;}
-  .bal-amount{font-size:24px;}
-  .bal-amount.secondary{font-size:21px;}
+}
+@media(max-width:1080px) and (min-width:769px){
+  .ord-thead,.ord-row{grid-template-columns:32px minmax(0, 1fr) 118px 188px 80px 104px;gap:10px;padding-left:14px;padding-right:14px;}
+  .ord-quick-act{display:none;}
 }
 </style>
 </head>
@@ -1845,36 +2269,25 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
     <div class="vt-inner">
       <div class="vt-left">
         <h1 class="vt-title">Заказы</h1>
-        <div class="mo-title-wrap">
-          <button class="mo-title-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
-            <span id="mo-title">Период</span>
-            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
-          </button>
-          <div class="period-dd" id="period-dd" role="listbox" aria-label="Выбор периода"></div>
+        <div class="ord-sub-sw" role="tablist" aria-label="Вид раздела Заказы">
+          <button type="button" class="ord-sub-btn on" id="ord-sub-list" role="tab" aria-selected="true">Заказы</button>
+          <button type="button" class="ord-sub-btn" id="ord-sub-analytics" role="tab" aria-selected="false">Аналитика</button>
         </div>
       </div>
 
       <div class="vt-right">
         <div class="search-wrap" id="search-wrap">
           <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="search" placeholder="Поиск по проектам, клиентам..." aria-label="Поиск по записям"/>
+          <input type="text" id="search" placeholder="Поиск по клиенту или видео..." aria-label="Поиск по записям"/>
           <span class="search-kbd">Cmd+K</span>
           <span class="search-cap-sep" aria-hidden="true"></span>
           <div class="filter-wrap">
-            <button class="filter-btn" id="filter-btn" type="button" title="Фильтры" aria-label="Фильтры" aria-expanded="false">
+            <button class="filter-btn" id="filter-btn" type="button" title="Фильтры по клиенту и типу" aria-label="Фильтры" aria-expanded="false">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
               <div class="fdot" id="fdot" aria-hidden="true"></div>
             </button>
             <div class="fpanel" id="fpanel" role="region" aria-label="Панель фильтров">
-              <label class="flbl" for="f-status">Статус</label>
-              <select class="fsel" id="f-status">
-                <option value="all">Все</option>
-                <option value="awaiting">Не оплачено (все)</option>
-                <option value="unpaid">В работе</option>
-                <option value="sent">Отправлено</option>
-                <option value="paid">Оплачено</option>
-              </select>
-              <div class="flbl spaced">Заказчик</div>
+              <div class="flbl">Заказчик</div>
               <div class="ftags" id="ftags-client"></div>
               <div class="flbl spaced">Тип работы</div>
               <div class="ftags" id="ftags-work"></div>
@@ -1882,7 +2295,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
           </div>
         </div>
 
-        <button class="add-order-btn" id="btn-add" type="button" title="Добавить запись (N)">
+        <button class="add-order-btn" id="btn-add" type="button" title="Добавить заказ (N)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           <span>Новый заказ</span>
         </button>
@@ -1892,70 +2305,132 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 
   <div class="view-scroll" id="orders-scroll">
     <div class="ws-inner">
-      <div class="split-grid">
-        <!-- Left Column: Chronological Orders List -->
-        <div class="split-feed">
-          <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
-          <div class="elist" id="elist" role="main">
-            <div id="list"></div>
+      <!-- SUB-VIEW 1: KPI ROW + FULL-WIDTH ORDERS TABLE -->
+      <div class="ord-pane" id="ord-pane-list">
+        <div class="ord-kpi-row" aria-label="Ключевые показатели">
+          <div class="ord-kpi-card" id="kpi-recv-card">
+            <div class="ord-kpi-top">
+              <div class="ord-kpi-left">
+                <span class="bal-label">Пришло</span>
+                <div class="mo-title-wrap">
+                  <button class="mo-title-btn ord-kpi-period-btn" id="mo-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+                    <span id="mo-title">Период</span>
+                    <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+                  </button>
+                  <div class="period-dd" id="period-dd" role="listbox" aria-label="Период дохода"></div>
+                </div>
+              </div>
+              <span class="bal-trend" id="val-recv-trend"></span>
+            </div>
+            <div>
+              <span class="ord-kpi-val is-zero cur-click" id="val-recv" title="Клик — сменить валюту (₽ / $ / €)">0 ₽</span>
+            </div>
+            <div class="ord-kpi-sub" id="val-recv-multi"></div>
+          </div>
+
+          <div class="ord-kpi-card is-click" id="kpi-await-card" title="Клик — показать все неоплаченные заказы">
+            <div class="ord-kpi-top">
+              <span class="bal-label">Ожидают оплаты</span>
+              <div class="ord-kpi-left">
+                <span class="ord-kpi-pill" id="val-await-cnt"></span>
+                <span class="bal-zero" id="val-await-zero">Закрыто</span>
+              </div>
+            </div>
+            <div>
+              <span class="ord-kpi-val secondary is-zero cur-click" id="val-await" title="Клик — сменить валюту (₽ / $ / €)">0 ₽</span>
+            </div>
+            <div class="ord-kpi-sub" id="val-await-multi"></div>
+          </div>
+
+          <div class="ord-kpi-card is-click" id="kpi-12m-card" title="Клик — открыть вкладку Аналитика">
+            <div class="ord-kpi-top">
+              <span class="bal-label">Всего за 12 мес.</span>
+              <span class="ord-kpi-pill" id="val-12m-cnt"></span>
+            </div>
+            <div class="ord-kpi-12m-body">
+              <span class="ord-kpi-val is-zero cur-click" id="val-12m" title="Клик — сменить валюту (₽ / $ / €)">0 ₽</span>
+              <div class="ord-kpi-spark" id="ord-kpi-spark" aria-hidden="true"></div>
+            </div>
           </div>
         </div>
 
-        <!-- Right Sticky Column: Summary + Analytics Chart -->
-        <aside class="split-side" aria-label="Финансовая сводка">
-          <div class="side-card">
-            <div class="fin-group">
-              <div class="fin-metric">
-                <div class="bal-hdr">
-                  <span class="bal-label">Пришло</span>
-                  <span class="bal-trend" id="val-recv-trend"></span>
-                </div>
-                <div>
-                  <span class="bal-amount is-zero cur-click" id="val-recv" title="Клик — сменить валюту (₽ / $ / €)">0 ₽</span>
-                </div>
-                <div class="bal-subline" id="val-recv-multi"></div>
-              </div>
-
-              <div class="fin-vsep" aria-hidden="true"></div>
-
-              <div class="fin-metric">
-                <div class="bal-hdr">
-                  <span class="bal-label">Ожидаем</span>
-                  <span class="bal-zero" id="val-await-zero">Закрыто</span>
-                </div>
-                <div>
-                  <span class="bal-amount secondary is-zero cur-click" id="val-await" title="Клик — сменить валюту (₽ / $ / €)">0 ₽</span>
-                </div>
-                <div class="bal-subline" id="val-await-multi"></div>
-              </div>
-            </div>
+        <div class="ord-table-bar">
+          <div class="ord-st-tabs" id="ord-st-tabs" role="tablist" aria-label="Фильтр по статусу">
+            <button type="button" class="ord-st-tab on" data-st="all" role="tab" aria-selected="true"><span>Все</span><span class="ord-st-cnt" id="st-cnt-all">0</span></button>
+            <button type="button" class="ord-st-tab" data-st="unpaid" role="tab" aria-selected="false"><span>В работе</span><span class="ord-st-cnt" id="st-cnt-unpaid">0</span></button>
+            <button type="button" class="ord-st-tab" data-st="sent" role="tab" aria-selected="false"><span>Отправлено</span><span class="ord-st-cnt" id="st-cnt-sent">0</span></button>
+            <button type="button" class="ord-st-tab" data-st="paid" role="tab" aria-selected="false"><span>Оплачено</span><span class="ord-st-cnt" id="st-cnt-paid">0</span></button>
           </div>
 
-          <div class="side-card" id="stock-chart-box">
+          <div class="ord-bar-right">
+            <div class="mo-title-wrap">
+              <button class="mo-title-btn ord-list-period-btn" id="ord-list-period-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+                <span class="ord-lp-prefix">Период:</span>
+                <span id="ord-list-period-lbl">Всё время</span>
+                <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+              </button>
+              <div class="period-dd align-right" id="ord-list-period-dd" role="listbox" aria-label="Период списка заказов"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="atags" id="atags" role="group" aria-label="Активные фильтры"></div>
+
+        <div class="ord-table-card" id="elist" role="main">
+          <div class="ord-thead" id="ord-thead">
+            <div>
+              <button type="button" class="ord-chk" id="ord-chk-all" title="Выбрать все (Cmd+A)" aria-label="Выбрать все"></button>
+            </div>
+            <div>Клиент / Проект</div>
+            <div>Тип</div>
+            <div>Статус</div>
+            <div>Дата</div>
+            <div class="ord-th-amt">Сумма</div>
+          </div>
+          <div class="ord-tbody" id="list"></div>
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 2: FULL-WIDTH ANALYTICS -->
+      <div class="ord-pane is-hidden" id="ord-pane-analytics">
+        <div class="ord-an-grid">
+          <div class="side-card ord-an-card" id="stock-chart-box">
             <div class="sc-hdr">
               <div class="sc-readout-wrap">
                 <span class="sc-readout" id="sc-readout">Динамика доходов</span>
                 <span class="sc-readout-sub" id="sc-readout-sub"></span>
               </div>
-              <div class="sc-mode-sw" role="group" aria-label="Режим аналитики">
-                <button type="button" class="sc-mode-btn on" data-cmode="trend">Динамика</button>
-                <button type="button" class="sc-mode-btn" data-cmode="clients">Клиенты</button>
+              <div class="sc-ranges" id="sc-ranges" role="group" aria-label="Диапазон графика">
+                <button type="button" class="sc-rng-btn" data-tf="1m">1м</button>
+                <button type="button" class="sc-rng-btn" data-tf="3m">3м</button>
+                <button type="button" class="sc-rng-btn on" data-tf="6m">6м</button>
+                <button type="button" class="sc-rng-btn" data-tf="1y">1г</button>
+                <button type="button" class="sc-rng-btn" data-tf="all">ВСЕ</button>
               </div>
             </div>
             <div class="sc-svg-wrap" id="sc-svg-wrap">
               <canvas id="sc-canvas"></canvas>
             </div>
             <div class="sc-axis-row" id="sc-axis-row"></div>
-            <div class="sc-ranges" id="sc-ranges" role="group" aria-label="Диапазон графика">
-              <button type="button" class="sc-rng-btn" data-tf="1m">1м</button>
-              <button type="button" class="sc-rng-btn" data-tf="3m">3м</button>
-              <button type="button" class="sc-rng-btn on" data-tf="6m">6м</button>
-              <button type="button" class="sc-rng-btn" data-tf="1y">1г</button>
-              <button type="button" class="sc-rng-btn" data-tf="all">ВСЕ</button>
+          </div>
+
+          <div class="side-card ord-an-card">
+            <div class="sc-hdr">
+              <div class="sc-readout-wrap">
+                <span class="sc-readout" id="an-clients-title">Выручка по клиентам</span>
+                <span class="sc-readout-sub" id="an-clients-sub"></span>
+              </div>
+              <div class="mo-title-wrap">
+                <button class="mo-title-btn" id="an-period-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+                  <span id="an-period-lbl">Период</span>
+                  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+                </button>
+                <div class="period-dd align-right" id="an-period-dd" role="listbox" aria-label="Период выручки по клиентам"></div>
+              </div>
             </div>
             <div class="sc-clients-wrap" id="sc-clients-wrap"></div>
           </div>
-        </aside>
+        </div>
       </div>
     </div>
   </div>
@@ -2132,77 +2607,80 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   </button>
 </nav>
 
-<!-- Modal: Add / Edit Order -->
-<div class="moverlay" id="mov" role="dialog" aria-modal="true" aria-labelledby="m-title">
-  <div class="modal modal-entry">
+<!-- Drawer: Add / Edit Order -->
+<div class="moverlay drawer-mode" id="mov" role="dialog" aria-modal="true" aria-labelledby="m-title">
+  <div class="modal">
     <div class="sheet-handle"></div>
     <div class="mhdr">
-      <span class="mtitle" id="m-title">Новая запись</span>
+      <span class="mtitle" id="m-title">Новый заказ</span>
       <button class="mclose" id="m-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
 
-    <div class="fgrid f-row-main">
-      <div class="ff">
-        <label for="f-desc">Проект</label>
-        <input type="text" id="f-desc" placeholder="thumbnail, баннер..." autocomplete="off"/>
-        <div class="qchips" id="qchips-desc"></div>
-      </div>
-      <div class="ff">
-        <label for="f-amt">Сумма</label>
-        <div class="amt-cur-combo">
-          <input type="text" id="f-amt" placeholder="1000 или 50*2" inputmode="decimal"/>
-          <select id="f-cur" aria-label="Валюта">
-            <option>₽</option><option>$</option><option>€</option>
-          </select>
+    <div class="drawer-body">
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="f-name">
+            <span>Клиент</span>
+            <button type="button" class="lbl-clear-btn is-hidden" id="btn-clear-client" title="Очистить клиента" aria-label="Очистить клиента"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </label>
+          <input type="text" id="f-name" placeholder="Имя или канал" autocomplete="off"/>
+          <div class="qchips" id="qchips-name"></div>
         </div>
-        <div class="ahint" id="ahint" aria-live="polite"></div>
       </div>
-    </div>
 
-    <div class="fgrid single-col">
-      <div class="ff">
-        <label for="f-note">Название ролика / Описание / Ссылка</label>
-        <input type="text" id="f-note" placeholder="Название видео или ссылка (Figma, YouTube, Drive)..."/>
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="f-note">Название ролика / Описание / Ссылка</label>
+          <textarea class="drawer-textarea" id="f-note" rows="2" placeholder="Название видео или ссылка (Figma, YouTube, Drive)..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="fgrid single-col">
-      <div class="ff">
-        <label for="f-name">
-          <span>Клиент</span>
-          <button type="button" class="lbl-clear-btn is-hidden" id="btn-clear-client" title="Очистить клиента" aria-label="Очистить клиента"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-        </label>
-        <input type="text" id="f-name" placeholder="Имя или канал" autocomplete="off"/>
-        <div class="qchips" id="qchips-name"></div>
+      <div class="fgrid f-row-main">
+        <div class="ff">
+          <label for="f-desc">Тип работы</label>
+          <input type="text" id="f-desc" placeholder="thumbnail, (a/b)thumbnail..." autocomplete="off"/>
+          <div class="qchips" id="qchips-desc"></div>
+        </div>
+        <div class="ff">
+          <label for="f-amt">Сумма</label>
+          <div class="amt-cur-combo">
+            <input type="text" id="f-amt" placeholder="1000 или 50*2" inputmode="decimal"/>
+            <select id="f-cur" aria-label="Валюта">
+              <option>₽</option><option>$</option><option>€</option>
+            </select>
+          </div>
+          <div class="ahint" id="ahint" aria-live="polite"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="fgrid single-col" id="f-dates-grid">
-      <div class="ff">
-        <label for="f-date">Дата создания</label>
-        <input type="date" id="f-date"/>
+      <div class="fgrid single-col" id="f-dates-grid">
+        <div class="ff">
+          <label for="f-date">Дата заказа</label>
+          <input type="date" id="f-date"/>
+        </div>
+        <div class="ff is-hidden" id="f-sentat-wrap">
+          <label for="f-sentat">Дата отправки</label>
+          <input type="date" id="f-sentat"/>
+        </div>
+        <div class="ff is-hidden" id="f-paidat-wrap">
+          <label for="f-paidat">Дата оплаты</label>
+          <input type="date" id="f-paidat"/>
+        </div>
       </div>
-      <div class="ff is-hidden" id="f-sentat-wrap">
-        <label for="f-sentat">Дата отправки</label>
-        <input type="date" id="f-sentat"/>
-      </div>
-      <div class="ff is-hidden" id="f-paidat-wrap">
-        <label for="f-paidat">Дата прихода денег</label>
-        <input type="date" id="f-paidat"/>
-      </div>
-    </div>
 
-    <div class="fstatus-row">
-      <span class="fstatus-lbl">Статус</span>
-      <div class="fstatus-toggle" role="group">
-        <button class="fst-btn active-unpaid" id="fst-unpaid" type="button">Не оплачено</button>
-        <button class="fst-btn" id="fst-sent" type="button">Отправил</button>
-        <button class="fst-btn" id="fst-paid" type="button">Оплачено</button>
+      <div class="fstatus-row">
+        <span class="fstatus-lbl">Статус</span>
+        <div class="fstatus-toggle" role="group">
+          <button class="fst-btn active-unpaid" id="fst-unpaid" type="button">В работе</button>
+          <button class="fst-btn" id="fst-sent" type="button">Отправлено</button>
+          <button class="fst-btn" id="fst-paid" type="button">Оплачено</button>
+        </div>
       </div>
     </div>
 
     <div class="fbtns">
       <button class="bsubmit" id="bsub" type="button">+ Добавить</button>
+      <button class="bcancel danger is-hidden" id="bdel-ord" type="button">Удалить</button>
       <button class="bcancel is-hidden" id="bcan" type="button">Отмена</button>
     </div>
   </div>
@@ -3310,6 +3788,9 @@ let _mdTarget = null;
 let invDdOpen = false;
 let activeClientFilter = '';
 let activeWorkFilter = '';
+let activeStatusFilter = 'all';
+let ordListYm = 'all';
+let ordSubView = 'list';
 let formPaidStatus = 'unpaid';
 let _amtManuallyTyped = false;
 let _amtAutoFilled = false;
@@ -3764,7 +4245,7 @@ function _confClose(result) {
 }
 
 /* ══════════════════════════════════════════════
-   7. SHARED PERIOD DROPDOWN & MOBILE SHEET
+   7. SHARED PERIOD DROPDOWNS & MOBILE SHEET
 ══════════════════════════════════════════════ */
 function getAvailableMonths() {
   const set = new Set();
@@ -3781,6 +4262,12 @@ function getAvailableMonths() {
     if (b && b.date && b.date.length >= 7) set.add(b.date.slice(0,7));
   });
   return [...set].sort((a,b) => b.localeCompare(a));
+}
+
+function formatMonthLabel(ym) {
+  if (!ym || ym === 'all') return 'За всё время';
+  const [y,m] = ym.split('-').map(Number);
+  return `${MONTHS_NOM_RU[(m||1)-1]} ${y||new Date().getFullYear()}`;
 }
 
 function updateMobilePeriodPillText() {
@@ -3837,8 +4324,8 @@ function closePeriodSheet() {
 }
 
 function closeAllPeriodDds() {
-  ['period-dd', 'bg-period-dd'].forEach(id => document.getElementById(id)?.classList.remove('on'));
-  ['mo-title-btn', 'bg-period-btn'].forEach(id => document.getElementById(id)?.setAttribute('aria-expanded', 'false'));
+  ['period-dd', 'bg-period-dd', 'ord-list-period-dd', 'an-period-dd'].forEach(id => document.getElementById(id)?.classList.remove('on'));
+  ['mo-title-btn', 'bg-period-btn', 'ord-list-period-btn', 'an-period-btn'].forEach(id => document.getElementById(id)?.setAttribute('aria-expanded', 'false'));
 }
 
 function toggleSharedPeriodDd(ddId, btnId) {
@@ -3871,6 +4358,42 @@ function toggleSharedPeriodDd(ddId, btnId) {
   btn.setAttribute('aria-expanded', 'true');
 }
 
+function toggleOrdListPeriodDd() {
+  const dd = document.getElementById('ord-list-period-dd');
+  const btn = document.getElementById('ord-list-period-btn');
+  if (!dd || !btn) return;
+  const open = !dd.classList.contains('on');
+  closeAllPeriodDds();
+  if (!open) return;
+
+  dd.innerHTML = '';
+  const allIt = el('div', {className:'period-dd-item' + (ordListYm==='all'?' on':''), role:'option'}, ['Всё время']);
+  allIt.addEventListener('click', () => selectOrdListPeriod('all'));
+  dd.appendChild(allIt);
+
+  const months = [...new Set(entries.map(e => (e.date||'').slice(0,7)).filter(s => s.length === 7))].sort((a,b) => b.localeCompare(a));
+  months.forEach(ym => {
+    const [y,m] = ym.split('-').map(Number);
+    let lbl = new Date(y, m-1, 1).toLocaleDateString('ru-RU', {month:'long', year:'numeric'});
+    lbl = lbl.charAt(0).toUpperCase() + lbl.slice(1);
+    const it = el('div', {className:'period-dd-item' + (ordListYm===ym?' on':''), role:'option'}, [lbl]);
+    it.addEventListener('click', () => selectOrdListPeriod(ym));
+    dd.appendChild(it);
+  });
+
+  dd.classList.add('on');
+  btn.setAttribute('aria-expanded', 'true');
+}
+
+function selectOrdListPeriod(val) {
+  ordListYm = val || 'all';
+  closeAllPeriodDds();
+  setText('ord-list-period-lbl', ordListYm === 'all' ? 'Всё время' : formatMonthLabel(ordListYm));
+  pruneHiddenSelections();
+  updateFilterState();
+  renderList();
+}
+
 function selectPeriod(val) {
   pYm = val;
   lsS('ff_period_ym', val);
@@ -3880,29 +4403,41 @@ function selectPeriod(val) {
 }
 
 /* ══════════════════════════════════════════════
-   8. ANALYTICS: SPLINE CHART & CLIENT BREAKDOWN
+   8. SUB-VIEW SWITCHER, KPI SPARKLINE & ANALYTICS
 ══════════════════════════════════════════════ */
-let chartTf = lsG('ff_chart_tf') || '6m';
-if (!['1m', '3m', '6m', '1y', 'all'].includes(chartTf)) chartTf = '6m';
-let chartMode = lsG('ff_chart_mode') || 'trend';
-if (!['trend', 'clients'].includes(chartMode)) chartMode = 'trend';
+let chartTf = lsG('ff_chart_tf') || '1y';
+if (!['1m', '3m', '6m', '1y', 'all'].includes(chartTf)) chartTf = '1y';
 let _scHoverIdx = -1;
 let _scRafPending = false;
 let _scCachedState = null;
+
+function switchOrdersSubView(sub) {
+  ordSubView = sub === 'analytics' ? 'analytics' : 'list';
+  const paneList = document.getElementById('ord-pane-list');
+  const paneAn = document.getElementById('ord-pane-analytics');
+  const btnList = document.getElementById('ord-sub-list');
+  const btnAn = document.getElementById('ord-sub-analytics');
+
+  paneList?.classList.toggle('is-hidden', ordSubView !== 'list');
+  paneAn?.classList.toggle('is-hidden', ordSubView !== 'analytics');
+
+  if (btnList) { btnList.classList.toggle('on', ordSubView === 'list'); btnList.setAttribute('aria-selected', String(ordSubView === 'list')); }
+  if (btnAn) { btnAn.classList.toggle('on', ordSubView === 'analytics'); btnAn.setAttribute('aria-selected', String(ordSubView === 'analytics')); }
+
+  if (ordSubView === 'analytics') {
+    clearSel();
+    requestAnimationFrame(() => {
+      renderMiniStockChart();
+      renderClientRevenueBreakdown();
+    });
+  }
+}
 
 function setChartTimeframe(tf) {
   chartTf = tf;
   lsS('ff_chart_tf', tf);
   _scHoverIdx = -1;
   document.querySelectorAll('.sc-rng-btn').forEach(b => b.classList.toggle('on', b.dataset.tf === tf));
-  renderMiniStockChart();
-}
-
-function setChartMode(mode) {
-  chartMode = mode === 'clients' ? 'clients' : 'trend';
-  lsS('ff_chart_mode', chartMode);
-  _scHoverIdx = -1;
-  document.querySelectorAll('.sc-mode-btn').forEach(b => b.classList.toggle('on', b.dataset.cmode === chartMode));
   renderMiniStockChart();
 }
 
@@ -3977,6 +4512,35 @@ function buildChartSeries(tf) {
   return pts;
 }
 
+function renderKpiSparkline(pts) {
+  const box = document.getElementById('ord-kpi-spark');
+  if (!box) return;
+  const W = 112, H = 34, padY = 4;
+  const maxVal = Math.max(...pts.map(p => p.value), 0);
+  if (!pts.length || maxVal <= 0) {
+    box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" fill="none"><line x1="2" y1="${H - padY}" x2="${W - 2}" y2="${H - padY}" stroke="var(--border2)" stroke-width="1.5" stroke-dasharray="2 3"/></svg>`;
+    return;
+  }
+  const coords = pts.map((p, i) => ({
+    x: 2 + (pts.length > 1 ? (i / (pts.length - 1)) * (W - 4) : (W - 4) / 2),
+    y: H - padY - (p.value / maxVal) * (H - padY * 2)
+  }));
+  const lineD = coords.map((c, i) => `${i === 0 ? 'M' : 'L'}${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' ');
+  const areaD = `${lineD} L${coords[coords.length - 1].x.toFixed(1)},${H} L${coords[0].x.toFixed(1)},${H} Z`;
+  const last = coords[coords.length - 1];
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" fill="none">
+    <defs>
+      <linearGradient id="kpi-sp-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--blue)" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="var(--blue)" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="${areaD}" fill="url(#kpi-sp-grad)"/>
+    <path d="${lineD}" stroke="var(--blue)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="2.6" fill="var(--blue)"/>
+  </svg>`;
+}
+
 function drawMonotoneSplineCanvas(ctx, coords) {
   const n = coords.length;
   if (!n) return;
@@ -4044,7 +4608,7 @@ function paintStockCanvasFrame() {
     { y: padTop + plotH, label: '0', dashed: false }
   ];
 
-  ctx.font = '600 9.5px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif';
+  ctx.font = '600 10.5px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif';
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
 
@@ -4078,7 +4642,7 @@ function paintStockCanvasFrame() {
     ctx.beginPath();
     drawMonotoneSplineCanvas(ctx, coords);
     ctx.strokeStyle = blueHex;
-    ctx.lineWidth = 2.2;
+    ctx.lineWidth = 2.4;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.stroke();
@@ -4099,7 +4663,7 @@ function paintStockCanvasFrame() {
       ctx.setLineDash([]);
 
       ctx.beginPath();
-      ctx.arc(hc.x, hc.y, 8.5, 0, Math.PI * 2);
+      ctx.arc(hc.x, hc.y, 9, 0, Math.PI * 2);
       ctx.fillStyle = blueHex + '2b';
       ctx.fill();
     }
@@ -4107,7 +4671,7 @@ function paintStockCanvasFrame() {
     if (activeIdx >= 0 && coords[activeIdx]) {
       const ac = coords[activeIdx];
       ctx.beginPath();
-      ctx.arc(ac.x, ac.y, 4, 0, Math.PI * 2);
+      ctx.arc(ac.x, ac.y, 4.5, 0, Math.PI * 2);
       ctx.fillStyle = blueHex;
       ctx.fill();
       ctx.lineWidth = 2;
@@ -4119,18 +4683,11 @@ function paintStockCanvasFrame() {
 }
 
 function renderClientRevenueBreakdown() {
-  const wrap = document.getElementById('sc-svg-wrap');
-  const axisRow = document.getElementById('sc-axis-row');
-  const rangesBox = document.getElementById('sc-ranges');
   const clientsBox = document.getElementById('sc-clients-wrap');
-  const readout = document.getElementById('sc-readout');
-  const readoutSub = document.getElementById('sc-readout-sub');
+  const titleEl = document.getElementById('an-clients-title');
+  const subEl = document.getElementById('an-clients-sub');
   if (!clientsBox) return;
 
-  if (wrap) wrap.classList.add('is-hidden');
-  if (axisRow) axisRow.classList.add('is-hidden');
-  if (rangesBox) rangesBox.classList.add('is-hidden');
-  clientsBox.classList.add('on');
   clientsBox.innerHTML = '';
 
   const periodPaid = entries.filter(isPaidInPeriod);
@@ -4149,27 +4706,17 @@ function renderClientRevenueBreakdown() {
 
   const sorted = [...byClient.entries()].sort((a, b) => b[1].sum - a[1].sum);
 
-  if (readout) readout.textContent = `Выручка по клиентам · ${fmtB(totalRev)}`;
-  if (readoutSub) readoutSub.textContent = sorted.length ? `${sorted.length} клиент.` : 'За выбранный период';
+  if (titleEl) titleEl.textContent = `Выручка по клиентам · ${fmtB(totalRev)}`;
+  if (subEl) subEl.textContent = sorted.length ? `${sorted.length} клиент. · ${pluralOrdersRu(periodPaid.length)}` : 'За выбранный период';
 
   if (!sorted.length || totalRev <= 0) {
     clientsBox.appendChild(el('div', { className: 'bg-empty-note' }, ['За выбранный период оплаченных заказов от клиентов пока нет']));
     return;
   }
 
-  const topList = sorted.slice(0, 5);
-  if (sorted.length > 5) {
-    const rest = sorted.slice(5).reduce((acc, [, info]) => {
-      acc.sum = Math.round((acc.sum + info.sum) * 100) / 100;
-      acc.count += info.count;
-      return acc;
-    }, { sum: 0, count: 0 });
-    topList.push(['Остальные', rest]);
-  }
-
-  topList.forEach(([name, info]) => {
+  sorted.forEach(([name, info]) => {
     const pct = Math.max(1, Math.round((info.sum / totalRev) * 100));
-    const col = name === 'Остальные' ? 'var(--text3)' : getClientColor(name);
+    const col = name === 'Без имени' ? 'var(--text3)' : getClientColor(name);
     const row = el('div', {
       className: 'sc-cl-row' + (activeClientFilter === name ? ' on' : '')
     }, [
@@ -4177,7 +4724,7 @@ function renderClientRevenueBreakdown() {
         el('div', { className: 'sc-cl-left' }, [
           el('span', { className: 'eclient-dot', style: `background:${col}` }),
           el('span', { className: 'sc-cl-name' }, [name]),
-          el('span', { className: 'sc-cl-cnt' }, [`${info.count} зак.`])
+          el('span', { className: 'sc-cl-cnt' }, [pluralOrdersRu(info.count)])
         ]),
         el('div', { className: 'sc-cl-right' }, [
           el('span', { className: 'sc-cl-pct' }, [`${pct}%`]),
@@ -4188,33 +4735,26 @@ function renderClientRevenueBreakdown() {
         el('div', { className: 'sc-cl-fill', style: `width:${pct}%;background:${col};` })
       ])
     ]);
-    if (name !== 'Без имени' && name !== 'Остальные') {
-      row.addEventListener('click', () => filterByClient(name));
+    if (name !== 'Без имени') {
+      row.addEventListener('click', () => {
+        activeClientFilter = (activeClientFilter === name) ? '' : name;
+        pruneHiddenSelections();
+        buildFilterTags();
+        updateFilterState();
+        renderList();
+        switchOrdersSubView('list');
+      });
     }
     clientsBox.appendChild(row);
   });
 }
 
 function renderMiniStockChart() {
-  document.querySelectorAll('.sc-mode-btn').forEach(b => b.classList.toggle('on', b.dataset.cmode === chartMode));
-
-  if (chartMode === 'clients') {
-    renderClientRevenueBreakdown();
-    return;
-  }
-
   const wrap = document.getElementById('sc-svg-wrap');
   const axisRow = document.getElementById('sc-axis-row');
-  const rangesBox = document.getElementById('sc-ranges');
-  const clientsBox = document.getElementById('sc-clients-wrap');
   const readout = document.getElementById('sc-readout');
   const readoutSub = document.getElementById('sc-readout-sub');
   if (!wrap || !axisRow) return;
-
-  wrap.classList.remove('is-hidden');
-  axisRow.classList.remove('is-hidden');
-  if (rangesBox) rangesBox.classList.remove('is-hidden');
-  if (clientsBox) clientsBox.classList.remove('on');
 
   let canvas = document.getElementById('sc-canvas');
   if (!canvas) {
@@ -4235,18 +4775,18 @@ function renderMiniStockChart() {
 
   const tfNameMap = { '1m': 'За 30 дней', '3m': 'За 3 мес', '6m': 'За 6 мес', '1y': 'За 12 мес', 'all': 'За всё время' };
   const defaultMain = `${tfNameMap[chartTf] || 'Доходы'} · ${fmtB(totalSum)}`;
-  const defaultSub = totalOrders > 0
-    ? (isCum ? pluralOrdersRu(totalOrders) : `${pluralOrdersRu(totalOrders)} · ср. ${fmtB(totalSum / Math.max(1, pts.length))}/мес`)
-    : 'Нет оплат за период';
+  const defaultSub = totalOrders > 0 ? pluralOrdersRu(totalOrders) : 'Нет оплат за период';
 
   if (readout) readout.textContent = defaultMain;
   if (readoutSub) readoutSub.textContent = defaultSub;
 
-  const W = Math.max(220, Math.round(wrap.clientWidth || 360));
-  const H = Math.max(96, Math.round(wrap.clientHeight || 112));
-  const padLeft = 8, padRight = 46, padTop = 10, padBot = 8;
-  const plotW = Math.max(80, W - padLeft - padRight);
-  const plotH = Math.max(44, H - padTop - padBot);
+  if (ordSubView !== 'analytics') return;
+
+  const W = Math.max(240, Math.round(wrap.clientWidth || 720));
+  const H = Math.max(150, Math.round(wrap.clientHeight || 220));
+  const padLeft = 10, padRight = 54, padTop = 14, padBot = 10;
+  const plotW = Math.max(100, W - padLeft - padRight);
+  const plotH = Math.max(80, H - padTop - padBot);
 
   const rawMax = Math.max(...pts.map(p => p.value), 0);
   const maxVal = rawMax > 0 ? rawMax : 1;
@@ -4325,14 +4865,11 @@ function renderMiniStockChart() {
 
 function renderAnalytics() {
   updateMobilePeriodPillText();
-  const eff = effectiveYm();
-  let periodTitle = 'За всё время';
-  if (eff !== 'all') {
-    const [y,m] = eff.split('-').map(Number);
-    periodTitle = `${MONTHS_NOM_RU[(m||1)-1]} ${y||new Date().getFullYear()}`;
-  }
+  const periodTitle = formatMonthLabel(effectiveYm());
   setText('mo-title', periodTitle);
+  setText('an-period-lbl', periodTitle);
   renderMiniStockChart();
+  renderClientRevenueBreakdown();
   _chartDirty = false;
 }
 
@@ -4542,7 +5079,7 @@ function applyAppearance() {
   root.setAttribute('data-accent', accent);
   root.setAttribute('data-tone', tone);
   root.setAttribute('data-density', density);
-  if (chartMode === 'trend' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode')) {
+  if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode')) {
     requestAnimationFrame(() => renderMiniStockChart());
   }
 }
@@ -4561,7 +5098,7 @@ function save() {
 }
 
 /* ══════════════════════════════════════════════
-   11. FILTER & SEARCH
+   11. FILTER, STATUS TABS & SEARCH
 ══════════════════════════════════════════════ */
 function pruneHiddenSelections() {
   if (!selIds.size) return;
@@ -4585,24 +5122,75 @@ function closeFP() {
   document.getElementById('fpanel-back')?.classList.remove('on');
   document.getElementById('filter-btn')?.setAttribute('aria-expanded', 'false');
 }
-function onFilter() { pruneHiddenSelections(); updateFilterState(); renderList(); }
-function onSearch() { clearTimeout(srchTmr); srchTmr = setTimeout(() => { pruneHiddenSelections(); renderList(); }, 90); }
+
+function setStatusTab(st) {
+  activeStatusFilter = st || 'all';
+  pruneHiddenSelections();
+  updateFilterState();
+  renderList();
+}
+
+function onSearch() {
+  clearTimeout(srchTmr);
+  srchTmr = setTimeout(() => {
+    pruneHiddenSelections();
+    updateStatusTabCounts();
+    renderList();
+  }, 90);
+}
+
+function getBaseFilteredWithoutStatus() {
+  const s = (document.getElementById('search')?.value || '').toLowerCase();
+  return entries.filter(e => {
+    if (ordListYm !== 'all' && !(e.date || '').startsWith(ordListYm)) return false;
+    if (activeClientFilter && e.name !== activeClientFilter) return false;
+    if (activeWorkFilter && e.desc !== activeWorkFilter) return false;
+    if (s && !(e.desc||'').toLowerCase().includes(s) && !(e.name||'').toLowerCase().includes(s) && !(e.note||'').toLowerCase().includes(s)) return false;
+    return true;
+  });
+}
+
+function updateStatusTabCounts() {
+  const base = getBaseFilteredWithoutStatus();
+  let cUnpaid = 0, cSent = 0, cPaid = 0;
+  base.forEach(e => {
+    const st = getEntryStatus(e);
+    if (st === 'paid') cPaid++;
+    else if (st === 'sent') cSent++;
+    else cUnpaid++;
+  });
+  setText('st-cnt-all', String(base.length));
+  setText('st-cnt-unpaid', String(cUnpaid));
+  setText('st-cnt-sent', String(cSent));
+  setText('st-cnt-paid', String(cPaid));
+
+  document.querySelectorAll('#ord-st-tabs .ord-st-tab').forEach(btn => {
+    const on = btn.dataset.st === activeStatusFilter;
+    btn.classList.toggle('on', on);
+    btn.setAttribute('aria-selected', String(on));
+  });
+  document.getElementById('kpi-await-card')?.classList.toggle('is-active', activeStatusFilter === 'awaiting');
+}
 
 function updateFilterState() {
   if (activeClientFilter && !entries.some(e => e.name === activeClientFilter)) activeClientFilter = '';
   if (activeWorkFilter && !entries.some(e => e.desc === activeWorkFilter)) activeWorkFilter = '';
-  const st = document.getElementById('f-status').value;
-  const has = !!(activeClientFilter || activeWorkFilter || (st && st !== 'all'));
-  document.getElementById('fdot').classList.toggle('on', has);
-  document.getElementById('filter-btn').classList.toggle('on', has);
+  const has = !!(activeClientFilter || activeWorkFilter);
+  document.getElementById('fdot')?.classList.toggle('on', has);
+  document.getElementById('filter-btn')?.classList.toggle('on', has);
+  updateStatusTabCounts();
   updateTags();
 }
 
 function updateTags() {
-  const st = document.getElementById('f-status').value;
   const w = document.getElementById('atags');
   if (!w) return;
   w.innerHTML = '';
+  if (activeStatusFilter === 'awaiting') {
+    const tag = el('div', {className:'atag', role:'button', tabindex:'0'}, ['Ожидают оплаты ×']);
+    tag.addEventListener('click', () => setStatusTab('all'));
+    w.appendChild(tag);
+  }
   if (activeClientFilter) {
     const tag = el('div', {className:'atag', role:'button', tabindex:'0'}, [
       el('span', {className:'eclient-dot', style:`background:${getClientColor(activeClientFilter)}`}),
@@ -4616,15 +5204,8 @@ function updateTags() {
     tag.addEventListener('click', clearWorkFilter);
     w.appendChild(tag);
   }
-  if (st && st !== 'all') {
-    const lbls = { awaiting: 'Не оплачено', unpaid: 'В работе', sent: 'Отправлено', paid: 'Оплачено' };
-    const tag = el('div', {className:'atag', role:'button', tabindex:'0'}, [(lbls[st] || 'Фильтр') + ' ×']);
-    tag.addEventListener('click', clearStatusFilter);
-    w.appendChild(tag);
-  }
 }
-function clearClientFilter(){ activeClientFilter = ''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); if (chartMode === 'clients') renderClientRevenueBreakdown(); }
-function clearStatusFilter(){ document.getElementById('f-status').value = 'all'; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
+function clearClientFilter(){ activeClientFilter = ''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
 function clearWorkFilter(){ activeWorkFilter = ''; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
 function filterByClient(name){
   if (name === 'Без имени') return;
@@ -4633,9 +5214,15 @@ function filterByClient(name){
   buildFilterTags();
   updateFilterState();
   renderList();
-  if (chartMode === 'clients') renderClientRevenueBreakdown();
 }
-function filterByWork(desc){ activeWorkFilter = (activeWorkFilter === desc) ? '' : desc; pruneHiddenSelections(); buildFilterTags(); updateFilterState(); renderList(); }
+function filterByWork(desc){
+  if (!desc || desc === '—') return;
+  activeWorkFilter = (activeWorkFilter === desc) ? '' : desc;
+  pruneHiddenSelections();
+  buildFilterTags();
+  updateFilterState();
+  renderList();
+}
 
 function buildFilterTags() {
   const clients = [...new Set(entries.map(e => e.name).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'ru'));
@@ -4663,23 +5250,17 @@ function buildFilterTags() {
 }
 
 function getFiltered() {
-  const s = document.getElementById('search').value.toLowerCase();
-  const st = document.getElementById('f-status').value;
-  return entries.filter(e => {
+  const base = getBaseFilteredWithoutStatus();
+  if (activeStatusFilter === 'all') return base;
+  return base.filter(e => {
     const est = getEntryStatus(e);
-    if (activeClientFilter && e.name !== activeClientFilter) return false;
-    if (activeWorkFilter && e.desc !== activeWorkFilter) return false;
-    if (st === 'awaiting' && est === 'paid') return false;
-    if (st === 'unpaid' && est !== 'unpaid') return false;
-    if (st === 'sent' && est !== 'sent') return false;
-    if (st === 'paid' && est !== 'paid') return false;
-    if (s && !(e.desc||'').toLowerCase().includes(s) && !(e.name||'').toLowerCase().includes(s) && !(e.note||'').toLowerCase().includes(s)) return false;
-    return true;
+    if (activeStatusFilter === 'awaiting') return est !== 'paid';
+    return est === activeStatusFilter;
   });
 }
 
 /* ══════════════════════════════════════════════
-   12. CHRONOLOGICAL GROUPING & DELEGATED RENDER
+   12. GROUP HELPERS (SHARED WITH BUDGET) & ORDERS TABLE RENDER
 ══════════════════════════════════════════════ */
 function grpKey(e) {
   const d = e.date;
@@ -4712,11 +5293,6 @@ function grpLabel(k) {
   return k;
 }
 
-function formatGroupTotal(list) {
-  const tot = totB(list);
-  return tot !== null ? fmtB(tot) : fmtMap(sBC(list), fmtB(0));
-}
-
 function extractUrlFromNote(note) {
   if (!note) return { text: '', url: null, label: '' };
   const m = note.match(/(https?:\/\/[^\s]+|(?:t\.me|telegram\.me|figma\.com|docs\.google\.com|drive\.google\.com|disk\.yandex\.[a-z]+|yadi\.sk|youtu\.be|youtube\.com|notion\.so|notion\.site|github\.com)\/[^\s]+)/i);
@@ -4747,14 +5323,15 @@ function getSentAgingDays(e) {
   return Math.max(0, Math.floor((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(y, m - 1, d)) / 86400000));
 }
 
+function formatShortRuDate(iso) {
+  if (!iso || iso.length < 10) return '';
+  const [y,m,d] = iso.slice(0, 10).split('-').map(Number);
+  if (!y || !m || !d || isNaN(y) || isNaN(m) || isNaN(d)) return '';
+  return new Date(y, m - 1, d).toLocaleDateString('ru-RU', {day:'numeric', month:'short'});
+}
+
 function renderEntry(e) {
-  let ds = '';
-  if (e.date) {
-    const [y,m,d] = e.date.split('-').map(Number);
-    if (y && m && d && !isNaN(y) && !isNaN(m) && !isNaN(d)) {
-      ds = new Date(y,m-1,d).toLocaleDateString('ru-RU', {day:'numeric', month:'short'});
-    }
-  }
+  const ds = formatShortRuDate(e.date);
   const st = getEntryStatus(e);
   const isPaid = st === 'paid', isSent = st === 'sent';
   const isSel = selIds.has(e.id);
@@ -4763,82 +5340,111 @@ function renderEntry(e) {
   const shouldPopBadge = _popBadgeId === e.id;
   if (shouldPopBadge) _popBadgeId = null;
 
-  const card = el('div', {
-    className: `entry-card${isPaid?' paid':''}${editId===e.id?' editing':''}${isSel?' sel':''}${shouldFlash?' flash-glow':''}`,
+  const row = el('div', {
+    className: `entry-card ord-row${isPaid?' paid':''}${editId===e.id?' editing':''}${isSel?' sel':''}${shouldFlash?' flash-glow':''}`,
     data: {id: e.id},
     tabindex: '0',
     aria: {pressed: String(isSel)}
   });
 
-  // Left-aligned 3-step Apple Reminders status circle
-  const badgeCls = isPaid ? 'p' : (isSent ? 's' : 'u');
-  const badgeLbl = isPaid ? 'Оплачено' : (isSent ? 'Отправлено (клик — оплачено)' : 'Не оплачено (клик — отправил)');
-  card.appendChild(el('button', {
-    className: 'badge ' + badgeCls + (shouldPopBadge ? ' pop' : ''),
+  // Col 1: Checkbox
+  const chkBtn = el('button', {
+    className: 'ord-chk' + (isSel ? ' on' : ''),
     type: 'button',
-    title: badgeLbl,
-    'aria-label': badgeLbl,
-    data: {act: 'badge'}
-  }));
+    title: 'Выбрать заказ',
+    'aria-label': 'Выбрать заказ',
+    data: {act: 'chk'}
+  });
+  if (isSel) chkBtn.innerHTML = ICONS.check;
+  row.appendChild(chkBtn);
 
-  const left = el('div', {className:'el'});
-  left.appendChild(el('div', {className:'etitle'}, [
-    el('span', {className:'sel-txt'}, [e.desc || e.name || '—'])
-  ]));
-
+  // Col 2: Client / Project Title (primary scannable anchor)
   const { text: noteText, url: noteUrl, label: linkLabel } = extractUrlFromNote(e.note);
-  const paidCrossMonth = isPaid && e.paidAt && e.date && e.paidAt.slice(0,7) !== e.date.slice(0,7);
-  const agingDays = getSentAgingDays(e);
+  const mainCell = el('div', {className:'ord-cell-main'});
+  const mainTxt = el('div', {className:'ord-main-txt'});
 
-  if (e.name || noteText || noteUrl || paidCrossMonth || agingDays !== null) {
-    const meta = el('div', {className:'emeta'});
-    if (e.name) {
-      meta.appendChild(el('span', {className:'eclient-wrap'}, [
-        el('span', {className:'eclient-dot', style:`background:${getClientColor(e.name)}`}),
-        el('span', {className:'eclient sel-txt'}, [e.name])
-      ]));
-    }
+  if (e.name) {
+    mainTxt.appendChild(el('span', {className:'eclient-dot', style:`background:${getClientColor(e.name)}`}));
+    mainTxt.appendChild(el('span', {className:'ord-client sel-txt'}, [e.name]));
     if (noteText) {
-      if (e.name) meta.appendChild(document.createTextNode('·'));
-      meta.appendChild(el('span', {className:'enote-txt sel-txt'}, [noteText]));
+      mainTxt.appendChild(el('span', {className:'ord-sep'}, ['·']));
+      mainTxt.appendChild(el('span', {className:'ord-proj sel-txt', title: noteText}, [noteText]));
     }
-    if (agingDays !== null) {
-      const ageCls = agingDays >= 10 ? 'eage-pill late' : (agingDays >= 5 ? 'eage-pill warn' : 'eage-pill');
-      meta.appendChild(el('span', {className: ageCls}, [agingDays === 0 ? 'Отправлено · сегодня' : `Отправлено · ${agingDays} дн.`]));
+  } else {
+    mainTxt.appendChild(el('span', {className:'ord-client sel-txt'}, [e.desc || '—']));
+    if (noteText) {
+      mainTxt.appendChild(el('span', {className:'ord-sep'}, ['·']));
+      mainTxt.appendChild(el('span', {className:'ord-proj sel-txt', title: noteText}, [noteText]));
     }
-    if (paidCrossMonth) {
-      const [py, pm, pd] = e.paidAt.split('-').map(Number);
-      if (py && pm && pd) {
-        meta.appendChild(el('span', {className:'epaid-cross'}, [`опл. ${new Date(py, pm-1, pd).toLocaleDateString('ru-RU', {day:'numeric', month:'short'})}`]));
-      }
-    }
-    if (noteUrl) {
-      meta.appendChild(el('a', {className:'elink', href:noteUrl, target:'_blank', rel:'noopener noreferrer', title:noteUrl}, [linkLabel]));
-    }
-    left.appendChild(meta);
   }
+  mainCell.appendChild(mainTxt);
+  if (noteUrl) {
+    mainCell.appendChild(el('a', {className:'elink', href:noteUrl, target:'_blank', rel:'noopener noreferrer', title:noteUrl}, [linkLabel]));
+  }
+  row.appendChild(mainCell);
 
-  const right = el('div', {className:'er'});
-  if (ds) right.appendChild(el('span', {className:'edate'}, [ds]));
-  const amtSpan = el('span', {className:'eamt sel-txt'});
+  // Col 3: Type tag
+  const typeCell = el('div', {className:'ord-cell-type'});
+  typeCell.appendChild(el('button', {
+    className: 'ord-type-tag',
+    type: 'button',
+    title: e.desc ? `Фильтр по типу: ${e.desc}` : 'Тип не указан',
+    data: {act: 'type', desc: e.desc || ''}
+  }, [e.desc || '—']));
+  row.appendChild(typeCell);
+
+  // Col 4: Single Clear Status Pill + Subtle 1-Click Hover Action
+  const statusCell = el('div', {className:'ord-cell-status'});
+  const agingDays = getSentAgingDays(e);
+  let stCls = 'st-unpaid', stText = 'В работе', stTitle = 'Клик — перевести в Отправлено';
+  if (isSent) {
+    stCls = (agingDays !== null && agingDays >= 10) ? 'st-late' : 'st-sent';
+    stText = agingDays === 0 ? 'Отправлено · сегодня' : `Отправлено · ${agingDays} дн.`;
+    stTitle = 'Клик — отметить оплаченным';
+  } else if (isPaid) {
+    stCls = 'st-paid';
+    const paidDs = formatShortRuDate(e.paidAt);
+    stText = paidDs ? `Оплачено · ${paidDs}` : 'Оплачено';
+    stTitle = 'Клик — вернуть в работу';
+  }
+  statusCell.appendChild(el('button', {
+    className: `ord-st-pill ${stCls}${shouldPopBadge ? ' pop' : ''}`,
+    type: 'button',
+    title: stTitle,
+    data: {act: 'badge'}
+  }, [el('span', {className:'ord-st-dot'}), stText]));
+
+  if (!isPaid) {
+    statusCell.appendChild(el('button', {
+      className: 'ord-quick-act',
+      type: 'button',
+      data: {act: 'quick'},
+      title: isSent ? 'Отметить оплаченным' : 'Отметить отправленным'
+    }, [isSent ? 'Оплачено' : 'Отправить']));
+  }
+  row.appendChild(statusCell);
+
+  // Col 5: Date
+  row.appendChild(el('div', {className:'ord-cell-date'}, [ds || '—']));
+
+  // Col 6: Right-aligned Amount
+  const amtCell = el('div', {className:'ord-cell-amt sel-txt'});
   const formattedAmt = fmtCur(e.amount, e.currency);
   if (CUR_PREFIX.includes(e.currency)) {
-    amtSpan.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
-    amtSpan.appendChild(document.createTextNode(formattedAmt.slice(e.currency.length)));
+    amtCell.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
+    amtCell.appendChild(document.createTextNode(formattedAmt.slice(e.currency.length)));
   } else {
     const idxSym = formattedAmt.lastIndexOf(e.currency);
     if (idxSym > 0) {
-      amtSpan.appendChild(document.createTextNode(formattedAmt.slice(0, idxSym)));
-      amtSpan.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
+      amtCell.appendChild(document.createTextNode(formattedAmt.slice(0, idxSym)));
+      amtCell.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
     } else {
-      amtSpan.textContent = formattedAmt;
+      amtCell.textContent = formattedAmt;
     }
   }
-  right.appendChild(amtSpan);
+  row.appendChild(amtCell);
 
-  card.appendChild(left);
-  card.appendChild(right);
-  return card;
+  return row;
 }
 
 function getRankedValues(key) {
@@ -4900,8 +5506,10 @@ function rebuildClientSel() {
 function updateStatsAndAnalytics() {
   updateMobilePeriodPillText();
 
+  // KPI 2: Awaiting payment (all unpaid + sent)
   const ua = entries.filter(e => !e.paid);
   setText('nav-cnt-orders', ua.length > 0 ? String(ua.length) : '');
+  setText('val-await-cnt', ua.length > 0 ? `${ua.length} шт.` : '');
 
   const uaMap = sBC(ua), uaTot = totB(ua), uaKeys = Object.keys(uaMap);
   if (uaTot !== null) {
@@ -4917,9 +5525,9 @@ function updateStatsAndAnalytics() {
     awMulti.textContent = (uaKeys.length > 1 || (uaTot === null && uaKeys.length > 0))
       ? Object.entries(uaMap).map(([c,v]) => fmtCur(v,c)).join(' · ') : '';
   }
-
   document.getElementById('val-await-zero')?.classList.toggle('on', entries.length > 0 && ua.length === 0);
 
+  // KPI 1: Received in selected period
   const recv = entries.filter(isPaidInPeriod);
   const recvMap = sBC(recv), recvTot = totB(recv), recvKeys = Object.keys(recvMap);
   if (recvTot !== null) {
@@ -4936,21 +5544,40 @@ function updateStatsAndAnalytics() {
       ? Object.entries(recvMap).map(([c,v]) => fmtCur(v,c)).join(' · ') : '';
   }
 
+  // KPI 3: Total last 12 months + inline mini sparkline (without monthly average)
+  const pts12m = buildChartSeries('1y');
+  const sum12m = Math.round(pts12m.reduce((s, p) => s + p.value, 0) * 100) / 100;
+  const cnt12m = pts12m.reduce((s, p) => s + p.count, 0);
+  animateNumberText('val-12m', sum12m, fmtB, fmtB(0), baseCur);
+  setText('val-12m-cnt', cnt12m > 0 ? pluralOrdersRu(cnt12m) : '');
+  renderKpiSparkline(pts12m);
+
   renderMonthTrend();
   if (_chartDirty) renderAnalytics();
 }
 
+function syncHeaderCheckbox() {
+  const chkAll = document.getElementById('ord-chk-all');
+  if (!chkAll) return;
+  const filt = getFiltered();
+  const allSel = filt.length > 0 && filt.every(e => selIds.has(e.id));
+  chkAll.classList.toggle('on', allSel);
+  chkAll.innerHTML = allSel ? ICONS.check : '';
+}
+
 function renderList() {
   const listEl = document.getElementById('list');
+  const theadEl = document.getElementById('ord-thead');
   if (!listEl) return;
   listEl.innerHTML = '';
 
   if (_isInitialCloudLoading && entries.length === 0) {
+    theadEl?.classList.add('is-hidden');
     const skFrag = document.createDocumentFragment();
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       skFrag.appendChild(el('div', {className:'skel-card', aria:{hidden:'true'}}, [
         el('div', {className:'skel-left'}, [el('div', {className:'skel-line w-title'}), el('div', {className:'skel-line w-sub'})]),
-        el('div', {className:'skel-right'}, [el('div', {className:'skel-line w-amt'}), el('div', {className:'skel-pill'})])
+        el('div', {className:'skel-right'}, [el('div', {className:'skel-pill'}), el('div', {className:'skel-line w-amt'})])
       ]));
     }
     listEl.appendChild(skFrag);
@@ -4959,12 +5586,17 @@ function renderList() {
 
   const filt = getFiltered();
   if (!filt.length) {
+    theadEl?.classList.add('is-hidden');
     const empty = el('div', {className:'empty'});
     const emptySvg = el('div', {className:'empty-ico'});
     emptySvg.innerHTML = ICONS.emptyBox;
     empty.appendChild(emptySvg);
-    empty.appendChild(el('div', {className:'empty-title'}, ['Пока ничего нет']));
-    empty.appendChild(el('div', {className:'empty-sub'}, ['Добавьте первый заказ или перетащите файл бэкапа .json прямо сюда.']));
+    empty.appendChild(el('div', {className:'empty-title'}, ['Заказов не найдено']));
+    empty.appendChild(el('div', {className:'empty-sub'}, [
+      entries.length
+        ? 'Попробуйте переключить вкладку статуса или сбросить фильтры.'
+        : 'Добавьте первый заказ или перетащите файл бэкапа .json прямо сюда.'
+    ]));
     if (!entries.length) {
       const ebtn = el('button', {className:'empty-btn', type:'button'}, ['+ Добавить заказ']);
       ebtn.addEventListener('click', openModal);
@@ -4975,35 +5607,17 @@ function renderList() {
     return;
   }
 
-  const gs = new Map();
-  for (const e of filt) {
-    const k = grpKey(e);
-    if (!gs.has(k)) gs.set(k, []);
-    gs.get(k).push(e);
-  }
+  theadEl?.classList.remove('is-hidden');
 
-  const frag = document.createDocumentFragment();
-  [...gs.entries()].sort((a,b) => grpSort(b[0]).localeCompare(grpSort(a[0]))).forEach(([k,g]) => {
-    const sg = [...g].sort((a,b) => {
-      if (!a.date && !b.date) return 0;
-      if (!a.date) return 1;
-      if (!b.date) return -1;
-      return b.date.localeCompare(a.date);
-    });
-    const grpSum = formatGroupTotal(sg);
-    const isRecent = (k === 'today' || k === 'yest' || k === 'cm');
-    const cardBox = el('section', {className: 'rem-group' + (isRecent ? '' : ' past-group')});
-    cardBox.appendChild(el('div', {className:'rem-hdr'}, [
-      el('div', {className:'rem-hdr-left'}, [
-        el('span', {className:'rem-title'}, [grpLabel(k)]),
-        el('span', {className:'rem-cnt'}, [String(sg.length)])
-      ]),
-      grpSum ? el('span', {className:'rem-sum'}, [grpSum]) : null
-    ]));
-    sg.forEach(e => cardBox.appendChild(renderEntry(e)));
-    frag.appendChild(cardBox);
+  const sorted = [...filt].sort((a,b) => {
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    return b.date.localeCompare(a.date);
   });
 
+  const frag = document.createDocumentFragment();
+  sorted.forEach(e => frag.appendChild(renderEntry(e)));
   listEl.appendChild(frag);
   updateSelectionUI();
 }
@@ -5017,8 +5631,19 @@ function render() {
 }
 
 /* ══════════════════════════════════════════════
-   13. SELECTION DOCK, DELEGATION & LASSO
+   13. SELECTION DOCK, CHECKBOXES & LASSO
 ══════════════════════════════════════════════ */
+function setRowSelectedVisual(card, isSel) {
+  if (!card) return;
+  card.classList.toggle('sel', isSel);
+  card.setAttribute('aria-pressed', String(isSel));
+  const chk = card.querySelector('.ord-chk');
+  if (chk) {
+    chk.classList.toggle('on', isSel);
+    chk.innerHTML = isSel ? ICONS.check : '';
+  }
+}
+
 function handleCardClick(id, ev) {
   if (ev && ev.shiftKey && _lastClickedCardId && _lastClickedCardId !== id) {
     const cards = [...document.querySelectorAll('#list .entry-card')];
@@ -5027,23 +5652,12 @@ function handleCardClick(id, ev) {
     if (i1 !== -1 && i2 !== -1) {
       for (let i = Math.min(i1, i2); i <= Math.max(i1, i2); i++) {
         selIds.add(ids[i]);
-        cards[i].classList.add('sel');
-        cards[i].setAttribute('aria-pressed', 'true');
+        setRowSelectedVisual(cards[i], true);
       }
       _lastClickedCardId = id;
       updateSelectionUI();
       return;
     }
-  }
-  const isAdditive = ev && (ev.metaKey || ev.ctrlKey);
-  if (!isAdditive && selIds.size > 1) {
-    clearSel();
-    selIds.add(id);
-    const card = document.querySelector(`.entry-card[data-id="${CSS.escape(id)}"]`);
-    if (card) { card.classList.add('sel'); card.setAttribute('aria-pressed', 'true'); }
-    _lastClickedCardId = id;
-    updateSelectionUI();
-    return;
   }
   _lastClickedCardId = id;
   togSel(id);
@@ -5052,10 +5666,7 @@ function handleCardClick(id, ev) {
 function togSel(id) {
   if (selIds.has(id)) selIds.delete(id); else selIds.add(id);
   const card = document.querySelector(`.entry-card[data-id="${CSS.escape(id)}"]`);
-  if (card) {
-    card.classList.toggle('sel', selIds.has(id));
-    card.setAttribute('aria-pressed', String(selIds.has(id)));
-  }
+  setRowSelectedVisual(card, selIds.has(id));
   updateSelectionUI();
 }
 function toggleSelAll() {
@@ -5064,23 +5675,18 @@ function toggleSelAll() {
   f.forEach(e => {
     if (allSel) selIds.delete(e.id); else selIds.add(e.id);
     const card = document.querySelector(`.entry-card[data-id="${CSS.escape(e.id)}"]`);
-    if (card) {
-      card.classList.toggle('sel', selIds.has(e.id));
-      card.setAttribute('aria-pressed', String(selIds.has(e.id)));
-    }
+    setRowSelectedVisual(card, selIds.has(e.id));
   });
   updateSelectionUI();
 }
 function clearSel() {
   selIds.clear();
-  document.querySelectorAll('.entry-card.sel').forEach(c => {
-    c.classList.remove('sel');
-    c.setAttribute('aria-pressed', 'false');
-  });
+  document.querySelectorAll('#list .entry-card.sel').forEach(c => setRowSelectedVisual(c, false));
   updateSelectionUI();
 }
 
 function updateSelectionUI() {
+  syncHeaderCheckbox();
   const dock = document.getElementById('sel-dock');
   if (!dock) return;
   const hasSel = selIds.size > 0;
@@ -5166,8 +5772,7 @@ function initFinderLasso() {
       }
       const isSelected = nextSel.has(c.id);
       if (c.node.classList.contains('sel') !== isSelected) {
-        c.node.classList.toggle('sel', isSelected);
-        c.node.setAttribute('aria-pressed', String(isSelected));
+        setRowSelectedVisual(c.node, isSelected);
       }
     }
     selIds = nextSel;
@@ -5193,8 +5798,8 @@ function initFinderLasso() {
 
   window.addEventListener('mousedown', e => {
     if (e.button !== 0 || window.innerWidth <= 768) return;
-    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode')) return;
-    if (e.target.closest('.rail-nav, .view-toolbar, .split-side, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, button, a, input, select, textarea, canvas, label')) return;
+    if (ordSubView !== 'list' || document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode')) return;
+    if (e.target.closest('.rail-nav, .view-toolbar, .ord-kpi-row, .ord-table-bar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, button, a, input, select, textarea, canvas, label')) return;
 
     if (document.activeElement && ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
       document.activeElement.blur();
@@ -5287,7 +5892,7 @@ function markUnpaid() { applyBulkOrderStatus('unpaid'); }
 async function delSel() {
   if (!selIds.size) return;
   const cnt = selIds.size;
-  if (!(await showConfirm('Удалить записи', `Удалить выбранные записи (${cnt} шт.)?`))) return;
+  if (!(await showConfirm('Удалить заказы', `Удалить выбранные заказы (${cnt} шт.)?`))) return;
   const snapshot = cloneEntries();
   const removedIds = [...selIds];
   recordDeletedIds(removedIds);
@@ -5296,6 +5901,26 @@ async function delSel() {
   save(); selIds.clear(); render();
   showToast(`Удалено записей: ${cnt}`, () => {
     removedIds.forEach(id => deletedIds.delete(String(id)));
+    lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+    entries = snapshot; save(); render();
+  });
+}
+
+async function deleteCurrentEditedOrder() {
+  if (!editId) return;
+  const targetId = editId;
+  if (!(await showConfirm('Удалить заказ', 'Удалить эту запись из списка заказов?'))) return;
+  const snapshot = cloneEntries();
+  recordDeletedIds([targetId]);
+  entries = entries.filter(e => e.id !== targetId);
+  selIds.delete(targetId);
+  editId = null;
+  clearForm();
+  closeModal();
+  save();
+  render();
+  showToast('Заказ удалён', () => {
+    deletedIds.delete(String(targetId));
     lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
     entries = snapshot; save(); render();
   });
@@ -5314,12 +5939,12 @@ function togPaid(id) {
 
   _popBadgeId = id;
   save(); render();
-  const msgMap = { sent: 'Статус: Отправлено · отсчёт начат', paid: 'Статус: Оплачено', unpaid: 'Статус: Не оплачено' };
+  const msgMap = { sent: 'Статус: Отправлено · отсчёт начат', paid: 'Статус: Оплачено', unpaid: 'Статус: В работе' };
   showToast(msgMap[e.status], () => { entries = snapshot; save(); render(); });
 }
 
 /* ══════════════════════════════════════════════
-   14. ORDER MODAL & DRAFTS
+   14. ORDER DRAWER & DRAFTS
 ══════════════════════════════════════════════ */
 function openModal() {
   if (editId === null && !_hasDraft) {
@@ -5327,10 +5952,10 @@ function openModal() {
   } else if (editId === null && _hasDraft) {
     const bc = document.getElementById('bcan');
     if (bc) { bc.classList.remove('is-hidden'); bc.textContent = 'Сбросить'; }
-    setText('m-title', 'Новая запись (черновик)');
+    setText('m-title', 'Новый заказ (черновик)');
   }
   document.getElementById('mov').classList.add('on');
-  setTimeout(() => document.getElementById('f-desc')?.focus(), 80);
+  setTimeout(() => document.getElementById(editId ? 'f-note' : 'f-name')?.focus(), 80);
 }
 
 function dismissModal() {
@@ -5395,7 +6020,8 @@ function clearForm() {
 
   setText('bsub', '+ Добавить');
   const bc = document.getElementById('bcan'); if (bc) { bc.classList.add('is-hidden'); bc.textContent = 'Отмена'; }
-  setText('m-title', 'Новая запись');
+  document.getElementById('bdel-ord')?.classList.add('is-hidden');
+  setText('m-title', 'Новый заказ');
   setFormStatus('unpaid');
   const sa = document.getElementById('f-sentat'); if (sa) sa.value = '';
   const pa = document.getElementById('f-paidat'); if (pa) pa.value = '';
@@ -5461,10 +6087,10 @@ function submitForm(keepOpen = false) {
     const noteEl = document.getElementById('f-note'); if (noteEl) noteEl.value = '';
     if (h) { h.textContent = ''; h.className = 'ahint'; }
     _amtManuallyTyped = false; _amtAutoFilled = false; _hasDraft = false;
-    setText('m-title', 'Новая запись');
+    setText('m-title', 'Новый заказ');
     document.getElementById('bcan')?.classList.add('is-hidden');
     descEl.focus();
-    showToast(`Добавлено: ${desc} (${fmtCur(parsedAmt, currency)})`);
+    showToast(`Добавлено: ${name || desc} (${fmtCur(parsedAmt, currency)})`);
   } else {
     clearForm(); closeModal();
   }
@@ -5488,7 +6114,8 @@ function startEdit(id) {
   const ah = document.getElementById('ahint'); if (ah) { ah.textContent = ''; ah.className = 'ahint'; }
   setText('bsub', 'Сохранить');
   const bc = document.getElementById('bcan'); if (bc) { bc.classList.remove('is-hidden'); bc.textContent = 'Отмена'; }
-  setText('m-title', `Редактирование: ${e.desc || e.name}`);
+  document.getElementById('bdel-ord')?.classList.remove('is-hidden');
+  setText('m-title', e.name ? `Заказ · ${e.name}` : `Редактирование · ${e.desc}`);
 
   const st = getEntryStatus(e);
   setFormStatus(st);
@@ -5624,25 +6251,68 @@ function bindEvents() {
   document.getElementById('m-period-btn').addEventListener('click', openPeriodSheet);
   document.getElementById('m-inv-btn')?.addEventListener('click', openInvSheet);
 
-  // Event delegation on Orders list (#list)
+  // Orders sub-view switch ([ Заказы | Аналитика ])
+  document.getElementById('ord-sub-list')?.addEventListener('click', () => switchOrdersSubView('list'));
+  document.getElementById('ord-sub-analytics')?.addEventListener('click', () => switchOrdersSubView('analytics'));
+
+  // KPI Card interactions
+  document.getElementById('kpi-await-card')?.addEventListener('click', e => {
+    if (e.target.closest('.cur-click')) return;
+    setStatusTab(activeStatusFilter === 'awaiting' ? 'all' : 'awaiting');
+  });
+  document.getElementById('kpi-12m-card')?.addEventListener('click', e => {
+    if (e.target.closest('.cur-click')) return;
+    switchOrdersSubView('analytics');
+  });
+
+  // Status tabs
+  document.querySelectorAll('#ord-st-tabs .ord-st-tab').forEach(btn => {
+    btn.addEventListener('click', () => setStatusTab(btn.dataset.st));
+  });
+
+  // Table select-all & list period dropdown
+  document.getElementById('ord-chk-all')?.addEventListener('click', toggleSelAll);
+  document.getElementById('ord-list-period-btn')?.addEventListener('click', e => { e.stopPropagation(); toggleOrdListPeriodDd(); });
+  document.getElementById('an-period-btn')?.addEventListener('click', e => { e.stopPropagation(); toggleSharedPeriodDd('an-period-dd', 'an-period-btn'); });
+
+  // Event delegation on Orders table (#list)
   const listEl = document.getElementById('list');
   if (listEl) {
     listEl.addEventListener('click', ev => {
       if (ev.target.closest('.elink')) return;
-      const badge = ev.target.closest('[data-act="badge"]');
       const card = ev.target.closest('.entry-card');
       if (!card || !card.dataset.id) return;
       const id = card.dataset.id;
+
+      const chk = ev.target.closest('[data-act="chk"]');
+      if (chk) { ev.stopPropagation(); handleCardClick(id, ev); return; }
+
+      const badge = ev.target.closest('[data-act="badge"], [data-act="quick"]');
       if (badge) { ev.stopPropagation(); togPaid(id); return; }
+
+      const typeBtn = ev.target.closest('[data-act="type"]');
+      if (typeBtn) { ev.stopPropagation(); filterByWork(typeBtn.dataset.desc || ''); return; }
+
       if (_justLassoed) return;
+      if (window.getSelection && window.getSelection().toString().length > 0) return;
+
+      if (ev.shiftKey || ev.metaKey || ev.ctrlKey) {
+        handleCardClick(id, ev);
+        return;
+      }
+
       const now = performance.now();
-      if (!ev.shiftKey && !ev.metaKey && !ev.ctrlKey && _fastClickId === id && (now - _fastClickTime) <= FAST_DBLCLICK_MS) {
+      if (_fastClickId === id && (now - _fastClickTime) <= FAST_DBLCLICK_MS) {
         _fastClickTime = 0; _fastClickId = null;
         clearNativeTextSelection(); clearSel(); startEdit(id); return;
       }
-      if (window.getSelection && window.getSelection().toString().length > 0) return;
       _fastClickTime = now; _fastClickId = id;
-      handleCardClick(id, ev);
+
+      if (selIds.size > 0) {
+        handleCardClick(id, ev);
+      } else {
+        startEdit(id);
+      }
     });
     listEl.addEventListener('contextmenu', ev => {
       const card = ev.target.closest('.entry-card');
@@ -5651,7 +6321,7 @@ function bindEvents() {
       const id = card.dataset.id;
       if (!selIds.has(id)) {
         clearSel(); selIds.add(id); _lastClickedCardId = id;
-        card.classList.add('sel'); card.setAttribute('aria-pressed', 'true');
+        setRowSelectedVisual(card, true);
         updateSelectionUI();
       }
     });
@@ -5659,7 +6329,7 @@ function bindEvents() {
       if (ev.key !== 'Enter') return;
       const card = ev.target.closest('.entry-card');
       if (!card || !card.dataset.id) return;
-      ev.preventDefault(); handleCardClick(card.dataset.id, ev);
+      ev.preventDefault(); startEdit(card.dataset.id);
     });
   }
 
@@ -5706,8 +6376,9 @@ function bindEvents() {
   document.getElementById('period-sheet-ov').addEventListener('click', e => { if (e.target === document.getElementById('period-sheet-ov')) closePeriodSheet(); });
 
   // Currency switch strictly on the numeric values
-  document.getElementById('val-await').addEventListener('click', cycleBaseCur);
-  document.getElementById('val-recv').addEventListener('click', cycleBaseCur);
+  document.getElementById('val-await').addEventListener('click', e => { e.stopPropagation(); cycleBaseCur(); });
+  document.getElementById('val-recv').addEventListener('click', e => { e.stopPropagation(); cycleBaseCur(); });
+  document.getElementById('val-12m').addEventListener('click', e => { e.stopPropagation(); cycleBaseCur(); });
 
   // Selection dock actions
   document.getElementById('sd-btn-edit').addEventListener('click', () => {
@@ -5774,12 +6445,13 @@ function bindEvents() {
     if (e.dataTransfer?.files?.length > 0) handleFileObject(e.dataTransfer.files[0]);
   });
 
-  // Order modal listeners
+  // Order drawer listeners
   document.getElementById('mov').addEventListener('mousedown', e => _mdTarget = e.target);
   document.getElementById('mov').addEventListener('click', e => { if (e.target === document.getElementById('mov') && _mdTarget === e.target) dismissModal(); });
   document.getElementById('m-close').addEventListener('click', dismissModal);
   document.getElementById('bsub').addEventListener('click', () => submitForm(false));
   document.getElementById('bcan').addEventListener('click', cancelEdit);
+  document.getElementById('bdel-ord')?.addEventListener('click', deleteCurrentEditedOrder);
   document.getElementById('f-amt').addEventListener('input', onAmtInput);
   document.getElementById('f-desc').addEventListener('input', () => { trySmartAutoPrice(); renderOrderSuggestionChips(); });
   document.getElementById('f-name').addEventListener('input', () => { updateClientClearBtn(); trySmartAutoPrice(); renderOrderSuggestionChips(); });
@@ -5791,7 +6463,8 @@ function bindEvents() {
   document.getElementById('fst-sent').addEventListener('click', () => setFormStatus('sent'));
   document.getElementById('fst-paid').addEventListener('click', () => setFormStatus('paid'));
   document.getElementById('mov').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.target.closest('#bcan, #m-close')) {
+    if (e.key === 'Enter' && !e.target.closest('#bcan, #m-close, #bdel-ord')) {
+      if (e.target.tagName === 'TEXTAREA' && !e.metaKey && !e.ctrlKey) return;
       e.preventDefault(); submitForm(e.shiftKey || e.metaKey || e.ctrlKey);
     }
   });
@@ -5799,9 +6472,7 @@ function bindEvents() {
   // Search, filter & chart controls
   document.getElementById('search').addEventListener('input', onSearch);
   document.getElementById('filter-btn').addEventListener('click', toggleFP);
-  document.getElementById('f-status').addEventListener('change', onFilter);
   document.getElementById('mo-title-btn').addEventListener('click', e => { e.stopPropagation(); toggleSharedPeriodDd('period-dd', 'mo-title-btn'); });
-  document.querySelectorAll('.sc-mode-btn').forEach(btn => btn.addEventListener('click', () => setChartMode(btn.dataset.cmode)));
   document.querySelectorAll('.sc-rng-btn').forEach(btn => btn.addEventListener('click', () => setChartTimeframe(btn.dataset.tf)));
 
   // Settings listeners
@@ -5829,7 +6500,7 @@ function bindEvents() {
 
   let _scWinResizeTmr = null;
   window.addEventListener('resize', () => {
-    if (chartMode === 'trend' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode')) {
+    if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode')) {
       clearTimeout(_scWinResizeTmr);
       _scWinResizeTmr = setTimeout(() => renderMiniStockChart(), 120);
     }
@@ -5888,6 +6559,7 @@ function bindEvents() {
 
     if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
       e.preventDefault();
+      if (!isBudgetMode && ordSubView !== 'list') switchOrdersSubView('list');
       document.getElementById(isBudgetMode ? 'bg-search' : 'search')?.focus();
       return;
     }
@@ -5900,7 +6572,7 @@ function bindEvents() {
       return;
     }
 
-    if (!inInput && !modalOpen && (e.metaKey || e.ctrlKey) && (k === 'a' || k === 'ф')) { e.preventDefault(); toggleSelAll(); return; }
+    if (!inInput && !modalOpen && ordSubView === 'list' && (e.metaKey || e.ctrlKey) && (k === 'a' || k === 'ф')) { e.preventDefault(); toggleSelAll(); return; }
 
     if (!inInput && !modalOpen && selIds.size > 0) {
       if ((e.metaKey || e.ctrlKey) && (k === 'c' || k === 'с')) {
@@ -5916,7 +6588,7 @@ function bindEvents() {
 
     if (!inInput && !modalOpen && !e.metaKey && !e.ctrlKey && !e.altKey) {
       if (k === 'n' || k === 'т') { e.preventDefault(); openModal(); }
-      else if (e.key === '/') { e.preventDefault(); document.getElementById('search').focus(); }
+      else if (e.key === '/') { e.preventDefault(); if (ordSubView !== 'list') switchOrdersSubView('list'); document.getElementById('search').focus(); }
     }
   });
 
