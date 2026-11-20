@@ -1000,6 +1000,18 @@ html[data-density="compact"] .ord-row{padding:7.5px 18px;}
   letter-spacing:-0.02em;
   text-align:right;
   white-space:nowrap;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:center;
+  line-height:1.25;
+}
+.ord-amt-sub{
+  font-size:10.5px;
+  font-weight:500;
+  color:var(--text3);
+  letter-spacing:-0.01em;
+  margin-top:1px;
 }
 .ord-row.paid .ord-cell-amt{color:var(--text2);}
 .ord-cell-amt .cur-sym{font-size:0.88em;font-weight:500;opacity:0.6;}
@@ -1446,7 +1458,8 @@ html[data-density="compact"] .bg-row{padding:7.5px 18px;}
 .ios-switch input:checked + .ios-slider::before{transform:translateX(16px);}
 
 body.budget-mode #sel-dock,
-body.xp-mode #sel-dock{display:none!important;}
+body.xp-mode #sel-dock,
+body.channels-mode #sel-dock{display:none!important;}
 
 /* ══════════════════════════════════════════════════════════════════
    FLOATING SELECTION DOCK, LASSO, DROP ZONE & TOAST
@@ -1522,7 +1535,6 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .mclose{background:none;border:none;cursor:pointer;color:var(--text3);padding:0;width:30px;height:30px;border-radius:var(--r-xs);display:flex;align-items:center;justify-content:center;}
 .mclose:hover{background:var(--surface2);color:var(--text);}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px;}
-.fgrid.f-row-main{grid-template-columns:1.55fr 1fr;}
 .fgrid.single-col{grid-template-columns:1fr;}
 .ff label{font-size:10.5px;color:var(--text2);font-weight:600;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;text-transform:uppercase;cursor:pointer;}
 .modal input,.modal select,.cloud-inp{
@@ -1542,6 +1554,19 @@ html[data-theme="dark"] .toast-undo{background:rgba(0,0,0,0.22);}
 .amt-cur-combo:focus-within{border-color:var(--blue);background:var(--surface);}
 .modal .amt-cur-combo input{flex:1;min-width:0;height:100%;border:none!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;padding-right:4px;}
 .modal .amt-cur-combo select{width:60px;flex-shrink:0;height:100%;border:none!important;border-left:1px solid var(--border)!important;background-color:transparent!important;box-shadow:none!important;border-radius:0!important;font-weight:600;padding:0 20px 0 10px;background-position:right 7px center;}
+.combo-cur-lbl{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:38px;height:100%;padding:0 10px;
+  border-left:1px solid var(--border);
+  font-size:13px;font-weight:600;color:var(--text2);flex-shrink:0;
+  user-select:none;
+}
+.fee-bar-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fee-inp-wrap{width:106px;flex-shrink:0;}
+.fee-qchips{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex:1;}
+.fee-lbl-meta{font-size:10.5px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--text3);}
+.fee-lbl-meta.smart{color:var(--blue);}
+.fee-lbl-meta.err{color:var(--danger);}
 input[type=date]::-webkit-calendar-picker-indicator{opacity:.45;cursor:pointer;}
 html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.55;}
 .ahint{font-size:11.5px;color:var(--text3);margin-top:3px;min-height:14px;}
@@ -1921,6 +1946,13 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .m-gt-ico.pending .sync-dot{background:var(--text3);}
 .m-gt-ico.warn{background:var(--warning-bg);color:var(--warning);}
 .m-gt-ico.warn .sync-dot{background:var(--warning);}
+.m-gt-set{
+  width:30px;height:30px;padding:0;border-radius:var(--rf);
+  background:var(--surface);border:0.5px solid var(--border);
+  color:var(--text2);display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;
+}
+.m-gt-set:active{background:var(--surface2);color:var(--text);}
 
 .fpanel-back,.xp-sheet-back{
   display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
@@ -2074,6 +2106,308 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .bg-thead,.bg-row{grid-template-columns:minmax(0, 1fr) 140px 116px 80px 112px;gap:10px;padding-left:14px;padding-right:14px;}
   .ord-quick-act{display:none;}
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   CHANNELS & THUMBNAIL REFERENCES MODULE
+══════════════════════════════════════════════════════════════════ */
+@keyframes chSpin{to{transform:rotate(360deg);}}
+.ch-spinner{
+  width:13px;height:13px;border-radius:50%;
+  border:2px solid currentColor;border-top-color:transparent;
+  animation:chSpin .7s linear infinite;display:inline-block;flex-shrink:0;
+}
+.ch-tb-back{
+  height:30px;padding:0 10px 0 8px;border:none;border-radius:var(--r-xs);
+  background:var(--surface2);color:var(--text);font-size:12.5px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;
+}
+.ch-tb-back:hover{background:var(--surface3);}
+#ch-search{
+  flex:1;min-width:0;width:100%;height:100%;padding:0 10px 0 32px;
+  font-size:13px;border:none;border-radius:var(--r);
+  background:transparent;color:var(--text);font-family:inherit;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+#ch-search::placeholder{color:var(--text3);}
+
+/* Horizontal macOS Folder Bar */
+.ch-folder-bar{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  min-width:0;
+}
+.ch-fpill{
+  height:32px;padding:0 11px;border-radius:var(--r);
+  border:0.5px solid var(--border);background:var(--surface);
+  color:var(--text2);font-size:12.5px;font-weight:500;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  box-shadow:var(--shadow-card);white-space:nowrap;flex-shrink:0;
+  transition:background-color .14s var(--ease), color .14s var(--ease), border-color .14s var(--ease);
+}
+.ch-fpill:hover{background:var(--surface2);color:var(--text);}
+.ch-fpill.on{
+  background:var(--blue-bg);color:var(--blue);border-color:var(--blue);font-weight:600;
+}
+.ch-fpill-cnt{
+  font-size:11px;font-weight:600;color:var(--text3);
+  padding:0.5px 5.5px;border-radius:5px;background:var(--surface2);
+}
+.ch-fpill.on .ch-fpill-cnt{background:var(--surface);color:var(--blue);}
+.ch-fpill-acts{
+  display:none;align-items:center;gap:2px;margin-left:2px;
+}
+.ch-fpill:hover .ch-fpill-acts,
+.ch-fpill.on .ch-fpill-acts{display:inline-flex;}
+.ch-fpill-abtn{
+  width:18px;height:18px;border:none;border-radius:4px;
+  background:transparent;color:var(--text3);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;padding:0;
+}
+.ch-fpill-abtn:hover{background:var(--surface3);color:var(--text);}
+.ch-fpill-abtn.del:hover{background:var(--danger-bg);color:var(--danger);}
+.ch-fpill-edit{
+  height:32px;padding:0 4px 0 10px;border-radius:var(--r);
+  border:1px solid var(--blue);background:var(--surface);
+  display:inline-flex;align-items:center;gap:4px;
+}
+.ch-fpill-inp{
+  width:118px;height:24px;border:none;background:transparent;
+  color:var(--text);font-size:12.5px;font-weight:600;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.ch-fpill-add{
+  height:32px;padding:0 11px;border-radius:var(--r);
+  border:0.5px dashed var(--border2);background:transparent;
+  color:var(--text2);font-size:12.5px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0;
+}
+.ch-fpill-add:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+.ch-new-fbox{
+  display:none;align-items:center;gap:5px;
+}
+.ch-new-fbox.on{display:inline-flex;animation:popIn .14s var(--ease);}
+.ch-new-finp{
+  width:146px;height:32px;padding:0 10px;font-size:12.5px;
+  border:1px solid var(--blue);border-radius:var(--r);
+  background:var(--surface);color:var(--text);outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.ch-new-fok{
+  height:32px;padding:0 11px;border:none;border-radius:var(--r);
+  background:var(--blue);color:#fff;font-size:12px;font-weight:600;cursor:pointer;
+}
+
+/* Quick Auto-Load Bar */
+.ch-quick-bar{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:9px 11px 9px 15px;display:flex;align-items:center;gap:10px;
+}
+.ch-quick-bar:focus-within{border-color:var(--blue);box-shadow:0 0 0 2.5px var(--blue-bg);}
+.ch-quick-ico{color:var(--text3);flex-shrink:0;display:flex;}
+.ch-quick-inp{
+  flex:1;min-width:0;height:32px;border:none;background:transparent;
+  color:var(--text);font-size:13.5px;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.ch-quick-inp::placeholder{color:var(--text3);}
+.ch-quick-btn{
+  height:32px;padding:0 14px;border:none;border-radius:var(--r-xs);
+  background:var(--surface2);color:var(--text);font-size:12.5px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;flex-shrink:0;
+}
+.ch-quick-btn:hover{background:var(--blue);color:#fff;}
+.ch-quick-btn:disabled{opacity:.5;cursor:default;}
+
+/* Channel Cards Grid */
+.ch-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(350px, 1fr));
+  gap:16px;
+}
+.ch-card{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:16px;display:flex;flex-direction:column;gap:12px;
+  cursor:pointer;min-width:0;
+  transition:border-color .16s var(--ease);
+}
+.ch-card:hover{border-color:var(--border2);}
+.ch-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;}
+.ch-id{display:flex;align-items:center;gap:10px;min-width:0;flex:1;}
+.ch-avatar{
+  width:34px;height:34px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13.5px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.ch-titles{min-width:0;flex:1;}
+.ch-name{
+  font-size:14.5px;font-weight:700;letter-spacing:-0.015em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ch-sub{
+  font-size:11.5px;color:var(--text3);
+  display:flex;align-items:center;gap:6px;margin-top:1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ch-folder-tag{
+  font-size:10.5px;font-weight:600;color:var(--text2);
+  background:var(--surface2);padding:1px 6px;border-radius:5px;flex-shrink:0;
+}
+.ch-actions{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.ch-ico-btn{
+  width:28px;height:28px;border:none;border-radius:var(--r-xs);
+  background:transparent;color:var(--text3);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+}
+.ch-ico-btn:hover{background:var(--surface2);color:var(--text);}
+
+.ch-thumbs{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:6px;}
+.ch-thumbs.single{grid-template-columns:1fr;}
+.ch-thumb-slot{
+  position:relative;aspect-ratio:16 / 9;border-radius:var(--r-xs);
+  overflow:hidden;background:var(--surface2);border:0.5px solid var(--border);
+}
+.ch-thumb-slot img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .22s var(--ease);
+}
+.ch-thumb-slot:hover img{transform:scale(1.03);}
+.ch-more-badge{
+  position:absolute;inset:0;background:rgba(14,14,16,0.68);
+  color:#fff;font-size:15px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(2px);
+}
+.ch-thumbs-empty{
+  aspect-ratio:16 / 6;border-radius:var(--r-xs);
+  border:1px dashed var(--border2);background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--text3);
+}
+.ch-note{
+  font-size:12px;color:var(--text2);line-height:1.4;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* Wall Grid & Channel Detail */
+.ch-wall-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:14px;
+}
+.ch-wall-item{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-card);
+  cursor:pointer;display:flex;flex-direction:column;
+  transition:border-color .16s var(--ease);
+}
+.ch-wall-item:hover{border-color:var(--blue);}
+.ch-wall-img-wrap{
+  position:relative;aspect-ratio:16 / 9;background:var(--surface2);overflow:hidden;
+}
+.ch-wall-img-wrap img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .24s var(--ease);
+}
+.ch-wall-item:hover .ch-wall-img-wrap img{transform:scale(1.03);}
+.ch-wall-meta{
+  padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.ch-wall-title{
+  font-size:12.5px;font-weight:600;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;
+}
+.ch-wall-ch{font-size:11px;font-weight:500;color:var(--text3);white-space:nowrap;flex-shrink:0;}
+
+.ch-detail-hdr{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.ch-detail-left{display:flex;align-items:center;gap:14px;min-width:0;flex:1;}
+.ch-detail-av{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.ch-detail-info{min-width:0;flex:1;}
+.ch-detail-name{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+.ch-detail-meta{font-size:12.5px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ch-detail-note{font-size:13px;color:var(--text2);margin-top:6px;}
+.ch-detail-acts{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ch-btn-ghost{
+  height:34px;padding:0 12px;border:0.5px solid var(--border2);border-radius:var(--r);
+  background:var(--surface);color:var(--text2);font-size:12.5px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;
+}
+.ch-btn-ghost:hover{background:var(--surface2);color:var(--text);}
+
+.ch-detail-add{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r-card);padding:11px 14px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.ch-detail-inp{
+  flex:1;min-width:200px;height:34px;padding:0 12px;
+  border:0.5px solid var(--border2);border-radius:var(--r);
+  background:var(--surface2);color:var(--text);font-size:13px;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.ch-detail-inp:focus{border-color:var(--blue);background:var(--surface);}
+
+.ch-thumb-del{
+  position:absolute;top:8px;right:8px;
+  width:26px;height:26px;border:none;border-radius:7px;
+  background:rgba(14,14,16,0.78);color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .14s, background-color .14s;
+}
+.ch-wall-item:hover .ch-thumb-del{opacity:1;}
+.ch-thumb-del:hover{background:var(--danger);}
+.ch-local-badge{
+  position:absolute;bottom:7px;left:7px;
+  font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;
+  background:rgba(14,14,16,0.78);color:#fff;
+}
+.ch-row-inline{display:flex;gap:8px;align-items:center;}
+.ch-row-inline input{flex:1;min-width:0;}
+.ch-empty-acts{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;justify-content:center;}
+
+/* Lightbox */
+.ch-lb-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:850;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .18s var(--ease);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.ch-lb-ov.on{opacity:1;pointer-events:all;}
+.ch-lb-box{
+  width:100%;max-width:1040px;display:flex;flex-direction:column;gap:12px;
+  animation:popIn .16s var(--ease);
+}
+.ch-lb-stage{
+  position:relative;width:100%;aspect-ratio:16 / 9;background:#000;
+  border-radius:var(--r-card);overflow:hidden;border:0.5px solid rgba(255,255,255,0.12);
+}
+.ch-lb-stage img{width:100%;height:100%;object-fit:contain;display:block;}
+.ch-lb-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  background:var(--surface);border:0.5px solid var(--border2);
+  border-radius:var(--r);padding:10px 14px;
+}
+.ch-lb-info{min-width:0;flex:1;}
+.ch-lb-title{font-size:13.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ch-lb-sub{font-size:11.5px;color:var(--text3);margin-top:1px;}
+.ch-lb-acts{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+
+@media(max-width:768px){
+  .ch-grid,.ch-wall-grid{grid-template-columns:1fr;}
+  .ch-folder-bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+  .ch-folder-bar::-webkit-scrollbar{display:none;}
+  .ch-quick-bar{padding:8px 10px 8px 12px;}
+  .ch-quick-inp{font-size:15px;}
+  .ch-thumb-del{opacity:1;}
+}
 </style>
 </head>
 <body>
@@ -2099,6 +2433,9 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       <span>PNG</span>
     </button>
+    <button type="button" class="m-gt-set" id="m-set-btn" title="Настройки" aria-label="Настройки">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
   </div>
 </header>
 
@@ -2116,6 +2453,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
     <button type="button" class="sd-btn sd-ico" id="sd-btn-sent" title="Отметить отправленным" aria-label="Отправил"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
     <button type="button" class="sd-btn sd-ico primary" id="sd-btn-paid" title="Отметить оплаченным" aria-label="Статус оплаты"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
     <button type="button" class="sd-btn sd-ico" id="sd-btn-dup" title="Дублировать" aria-label="Дублировать"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+    <button type="button" class="sd-btn sd-ico" id="sd-btn-fee" title="Указать комиссию %" aria-label="Комиссия %"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></button>
     <button type="button" class="sd-btn" id="sd-btn-inv-ru" title="Скопировать инвойс (RU)" aria-label="Инвойс RU"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>RU</span></button>
     <button type="button" class="sd-btn" id="sd-btn-inv-en" title="Copy invoice (EN)" aria-label="Invoice EN"><span>EN</span></button>
     <button type="button" class="sd-btn sd-ico danger" id="sd-btn-del" title="Удалить" aria-label="Удалить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
@@ -2166,6 +2504,13 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
       </span>
       <span class="finder-txt">X Showcase</span>
       <span class="finder-cnt" id="nav-cnt-xp" title="Заполнено дней на неделе"></span>
+    </button>
+    <button type="button" class="finder-row" id="tab-channels" role="tab" aria-selected="false">
+      <span class="finder-ico" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      </span>
+      <span class="finder-txt">Каналы</span>
+      <span class="finder-cnt" id="nav-cnt-channels" title="Сохранено каналов"></span>
     </button>
 
     <div class="finder-sec-lbl spaced">Инструменты</div>
@@ -2587,6 +2932,54 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   </div>
 </section>
 
+<!-- VIEW 4: CHANNELS & THUMBNAIL REFERENCES -->
+<section class="view-pane is-hidden" id="channels-view" aria-label="Каналы и референсы">
+  <header class="view-toolbar">
+    <div class="vt-inner">
+      <div class="vt-left">
+        <button type="button" class="ch-tb-back is-hidden" id="ch-btn-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>Назад</span>
+        </button>
+        <h1 class="vt-title" id="ch-ws-title">Каналы</h1>
+        <div class="ord-sub-sw" id="ch-view-sw" role="tablist" aria-label="Вид раздела Каналы">
+          <button type="button" class="ord-sub-btn on" id="ch-sw-channels" role="tab" aria-selected="true">Каналы</button>
+          <button type="button" class="ord-sub-btn" id="ch-sw-wall" role="tab" aria-selected="false">Все превью</button>
+        </div>
+      </div>
+
+      <div class="vt-right">
+        <div class="search-wrap" id="ch-search-wrap">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="ch-search" placeholder="Канал, папка или ролик..." aria-label="Поиск по каналам"/>
+          <span class="search-kbd">Cmd+K</span>
+        </div>
+
+        <button class="add-order-btn" id="ch-btn-add" type="button" title="Добавить канал (N)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Канал</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="view-scroll" id="channels-scroll">
+    <div class="ws-inner">
+      <div class="ch-folder-bar" id="ch-folder-bar"></div>
+
+      <div class="ch-quick-bar" id="ch-quick-bar">
+        <span class="ch-quick-ico" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </span>
+        <input type="text" class="ch-quick-inp" id="ch-quick-inp" placeholder="Вставьте ссылку на ролик YouTube (или несколько) — канал и превью подгрузятся сами..."/>
+        <button type="button" class="ch-quick-btn" id="ch-quick-btn">Подгрузить</button>
+      </div>
+
+      <div id="ch-content-root"></div>
+    </div>
+  </div>
+</section>
+
 <!-- Mobile Floating Icon Dock -->
 <nav class="m-bottom-nav" id="m-bottom-nav" aria-label="Мобильная навигация">
   <button type="button" class="m-nav-btn on" id="m-nav-list" aria-label="Заказы">
@@ -2599,8 +2992,8 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   <button type="button" class="m-nav-btn" id="m-nav-stats" aria-label="X Showcase">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
   </button>
-  <button type="button" class="m-nav-btn" id="m-nav-set" aria-label="Настройки">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  <button type="button" class="m-nav-btn" id="m-nav-channels" aria-label="Каналы">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
   </button>
 </nav>
 
@@ -2632,21 +3025,53 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
         </div>
       </div>
 
-      <div class="fgrid f-row-main">
+      <div class="fgrid single-col">
         <div class="ff">
           <label for="f-desc">Тип работы</label>
           <input type="text" id="f-desc" placeholder="thumbnail, (a/b)thumbnail..." autocomplete="off"/>
           <div class="qchips" id="qchips-desc"></div>
         </div>
+      </div>
+
+      <div class="fgrid">
         <div class="ff">
-          <label for="f-amt">Сумма</label>
+          <label for="f-amt">Сумма (клиенту)</label>
           <div class="amt-cur-combo">
-            <input type="text" id="f-amt" placeholder="1000 или 50*2" inputmode="decimal"/>
+            <input type="text" id="f-amt" placeholder="70 или 50*2" inputmode="decimal"/>
             <select id="f-cur" aria-label="Валюта">
               <option>₽</option><option>$</option><option>€</option>
             </select>
           </div>
           <div class="ahint" id="ahint" aria-live="polite"></div>
+        </div>
+        <div class="ff">
+          <label for="f-net">Придёт (на руки)</label>
+          <div class="amt-cur-combo">
+            <input type="text" id="f-net" placeholder="61" inputmode="decimal"/>
+            <span class="combo-cur-lbl" id="f-net-cur">₽</span>
+          </div>
+          <div class="ahint" id="nethint" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="f-fee">
+            <span>Комиссия посредника</span>
+            <span class="fee-lbl-meta" id="fee-lbl-meta"></span>
+          </label>
+          <div class="fee-bar-row">
+            <div class="amt-cur-combo fee-inp-wrap">
+              <input type="text" id="f-fee" placeholder="0" inputmode="decimal" aria-label="Комиссия в процентах"/>
+              <span class="combo-cur-lbl">%</span>
+            </div>
+            <div class="fee-qchips" id="fee-qchips">
+              <button type="button" class="qchip on" data-fee="0">0%</button>
+              <button type="button" class="qchip" data-fee="5">5%</button>
+              <button type="button" class="qchip" data-fee="10">10%</button>
+              <button type="button" class="qchip" data-fee="15">15%</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2798,6 +3223,57 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   </div>
 </div>
 
+<!-- Modal: Bulk Commission % for Selected Orders -->
+<div class="moverlay" id="fee-bulk-mov" role="dialog" aria-modal="true" aria-labelledby="fee-bulk-title">
+  <div class="modal">
+    <div class="sheet-handle"></div>
+    <div class="mhdr">
+      <span class="mtitle" id="fee-bulk-title">Комиссия для выбранных</span>
+      <button class="mclose" id="fee-bulk-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <div class="bg-adj-diff-box">
+      <span id="fee-bulk-cnt">Выбрано заказов: 0</span>
+      <span class="bg-adj-diff-val" id="fee-bulk-gross">0 ₽</span>
+    </div>
+
+    <div class="fgrid single-col">
+      <div class="ff">
+        <label for="fee-bulk-inp">Процент комиссии</label>
+        <div class="fee-bar-row">
+          <div class="amt-cur-combo fee-inp-wrap">
+            <input type="text" id="fee-bulk-inp" placeholder="10" inputmode="decimal"/>
+            <span class="combo-cur-lbl">%</span>
+          </div>
+          <div class="fee-qchips" id="fee-bulk-chips">
+            <button type="button" class="qchip" data-bfee="0">0%</button>
+            <button type="button" class="qchip" data-bfee="5">5%</button>
+            <button type="button" class="qchip" data-bfee="10">10%</button>
+            <button type="button" class="qchip" data-bfee="15">15%</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-adj-diff-box">
+      <span>На руки после комиссии</span>
+      <span class="bg-adj-diff-val pos" id="fee-bulk-net">0 ₽</span>
+    </div>
+
+    <div class="fstatus-row clickable" id="fee-bulk-mem-row">
+      <span class="fstatus-lbl">Запомнить % для клиентов этих заказов</span>
+      <label class="ios-switch" aria-label="Запомнить процент для клиентов">
+        <input type="checkbox" id="fee-bulk-mem" checked/>
+        <span class="ios-slider"></span>
+      </label>
+    </div>
+
+    <div class="fbtns">
+      <button class="bsubmit" id="fee-bulk-sub" type="button">Применить</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: Mobile & Quick Invoice Sheet -->
 <div class="moverlay" id="inv-sheet-ov" role="dialog" aria-modal="true" aria-labelledby="inv-sheet-title">
   <div class="modal">
@@ -2821,6 +3297,85 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
     <div class="inv-sheet-list" id="period-sheet-list"></div>
   </div>
 </div>
+
+<!-- Drawer: Add / Edit Channel -->
+<div class="moverlay drawer-mode" id="ch-mov" role="dialog" aria-modal="true" aria-labelledby="ch-dr-title">
+  <div class="modal">
+    <div class="sheet-handle"></div>
+    <div class="mhdr">
+      <span class="mtitle" id="ch-dr-title">Новый канал</span>
+      <button class="mclose" id="ch-dr-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="ch-f-url">Ссылка на канал или ролик YouTube</label>
+          <div class="ch-row-inline">
+            <input type="text" id="ch-f-url" placeholder="youtube.com/@handle или ссылка на видео" autocomplete="off"/>
+            <button type="button" class="ch-btn-ghost" id="ch-btn-fetch-feed" title="Попробовать автоподгрузку без API">Подтянуть</button>
+          </div>
+          <div class="ahint" id="ch-feed-hint">Вставьте ссылку на ролик или канал YouTube.</div>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="ch-f-name">Название канала</label>
+          <input type="text" id="ch-f-name" placeholder="Например: Anomaly, NadeKing..." autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="ch-f-folder">Папка</label>
+          <select id="ch-f-folder"></select>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="ch-f-videos">Ссылки на ролики (синхронизируются в облаке)</label>
+          <textarea class="drawer-textarea" id="ch-f-videos" rows="4" placeholder="Вставьте по одной ссылке на строку или через пробел:&#10;https://youtu.be/..."></textarea>
+          <div class="ahint" id="ch-vid-cnt-hint">Найдено ссылок YouTube: 0</div>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="ch-f-note">Заметка по стилю</label>
+          <input type="text" id="ch-f-note" placeholder="Чистый 3D, контрастный свет, крупные лица..." autocomplete="off"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="fbtns">
+      <button class="bsubmit" id="ch-dr-save" type="button">Сохранить</button>
+      <button class="bcancel danger is-hidden" id="ch-dr-del" type="button">Удалить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox: Full-Size Channel Thumbnail Preview -->
+<div class="ch-lb-ov" id="ch-lb-ov" role="dialog" aria-modal="true" aria-label="Просмотр превью">
+  <div class="ch-lb-box">
+    <div class="ch-lb-stage">
+      <img id="ch-lb-img" alt="Превью"/>
+    </div>
+    <div class="ch-lb-bar">
+      <div class="ch-lb-info">
+        <div class="ch-lb-title" id="ch-lb-title"></div>
+        <div class="ch-lb-sub" id="ch-lb-sub"></div>
+      </div>
+      <div class="ch-lb-acts">
+        <a class="ch-btn-ghost" id="ch-lb-yt" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <button type="button" class="ch-btn-ghost" id="ch-lb-copy">Ссылка</button>
+        <button type="button" class="ch-btn-ghost" id="ch-lb-close">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="file" id="ch-local-img-inp" accept="image/*" multiple class="is-hidden"/>
 
 <!-- Custom Confirm Dialog -->
 <div class="confirm-overlay" id="conf-overlay" role="dialog" aria-modal="true" aria-labelledby="conf-title">
@@ -3023,6 +3578,75 @@ function getEntryStatus(e) {
   return 'unpaid';
 }
 
+function parseFeePct(str) {
+  const s = String(str ?? '').replace(/,/g, '.').replace(/[%\s]/g, '').trim();
+  if (!s) return 0;
+  const v = parseFloat(s);
+  if (isNaN(v) || !isFinite(v)) return NaN;
+  return Math.round(v * 100) / 100;
+}
+
+function formatFeePct(pct) {
+  const v = Math.round((Number(pct) || 0) * 100) / 100;
+  if (v <= 0) return '0';
+  return String(v);
+}
+
+function getEntryFeePct(e) {
+  if (!e || !(e.amount > 0)) return 0;
+  const fp = Number(e.feePct);
+  if (isFinite(fp) && fp > 0 && fp < 100) return Math.round(fp * 100) / 100;
+  const na = Number(e.netAmount);
+  if (typeof e.netAmount === 'number' && isFinite(na) && na >= 0 && na < e.amount) {
+    return Math.round(((e.amount - na) / e.amount) * 10000) / 100;
+  }
+  return 0;
+}
+
+function getEntryNetAmount(e) {
+  if (!e) return 0;
+  const amt = Number(e.amount) || 0;
+  if (amt <= 0) return amt;
+  if (typeof e.netAmount === 'number' && isFinite(e.netAmount) && e.netAmount >= 0 && e.netAmount <= amt) {
+    return Math.round(e.netAmount * 100) / 100;
+  }
+  const fp = Number(e.feePct);
+  if (isFinite(fp) && fp > 0 && fp < 100) {
+    return Math.round(amt * (1 - fp / 100) * 100) / 100;
+  }
+  return amt;
+}
+
+function getEntryFeeAmount(e) {
+  if (!e) return 0;
+  return Math.max(0, Math.round(((Number(e.amount) || 0) - getEntryNetAmount(e)) * 100) / 100);
+}
+
+function normalizeClientFees(raw) {
+  const out = {};
+  if (!raw) return out;
+  if (Array.isArray(raw)) {
+    raw.forEach(item => {
+      if (!item || typeof item !== 'object') return;
+      const n = String(item.name || '').trim();
+      const p = Math.round(Number(item.pct) * 100) / 100;
+      if (n && isFinite(p) && p >= 0 && p < 100) out[n] = p;
+    });
+  } else if (typeof raw === 'object') {
+    for (const [k, v] of Object.entries(raw)) {
+      const n = String(k || '').trim();
+      const p = Math.round(Number(v) * 100) / 100;
+      if (n && isFinite(p) && p >= 0 && p < 100) out[n] = p;
+    }
+  }
+  return out;
+}
+
+function serializeClientFeesForCloud(map) {
+  const clean = normalizeClientFees(map);
+  return Object.keys(clean).sort((a, b) => a.localeCompare(b, 'ru')).map(name => ({ name, pct: clean[name] }));
+}
+
 function cleanEntriesForStorage(list) {
   return list.map(e => {
     const st = getEntryStatus(e);
@@ -3039,6 +3663,13 @@ function cleanEntriesForStorage(list) {
     };
     if (e.name) out.name = e.name;
     if (e.note) out.note = e.note;
+    const fp = getEntryFeePct(e);
+    if (fp > 0) {
+      out.feePct = fp;
+      if (typeof e.netAmount === 'number' && isFinite(e.netAmount) && e.netAmount >= 0 && e.netAmount < e.amount) {
+        out.netAmount = Math.round(e.netAmount * 100) / 100;
+      }
+    }
     if (st === 'sent' && (e.sentAt || e.date)) out.sentAt = e.sentAt || e.date;
     if (isPaid && (e.paidAt || e.date)) out.paidAt = e.paidAt || e.date;
     if (e.createdAt && e.createdAt !== e.date) out.createdAt = e.createdAt;
@@ -3062,6 +3693,18 @@ function normalizeLoadedEntries(list) {
       status: st,
       updatedAt: Number(e.updatedAt) || 0
     };
+    const fp = getEntryFeePct(e);
+    if (fp > 0) {
+      out.feePct = fp;
+      if (typeof e.netAmount === 'number' && isFinite(e.netAmount) && e.netAmount >= 0 && e.netAmount < e.amount) {
+        out.netAmount = Math.round(e.netAmount * 100) / 100;
+      } else {
+        delete out.netAmount;
+      }
+    } else {
+      delete out.feePct;
+      delete out.netAmount;
+    }
     if (st === 'sent') {
       out.sentAt = e.sentAt || e.date || today();
       delete out.paidAt;
@@ -3129,8 +3772,11 @@ async function saveToSafariVault() {
       xpNotebook: normalizeXpNotebook(xpNotebook),
       budgetEntries: window._budgetEntries || [],
       budgetRecurring: window._budgetRecurring || [],
+      channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
+      channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
       fbUrl: fbUrl || '',
       fbSec: fbSec || '',
+      clientFees: serializeClientFeesForCloud(clientFees),
       baseCur, rates, theme, accent, tone, density, updatedAt: Date.now()
     }, 'main_state');
   } catch(e) {}
@@ -3158,8 +3804,15 @@ async function restoreFromSafariVaultIfEmpty() {
         lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
         if (typeof window._onXpNotebookUpdated === 'function') window._onXpNotebookUpdated();
       }
+      if (data.clientFees) {
+        clientFees = { ...normalizeClientFees(data.clientFees), ...clientFees };
+        lsS('ff_client_fees', JSON.stringify(clientFees));
+      }
       if (typeof window._restoreBudgetFromVault === 'function') {
         window._restoreBudgetFromVault(data.budgetEntries, data.budgetRecurring);
+      }
+      if (typeof window._restoreChannelsFromVault === 'function') {
+        window._restoreChannelsFromVault(data.channelFolders, data.channels);
       }
       if (entries.length === 0 && Array.isArray(data.entries) && data.entries.length > 0) {
         entries = normalizeLoadedEntries(data.entries);
@@ -3168,6 +3821,7 @@ async function restoreFromSafariVaultIfEmpty() {
         lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
         lsS('ff_cur', baseCur);
         lsS('ff_rates', JSON.stringify(rates));
+  lsS('ff_client_fees', JSON.stringify(clientFees));
         _chartDirty = true;
         buildCP();
         render();
@@ -3285,16 +3939,21 @@ function computeDataFingerprint(
   targetRates = rates,
   targetNb = xpNotebook,
   targetBudget = (window._budgetEntries || []),
-  targetRecur = (window._budgetRecurring || [])
+  targetRecur = (window._budgetRecurring || []),
+  targetClientFees = clientFees,
+  targetChData = (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData() : { folders: [], channels: [] })
 ) {
   const nb = normalizeXpNotebook(targetNb);
   return JSON.stringify({
     baseCur: targetCur,
     rates: sanitizeRatesObject(targetRates),
+    clientFees: serializeClientFeesForCloud(targetClientFees),
     entries: cleanEntriesForStorage(targetEntries),
     xpNotebook: { hooks: nb.hooks, outros: nb.outros, del: nb.del },
     budgetEntries: targetBudget,
-    budgetRecurring: targetRecur
+    budgetRecurring: targetRecur,
+    channelFolders: Array.isArray(targetChData?.folders) ? targetChData.folders : [],
+    channels: Array.isArray(targetChData?.channels) ? targetChData.channels : []
   });
 }
 
@@ -3387,10 +4046,13 @@ async function updateStorageMetrics() {
     updatedAt: Date.now(),
     baseCur,
     rates: sanitizeRatesObject(rates),
+    clientFees: serializeClientFeesForCloud(clientFees),
     delIds: [...deletedIds].slice(-300),
     xpNotebook: normalizeXpNotebook(xpNotebook),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
+    channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
+    channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
     entries: cleanEntriesForStorage(entries)
   });
   const cloudBytes = new Blob([payloadStr]).size;
@@ -3403,11 +4065,12 @@ async function updateStorageMetrics() {
   }
   if (cloudBarEl) cloudBarEl.style.width = `${cloudPct.toFixed(2)}%`;
 
-  const [xpBytes, vaultBytes] = await Promise.all([
+  const [xpBytes, vaultBytes, chImgBytes] = await Promise.all([
     measureIndexedDbBytes('InvoeXPlannerLocalDB', ['days_meta', 'slot_blobs']),
-    measureIndexedDbBytes('InvoeSafariVaultDB', ['vault'])
+    measureIndexedDbBytes('InvoeSafariVaultDB', ['vault']),
+    measureIndexedDbBytes('InvoeChannelsImgsDB', ['local_thumbs'])
   ]);
-  const appLocalBytes = xpBytes + vaultBytes + cloudBytes;
+  const appLocalBytes = xpBytes + vaultBytes + chImgBytes + cloudBytes;
 
   let quotaBytes = 0;
   try {
@@ -3453,10 +4116,13 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     updatedAt: Date.now(),
     baseCur,
     rates,
+    clientFees: serializeClientFeesForCloud(clientFees),
     delIds: [...deletedIds].slice(-300),
     xpNotebook: normalizeXpNotebook(xpNotebook),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
+    channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
+    channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
     entries: cleanEntriesForStorage(entries)
   });
 
@@ -3532,6 +4198,7 @@ async function safeSyncWithFirebase(manual = false) {
   if (_syncInFlight && !manual) return;
 
   const localBgCount = Array.isArray(window._budgetEntries) ? window._budgetEntries.length : 0;
+  const localChCount = (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels.length : 0);
   if (!manual && entries.length === 0 && localBgCount === 0) {
     setSkeletonLoading(true);
     render();
@@ -3576,7 +4243,7 @@ async function safeSyncWithFirebase(manual = false) {
     const beforeFilterLen = entries.length;
     entries = entries.filter(e => !deletedIds.has(String(e.id)));
     const localWasPruned = entries.length !== beforeFilterLen;
-    const isFreshEmptyDevice = entries.length === 0 && localBgCount === 0 && !_hasUnsynced && (cloudEntries.length > 0 || (Array.isArray(data?.budgetEntries) && data.budgetEntries.length > 0));
+    const isFreshEmptyDevice = entries.length === 0 && localBgCount === 0 && localChCount === 0 && !_hasUnsynced && (cloudEntries.length > 0 || (Array.isArray(data?.budgetEntries) && data.budgetEntries.length > 0) || (Array.isArray(data?.channels) && data.channels.length > 0));
 
     // Conflict / bidirectional merge when local has unsynced edits
     if (!isFreshEmptyDevice && (_hasUnsynced || localWasPruned || nbChangedVsCloud)) {
@@ -3587,8 +4254,15 @@ async function safeSyncWithFirebase(manual = false) {
       entries = mergedEntries;
       lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
 
+      if (data && data.clientFees) {
+        clientFees = { ...normalizeClientFees(data.clientFees), ...clientFees };
+        lsS('ff_client_fees', JSON.stringify(clientFees));
+      }
       if (typeof window._mergeCloudBudget === 'function' && data) {
         window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, [...cloudDelSet], true);
+      }
+      if (typeof window._mergeCloudChannels === 'function' && data) {
+        window._mergeCloudChannels(data.channelFolders, data.channels, [...cloudDelSet], true);
       }
 
       saveToSafariVault();
@@ -3598,14 +4272,20 @@ async function safeSyncWithFirebase(manual = false) {
       return;
     }
 
-    if (data && (Array.isArray(data.entries) || Array.isArray(data.budgetEntries) || data.version === 2)) {
+    if (data && (Array.isArray(data.entries) || Array.isArray(data.budgetEntries) || Array.isArray(data.channels) || data.version === 2)) {
+      const prevChData = typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData() : { folders: [], channels: [] };
       if (typeof window._mergeCloudBudget === 'function') {
         window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, [...cloudDelSet], false);
       }
+      if (typeof window._mergeCloudChannels === 'function' && (Array.isArray(data.channelFolders) || Array.isArray(data.channels))) {
+        window._mergeCloudChannels(data.channelFolders, data.channels, [...cloudDelSet], false);
+      }
+      const nextChData = typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData() : { folders: [], channels: [] };
       const cloudCur = (data.baseCur && CURS.includes(data.baseCur)) ? data.baseCur : baseCur;
       const cloudRates = (data.rates && typeof data.rates === 'object') ? sanitizeRatesObject(data.rates) : rates;
-      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || []);
-      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || []);
+      const cloudClientFees = data.clientFees ? normalizeClientFees(data.clientFees) : clientFees;
+      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], cloudClientFees, nextChData);
+      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], clientFees, prevChData);
 
       if (incomingFp === localFp && !wasSkel) {
         _lastSyncedFingerprint = incomingFp;
@@ -3620,10 +4300,12 @@ async function safeSyncWithFirebase(manual = false) {
       entries = cloudEntries;
       baseCur = cloudCur;
       rates = cloudRates;
+      clientFees = cloudClientFees;
 
       lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
       lsS('ff_cur', baseCur);
       lsS('ff_rates', JSON.stringify(rates));
+      lsS('ff_client_fees', JSON.stringify(clientFees));
       _lastSyncedFingerprint = incomingFp;
       lsS('ff_last_fp', incomingFp);
       saveToSafariVault();
@@ -3683,6 +4365,7 @@ async function forcePullFromFirebase() {
     const prevOrdersSnap = cloneEntries();
     const prevBudgetSnap = (window._budgetEntries || []).map(x => ({ ...x }));
     const prevRecurSnap = (window._budgetRecurring || []).map(x => ({ ...x }));
+    const prevChSnap = typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData() : { folders: [], channels: [] };
     if (entries.length > 0) saveEmergencySnapshot();
 
     const cloudEntries = Array.isArray(data.entries) ? normalizeLoadedEntries(data.entries) : [];
@@ -3692,11 +4375,17 @@ async function forcePullFromFirebase() {
     cloudEntries.forEach(e => deletedIds.delete(String(e.id)));
     if (Array.isArray(data.budgetEntries)) data.budgetEntries.forEach(x => deletedIds.delete(String(x.id)));
     if (Array.isArray(data.budgetRecurring)) data.budgetRecurring.forEach(x => { if (x && x.id) deletedIds.delete(String(x.id)); });
+    if (Array.isArray(data.channelFolders)) data.channelFolders.forEach(x => { if (x && x.id) deletedIds.delete(String(x.id)); });
+    if (Array.isArray(data.channels)) data.channels.forEach(x => { if (x && x.id) deletedIds.delete(String(x.id)); });
     lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
 
     entries = cloudEntries;
     baseCur = cloudCur;
     rates = cloudRates;
+    if (data.clientFees) {
+      clientFees = normalizeClientFees(data.clientFees);
+      lsS('ff_client_fees', JSON.stringify(clientFees));
+    }
 
     if (data.xpNotebook) {
       xpNotebook = normalizeXpNotebook(data.xpNotebook);
@@ -3706,6 +4395,9 @@ async function forcePullFromFirebase() {
 
     if (typeof window._importBudgetData === 'function' && (Array.isArray(data.budgetEntries) || Array.isArray(data.budgetRecurring))) {
       window._importBudgetData(data.budgetEntries || [], data.budgetRecurring || [], true, true);
+    }
+    if (typeof window._importChannelsData === 'function' && (Array.isArray(data.channelFolders) || Array.isArray(data.channels))) {
+      window._importChannelsData(data.channelFolders || [], data.channels || [], true, true);
     }
 
     lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
@@ -3724,11 +4416,14 @@ async function forcePullFromFirebase() {
     render();
     updateSyncPill('ok');
 
-    const hasPrev = prevOrdersSnap.length > 0 || prevBudgetSnap.length > 0;
+    const hasPrev = prevOrdersSnap.length > 0 || prevBudgetSnap.length > 0 || prevChSnap.channels.length > 0;
     showToast(`Подгружено из облака: ${entries.length} зак.`, hasPrev ? () => {
       entries = prevOrdersSnap;
       if (typeof window._importBudgetData === 'function') {
         window._importBudgetData(prevBudgetSnap, prevRecurSnap, true, true);
+      }
+      if (typeof window._importChannelsData === 'function') {
+        window._importChannelsData(prevChSnap.folders, prevChSnap.channels, true, true);
       }
       save();
       render();
@@ -3777,6 +4472,31 @@ try {
   lsS('ff_rates', JSON.stringify(rates));
 } catch(e) { rates = {}; }
 
+let clientFees = {};
+try {
+  clientFees = normalizeClientFees(JSON.parse(lsG('ff_client_fees') || '{}'));
+} catch(e) { clientFees = {}; }
+
+function getSavedClientFee(name) {
+  const clean = (name || '').trim();
+  if (!clean) return 0;
+  if (Object.prototype.hasOwnProperty.call(clientFees, clean)) {
+    return clientFees[clean];
+  }
+  const recent = entries.find(e => (e.name || '').trim() === clean && getEntryFeePct(e) > 0);
+  return recent ? getEntryFeePct(recent) : 0;
+}
+
+function setSavedClientFee(name, pct) {
+  const clean = (name || '').trim();
+  if (!clean) return;
+  const v = Math.round(Math.max(0, Math.min(99.99, Number(pct) || 0)) * 100) / 100;
+  if (v > 0 || Object.prototype.hasOwnProperty.call(clientFees, clean)) {
+    clientFees[clean] = v;
+    lsS('ff_client_fees', JSON.stringify(clientFees));
+  }
+}
+
 let pYm = lsG('ff_period_ym') || 'current';
 let selIds = new Set();
 let _lastClickedCardId = null;
@@ -3796,6 +4516,12 @@ let ordSubView = 'list';
 let formPaidStatus = 'unpaid';
 let _amtManuallyTyped = false;
 let _amtAutoFilled = false;
+let _feeManuallyTyped = false;
+let _feeAutoFilled = false;
+let _feeDirtyInEdit = false;
+let _netDirectlyTyped = false;
+let _netTypedWithoutGross = false;
+let _lastAutoFeeClient = '';
 let _chartDirty = true;
 let _justLassoed = false;
 
@@ -3990,10 +4716,13 @@ function trySmartAutoPrice() {
     if (curEl && CURS.includes(match.currency)) curEl.value = match.currency;
     if (h) { h.textContent = 'Цена из истории'; h.className = 'ahint smart'; }
     _amtAutoFilled = true;
+    syncNetCurLabel();
+    recalcNetFromGrossAndFee();
   } else if (_amtAutoFilled) {
     if (amtEl) amtEl.value = '';
     if (h) { h.textContent = ''; h.className = 'ahint'; }
     _amtAutoFilled = false;
+    recalcNetFromGrossAndFee();
   }
 }
 
@@ -4005,11 +4734,12 @@ function toB(a,c) {
   const r = rates[rateKey(c, baseCur)];
   return (r && r > 0) ? Math.round(a * r * 100) / 100 : null;
 }
-function totB(list) {
+function totB(list, useGross = false) {
   if (!list.length) return 0;
   let t = 0;
   for (const e of list) {
-    const r = toB(e.amount, e.currency);
+    const amt = useGross ? e.amount : getEntryNetAmount(e);
+    const r = toB(amt, e.currency);
     if (r === null) return null;
     t += r;
   }
@@ -4026,9 +4756,12 @@ function fmtB(v) {
   const n = clean.toLocaleString('ru-RU', {minimumFractionDigits:0, maximumFractionDigits:d});
   return CUR_PREFIX.includes(baseCur) ? baseCur+n : n+'\u00a0'+baseCur;
 }
-function sBC(list) {
+function sBC(list, useGross = false) {
   const m = {};
-  list.forEach(e => { m[e.currency] = (m[e.currency]||0) + e.amount; });
+  list.forEach(e => {
+    const amt = useGross ? e.amount : getEntryNetAmount(e);
+    m[e.currency] = (m[e.currency]||0) + amt;
+  });
   for (const c in m) m[c] = Math.round(m[c]*100)/100;
   return m;
 }
@@ -4104,8 +4837,8 @@ function getComparableMonthSum(ym, maxDayLimit = null) {
   const full = totB(list);
   if (full !== null) return full;
   const curs = [...new Set(list.map(e => e.currency))];
-  if (curs.length === 1) return Math.round(list.reduce((s, e) => s + e.amount, 0) * 100) / 100;
-  return Math.round(list.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0) * 100) / 100;
+  if (curs.length === 1) return Math.round(list.reduce((s, e) => s + getEntryNetAmount(e), 0) * 100) / 100;
+  return Math.round(list.reduce((s, e) => s + (toB(getEntryNetAmount(e), e.currency) || 0), 0) * 100) / 100;
 }
 
 function renderMonthTrend() {
@@ -4532,14 +5265,21 @@ function buildChartSeries(tf) {
       const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
       const iso = `${d.getFullYear()}-${Z(d.getMonth() + 1)}-${Z(d.getDate())}`;
       const dayItems = paidEntries.filter(e => getEntryPaidDate(e) === iso);
-      const dayVal = Math.round(dayItems.reduce((s, e) => s + (toB(e.amount, e.currency) ?? e.amount), 0) * 100) / 100;
+      const dayVal = Math.round(dayItems.reduce((s, e) => {
+        const net = getEntryNetAmount(e);
+        return s + (toB(net, e.currency) ?? net);
+      }, 0) * 100) / 100;
+      const dayFee = Math.round(dayItems.reduce((s, e) => {
+        const fee = getEntryFeeAmount(e);
+        return s + (toB(fee, e.currency) ?? fee);
+      }, 0) * 100) / 100;
       runningTotal = Math.round((runningTotal + dayVal) * 100) / 100;
       const lbl = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
       const showAxis = (i === 29 || i === 22 || i === 15 || i === 7 || i === 0);
       pts.push({
         key: iso, ym: iso.slice(0, 7), label: lbl,
         axisLbl: showAxis ? lbl.replace('.', '') : '',
-        value: runningTotal, rawPeriodVal: dayVal, count: dayItems.length, isCumulative: true
+        value: runningTotal, rawPeriodVal: dayVal, feeVal: dayFee, count: dayItems.length, isCumulative: true
       });
     }
     return pts;
@@ -4563,13 +5303,20 @@ function buildChartSeries(tf) {
     const d = new Date(now.getFullYear(), now.getMonth() + o, 1);
     const ym = `${d.getFullYear()}-${Z(d.getMonth() + 1)}`;
     const mItems = paidEntries.filter(e => getEntryPaidDate(e).startsWith(ym));
-    const val = Math.round(mItems.reduce((s, e) => s + (toB(e.amount, e.currency) ?? e.amount), 0) * 100) / 100;
+    const val = Math.round(mItems.reduce((s, e) => {
+      const net = getEntryNetAmount(e);
+      return s + (toB(net, e.currency) ?? net);
+    }, 0) * 100) / 100;
+    const feeVal = Math.round(mItems.reduce((s, e) => {
+      const fee = getEntryFeeAmount(e);
+      return s + (toB(fee, e.currency) ?? fee);
+    }, 0) * 100) / 100;
     const lbl = `${MONTHS_NOM_RU[d.getMonth()]} ${d.getFullYear()}`;
     const showAxis = ((o + monthCount - 1) % step === 0) || o === 0;
     pts.push({
       key: ym, ym, label: lbl,
       axisLbl: showAxis ? shortM[d.getMonth()] : '',
-      value: val, rawPeriodVal: val, count: mItems.length, isCumulative: false
+      value: val, rawPeriodVal: val, feeVal, count: mItems.length, isCumulative: false
     });
   }
   return pts;
@@ -4759,7 +5506,8 @@ function renderClientRevenueBreakdown() {
 
   periodPaid.forEach(e => {
     const cName = (e.name || '').trim() || 'Без имени';
-    const val = toB(e.amount, e.currency) ?? e.amount;
+    const netAmt = getEntryNetAmount(e);
+    const val = toB(netAmt, e.currency) ?? netAmt;
     totalRev = Math.round((totalRev + val) * 100) / 100;
     const prev = byClient.get(cName) || { sum: 0, count: 0 };
     prev.sum = Math.round((prev.sum + val) * 100) / 100;
@@ -4835,10 +5583,13 @@ function renderMiniStockChart() {
     ? (pts[pts.length - 1]?.value || 0)
     : Math.round(pts.reduce((s, p) => s + p.value, 0) * 100) / 100;
   const totalOrders = pts.reduce((s, p) => s + p.count, 0);
+  const totalFees = Math.round(pts.reduce((s, p) => s + (p.feeVal || 0), 0) * 100) / 100;
 
   const tfNameMap = { '1m': 'За 30 дней', '3m': 'За 3 мес', '6m': 'За 6 мес', '1y': 'За 12 мес', 'all': 'За всё время' };
   const defaultMain = `${tfNameMap[chartTf] || 'Доходы'} · ${fmtB(totalSum)}`;
-  const defaultSub = totalOrders > 0 ? pluralOrdersRu(totalOrders) : 'Нет оплат за период';
+  const defaultSub = totalOrders > 0
+    ? (totalFees > 0 ? `${pluralOrdersRu(totalOrders)} · комиссии: −${fmtB(totalFees)}` : pluralOrdersRu(totalOrders))
+    : 'Нет оплат за период';
 
   if (readout) readout.textContent = defaultMain;
   if (readoutSub) readoutSub.textContent = defaultSub;
@@ -4961,7 +5712,7 @@ function openInvSheet() {
     const selCard = el('div', {className:'inv-sheet-card'}, [
       el('div', {className:'inv-sheet-info'}, [
         el('div', {className:'inv-sheet-name'}, [`Выделенные заказы (${selList.length})`]),
-        el('div', {className:'inv-sheet-sub'}, [fmtMap(sBC(selList), fmtB(0))])
+        el('div', {className:'inv-sheet-sub'}, [fmtMap(sBC(selList, true), fmtB(0))])
       ]),
       el('div', {className:'inv-sheet-btns'}, [
         (() => { const b = el('button', {className:'inv-sheet-btn primary', type:'button'}, ['RU']); b.addEventListener('click', () => { closeInvSheet(); copySelectedInv('ru'); }); return b; })(),
@@ -4979,7 +5730,7 @@ function openInvSheet() {
       const card = el('div', {className:'inv-sheet-card'}, [
         el('div', {className:'inv-sheet-info'}, [
           el('div', {className:'inv-sheet-name'}, [el('span', {className:'eclient-dot', style:`background:${getClientColor(n)}`}), n]),
-          el('div', {className:'inv-sheet-sub'}, [`${cList.length} поз. · ${fmtMap(sBC(cList), fmtB(0))}`])
+          el('div', {className:'inv-sheet-sub'}, [`${cList.length} поз. · ${fmtMap(sBC(cList, true), fmtB(0))}`])
         ]),
         el('div', {className:'inv-sheet-btns'}, [
           (() => { const b = el('button', {className:'inv-sheet-btn primary', type:'button'}, ['RU']); b.addEventListener('click', () => { closeInvSheet(); copyInv(n, 'ru'); }); return b; })(),
@@ -5060,7 +5811,7 @@ function buildInvText(title, list, invLang) {
     const { text: cleanNote } = extractUrlFromNote(e.note);
     return `${ds ? ds + ' · ' : ''}${e.desc || '—'}${cleanNote ? ` (${cleanNote})` : ''} — ${fmtCur(e.amount, e.currency, loc)}`;
   });
-  return [title, DIV, rows.join('\n'), DIV, `${totalLbl}: ${fmtMap(sBC(sorted), fmtB(0), loc)}`].join('\n');
+  return [title, DIV, rows.join('\n'), DIV, `${totalLbl}: ${fmtMap(sBC(sorted, true), fmtB(0), loc)}`].join('\n');
 }
 
 function cpyText(text, cb) {
@@ -5108,7 +5859,9 @@ function closeSettings() {
   document.getElementById('sov').classList.remove('on');
   const activeTab = document.body.classList.contains('xp-mode')
     ? 'stats'
-    : (document.body.classList.contains('budget-mode') ? 'inv' : 'list');
+    : (document.body.classList.contains('budget-mode')
+      ? 'inv'
+      : (document.body.classList.contains('channels-mode') ? 'channels' : 'list'));
   updateMobileNavState(activeTab);
 }
 
@@ -5142,7 +5895,7 @@ function applyAppearance() {
   root.setAttribute('data-accent', accent);
   root.setAttribute('data-tone', tone);
   root.setAttribute('data-density', density);
-  if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode')) {
+  if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode') && !document.body.classList.contains('channels-mode')) {
     requestAnimationFrame(() => renderMiniStockChart());
   }
 }
@@ -5460,20 +6213,33 @@ function renderEntry(e) {
   // Col 5: Date
   row.appendChild(el('div', {className:'ord-cell-date'}, [ds || '—']));
 
-  // Col 6: Right-aligned Amount
-  const amtCell = el('div', {className:'ord-cell-amt sel-txt'});
-  const formattedAmt = fmtCur(e.amount, e.currency);
+  // Col 6: Right-aligned Net Amount (+ gross & % subline if commission > 0)
+  const netAmt = getEntryNetAmount(e);
+  const feePct = getEntryFeePct(e);
+  const feeAmt = getEntryFeeAmount(e);
+  const amtCell = el('div', {
+    className: 'ord-cell-amt sel-txt',
+    title: feePct > 0 ? `Счёт клиенту: ${fmtCur(e.amount, e.currency)} · Комиссия: ${formatFeePct(feePct)}% (${fmtCur(feeAmt, e.currency)})` : ''
+  });
+  const amtMain = el('div', {});
+  const formattedAmt = fmtCur(netAmt, e.currency);
   if (CUR_PREFIX.includes(e.currency)) {
-    amtCell.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
-    amtCell.appendChild(document.createTextNode(formattedAmt.slice(e.currency.length)));
+    amtMain.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
+    amtMain.appendChild(document.createTextNode(formattedAmt.slice(e.currency.length)));
   } else {
     const idxSym = formattedAmt.lastIndexOf(e.currency);
     if (idxSym > 0) {
-      amtCell.appendChild(document.createTextNode(formattedAmt.slice(0, idxSym)));
-      amtCell.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
+      amtMain.appendChild(document.createTextNode(formattedAmt.slice(0, idxSym)));
+      amtMain.appendChild(el('span', {className:'cur-sym'}, [e.currency]));
     } else {
-      amtCell.textContent = formattedAmt;
+      amtMain.textContent = formattedAmt;
     }
+  }
+  amtCell.appendChild(amtMain);
+  if (feePct > 0) {
+    amtCell.appendChild(el('span', {className:'ord-amt-sub'}, [
+      `${fmtCur(e.amount, e.currency)} · −${formatFeePct(feePct)}%`
+    ]));
   }
   row.appendChild(amtCell);
 
@@ -5513,7 +6279,8 @@ function renderOrderSuggestionChips() {
     const allNames = getRankedValues('name');
     (nameVal ? allNames.filter(n => n.toLowerCase().includes(nameVal)).slice(0, 7) : allNames.slice(0, 6))
       .forEach(n => {
-        const chip = el('button', {className:'qchip', type:'button'}, [
+        const cFee = getSavedClientFee(n);
+        const chip = el('button', {className:'qchip', type:'button', title: cFee > 0 ? `Комиссия клиента: ${formatFeePct(cFee)}%` : ''}, [
           el('span', {className:'eclient-dot', style:`background:${getClientColor(n)}`}), n
         ]);
         chip.addEventListener('click', () => {
@@ -5521,6 +6288,7 @@ function renderOrderSuggestionChips() {
           if (inp) {
             inp.value = (inp.value.trim() === n) ? '' : n;
             updateClientClearBtn();
+            trySmartAutoClientFee();
             trySmartAutoPrice();
             renderOrderSuggestionChips();
           }
@@ -5551,7 +6319,7 @@ function updateStatsAndAnalytics() {
     const c = uaKeys[0];
     animateNumberText('val-await', uaMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
   } else {
-    animateNumberText('val-await', ua.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0), fmtB, fmtB(0), baseCur);
+    animateNumberText('val-await', ua.reduce((s, e) => s + (toB(getEntryNetAmount(e), e.currency) || 0), 0), fmtB, fmtB(0), baseCur);
   }
   const awMulti = document.getElementById('val-await-multi');
   if (awMulti) {
@@ -5569,7 +6337,7 @@ function updateStatsAndAnalytics() {
     const c = recvKeys[0];
     animateNumberText('val-recv', recvMap[c], v => fmtCur(v, c), fmtCur(0, c), c);
   } else {
-    animateNumberText('val-recv', recv.reduce((s, e) => s + (toB(e.amount, e.currency) || 0), 0), fmtB, fmtB(0), baseCur);
+    animateNumberText('val-recv', recv.reduce((s, e) => s + (toB(getEntryNetAmount(e), e.currency) || 0), 0), fmtB, fmtB(0), baseCur);
   }
   const recvMulti = document.getElementById('val-recv-multi');
   if (recvMulti) {
@@ -5818,7 +6586,7 @@ function initFinderLasso() {
   }
 
   document.addEventListener('selectstart', e => {
-    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode') || document.body.classList.contains('channels-mode')) return;
     if (isDragging || document.body.classList.contains('lasso-active')) { e.preventDefault(); return; }
     const t = e.target.nodeType === 3 ? e.target.parentElement : e.target;
     if (!t || !t.closest('input, textarea, .sel-txt')) e.preventDefault();
@@ -5826,7 +6594,7 @@ function initFinderLasso() {
 
   window.addEventListener('mousedown', e => {
     if (e.button !== 0 || window.innerWidth <= 768) return;
-    if (ordSubView !== 'list' || document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode')) return;
+    if (ordSubView !== 'list' || document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode') || document.body.classList.contains('channels-mode')) return;
     if (e.target.closest('.rail-nav, .view-toolbar, .ord-kpi-row, .ord-table-bar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, button, a, input, select, textarea, canvas, label')) return;
 
     if (document.activeElement && ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
@@ -5972,8 +6740,101 @@ function togPaid(id) {
 }
 
 /* ══════════════════════════════════════════════
-   14. ORDER DRAWER & DRAFTS
+   14. ORDER DRAWER, COMMISSION SYNC & DRAFTS
 ══════════════════════════════════════════════ */
+function syncNetCurLabel() {
+  const cur = document.getElementById('f-cur')?.value || baseCur;
+  setText('f-net-cur', cur);
+}
+
+function syncFeeChipHighlight(pctVal) {
+  const clean = isNaN(pctVal) ? 0 : Math.round(pctVal * 100) / 100;
+  document.querySelectorAll('#fee-qchips .qchip').forEach(ch => {
+    const v = parseFloat(ch.dataset.fee);
+    ch.classList.toggle('on', Math.abs(v - clean) < 0.005);
+  });
+}
+
+function updateFeeAndNetHints(gross, net, feePct, sourceMeta = '') {
+  const cur = document.getElementById('f-cur')?.value || baseCur;
+  const nh = document.getElementById('nethint');
+  const metaEl = document.getElementById('fee-lbl-meta');
+
+  if (nh) {
+    if (!isNaN(gross) && gross > 0 && !isNaN(net) && net >= 0) {
+      if (net > gross) {
+        nh.textContent = 'Больше суммы заказа';
+        nh.className = 'ahint err';
+      } else {
+        const diff = Math.round((gross - net) * 100) / 100;
+        if (diff > 0) {
+          nh.textContent = `Комиссия: −${fmtCur(diff, cur)}`;
+          nh.className = 'ahint';
+        } else {
+          nh.textContent = '';
+          nh.className = 'ahint';
+        }
+      }
+    } else {
+      nh.textContent = '';
+      nh.className = 'ahint';
+    }
+  }
+
+  if (metaEl && sourceMeta !== null) {
+    metaEl.textContent = sourceMeta;
+    metaEl.className = 'fee-lbl-meta' + (sourceMeta.startsWith('Запомнено') || sourceMeta.startsWith('Авторасчёт') || sourceMeta.startsWith('Запомнится') ? ' smart' : '');
+  }
+}
+
+function recalcNetFromGrossAndFee(metaOverride = null) {
+  const gross = pAmt(document.getElementById('f-amt')?.value || '');
+  const feeInp = document.getElementById('f-fee');
+  const netInp = document.getElementById('f-net');
+  const feePct = parseFeePct(feeInp?.value || '');
+  syncFeeChipHighlight(feePct);
+
+  if (isNaN(gross) || gross <= 0) {
+    if (!_netTypedWithoutGross && netInp) netInp.value = '';
+    updateFeeAndNetHints(NaN, NaN, feePct, metaOverride);
+    return;
+  }
+  if (isNaN(feePct) || feePct < 0 || feePct >= 100) {
+    updateFeeAndNetHints(gross, NaN, NaN, metaOverride);
+    return;
+  }
+  const net = Math.round(gross * (1 - feePct / 100) * 100) / 100;
+  if (netInp) netInp.value = String(net);
+  updateFeeAndNetHints(gross, net, feePct, metaOverride);
+}
+
+function trySmartAutoClientFee(forceApply = false) {
+  const cleanName = (document.getElementById('f-name')?.value || '').trim();
+  if (!forceApply && editId !== null) return;
+  if (!forceApply && cleanName === _lastAutoFeeClient) return;
+  if (!forceApply && _feeManuallyTyped && cleanName === _lastAutoFeeClient) return;
+
+  _lastAutoFeeClient = cleanName;
+  const saved = getSavedClientFee(cleanName);
+  const feeInp = document.getElementById('f-fee');
+
+  const hasExplicitZero = Boolean(cleanName && Object.prototype.hasOwnProperty.call(clientFees, cleanName));
+  if (saved > 0) {
+    if (feeInp) feeInp.value = formatFeePct(saved);
+    _feeAutoFilled = true;
+    _feeManuallyTyped = false;
+    _netDirectlyTyped = false;
+    _netTypedWithoutGross = false;
+    recalcNetFromGrossAndFee(`Запомнено для ${cleanName}`);
+  } else if (_feeAutoFilled || forceApply || hasExplicitZero) {
+    if (feeInp) feeInp.value = '';
+    _feeAutoFilled = false;
+    _feeManuallyTyped = false;
+    _netDirectlyTyped = false;
+    recalcNetFromGrossAndFee('');
+  }
+}
+
 function openModal() {
   if (editId === null && !_hasDraft) {
     clearForm();
@@ -6005,14 +6866,121 @@ function onAmtInput() {
   _amtManuallyTyped = true; _amtAutoFilled = false;
   const v = document.getElementById('f-amt').value;
   const h = document.getElementById('ahint');
-  if (!h) return;
   const parsed = pAmt(v);
-  if (/[+\-*/()]/.test(v)) {
-    if (!isNaN(parsed)) {
-      h.textContent = parsed <= 0 ? 'Сумма должна быть больше нуля' : `= ${parsed.toLocaleString('ru-RU')}`;
-      h.className = parsed <= 0 ? 'ahint err' : 'ahint';
-    } else { h.textContent = '?'; h.className = 'ahint'; }
-  } else { h.textContent = ''; h.className = 'ahint'; }
+  if (h) {
+    if (/[+\-*/()]/.test(v)) {
+      if (!isNaN(parsed)) {
+        h.textContent = parsed <= 0 ? 'Сумма должна быть больше нуля' : `= ${parsed.toLocaleString('ru-RU')}`;
+        h.className = parsed <= 0 ? 'ahint err' : 'ahint';
+      } else { h.textContent = '?'; h.className = 'ahint'; }
+    } else { h.textContent = ''; h.className = 'ahint'; }
+  }
+
+  if (_netTypedWithoutGross) {
+    const netVal = pAmt(document.getElementById('f-net')?.value || '');
+    if (!isNaN(parsed) && parsed > 0 && !isNaN(netVal) && netVal >= 0 && netVal <= parsed) {
+      const pct = Math.round(((parsed - netVal) / parsed) * 10000) / 100;
+      const feeInp = document.getElementById('f-fee');
+      if (feeInp) feeInp.value = pct > 0 ? formatFeePct(pct) : '';
+      _netDirectlyTyped = true;
+      _feeManuallyTyped = true;
+      _feeDirtyInEdit = true;
+      syncFeeChipHighlight(pct);
+      const clientName = (document.getElementById('f-name')?.value || '').trim();
+      updateFeeAndNetHints(parsed, netVal, pct, pct > 0 ? (clientName ? 'Авторасчёт · запомнится' : 'Авторасчёт') : '');
+      return;
+    }
+    if (isNaN(parsed) || parsed <= 0) {
+      updateFeeAndNetHints(NaN, netVal, 0, '');
+      return;
+    }
+  }
+
+  _netDirectlyTyped = false;
+  recalcNetFromGrossAndFee(null);
+}
+
+function onFeeInput() {
+  _feeManuallyTyped = true;
+  _feeAutoFilled = false;
+  _feeDirtyInEdit = true;
+  _netDirectlyTyped = false;
+  _netTypedWithoutGross = false;
+
+  const feeInp = document.getElementById('f-fee');
+  const feePct = parseFeePct(feeInp?.value || '');
+  const metaEl = document.getElementById('fee-lbl-meta');
+  if (feeInp) feeInp.style.borderColor = (isNaN(feePct) || feePct < 0 || feePct >= 100) ? 'var(--danger)' : '';
+  if (isNaN(feePct) || feePct < 0 || feePct >= 100) {
+    if (metaEl) { metaEl.textContent = 'От 0 до 99.99%'; metaEl.className = 'fee-lbl-meta err'; }
+    syncFeeChipHighlight(NaN);
+    return;
+  }
+  const clientName = (document.getElementById('f-name')?.value || '').trim();
+  recalcNetFromGrossAndFee(feePct > 0 && clientName ? 'Запомнится для клиента' : '');
+}
+
+function applyFeeChip(pct) {
+  const feeInp = document.getElementById('f-fee');
+  if (feeInp) {
+    feeInp.value = pct > 0 ? formatFeePct(pct) : '';
+    feeInp.style.borderColor = '';
+  }
+  onFeeInput();
+}
+
+function onNetInput() {
+  const netInp = document.getElementById('f-net');
+  const feeInp = document.getElementById('f-fee');
+  const rawNet = (netInp?.value || '').trim();
+  const gross = pAmt(document.getElementById('f-amt')?.value || '');
+  const netVal = pAmt(rawNet);
+
+  _feeManuallyTyped = true;
+  _feeAutoFilled = false;
+  _feeDirtyInEdit = true;
+
+  if (!rawNet) {
+    _netDirectlyTyped = false;
+    _netTypedWithoutGross = false;
+    if (feeInp) feeInp.value = '';
+    syncFeeChipHighlight(0);
+    updateFeeAndNetHints(gross, NaN, 0, '');
+    return;
+  }
+
+  if (isNaN(netVal) || netVal < 0) {
+    if (netInp) netInp.style.borderColor = 'var(--danger)';
+    return;
+  }
+  if (netInp) netInp.style.borderColor = '';
+
+  if (isNaN(gross) || gross <= 0) {
+    _netDirectlyTyped = true;
+    _netTypedWithoutGross = true;
+    updateFeeAndNetHints(NaN, netVal, 0, 'Введите сумму для клиента');
+    return;
+  }
+
+  _netTypedWithoutGross = false;
+
+  if (netVal > gross) {
+    _netDirectlyTyped = false;
+    if (feeInp) feeInp.value = '';
+    syncFeeChipHighlight(0);
+    updateFeeAndNetHints(gross, netVal, 0, '');
+    return;
+  }
+
+  const pct = Math.round(((gross - netVal) / gross) * 10000) / 100;
+  _netDirectlyTyped = true;
+  if (feeInp) {
+    feeInp.value = pct > 0 ? formatFeePct(pct) : '';
+    feeInp.style.borderColor = '';
+  }
+  syncFeeChipHighlight(pct);
+  const clientName = (document.getElementById('f-name')?.value || '').trim();
+  updateFeeAndNetHints(gross, netVal, pct, pct > 0 ? (clientName ? 'Авторасчёт · запомнится' : 'Авторасчёт') : '');
 }
 
 function updateClientClearBtn() {
@@ -6037,14 +7005,17 @@ function setFormStatus(st) {
 }
 
 function clearForm() {
-  ['f-desc','f-note','f-amt'].forEach(id => { const e = document.getElementById(id); if (e) { e.value = ''; e.style.borderColor = ''; } });
+  ['f-desc','f-note','f-amt','f-net','f-fee'].forEach(id => { const e = document.getElementById(id); if (e) { e.value = ''; e.style.borderColor = ''; } });
   const h = document.getElementById('ahint'); if (h) { h.textContent = ''; h.className = 'ahint'; }
+  const nh = document.getElementById('nethint'); if (nh) { nh.textContent = ''; nh.className = 'ahint'; }
+  const fm = document.getElementById('fee-lbl-meta'); if (fm) { fm.textContent = ''; fm.className = 'fee-lbl-meta'; }
   const dt = document.getElementById('f-date'); if (dt) dt.value = today();
 
   const recentCur = (CURS.includes(lastCur) && lastCur) || (entries[0] && CURS.includes(entries[0].currency) && entries[0].currency) || baseCur;
   const fn = document.getElementById('f-name'); if (fn) fn.value = activeClientFilter || '';
   updateClientClearBtn();
   const fc = document.getElementById('f-cur'); if (fc) fc.value = recentCur;
+  syncNetCurLabel();
 
   setText('bsub', '+ Добавить');
   const bc = document.getElementById('bcan'); if (bc) { bc.classList.add('is-hidden'); bc.textContent = 'Отмена'; }
@@ -6054,7 +7025,14 @@ function clearForm() {
   const sa = document.getElementById('f-sentat'); if (sa) sa.value = '';
   const pa = document.getElementById('f-paidat'); if (pa) pa.value = '';
   renderOrderSuggestionChips();
-  _amtManuallyTyped = false; _amtAutoFilled = false; _hasDraft = false; editId = null;
+
+  _amtManuallyTyped = false; _amtAutoFilled = false;
+  _feeManuallyTyped = false; _feeAutoFilled = false; _feeDirtyInEdit = false;
+  _netDirectlyTyped = false; _netTypedWithoutGross = false; _lastAutoFeeClient = '';
+  _hasDraft = false; editId = null;
+
+  syncFeeChipHighlight(0);
+  if (activeClientFilter) trySmartAutoClientFee(true);
 }
 
 function cancelEdit() {
@@ -6070,6 +7048,7 @@ function submitForm(keepOpen = false) {
   const note = document.getElementById('f-note').value.trim();
   const date = document.getElementById('f-date').value;
   const descEl = document.getElementById('f-desc'), amtEl = document.getElementById('f-amt'), h = document.getElementById('ahint');
+  const feeEl = document.getElementById('f-fee'), netEl = document.getElementById('f-net');
 
   if (!desc || isNaN(parsedAmt) || parsedAmt <= 0) {
     if (descEl) descEl.style.borderColor = !desc ? 'var(--danger)' : '';
@@ -6080,6 +7059,30 @@ function submitForm(keepOpen = false) {
   if (descEl) descEl.style.borderColor = '';
   if (amtEl) amtEl.style.borderColor = '';
 
+  let feePct = parseFeePct(feeEl?.value || '');
+  if (isNaN(feePct) || feePct < 0 || feePct >= 100) {
+    if (feeEl) feeEl.style.borderColor = 'var(--danger)';
+    return;
+  }
+  if (feeEl) feeEl.style.borderColor = '';
+
+  let explicitNet = null;
+  const rawNetStr = (netEl?.value || '').trim();
+  if (_netDirectlyTyped && rawNetStr) {
+    const parsedNet = pAmt(rawNetStr);
+    if (isNaN(parsedNet) || parsedNet < 0 || parsedNet > parsedAmt) {
+      if (netEl) netEl.style.borderColor = 'var(--danger)';
+      return;
+    }
+    if (parsedNet < parsedAmt) {
+      explicitNet = Math.round(parsedNet * 100) / 100;
+      feePct = Math.round(((parsedAmt - explicitNet) / parsedAmt) * 10000) / 100;
+    } else {
+      feePct = 0;
+    }
+  }
+  if (netEl) netEl.style.borderColor = '';
+
   lastCur = currency; lsS('ff_last_cur', lastCur);
   if (name) { lastClient = name; lsS('ff_last_client', lastClient); }
 
@@ -6089,11 +7092,23 @@ function submitForm(keepOpen = false) {
   const now = Date.now();
 
   const wasEdit = editId !== null;
+  if (name && (!wasEdit || _feeDirtyInEdit)) {
+    setSavedClientFee(name, feePct);
+  }
+
   if (wasEdit) {
     const e = entries.find(x => x.id === editId);
     if (e) {
       e.name = name; e.amount = parsedAmt; e.currency = currency;
       e.desc = desc; e.note = note; e.date = date; e.status = st; e.updatedAt = now;
+      if (feePct > 0) {
+        e.feePct = feePct;
+        if (explicitNet !== null) e.netAmount = explicitNet;
+        else delete e.netAmount;
+      } else {
+        delete e.feePct;
+        delete e.netAmount;
+      }
       if (st === 'paid') { e.paid = true; e.paidAt = paVal; }
       else if (st === 'sent') { e.paid = false; e.sentAt = saVal; delete e.paidAt; }
       else { e.paid = false; delete e.sentAt; delete e.paidAt; }
@@ -6103,6 +7118,10 @@ function submitForm(keepOpen = false) {
   } else {
     const newId = gid();
     const newEntry = { id: newId, name, amount: parsedAmt, currency, desc, note, date, paid: st === 'paid', status: st, createdAt: today(), updatedAt: now };
+    if (feePct > 0) {
+      newEntry.feePct = feePct;
+      if (explicitNet !== null) newEntry.netAmount = explicitNet;
+    }
     if (st === 'sent') newEntry.sentAt = saVal;
     if (st === 'paid') newEntry.paidAt = paVal;
     _flashIds.add(newId);
@@ -6112,13 +7131,16 @@ function submitForm(keepOpen = false) {
   save(); render();
   if (keepOpen && !wasEdit) {
     descEl.value = ''; amtEl.value = '';
+    if (netEl) netEl.value = '';
     const noteEl = document.getElementById('f-note'); if (noteEl) noteEl.value = '';
     if (h) { h.textContent = ''; h.className = 'ahint'; }
-    _amtManuallyTyped = false; _amtAutoFilled = false; _hasDraft = false;
+    const nh = document.getElementById('nethint'); if (nh) { nh.textContent = ''; nh.className = 'ahint'; }
+    _amtManuallyTyped = false; _amtAutoFilled = false; _netDirectlyTyped = false; _netTypedWithoutGross = false; _hasDraft = false;
     setText('m-title', 'Новый заказ');
     document.getElementById('bcan')?.classList.add('is-hidden');
     descEl.focus();
-    showToast(`Добавлено: ${name || desc} (${fmtCur(parsedAmt, currency)})`);
+    const netPreview = explicitNet !== null ? explicitNet : (feePct > 0 ? Math.round(parsedAmt * (1 - feePct / 100) * 100) / 100 : parsedAmt);
+    showToast(`Добавлено: ${name || desc} (${fmtCur(netPreview, currency)})`);
   } else {
     clearForm(); closeModal();
   }
@@ -6133,10 +7155,26 @@ function startEdit(id) {
   document.querySelector(`.entry-card[data-id="${CSS.escape(id)}"]`)?.classList.add('editing');
 
   _amtManuallyTyped = true; _amtAutoFilled = false;
+  _feeManuallyTyped = true; _feeAutoFilled = false; _feeDirtyInEdit = false;
+  _netTypedWithoutGross = false;
+  _lastAutoFeeClient = (e.name || '').trim();
+
   document.getElementById('f-name').value = e.name || '';
   updateClientClearBtn();
   document.getElementById('f-amt').value = e.amount;
   document.getElementById('f-cur').value = CURS.includes(e.currency) ? e.currency : baseCur;
+  syncNetCurLabel();
+
+  const fp = getEntryFeePct(e);
+  const net = getEntryNetAmount(e);
+  _netDirectlyTyped = typeof e.netAmount === 'number';
+  const feeEl = document.getElementById('f-fee');
+  const netEl = document.getElementById('f-net');
+  if (feeEl) { feeEl.value = fp > 0 ? formatFeePct(fp) : ''; feeEl.style.borderColor = ''; }
+  if (netEl) { netEl.value = String(net); netEl.style.borderColor = ''; }
+  syncFeeChipHighlight(fp);
+  updateFeeAndNetHints(e.amount, net, fp, '');
+
   document.getElementById('f-desc').value = e.desc || '';
   document.getElementById('f-note').value = e.note || '';
   document.getElementById('f-date').value = e.date || today();
@@ -6154,6 +7192,90 @@ function startEdit(id) {
   openModal();
 }
 
+/* Bulk Commission Modal for Selected Orders */
+function updateBulkFeePreview() {
+  const selList = entries.filter(e => selIds.has(e.id));
+  const inp = document.getElementById('fee-bulk-inp');
+  const pct = parseFeePct(inp?.value || '');
+  const validPct = (!isNaN(pct) && pct >= 0 && pct < 100) ? pct : 0;
+
+  document.querySelectorAll('#fee-bulk-chips .qchip').forEach(ch => {
+    ch.classList.toggle('on', Math.abs(parseFloat(ch.dataset.bfee) - validPct) < 0.005);
+  });
+
+  const grossMap = sBC(selList, true);
+  const grossTot = totB(selList, true);
+  const grossKeys = Object.keys(grossMap);
+  const grossStr = grossKeys.length === 1
+    ? fmtCur(grossMap[grossKeys[0]], grossKeys[0])
+    : (grossTot !== null ? fmtB(grossTot) : fmtMap(grossMap));
+  setText('fee-bulk-cnt', `Выбрано заказов: ${selList.length}`);
+  setText('fee-bulk-gross', grossStr);
+
+  const netList = selList.map(e => ({ ...e, feePct: validPct, netAmount: undefined }));
+  const netMap = sBC(netList, false);
+  const netTot = totB(netList, false);
+  const netKeys = Object.keys(netMap);
+  const netStr = netKeys.length === 1
+    ? fmtCur(netMap[netKeys[0]], netKeys[0])
+    : (netTot !== null ? fmtB(netTot) : fmtMap(netMap));
+  setText('fee-bulk-net', netStr);
+}
+
+function openBulkFeeModal() {
+  if (!selIds.size) return;
+  const selList = entries.filter(e => selIds.has(e.id));
+  const firstFee = selList.map(getEntryFeePct).find(v => v > 0) || 0;
+  const inp = document.getElementById('fee-bulk-inp');
+  if (inp) { inp.value = firstFee > 0 ? formatFeePct(firstFee) : ''; inp.style.borderColor = ''; }
+  const memChk = document.getElementById('fee-bulk-mem');
+  if (memChk) memChk.checked = true;
+  updateBulkFeePreview();
+  document.getElementById('fee-bulk-mov')?.classList.add('on');
+  setTimeout(() => { if (inp) { inp.focus(); inp.select(); } }, 70);
+}
+
+function closeBulkFeeModal() {
+  document.getElementById('fee-bulk-mov')?.classList.remove('on');
+}
+
+function submitBulkFee() {
+  if (!selIds.size) { closeBulkFeeModal(); return; }
+  const inp = document.getElementById('fee-bulk-inp');
+  const pct = parseFeePct(inp?.value || '');
+  if (isNaN(pct) || pct < 0 || pct >= 100) {
+    if (inp) inp.style.borderColor = 'var(--danger)';
+    showToast('Укажите процент от 0 до 99.99');
+    return;
+  }
+  const snapshot = cloneEntries();
+  const prevClientFees = { ...clientFees };
+  const rememberClients = Boolean(document.getElementById('fee-bulk-mem')?.checked);
+  const now = Date.now();
+  let cnt = 0;
+
+  entries.forEach(e => {
+    if (!selIds.has(e.id)) return;
+    cnt++;
+    e.updatedAt = now;
+    delete e.netAmount;
+    if (pct > 0) e.feePct = pct;
+    else delete e.feePct;
+    if (rememberClients && e.name) setSavedClientFee(e.name, pct);
+  });
+
+  save();
+  closeBulkFeeModal();
+  clearSel();
+  render();
+  showToast(pct > 0 ? `Комиссия ${formatFeePct(pct)}% применена (${cnt} шт.)` : `Комиссия сброшена (${cnt} шт.)`, () => {
+    entries = snapshot;
+    clientFees = prevClientFees;
+    save();
+    render();
+  });
+}
+
 /* ══════════════════════════════════════════════
    15. EXPORT / IMPORT & DRAG-AND-DROP
 ══════════════════════════════════════════════ */
@@ -6163,9 +7285,12 @@ function exportData() {
     updatedAt: new Date().toISOString(),
     baseCur,
     rates: sanitizeRatesObject(rates),
+    clientFees: serializeClientFeesForCloud(clientFees),
     xpNotebook: normalizeXpNotebook(xpNotebook),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
+    channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
+    channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
     entries: cleanEntriesForStorage(entries)
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
@@ -6198,6 +7323,7 @@ function applyImportedPayload(raw, replaceMode = true) {
 
   if (!Array.isArray(raw) && raw.baseCur && CURS.includes(raw.baseCur)) baseCur = raw.baseCur;
   if (!Array.isArray(raw) && raw.rates && typeof raw.rates === 'object') rates = sanitizeRatesObject({...rates, ...raw.rates});
+  if (!Array.isArray(raw) && raw.clientFees) clientFees = replaceMode ? normalizeClientFees(raw.clientFees) : { ...clientFees, ...normalizeClientFees(raw.clientFees) };
   if (!Array.isArray(raw) && raw.xpNotebook && typeof raw.xpNotebook === 'object') {
     xpNotebook = replaceMode ? normalizeXpNotebook(raw.xpNotebook) : mergeXpNotebooks(xpNotebook, raw.xpNotebook);
     lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
@@ -6205,6 +7331,9 @@ function applyImportedPayload(raw, replaceMode = true) {
   }
   if (!Array.isArray(raw) && typeof window._importBudgetData === 'function') {
     window._importBudgetData(raw.budgetEntries, raw.budgetRecurring, replaceMode, true);
+  }
+  if (!Array.isArray(raw) && typeof window._importChannelsData === 'function' && (Array.isArray(raw.channelFolders) || Array.isArray(raw.channels))) {
+    window._importChannelsData(raw.channelFolders, raw.channels, replaceMode, true);
   }
   if (replaceMode) {
     entries = normalizeLoadedEntries(valid);
@@ -6247,6 +7376,28 @@ function handleFileObject(file) {
         return;
       }
 
+      const chFoldersArr = (!Array.isArray(raw) && raw && typeof raw === 'object') ? (Array.isArray(raw.channelFolders) ? raw.channelFolders : (Array.isArray(raw.folders) ? raw.folders : null)) : null;
+      const chListArr = (!Array.isArray(raw) && raw && typeof raw === 'object' && Array.isArray(raw.channels)) ? raw.channels : null;
+      if (!v.length && (chListArr || chFoldersArr)) {
+        const curChCnt = typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels.length : 0;
+        let replaceCh = false;
+        if (curChCnt > 0) {
+          const choice = await showConfirm('Импорт каналов', `Найдено каналов: ${(chListArr || []).length}. Добавить к текущим или заменить раздел «Каналы»?`, 'safe', 'Добавить', 'Заменить');
+          if (!choice) return;
+          replaceCh = (choice === 'alt');
+        }
+        if (typeof window._importChannelsData === 'function') {
+          window._importChannelsData(chFoldersArr || [], chListArr || [], replaceCh, false);
+        }
+        closeSettings();
+        if (typeof TwitterPlanner !== 'undefined' && TwitterPlanner.switchView) {
+          TwitterPlanner.switchView('channels');
+          updateMobileNavState('channels');
+        }
+        showToast(`Каналы загружены: ${(chListArr || []).length} шт.`);
+        return;
+      }
+
       if (!v.length) { showToast('Нет корректных записей в файле.'); return; }
       if (entries.length === 0) {
         applyImportedPayload(raw, true); closeSettings(); showToast('База загружена'); return;
@@ -6268,7 +7419,7 @@ function updateMobileNavState(activeTab) {
   document.getElementById('m-nav-list')?.classList.toggle('on', activeTab === 'list');
   document.getElementById('m-nav-stats')?.classList.toggle('on', activeTab === 'stats');
   document.getElementById('m-nav-inv')?.classList.toggle('on', activeTab === 'inv');
-  document.getElementById('m-nav-set')?.classList.toggle('on', activeTab === 'set');
+  document.getElementById('m-nav-channels')?.classList.toggle('on', activeTab === 'channels');
 }
 
 /* ══════════════════════════════════════════════
@@ -6382,12 +7533,18 @@ function bindEvents() {
     TwitterPlanner?.switchView('planner');
     updateMobileNavState('stats');
   });
-  document.getElementById('m-nav-set').addEventListener('click', () => {
+  document.getElementById('m-nav-channels')?.addEventListener('click', () => {
+    closeSettings(); closeInvSheet(); closePeriodSheet();
+    TwitterPlanner?.switchView('channels');
+    updateMobileNavState('channels');
+  });
+  document.getElementById('m-set-btn')?.addEventListener('click', () => {
     if (document.getElementById('sov').classList.contains('on')) closeSettings();
     else openSettings('view');
   });
   document.getElementById('m-nav-add').addEventListener('click', () => {
     if (document.body.classList.contains('budget-mode') && typeof window.openBudgetModal === 'function') window.openBudgetModal();
+    else if (document.body.classList.contains('channels-mode') && typeof window.openChannelDrawer === 'function') window.openChannelDrawer(null);
     else if (document.body.classList.contains('xp-mode') && TwitterPlanner?.openMobileAdd) TwitterPlanner.openMobileAdd();
     else openModal();
   });
@@ -6486,11 +7643,41 @@ function bindEvents() {
   document.getElementById('bcan').addEventListener('click', cancelEdit);
   document.getElementById('bdel-ord')?.addEventListener('click', deleteCurrentEditedOrder);
   document.getElementById('f-amt').addEventListener('input', onAmtInput);
+  document.getElementById('f-cur').addEventListener('change', () => { syncNetCurLabel(); updateFeeAndNetHints(pAmt(document.getElementById('f-amt')?.value || ''), pAmt(document.getElementById('f-net')?.value || ''), parseFeePct(document.getElementById('f-fee')?.value || ''), null); });
+  document.getElementById('f-fee')?.addEventListener('input', onFeeInput);
+  document.getElementById('f-net')?.addEventListener('input', onNetInput);
+  document.querySelectorAll('#fee-qchips .qchip').forEach(ch => ch.addEventListener('click', () => applyFeeChip(parseFloat(ch.dataset.fee) || 0)));
+
   document.getElementById('f-desc').addEventListener('input', () => { trySmartAutoPrice(); renderOrderSuggestionChips(); });
-  document.getElementById('f-name').addEventListener('input', () => { updateClientClearBtn(); trySmartAutoPrice(); renderOrderSuggestionChips(); });
+  document.getElementById('f-name').addEventListener('input', () => { updateClientClearBtn(); trySmartAutoClientFee(); trySmartAutoPrice(); renderOrderSuggestionChips(); });
   document.getElementById('btn-clear-client').addEventListener('click', () => {
     const fn = document.getElementById('f-name'); if (fn) { fn.value = ''; fn.focus(); }
-    updateClientClearBtn(); trySmartAutoPrice(); renderOrderSuggestionChips();
+    updateClientClearBtn(); trySmartAutoClientFee(); trySmartAutoPrice(); renderOrderSuggestionChips();
+  });
+
+  // Bulk commission modal binds
+  document.getElementById('sd-btn-fee')?.addEventListener('click', openBulkFeeModal);
+  document.getElementById('fee-bulk-close')?.addEventListener('click', closeBulkFeeModal);
+  document.getElementById('fee-bulk-mov')?.addEventListener('click', e => { if (e.target === document.getElementById('fee-bulk-mov')) closeBulkFeeModal(); });
+  document.getElementById('fee-bulk-inp')?.addEventListener('input', () => {
+    document.getElementById('fee-bulk-inp').style.borderColor = '';
+    updateBulkFeePreview();
+  });
+  document.querySelectorAll('#fee-bulk-chips .qchip').forEach(ch => ch.addEventListener('click', () => {
+    const v = parseFloat(ch.dataset.bfee) || 0;
+    const inp = document.getElementById('fee-bulk-inp');
+    if (inp) { inp.value = v > 0 ? formatFeePct(v) : ''; inp.style.borderColor = ''; }
+    updateBulkFeePreview();
+  }));
+  document.getElementById('fee-bulk-mem-row')?.addEventListener('click', e => {
+    if (e.target.tagName !== 'INPUT') {
+      const chk = document.getElementById('fee-bulk-mem');
+      if (chk) chk.checked = !chk.checked;
+    }
+  });
+  document.getElementById('fee-bulk-sub')?.addEventListener('click', submitBulkFee);
+  document.getElementById('fee-bulk-mov')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); submitBulkFee(); }
   });
   document.getElementById('fst-unpaid').addEventListener('click', () => setFormStatus('unpaid'));
   document.getElementById('fst-sent').addEventListener('click', () => setFormStatus('sent'));
@@ -6533,7 +7720,7 @@ function bindEvents() {
 
   let _scWinResizeTmr = null;
   window.addEventListener('resize', () => {
-    if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode')) {
+    if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode') && !document.body.classList.contains('channels-mode')) {
       clearTimeout(_scWinResizeTmr);
       _scWinResizeTmr = setTimeout(() => renderMiniStockChart(), 120);
     }
@@ -6558,9 +7745,10 @@ function bindEvents() {
 
     if (e.key === 'Escape') {
       if (document.getElementById('sov').classList.contains('on')) { closeSettings(); return; }
-      if (document.body.classList.contains('xp-mode')) return;
+      if (document.body.classList.contains('xp-mode') || document.body.classList.contains('channels-mode')) return;
       if (document.getElementById('bg-mov')?.classList.contains('on') || document.getElementById('bg-adj-mov')?.classList.contains('on')) return;
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
+      if (document.getElementById('fee-bulk-mov')?.classList.contains('on')) { closeBulkFeeModal(); return; }
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
       closeFP(); closeInvDd(); closeAllPeriodDds();
@@ -6579,6 +7767,21 @@ function bindEvents() {
 
     if (document.body.classList.contains('xp-mode')) return;
 
+    const isChannelsMode = document.body.classList.contains('channels-mode');
+    if (isChannelsMode) {
+      const chTag = document.activeElement ? document.activeElement.tagName : '';
+      const chInInput = chTag === 'INPUT' || chTag === 'SELECT' || chTag === 'TEXTAREA';
+      const chModalOpen = document.getElementById('ch-mov')?.classList.contains('on') || document.getElementById('ch-lb-ov')?.classList.contains('on') || document.getElementById('sov').classList.contains('on');
+      if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
+        e.preventDefault(); document.getElementById('ch-search')?.focus(); return;
+      }
+      if (!chInInput && !chModalOpen && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        if ((k === 'n' || k === 'т') && typeof window.openChannelDrawer === 'function') { e.preventDefault(); window.openChannelDrawer(null); }
+        else if (e.key === '/') { e.preventDefault(); document.getElementById('ch-search')?.focus(); }
+      }
+      return;
+    }
+
     const isBudgetMode = document.body.classList.contains('budget-mode');
     const activeTag = document.activeElement ? document.activeElement.tagName : '';
     const inInput = activeTag === 'INPUT' || activeTag === 'SELECT' || activeTag === 'TEXTAREA';
@@ -6587,6 +7790,7 @@ function bindEvents() {
       document.getElementById('bg-mov')?.classList.contains('on') ||
       document.getElementById('bg-adj-mov')?.classList.contains('on') ||
       document.getElementById('sov').classList.contains('on') ||
+      document.getElementById('fee-bulk-mov')?.classList.contains('on') ||
       document.getElementById('inv-sheet-ov').classList.contains('on') ||
       document.getElementById('period-sheet-ov').classList.contains('on');
 
@@ -9555,16 +10759,19 @@ const TwitterPlanner = (() => {
   }
 
   function switchView(mode) {
-    _activeView = (mode === 'planner' || mode === 'budget') ? mode : 'invoe';
+    _activeView = (mode === 'planner' || mode === 'budget' || mode === 'channels') ? mode : 'invoe';
     const invoeBody = document.getElementById('workspace-body');
     const budgetView = document.getElementById('budget-view');
     const plannerView = document.getElementById('x-planner-view');
+    const channelsView = document.getElementById('channels-view');
     const tabInvoe = document.getElementById('xp-tab-invoe');
     const tabBudget = document.getElementById('tab-budget');
     const tabPlanner = document.getElementById('xp-tab-planner');
+    const tabChannels = document.getElementById('tab-channels');
 
     document.body.classList.toggle('xp-mode', _activeView === 'planner');
     document.body.classList.toggle('budget-mode', _activeView === 'budget');
+    document.body.classList.toggle('channels-mode', _activeView === 'channels');
 
     if (_activeView !== 'planner' && _xpInitialized) {
       selectCanvasSlot(null, null);
@@ -9580,17 +10787,20 @@ const TwitterPlanner = (() => {
     invoeBody?.classList.toggle('is-hidden', _activeView !== 'invoe');
     budgetView?.classList.toggle('is-hidden', _activeView !== 'budget');
     plannerView?.classList.toggle('is-hidden', _activeView !== 'planner');
+    channelsView?.classList.toggle('is-hidden', _activeView !== 'channels');
 
     if (tabInvoe) { tabInvoe.classList.toggle('on', _activeView === 'invoe'); tabInvoe.setAttribute('aria-selected', String(_activeView === 'invoe')); }
     if (tabBudget) { tabBudget.classList.toggle('on', _activeView === 'budget'); tabBudget.setAttribute('aria-selected', String(_activeView === 'budget')); }
     if (tabPlanner) { tabPlanner.classList.toggle('on', _activeView === 'planner'); tabPlanner.setAttribute('aria-selected', String(_activeView === 'planner')); }
+    if (tabChannels) { tabChannels.classList.toggle('on', _activeView === 'channels'); tabChannels.setAttribute('aria-selected', String(_activeView === 'channels')); }
 
     const mGtTitle = document.getElementById('m-gt-title');
     if (mGtTitle) {
-      mGtTitle.textContent = _activeView === 'planner' ? 'X Showcase' : (_activeView === 'budget' ? 'Учёт' : 'Заказы');
+      const titleMap = { invoe: 'Заказы', budget: 'Учёт', planner: 'X Showcase', channels: 'Каналы' };
+      mGtTitle.textContent = titleMap[_activeView] || 'Заказы';
     }
     document.getElementById('m-inv-btn')?.classList.toggle('is-hidden', _activeView !== 'invoe');
-    document.getElementById('m-period-btn')?.classList.toggle('is-hidden', _activeView === 'planner');
+    document.getElementById('m-period-btn')?.classList.toggle('is-hidden', _activeView === 'planner' || _activeView === 'channels');
     document.getElementById('m-xp-dl-btn')?.classList.toggle('is-hidden', _activeView !== 'planner');
 
     if (_activeView === 'invoe') {
@@ -9606,12 +10816,16 @@ const TwitterPlanner = (() => {
     if (_activeView === 'budget' && typeof window.renderBudgetView === 'function') {
       window.renderBudgetView();
     }
+    if (_activeView === 'channels' && typeof window.renderChannelsView === 'function') {
+      window.renderChannelsView();
+    }
   }
 
   function bindNavAndSettingsEvents() {
     document.getElementById('xp-tab-invoe')?.addEventListener('click', () => switchView('invoe'));
     document.getElementById('tab-budget')?.addEventListener('click', () => switchView('budget'));
     document.getElementById('xp-tab-planner')?.addEventListener('click', () => switchView('planner'));
+    document.getElementById('tab-channels')?.addEventListener('click', () => switchView('channels'));
 
     const handleInp = document.getElementById('xp-set-handle');
     const posSel = document.getElementById('xp-set-pos');
@@ -10184,6 +11398,22 @@ const TwitterPlanner = (() => {
     return { incInfo, expInfo, netBase, adjItems, adjSignedBase: Math.round(adjSignedBase * 100) / 100 };
   }
 
+  function getNetPaidOrdersInPeriod() {
+    return entries.filter(isPaidInPeriod).map(e => ({
+      id: e.id,
+      name: e.name,
+      desc: e.desc,
+      note: e.note,
+      date: e.date,
+      paidAt: e.paidAt,
+      paid: e.paid,
+      currency: e.currency,
+      amount: getEntryNetAmount(e),
+      grossAmount: e.amount,
+      origFeePct: getEntryFeePct(e)
+    }));
+  }
+
   function buildUnifiedLedgerItems(periodBudget, periodOrdersIncome) {
     const manualMapped = periodBudget.map(x => ({
       kind: 'manual',
@@ -10214,6 +11444,8 @@ const TwitterPlanner = (() => {
         type: 'income',
         isAdjustment: false,
         amount: e.amount,
+        grossAmount: e.grossAmount || e.amount,
+        origFeePct: e.origFeePct || 0,
         currency: e.currency
       };
     });
@@ -10254,7 +11486,7 @@ const TwitterPlanner = (() => {
     document.getElementById('bg-tile-inc')?.classList.toggle('is-active', bgTypeFilter === 'income');
     document.getElementById('bg-kpi-exp-card')?.classList.toggle('is-active', bgTypeFilter === 'expense');
 
-    const periodOrdersIncome = entries.filter(isPaidInPeriod);
+    const periodOrdersIncome = getNetPaidOrdersInPeriod();
     const ordersIncInfo = summarizeBudgetGroup(periodOrdersIncome);
 
     const periodBudget = budgetEntries.filter(x => matchesPeriod(x.date));
@@ -10393,9 +11625,14 @@ const TwitterPlanner = (() => {
     // Col 4: Date
     row.appendChild(el('div', { className: 'ord-cell-date' }, [ds || '—']));
 
-    // Col 5: Right-aligned Amount
-    const amtCell = el('div', { className: 'ord-cell-amt sel-txt' + (isInc ? ' bg-amt-inc' : '') }, [
-      `${isInc ? '+' : '−'}${fmtCur(item.amount, item.currency)}`
+    // Col 5: Right-aligned Amount (+ gross & % subline for orders with commission)
+    const hasFee = isOrder && item.origFeePct > 0;
+    const amtCell = el('div', {
+      className: 'ord-cell-amt sel-txt' + (isInc ? ' bg-amt-inc' : ''),
+      title: hasFee ? `Счёт клиенту: ${fmtCur(item.grossAmount, item.currency)} · Комиссия: ${formatFeePct(item.origFeePct)}%` : ''
+    }, [
+      el('div', {}, [`${isInc ? '+' : '−'}${fmtCur(item.amount, item.currency)}`]),
+      hasFee ? el('span', { className: 'ord-amt-sub' }, [`${fmtCur(item.grossAmount, item.currency)} · −${formatFeePct(item.origFeePct)}%`]) : null
     ]);
     row.appendChild(amtCell);
 
@@ -10752,12 +11989,12 @@ const TwitterPlanner = (() => {
     bgSearchInp?.addEventListener('input', e => {
       bgSearchQuery = e.target.value || '';
       if (bgSubView !== 'list') switchBudgetSubView('list');
-      renderBudgetTable(budgetEntries.filter(x => matchesPeriod(x.date)), entries.filter(isPaidInPeriod));
+      renderBudgetTable(budgetEntries.filter(x => matchesPeriod(x.date)), getNetPaidOrdersInPeriod());
     });
     document.getElementById('bg-search-clear')?.addEventListener('click', () => {
       bgSearchQuery = '';
       if (bgSearchInp) { bgSearchInp.value = ''; bgSearchInp.focus(); }
-      renderBudgetTable(budgetEntries.filter(x => matchesPeriod(x.date)), entries.filter(isPaidInPeriod));
+      renderBudgetTable(budgetEntries.filter(x => matchesPeriod(x.date)), getNetPaidOrdersInPeriod());
     });
     document.getElementById('bg-clear-cat')?.addEventListener('click', () => { bgCatFilter = ''; renderBudgetView(); });
 
@@ -10777,7 +12014,7 @@ const TwitterPlanner = (() => {
     }
 
     function getCurrentBalanceInCurrency(targetCur) {
-      const periodOrdersIncome = entries.filter(isPaidInPeriod);
+      const periodOrdersIncome = getNetPaidOrdersInPeriod();
       const periodBudget = budgetEntries.filter(x => matchesPeriod(x.date));
       const allInc = [...periodOrdersIncome, ...periodBudget.filter(x => x.type === 'income')];
       const allExp = periodBudget.filter(x => x.type === 'expense');
@@ -10926,7 +12163,1271 @@ const TwitterPlanner = (() => {
   bindBudgetEvents();
   renderBudgetView();
 
-  // All 3 modules (Orders, X Planner, Budget) are now initialized — safe to boot Vault & Cloud Sync!
+
+})();
+</script>
+<script id="channels-script">
+/* ══════════════════════════════════════════════════════════════════
+   CHANNELS & THUMBNAIL REFERENCES MODULE (FIREBASE CLOUD SYNCED)
+══════════════════════════════════════════════════════════════════ */
+(() => {
+  const LS_KEY = 'ff_channels_v1';
+  const IDB_NAME = 'InvoeChannelsImgsDB';
+  const IDB_STORE = 'local_thumbs';
+  const CH_PALETTE = ['#0a84ff','#ff9f0a','#30d158','#bf5af2','#ff375f','#64d2ff','#ffd60a','#ff453a','#5e5ce6','#32ade6'];
+
+  function makeId(prefix = 'ch') {
+    return prefix + '_' + Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(2, 6);
+  }
+
+  function normalizeFolders(list) {
+    if (!Array.isArray(list)) return [];
+    const out = [];
+    const seen = new Set();
+    list.forEach(f => {
+      if (!f || typeof f !== 'object') return;
+      const id = String(f.id || makeId('cf'));
+      const name = String(f.name || '').trim().slice(0, 32);
+      if (!name || seen.has(id)) return;
+      seen.add(id);
+      out.push({ id, name, updatedAt: Number(f.updatedAt) || 0 });
+    });
+    return out;
+  }
+
+  function normalizeItems(list, includeLocal = true) {
+    if (!Array.isArray(list)) return [];
+    const out = [];
+    const seenYt = new Set();
+    list.forEach(it => {
+      if (!it || typeof it !== 'object') return;
+      if (it.kind === 'local') {
+        if (!includeLocal || !it.imgId) return;
+        out.push({
+          id: String(it.id || makeId('ci')),
+          kind: 'local',
+          imgId: String(it.imgId),
+          title: String(it.title || 'Скриншот').trim()
+        });
+      } else if (it.videoId && /^[A-Za-z0-9_-]{11}$/.test(String(it.videoId))) {
+        const vid = String(it.videoId);
+        if (seenYt.has(vid)) return;
+        seenYt.add(vid);
+        out.push({
+          id: String(it.id || makeId('ci')),
+          kind: 'yt',
+          videoId: vid,
+          title: String(it.title || '').trim()
+        });
+      }
+    });
+    return out;
+  }
+
+  function normalizeChannels(list, fallbackFolderId, includeLocal = true) {
+    if (!Array.isArray(list)) return [];
+    const out = [];
+    const seen = new Set();
+    list.forEach(c => {
+      if (!c || typeof c !== 'object') return;
+      const id = String(c.id || makeId('ch'));
+      const name = String(c.name || '').trim();
+      if (!name || seen.has(id)) return;
+      seen.add(id);
+      out.push({
+        id,
+        folderId: String(c.folderId || fallbackFolderId),
+        name,
+        url: String(c.url || '').trim(),
+        note: String(c.note || '').trim(),
+        items: normalizeItems(c.items, includeLocal),
+        createdAt: Number(c.createdAt) || 0,
+        updatedAt: Number(c.updatedAt) || 0
+      });
+    });
+    return out;
+  }
+
+  function defaultFolders() {
+    return [
+      { id: 'cf_cs2', name: 'КС2', updatedAt: 1 },
+      { id: 'cf_refs', name: 'Общие рефы', updatedAt: 1 }
+    ];
+  }
+
+  let chState = { folders: defaultFolders(), channels: [] };
+  try {
+    const raw = JSON.parse(lsG(LS_KEY) || 'null');
+    if (raw && typeof raw === 'object') {
+      const f = normalizeFolders(raw.folders);
+      const folders = f.length ? f : defaultFolders();
+      const channels = normalizeChannels(raw.channels, folders[0].id, true);
+      chState = { folders, channels };
+    }
+  } catch (e) {}
+
+  let activeFolderId = 'all';
+  let activeChannelId = null;
+  let viewMode = 'channels'; // 'channels' | 'wall'
+  let searchQuery = '';
+  let editChannelId = null;
+  let editingFolderId = null;
+  let lbItems = [];
+  let lbIndex = -1;
+  let localBlobUrls = new Map();
+  let pendingLocalUploadChannelId = null;
+
+  /* SERIALIZATION FOR CLOUD SYNC (TEXT/LINKS ONLY — ZERO HEAVY BLOBS) */
+  function getCloudChannelsData() {
+    const folders = chState.folders.map(f => ({
+      id: f.id,
+      name: f.name,
+      updatedAt: Number(f.updatedAt) || 0
+    }));
+    const channels = chState.channels.map(c => ({
+      id: c.id,
+      folderId: c.folderId,
+      name: c.name,
+      url: c.url || '',
+      note: c.note || '',
+      items: normalizeItems(c.items, false),
+      createdAt: Number(c.createdAt) || 0,
+      updatedAt: Number(c.updatedAt) || 0
+    }));
+    return { folders, channels };
+  }
+  window._getCloudChannelsData = getCloudChannelsData;
+
+  function saveChannelsState(silent = false) {
+    lsS(LS_KEY, JSON.stringify(chState));
+    updateChannelsNavBadge();
+    if (!silent) {
+      saveToSafariVault();
+      scheduleSmartFirebaseSync();
+    }
+  }
+
+  function updateChannelsNavBadge() {
+    setText('nav-cnt-channels', chState.channels.length > 0 ? String(chState.channels.length) : '');
+  }
+
+  /* MERGE CLOUD CHANNELS WHILE PRESERVING LOCAL-ONLY SCREENSHOTS */
+  function mergeChannelItemsPreserveLocal(mergedChannels, localSnapshot) {
+    const localMap = new Map(localSnapshot.map(c => [c.id, (c.items || []).filter(it => it.kind === 'local')]));
+    return mergedChannels.map(c => {
+      const ytOnly = normalizeItems(c.items, false);
+      const localPics = localMap.get(c.id) || [];
+      return { ...c, items: [...ytOnly, ...localPics] };
+    });
+  }
+
+  window._restoreChannelsFromVault = (vFolders, vChannels) => {
+    if (chState.channels.length === 0 && Array.isArray(vChannels) && vChannels.length > 0) {
+      const f = normalizeFolders(vFolders);
+      if (f.length) chState.folders = f;
+      chState.channels = normalizeChannels(vChannels, chState.folders[0].id, true);
+      lsS(LS_KEY, JSON.stringify(chState));
+      updateChannelsNavBadge();
+      if (document.body.classList.contains('channels-mode')) renderChannelsView();
+    }
+  };
+
+  window._mergeCloudChannels = (cFolders, cChannels, delIdsArr, preferLocal = false) => {
+    const delSet = new Set(Array.isArray(delIdsArr) ? delIdsArr.map(String) : []);
+    if (Array.isArray(cFolders) && cFolders.length > 0) {
+      const mergedF = mergeRecordsByUpdatedAt(
+        chState.folders,
+        normalizeFolders(cFolders),
+        delSet,
+        preferLocal
+      );
+      if (mergedF.length) chState.folders = mergedF;
+    }
+    if (Array.isArray(cChannels)) {
+      const localSnap = chState.channels;
+      const fallbackFid = chState.folders[0]?.id || 'cf_cs2';
+      const cloudNorm = normalizeChannels(cChannels, fallbackFid, false);
+      const mergedC = mergeRecordsByUpdatedAt(localSnap, cloudNorm, delSet, preferLocal);
+      chState.channels = mergeChannelItemsPreserveLocal(mergedC, localSnap)
+        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }
+    lsS(LS_KEY, JSON.stringify(chState));
+    updateChannelsNavBadge();
+    if (document.body.classList.contains('channels-mode')) renderChannelsView();
+  };
+
+  window._importChannelsData = (impFolders, impChannels, replaceMode = true, silent = false) => {
+    const now = Date.now();
+    const normF = normalizeFolders(impFolders).map(f => ({ ...f, updatedAt: f.updatedAt || now }));
+    normF.forEach(f => deletedIds.delete(String(f.id)));
+
+    if (replaceMode && normF.length) {
+      chState.folders = normF;
+    } else if (normF.length) {
+      const exFIds = new Set(chState.folders.map(f => f.id));
+      normF.forEach(f => { if (!exFIds.has(f.id)) chState.folders.push(f); });
+    }
+    if (!chState.folders.length) chState.folders = defaultFolders();
+
+    const fallbackFid = chState.folders[0].id;
+    const normC = normalizeChannels(impChannels, fallbackFid, false).map(c => ({
+      ...c,
+      folderId: chState.folders.some(f => f.id === c.folderId) ? c.folderId : fallbackFid,
+      updatedAt: c.updatedAt || now
+    }));
+    normC.forEach(c => deletedIds.delete(String(c.id)));
+    lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+
+    if (replaceMode) {
+      const localSnap = chState.channels;
+      chState.channels = mergeChannelItemsPreserveLocal(normC, localSnap);
+    } else {
+      const exIds = new Set(chState.channels.map(c => c.id));
+      normC.forEach(c => { if (!exIds.has(c.id)) chState.channels.unshift(c); });
+    }
+
+    saveChannelsState(silent);
+    if (document.body.classList.contains('channels-mode')) renderChannelsView();
+  };
+
+  /* LOCAL INDEXEDDB FOR OPTIONAL SCREENSHOTS */
+  let _idb = null;
+  function openImgDB() {
+    if (_idb) return _idb;
+    _idb = new Promise((resolve, reject) => {
+      if (!window.indexedDB) return reject('No IDB');
+      const req = indexedDB.open(IDB_NAME, 1);
+      req.onupgradeneeded = () => {
+        if (!req.result.objectStoreNames.contains(IDB_STORE)) req.result.createObjectStore(IDB_STORE);
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => { _idb = null; reject(req.error); };
+    });
+    return _idb;
+  }
+
+  async function saveLocalImgBlob(imgId, blob) {
+    try {
+      const db = await openImgDB();
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).put(blob, imgId);
+      if (localBlobUrls.has(imgId)) URL.revokeObjectURL(localBlobUrls.get(imgId));
+      localBlobUrls.set(imgId, URL.createObjectURL(blob));
+    } catch (e) {}
+  }
+
+  async function deleteLocalImgBlob(imgId) {
+    try {
+      if (localBlobUrls.has(imgId)) {
+        URL.revokeObjectURL(localBlobUrls.get(imgId));
+        localBlobUrls.delete(imgId);
+      }
+      const db = await openImgDB();
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).delete(imgId);
+    } catch (e) {}
+  }
+
+  async function hydrateLocalImages() {
+    try {
+      const db = await openImgDB();
+      const tx = db.transaction(IDB_STORE, 'readonly');
+      const store = tx.objectStore(IDB_STORE);
+      const keysReq = store.getAllKeys();
+      keysReq.onsuccess = () => {
+        const keys = keysReq.result || [];
+        if (!keys.length) return;
+        let done = 0;
+        keys.forEach(k => {
+          const g = store.get(k);
+          g.onsuccess = () => {
+            if (g.result instanceof Blob) localBlobUrls.set(String(k), URL.createObjectURL(g.result));
+            done++;
+            if (done === keys.length && document.body.classList.contains('channels-mode')) renderChannelsView();
+          };
+          g.onerror = () => {
+            done++;
+            if (done === keys.length && document.body.classList.contains('channels-mode')) renderChannelsView();
+          };
+        });
+      };
+    } catch (e) {}
+  }
+
+  /* YOUTUBE ZERO-API HELPERS */
+  function extractYouTubeVideoIds(text) {
+    const str = String(text || '');
+    const found = [];
+    const seen = new Set();
+    const rx = /(?:youtube\.com\/(?:watch\?(?:[^#\s]*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/gi;
+    let m;
+    while ((m = rx.exec(str)) !== null) {
+      if (!seen.has(m[1])) { seen.add(m[1]); found.push(m[1]); }
+    }
+    if (!found.length) {
+      str.split(/[\s,;]+/).map(s => s.trim()).filter(Boolean).forEach(token => {
+        if (/^[A-Za-z0-9_-]{11}$/.test(token) && !seen.has(token)) {
+          seen.add(token); found.push(token);
+        }
+      });
+    }
+    return found;
+  }
+
+  function ytThumbUrl(videoId, quality = 'maxresdefault') {
+    return `https://i.ytimg.com/vi/${videoId}/${quality}.jpg`;
+  }
+
+  function attachSmartYtImg(imgEl, videoId) {
+    const order = ['maxresdefault', 'sddefault', 'hqdefault'];
+    let step = 0;
+    imgEl.loading = 'lazy';
+    imgEl.decoding = 'async';
+    imgEl.src = ytThumbUrl(videoId, order[0]);
+    imgEl.addEventListener('load', () => {
+      if (imgEl.naturalWidth <= 120 && step < order.length - 1) {
+        step++;
+        imgEl.src = ytThumbUrl(videoId, order[step]);
+      }
+    });
+    imgEl.addEventListener('error', () => {
+      if (step < order.length - 1) {
+        step++;
+        imgEl.src = ytThumbUrl(videoId, order[step]);
+      }
+    });
+  }
+
+  async function fetchVideoMetaNoApi(videoId) {
+    try {
+      const url = `https://noembed.com/embed?url=${encodeURIComponent('https://www.youtube.com/watch?v=' + videoId)}`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (data && !data.error) {
+        return {
+          title: String(data.title || '').trim(),
+          authorName: String(data.author_name || '').trim(),
+          authorUrl: String(data.author_url || '').trim()
+        };
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  async function tryFetchChannelFeedNoApi(rawInput) {
+    const s = String(rawInput || '').trim();
+    if (!s) return { ok: false, reason: 'empty' };
+
+    const vIds = extractYouTubeVideoIds(s);
+    if (vIds.length > 0 && /watch|youtu\.be|shorts|live/i.test(s)) {
+      const meta = await fetchVideoMetaNoApi(vIds[0]);
+      return {
+        ok: true,
+        source: 'video',
+        channelName: meta?.authorName || '',
+        channelUrl: meta?.authorUrl || '',
+        videos: vIds.map((id, idx) => ({ id, title: idx === 0 ? (meta?.title || '') : '' }))
+      };
+    }
+
+    let channelId = null;
+    const ucMatch = s.match(/channel\/(UC[A-Za-z0-9_-]{22})/);
+    if (ucMatch) channelId = ucMatch[1];
+
+    if (!channelId) {
+      let targetUrl = s;
+      if (targetUrl.startsWith('@')) targetUrl = 'https://www.youtube.com/' + targetUrl;
+      else if (!/^https?:\/\//i.test(targetUrl)) targetUrl = 'https://www.youtube.com/@' + targetUrl.replace(/^\/+/, '');
+      try {
+        const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
+        if (proxyRes.ok) {
+          const html = await proxyRes.text();
+          const idM = html.match(/"externalId":"(UC[A-Za-z0-9_-]{22})"/) ||
+                      html.match(/"channelId":"(UC[A-Za-z0-9_-]{22})"/) ||
+                      html.match(/channel\/(UC[A-Za-z0-9_-]{22})/);
+          if (idM) channelId = idM[1];
+        }
+      } catch (e) {}
+    }
+
+    if (!channelId) return { ok: false, reason: 'no_channel_id' };
+
+    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    try {
+      const r2j = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+      if (r2j.ok) {
+        const data = await r2j.json();
+        if (data && data.status === 'ok' && Array.isArray(data.items) && data.items.length) {
+          const vids = [];
+          data.items.slice(0, 12).forEach(it => {
+            const ids = extractYouTubeVideoIds(it.link || it.guid || '');
+            if (ids[0]) vids.push({ id: ids[0], title: String(it.title || '').trim() });
+          });
+          if (vids.length) {
+            return {
+              ok: true,
+              source: 'rss',
+              channelName: String(data.feed?.title || '').trim(),
+              channelUrl: String(data.feed?.link || `https://www.youtube.com/channel/${channelId}`).trim(),
+              videos: vids
+            };
+          }
+        }
+      }
+    } catch (e) {}
+
+    try {
+      const xmlRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`);
+      if (xmlRes.ok) {
+        const xmlText = await xmlRes.text();
+        const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
+        const ents = [...doc.querySelectorAll('entry')];
+        if (ents.length) {
+          const chName = doc.querySelector('feed > author > name')?.textContent?.trim() || doc.querySelector('feed > title')?.textContent?.trim() || '';
+          const vids = [];
+          ents.slice(0, 12).forEach(en => {
+            const vidNode = en.getElementsByTagName('yt:videoId')[0] || en.getElementsByTagName('videoId')[0];
+            const vidId = vidNode?.textContent?.trim();
+            const vTitle = en.querySelector('title')?.textContent?.trim() || '';
+            if (vidId && /^[A-Za-z0-9_-]{11}$/.test(vidId)) vids.push({ id: vidId, title: vTitle });
+          });
+          if (vids.length) {
+            return {
+              ok: true,
+              source: 'rss',
+              channelName: chName,
+              channelUrl: `https://www.youtube.com/channel/${channelId}`,
+              videos: vids
+            };
+          }
+        }
+      }
+    } catch (e) {}
+
+    return { ok: false, reason: 'cors_blocked' };
+  }
+
+  function colorForChannel(name) {
+    let h = 0;
+    const s = String(name || 'X');
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return CH_PALETTE[h % CH_PALETTE.length];
+  }
+
+  function getFolderName(fid) {
+    const f = chState.folders.find(x => x.id === fid);
+    return f ? f.name : 'Без папки';
+  }
+
+  function getTargetFolderId() {
+    if (activeFolderId !== 'all' && chState.folders.some(f => f.id === activeFolderId)) return activeFolderId;
+    return chState.folders[0]?.id || 'cf_cs2';
+  }
+
+  function getFilteredChannels() {
+    const q = searchQuery.trim().toLowerCase();
+    return chState.channels.filter(ch => {
+      if (activeFolderId !== 'all' && ch.folderId !== activeFolderId) return false;
+      if (!q) return true;
+      return (ch.name || '').toLowerCase().includes(q) ||
+        (ch.note || '').toLowerCase().includes(q) ||
+        getFolderName(ch.folderId).toLowerCase().includes(q) ||
+        (ch.items || []).some(it => (it.title || '').toLowerCase().includes(q));
+    });
+  }
+
+  /* FOLDER BAR: CREATE, INLINE RENAME & DELETE */
+  function commitFolderRename(folderId, nextRaw) {
+    const f = chState.folders.find(x => x.id === folderId);
+    editingFolderId = null;
+    if (!f) { renderChannelsView(); return; }
+    const clean = String(nextRaw || '').trim().slice(0, 32);
+    if (clean && clean !== f.name) {
+      f.name = clean;
+      f.updatedAt = Date.now();
+      saveChannelsState();
+      renderChannelsView();
+      showToast(`Папка переименована в «${clean}»`);
+    } else {
+      renderChannelsView();
+    }
+  }
+
+  function startFolderRename(folderId) {
+    const f = chState.folders.find(x => x.id === folderId);
+    if (!f) return;
+    if (window.innerWidth <= 768) {
+      const next = window.prompt('Новое название папки', f.name);
+      if (next !== null) commitFolderRename(folderId, next);
+      return;
+    }
+    editingFolderId = folderId;
+    renderFolderBar();
+  }
+
+  function renderFolderBar() {
+    const bar = document.getElementById('ch-folder-bar');
+    if (!bar) return;
+    bar.innerHTML = '';
+
+    const allPill = el('button', {
+      type: 'button',
+      className: 'ch-fpill' + (activeFolderId === 'all' ? ' on' : '')
+    }, [
+      'Все',
+      el('span', { className: 'ch-fpill-cnt' }, [String(chState.channels.length)])
+    ]);
+    allPill.addEventListener('click', () => { activeFolderId = 'all'; activeChannelId = null; renderChannelsView(); });
+    bar.appendChild(allPill);
+
+    chState.folders.forEach(f => {
+      const cnt = chState.channels.filter(c => c.folderId === f.id).length;
+      const isOn = activeFolderId === f.id;
+
+      if (editingFolderId === f.id) {
+        let done = false;
+        const inp = el('input', { type: 'text', className: 'ch-fpill-inp', value: f.name, maxlength: '32', 'aria-label': 'Название папки' });
+        const finishSave = () => { if (done) return; done = true; commitFolderRename(f.id, inp.value); };
+        const finishCancel = () => { if (done) return; done = true; editingFolderId = null; renderChannelsView(); };
+        inp.addEventListener('keydown', ev => {
+          if (ev.key === 'Enter') { ev.preventDefault(); finishSave(); }
+          else if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); finishCancel(); }
+        });
+        inp.addEventListener('blur', finishSave);
+        bar.appendChild(el('div', { className: 'ch-fpill-edit' }, [inp]));
+        requestAnimationFrame(() => { inp.focus(); inp.select(); });
+        return;
+      }
+
+      const editBtn = el('button', { type: 'button', className: 'ch-fpill-abtn', title: 'Переименовать папку', 'aria-label': 'Переименовать папку' });
+      editBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>';
+      editBtn.addEventListener('click', ev => { ev.stopPropagation(); startFolderRename(f.id); });
+
+      const delBtn = el('button', { type: 'button', className: 'ch-fpill-abtn del', title: 'Удалить папку', 'aria-label': 'Удалить папку' });
+      delBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      delBtn.addEventListener('click', ev => {
+        ev.stopPropagation();
+        if (chState.folders.length <= 1) { showToast('Должна остаться хотя бы одна папка'); return; }
+        const snap = JSON.parse(JSON.stringify(chState));
+        const fallbackId = chState.folders.find(x => x.id !== f.id).id;
+        const now = Date.now();
+        chState.channels.forEach(c => { if (c.folderId === f.id) { c.folderId = fallbackId; c.updatedAt = now; } });
+        chState.folders = chState.folders.filter(x => x.id !== f.id);
+        recordDeletedIds([f.id]);
+        if (activeFolderId === f.id) activeFolderId = 'all';
+        saveChannelsState();
+        renderChannelsView();
+        showToast(`Папка «${f.name}» удалена`, () => {
+          deletedIds.delete(String(f.id));
+          lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+          chState = snap;
+          saveChannelsState();
+          renderChannelsView();
+        });
+      });
+
+      const pill = el('div', {
+        className: 'ch-fpill' + (isOn ? ' on' : ''),
+        role: 'button',
+        tabindex: '0',
+        title: 'Двойной клик — переименовать'
+      }, [
+        el('span', {}, [f.name]),
+        el('span', { className: 'ch-fpill-cnt' }, [String(cnt)]),
+        el('span', { className: 'ch-fpill-acts' }, [editBtn, delBtn])
+      ]);
+      pill.addEventListener('click', () => { activeFolderId = f.id; activeChannelId = null; renderChannelsView(); });
+      pill.addEventListener('dblclick', ev => { ev.stopPropagation(); startFolderRename(f.id); });
+      bar.appendChild(pill);
+    });
+
+    const newBox = el('div', { className: 'ch-new-fbox', id: 'ch-new-fbox' });
+    const newInp = el('input', { type: 'text', className: 'ch-new-finp', placeholder: 'КС2, IRL, Tech...', maxlength: '32' });
+    const newOk = el('button', { type: 'button', className: 'ch-new-fok' }, ['Ок']);
+    const createFolder = () => {
+      const name = newInp.value.trim();
+      if (!name) { newBox.classList.remove('on'); addBtn.classList.remove('is-hidden'); return; }
+      const f = { id: makeId('cf'), name, updatedAt: Date.now() };
+      chState.folders.push(f);
+      activeFolderId = f.id;
+      activeChannelId = null;
+      saveChannelsState();
+      renderChannelsView();
+      showToast(`Папка «${name}» создана`);
+    };
+    newOk.addEventListener('click', createFolder);
+    newInp.addEventListener('keydown', ev => {
+      if (ev.key === 'Enter') { ev.preventDefault(); createFolder(); }
+      else if (ev.key === 'Escape') { ev.stopPropagation(); newBox.classList.remove('on'); addBtn.classList.remove('is-hidden'); }
+    });
+    newBox.appendChild(newInp);
+    newBox.appendChild(newOk);
+
+    const addBtn = el('button', { type: 'button', className: 'ch-fpill-add' }, ['+ Папка']);
+    addBtn.addEventListener('click', () => {
+      addBtn.classList.add('is-hidden');
+      newBox.classList.add('on');
+      newInp.value = '';
+      newInp.focus();
+    });
+    bar.appendChild(addBtn);
+    bar.appendChild(newBox);
+  }
+
+  /* QUICK PASTE HANDLER */
+  async function handleQuickPaste() {
+    const inp = document.getElementById('ch-quick-inp');
+    const btn = document.getElementById('ch-quick-btn');
+    const raw = (inp?.value || '').trim();
+    if (!raw) return;
+
+    const ids = extractYouTubeVideoIds(raw);
+    const isChannelUrl = !ids.length && /youtube\.com\/(@|channel\/|c\/|user\/)|^@/i.test(raw);
+    if (!ids.length && !isChannelUrl) {
+      showToast('Вставьте ссылку на ролик или канал YouTube');
+      return;
+    }
+
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="ch-spinner"></span><span>Загрузка</span>'; }
+
+    try {
+      const targetFolder = getTargetFolderId();
+      const now = Date.now();
+
+      if (isChannelUrl) {
+        const res = await tryFetchChannelFeedNoApi(raw);
+        if (res.ok && res.videos.length) {
+          const chName = res.channelName || raw.replace(/^https?:\/\/(www\.)?youtube\.com\//i, '').replace(/\/+$/, '');
+          let ch = chState.channels.find(c => c.folderId === targetFolder && c.name.toLowerCase() === chName.toLowerCase());
+          if (!ch) {
+            ch = { id: makeId('ch'), folderId: targetFolder, name: chName, url: res.channelUrl || raw, note: '', items: [], createdAt: now, updatedAt: now };
+            chState.channels.unshift(ch);
+          }
+          const existingIds = new Set(ch.items.filter(x => x.kind === 'yt').map(x => x.videoId));
+          let added = 0;
+          res.videos.forEach(v => {
+            if (!existingIds.has(v.id)) {
+              ch.items.push({ id: makeId('ci'), kind: 'yt', videoId: v.id, title: v.title || '' });
+              existingIds.add(v.id);
+              added++;
+            }
+          });
+          ch.updatedAt = now;
+          saveChannelsState();
+          inp.value = '';
+          renderChannelsView();
+          showToast(`Канал «${ch.name}»: подгружено ${added} превью`);
+        } else {
+          showToast('Не удалось прочитать ленту — откройте «+ Канал» и вставьте ссылки на ролики');
+        }
+        return;
+      }
+
+      const metas = await Promise.all(ids.map(id => fetchVideoMetaNoApi(id)));
+      let totalAdded = 0;
+      let createdChannels = 0;
+
+      ids.forEach((vid, i) => {
+        const meta = metas[i];
+        const chName = meta?.authorName || 'Без названия';
+        const chUrl = meta?.authorUrl || '';
+        const vTitle = meta?.title || '';
+
+        let ch = chState.channels.find(c =>
+          c.folderId === targetFolder &&
+          ((chUrl && c.url && c.url.toLowerCase() === chUrl.toLowerCase()) ||
+           (c.name.toLowerCase() === chName.toLowerCase()))
+        );
+        if (!ch) {
+          ch = { id: makeId('ch'), folderId: targetFolder, name: chName, url: chUrl, note: '', items: [], createdAt: now, updatedAt: now };
+          chState.channels.unshift(ch);
+          createdChannels++;
+        }
+        if (!ch.items.some(x => x.kind === 'yt' && x.videoId === vid)) {
+          ch.items.unshift({ id: makeId('ci'), kind: 'yt', videoId: vid, title: vTitle });
+          ch.updatedAt = now;
+          totalAdded++;
+        }
+      });
+
+      saveChannelsState();
+      inp.value = '';
+      renderChannelsView();
+      if (totalAdded > 0) {
+        showToast(createdChannels > 0 ? `Создан канал и добавлено превью: ${totalAdded}` : `Добавлено превью: ${totalAdded}`);
+      } else {
+        showToast('Эти ролики уже сохранены в папке');
+      }
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Подгрузить'; }
+    }
+  }
+
+  async function addVideosToActiveChannel(rawText) {
+    const ch = chState.channels.find(c => c.id === activeChannelId);
+    if (!ch) return;
+    const ids = extractYouTubeVideoIds(rawText);
+    if (!ids.length) { showToast('Ссылки на ролики YouTube не найдены'); return; }
+    const existing = new Set(ch.items.filter(x => x.kind === 'yt').map(x => x.videoId));
+    const freshIds = ids.filter(id => !existing.has(id));
+    if (!freshIds.length) { showToast('Эти превью уже есть в канале'); return; }
+    const metas = await Promise.all(freshIds.map(id => fetchVideoMetaNoApi(id)));
+    freshIds.forEach((id, idx) => {
+      ch.items.unshift({ id: makeId('ci'), kind: 'yt', videoId: id, title: metas[idx]?.title || '' });
+    });
+    ch.updatedAt = Date.now();
+    saveChannelsState();
+    renderChannelsView();
+    showToast(`Добавлено превью: ${freshIds.length}`);
+  }
+
+  async function addLocalFilesToChannel(chId, files) {
+    const ch = chState.channels.find(c => c.id === chId);
+    if (!ch || !files || !files.length) return;
+    let added = 0;
+    for (const f of files) {
+      if (!f.type || !f.type.startsWith('image/')) continue;
+      const imgId = makeId('loc');
+      await saveLocalImgBlob(imgId, f);
+      ch.items.unshift({
+        id: makeId('ci'),
+        kind: 'local',
+        imgId,
+        title: f.name ? f.name.replace(/\.[^.]+$/, '') : 'Скриншот'
+      });
+      added++;
+    }
+    if (added > 0) {
+      saveChannelsState(true);
+      renderChannelsView();
+      showToast(`Добавлено локальных скринов: ${added}`);
+    }
+  }
+
+  /* RENDERING */
+  function createThumbImgElement(item) {
+    const img = document.createElement('img');
+    img.alt = item.title || 'Превью';
+    if (item.kind === 'yt') attachSmartYtImg(img, item.videoId);
+    else if (item.kind === 'local') img.src = localBlobUrls.get(item.imgId) || '';
+    return img;
+  }
+
+  function renderChannelCards(channels) {
+    const root = document.getElementById('ch-content-root');
+    if (!channels.length) {
+      const addBtn = el('button', { type: 'button', className: 'empty-btn' }, ['+ Добавить канал']);
+      addBtn.addEventListener('click', () => openChannelDrawer(null));
+      const emptyBox = el('div', { className: 'empty' });
+      const ico = el('div', { className: 'empty-ico' });
+      ico.innerHTML = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>';
+      emptyBox.appendChild(ico);
+      emptyBox.appendChild(el('div', { className: 'empty-title' }, [searchQuery ? 'Ничего не найдено' : 'В этой папке пока нет каналов']));
+      emptyBox.appendChild(el('div', { className: 'empty-sub' }, [
+        searchQuery
+          ? 'Попробуйте изменить запрос или выбрать другую папку.'
+          : 'Вставьте ссылку на ролик YouTube в поле выше — канал и HD-превью создадутся сами и сохранятся в облаке.'
+      ]));
+      if (!searchQuery) emptyBox.appendChild(el('div', { className: 'ch-empty-acts' }, [addBtn]));
+      root.appendChild(emptyBox);
+      return;
+    }
+
+    const grid = el('div', { className: 'ch-grid' });
+    channels.forEach(ch => {
+      const col = colorForChannel(ch.name);
+      const initial = (ch.name || 'K').trim().charAt(0).toUpperCase();
+      const items = ch.items || [];
+
+      const editBtn = el('button', { type: 'button', className: 'ch-ico-btn', title: 'Редактировать канал' });
+      editBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>';
+      editBtn.addEventListener('click', ev => { ev.stopPropagation(); openChannelDrawer(ch.id); });
+
+      let ytLink = null;
+      if (ch.url) {
+        ytLink = el('a', { className: 'ch-ico-btn', href: ch.url, target: '_blank', rel: 'noopener noreferrer', title: 'Открыть канал на YouTube' });
+        ytLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+        ytLink.addEventListener('click', ev => ev.stopPropagation());
+      }
+
+      const hdr = el('div', { className: 'ch-hdr' }, [
+        el('div', { className: 'ch-id' }, [
+          el('div', { className: 'ch-avatar', style: `background:${col}` }, [initial]),
+          el('div', { className: 'ch-titles' }, [
+            el('div', { className: 'ch-name' }, [ch.name]),
+            el('div', { className: 'ch-sub' }, [
+              activeFolderId === 'all' ? el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]) : null,
+              el('span', {}, [`${items.length} превью`])
+            ])
+          ])
+        ]),
+        el('div', { className: 'ch-actions' }, [ytLink, editBtn])
+      ]);
+
+      let previewEl;
+      if (!items.length) {
+        previewEl = el('div', { className: 'ch-thumbs-empty' }, ['Нет сохранённых превью']);
+      } else {
+        const shown = items.slice(0, 4);
+        const extra = items.length - shown.length;
+        previewEl = el('div', { className: 'ch-thumbs' + (shown.length === 1 ? ' single' : '') });
+        shown.forEach((it, idx) => {
+          const slot = el('div', { className: 'ch-thumb-slot' }, [createThumbImgElement(it)]);
+          if (idx === 3 && extra > 0) slot.appendChild(el('div', { className: 'ch-more-badge' }, [`+${extra}`]));
+          previewEl.appendChild(slot);
+        });
+      }
+
+      const card = el('article', { className: 'ch-card' }, [
+        hdr,
+        previewEl,
+        ch.note ? el('div', { className: 'ch-note' }, [ch.note]) : null
+      ]);
+      card.addEventListener('click', () => { activeChannelId = ch.id; renderChannelsView(); });
+      grid.appendChild(card);
+    });
+    root.appendChild(grid);
+  }
+
+  function renderWallView(channels) {
+    const root = document.getElementById('ch-content-root');
+    const allFlat = [];
+    channels.forEach(ch => {
+      (ch.items || []).forEach(it => allFlat.push({ ...it, channelName: ch.name, channelId: ch.id }));
+    });
+    if (!allFlat.length) {
+      root.appendChild(el('div', { className: 'empty' }, [
+        el('div', { className: 'empty-title' }, ['Превью пока нет']),
+        el('div', { className: 'empty-sub' }, ['Вставьте ссылки на видео YouTube в верхнюю строку, чтобы собрать стену референсов.'])
+      ]));
+      return;
+    }
+
+    const grid = el('div', { className: 'ch-wall-grid' });
+    allFlat.forEach((item, idx) => {
+      const card = el('div', { className: 'ch-wall-item' }, [
+        el('div', { className: 'ch-wall-img-wrap' }, [
+          createThumbImgElement(item),
+          item.kind === 'local' ? el('span', { className: 'ch-local-badge' }, ['Локально']) : null
+        ]),
+        el('div', { className: 'ch-wall-meta' }, [
+          el('span', { className: 'ch-wall-title', title: item.title || item.videoId || '' }, [item.title || item.videoId || 'Превью']),
+          el('span', { className: 'ch-wall-ch' }, [item.channelName])
+        ])
+      ]);
+      card.addEventListener('click', () => openLightbox(allFlat, idx));
+      grid.appendChild(card);
+    });
+    root.appendChild(grid);
+  }
+
+  function renderChannelDetail(ch) {
+    const root = document.getElementById('ch-content-root');
+    const col = colorForChannel(ch.name);
+    const items = ch.items || [];
+
+    const ytBtn = ch.url ? el('a', { className: 'ch-btn-ghost', href: ch.url, target: '_blank', rel: 'noopener noreferrer' }, ['Открыть YouTube']) : null;
+    const editBtn = el('button', { type: 'button', className: 'ch-btn-ghost' }, ['Изменить']);
+    editBtn.addEventListener('click', () => openChannelDrawer(ch.id));
+
+    root.appendChild(el('div', { className: 'ch-detail-hdr' }, [
+      el('div', { className: 'ch-detail-left' }, [
+        el('div', { className: 'ch-detail-av', style: `background:${col}` }, [(ch.name || 'K').charAt(0).toUpperCase()]),
+        el('div', { className: 'ch-detail-info' }, [
+          el('div', { className: 'ch-detail-name' }, [ch.name]),
+          el('div', { className: 'ch-detail-meta' }, [
+            el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]),
+            el('span', {}, [`${items.length} превью`])
+          ]),
+          ch.note ? el('div', { className: 'ch-detail-note' }, [ch.note]) : null
+        ])
+      ]),
+      el('div', { className: 'ch-detail-acts' }, [ytBtn, editBtn])
+    ]));
+
+    const addInp = el('input', { type: 'text', className: 'ch-detail-inp', placeholder: 'Вставьте ссылки на ролики YouTube (или Cmd+V для скрина)...' });
+    const addYtBtn = el('button', { type: 'button', className: 'add-order-btn' }, ['Добавить видео']);
+    const triggerAddYt = async () => {
+      const val = addInp.value.trim();
+      if (!val) return;
+      addYtBtn.disabled = true;
+      await addVideosToActiveChannel(val);
+      addInp.value = '';
+      addYtBtn.disabled = false;
+    };
+    addYtBtn.addEventListener('click', triggerAddYt);
+    addInp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); triggerAddYt(); } });
+
+    const upLocalBtn = el('button', { type: 'button', className: 'ch-btn-ghost' }, ['Загрузить скрин']);
+    upLocalBtn.addEventListener('click', () => {
+      pendingLocalUploadChannelId = ch.id;
+      document.getElementById('ch-local-img-inp')?.click();
+    });
+    root.appendChild(el('div', { className: 'ch-detail-add' }, [addInp, addYtBtn, upLocalBtn]));
+
+    if (!items.length) {
+      root.appendChild(el('div', { className: 'empty' }, [
+        el('div', { className: 'empty-title' }, ['У канала пока нет превью']),
+        el('div', { className: 'empty-sub' }, ['Вставьте ссылку на ролик YouTube выше или скриншот через Cmd+V.'])
+      ]));
+      return;
+    }
+
+    const flatForLb = items.map(it => ({ ...it, channelName: ch.name, channelId: ch.id }));
+    const grid = el('div', { className: 'ch-wall-grid' });
+    items.forEach((it, idx) => {
+      const delBtn = el('button', { type: 'button', className: 'ch-thumb-del', title: 'Удалить превью' });
+      delBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      delBtn.addEventListener('click', async ev => {
+        ev.stopPropagation();
+        if (it.kind === 'local' && it.imgId) await deleteLocalImgBlob(it.imgId);
+        ch.items = ch.items.filter(x => x.id !== it.id);
+        ch.updatedAt = Date.now();
+        saveChannelsState(it.kind === 'local');
+        renderChannelsView();
+        showToast('Превью удалено');
+      });
+
+      const card = el('div', { className: 'ch-wall-item' }, [
+        el('div', { className: 'ch-wall-img-wrap' }, [
+          createThumbImgElement(it),
+          it.kind === 'local' ? el('span', { className: 'ch-local-badge' }, ['Локально']) : null,
+          delBtn
+        ]),
+        el('div', { className: 'ch-wall-meta' }, [
+          el('span', { className: 'ch-wall-title', title: it.title || it.videoId || '' }, [it.title || it.videoId || 'Превью'])
+        ])
+      ]);
+      card.addEventListener('click', () => openLightbox(flatForLb, idx));
+      grid.appendChild(card);
+    });
+    root.appendChild(grid);
+  }
+
+  function renderChannelsView() {
+    updateChannelsNavBadge();
+    const activeCh = activeChannelId ? chState.channels.find(c => c.id === activeChannelId) : null;
+    if (activeChannelId && !activeCh) activeChannelId = null;
+
+    document.getElementById('ch-btn-back')?.classList.toggle('is-hidden', !activeCh);
+    document.getElementById('ch-view-sw')?.classList.toggle('is-hidden', Boolean(activeCh));
+    document.getElementById('ch-search-wrap')?.classList.toggle('is-hidden', Boolean(activeCh));
+    document.getElementById('ch-folder-bar')?.classList.toggle('is-hidden', Boolean(activeCh));
+    document.getElementById('ch-quick-bar')?.classList.toggle('is-hidden', Boolean(activeCh));
+
+    setText('ch-ws-title', activeCh ? activeCh.name : 'Каналы');
+    document.getElementById('ch-sw-channels')?.classList.toggle('on', viewMode === 'channels');
+    document.getElementById('ch-sw-wall')?.classList.toggle('on', viewMode === 'wall');
+
+    if (!activeCh) renderFolderBar();
+
+    const root = document.getElementById('ch-content-root');
+    if (!root) return;
+    root.innerHTML = '';
+
+    if (activeCh) {
+      renderChannelDetail(activeCh);
+    } else {
+      const filtered = getFilteredChannels();
+      if (viewMode === 'wall') renderWallView(filtered);
+      else renderChannelCards(filtered);
+    }
+  }
+  window.renderChannelsView = renderChannelsView;
+
+  /* DRAWER: ADD / EDIT CHANNEL */
+  function updateDrawerVidCount() {
+    const ids = extractYouTubeVideoIds(document.getElementById('ch-f-videos')?.value || '');
+    setText('ch-vid-cnt-hint', `Найдено ссылок YouTube: ${ids.length}`);
+  }
+
+  function openChannelDrawer(chId = null) {
+    editChannelId = chId;
+    const ch = chId ? chState.channels.find(c => c.id === chId) : null;
+    const sel = document.getElementById('ch-f-folder');
+    if (sel) {
+      sel.innerHTML = '';
+      chState.folders.forEach(f => sel.appendChild(el('option', { value: f.id }, [f.name])));
+      sel.value = ch ? ch.folderId : getTargetFolderId();
+    }
+
+    setText('ch-dr-title', ch ? 'Редактирование канала' : 'Новый канал');
+    const nameEl = document.getElementById('ch-f-name');
+    const urlEl = document.getElementById('ch-f-url');
+    const noteEl = document.getElementById('ch-f-note');
+    const vidsEl = document.getElementById('ch-f-videos');
+    if (nameEl) { nameEl.value = ch ? ch.name : ''; nameEl.style.borderColor = ''; }
+    if (urlEl) urlEl.value = ch ? (ch.url || '') : '';
+    if (noteEl) noteEl.value = ch ? (ch.note || '') : '';
+    if (vidsEl) {
+      vidsEl.value = ch
+        ? (ch.items || []).filter(x => x.kind === 'yt').map(x => `https://youtu.be/${x.videoId}`).join('\n')
+        : '';
+    }
+    updateDrawerVidCount();
+
+    const fh = document.getElementById('ch-feed-hint');
+    if (fh) { fh.textContent = 'Вставьте ссылку на ролик или канал YouTube.'; fh.className = 'ahint'; }
+
+    document.getElementById('ch-dr-del')?.classList.toggle('is-hidden', !ch);
+    document.getElementById('ch-mov')?.classList.add('on');
+    setTimeout(() => document.getElementById(ch ? 'ch-f-name' : 'ch-f-url')?.focus(), 80);
+  }
+  window.openChannelDrawer = openChannelDrawer;
+
+  function closeChannelDrawer() {
+    editChannelId = null;
+    document.getElementById('ch-mov')?.classList.remove('on');
+  }
+
+  async function saveDrawerChannel() {
+    const nameInp = document.getElementById('ch-f-name');
+    const urlVal = (document.getElementById('ch-f-url')?.value || '').trim();
+    const folderId = document.getElementById('ch-f-folder')?.value || getTargetFolderId();
+    const noteVal = (document.getElementById('ch-f-note')?.value || '').trim();
+    const vidsRaw = document.getElementById('ch-f-videos')?.value || '';
+    const ytIds = extractYouTubeVideoIds(vidsRaw);
+
+    let name = (nameInp?.value || '').trim();
+    if (!name && ytIds.length > 0) {
+      const m = await fetchVideoMetaNoApi(ytIds[0]);
+      if (m?.authorName) name = m.authorName;
+    }
+    if (!name) {
+      if (nameInp) nameInp.style.borderColor = 'var(--danger)';
+      showToast('Укажите название канала');
+      return;
+    }
+    if (nameInp) nameInp.style.borderColor = '';
+
+    const existingCh = editChannelId ? chState.channels.find(c => c.id === editChannelId) : null;
+    const prevYtTitles = new Map();
+    const localItems = [];
+    if (existingCh) {
+      (existingCh.items || []).forEach(it => {
+        if (it.kind === 'yt') prevYtTitles.set(it.videoId, it.title || '');
+        else if (it.kind === 'local') localItems.push(it);
+      });
+    }
+
+    const needMetaIds = ytIds.filter(id => !prevYtTitles.has(id));
+    const fetchedMetas = await Promise.all(needMetaIds.map(id => fetchVideoMetaNoApi(id)));
+    needMetaIds.forEach((id, i) => {
+      if (fetchedMetas[i]?.title) prevYtTitles.set(id, fetchedMetas[i].title);
+    });
+
+    const ytItems = ytIds.map(id => ({
+      id: makeId('ci'),
+      kind: 'yt',
+      videoId: id,
+      title: prevYtTitles.get(id) || ''
+    }));
+    const finalItems = [...ytItems, ...localItems];
+    const now = Date.now();
+
+    if (existingCh) {
+      existingCh.name = name;
+      existingCh.url = urlVal;
+      existingCh.folderId = folderId;
+      existingCh.note = noteVal;
+      existingCh.items = finalItems;
+      existingCh.updatedAt = now;
+    } else {
+      chState.channels.unshift({
+        id: makeId('ch'),
+        folderId,
+        name,
+        url: urlVal,
+        note: noteVal,
+        items: finalItems,
+        createdAt: now,
+        updatedAt: now
+      });
+    }
+
+    saveChannelsState();
+    closeChannelDrawer();
+    renderChannelsView();
+    showToast(existingCh ? 'Канал обновлён' : `Канал «${name}» добавлен`);
+  }
+
+  /* LIGHTBOX */
+  function openLightbox(items, idx) {
+    lbItems = items;
+    lbIndex = idx;
+    updateLightboxFrame();
+    document.getElementById('ch-lb-ov')?.classList.add('on');
+  }
+
+  function updateLightboxFrame() {
+    const it = lbItems[lbIndex];
+    if (!it) return;
+    const img = document.getElementById('ch-lb-img');
+    if (img) {
+      if (it.kind === 'yt') attachSmartYtImg(img, it.videoId);
+      else img.src = localBlobUrls.get(it.imgId) || '';
+    }
+    setText('ch-lb-title', it.title || it.videoId || 'Превью');
+    setText('ch-lb-sub', `${it.channelName} · ${lbIndex + 1} / ${lbItems.length}`);
+
+    const ytLink = document.getElementById('ch-lb-yt');
+    const cpyBtn = document.getElementById('ch-lb-copy');
+    if (it.kind === 'yt') {
+      const u = `https://www.youtube.com/watch?v=${it.videoId}`;
+      if (ytLink) { ytLink.href = u; ytLink.classList.remove('is-hidden'); }
+      if (cpyBtn) {
+        cpyBtn.classList.remove('is-hidden');
+        cpyBtn.onclick = () => cpyText(u, () => showToast('Ссылка на ролик скопирована'));
+      }
+    } else {
+      ytLink?.classList.add('is-hidden');
+      cpyBtn?.classList.add('is-hidden');
+    }
+  }
+
+  function closeLightbox() {
+    document.getElementById('ch-lb-ov')?.classList.remove('on');
+  }
+
+  /* EVENTS */
+  function bindChannelsEvents() {
+    document.getElementById('ch-btn-back')?.addEventListener('click', () => { activeChannelId = null; renderChannelsView(); });
+    document.getElementById('ch-sw-channels')?.addEventListener('click', () => { viewMode = 'channels'; renderChannelsView(); });
+    document.getElementById('ch-sw-wall')?.addEventListener('click', () => { viewMode = 'wall'; renderChannelsView(); });
+    document.getElementById('ch-search')?.addEventListener('input', e => { searchQuery = e.target.value || ''; renderChannelsView(); });
+
+    document.getElementById('ch-quick-btn')?.addEventListener('click', handleQuickPaste);
+    document.getElementById('ch-quick-inp')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); handleQuickPaste(); }
+    });
+
+    document.getElementById('ch-btn-add')?.addEventListener('click', () => openChannelDrawer(null));
+    document.getElementById('ch-dr-close')?.addEventListener('click', closeChannelDrawer);
+    document.getElementById('ch-mov')?.addEventListener('click', e => { if (e.target === document.getElementById('ch-mov')) closeChannelDrawer(); });
+    document.getElementById('ch-f-videos')?.addEventListener('input', updateDrawerVidCount);
+    document.getElementById('ch-dr-save')?.addEventListener('click', saveDrawerChannel);
+
+    document.getElementById('ch-dr-del')?.addEventListener('click', async () => {
+      if (!editChannelId) return;
+      const targetId = editChannelId;
+      const ch = chState.channels.find(c => c.id === targetId);
+      if (!ch) return;
+      if (!(await showConfirm('Удалить канал', `Удалить канал «${ch.name}» и все его ссылки?`))) return;
+
+      const snap = JSON.parse(JSON.stringify(chState));
+      for (const it of (ch.items || [])) {
+        if (it.kind === 'local' && it.imgId) await deleteLocalImgBlob(it.imgId);
+      }
+      chState.channels = chState.channels.filter(c => c.id !== targetId);
+      recordDeletedIds([targetId]);
+      if (activeChannelId === targetId) activeChannelId = null;
+      saveChannelsState();
+      closeChannelDrawer();
+      renderChannelsView();
+      showToast('Канал удалён', () => {
+        deletedIds.delete(String(targetId));
+        lsS('ff_deleted_ids', JSON.stringify([...deletedIds]));
+        chState = snap;
+        saveChannelsState();
+        renderChannelsView();
+      });
+    });
+
+    document.getElementById('ch-btn-fetch-feed')?.addEventListener('click', async () => {
+      const urlInp = document.getElementById('ch-f-url');
+      const btn = document.getElementById('ch-btn-fetch-feed');
+      const hint = document.getElementById('ch-feed-hint');
+      const raw = (urlInp?.value || '').trim();
+      if (!raw) { showToast('Сначала вставьте ссылку'); return; }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="ch-spinner"></span>';
+      if (hint) { hint.textContent = 'Пробую подтянуть данные без API...'; hint.className = 'ahint'; }
+
+      const res = await tryFetchChannelFeedNoApi(raw);
+      btn.disabled = false;
+      btn.textContent = 'Подтянуть';
+
+      if (res.ok) {
+        const nameEl = document.getElementById('ch-f-name');
+        if (res.channelName && nameEl && !nameEl.value.trim()) nameEl.value = res.channelName;
+        if (res.channelUrl && urlInp) urlInp.value = res.channelUrl;
+
+        const vidBox = document.getElementById('ch-f-videos');
+        if (vidBox) {
+          const existing = new Set(extractYouTubeVideoIds(vidBox.value));
+          const toAdd = res.videos.map(v => v.id).filter(id => !existing.has(id));
+          if (toAdd.length) {
+            const prefix = vidBox.value.trim() ? vidBox.value.trim() + '\n' : '';
+            vidBox.value = prefix + toAdd.map(id => `https://youtu.be/${id}`).join('\n');
+            updateDrawerVidCount();
+          }
+          if (hint) {
+            hint.textContent = res.source === 'rss'
+              ? `Подтянуто ${toAdd.length} последних видео канала`
+              : `Определён канал и добавлено видео (${toAdd.length})`;
+            hint.className = 'ahint smart';
+          }
+        }
+      } else if (hint) {
+        hint.textContent = 'Лента канала недоступна без API — просто вставьте ссылки на ролики в поле ниже.';
+        hint.className = 'ahint err';
+      }
+    });
+
+    document.getElementById('ch-local-img-inp')?.addEventListener('change', e => {
+      const files = [...(e.target.files || [])];
+      if (files.length && pendingLocalUploadChannelId) {
+        addLocalFilesToChannel(pendingLocalUploadChannelId, files);
+      }
+      e.target.value = '';
+    });
+
+    document.addEventListener('paste', e => {
+      if (!document.body.classList.contains('channels-mode') || !activeChannelId) return;
+      if (document.getElementById('ch-mov')?.classList.contains('on')) return;
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      const imgFiles = [];
+      for (const it of items) {
+        if (it.type && it.type.startsWith('image/')) {
+          const f = it.getAsFile();
+          if (f) imgFiles.push(f);
+        }
+      }
+      if (imgFiles.length) {
+        e.preventDefault();
+        addLocalFilesToChannel(activeChannelId, imgFiles);
+      }
+    });
+
+    document.getElementById('ch-lb-close')?.addEventListener('click', closeLightbox);
+    document.getElementById('ch-lb-ov')?.addEventListener('click', e => { if (e.target === document.getElementById('ch-lb-ov')) closeLightbox(); });
+
+    document.addEventListener('keydown', e => {
+      if (!document.body.classList.contains('channels-mode')) return;
+      if (document.getElementById('ch-lb-ov')?.classList.contains('on')) {
+        if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); }
+        else if (e.key === 'ArrowRight' && lbItems.length > 1) { lbIndex = (lbIndex + 1) % lbItems.length; updateLightboxFrame(); }
+        else if (e.key === 'ArrowLeft' && lbItems.length > 1) { lbIndex = (lbIndex - 1 + lbItems.length) % lbItems.length; updateLightboxFrame(); }
+        return;
+      }
+      if (e.key === 'Escape') {
+        if (document.getElementById('ch-mov')?.classList.contains('on')) { closeChannelDrawer(); return; }
+        if (document.activeElement === document.getElementById('ch-search') && document.getElementById('ch-search').value) {
+          document.getElementById('ch-search').value = ''; searchQuery = ''; renderChannelsView(); return;
+        }
+        if (activeChannelId) { activeChannelId = null; renderChannelsView(); }
+      }
+    });
+  }
+
+  bindChannelsEvents();
+  updateChannelsNavBadge();
+  hydrateLocalImages();
+
+  // All 4 modules (Orders, X Showcase, Budget, Channels) are now initialized — safe to boot Vault & Cloud Sync!
   if (typeof window.bootAppCloudSync === 'function') {
     window.bootAppCloudSync();
   }
