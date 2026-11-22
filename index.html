@@ -2237,11 +2237,28 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .ch-card:hover{border-color:var(--border2);}
 .ch-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;}
 .ch-id{display:flex;align-items:center;gap:10px;min-width:0;flex:1;}
+.ch-pin-btn{
+  height:34px;padding:0 12px;border:0.5px solid var(--border2);border-radius:var(--r);
+  background:var(--surface);color:var(--text2);font-size:12.5px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;
+  transition:background-color .14s var(--ease), color .14s var(--ease), border-color .14s var(--ease);
+}
+.ch-pin-btn:hover{background:rgba(230,0,35,0.10);color:#e60023;border-color:rgba(230,0,35,0.28);}
+html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:#ff4d6d;border-color:rgba(255,55,95,0.34);}
+.ch-pin-btn svg{flex-shrink:0;}
+
 .ch-avatar{
-  width:34px;height:34px;border-radius:10px;
+  width:36px;height:36px;border-radius:50%;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
   font-size:13.5px;font-weight:700;color:#fff;flex-shrink:0;
+  border:0.5px solid var(--border2);
 }
+.ch-avatar img,.ch-detail-av img,.ch-lb-feed-av img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.ch-sub-sep{opacity:0.45;}
+.ch-subs-pill{font-weight:600;color:var(--text2);}
+.ch-handle-txt{color:var(--text3);}
 .ch-titles{min-width:0;flex:1;}
 .ch-name{
   font-size:14.5px;font-weight:700;letter-spacing:-0.015em;
@@ -2327,13 +2344,29 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .ch-detail-hdr{
   background:var(--surface);border:0.5px solid var(--border);
   border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.ch-detail-banner{
+  position:relative;width:100%;height:108px;background:var(--surface2);overflow:hidden;
+  border-bottom:0.5px solid var(--border);
+}
+.ch-detail-banner img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.ch-detail-banner::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.22) 100%);
+  pointer-events:none;
+}
+.ch-detail-row{
   padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
 }
 .ch-detail-left{display:flex;align-items:center;gap:14px;min-width:0;flex:1;}
 .ch-detail-av{
-  width:46px;height:46px;border-radius:12px;
+  width:52px;height:52px;border-radius:50%;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:700;color:#fff;flex-shrink:0;
+  font-size:19px;font-weight:700;color:#fff;flex-shrink:0;
+  border:1px solid var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.12);
 }
 .ch-detail-info{min-width:0;flex:1;}
 .ch-detail-name{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
@@ -2346,6 +2379,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;
 }
 .ch-btn-ghost:hover{background:var(--surface2);color:var(--text);}
+.ch-btn-ghost.on{background:var(--blue-bg);color:var(--blue);border-color:var(--blue);}
 
 .ch-detail-add{
   background:var(--surface);border:0.5px solid var(--border);
@@ -2395,10 +2429,38 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   animation:popIn .16s var(--ease);
 }
 .ch-lb-stage{
-  position:relative;width:100%;aspect-ratio:16 / 9;background:#000;
+  position:relative;width:100%;aspect-ratio:16 / 9;background:#0b0b0c;
   border-radius:var(--r-card);overflow:hidden;border:0.5px solid rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  transition:background-color .18s var(--ease);
 }
-.ch-lb-stage img{width:100%;height:100%;object-fit:contain;display:block;}
+.ch-lb-stage > img{
+  width:100%;height:100%;object-fit:contain;display:block;
+}
+.ch-lb-stage.is-feed{background:var(--bg);padding:24px;}
+.ch-lb-stage.is-feed > img{display:none;}
+.ch-lb-feed-card{
+  display:none;width:100%;max-width:348px;flex-direction:column;gap:10px;
+}
+.ch-lb-stage.is-feed .ch-lb-feed-card{display:flex;}
+.ch-lb-feed-thumb{
+  width:100%;aspect-ratio:16 / 9;border-radius:12px;overflow:hidden;
+  background:#000;box-shadow:0 6px 20px rgba(0,0,0,0.22);
+}
+.ch-lb-feed-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.ch-lb-feed-row{display:flex;align-items:flex-start;gap:10px;}
+.ch-lb-feed-av{
+  width:34px;height:34px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;margin-top:1px;
+  border:0.5px solid var(--border2);
+}
+.ch-lb-feed-meta{min-width:0;flex:1;}
+.ch-lb-feed-title{
+  font-size:14px;font-weight:600;line-height:1.3;color:var(--text);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.ch-lb-feed-ch{font-size:12px;color:var(--text3);margin-top:3px;}
 .ch-lb-bar{
   display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
   background:var(--surface);border:0.5px solid var(--border2);
@@ -2410,6 +2472,9 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .ch-lb-acts{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 
 @media(max-width:768px){
+  .ch-pin-btn span{display:none;}
+  .ch-pin-btn{width:38px;height:38px;padding:0;justify-content:center;}
+  .ch-detail-banner{height:82px;}
   .ch-grid,.ch-wall-grid{grid-template-columns:1fr;}
   .ch-folder-bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
   .ch-folder-bar::-webkit-scrollbar{display:none;}
@@ -2964,6 +3029,11 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
           <span class="search-kbd">Cmd+K</span>
         </div>
 
+        <button class="ch-pin-btn" id="ch-btn-pinterest" type="button" title="Открыть доску Pinterest (ПКМ — изменить ссылку)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.017 2C6.486 2 2 6.486 2 12.017c0 4.242 2.636 7.868 6.357 9.327-.088-.792-.167-2.008.035-2.872.182-.78 1.175-4.979 1.175-4.979s-.3-.6-.3-1.487c0-1.393.808-2.433 1.813-2.433.855 0 1.268.642 1.268 1.411 0 .86-.547 2.146-.83 3.338-.236.998.5 1.812 1.483 1.812 1.78 0 3.149-1.877 3.149-4.586 0-2.398-1.723-4.075-4.184-4.075-2.85 0-4.523 2.138-4.523 4.348 0 .861.331 1.785.745 2.287.082.099.094.186.069.287-.076.316-.244.998-.278 1.137-.044.183-.145.222-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.966-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.531 0 10.017-4.486 10.017-10.017C22.034 6.486 17.548 2 12.017 2z"/></svg>
+          <span>Pinterest</span>
+        </button>
+
         <button class="add-order-btn" id="ch-btn-add" type="button" title="Добавить канал (N)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           <span>Канал</span>
@@ -2980,7 +3050,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
         <span class="ch-quick-ico" aria-hidden="true">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         </span>
-        <input type="text" class="ch-quick-inp" id="ch-quick-inp" placeholder="Вставьте ссылку на ролик YouTube (или несколько) — канал и превью подгрузятся сами..."/>
+        <input type="text" class="ch-quick-inp" id="ch-quick-inp" placeholder="Вставьте ссылку на ролик или канал YouTube — аватар, подписчики и превью подтянутся сами..."/>
         <button type="button" class="ch-quick-btn" id="ch-quick-btn">Подгрузить</button>
       </div>
 
@@ -3324,14 +3394,18 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
             <input type="text" id="ch-f-url" placeholder="youtube.com/@handle или ссылка на видео" autocomplete="off"/>
             <button type="button" class="ch-btn-ghost" id="ch-btn-fetch-feed" title="Попробовать автоподгрузку без API">Подтянуть</button>
           </div>
-          <div class="ahint" id="ch-feed-hint">Вставьте ссылку на ролик или канал YouTube.</div>
+          <div class="ahint" id="ch-feed-hint">Вставьте ссылку на канал или ролик — подтянем аватар и подписчиков.</div>
         </div>
       </div>
 
-      <div class="fgrid single-col">
+      <div class="fgrid">
         <div class="ff">
           <label for="ch-f-name">Название канала</label>
-          <input type="text" id="ch-f-name" placeholder="Например: Anomaly, NadeKing..." autocomplete="off"/>
+          <input type="text" id="ch-f-name" placeholder="Имя канала" autocomplete="off"/>
+        </div>
+        <div class="ff">
+          <label for="ch-f-subs">Подписчики</label>
+          <input type="text" id="ch-f-subs" placeholder="Авто или вручную" autocomplete="off"/>
         </div>
       </div>
 
@@ -3365,11 +3439,43 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   </div>
 </div>
 
+<!-- Modal: Pinterest Board URL -->
+<div class="moverlay" id="ch-pin-mov" role="dialog" aria-modal="true" aria-labelledby="ch-pin-title">
+  <div class="modal">
+    <div class="sheet-handle"></div>
+    <div class="mhdr">
+      <span class="mtitle" id="ch-pin-title">Доска Pinterest</span>
+      <button class="mclose" id="ch-pin-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="fgrid single-col">
+      <div class="ff">
+        <label for="ch-pin-inp">Ссылка на доску с идеями</label>
+        <input type="url" id="ch-pin-inp" placeholder="https://pinterest.com/username/board-name/" autocomplete="off"/>
+        <div class="ahint">Сохраняется в облаке. Потом можно поменять правым кликом по кнопке или в настройках.</div>
+      </div>
+    </div>
+    <div class="fbtns">
+      <button class="bsubmit" id="ch-pin-save-open" type="button">Сохранить и открыть</button>
+      <button class="bcancel" id="ch-pin-save" type="button">Сохранить</button>
+    </div>
+  </div>
+</div>
+
 <!-- Lightbox: Full-Size Channel Thumbnail Preview -->
 <div class="ch-lb-ov" id="ch-lb-ov" role="dialog" aria-modal="true" aria-label="Просмотр превью">
   <div class="ch-lb-box">
-    <div class="ch-lb-stage">
+    <div class="ch-lb-stage" id="ch-lb-stage">
       <img id="ch-lb-img" alt="Превью"/>
+      <div class="ch-lb-feed-card" aria-hidden="true">
+        <div class="ch-lb-feed-thumb"><img id="ch-lb-feed-img" alt="В ленте"/></div>
+        <div class="ch-lb-feed-row">
+          <div class="ch-lb-feed-av" id="ch-lb-feed-av"></div>
+          <div class="ch-lb-feed-meta">
+            <div class="ch-lb-feed-title" id="ch-lb-feed-title"></div>
+            <div class="ch-lb-feed-ch" id="ch-lb-feed-ch"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="ch-lb-bar">
       <div class="ch-lb-info">
@@ -3377,6 +3483,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
         <div class="ch-lb-sub" id="ch-lb-sub"></div>
       </div>
       <div class="ch-lb-acts">
+        <button type="button" class="ch-btn-ghost" id="ch-lb-feed" title="Посмотреть в размере карточки ленты YouTube">В ленте</button>
         <a class="ch-btn-ghost" id="ch-lb-yt" target="_blank" rel="noopener noreferrer">YouTube</a>
         <button type="button" class="ch-btn-ghost" id="ch-lb-copy">Ссылка</button>
         <button type="button" class="ch-btn-ghost" id="ch-lb-close">Закрыть</button>
@@ -3501,6 +3608,14 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
             </select>
           </div>
           <div class="s-hint">Отображается на карточках недели.</div>
+        </div>
+
+        <div>
+          <div class="slbl">Каналы — Доска Pinterest</div>
+          <div class="cloud-box">
+            <input type="url" class="cloud-inp" id="ch-set-pinterest" placeholder="https://pinterest.com/..." autocomplete="off"/>
+          </div>
+          <div class="s-hint">Открывается по кнопке Pinterest во вкладке «Каналы».</div>
         </div>
 
         <div>
@@ -3783,6 +3898,7 @@ async function saveToSafariVault() {
       budgetRecurring: window._budgetRecurring || [],
       channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
       channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
+      pinterestUrl: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().pinterestUrl : ''),
       fbUrl: fbUrl || '',
       fbSec: fbSec || '',
       clientFees: serializeClientFeesForCloud(clientFees),
@@ -3821,7 +3937,7 @@ async function restoreFromSafariVaultIfEmpty() {
         window._restoreBudgetFromVault(data.budgetEntries, data.budgetRecurring);
       }
       if (typeof window._restoreChannelsFromVault === 'function') {
-        window._restoreChannelsFromVault(data.channelFolders, data.channels);
+        window._restoreChannelsFromVault(data.channelFolders, data.channels, data.pinterestUrl);
       }
       if (entries.length === 0 && Array.isArray(data.entries) && data.entries.length > 0) {
         entries = normalizeLoadedEntries(data.entries);
@@ -3962,7 +4078,8 @@ function computeDataFingerprint(
     budgetEntries: targetBudget,
     budgetRecurring: targetRecur,
     channelFolders: Array.isArray(targetChData?.folders) ? targetChData.folders : [],
-    channels: Array.isArray(targetChData?.channels) ? targetChData.channels : []
+    channels: Array.isArray(targetChData?.channels) ? targetChData.channels : [],
+    pinterestUrl: String(targetChData?.pinterestUrl || '')
   });
 }
 
@@ -4062,6 +4179,7 @@ async function updateStorageMetrics() {
     budgetRecurring: window._budgetRecurring || [],
     channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
     channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
+    pinterestUrl: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().pinterestUrl : ''),
     entries: cleanEntriesForStorage(entries)
   });
   const cloudBytes = new Blob([payloadStr]).size;
@@ -4132,6 +4250,7 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     budgetRecurring: window._budgetRecurring || [],
     channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
     channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
+    pinterestUrl: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().pinterestUrl : ''),
     entries: cleanEntriesForStorage(entries)
   });
 
@@ -4271,7 +4390,7 @@ async function safeSyncWithFirebase(manual = false) {
         window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, [...cloudDelSet], true);
       }
       if (typeof window._mergeCloudChannels === 'function' && data) {
-        window._mergeCloudChannels(data.channelFolders, data.channels, [...cloudDelSet], true);
+        window._mergeCloudChannels(data.channelFolders, data.channels, [...cloudDelSet], true, data.pinterestUrl);
       }
 
       saveToSafariVault();
@@ -4286,8 +4405,8 @@ async function safeSyncWithFirebase(manual = false) {
       if (typeof window._mergeCloudBudget === 'function') {
         window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, [...cloudDelSet], false);
       }
-      if (typeof window._mergeCloudChannels === 'function' && (Array.isArray(data.channelFolders) || Array.isArray(data.channels))) {
-        window._mergeCloudChannels(data.channelFolders, data.channels, [...cloudDelSet], false);
+      if (typeof window._mergeCloudChannels === 'function' && (Array.isArray(data.channelFolders) || Array.isArray(data.channels) || typeof data.pinterestUrl === 'string')) {
+        window._mergeCloudChannels(data.channelFolders, data.channels, [...cloudDelSet], false, data.pinterestUrl);
       }
       const nextChData = typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData() : { folders: [], channels: [] };
       const cloudCur = (data.baseCur && CURS.includes(data.baseCur)) ? data.baseCur : baseCur;
@@ -4405,8 +4524,8 @@ async function forcePullFromFirebase() {
     if (typeof window._importBudgetData === 'function' && (Array.isArray(data.budgetEntries) || Array.isArray(data.budgetRecurring))) {
       window._importBudgetData(data.budgetEntries || [], data.budgetRecurring || [], true, true);
     }
-    if (typeof window._importChannelsData === 'function' && (Array.isArray(data.channelFolders) || Array.isArray(data.channels))) {
-      window._importChannelsData(data.channelFolders || [], data.channels || [], true, true);
+    if (typeof window._importChannelsData === 'function' && (Array.isArray(data.channelFolders) || Array.isArray(data.channels) || typeof data.pinterestUrl === 'string')) {
+      window._importChannelsData(data.channelFolders || [], data.channels || [], true, true, data.pinterestUrl);
     }
 
     lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
@@ -4432,7 +4551,7 @@ async function forcePullFromFirebase() {
         window._importBudgetData(prevBudgetSnap, prevRecurSnap, true, true);
       }
       if (typeof window._importChannelsData === 'function') {
-        window._importChannelsData(prevChSnap.folders, prevChSnap.channels, true, true);
+        window._importChannelsData(prevChSnap.folders, prevChSnap.channels, true, true, prevChSnap.pinterestUrl);
       }
       save();
       render();
@@ -5857,6 +5976,10 @@ function openSettings(defaultTab = 'view') {
   switchSettingsTab(defaultTab);
   document.getElementById('fb-url').value = fbUrl;
   document.getElementById('fb-sec').value = fbSec;
+  const pinSetInp = document.getElementById('ch-set-pinterest');
+  if (pinSetInp && typeof window._getCloudChannelsData === 'function') {
+    pinSetInp.value = window._getCloudChannelsData().pinterestUrl || '';
+  }
   const snapBtn = document.getElementById('btn-restore-snap');
   if (snapBtn) snapBtn.classList.toggle('is-hidden', !lsG('ff_pre_sync_snap'));
   document.getElementById('sov').classList.add('on');
@@ -7300,6 +7423,7 @@ function exportData() {
     budgetRecurring: window._budgetRecurring || [],
     channelFolders: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().folders : []),
     channels: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().channels : []),
+    pinterestUrl: (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData().pinterestUrl : ''),
     entries: cleanEntriesForStorage(entries)
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
@@ -7341,8 +7465,8 @@ function applyImportedPayload(raw, replaceMode = true) {
   if (!Array.isArray(raw) && typeof window._importBudgetData === 'function') {
     window._importBudgetData(raw.budgetEntries, raw.budgetRecurring, replaceMode, true);
   }
-  if (!Array.isArray(raw) && typeof window._importChannelsData === 'function' && (Array.isArray(raw.channelFolders) || Array.isArray(raw.channels))) {
-    window._importChannelsData(raw.channelFolders, raw.channels, replaceMode, true);
+  if (!Array.isArray(raw) && typeof window._importChannelsData === 'function' && (Array.isArray(raw.channelFolders) || Array.isArray(raw.channels) || typeof raw.pinterestUrl === 'string')) {
+    window._importChannelsData(raw.channelFolders, raw.channels, replaceMode, true, raw.pinterestUrl);
   }
   if (replaceMode) {
     entries = normalizeLoadedEntries(valid);
@@ -7396,7 +7520,7 @@ function handleFileObject(file) {
           replaceCh = (choice === 'alt');
         }
         if (typeof window._importChannelsData === 'function') {
-          window._importChannelsData(chFoldersArr || [], chListArr || [], replaceCh, false);
+          window._importChannelsData(chFoldersArr || [], chListArr || [], replaceCh, false, raw.pinterestUrl);
         }
         closeSettings();
         if (typeof TwitterPlanner !== 'undefined' && TwitterPlanner.switchView) {
@@ -7780,7 +7904,7 @@ function bindEvents() {
     if (isChannelsMode) {
       const chTag = document.activeElement ? document.activeElement.tagName : '';
       const chInInput = chTag === 'INPUT' || chTag === 'SELECT' || chTag === 'TEXTAREA';
-      const chModalOpen = document.getElementById('ch-mov')?.classList.contains('on') || document.getElementById('ch-lb-ov')?.classList.contains('on') || document.getElementById('sov').classList.contains('on');
+      const chModalOpen = document.getElementById('ch-mov')?.classList.contains('on') || document.getElementById('ch-pin-mov')?.classList.contains('on') || document.getElementById('ch-lb-ov')?.classList.contains('on') || document.getElementById('sov').classList.contains('on');
       if ((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'л')) {
         e.preventDefault(); document.getElementById('ch-search')?.focus(); return;
       }
@@ -12554,6 +12678,37 @@ const TwitterPlanner = (() => {
     return prefix + '_' + Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(2, 6);
   }
 
+  function normalizeExternalUrl(raw) {
+    const s = String(raw || '').trim();
+    if (!s) return '';
+    if (/^https?:\/\//i.test(s)) return s;
+    return 'https://' + s.replace(/^\/+/, '');
+  }
+
+  function formatCompactSubs(raw) {
+    const clean = String(raw || '').replace(/\u00a0/g, ' ').trim();
+    if (!clean) return '';
+    const m = clean.match(/([\d\s.,]+)\s*(тыс\.?|млн\.?|млрд\.?|k|m|b|к|м)?/i);
+    if (!m) return clean.slice(0, 24);
+    let num = m[1].trim();
+    const u = (m[2] || '').toLowerCase().replace(/\.$/, '');
+    let suf = '';
+    if (u === 'k' || u === 'к' || u === 'тыс') suf = 'K';
+    else if (u === 'm' || u === 'м' || u === 'млн') suf = 'M';
+    else if (u === 'b' || u === 'млрд') suf = 'B';
+    if (suf) {
+      num = num.replace(/,/g, '.').replace(/\s+/g, '');
+      return num + suf;
+    }
+    const digitsOnly = num.replace(/[\s,]/g, '');
+    if (/^\d{4,}$/.test(digitsOnly)) {
+      const n = Number(digitsOnly);
+      if (n >= 1000000) return (n / 1000000).toFixed(n >= 10000000 ? 0 : 1).replace(/\.0$/, '') + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, '') + 'K';
+    }
+    return num.slice(0, 18);
+  }
+
   function normalizeFolders(list) {
     if (!Array.isArray(list)) return [];
     const out = [];
@@ -12613,6 +12768,10 @@ const TwitterPlanner = (() => {
         folderId: String(c.folderId || fallbackFolderId),
         name,
         url: String(c.url || '').trim(),
+        handle: String(c.handle || '').trim(),
+        avatarUrl: String(c.avatarUrl || '').trim(),
+        subs: formatCompactSubs(c.subs || ''),
+        bannerUrl: String(c.bannerUrl || '').trim(),
         note: String(c.note || '').trim(),
         items: normalizeItems(c.items, includeLocal),
         createdAt: Number(c.createdAt) || 0,
@@ -12629,14 +12788,15 @@ const TwitterPlanner = (() => {
     ];
   }
 
-  let chState = { folders: defaultFolders(), channels: [] };
+  let chState = { folders: defaultFolders(), channels: [], pinterestUrl: '' };
   try {
     const raw = JSON.parse(lsG(LS_KEY) || 'null');
     if (raw && typeof raw === 'object') {
       const f = normalizeFolders(raw.folders);
       const folders = f.length ? f : defaultFolders();
       const channels = normalizeChannels(raw.channels, folders[0].id, true);
-      chState = { folders, channels };
+      const pinterestUrl = normalizeExternalUrl(raw.pinterestUrl || '');
+      chState = { folders, channels, pinterestUrl };
     }
   } catch (e) {}
 
@@ -12646,35 +12806,56 @@ const TwitterPlanner = (() => {
   let searchQuery = '';
   let editChannelId = null;
   let editingFolderId = null;
+  let drawerFetchedMeta = null;
   let lbItems = [];
   let lbIndex = -1;
+  let lbFeedMode = false;
   let localBlobUrls = new Map();
   let pendingLocalUploadChannelId = null;
 
-  /* SERIALIZATION FOR CLOUD SYNC (TEXT/LINKS ONLY — ZERO HEAVY BLOBS) */
+  /* SERIALIZATION FOR CLOUD SYNC (LIGHTWEIGHT TEXT/URLS ONLY) */
   function getCloudChannelsData() {
     const folders = chState.folders.map(f => ({
       id: f.id,
       name: f.name,
       updatedAt: Number(f.updatedAt) || 0
     }));
-    const channels = chState.channels.map(c => ({
-      id: c.id,
-      folderId: c.folderId,
-      name: c.name,
-      url: c.url || '',
-      note: c.note || '',
-      items: normalizeItems(c.items, false),
-      createdAt: Number(c.createdAt) || 0,
-      updatedAt: Number(c.updatedAt) || 0
-    }));
-    return { folders, channels };
+    const channels = chState.channels.map(c => {
+      const out = {
+        id: c.id,
+        folderId: c.folderId,
+        name: c.name,
+        url: c.url || '',
+        note: c.note || '',
+        items: normalizeItems(c.items, false),
+        createdAt: Number(c.createdAt) || 0,
+        updatedAt: Number(c.updatedAt) || 0
+      };
+      if (c.handle) out.handle = c.handle;
+      if (c.avatarUrl) out.avatarUrl = c.avatarUrl;
+      if (c.subs) out.subs = c.subs;
+      if (c.bannerUrl) out.bannerUrl = c.bannerUrl;
+      return out;
+    });
+    return { folders, channels, pinterestUrl: chState.pinterestUrl || '' };
   }
   window._getCloudChannelsData = getCloudChannelsData;
+
+  function syncPinterestSettingsInput() {
+    const inp = document.getElementById('ch-set-pinterest');
+    if (inp && document.activeElement !== inp) inp.value = chState.pinterestUrl || '';
+    const btn = document.getElementById('ch-btn-pinterest');
+    if (btn) {
+      btn.title = chState.pinterestUrl
+        ? `Открыть доску Pinterest (${chState.pinterestUrl}) · ПКМ — изменить`
+        : 'Указать ссылку на доску Pinterest';
+    }
+  }
 
   function saveChannelsState(silent = false) {
     lsS(LS_KEY, JSON.stringify(chState));
     updateChannelsNavBadge();
+    syncPinterestSettingsInput();
     if (!silent) {
       saveToSafariVault();
       scheduleSmartFirebaseSync();
@@ -12695,18 +12876,27 @@ const TwitterPlanner = (() => {
     });
   }
 
-  window._restoreChannelsFromVault = (vFolders, vChannels) => {
+  window._restoreChannelsFromVault = (vFolders, vChannels, vPinUrl) => {
+    let changed = false;
+    if (!chState.pinterestUrl && vPinUrl) {
+      chState.pinterestUrl = normalizeExternalUrl(vPinUrl);
+      changed = true;
+    }
     if (chState.channels.length === 0 && Array.isArray(vChannels) && vChannels.length > 0) {
       const f = normalizeFolders(vFolders);
       if (f.length) chState.folders = f;
       chState.channels = normalizeChannels(vChannels, chState.folders[0].id, true);
+      changed = true;
+    }
+    if (changed) {
       lsS(LS_KEY, JSON.stringify(chState));
       updateChannelsNavBadge();
+      syncPinterestSettingsInput();
       if (document.body.classList.contains('channels-mode')) renderChannelsView();
     }
   };
 
-  window._mergeCloudChannels = (cFolders, cChannels, delIdsArr, preferLocal = false) => {
+  window._mergeCloudChannels = (cFolders, cChannels, delIdsArr, preferLocal = false, cPinUrl) => {
     const delSet = new Set(Array.isArray(delIdsArr) ? delIdsArr.map(String) : []);
     if (Array.isArray(cFolders) && cFolders.length > 0) {
       const mergedF = mergeRecordsByUpdatedAt(
@@ -12725,12 +12915,19 @@ const TwitterPlanner = (() => {
       chState.channels = mergeChannelItemsPreserveLocal(mergedC, localSnap)
         .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     }
+    if (typeof cPinUrl === 'string') {
+      const normPin = normalizeExternalUrl(cPinUrl);
+      if (!preferLocal || (!chState.pinterestUrl && normPin)) {
+        chState.pinterestUrl = normPin;
+      }
+    }
     lsS(LS_KEY, JSON.stringify(chState));
     updateChannelsNavBadge();
+    syncPinterestSettingsInput();
     if (document.body.classList.contains('channels-mode')) renderChannelsView();
   };
 
-  window._importChannelsData = (impFolders, impChannels, replaceMode = true, silent = false) => {
+  window._importChannelsData = (impFolders, impChannels, replaceMode = true, silent = false, impPinUrl) => {
     const now = Date.now();
     const normF = normalizeFolders(impFolders).map(f => ({ ...f, updatedAt: f.updatedAt || now }));
     normF.forEach(f => deletedIds.delete(String(f.id)));
@@ -12755,9 +12952,13 @@ const TwitterPlanner = (() => {
     if (replaceMode) {
       const localSnap = chState.channels;
       chState.channels = mergeChannelItemsPreserveLocal(normC, localSnap);
+      if (typeof impPinUrl === 'string') chState.pinterestUrl = normalizeExternalUrl(impPinUrl);
     } else {
       const exIds = new Set(chState.channels.map(c => c.id));
       normC.forEach(c => { if (!exIds.has(c.id)) chState.channels.unshift(c); });
+      if (!chState.pinterestUrl && typeof impPinUrl === 'string' && impPinUrl.trim()) {
+        chState.pinterestUrl = normalizeExternalUrl(impPinUrl);
+      }
     }
 
     saveChannelsState(silent);
@@ -12828,7 +13029,7 @@ const TwitterPlanner = (() => {
     } catch (e) {}
   }
 
-  /* YOUTUBE ZERO-API HELPERS */
+  /* YOUTUBE ZERO-API PROFILE & VIDEO HELPERS (NO AUTO-LOADING LATEST VIDEOS) */
   function extractYouTubeVideoIds(text) {
     const str = String(text || '');
     const found = [];
@@ -12848,28 +13049,56 @@ const TwitterPlanner = (() => {
     return found;
   }
 
+  function normalizeYouTubeChannelUrl(raw) {
+    const s = String(raw || '').trim();
+    if (!s) return '';
+    if (s.startsWith('@')) return `https://www.youtube.com/${s}`;
+    if (/^https?:\/\//i.test(s)) return s;
+    if (/^(www\.|m\.)?youtube\.com\//i.test(s)) return 'https://' + s;
+    return `https://www.youtube.com/@${s.replace(/^\/+/, '')}`;
+  }
+
+  function decodeHtmlEntities(str) {
+    if (!str) return '';
+    const ta = document.createElement('textarea');
+    ta.innerHTML = String(str);
+    return ta.value;
+  }
+
+  function unescapeJsonStr(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/\\u0026/gi, '&')
+      .replace(/\\u003d/gi, '=')
+      .replace(/\\u002f/gi, '/')
+      .replace(/\\\//g, '/')
+      .replace(/\\"/g, '"');
+  }
+
   function ytThumbUrl(videoId, quality = 'maxresdefault') {
     return `https://i.ytimg.com/vi/${videoId}/${quality}.jpg`;
   }
 
-  function attachSmartYtImg(imgEl, videoId) {
+  function attachSmartYtImg(imgEl, videoId, onReady) {
     const order = ['maxresdefault', 'sddefault', 'hqdefault'];
     let step = 0;
     imgEl.loading = 'lazy';
     imgEl.decoding = 'async';
-    imgEl.src = ytThumbUrl(videoId, order[0]);
-    imgEl.addEventListener('load', () => {
+    imgEl.onload = () => {
       if (imgEl.naturalWidth <= 120 && step < order.length - 1) {
         step++;
         imgEl.src = ytThumbUrl(videoId, order[step]);
+        return;
       }
-    });
-    imgEl.addEventListener('error', () => {
+      if (typeof onReady === 'function') onReady(imgEl.naturalWidth, imgEl.naturalHeight);
+    };
+    imgEl.onerror = () => {
       if (step < order.length - 1) {
         step++;
         imgEl.src = ytThumbUrl(videoId, order[step]);
       }
-    });
+    };
+    imgEl.src = ytThumbUrl(videoId, order[0]);
   }
 
   async function fetchVideoMetaNoApi(videoId) {
@@ -12889,97 +13118,155 @@ const TwitterPlanner = (() => {
     return null;
   }
 
-  async function tryFetchChannelFeedNoApi(rawInput) {
-    const s = String(rawInput || '').trim();
-    if (!s) return { ok: false, reason: 'empty' };
+  async function fetchHtmlViaFreeProxy(targetUrl) {
+    const sep = targetUrl.includes('?') ? '&' : '?';
+    const enUrl = /hl=/.test(targetUrl) ? targetUrl : `${targetUrl}${sep}hl=en`;
+    const proxies = [
+      u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+      u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+      u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
+    ];
 
-    const vIds = extractYouTubeVideoIds(s);
-    if (vIds.length > 0 && /watch|youtu\.be|shorts|live/i.test(s)) {
-      const meta = await fetchVideoMetaNoApi(vIds[0]);
-      return {
-        ok: true,
-        source: 'video',
-        channelName: meta?.authorName || '',
-        channelUrl: meta?.authorUrl || '',
-        videos: vIds.map((id, idx) => ({ id, title: idx === 0 ? (meta?.title || '') : '' }))
-      };
-    }
-
-    let channelId = null;
-    const ucMatch = s.match(/channel\/(UC[A-Za-z0-9_-]{22})/);
-    if (ucMatch) channelId = ucMatch[1];
-
-    if (!channelId) {
-      let targetUrl = s;
-      if (targetUrl.startsWith('@')) targetUrl = 'https://www.youtube.com/' + targetUrl;
-      else if (!/^https?:\/\//i.test(targetUrl)) targetUrl = 'https://www.youtube.com/@' + targetUrl.replace(/^\/+/, '');
+    for (const buildProxy of proxies) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 7500);
       try {
-        const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
-        if (proxyRes.ok) {
-          const html = await proxyRes.text();
-          const idM = html.match(/"externalId":"(UC[A-Za-z0-9_-]{22})"/) ||
-                      html.match(/"channelId":"(UC[A-Za-z0-9_-]{22})"/) ||
-                      html.match(/channel\/(UC[A-Za-z0-9_-]{22})/);
-          if (idM) channelId = idM[1];
+        const res = await fetch(buildProxy(enUrl), { signal: ctrl.signal });
+        clearTimeout(timer);
+        if (!res.ok) continue;
+        const text = await res.text();
+        if (text && text.length > 2000 && !/consent\.youtube\.com/i.test(text.slice(0, 4000))) {
+          return text;
         }
-      } catch (e) {}
+      } catch (e) {
+        clearTimeout(timer);
+      }
+    }
+    return null;
+  }
+
+  function parseChannelHtmlProfile(html, fallbackUrl) {
+    if (!html) return null;
+
+    // 1. Name
+    let name = '';
+    const ogTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i)
+      || html.match(/<meta\s+name=["']title["']\s+content=["']([^"']+)["']/i);
+    if (ogTitle) name = decodeHtmlEntities(ogTitle[1]).replace(/\s*-\s*YouTube\s*$/i, '').trim();
+    if (!name) {
+      const mName = html.match(/"channelMetadataRenderer":\{"title":"((?:\\.|[^"\\])+)"/);
+      if (mName) name = unescapeJsonStr(mName[1]).trim();
     }
 
-    if (!channelId) return { ok: false, reason: 'no_channel_id' };
+    // 2. Avatar URL
+    let avatarUrl = '';
+    const ogImg = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i);
+    if (ogImg && /yt3\.(googleusercontent|ggpht)\.com/i.test(ogImg[1])) {
+      avatarUrl = decodeHtmlEntities(ogImg[1]).trim();
+    }
+    if (!avatarUrl) {
+      const mAv = html.match(/"avatar":\{"thumbnails":\[\{"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/)
+        || html.match(/"decoratedAvatarViewModel":\{"avatar":\{"avatarViewModel":\{"image":\{"sources":\[\{"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/);
+      if (mAv) avatarUrl = unescapeJsonStr(mAv[1]).trim();
+    }
+    if (avatarUrl) {
+      avatarUrl = avatarUrl.replace(/=s\d+-c-k/i, '=s240-c-k');
+    }
 
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-    try {
-      const r2j = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-      if (r2j.ok) {
-        const data = await r2j.json();
-        if (data && data.status === 'ok' && Array.isArray(data.items) && data.items.length) {
-          const vids = [];
-          data.items.slice(0, 12).forEach(it => {
-            const ids = extractYouTubeVideoIds(it.link || it.guid || '');
-            if (ids[0]) vids.push({ id: ids[0], title: String(it.title || '').trim() });
-          });
-          if (vids.length) {
-            return {
-              ok: true,
-              source: 'rss',
-              channelName: String(data.feed?.title || '').trim(),
-              channelUrl: String(data.feed?.link || `https://www.youtube.com/channel/${channelId}`).trim(),
-              videos: vids
-            };
-          }
-        }
+    // 3. Canonical URL & Handle
+    let channelUrl = '';
+    const mCanon = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+    if (mCanon && /youtube\.com/i.test(mCanon[1])) channelUrl = decodeHtmlEntities(mCanon[1]).trim();
+    const mVanity = html.match(/"vanityChannelUrl":"(https?:\\?\/\\?\/[^"]+)"/);
+    if (mVanity) {
+      const vUrl = unescapeJsonStr(mVanity[1]).replace(/^http:/i, 'https:');
+      if (/youtube\.com\/@/i.test(vUrl)) channelUrl = vUrl;
+    }
+
+    let handle = '';
+    const mH1 = (channelUrl || fallbackUrl || '').match(/youtube\.com\/(@[A-Za-z0-9._-]+)/i);
+    if (mH1) handle = mH1[1];
+    if (!handle) {
+      const mH2 = html.match(/"channelHandleText":\{"runs":\[\{"text":"(@[^"]+)"/);
+      if (mH2) handle = unescapeJsonStr(mH2[1]).trim();
+    }
+    if (!handle) {
+      const mH3 = html.match(/"content":"(@[A-Za-z0-9._-]+)"/);
+      if (mH3) handle = mH3[1].trim();
+    }
+
+    // 4. Subscriber count (supports both legacy subscriberCountText and modern pageHeaderViewModel metadataParts)
+    let rawSubs = '';
+    const subPatterns = [
+      /"subscriberCountText":\{"simpleText":"([^"]+)"/,
+      /"subscriberCountText":\{"accessibility":\{"accessibilityData":\{"label":"([^"]+)"/,
+      /"text":\{"content":"([\d.,\s]+(?:[KMBkmb]|тыс\.?|млн\.?|млрд\.?)?\s*(?:subscribers?|подписчик[а-я]*))"/i
+    ];
+    for (const rx of subPatterns) {
+      const m = html.match(rx);
+      if (m && m[1]) { rawSubs = unescapeJsonStr(m[1]).trim(); break; }
+    }
+    const subs = formatCompactSubs(rawSubs);
+
+    // 5. Channel banner (optional subtle header background inside detail view)
+    let bannerUrl = '';
+    const mBanBlock = html.match(/"imageBannerViewModel":\{"image":\{"sources":\[([^\]]+)\]/);
+    if (mBanBlock) {
+      const urls = [...mBanBlock[1].matchAll(/"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/g)].map(x => unescapeJsonStr(x[1]));
+      if (urls.length) bannerUrl = urls[Math.min(1, urls.length - 1)];
+    }
+    if (!bannerUrl) {
+      const mBan2 = html.match(/"banner":\{"thumbnails":\[([^\]]+)\]/);
+      if (mBan2) {
+        const urls = [...mBan2[1].matchAll(/"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/g)].map(x => unescapeJsonStr(x[1]));
+        if (urls.length) bannerUrl = urls[Math.min(2, urls.length - 1)];
       }
-    } catch (e) {}
+    }
 
-    try {
-      const xmlRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`);
-      if (xmlRes.ok) {
-        const xmlText = await xmlRes.text();
-        const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
-        const ents = [...doc.querySelectorAll('entry')];
-        if (ents.length) {
-          const chName = doc.querySelector('feed > author > name')?.textContent?.trim() || doc.querySelector('feed > title')?.textContent?.trim() || '';
-          const vids = [];
-          ents.slice(0, 12).forEach(en => {
-            const vidNode = en.getElementsByTagName('yt:videoId')[0] || en.getElementsByTagName('videoId')[0];
-            const vidId = vidNode?.textContent?.trim();
-            const vTitle = en.querySelector('title')?.textContent?.trim() || '';
-            if (vidId && /^[A-Za-z0-9_-]{11}$/.test(vidId)) vids.push({ id: vidId, title: vTitle });
-          });
-          if (vids.length) {
-            return {
-              ok: true,
-              source: 'rss',
-              channelName: chName,
-              channelUrl: `https://www.youtube.com/channel/${channelId}`,
-              videos: vids
-            };
-          }
-        }
-      }
-    } catch (e) {}
+    if (!name && !avatarUrl && !subs && !handle) return null;
+    return {
+      name,
+      url: channelUrl || fallbackUrl || '',
+      handle,
+      avatarUrl,
+      subs,
+      bannerUrl
+    };
+  }
 
-    return { ok: false, reason: 'cors_blocked' };
+  async function fetchChannelProfileNoApi(rawInput) {
+    const targetUrl = normalizeYouTubeChannelUrl(rawInput);
+    if (!targetUrl) return { ok: false };
+    const html = await fetchHtmlViaFreeProxy(targetUrl);
+    if (!html) return { ok: false, reason: 'proxy_failed' };
+    const profile = parseChannelHtmlProfile(html, targetUrl);
+    if (!profile) return { ok: false, reason: 'parse_failed' };
+    return { ok: true, profile };
+  }
+
+  function applyProfileToChannel(ch, profile) {
+    if (!ch || !profile) return false;
+    let changed = false;
+    if (profile.name && (!ch.name || ch.name === 'Без названия')) { ch.name = profile.name; changed = true; }
+    if (profile.url && !ch.url) { ch.url = profile.url; changed = true; }
+    if (profile.handle && profile.handle !== ch.handle) { ch.handle = profile.handle; changed = true; }
+    if (profile.avatarUrl && profile.avatarUrl !== ch.avatarUrl) { ch.avatarUrl = profile.avatarUrl; changed = true; }
+    if (profile.subs && profile.subs !== ch.subs) { ch.subs = profile.subs; changed = true; }
+    if (profile.bannerUrl && profile.bannerUrl !== ch.bannerUrl) { ch.bannerUrl = profile.bannerUrl; changed = true; }
+    return changed;
+  }
+
+  async function enrichChannelProfileInBackground(chId, channelUrl) {
+    if (!chId || !channelUrl) return;
+    const res = await fetchChannelProfileNoApi(channelUrl);
+    if (!res.ok || !res.profile) return;
+    const ch = chState.channels.find(c => c.id === chId);
+    if (!ch) return;
+    if (applyProfileToChannel(ch, res.profile)) {
+      ch.updatedAt = Date.now();
+      saveChannelsState();
+      if (document.body.classList.contains('channels-mode')) renderChannelsView();
+    }
   }
 
   function colorForChannel(name) {
@@ -13005,10 +13292,59 @@ const TwitterPlanner = (() => {
       if (activeFolderId !== 'all' && ch.folderId !== activeFolderId) return false;
       if (!q) return true;
       return (ch.name || '').toLowerCase().includes(q) ||
+        (ch.handle || '').toLowerCase().includes(q) ||
         (ch.note || '').toLowerCase().includes(q) ||
         getFolderName(ch.folderId).toLowerCase().includes(q) ||
         (ch.items || []).some(it => (it.title || '').toLowerCase().includes(q));
     });
+  }
+
+  function createChannelAvatarEl(ch, className = 'ch-avatar') {
+    const col = colorForChannel(ch.name);
+    const initial = (ch.name || 'K').trim().charAt(0).toUpperCase();
+    const box = el('div', { className, style: `background:${col}` });
+    if (ch.avatarUrl) {
+      const img = document.createElement('img');
+      img.alt = ch.name || 'Канал';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.referrerPolicy = 'no-referrer';
+      img.onerror = () => {
+        img.remove();
+        box.textContent = initial;
+      };
+      img.src = ch.avatarUrl;
+      box.appendChild(img);
+    } else {
+      box.textContent = initial;
+    }
+    return box;
+  }
+
+  /* PINTEREST MODAL */
+  function openPinterestModal() {
+    const inp = document.getElementById('ch-pin-inp');
+    if (inp) inp.value = chState.pinterestUrl || '';
+    document.getElementById('ch-pin-mov')?.classList.add('on');
+    setTimeout(() => { if (inp) { inp.focus(); inp.select(); } }, 70);
+  }
+
+  function closePinterestModal() {
+    document.getElementById('ch-pin-mov')?.classList.remove('on');
+  }
+
+  function savePinterestFromModal(andOpen = false) {
+    const raw = (document.getElementById('ch-pin-inp')?.value || '').trim();
+    const clean = normalizeExternalUrl(raw);
+    chState.pinterestUrl = clean;
+    saveChannelsState();
+    closePinterestModal();
+    if (!clean) {
+      showToast('Ссылка на Pinterest очищена');
+      return;
+    }
+    showToast('Доска Pinterest сохранена');
+    if (andOpen) window.open(clean, '_blank', 'noopener,noreferrer');
   }
 
   /* FOLDER BAR: CREATE, INLINE RENAME & DELETE */
@@ -13149,7 +13485,7 @@ const TwitterPlanner = (() => {
     bar.appendChild(newBox);
   }
 
-  /* QUICK PASTE HANDLER */
+  /* QUICK PASTE HANDLER (PROFILE + CHOSEN VIDEOS ONLY, NO AUTO LATEST FEED) */
   async function handleQuickPaste() {
     const inp = document.getElementById('ch-quick-inp');
     const btn = document.getElementById('ch-quick-btn');
@@ -13170,37 +13506,53 @@ const TwitterPlanner = (() => {
       const now = Date.now();
 
       if (isChannelUrl) {
-        const res = await tryFetchChannelFeedNoApi(raw);
-        if (res.ok && res.videos.length) {
-          const chName = res.channelName || raw.replace(/^https?:\/\/(www\.)?youtube\.com\//i, '').replace(/\/+$/, '');
-          let ch = chState.channels.find(c => c.folderId === targetFolder && c.name.toLowerCase() === chName.toLowerCase());
-          if (!ch) {
-            ch = { id: makeId('ch'), folderId: targetFolder, name: chName, url: res.channelUrl || raw, note: '', items: [], createdAt: now, updatedAt: now };
-            chState.channels.unshift(ch);
-          }
-          const existingIds = new Set(ch.items.filter(x => x.kind === 'yt').map(x => x.videoId));
-          let added = 0;
-          res.videos.forEach(v => {
-            if (!existingIds.has(v.id)) {
-              ch.items.push({ id: makeId('ci'), kind: 'yt', videoId: v.id, title: v.title || '' });
-              existingIds.add(v.id);
-              added++;
-            }
-          });
+        const cleanUrl = normalizeYouTubeChannelUrl(raw);
+        const res = await fetchChannelProfileNoApi(cleanUrl);
+        const prof = res.ok ? res.profile : null;
+        const fallbackName = raw.replace(/^https?:\/\/(www\.|m\.)?youtube\.com\//i, '').replace(/\/+$/, '').replace(/^@/, '');
+        const chName = prof?.name || fallbackName || 'Новый канал';
+
+        let ch = chState.channels.find(c =>
+          c.folderId === targetFolder &&
+          ((prof?.url && c.url && c.url.toLowerCase() === prof.url.toLowerCase()) ||
+           c.name.toLowerCase() === chName.toLowerCase())
+        );
+
+        if (!ch) {
+          ch = {
+            id: makeId('ch'),
+            folderId: targetFolder,
+            name: chName,
+            url: prof?.url || cleanUrl,
+            handle: prof?.handle || (raw.startsWith('@') ? raw : ''),
+            avatarUrl: prof?.avatarUrl || '',
+            subs: prof?.subs || '',
+            bannerUrl: prof?.bannerUrl || '',
+            note: '',
+            items: [],
+            createdAt: now,
+            updatedAt: now
+          };
+          chState.channels.unshift(ch);
+        } else if (prof) {
+          applyProfileToChannel(ch, prof);
           ch.updatedAt = now;
-          saveChannelsState();
-          inp.value = '';
-          renderChannelsView();
-          showToast(`Канал «${ch.name}»: подгружено ${added} превью`);
-        } else {
-          showToast('Не удалось прочитать ленту — откройте «+ Канал» и вставьте ссылки на ролики');
         }
+
+        saveChannelsState();
+        inp.value = '';
+        activeChannelId = ch.id;
+        renderChannelsView();
+        showToast(prof
+          ? `Канал «${ch.name}» добавлен — вставьте 3–4 нужных ролика`
+          : `Канал «${ch.name}» создан (аватар не отдал прокси — можно обновить позже)`);
         return;
       }
 
       const metas = await Promise.all(ids.map(id => fetchVideoMetaNoApi(id)));
       let totalAdded = 0;
       let createdChannels = 0;
+      const toEnrich = new Map();
 
       ids.forEach((vid, i) => {
         const meta = metas[i];
@@ -13214,25 +13566,50 @@ const TwitterPlanner = (() => {
            (c.name.toLowerCase() === chName.toLowerCase()))
         );
         if (!ch) {
-          ch = { id: makeId('ch'), folderId: targetFolder, name: chName, url: chUrl, note: '', items: [], createdAt: now, updatedAt: now };
+          ch = {
+            id: makeId('ch'),
+            folderId: targetFolder,
+            name: chName,
+            url: chUrl,
+            handle: '',
+            avatarUrl: '',
+            subs: '',
+            bannerUrl: '',
+            note: '',
+            items: [],
+            createdAt: now,
+            updatedAt: now
+          };
           chState.channels.unshift(ch);
           createdChannels++;
+        } else if (chUrl && !ch.url) {
+          ch.url = chUrl;
         }
+
         if (!ch.items.some(x => x.kind === 'yt' && x.videoId === vid)) {
           ch.items.unshift({ id: makeId('ci'), kind: 'yt', videoId: vid, title: vTitle });
           ch.updatedAt = now;
           totalAdded++;
+        }
+
+        if (ch.url && (!ch.avatarUrl || !ch.subs)) {
+          toEnrich.set(ch.id, ch.url);
         }
       });
 
       saveChannelsState();
       inp.value = '';
       renderChannelsView();
+
       if (totalAdded > 0) {
         showToast(createdChannels > 0 ? `Создан канал и добавлено превью: ${totalAdded}` : `Добавлено превью: ${totalAdded}`);
       } else {
         showToast('Эти ролики уже сохранены в папке');
       }
+
+      toEnrich.forEach((url, chId) => {
+        enrichChannelProfileInBackground(chId, url);
+      });
     } finally {
       if (btn) { btn.disabled = false; btn.textContent = 'Подгрузить'; }
     }
@@ -13248,12 +13625,18 @@ const TwitterPlanner = (() => {
     if (!freshIds.length) { showToast('Эти превью уже есть в канале'); return; }
     const metas = await Promise.all(freshIds.map(id => fetchVideoMetaNoApi(id)));
     freshIds.forEach((id, idx) => {
-      ch.items.unshift({ id: makeId('ci'), kind: 'yt', videoId: id, title: metas[idx]?.title || '' });
+      const m = metas[idx];
+      ch.items.unshift({ id: makeId('ci'), kind: 'yt', videoId: id, title: m?.title || '' });
+      if (!ch.url && m?.authorUrl) ch.url = m.authorUrl;
     });
     ch.updatedAt = Date.now();
     saveChannelsState();
     renderChannelsView();
     showToast(`Добавлено превью: ${freshIds.length}`);
+
+    if (ch.url && (!ch.avatarUrl || !ch.subs)) {
+      enrichChannelProfileInBackground(ch.id, ch.url);
+    }
   }
 
   async function addLocalFilesToChannel(chId, files) {
@@ -13301,7 +13684,7 @@ const TwitterPlanner = (() => {
       emptyBox.appendChild(el('div', { className: 'empty-sub' }, [
         searchQuery
           ? 'Попробуйте изменить запрос или выбрать другую папку.'
-          : 'Вставьте ссылку на ролик YouTube в поле выше — канал и HD-превью создадутся сами и сохранятся в облаке.'
+          : 'Вставьте ссылку на ролик или канал YouTube выше — аватарка, подписчики и выбранные превью сохранятся в облаке.'
       ]));
       if (!searchQuery) emptyBox.appendChild(el('div', { className: 'ch-empty-acts' }, [addBtn]));
       root.appendChild(emptyBox);
@@ -13310,8 +13693,6 @@ const TwitterPlanner = (() => {
 
     const grid = el('div', { className: 'ch-grid' });
     channels.forEach(ch => {
-      const col = colorForChannel(ch.name);
-      const initial = (ch.name || 'K').trim().charAt(0).toUpperCase();
       const items = ch.items || [];
 
       const editBtn = el('button', { type: 'button', className: 'ch-ico-btn', title: 'Редактировать канал' });
@@ -13325,15 +13706,20 @@ const TwitterPlanner = (() => {
         ytLink.addEventListener('click', ev => ev.stopPropagation());
       }
 
+      const subParts = [];
+      if (activeFolderId === 'all') subParts.push(el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]));
+      if (ch.subs) {
+        subParts.push(el('span', { className: 'ch-subs-pill' }, [`${ch.subs} подп.`]));
+        subParts.push(el('span', { className: 'ch-sub-sep' }, ['·']));
+      }
+      subParts.push(el('span', {}, [`${items.length} превью`]));
+
       const hdr = el('div', { className: 'ch-hdr' }, [
         el('div', { className: 'ch-id' }, [
-          el('div', { className: 'ch-avatar', style: `background:${col}` }, [initial]),
+          createChannelAvatarEl(ch, 'ch-avatar'),
           el('div', { className: 'ch-titles' }, [
             el('div', { className: 'ch-name' }, [ch.name]),
-            el('div', { className: 'ch-sub' }, [
-              activeFolderId === 'all' ? el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]) : null,
-              el('span', {}, [`${items.length} превью`])
-            ])
+            el('div', { className: 'ch-sub' }, subParts)
           ])
         ]),
         el('div', { className: 'ch-actions' }, [ytLink, editBtn])
@@ -13368,7 +13754,13 @@ const TwitterPlanner = (() => {
     const root = document.getElementById('ch-content-root');
     const allFlat = [];
     channels.forEach(ch => {
-      (ch.items || []).forEach(it => allFlat.push({ ...it, channelName: ch.name, channelId: ch.id }));
+      (ch.items || []).forEach(it => allFlat.push({
+        ...it,
+        channelName: ch.name,
+        channelId: ch.id,
+        channelAvatar: ch.avatarUrl || '',
+        channelSubs: ch.subs || ''
+      }));
     });
     if (!allFlat.length) {
       root.appendChild(el('div', { className: 'empty' }, [
@@ -13398,26 +13790,63 @@ const TwitterPlanner = (() => {
 
   function renderChannelDetail(ch) {
     const root = document.getElementById('ch-content-root');
-    const col = colorForChannel(ch.name);
     const items = ch.items || [];
 
-    const ytBtn = ch.url ? el('a', { className: 'ch-btn-ghost', href: ch.url, target: '_blank', rel: 'noopener noreferrer' }, ['Открыть YouTube']) : null;
+    let refreshBtn = null;
+    if (ch.url) {
+      refreshBtn = el('button', { type: 'button', className: 'ch-btn-ghost', title: 'Подтянуть аватар, подписчиков и обложку без API' }, ['Обновить инфо']);
+      refreshBtn.addEventListener('click', async () => {
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = '<span class="ch-spinner"></span><span>Загрузка</span>';
+        const res = await fetchChannelProfileNoApi(ch.url);
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = 'Обновить инфо';
+        if (res.ok && res.profile) {
+          applyProfileToChannel(ch, res.profile);
+          ch.updatedAt = Date.now();
+          saveChannelsState();
+          renderChannelsView();
+          showToast('Профиль канала обновлён');
+        } else {
+          showToast('Не удалось подтянуть профиль — прокси временно недоступен');
+        }
+      });
+    }
+
+    const ytBtn = ch.url ? el('a', { className: 'ch-btn-ghost', href: ch.url, target: '_blank', rel: 'noopener noreferrer' }, ['YouTube']) : null;
     const editBtn = el('button', { type: 'button', className: 'ch-btn-ghost' }, ['Изменить']);
     editBtn.addEventListener('click', () => openChannelDrawer(ch.id));
 
+    let bannerEl = null;
+    if (ch.bannerUrl) {
+      bannerEl = el('div', { className: 'ch-detail-banner' });
+      const bImg = document.createElement('img');
+      bImg.alt = '';
+      bImg.loading = 'lazy';
+      bImg.referrerPolicy = 'no-referrer';
+      bImg.onerror = () => bannerEl.remove();
+      bImg.src = ch.bannerUrl;
+      bannerEl.appendChild(bImg);
+    }
+
+    const metaNodes = [el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)])];
+    if (ch.handle) metaNodes.push(el('span', { className: 'ch-handle-txt' }, [ch.handle]));
+    if (ch.subs) metaNodes.push(el('span', { className: 'ch-subs-pill' }, [`${ch.subs} подписчиков`]));
+    metaNodes.push(el('span', {}, [`${items.length} превью`]));
+
     root.appendChild(el('div', { className: 'ch-detail-hdr' }, [
-      el('div', { className: 'ch-detail-left' }, [
-        el('div', { className: 'ch-detail-av', style: `background:${col}` }, [(ch.name || 'K').charAt(0).toUpperCase()]),
-        el('div', { className: 'ch-detail-info' }, [
-          el('div', { className: 'ch-detail-name' }, [ch.name]),
-          el('div', { className: 'ch-detail-meta' }, [
-            el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]),
-            el('span', {}, [`${items.length} превью`])
-          ]),
-          ch.note ? el('div', { className: 'ch-detail-note' }, [ch.note]) : null
-        ])
-      ]),
-      el('div', { className: 'ch-detail-acts' }, [ytBtn, editBtn])
+      bannerEl,
+      el('div', { className: 'ch-detail-row' }, [
+        el('div', { className: 'ch-detail-left' }, [
+          createChannelAvatarEl(ch, 'ch-detail-av'),
+          el('div', { className: 'ch-detail-info' }, [
+            el('div', { className: 'ch-detail-name' }, [ch.name]),
+            el('div', { className: 'ch-detail-meta' }, metaNodes),
+            ch.note ? el('div', { className: 'ch-detail-note' }, [ch.note]) : null
+          ])
+        ]),
+        el('div', { className: 'ch-detail-acts' }, [refreshBtn, ytBtn, editBtn])
+      ])
     ]));
 
     const addInp = el('input', { type: 'text', className: 'ch-detail-inp', placeholder: 'Вставьте ссылки на ролики YouTube (или Cmd+V для скрина)...' });
@@ -13443,12 +13872,18 @@ const TwitterPlanner = (() => {
     if (!items.length) {
       root.appendChild(el('div', { className: 'empty' }, [
         el('div', { className: 'empty-title' }, ['У канала пока нет превью']),
-        el('div', { className: 'empty-sub' }, ['Вставьте ссылку на ролик YouTube выше или скриншот через Cmd+V.'])
+        el('div', { className: 'empty-sub' }, ['Вставьте 3–4 ссылки на ролики YouTube выше или скриншот через Cmd+V.'])
       ]));
       return;
     }
 
-    const flatForLb = items.map(it => ({ ...it, channelName: ch.name, channelId: ch.id }));
+    const flatForLb = items.map(it => ({
+      ...it,
+      channelName: ch.name,
+      channelId: ch.id,
+      channelAvatar: ch.avatarUrl || '',
+      channelSubs: ch.subs || ''
+    }));
     const grid = el('div', { className: 'ch-wall-grid' });
     items.forEach((it, idx) => {
       const delBtn = el('button', { type: 'button', className: 'ch-thumb-del', title: 'Удалить превью', 'aria-label': 'Удалить превью' });
@@ -13488,6 +13923,7 @@ const TwitterPlanner = (() => {
 
   function renderChannelsView() {
     updateChannelsNavBadge();
+    syncPinterestSettingsInput();
     const activeCh = activeChannelId ? chState.channels.find(c => c.id === activeChannelId) : null;
     if (activeChannelId && !activeCh) activeChannelId = null;
 
@@ -13525,6 +13961,7 @@ const TwitterPlanner = (() => {
 
   function openChannelDrawer(chId = null) {
     editChannelId = chId;
+    drawerFetchedMeta = null;
     const ch = chId ? chState.channels.find(c => c.id === chId) : null;
     const sel = document.getElementById('ch-f-folder');
     if (sel) {
@@ -13535,10 +13972,12 @@ const TwitterPlanner = (() => {
 
     setText('ch-dr-title', ch ? 'Редактирование канала' : 'Новый канал');
     const nameEl = document.getElementById('ch-f-name');
+    const subsEl = document.getElementById('ch-f-subs');
     const urlEl = document.getElementById('ch-f-url');
     const noteEl = document.getElementById('ch-f-note');
     const vidsEl = document.getElementById('ch-f-videos');
     if (nameEl) { nameEl.value = ch ? ch.name : ''; nameEl.style.borderColor = ''; }
+    if (subsEl) subsEl.value = ch ? (ch.subs || '') : '';
     if (urlEl) urlEl.value = ch ? (ch.url || '') : '';
     if (noteEl) noteEl.value = ch ? (ch.note || '') : '';
     if (vidsEl) {
@@ -13549,7 +13988,7 @@ const TwitterPlanner = (() => {
     updateDrawerVidCount();
 
     const fh = document.getElementById('ch-feed-hint');
-    if (fh) { fh.textContent = 'Вставьте ссылку на ролик или канал YouTube.'; fh.className = 'ahint'; }
+    if (fh) { fh.textContent = 'Вставьте ссылку на канал или ролик — подтянем аватар и подписчиков.'; fh.className = 'ahint'; }
 
     document.getElementById('ch-dr-del')?.classList.toggle('is-hidden', !ch);
     document.getElementById('ch-mov')?.classList.add('on');
@@ -13559,21 +13998,25 @@ const TwitterPlanner = (() => {
 
   function closeChannelDrawer() {
     editChannelId = null;
+    drawerFetchedMeta = null;
     document.getElementById('ch-mov')?.classList.remove('on');
   }
 
   async function saveDrawerChannel() {
     const nameInp = document.getElementById('ch-f-name');
-    const urlVal = (document.getElementById('ch-f-url')?.value || '').trim();
+    const subsVal = formatCompactSubs(document.getElementById('ch-f-subs')?.value || '');
+    const rawUrlVal = (document.getElementById('ch-f-url')?.value || '').trim();
     const folderId = document.getElementById('ch-f-folder')?.value || getTargetFolderId();
     const noteVal = (document.getElementById('ch-f-note')?.value || '').trim();
     const vidsRaw = document.getElementById('ch-f-videos')?.value || '';
     const ytIds = extractYouTubeVideoIds(vidsRaw);
 
+    let urlVal = rawUrlVal ? normalizeYouTubeChannelUrl(rawUrlVal) : '';
     let name = (nameInp?.value || '').trim();
-    if (!name && ytIds.length > 0) {
+    if ((!name || !urlVal) && ytIds.length > 0) {
       const m = await fetchVideoMetaNoApi(ytIds[0]);
-      if (m?.authorName) name = m.authorName;
+      if (!name && m?.authorName) name = m.authorName;
+      if (!urlVal && m?.authorUrl) urlVal = m.authorUrl;
     }
     if (!name) {
       if (nameInp) nameInp.style.borderColor = 'var(--danger)';
@@ -13606,51 +14049,117 @@ const TwitterPlanner = (() => {
     }));
     const finalItems = [...ytItems, ...localItems];
     const now = Date.now();
+    let targetChId = null;
+    let shouldEnrichUrl = '';
 
     if (existingCh) {
+      const urlChanged = urlVal && urlVal !== existingCh.url;
       existingCh.name = name;
       existingCh.url = urlVal;
       existingCh.folderId = folderId;
+      existingCh.subs = subsVal;
       existingCh.note = noteVal;
       existingCh.items = finalItems;
+      if (drawerFetchedMeta) {
+        if (drawerFetchedMeta.avatarUrl) existingCh.avatarUrl = drawerFetchedMeta.avatarUrl;
+        if (drawerFetchedMeta.handle) existingCh.handle = drawerFetchedMeta.handle;
+        if (drawerFetchedMeta.bannerUrl) existingCh.bannerUrl = drawerFetchedMeta.bannerUrl;
+      }
       existingCh.updatedAt = now;
+      targetChId = existingCh.id;
+      if (urlVal && (!existingCh.avatarUrl || urlChanged) && !drawerFetchedMeta) {
+        shouldEnrichUrl = urlVal;
+      }
     } else {
-      chState.channels.unshift({
+      const newCh = {
         id: makeId('ch'),
         folderId,
         name,
         url: urlVal,
+        handle: drawerFetchedMeta?.handle || '',
+        avatarUrl: drawerFetchedMeta?.avatarUrl || '',
+        subs: subsVal || drawerFetchedMeta?.subs || '',
+        bannerUrl: drawerFetchedMeta?.bannerUrl || '',
         note: noteVal,
         items: finalItems,
         createdAt: now,
         updatedAt: now
-      });
+      };
+      chState.channels.unshift(newCh);
+      targetChId = newCh.id;
+      if (urlVal && !newCh.avatarUrl) shouldEnrichUrl = urlVal;
     }
 
     saveChannelsState();
     closeChannelDrawer();
     renderChannelsView();
     showToast(existingCh ? 'Канал обновлён' : `Канал «${name}» добавлен`);
+
+    if (shouldEnrichUrl && targetChId) {
+      enrichChannelProfileInBackground(targetChId, shouldEnrichUrl);
+    }
   }
 
-  /* LIGHTBOX */
+  /* LIGHTBOX (FULL HD + YOUTUBE FEED CARD PREVIEW, NO B&W) */
   function openLightbox(items, idx) {
     lbItems = items;
     lbIndex = idx;
+    lbFeedMode = false;
     updateLightboxFrame();
     document.getElementById('ch-lb-ov')?.classList.add('on');
+  }
+
+  function syncLightboxModes() {
+    document.getElementById('ch-lb-stage')?.classList.toggle('is-feed', lbFeedMode);
+    document.getElementById('ch-lb-feed')?.classList.toggle('on', lbFeedMode);
   }
 
   function updateLightboxFrame() {
     const it = lbItems[lbIndex];
     if (!it) return;
-    const img = document.getElementById('ch-lb-img');
-    if (img) {
-      if (it.kind === 'yt') attachSmartYtImg(img, it.videoId);
-      else img.src = localBlobUrls.get(it.imgId) || '';
-    }
+    syncLightboxModes();
+
+    const baseSub = `${it.channelName} · ${lbIndex + 1} / ${lbItems.length}`;
     setText('ch-lb-title', it.title || it.videoId || 'Превью');
-    setText('ch-lb-sub', `${it.channelName} · ${lbIndex + 1} / ${lbItems.length}`);
+    setText('ch-lb-sub', baseSub);
+
+    const img = document.getElementById('ch-lb-img');
+    const feedImg = document.getElementById('ch-lb-feed-img');
+    const updateDims = (w, h) => {
+      if (w > 0 && h > 0) setText('ch-lb-sub', `${baseSub} · ${w}×${h}`);
+    };
+
+    if (img) {
+      if (it.kind === 'yt') {
+        attachSmartYtImg(img, it.videoId, updateDims);
+      } else {
+        img.onload = () => updateDims(img.naturalWidth, img.naturalHeight);
+        img.src = localBlobUrls.get(it.imgId) || '';
+      }
+    }
+    if (feedImg) {
+      if (it.kind === 'yt') attachSmartYtImg(feedImg, it.videoId);
+      else feedImg.src = localBlobUrls.get(it.imgId) || '';
+    }
+
+    // Feed card mock metadata
+    const feedAv = document.getElementById('ch-lb-feed-av');
+    if (feedAv) {
+      feedAv.innerHTML = '';
+      feedAv.style.background = colorForChannel(it.channelName);
+      if (it.channelAvatar) {
+        const avImg = document.createElement('img');
+        avImg.alt = it.channelName || '';
+        avImg.referrerPolicy = 'no-referrer';
+        avImg.onerror = () => { avImg.remove(); feedAv.textContent = (it.channelName || 'K').charAt(0).toUpperCase(); };
+        avImg.src = it.channelAvatar;
+        feedAv.appendChild(avImg);
+      } else {
+        feedAv.textContent = (it.channelName || 'K').charAt(0).toUpperCase();
+      }
+    }
+    setText('ch-lb-feed-title', it.title || 'Название ролика на YouTube');
+    setText('ch-lb-feed-ch', it.channelSubs ? `${it.channelName} · ${it.channelSubs} подп.` : (it.channelName || ''));
 
     const ytLink = document.getElementById('ch-lb-yt');
     const cpyBtn = document.getElementById('ch-lb-copy');
@@ -13668,6 +14177,8 @@ const TwitterPlanner = (() => {
   }
 
   function closeLightbox() {
+    lbFeedMode = false;
+    syncLightboxModes();
     document.getElementById('ch-lb-ov')?.classList.remove('on');
   }
 
@@ -13677,6 +14188,36 @@ const TwitterPlanner = (() => {
     document.getElementById('ch-sw-channels')?.addEventListener('click', () => { viewMode = 'channels'; renderChannelsView(); });
     document.getElementById('ch-sw-wall')?.addEventListener('click', () => { viewMode = 'wall'; renderChannelsView(); });
     document.getElementById('ch-search')?.addEventListener('input', e => { searchQuery = e.target.value || ''; renderChannelsView(); });
+
+    // Pinterest button & modal
+    const pinBtn = document.getElementById('ch-btn-pinterest');
+    if (pinBtn) {
+      pinBtn.addEventListener('click', () => {
+        if (chState.pinterestUrl) window.open(chState.pinterestUrl, '_blank', 'noopener,noreferrer');
+        else openPinterestModal();
+      });
+      pinBtn.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        openPinterestModal();
+      });
+    }
+    document.getElementById('ch-pin-close')?.addEventListener('click', closePinterestModal);
+    document.getElementById('ch-pin-mov')?.addEventListener('click', e => { if (e.target === document.getElementById('ch-pin-mov')) closePinterestModal(); });
+    document.getElementById('ch-pin-save-open')?.addEventListener('click', () => savePinterestFromModal(true));
+    document.getElementById('ch-pin-save')?.addEventListener('click', () => savePinterestFromModal(false));
+    document.getElementById('ch-pin-inp')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); savePinterestFromModal(true); }
+    });
+
+    const pinSetInp = document.getElementById('ch-set-pinterest');
+    if (pinSetInp) {
+      pinSetInp.addEventListener('change', () => {
+        chState.pinterestUrl = normalizeExternalUrl(pinSetInp.value);
+        pinSetInp.value = chState.pinterestUrl;
+        saveChannelsState();
+        showToast(chState.pinterestUrl ? 'Ссылка на Pinterest сохранена' : 'Ссылка на Pinterest очищена');
+      });
+    }
 
     document.getElementById('ch-quick-btn')?.addEventListener('click', handleQuickPaste);
     document.getElementById('ch-quick-inp')?.addEventListener('keydown', e => {
@@ -13717,6 +14258,9 @@ const TwitterPlanner = (() => {
 
     document.getElementById('ch-btn-fetch-feed')?.addEventListener('click', async () => {
       const urlInp = document.getElementById('ch-f-url');
+      const nameEl = document.getElementById('ch-f-name');
+      const subsEl = document.getElementById('ch-f-subs');
+      const vidBox = document.getElementById('ch-f-videos');
       const btn = document.getElementById('ch-btn-fetch-feed');
       const hint = document.getElementById('ch-feed-hint');
       const raw = (urlInp?.value || '').trim();
@@ -13724,36 +14268,54 @@ const TwitterPlanner = (() => {
 
       btn.disabled = true;
       btn.innerHTML = '<span class="ch-spinner"></span>';
-      if (hint) { hint.textContent = 'Пробую подтянуть данные без API...'; hint.className = 'ahint'; }
+      if (hint) { hint.textContent = 'Подтягиваю профиль канала без API...'; hint.className = 'ahint'; }
 
-      const res = await tryFetchChannelFeedNoApi(raw);
-      btn.disabled = false;
-      btn.textContent = 'Подтянуть';
-
-      if (res.ok) {
-        const nameEl = document.getElementById('ch-f-name');
-        if (res.channelName && nameEl && !nameEl.value.trim()) nameEl.value = res.channelName;
-        if (res.channelUrl && urlInp) urlInp.value = res.channelUrl;
-
-        const vidBox = document.getElementById('ch-f-videos');
-        if (vidBox) {
-          const existing = new Set(extractYouTubeVideoIds(vidBox.value));
-          const toAdd = res.videos.map(v => v.id).filter(id => !existing.has(id));
-          if (toAdd.length) {
-            const prefix = vidBox.value.trim() ? vidBox.value.trim() + '\n' : '';
-            vidBox.value = prefix + toAdd.map(id => `https://youtu.be/${id}`).join('\n');
-            updateDrawerVidCount();
+      try {
+        let targetChannelUrl = raw;
+        const vIds = extractYouTubeVideoIds(raw);
+        if (vIds.length > 0 && /watch|youtu\.be|shorts|live/i.test(raw)) {
+          const meta = await fetchVideoMetaNoApi(vIds[0]);
+          if (meta?.authorName && nameEl && !nameEl.value.trim()) nameEl.value = meta.authorName;
+          if (meta?.authorUrl) {
+            targetChannelUrl = meta.authorUrl;
+            if (urlInp) urlInp.value = meta.authorUrl;
           }
-          if (hint) {
-            hint.textContent = res.source === 'rss'
-              ? `Подтянуто ${toAdd.length} последних видео канала`
-              : `Определён канал и добавлено видео (${toAdd.length})`;
-            hint.className = 'ahint smart';
+          if (vidBox) {
+            const existing = new Set(extractYouTubeVideoIds(vidBox.value));
+            const toAdd = vIds.filter(id => !existing.has(id));
+            if (toAdd.length) {
+              const prefix = vidBox.value.trim() ? vidBox.value.trim() + '\n' : '';
+              vidBox.value = prefix + toAdd.map(id => `https://youtu.be/${id}`).join('\n');
+              updateDrawerVidCount();
+            }
           }
         }
-      } else if (hint) {
-        hint.textContent = 'Лента канала недоступна без API — просто вставьте ссылки на ролики в поле ниже.';
-        hint.className = 'ahint err';
+
+        const res = await fetchChannelProfileNoApi(targetChannelUrl);
+        if (res.ok && res.profile) {
+          drawerFetchedMeta = res.profile;
+          if (res.profile.name && nameEl && !nameEl.value.trim()) nameEl.value = res.profile.name;
+          if (res.profile.subs && subsEl) subsEl.value = res.profile.subs;
+          if (res.profile.url && urlInp) urlInp.value = res.profile.url;
+          const gotParts = [];
+          if (res.profile.avatarUrl) gotParts.push('аватар');
+          if (res.profile.subs) gotParts.push(`${res.profile.subs} подп.`);
+          if (res.profile.bannerUrl) gotParts.push('обложка');
+          if (hint) {
+            hint.textContent = gotParts.length
+              ? `Подтянуто: ${gotParts.join(', ')}`
+              : 'Название определено — сохраните и добавьте нужные ролики.';
+            hint.className = 'ahint smart';
+          }
+        } else if (hint) {
+          hint.textContent = vIds.length > 0
+            ? 'Ролик добавлен, но профиль канала не ответил через прокси.'
+            : 'Не удалось прочитать профиль через прокси — укажите название вручную.';
+          hint.className = 'ahint err';
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Подтянуть';
       }
     });
 
@@ -13767,7 +14329,7 @@ const TwitterPlanner = (() => {
 
     document.addEventListener('paste', e => {
       if (!document.body.classList.contains('channels-mode') || !activeChannelId) return;
-      if (document.getElementById('ch-mov')?.classList.contains('on')) return;
+      if (document.getElementById('ch-mov')?.classList.contains('on') || document.getElementById('ch-pin-mov')?.classList.contains('on')) return;
       const items = e.clipboardData?.items;
       if (!items) return;
       const imgFiles = [];
@@ -13783,6 +14345,10 @@ const TwitterPlanner = (() => {
       }
     });
 
+    document.getElementById('ch-lb-feed')?.addEventListener('click', () => {
+      lbFeedMode = !lbFeedMode;
+      syncLightboxModes();
+    });
     document.getElementById('ch-lb-close')?.addEventListener('click', closeLightbox);
     document.getElementById('ch-lb-ov')?.addEventListener('click', e => { if (e.target === document.getElementById('ch-lb-ov')) closeLightbox(); });
 
@@ -13795,6 +14361,7 @@ const TwitterPlanner = (() => {
         return;
       }
       if (e.key === 'Escape') {
+        if (document.getElementById('ch-pin-mov')?.classList.contains('on')) { closePinterestModal(); return; }
         if (document.getElementById('ch-mov')?.classList.contains('on')) { closeChannelDrawer(); return; }
         if (document.activeElement === document.getElementById('ch-search') && document.getElementById('ch-search').value) {
           document.getElementById('ch-search').value = ''; searchQuery = ''; renderChannelsView(); return;
@@ -13806,13 +14373,13 @@ const TwitterPlanner = (() => {
 
   bindChannelsEvents();
   updateChannelsNavBadge();
+  syncPinterestSettingsInput();
   hydrateLocalImages();
 
   // All 4 modules (Orders, X Showcase, Budget, Channels) are now initialized — safe to boot Vault & Cloud Sync!
   if (typeof window.bootAppCloudSync === 'function') {
     window.bootAppCloudSync();
   }
-})();
-</script>
+})();</script>
 </body>
 </html>
