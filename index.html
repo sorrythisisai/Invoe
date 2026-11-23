@@ -1459,7 +1459,8 @@ html[data-density="compact"] .bg-row{padding:7.5px 18px;}
 
 body.budget-mode #sel-dock,
 body.xp-mode #sel-dock,
-body.channels-mode #sel-dock{display:none!important;}
+body.channels-mode #sel-dock,
+body.preview-mode #sel-dock{display:none!important;}
 
 /* ══════════════════════════════════════════════════════════════════
    FLOATING SELECTION DOCK, LASSO, DROP ZONE & TOAST
@@ -1796,6 +1797,19 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 .xp-cm-opt{flex:1;height:25px;border:none;border-radius:5px;background:transparent;color:var(--text2);font-size:11.5px;font-weight:500;cursor:pointer;}
 .xp-cm-opt:hover{color:var(--text);}
 .xp-cm-opt.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
+.xp-cm-days{display:grid;grid-template-columns:repeat(7, minmax(0, 1fr));gap:3px;background:var(--surface2);padding:3px;border-radius:var(--r-xs);}
+.xp-cm-day{
+  height:26px;padding:0;border:none;border-radius:5px;background:transparent;
+  color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;position:relative;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.xp-cm-day:hover:not(:disabled){background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.08);}
+.xp-cm-day.is-cur{background:var(--surface);color:var(--blue);cursor:default;box-shadow:0 1px 2px rgba(0,0,0,0.08);}
+.xp-cm-day.has-data::after{
+  content:'';position:absolute;bottom:2.5px;left:50%;transform:translateX(-50%);
+  width:3.5px;height:3.5px;border-radius:50%;background:#1d9bf0;
+}
+.xp-cm-day.is-cur::after{display:none;}
 
 .xp-extra{display:none;flex-direction:column;gap:5px;margin-bottom:8px;}
 .xp-extra.on{display:flex;}
@@ -2248,17 +2262,10 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
 .ch-pin-btn svg{flex-shrink:0;}
 
 .ch-avatar{
-  width:36px;height:36px;border-radius:50%;overflow:hidden;
+  width:34px;height:34px;border-radius:10px;
   display:flex;align-items:center;justify-content:center;
   font-size:13.5px;font-weight:700;color:#fff;flex-shrink:0;
-  border:0.5px solid var(--border2);
 }
-.ch-avatar img,.ch-detail-av img,.ch-lb-feed-av img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-.ch-sub-sep{opacity:0.45;}
-.ch-subs-pill{font-weight:600;color:var(--text2);}
-.ch-handle-txt{color:var(--text3);}
 .ch-titles{min-width:0;flex:1;}
 .ch-name{
   font-size:14.5px;font-weight:700;letter-spacing:-0.015em;
@@ -2344,29 +2351,13 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
 .ch-detail-hdr{
   background:var(--surface);border:0.5px solid var(--border);
   border-radius:var(--r-card);box-shadow:var(--shadow-card);
-  overflow:hidden;display:flex;flex-direction:column;
-}
-.ch-detail-banner{
-  position:relative;width:100%;height:108px;background:var(--surface2);overflow:hidden;
-  border-bottom:0.5px solid var(--border);
-}
-.ch-detail-banner img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-.ch-detail-banner::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.22) 100%);
-  pointer-events:none;
-}
-.ch-detail-row{
   padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
 }
 .ch-detail-left{display:flex;align-items:center;gap:14px;min-width:0;flex:1;}
 .ch-detail-av{
-  width:52px;height:52px;border-radius:50%;overflow:hidden;
+  width:46px;height:46px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  font-size:19px;font-weight:700;color:#fff;flex-shrink:0;
-  border:1px solid var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.12);
+  font-size:18px;font-weight:700;color:#fff;flex-shrink:0;
 }
 .ch-detail-info{min-width:0;flex:1;}
 .ch-detail-name{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
@@ -2474,13 +2465,319 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
 @media(max-width:768px){
   .ch-pin-btn span{display:none;}
   .ch-pin-btn{width:38px;height:38px;padding:0;justify-content:center;}
-  .ch-detail-banner{height:82px;}
   .ch-grid,.ch-wall-grid{grid-template-columns:1fr;}
   .ch-folder-bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
   .ch-folder-bar::-webkit-scrollbar{display:none;}
   .ch-quick-bar{padding:8px 10px 8px 12px;}
   .ch-quick-inp{font-size:15px;}
   .ch-thumb-del{opacity:1;pointer-events:auto;}
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   THUMBNAIL PREVIEWER (ПРИМЕРКА — 2026 YOUTUBE STANDARDS)
+══════════════════════════════════════════════════════════════════ */
+.pv-setup-card{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:16px 18px;display:flex;flex-direction:column;gap:14px;
+}
+.pv-dropzone{
+  position:relative;border:1.5px dashed var(--border2);border-radius:var(--r);
+  background:var(--surface2);padding:20px 18px;
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  cursor:pointer;text-align:center;min-height:108px;
+  transition:border-color .16s var(--ease), background-color .16s var(--ease);
+}
+.pv-dropzone:hover,.pv-dropzone.is-drag{
+  border-color:var(--blue);background:var(--blue-bg);
+}
+.pv-dropzone.has-img{
+  justify-content:space-between;text-align:left;padding:12px 14px;min-height:0;
+}
+.pv-dz-empty{
+  display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--text2);
+}
+.pv-dz-empty-ico{color:var(--text3);margin-bottom:2px;}
+.pv-dz-title{font-size:13.5px;font-weight:600;color:var(--text);}
+.pv-dz-sub{font-size:12px;color:var(--text3);}
+.pv-dz-loaded{
+  display:none;align-items:center;gap:14px;min-width:0;flex:1;
+}
+.pv-dropzone.has-img .pv-dz-empty{display:none;}
+.pv-dropzone.has-img .pv-dz-loaded{display:flex;}
+.pv-dz-mini{
+  width:112px;height:63px;border-radius:7px;overflow:hidden;flex-shrink:0;
+  background:#000;border:0.5px solid var(--border2);
+}
+.pv-dz-mini img{width:100%;height:100%;object-fit:cover;display:block;}
+.pv-dz-meta{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px;}
+.pv-dz-fname{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pv-dz-specs{font-size:11.5px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.pv-spec-badge{
+  display:inline-flex;align-items:center;height:18px;padding:0 6px;
+  border-radius:5px;font-size:10.5px;font-weight:600;letter-spacing:0.01em;
+}
+.pv-spec-ok{background:var(--success-bg);color:var(--success);}
+.pv-spec-neutral{background:var(--surface3);color:var(--text2);}
+.pv-spec-warn{background:var(--warning-bg);color:var(--warning);}
+.pv-spec-err{background:var(--danger-bg);color:var(--danger);}
+.pv-dz-hint{font-size:11.5px;font-weight:600;color:var(--blue);flex-shrink:0;}
+
+.pv-controls-grid{
+  display:grid;grid-template-columns:minmax(0, 1.8fr) minmax(0, 1fr) 92px;gap:10px;align-items:center;
+}
+.pv-field-wrap{
+  display:flex;align-items:center;gap:8px;height:36px;padding:0 11px;
+  background:var(--surface2);border:1px solid transparent;border-radius:var(--r);
+  transition:border-color .14s, background-color .14s;min-width:0;
+}
+.pv-field-wrap:focus-within{border-color:var(--blue);background:var(--surface);}
+.pv-field-wrap input{
+  flex:1;min-width:0;height:100%;border:none;background:transparent;
+  color:var(--text);font-size:13px;font-family:inherit;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.pv-field-wrap input::placeholder{color:var(--text3);}
+.pv-av-pick{
+  width:24px;height:24px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  border:0.5px solid var(--border2);background:var(--blue);color:#fff;
+  font-size:11px;font-weight:700;cursor:pointer;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.pv-av-pick img{width:100%;height:100%;object-fit:cover;display:block;}
+.pv-time-wrap input{text-align:center;font-variant-numeric:tabular-nums;}
+
+/* YouTube Preview Surface (Light YT / Dark YT independent of app theme) */
+.pv-yt-surface{
+  --yt-bg:#ffffff;
+  --yt-card-bg:#f2f2f2;
+  --yt-text:#0f0f0f;
+  --yt-text2:#606060;
+  --yt-divider:rgba(0,0,0,0.08);
+  --yt-placeholder:#e5e5e5;
+  --yt-placeholder-txt:#717171;
+  background:var(--yt-bg);color:var(--yt-text);
+  border:0.5px solid var(--border2);border-radius:var(--r-card);
+  padding:26px 28px 30px;display:flex;flex-direction:column;gap:28px;
+  box-shadow:var(--shadow-card);
+  font-family:'Roboto',-apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;
+  transition:background-color .2s var(--ease), color .2s var(--ease);
+}
+.pv-yt-surface.is-yt-dark{
+  --yt-bg:#0f0f0f;
+  --yt-card-bg:#212121;
+  --yt-text:#f1f1f1;
+  --yt-text2:#aaaaaa;
+  --yt-divider:rgba(255,255,255,0.10);
+  --yt-placeholder:#242424;
+  --yt-placeholder-txt:#8e8e93;
+}
+.pv-sec-title{
+  font-size:15px;font-weight:700;letter-spacing:-0.015em;
+  color:var(--yt-text);margin-bottom:16px;
+}
+.pv-sec-divider{height:1px;background:var(--yt-divider);width:100%;}
+.pv-row{
+  display:flex;flex-wrap:wrap;align-items:flex-start;gap:26px 32px;
+}
+.pv-block{display:flex;flex-direction:column;gap:8px;max-width:100%;}
+.pv-block-lbl{
+  font-size:11px;font-weight:600;color:var(--yt-text2);
+  letter-spacing:0.01em;
+}
+
+/* Shared YouTube Thumbnail Box + Duration Stamp */
+.pv-tbox{
+  position:relative;aspect-ratio:16 / 9;overflow:hidden;
+  background:var(--yt-placeholder);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.pv-tbox img{width:100%;height:100%;object-fit:cover;display:block;}
+.pv-tbox-ph{
+  font-size:11.5px;font-weight:600;color:var(--yt-placeholder-txt);
+  letter-spacing:0.02em;user-select:none;
+}
+.pv-dur{
+  position:absolute;right:5px;bottom:5px;
+  background:rgba(0,0,0,0.82);color:#ffffff;
+  font-size:11px;font-weight:600;line-height:1;
+  padding:3px 5px;border-radius:4px;letter-spacing:0.02em;
+  font-variant-numeric:tabular-nums;pointer-events:none;
+}
+.pv-dur:empty{display:none;}
+
+.pv-yt-av{
+  border-radius:50%;overflow:hidden;flex-shrink:0;
+  background:#0a84ff;color:#fff;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.pv-yt-av img{width:100%;height:100%;object-fit:cover;display:block;}
+
+.pv-yt-title{
+  color:var(--yt-text);font-weight:600;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  word-break:break-word;
+}
+.pv-yt-meta{color:var(--yt-text2);line-height:1.35;}
+.pv-yt-desc{
+  color:var(--yt-text2);font-size:12px;line-height:1.4;margin-top:8px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* 1. Home Large (3-col modern desktop: 460px) */
+.pv-home-lg{width:460px;max-width:100%;}
+.pv-home-lg .pv-tbox{width:100%;border-radius:12px;}
+.pv-home-lg .pv-info{display:flex;gap:12px;margin-top:12px;}
+.pv-home-lg .pv-yt-av{width:36px;height:36px;font-size:14px;}
+.pv-home-lg .pv-yt-title{font-size:16px;line-height:1.38;margin-bottom:4px;}
+.pv-home-lg .pv-yt-meta{font-size:13.5px;}
+
+/* 2. Home Compact (4-col modern desktop: 304px) */
+.pv-home-sm{width:304px;max-width:100%;}
+.pv-home-sm .pv-tbox{width:100%;border-radius:12px;}
+.pv-home-sm .pv-info{display:flex;gap:10px;margin-top:10px;}
+.pv-home-sm .pv-yt-av{width:32px;height:32px;font-size:12.5px;}
+.pv-home-sm .pv-yt-title{font-size:14.5px;line-height:1.32;margin-bottom:3px;}
+.pv-home-sm .pv-yt-meta{font-size:12.5px;}
+
+/* 3. Sidebar (168px horizontal — primary readability stress test) */
+.pv-sidebar{display:flex;gap:8px;width:368px;max-width:100%;}
+.pv-sidebar .pv-tbox{width:168px;border-radius:8px;}
+.pv-sidebar .pv-tbox .pv-dur{font-size:10.5px;padding:2.5px 4px;}
+.pv-sidebar .pv-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px;}
+.pv-sidebar .pv-yt-title{font-size:13.5px;line-height:1.32;}
+.pv-sidebar .pv-yt-meta{font-size:11.5px;}
+
+/* 4. Desktop Search Result (500px fixed-width modern YouTube Search) */
+.pv-search{display:flex;gap:16px;width:860px;max-width:100%;}
+.pv-search .pv-tbox{width:500px;max-width:100%;border-radius:12px;}
+.pv-search .pv-info{min-width:0;flex:1;display:flex;flex-direction:column;}
+.pv-search .pv-yt-title{font-size:18px;line-height:1.35;margin-bottom:4px;font-weight:500;}
+.pv-search .pv-yt-meta{font-size:12px;}
+.pv-search-ch{display:flex;align-items:center;gap:8px;margin-top:10px;}
+.pv-search-ch .pv-yt-av{width:24px;height:24px;font-size:10.5px;}
+
+/* 5. Channel Page Large (424px horizontal featured) */
+.pv-ch-lg{display:flex;gap:16px;width:760px;max-width:100%;}
+.pv-ch-lg .pv-tbox{width:424px;max-width:100%;border-radius:12px;}
+.pv-ch-lg .pv-info{min-width:0;flex:1;display:flex;flex-direction:column;}
+.pv-ch-lg .pv-yt-title{font-size:15px;line-height:1.35;margin-bottom:4px;}
+.pv-ch-lg .pv-yt-meta{font-size:12px;}
+
+/* 6. Channel Videos Grid (280px vertical, no avatar) */
+.pv-ch-sm{width:280px;max-width:100%;}
+.pv-ch-sm .pv-tbox{width:100%;border-radius:12px;}
+.pv-ch-sm .pv-info{margin-top:9px;display:flex;flex-direction:column;gap:3px;}
+.pv-ch-sm .pv-yt-title{font-size:14px;line-height:1.34;}
+.pv-ch-sm .pv-yt-meta{font-size:12px;}
+
+/* 7. History (246px horizontal with description) */
+.pv-history{display:flex;gap:14px;width:540px;max-width:100%;}
+.pv-history .pv-tbox{width:246px;max-width:48%;border-radius:10px;}
+.pv-history .pv-info{min-width:0;flex:1;display:flex;flex-direction:column;}
+.pv-history .pv-yt-title{font-size:16px;line-height:1.32;margin-bottom:4px;font-weight:500;}
+.pv-history .pv-yt-meta{font-size:12px;}
+
+/* 8. Watch Later Large (312px playlist panel) */
+.pv-wl-lg{
+  width:312px;max-width:100%;padding:14px;border-radius:14px;
+  background:var(--yt-card-bg);
+}
+.pv-wl-lg .pv-tbox{width:100%;border-radius:10px;}
+.pv-wl-lg .pv-yt-title{font-size:15px;line-height:1.35;margin-top:10px;margin-bottom:3px;}
+.pv-wl-lg .pv-yt-meta{font-size:12px;}
+
+/* 9. Watch Later Small (160px horizontal) */
+.pv-wl-sm{display:flex;gap:10px;width:340px;max-width:100%;align-items:flex-start;}
+.pv-wl-sm .pv-tbox{width:160px;border-radius:8px;}
+.pv-wl-sm .pv-tbox .pv-dur{font-size:10px;padding:2px 4px;}
+.pv-wl-sm .pv-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px;}
+.pv-wl-sm .pv-yt-title{font-size:13.5px;line-height:1.3;}
+.pv-wl-sm .pv-yt-meta{font-size:11.5px;}
+
+/* 10. Playlist Panel Mini (100px micro-thumbnail next to desktop player) */
+.pv-pl-mini{
+  display:flex;gap:8px;width:316px;max-width:100%;align-items:center;
+  padding:8px 10px;border-radius:10px;background:var(--yt-card-bg);
+}
+.pv-pl-mini .pv-tbox{width:100px;border-radius:6px;}
+.pv-pl-mini .pv-tbox .pv-dur{font-size:9px;padding:1.5px 3.5px;right:3px;bottom:3px;border-radius:3px;}
+.pv-pl-mini .pv-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px;}
+.pv-pl-mini .pv-yt-title{font-size:13px;line-height:1.28;}
+.pv-pl-mini .pv-yt-meta{font-size:11px;}
+
+/* 11. Mobile Home Full Width (393px modern iPhone / Android viewport) */
+.pv-mob-home{
+  width:393px;max-width:100%;border:0.5px solid var(--yt-divider);
+  border-radius:12px;overflow:hidden;background:var(--yt-bg);
+}
+.pv-mob-home .pv-tbox{width:100%;border-radius:0;}
+.pv-mob-home .pv-info{display:flex;gap:11px;padding:12px 12px 14px;}
+.pv-mob-home .pv-yt-av{width:36px;height:36px;font-size:13.5px;}
+.pv-mob-home .pv-yt-title{font-size:15px;line-height:1.32;margin-bottom:3px;}
+.pv-mob-home .pv-yt-meta{font-size:12px;}
+
+/* 12. Mobile Sidebar / Channel (160px horizontal) */
+.pv-mob-side{display:flex;gap:10px;width:340px;max-width:100%;}
+.pv-mob-side .pv-tbox{width:160px;border-radius:8px;}
+.pv-mob-side .pv-tbox .pv-dur{font-size:10px;padding:2px 4px;}
+.pv-mob-side .pv-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px;}
+.pv-mob-side .pv-yt-title{font-size:13.5px;line-height:1.28;}
+.pv-mob-side .pv-yt-meta{font-size:11.5px;}
+
+/* 13. Apple TV / Smart TV (Always dark surface, 420px card) */
+.pv-tv-surface{
+  background:#111113;color:#f5f5f7;
+  border:0.5px solid rgba(255,255,255,0.09);border-radius:var(--r-card);
+  padding:26px 28px 30px;box-shadow:var(--shadow-card);
+  font-family:'Roboto',-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
+}
+.pv-tv-surface .pv-sec-title{color:#f5f5f7;}
+.pv-tv-surface .pv-block-lbl{color:#8e8e93;}
+.pv-tv-card{width:420px;max-width:100%;}
+.pv-tv-card .pv-tbox{
+  width:100%;border-radius:12px;background:#222225;
+  box-shadow:0 0 0 2px rgba(255,255,255,0.85), 0 14px 36px rgba(0,0,0,0.55);
+}
+.pv-tv-card .pv-tbox-ph{color:#8e8e93;}
+.pv-tv-card .pv-yt-title{color:#f5f5f7;font-size:18px;line-height:1.3;margin-top:14px;margin-bottom:5px;font-weight:600;}
+.pv-tv-card .pv-yt-meta{color:#a1a1a6;font-size:13.5px;}
+
+/* 14. Original Image Stage */
+.pv-orig-card{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:20px 22px;display:flex;flex-direction:column;gap:12px;
+}
+.pv-orig-hdr{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.pv-orig-title{font-size:14.5px;font-weight:700;color:var(--text);}
+.pv-orig-sub{font-size:12px;color:var(--text3);}
+.pv-orig-wrap{
+  width:100%;max-width:960px;aspect-ratio:16 / 9;border-radius:var(--r);
+  overflow:hidden;background:var(--surface2);border:0.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;cursor:zoom-in;
+}
+.pv-orig-wrap.is-empty{cursor:pointer;}
+.pv-orig-wrap img{width:100%;height:100%;object-fit:contain;display:block;background:#000;}
+
+/* Fullscreen Original Lightbox */
+.pv-lb-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:880;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity .16s var(--ease);
+  cursor:zoom-out;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.pv-lb-ov.on{opacity:1;pointer-events:all;}
+.pv-lb-ov img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+
+@media(max-width:768px){
+  .pv-controls-grid{grid-template-columns:1fr 1fr;}
+  .pv-controls-grid > :first-child{grid-column:1 / -1;}
+  .pv-yt-surface,.pv-tv-surface{padding:18px 16px 22px;}
+  .pv-search,.pv-ch-lg{flex-direction:column;}
+  .pv-search .pv-tbox,.pv-ch-lg .pv-tbox{width:100%;}
+  .pv-history{flex-direction:column;}
+  .pv-history .pv-tbox{width:100%;max-width:100%;}
 }
 </style>
 </head>
@@ -2506,6 +2803,9 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
     <button type="button" class="m-gt-pill primary is-hidden" id="m-xp-dl-btn" aria-label="Скачать PNG">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       <span>PNG</span>
+    </button>
+    <button type="button" class="m-gt-set" id="m-preview-btn" title="Примерка превью" aria-label="Примерка превью">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
     </button>
     <button type="button" class="m-gt-set" id="m-set-btn" title="Настройки" aria-label="Настройки">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -2585,6 +2885,12 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
       </span>
       <span class="finder-txt">Каналы</span>
       <span class="finder-cnt" id="nav-cnt-channels" title="Сохранено каналов"></span>
+    </button>
+    <button type="button" class="finder-row" id="tab-preview" role="tab" aria-selected="false">
+      <span class="finder-ico" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </span>
+      <span class="finder-txt">Примерка</span>
     </button>
 
     <div class="finder-sec-lbl spaced">Инструменты</div>
@@ -3050,7 +3356,7 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
         <span class="ch-quick-ico" aria-hidden="true">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         </span>
-        <input type="text" class="ch-quick-inp" id="ch-quick-inp" placeholder="Вставьте ссылку на ролик или канал YouTube — аватар, подписчики и превью подтянутся сами..."/>
+        <input type="text" class="ch-quick-inp" id="ch-quick-inp" placeholder="Вставьте ссылку на ролик YouTube (или несколько) — канал и превью подгрузятся сами..."/>
         <button type="button" class="ch-quick-btn" id="ch-quick-btn">Подгрузить</button>
       </div>
 
@@ -3058,6 +3364,269 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
     </div>
   </div>
 </section>
+
+<!-- VIEW 5: THUMBNAIL PREVIEWER (ПРИМЕРКА) -->
+<section class="view-pane is-hidden" id="preview-view" aria-label="Примерка превью на YouTube">
+  <header class="view-toolbar">
+    <div class="vt-inner">
+      <div class="vt-left">
+        <h1 class="vt-title">Примерка</h1>
+        <div class="ord-sub-sw" role="group" aria-label="Тема ленты YouTube">
+          <button type="button" class="ord-sub-btn on" id="pv-yt-light">Светлый YT</button>
+          <button type="button" class="ord-sub-btn" id="pv-yt-dark">Тёмный YT</button>
+        </div>
+      </div>
+
+      <div class="vt-right">
+        <button type="button" class="ch-btn-ghost is-hidden" id="pv-btn-clear">Сбросить</button>
+        <button class="add-order-btn" id="pv-btn-upload" type="button" title="Выбрать файл превью">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span>Загрузить</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="view-scroll" id="preview-scroll">
+    <div class="ws-inner">
+      <div class="pv-setup-card">
+        <div class="pv-dropzone" id="pv-dropzone" role="button" tabindex="0" aria-label="Загрузить превью для примерки">
+          <div class="pv-dz-empty">
+            <div class="pv-dz-empty-ico" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="pv-dz-title">Перетащите превью сюда или нажмите для выбора</div>
+            <div class="pv-dz-sub">Также работает быстрая вставка из буфера через Cmd+V</div>
+          </div>
+          <div class="pv-dz-loaded">
+            <div class="pv-dz-mini"><img id="pv-dz-mini-img" alt="Миниатюра"/></div>
+            <div class="pv-dz-meta">
+              <div class="pv-dz-fname" id="pv-dz-fname">Превью загружено</div>
+              <div class="pv-dz-specs" id="pv-dz-specs"></div>
+            </div>
+            <span class="pv-dz-hint">Заменить</span>
+          </div>
+        </div>
+
+        <div class="pv-controls-grid">
+          <div class="pv-field-wrap">
+            <input type="text" id="pv-inp-title" placeholder="Название ролика для проверки в ленте..." maxlength="120" autocomplete="off"/>
+          </div>
+          <div class="pv-field-wrap">
+            <button type="button" class="pv-av-pick" id="pv-av-btn" title="Нажмите, чтобы выбрать аватар канала (ПКМ — сбросить)" aria-label="Аватар канала">C</button>
+            <input type="text" id="pv-inp-channel" placeholder="Название канала" maxlength="60" autocomplete="off"/>
+          </div>
+          <div class="pv-field-wrap pv-time-wrap">
+            <input type="text" id="pv-inp-dur" placeholder="12:34" maxlength="10" autocomplete="off" title="Длительность в правом нижнем углу (оставьте пустым, чтобы скрыть)"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- YouTube Web & Mobile Stage (2026 Actual Dimensions) -->
+      <div class="pv-yt-surface" id="pv-yt-surface">
+        <div>
+          <div class="pv-sec-title">Web Browser</div>
+          <div class="pv-row">
+            <div class="pv-block">
+              <span class="pv-block-lbl">Home Large · 460px</span>
+              <div class="pv-home-lg">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-av" data-pv-av="1"></div>
+                  <div style="min-width:0;flex:1;">
+                    <div class="pv-yt-title" data-pv-title="1"></div>
+                    <div class="pv-yt-meta" data-pv-ch="1"></div>
+                    <div class="pv-yt-meta">128K views · 3 hours ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pv-block">
+              <span class="pv-block-lbl">Home Compact · 304px</span>
+              <div class="pv-home-sm">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-av" data-pv-av="1"></div>
+                  <div style="min-width:0;flex:1;">
+                    <div class="pv-yt-title" data-pv-title="1"></div>
+                    <div class="pv-yt-meta" data-pv-ch="1"></div>
+                    <div class="pv-yt-meta">128K views · 3 hours ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pv-block">
+              <span class="pv-block-lbl">Sidebar · 168px</span>
+              <div class="pv-sidebar">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta" data-pv-ch="1"></div>
+                  <div class="pv-yt-meta">128K views · 3 hours ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pv-row" style="margin-top:28px;">
+            <div class="pv-block">
+              <span class="pv-block-lbl">Search · 500px</span>
+              <div class="pv-search">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta">128K views · 3 hours ago</div>
+                  <div class="pv-search-ch">
+                    <div class="pv-yt-av" data-pv-av="1"></div>
+                    <div class="pv-yt-meta" data-pv-ch="1"></div>
+                  </div>
+                  <div class="pv-yt-desc">Sample video description preview showing how your thumbnail and title read at the full 500px desktop YouTube Search layout.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pv-row" style="margin-top:28px;">
+            <div class="pv-block">
+              <span class="pv-block-lbl">Channel Page Featured · 424px</span>
+              <div class="pv-ch-lg">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta">128K views · 3 hours ago</div>
+                  <div class="pv-yt-desc">Sample video description showing how your title and thumbnail balance together on a featured channel trailer layout in desktop YouTube.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pv-block">
+              <span class="pv-block-lbl">Channel Videos Grid · 280px</span>
+              <div class="pv-ch-sm">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta">128K views · 3 hours ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pv-row" style="margin-top:28px;">
+            <div class="pv-block">
+              <span class="pv-block-lbl">History · 246px</span>
+              <div class="pv-history">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta" data-pv-ch-views="1"></div>
+                  <div class="pv-yt-desc">Sample video description preview to evaluate visual weight and contrast in YouTube History.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pv-block">
+              <span class="pv-block-lbl">Watch Later Large · 312px</span>
+              <div class="pv-wl-lg">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-yt-title" data-pv-title="1"></div>
+                <div class="pv-yt-meta" data-pv-ch="1"></div>
+              </div>
+            </div>
+
+            <div class="pv-block">
+              <span class="pv-block-lbl">Watch Later · 160px</span>
+              <div class="pv-wl-sm">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta" data-pv-ch="1"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pv-block">
+              <span class="pv-block-lbl">Playlist Mini · 100px</span>
+              <div class="pv-pl-mini">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta" data-pv-ch="1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-sec-divider"></div>
+
+        <div>
+          <div class="pv-sec-title">Mobile</div>
+          <div class="pv-row">
+            <div class="pv-block">
+              <span class="pv-block-lbl">Home — Full Width · 393px</span>
+              <div class="pv-mob-home">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-av" data-pv-av="1"></div>
+                  <div style="min-width:0;flex:1;">
+                    <div class="pv-yt-title" data-pv-title="1"></div>
+                    <div class="pv-yt-meta" data-pv-ch-full="1"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pv-block">
+              <span class="pv-block-lbl">Sidebar / Channel · 160px</span>
+              <div class="pv-mob-side">
+                <div class="pv-tbox" data-pv-slot="1"></div>
+                <div class="pv-info">
+                  <div class="pv-yt-title" data-pv-title="1"></div>
+                  <div class="pv-yt-meta" data-pv-ch="1"></div>
+                  <div class="pv-yt-meta">128K views · 3 hours ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Apple TV / Smart TV Always-Dark Stage -->
+      <div class="pv-tv-surface">
+        <div class="pv-sec-title">Apple TV / Smart TV</div>
+        <div class="pv-block">
+          <span class="pv-block-lbl">Home · 420px</span>
+          <div class="pv-tv-card">
+            <div class="pv-tbox" data-pv-slot="1"></div>
+            <div class="pv-yt-title" data-pv-title="1"></div>
+            <div class="pv-yt-meta" data-pv-ch="1"></div>
+            <div class="pv-yt-meta">128K views · 3 hours ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Original Full-Size Image -->
+      <div class="pv-orig-card">
+        <div class="pv-orig-hdr">
+          <span class="pv-orig-title">Original Image</span>
+          <span class="pv-orig-sub" id="pv-orig-sub">Нажмите на изображение, чтобы открыть на весь экран</span>
+        </div>
+        <div class="pv-orig-wrap is-empty" id="pv-orig-wrap" role="button" tabindex="0">
+          <span class="pv-tbox-ph">Нет загруженного превью</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Fullscreen Lightbox for Preview Original Image -->
+<div class="pv-lb-ov" id="pv-lb-ov" role="dialog" aria-modal="true" aria-label="Полноэкранный просмотр превью">
+  <img id="pv-lb-img" alt="Оригинал превью"/>
+</div>
+<input type="file" id="pv-file-inp" accept="image/*" class="is-hidden"/>
+<input type="file" id="pv-av-inp" accept="image/*" class="is-hidden"/>
 
 <!-- Mobile Floating Icon Dock -->
 <nav class="m-bottom-nav" id="m-bottom-nav" aria-label="Мобильная навигация">
@@ -3394,18 +3963,14 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
             <input type="text" id="ch-f-url" placeholder="youtube.com/@handle или ссылка на видео" autocomplete="off"/>
             <button type="button" class="ch-btn-ghost" id="ch-btn-fetch-feed" title="Попробовать автоподгрузку без API">Подтянуть</button>
           </div>
-          <div class="ahint" id="ch-feed-hint">Вставьте ссылку на канал или ролик — подтянем аватар и подписчиков.</div>
+          <div class="ahint" id="ch-feed-hint">Вставьте ссылку на ролик или канал YouTube.</div>
         </div>
       </div>
 
-      <div class="fgrid">
+      <div class="fgrid single-col">
         <div class="ff">
           <label for="ch-f-name">Название канала</label>
           <input type="text" id="ch-f-name" placeholder="Имя канала" autocomplete="off"/>
-        </div>
-        <div class="ff">
-          <label for="ch-f-subs">Подписчики</label>
-          <input type="text" id="ch-f-subs" placeholder="Авто или вручную" autocomplete="off"/>
         </div>
       </div>
 
@@ -4192,12 +4757,13 @@ async function updateStorageMetrics() {
   }
   if (cloudBarEl) cloudBarEl.style.width = `${cloudPct.toFixed(2)}%`;
 
-  const [xpBytes, vaultBytes, chImgBytes] = await Promise.all([
+  const [xpBytes, vaultBytes, chImgBytes, pvBytes] = await Promise.all([
     measureIndexedDbBytes('InvoeXPlannerLocalDB', ['days_meta', 'slot_blobs']),
     measureIndexedDbBytes('InvoeSafariVaultDB', ['vault']),
-    measureIndexedDbBytes('InvoeChannelsImgsDB', ['local_thumbs'])
+    measureIndexedDbBytes('InvoeChannelsImgsDB', ['local_thumbs']),
+    measureIndexedDbBytes('InvoePreviewLocalDB', ['pv_blobs'])
   ]);
-  const appLocalBytes = xpBytes + vaultBytes + chImgBytes + cloudBytes;
+  const appLocalBytes = xpBytes + vaultBytes + chImgBytes + pvBytes + cloudBytes;
 
   let quotaBytes = 0;
   try {
@@ -5993,7 +6559,7 @@ function closeSettings() {
     ? 'stats'
     : (document.body.classList.contains('budget-mode')
       ? 'inv'
-      : (document.body.classList.contains('channels-mode') ? 'channels' : 'list'));
+      : (document.body.classList.contains('channels-mode') ? 'channels' : (document.body.classList.contains('preview-mode') ? 'preview' : 'list')));
   updateMobileNavState(activeTab);
 }
 
@@ -6027,7 +6593,7 @@ function applyAppearance() {
   root.setAttribute('data-accent', accent);
   root.setAttribute('data-tone', tone);
   root.setAttribute('data-density', density);
-  if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode') && !document.body.classList.contains('channels-mode')) {
+  if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode') && !document.body.classList.contains('channels-mode') && !document.body.classList.contains('preview-mode')) {
     requestAnimationFrame(() => renderMiniStockChart());
   }
 }
@@ -6718,7 +7284,7 @@ function initFinderLasso() {
   }
 
   document.addEventListener('selectstart', e => {
-    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode') || document.body.classList.contains('channels-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode') || document.body.classList.contains('channels-mode') || document.body.classList.contains('preview-mode')) return;
     if (isDragging || document.body.classList.contains('lasso-active')) { e.preventDefault(); return; }
     const t = e.target.nodeType === 3 ? e.target.parentElement : e.target;
     if (!t || !t.closest('input, textarea, .sel-txt')) e.preventDefault();
@@ -6726,7 +7292,7 @@ function initFinderLasso() {
 
   window.addEventListener('mousedown', e => {
     if (e.button !== 0 || window.innerWidth <= 768) return;
-    if (ordSubView !== 'list' || document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode') || document.body.classList.contains('channels-mode')) return;
+    if (ordSubView !== 'list' || document.body.classList.contains('xp-mode') || document.body.classList.contains('budget-mode') || document.body.classList.contains('channels-mode') || document.body.classList.contains('preview-mode')) return;
     if (e.target.closest('.rail-nav, .view-toolbar, .ord-kpi-row, .ord-table-bar, .moverlay, .soverlay, .confirm-overlay, .sel-dock, .fpanel, .m-bottom-nav, button, a, input, select, textarea, canvas, label')) return;
 
     if (document.activeElement && ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
@@ -7671,6 +8237,11 @@ function bindEvents() {
     TwitterPlanner?.switchView('channels');
     updateMobileNavState('channels');
   });
+  document.getElementById('m-preview-btn')?.addEventListener('click', () => {
+    closeSettings(); closeInvSheet(); closePeriodSheet();
+    TwitterPlanner?.switchView('preview');
+    updateMobileNavState('preview');
+  });
   document.getElementById('m-set-btn')?.addEventListener('click', () => {
     if (document.getElementById('sov').classList.contains('on')) closeSettings();
     else openSettings('view');
@@ -7678,6 +8249,7 @@ function bindEvents() {
   document.getElementById('m-nav-add').addEventListener('click', () => {
     if (document.body.classList.contains('budget-mode') && typeof window.openBudgetModal === 'function') window.openBudgetModal();
     else if (document.body.classList.contains('channels-mode') && typeof window.openChannelDrawer === 'function') window.openChannelDrawer(null);
+    else if (document.body.classList.contains('preview-mode')) document.getElementById('pv-file-inp')?.click();
     else if (document.body.classList.contains('xp-mode') && TwitterPlanner?.openMobileAdd) TwitterPlanner.openMobileAdd();
     else openModal();
   });
@@ -7753,17 +8325,17 @@ function bindEvents() {
   let dragCounter = 0;
   const dz = document.getElementById('drop-zone');
   window.addEventListener('dragenter', e => {
-    if (document.body.classList.contains('xp-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('preview-mode')) return;
     e.preventDefault(); dragCounter++; dz?.classList.add('on');
   });
   window.addEventListener('dragleave', e => {
-    if (document.body.classList.contains('xp-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('preview-mode')) return;
     e.preventDefault(); dragCounter--;
     if (dragCounter <= 0) { dragCounter = 0; dz?.classList.remove('on'); }
   });
-  window.addEventListener('dragover', e => { if (!document.body.classList.contains('xp-mode')) e.preventDefault(); });
+  window.addEventListener('dragover', e => { if (!document.body.classList.contains('xp-mode') && !document.body.classList.contains('preview-mode')) e.preventDefault(); });
   window.addEventListener('drop', e => {
-    if (document.body.classList.contains('xp-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('preview-mode')) return;
     e.preventDefault(); dragCounter = 0; dz?.classList.remove('on');
     if (e.dataTransfer?.files?.length > 0) handleFileObject(e.dataTransfer.files[0]);
   });
@@ -7853,7 +8425,7 @@ function bindEvents() {
 
   let _scWinResizeTmr = null;
   window.addEventListener('resize', () => {
-    if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode') && !document.body.classList.contains('channels-mode')) {
+    if (ordSubView === 'analytics' && !document.body.classList.contains('xp-mode') && !document.body.classList.contains('budget-mode') && !document.body.classList.contains('channels-mode') && !document.body.classList.contains('preview-mode')) {
       clearTimeout(_scWinResizeTmr);
       _scWinResizeTmr = setTimeout(() => renderMiniStockChart(), 120);
     }
@@ -7878,7 +8450,7 @@ function bindEvents() {
 
     if (e.key === 'Escape') {
       if (document.getElementById('sov').classList.contains('on')) { closeSettings(); return; }
-      if (document.body.classList.contains('xp-mode') || document.body.classList.contains('channels-mode')) return;
+      if (document.body.classList.contains('xp-mode') || document.body.classList.contains('channels-mode') || document.body.classList.contains('preview-mode')) return;
       if (document.getElementById('bg-mov')?.classList.contains('on') || document.getElementById('bg-adj-mov')?.classList.contains('on')) return;
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
       if (document.getElementById('fee-bulk-mov')?.classList.contains('on')) { closeBulkFeeModal(); return; }
@@ -7898,7 +8470,7 @@ function bindEvents() {
       return;
     }
 
-    if (document.body.classList.contains('xp-mode')) return;
+    if (document.body.classList.contains('xp-mode') || document.body.classList.contains('preview-mode')) return;
 
     const isChannelsMode = document.body.classList.contains('channels-mode');
     if (isChannelsMode) {
@@ -10110,6 +10682,7 @@ const TwitterPlanner = (() => {
     const isNowOpen = !menu.classList.contains('on');
     closeAllCardMenus();
     if (isNowOpen) {
+      updateCardMenuDayIndicators(dayIdx);
       _openMenuDayIdx = dayIdx;
       menu.classList.add('on');
       btn.classList.add('on');
@@ -10214,6 +10787,121 @@ const TwitterPlanner = (() => {
       if (blob) tx.objectStore(STORE_IMGS).put(blob, key);
       else tx.objectStore(STORE_IMGS).delete(key);
     } catch (e) {}
+  }
+
+  async function getThreadBlob(dayIdx, thId) {
+    try {
+      const db = await openDB();
+      return await new Promise(res => {
+        const tx = db.transaction(STORE_IMGS, 'readonly');
+        const req = tx.objectStore(STORE_IMGS).get(`d${dayIdx}_th_${thId}`);
+        req.onsuccess = () => res(req.result || null);
+        req.onerror = () => res(null);
+      });
+    } catch (e) { return null; }
+  }
+
+  function hasDayAnyContent(dayIdx) {
+    const d = state[dayIdx];
+    if (!d) return false;
+    if (ALL_SLOT_KEYS.some(k => Boolean(d.images[k]))) return true;
+    if ((d.caption || '').trim().length > 0) return true;
+    if ((d.chName || '').trim().length > 0 || (d.chSubs || '').trim().length > 0 || (d.chEyebrow || '').trim().length > 0) return true;
+    if (Array.isArray(d.thread) && d.thread.some(t => (t.text || '').trim().length > 0 || Boolean(d.threadUrls[t.id]))) return true;
+    return false;
+  }
+
+  function updateCardMenuDayIndicators(dayIdx) {
+    const cMenu = document.getElementById(`xp-cmenu-${dayIdx}`);
+    if (!cMenu) return;
+    cMenu.querySelectorAll('.xp-cm-day[data-swap-day]').forEach(btn => {
+      const targetIdx = Number(btn.dataset.swapDay);
+      const isCur = targetIdx === dayIdx;
+      const occupied = !isCur && hasDayAnyContent(targetIdx);
+      btn.classList.toggle('has-data', occupied);
+      if (!isCur) {
+        btn.title = occupied
+          ? `Поменять местами с ${DAYS[targetIdx].ru}`
+          : `Перенести пост на ${DAYS[targetIdx].ru}`;
+      }
+    });
+  }
+
+  async function swapOrMoveDays(fromIdx, toIdx) {
+    if (fromIdx === toIdx || fromIdx < 0 || toIdx < 0 || fromIdx >= DAYS.length || toIdx >= DAYS.length) return;
+    const fromDay = state[fromIdx];
+    const toDay = state[toIdx];
+    const fromHas = hasDayAnyContent(fromIdx);
+    const toHas = hasDayAnyContent(toIdx);
+
+    if (!fromHas && !toHas) {
+      closeAllCardMenus();
+      notify('Карточка пуста — нечего переносить');
+      return;
+    }
+
+    // 1. Read all slot & thread blobs from IndexedDB for both days before mutating
+    const fromSlotBlobs = {};
+    const toSlotBlobs = {};
+    for (const k of ALL_SLOT_KEYS) {
+      fromSlotBlobs[k] = await getSlotBlob(fromIdx, k);
+      toSlotBlobs[k] = await getSlotBlob(toIdx, k);
+    }
+
+    const fromThreadIds = (fromDay.thread || []).map(t => t.id);
+    const toThreadIds = (toDay.thread || []).map(t => t.id);
+    const fromThreadBlobs = {};
+    const toThreadBlobs = {};
+    for (const thId of fromThreadIds) fromThreadBlobs[thId] = await getThreadBlob(fromIdx, thId);
+    for (const thId of toThreadIds) toThreadBlobs[thId] = await getThreadBlob(toIdx, thId);
+
+    // 2. Delete old thread blob keys for both days to avoid orphan entries in IndexedDB
+    for (const thId of fromThreadIds) await saveThreadBlob(fromIdx, thId, null);
+    for (const thId of toThreadIds) await saveThreadBlob(toIdx, thId, null);
+
+    // 3. Swap all state fields (preserving dayIdx)
+    const fields = [
+      'preset', 'padMode', 'bgTheme', 'caption',
+      'labelLeft', 'labelRight', 'badgeTop', 'badgeBot',
+      'chName', 'chSubs', 'chEyebrow', 'palette',
+      'images', 'thumbUrls', 'transforms', 'thread', 'threadUrls'
+    ];
+    for (const f of fields) {
+      const tmp = fromDay[f];
+      fromDay[f] = toDay[f];
+      toDay[f] = tmp;
+    }
+
+    // 4. Write swapped slot & thread blobs to IndexedDB
+    for (const k of ALL_SLOT_KEYS) {
+      await saveSlotBlob(fromIdx, k, toSlotBlobs[k] || null);
+      await saveSlotBlob(toIdx, k, fromSlotBlobs[k] || null);
+    }
+    for (const thId of toThreadIds) {
+      if (toThreadBlobs[thId]) await saveThreadBlob(fromIdx, thId, toThreadBlobs[thId]);
+    }
+    for (const thId of fromThreadIds) {
+      if (fromThreadBlobs[thId]) await saveThreadBlob(toIdx, thId, fromThreadBlobs[thId]);
+    }
+
+    await saveDayMeta(fromIdx);
+    await saveDayMeta(toIdx);
+
+    // Update armed slot focus if one of these days was selected
+    if (_armedSlot) {
+      if (_armedSlot.dayIdx === fromIdx) _armedSlot = { dayIdx: toIdx, slotKey: _armedSlot.slotKey };
+      else if (_armedSlot.dayIdx === toIdx) _armedSlot = { dayIdx: fromIdx, slotKey: _armedSlot.slotKey };
+    }
+
+    closeAllCardMenus();
+    refreshDayCardUI(fromIdx, true);
+    refreshDayCardUI(toIdx, true);
+    reflowXpMasonry();
+    updateReadyBadge();
+
+    const fromLbl = DAYS[fromIdx].shortRu;
+    const toLbl = DAYS[toIdx].shortRu;
+    notify(toHas ? `Поменяли местами: ${fromLbl} ⇄ ${toLbl}` : `Перенесено: ${fromLbl} → ${toLbl}`);
   }
 
   function addThreadReply(dayIdx, text = '', wantPhoto = false) {
@@ -10693,6 +11381,30 @@ const TwitterPlanner = (() => {
       });
       secPad.appendChild(segPad);
       cMenu.appendChild(secPad);
+
+      const secMove = document.createElement('div');
+      secMove.className = 'xp-cm-sec';
+      secMove.innerHTML = `<span class="xp-cm-lbl">Перенести / поменять день</span>`;
+      const daysRow = document.createElement('div');
+      daysRow.className = 'xp-cm-days';
+      DAYS.forEach(targetDay => {
+        const db = document.createElement('button');
+        db.type = 'button';
+        const isCur = targetDay.idx === dIdx;
+        db.className = 'xp-cm-day' + (isCur ? ' is-cur' : '');
+        db.dataset.swapDay = String(targetDay.idx);
+        db.textContent = targetDay.shortRu;
+        if (isCur) {
+          db.disabled = true;
+          db.title = `Текущий день (${targetDay.ru})`;
+        } else {
+          db.title = `Перенести на ${targetDay.ru}`;
+          db.addEventListener('click', () => swapOrMoveDays(dIdx, targetDay.idx));
+        }
+        daysRow.appendChild(db);
+      });
+      secMove.appendChild(daysRow);
+      cMenu.appendChild(secMove);
 
       hdrControls.appendChild(sel);
       hdrControls.appendChild(dotsBtn);
@@ -11257,19 +11969,22 @@ const TwitterPlanner = (() => {
   }
 
   function switchView(mode) {
-    _activeView = (mode === 'planner' || mode === 'budget' || mode === 'channels') ? mode : 'invoe';
+    _activeView = (mode === 'planner' || mode === 'budget' || mode === 'channels' || mode === 'preview') ? mode : 'invoe';
     const invoeBody = document.getElementById('workspace-body');
     const budgetView = document.getElementById('budget-view');
     const plannerView = document.getElementById('x-planner-view');
     const channelsView = document.getElementById('channels-view');
+    const previewView = document.getElementById('preview-view');
     const tabInvoe = document.getElementById('xp-tab-invoe');
     const tabBudget = document.getElementById('tab-budget');
     const tabPlanner = document.getElementById('xp-tab-planner');
     const tabChannels = document.getElementById('tab-channels');
+    const tabPreview = document.getElementById('tab-preview');
 
     document.body.classList.toggle('xp-mode', _activeView === 'planner');
     document.body.classList.toggle('budget-mode', _activeView === 'budget');
     document.body.classList.toggle('channels-mode', _activeView === 'channels');
+    document.body.classList.toggle('preview-mode', _activeView === 'preview');
 
     if (_activeView !== 'planner' && _xpInitialized) {
       selectCanvasSlot(null, null);
@@ -11286,19 +12001,21 @@ const TwitterPlanner = (() => {
     budgetView?.classList.toggle('is-hidden', _activeView !== 'budget');
     plannerView?.classList.toggle('is-hidden', _activeView !== 'planner');
     channelsView?.classList.toggle('is-hidden', _activeView !== 'channels');
+    previewView?.classList.toggle('is-hidden', _activeView !== 'preview');
 
     if (tabInvoe) { tabInvoe.classList.toggle('on', _activeView === 'invoe'); tabInvoe.setAttribute('aria-selected', String(_activeView === 'invoe')); }
     if (tabBudget) { tabBudget.classList.toggle('on', _activeView === 'budget'); tabBudget.setAttribute('aria-selected', String(_activeView === 'budget')); }
     if (tabPlanner) { tabPlanner.classList.toggle('on', _activeView === 'planner'); tabPlanner.setAttribute('aria-selected', String(_activeView === 'planner')); }
     if (tabChannels) { tabChannels.classList.toggle('on', _activeView === 'channels'); tabChannels.setAttribute('aria-selected', String(_activeView === 'channels')); }
+    if (tabPreview) { tabPreview.classList.toggle('on', _activeView === 'preview'); tabPreview.setAttribute('aria-selected', String(_activeView === 'preview')); }
 
     const mGtTitle = document.getElementById('m-gt-title');
     if (mGtTitle) {
-      const titleMap = { invoe: 'Заказы', budget: 'Учёт', planner: 'X Showcase', channels: 'Каналы' };
+      const titleMap = { invoe: 'Заказы', budget: 'Учёт', planner: 'X Showcase', channels: 'Каналы', preview: 'Примерка' };
       mGtTitle.textContent = titleMap[_activeView] || 'Заказы';
     }
     document.getElementById('m-inv-btn')?.classList.toggle('is-hidden', _activeView !== 'invoe');
-    document.getElementById('m-period-btn')?.classList.toggle('is-hidden', _activeView === 'planner' || _activeView === 'channels');
+    document.getElementById('m-period-btn')?.classList.toggle('is-hidden', _activeView === 'planner' || _activeView === 'channels' || _activeView === 'preview');
     document.getElementById('m-xp-dl-btn')?.classList.toggle('is-hidden', _activeView !== 'planner');
 
     if (_activeView === 'invoe') {
@@ -11317,6 +12034,9 @@ const TwitterPlanner = (() => {
     if (_activeView === 'channels' && typeof window.renderChannelsView === 'function') {
       window.renderChannelsView();
     }
+    if (_activeView === 'preview' && typeof window.renderPreviewView === 'function') {
+      window.renderPreviewView();
+    }
   }
 
   function bindNavAndSettingsEvents() {
@@ -11324,6 +12044,7 @@ const TwitterPlanner = (() => {
     document.getElementById('tab-budget')?.addEventListener('click', () => switchView('budget'));
     document.getElementById('xp-tab-planner')?.addEventListener('click', () => switchView('planner'));
     document.getElementById('tab-channels')?.addEventListener('click', () => switchView('channels'));
+    document.getElementById('tab-preview')?.addEventListener('click', () => switchView('preview'));
 
     const handleInp = document.getElementById('xp-set-handle');
     const posSel = document.getElementById('xp-set-pos');
@@ -12685,30 +13406,6 @@ const TwitterPlanner = (() => {
     return 'https://' + s.replace(/^\/+/, '');
   }
 
-  function formatCompactSubs(raw) {
-    const clean = String(raw || '').replace(/\u00a0/g, ' ').trim();
-    if (!clean) return '';
-    const m = clean.match(/([\d\s.,]+)\s*(тыс\.?|млн\.?|млрд\.?|k|m|b|к|м)?/i);
-    if (!m) return clean.slice(0, 24);
-    let num = m[1].trim();
-    const u = (m[2] || '').toLowerCase().replace(/\.$/, '');
-    let suf = '';
-    if (u === 'k' || u === 'к' || u === 'тыс') suf = 'K';
-    else if (u === 'm' || u === 'м' || u === 'млн') suf = 'M';
-    else if (u === 'b' || u === 'млрд') suf = 'B';
-    if (suf) {
-      num = num.replace(/,/g, '.').replace(/\s+/g, '');
-      return num + suf;
-    }
-    const digitsOnly = num.replace(/[\s,]/g, '');
-    if (/^\d{4,}$/.test(digitsOnly)) {
-      const n = Number(digitsOnly);
-      if (n >= 1000000) return (n / 1000000).toFixed(n >= 10000000 ? 0 : 1).replace(/\.0$/, '') + 'M';
-      if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, '') + 'K';
-    }
-    return num.slice(0, 18);
-  }
-
   function normalizeFolders(list) {
     if (!Array.isArray(list)) return [];
     const out = [];
@@ -12768,10 +13465,6 @@ const TwitterPlanner = (() => {
         folderId: String(c.folderId || fallbackFolderId),
         name,
         url: String(c.url || '').trim(),
-        handle: String(c.handle || '').trim(),
-        avatarUrl: String(c.avatarUrl || '').trim(),
-        subs: formatCompactSubs(c.subs || ''),
-        bannerUrl: String(c.bannerUrl || '').trim(),
         note: String(c.note || '').trim(),
         items: normalizeItems(c.items, includeLocal),
         createdAt: Number(c.createdAt) || 0,
@@ -12806,37 +13499,29 @@ const TwitterPlanner = (() => {
   let searchQuery = '';
   let editChannelId = null;
   let editingFolderId = null;
-  let drawerFetchedMeta = null;
   let lbItems = [];
   let lbIndex = -1;
   let lbFeedMode = false;
   let localBlobUrls = new Map();
   let pendingLocalUploadChannelId = null;
 
-  /* SERIALIZATION FOR CLOUD SYNC (LIGHTWEIGHT TEXT/URLS ONLY) */
+  /* SERIALIZATION FOR CLOUD SYNC (TEXT/LINKS ONLY — ZERO HEAVY BLOBS) */
   function getCloudChannelsData() {
     const folders = chState.folders.map(f => ({
       id: f.id,
       name: f.name,
       updatedAt: Number(f.updatedAt) || 0
     }));
-    const channels = chState.channels.map(c => {
-      const out = {
-        id: c.id,
-        folderId: c.folderId,
-        name: c.name,
-        url: c.url || '',
-        note: c.note || '',
-        items: normalizeItems(c.items, false),
-        createdAt: Number(c.createdAt) || 0,
-        updatedAt: Number(c.updatedAt) || 0
-      };
-      if (c.handle) out.handle = c.handle;
-      if (c.avatarUrl) out.avatarUrl = c.avatarUrl;
-      if (c.subs) out.subs = c.subs;
-      if (c.bannerUrl) out.bannerUrl = c.bannerUrl;
-      return out;
-    });
+    const channels = chState.channels.map(c => ({
+      id: c.id,
+      folderId: c.folderId,
+      name: c.name,
+      url: c.url || '',
+      note: c.note || '',
+      items: normalizeItems(c.items, false),
+      createdAt: Number(c.createdAt) || 0,
+      updatedAt: Number(c.updatedAt) || 0
+    }));
     return { folders, channels, pinterestUrl: chState.pinterestUrl || '' };
   }
   window._getCloudChannelsData = getCloudChannelsData;
@@ -13029,7 +13714,7 @@ const TwitterPlanner = (() => {
     } catch (e) {}
   }
 
-  /* YOUTUBE ZERO-API PROFILE & VIDEO HELPERS (NO AUTO-LOADING LATEST VIDEOS) */
+  /* YOUTUBE ZERO-PROXY HELPERS */
   function extractYouTubeVideoIds(text) {
     const str = String(text || '');
     const found = [];
@@ -13047,32 +13732,6 @@ const TwitterPlanner = (() => {
       });
     }
     return found;
-  }
-
-  function normalizeYouTubeChannelUrl(raw) {
-    const s = String(raw || '').trim();
-    if (!s) return '';
-    if (s.startsWith('@')) return `https://www.youtube.com/${s}`;
-    if (/^https?:\/\//i.test(s)) return s;
-    if (/^(www\.|m\.)?youtube\.com\//i.test(s)) return 'https://' + s;
-    return `https://www.youtube.com/@${s.replace(/^\/+/, '')}`;
-  }
-
-  function decodeHtmlEntities(str) {
-    if (!str) return '';
-    const ta = document.createElement('textarea');
-    ta.innerHTML = String(str);
-    return ta.value;
-  }
-
-  function unescapeJsonStr(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/\\u0026/gi, '&')
-      .replace(/\\u003d/gi, '=')
-      .replace(/\\u002f/gi, '/')
-      .replace(/\\\//g, '/')
-      .replace(/\\"/g, '"');
   }
 
   function ytThumbUrl(videoId, quality = 'maxresdefault') {
@@ -13118,157 +13777,6 @@ const TwitterPlanner = (() => {
     return null;
   }
 
-  async function fetchHtmlViaFreeProxy(targetUrl) {
-    const sep = targetUrl.includes('?') ? '&' : '?';
-    const enUrl = /hl=/.test(targetUrl) ? targetUrl : `${targetUrl}${sep}hl=en`;
-    const proxies = [
-      u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-      u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
-      u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
-    ];
-
-    for (const buildProxy of proxies) {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 7500);
-      try {
-        const res = await fetch(buildProxy(enUrl), { signal: ctrl.signal });
-        clearTimeout(timer);
-        if (!res.ok) continue;
-        const text = await res.text();
-        if (text && text.length > 2000 && !/consent\.youtube\.com/i.test(text.slice(0, 4000))) {
-          return text;
-        }
-      } catch (e) {
-        clearTimeout(timer);
-      }
-    }
-    return null;
-  }
-
-  function parseChannelHtmlProfile(html, fallbackUrl) {
-    if (!html) return null;
-
-    // 1. Name
-    let name = '';
-    const ogTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i)
-      || html.match(/<meta\s+name=["']title["']\s+content=["']([^"']+)["']/i);
-    if (ogTitle) name = decodeHtmlEntities(ogTitle[1]).replace(/\s*-\s*YouTube\s*$/i, '').trim();
-    if (!name) {
-      const mName = html.match(/"channelMetadataRenderer":\{"title":"((?:\\.|[^"\\])+)"/);
-      if (mName) name = unescapeJsonStr(mName[1]).trim();
-    }
-
-    // 2. Avatar URL
-    let avatarUrl = '';
-    const ogImg = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i);
-    if (ogImg && /yt3\.(googleusercontent|ggpht)\.com/i.test(ogImg[1])) {
-      avatarUrl = decodeHtmlEntities(ogImg[1]).trim();
-    }
-    if (!avatarUrl) {
-      const mAv = html.match(/"avatar":\{"thumbnails":\[\{"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/)
-        || html.match(/"decoratedAvatarViewModel":\{"avatar":\{"avatarViewModel":\{"image":\{"sources":\[\{"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/);
-      if (mAv) avatarUrl = unescapeJsonStr(mAv[1]).trim();
-    }
-    if (avatarUrl) {
-      avatarUrl = avatarUrl.replace(/=s\d+-c-k/i, '=s240-c-k');
-    }
-
-    // 3. Canonical URL & Handle
-    let channelUrl = '';
-    const mCanon = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
-    if (mCanon && /youtube\.com/i.test(mCanon[1])) channelUrl = decodeHtmlEntities(mCanon[1]).trim();
-    const mVanity = html.match(/"vanityChannelUrl":"(https?:\\?\/\\?\/[^"]+)"/);
-    if (mVanity) {
-      const vUrl = unescapeJsonStr(mVanity[1]).replace(/^http:/i, 'https:');
-      if (/youtube\.com\/@/i.test(vUrl)) channelUrl = vUrl;
-    }
-
-    let handle = '';
-    const mH1 = (channelUrl || fallbackUrl || '').match(/youtube\.com\/(@[A-Za-z0-9._-]+)/i);
-    if (mH1) handle = mH1[1];
-    if (!handle) {
-      const mH2 = html.match(/"channelHandleText":\{"runs":\[\{"text":"(@[^"]+)"/);
-      if (mH2) handle = unescapeJsonStr(mH2[1]).trim();
-    }
-    if (!handle) {
-      const mH3 = html.match(/"content":"(@[A-Za-z0-9._-]+)"/);
-      if (mH3) handle = mH3[1].trim();
-    }
-
-    // 4. Subscriber count (supports both legacy subscriberCountText and modern pageHeaderViewModel metadataParts)
-    let rawSubs = '';
-    const subPatterns = [
-      /"subscriberCountText":\{"simpleText":"([^"]+)"/,
-      /"subscriberCountText":\{"accessibility":\{"accessibilityData":\{"label":"([^"]+)"/,
-      /"text":\{"content":"([\d.,\s]+(?:[KMBkmb]|тыс\.?|млн\.?|млрд\.?)?\s*(?:subscribers?|подписчик[а-я]*))"/i
-    ];
-    for (const rx of subPatterns) {
-      const m = html.match(rx);
-      if (m && m[1]) { rawSubs = unescapeJsonStr(m[1]).trim(); break; }
-    }
-    const subs = formatCompactSubs(rawSubs);
-
-    // 5. Channel banner (optional subtle header background inside detail view)
-    let bannerUrl = '';
-    const mBanBlock = html.match(/"imageBannerViewModel":\{"image":\{"sources":\[([^\]]+)\]/);
-    if (mBanBlock) {
-      const urls = [...mBanBlock[1].matchAll(/"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/g)].map(x => unescapeJsonStr(x[1]));
-      if (urls.length) bannerUrl = urls[Math.min(1, urls.length - 1)];
-    }
-    if (!bannerUrl) {
-      const mBan2 = html.match(/"banner":\{"thumbnails":\[([^\]]+)\]/);
-      if (mBan2) {
-        const urls = [...mBan2[1].matchAll(/"url":"(https:\\?\/\\?\/yt3\.[^"]+)"/g)].map(x => unescapeJsonStr(x[1]));
-        if (urls.length) bannerUrl = urls[Math.min(2, urls.length - 1)];
-      }
-    }
-
-    if (!name && !avatarUrl && !subs && !handle) return null;
-    return {
-      name,
-      url: channelUrl || fallbackUrl || '',
-      handle,
-      avatarUrl,
-      subs,
-      bannerUrl
-    };
-  }
-
-  async function fetchChannelProfileNoApi(rawInput) {
-    const targetUrl = normalizeYouTubeChannelUrl(rawInput);
-    if (!targetUrl) return { ok: false };
-    const html = await fetchHtmlViaFreeProxy(targetUrl);
-    if (!html) return { ok: false, reason: 'proxy_failed' };
-    const profile = parseChannelHtmlProfile(html, targetUrl);
-    if (!profile) return { ok: false, reason: 'parse_failed' };
-    return { ok: true, profile };
-  }
-
-  function applyProfileToChannel(ch, profile) {
-    if (!ch || !profile) return false;
-    let changed = false;
-    if (profile.name && (!ch.name || ch.name === 'Без названия')) { ch.name = profile.name; changed = true; }
-    if (profile.url && !ch.url) { ch.url = profile.url; changed = true; }
-    if (profile.handle && profile.handle !== ch.handle) { ch.handle = profile.handle; changed = true; }
-    if (profile.avatarUrl && profile.avatarUrl !== ch.avatarUrl) { ch.avatarUrl = profile.avatarUrl; changed = true; }
-    if (profile.subs && profile.subs !== ch.subs) { ch.subs = profile.subs; changed = true; }
-    if (profile.bannerUrl && profile.bannerUrl !== ch.bannerUrl) { ch.bannerUrl = profile.bannerUrl; changed = true; }
-    return changed;
-  }
-
-  async function enrichChannelProfileInBackground(chId, channelUrl) {
-    if (!chId || !channelUrl) return;
-    const res = await fetchChannelProfileNoApi(channelUrl);
-    if (!res.ok || !res.profile) return;
-    const ch = chState.channels.find(c => c.id === chId);
-    if (!ch) return;
-    if (applyProfileToChannel(ch, res.profile)) {
-      ch.updatedAt = Date.now();
-      saveChannelsState();
-      if (document.body.classList.contains('channels-mode')) renderChannelsView();
-    }
-  }
-
   function colorForChannel(name) {
     let h = 0;
     const s = String(name || 'X');
@@ -13292,33 +13800,10 @@ const TwitterPlanner = (() => {
       if (activeFolderId !== 'all' && ch.folderId !== activeFolderId) return false;
       if (!q) return true;
       return (ch.name || '').toLowerCase().includes(q) ||
-        (ch.handle || '').toLowerCase().includes(q) ||
         (ch.note || '').toLowerCase().includes(q) ||
         getFolderName(ch.folderId).toLowerCase().includes(q) ||
         (ch.items || []).some(it => (it.title || '').toLowerCase().includes(q));
     });
-  }
-
-  function createChannelAvatarEl(ch, className = 'ch-avatar') {
-    const col = colorForChannel(ch.name);
-    const initial = (ch.name || 'K').trim().charAt(0).toUpperCase();
-    const box = el('div', { className, style: `background:${col}` });
-    if (ch.avatarUrl) {
-      const img = document.createElement('img');
-      img.alt = ch.name || 'Канал';
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.referrerPolicy = 'no-referrer';
-      img.onerror = () => {
-        img.remove();
-        box.textContent = initial;
-      };
-      img.src = ch.avatarUrl;
-      box.appendChild(img);
-    } else {
-      box.textContent = initial;
-    }
-    return box;
   }
 
   /* PINTEREST MODAL */
@@ -13485,7 +13970,7 @@ const TwitterPlanner = (() => {
     bar.appendChild(newBox);
   }
 
-  /* QUICK PASTE HANDLER (PROFILE + CHOSEN VIDEOS ONLY, NO AUTO LATEST FEED) */
+  /* QUICK PASTE HANDLER (ZERO PROXY: DIRECT VIDEO LINKS OR CHANNEL SHORTCUT) */
   async function handleQuickPaste() {
     const inp = document.getElementById('ch-quick-inp');
     const btn = document.getElementById('ch-quick-btn');
@@ -13506,53 +13991,34 @@ const TwitterPlanner = (() => {
       const now = Date.now();
 
       if (isChannelUrl) {
-        const cleanUrl = normalizeYouTubeChannelUrl(raw);
-        const res = await fetchChannelProfileNoApi(cleanUrl);
-        const prof = res.ok ? res.profile : null;
-        const fallbackName = raw.replace(/^https?:\/\/(www\.|m\.)?youtube\.com\//i, '').replace(/\/+$/, '').replace(/^@/, '');
-        const chName = prof?.name || fallbackName || 'Новый канал';
+        const cleanUrl = raw.startsWith('@')
+          ? `https://www.youtube.com/${raw}`
+          : normalizeExternalUrl(raw);
+        const chName = raw
+          .replace(/^https?:\/\/(www\.|m\.)?youtube\.com\//i, '')
+          .replace(/\/+$/, '')
+          .replace(/^@/, '') || 'Новый канал';
 
         let ch = chState.channels.find(c =>
           c.folderId === targetFolder &&
-          ((prof?.url && c.url && c.url.toLowerCase() === prof.url.toLowerCase()) ||
+          ((c.url && c.url.toLowerCase() === cleanUrl.toLowerCase()) ||
            c.name.toLowerCase() === chName.toLowerCase())
         );
-
         if (!ch) {
-          ch = {
-            id: makeId('ch'),
-            folderId: targetFolder,
-            name: chName,
-            url: prof?.url || cleanUrl,
-            handle: prof?.handle || (raw.startsWith('@') ? raw : ''),
-            avatarUrl: prof?.avatarUrl || '',
-            subs: prof?.subs || '',
-            bannerUrl: prof?.bannerUrl || '',
-            note: '',
-            items: [],
-            createdAt: now,
-            updatedAt: now
-          };
+          ch = { id: makeId('ch'), folderId: targetFolder, name: chName, url: cleanUrl, note: '', items: [], createdAt: now, updatedAt: now };
           chState.channels.unshift(ch);
-        } else if (prof) {
-          applyProfileToChannel(ch, prof);
-          ch.updatedAt = now;
+          saveChannelsState();
         }
-
-        saveChannelsState();
         inp.value = '';
         activeChannelId = ch.id;
         renderChannelsView();
-        showToast(prof
-          ? `Канал «${ch.name}» добавлен — вставьте 3–4 нужных ролика`
-          : `Канал «${ch.name}» создан (аватар не отдал прокси — можно обновить позже)`);
+        showToast(`Канал «${ch.name}» открыт — добавьте 3–4 нужных ролика`);
         return;
       }
 
       const metas = await Promise.all(ids.map(id => fetchVideoMetaNoApi(id)));
       let totalAdded = 0;
       let createdChannels = 0;
-      const toEnrich = new Map();
 
       ids.forEach((vid, i) => {
         const meta = metas[i];
@@ -13566,20 +14032,7 @@ const TwitterPlanner = (() => {
            (c.name.toLowerCase() === chName.toLowerCase()))
         );
         if (!ch) {
-          ch = {
-            id: makeId('ch'),
-            folderId: targetFolder,
-            name: chName,
-            url: chUrl,
-            handle: '',
-            avatarUrl: '',
-            subs: '',
-            bannerUrl: '',
-            note: '',
-            items: [],
-            createdAt: now,
-            updatedAt: now
-          };
+          ch = { id: makeId('ch'), folderId: targetFolder, name: chName, url: chUrl, note: '', items: [], createdAt: now, updatedAt: now };
           chState.channels.unshift(ch);
           createdChannels++;
         } else if (chUrl && !ch.url) {
@@ -13591,25 +14044,16 @@ const TwitterPlanner = (() => {
           ch.updatedAt = now;
           totalAdded++;
         }
-
-        if (ch.url && (!ch.avatarUrl || !ch.subs)) {
-          toEnrich.set(ch.id, ch.url);
-        }
       });
 
       saveChannelsState();
       inp.value = '';
       renderChannelsView();
-
       if (totalAdded > 0) {
         showToast(createdChannels > 0 ? `Создан канал и добавлено превью: ${totalAdded}` : `Добавлено превью: ${totalAdded}`);
       } else {
         showToast('Эти ролики уже сохранены в папке');
       }
-
-      toEnrich.forEach((url, chId) => {
-        enrichChannelProfileInBackground(chId, url);
-      });
     } finally {
       if (btn) { btn.disabled = false; btn.textContent = 'Подгрузить'; }
     }
@@ -13633,10 +14077,6 @@ const TwitterPlanner = (() => {
     saveChannelsState();
     renderChannelsView();
     showToast(`Добавлено превью: ${freshIds.length}`);
-
-    if (ch.url && (!ch.avatarUrl || !ch.subs)) {
-      enrichChannelProfileInBackground(ch.id, ch.url);
-    }
   }
 
   async function addLocalFilesToChannel(chId, files) {
@@ -13684,7 +14124,7 @@ const TwitterPlanner = (() => {
       emptyBox.appendChild(el('div', { className: 'empty-sub' }, [
         searchQuery
           ? 'Попробуйте изменить запрос или выбрать другую папку.'
-          : 'Вставьте ссылку на ролик или канал YouTube выше — аватарка, подписчики и выбранные превью сохранятся в облаке.'
+          : 'Вставьте ссылку на ролик YouTube в поле выше — канал и HD-превью создадутся сами и сохранятся в облаке.'
       ]));
       if (!searchQuery) emptyBox.appendChild(el('div', { className: 'ch-empty-acts' }, [addBtn]));
       root.appendChild(emptyBox);
@@ -13693,6 +14133,8 @@ const TwitterPlanner = (() => {
 
     const grid = el('div', { className: 'ch-grid' });
     channels.forEach(ch => {
+      const col = colorForChannel(ch.name);
+      const initial = (ch.name || 'K').trim().charAt(0).toUpperCase();
       const items = ch.items || [];
 
       const editBtn = el('button', { type: 'button', className: 'ch-ico-btn', title: 'Редактировать канал' });
@@ -13706,20 +14148,15 @@ const TwitterPlanner = (() => {
         ytLink.addEventListener('click', ev => ev.stopPropagation());
       }
 
-      const subParts = [];
-      if (activeFolderId === 'all') subParts.push(el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]));
-      if (ch.subs) {
-        subParts.push(el('span', { className: 'ch-subs-pill' }, [`${ch.subs} подп.`]));
-        subParts.push(el('span', { className: 'ch-sub-sep' }, ['·']));
-      }
-      subParts.push(el('span', {}, [`${items.length} превью`]));
-
       const hdr = el('div', { className: 'ch-hdr' }, [
         el('div', { className: 'ch-id' }, [
-          createChannelAvatarEl(ch, 'ch-avatar'),
+          el('div', { className: 'ch-avatar', style: `background:${col}` }, [initial]),
           el('div', { className: 'ch-titles' }, [
             el('div', { className: 'ch-name' }, [ch.name]),
-            el('div', { className: 'ch-sub' }, subParts)
+            el('div', { className: 'ch-sub' }, [
+              activeFolderId === 'all' ? el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]) : null,
+              el('span', {}, [`${items.length} превью`])
+            ])
           ])
         ]),
         el('div', { className: 'ch-actions' }, [ytLink, editBtn])
@@ -13754,13 +14191,7 @@ const TwitterPlanner = (() => {
     const root = document.getElementById('ch-content-root');
     const allFlat = [];
     channels.forEach(ch => {
-      (ch.items || []).forEach(it => allFlat.push({
-        ...it,
-        channelName: ch.name,
-        channelId: ch.id,
-        channelAvatar: ch.avatarUrl || '',
-        channelSubs: ch.subs || ''
-      }));
+      (ch.items || []).forEach(it => allFlat.push({ ...it, channelName: ch.name, channelId: ch.id }));
     });
     if (!allFlat.length) {
       root.appendChild(el('div', { className: 'empty' }, [
@@ -13790,63 +14221,26 @@ const TwitterPlanner = (() => {
 
   function renderChannelDetail(ch) {
     const root = document.getElementById('ch-content-root');
+    const col = colorForChannel(ch.name);
     const items = ch.items || [];
 
-    let refreshBtn = null;
-    if (ch.url) {
-      refreshBtn = el('button', { type: 'button', className: 'ch-btn-ghost', title: 'Подтянуть аватар, подписчиков и обложку без API' }, ['Обновить инфо']);
-      refreshBtn.addEventListener('click', async () => {
-        refreshBtn.disabled = true;
-        refreshBtn.innerHTML = '<span class="ch-spinner"></span><span>Загрузка</span>';
-        const res = await fetchChannelProfileNoApi(ch.url);
-        refreshBtn.disabled = false;
-        refreshBtn.textContent = 'Обновить инфо';
-        if (res.ok && res.profile) {
-          applyProfileToChannel(ch, res.profile);
-          ch.updatedAt = Date.now();
-          saveChannelsState();
-          renderChannelsView();
-          showToast('Профиль канала обновлён');
-        } else {
-          showToast('Не удалось подтянуть профиль — прокси временно недоступен');
-        }
-      });
-    }
-
-    const ytBtn = ch.url ? el('a', { className: 'ch-btn-ghost', href: ch.url, target: '_blank', rel: 'noopener noreferrer' }, ['YouTube']) : null;
+    const ytBtn = ch.url ? el('a', { className: 'ch-btn-ghost', href: ch.url, target: '_blank', rel: 'noopener noreferrer' }, ['Открыть YouTube']) : null;
     const editBtn = el('button', { type: 'button', className: 'ch-btn-ghost' }, ['Изменить']);
     editBtn.addEventListener('click', () => openChannelDrawer(ch.id));
 
-    let bannerEl = null;
-    if (ch.bannerUrl) {
-      bannerEl = el('div', { className: 'ch-detail-banner' });
-      const bImg = document.createElement('img');
-      bImg.alt = '';
-      bImg.loading = 'lazy';
-      bImg.referrerPolicy = 'no-referrer';
-      bImg.onerror = () => bannerEl.remove();
-      bImg.src = ch.bannerUrl;
-      bannerEl.appendChild(bImg);
-    }
-
-    const metaNodes = [el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)])];
-    if (ch.handle) metaNodes.push(el('span', { className: 'ch-handle-txt' }, [ch.handle]));
-    if (ch.subs) metaNodes.push(el('span', { className: 'ch-subs-pill' }, [`${ch.subs} подписчиков`]));
-    metaNodes.push(el('span', {}, [`${items.length} превью`]));
-
     root.appendChild(el('div', { className: 'ch-detail-hdr' }, [
-      bannerEl,
-      el('div', { className: 'ch-detail-row' }, [
-        el('div', { className: 'ch-detail-left' }, [
-          createChannelAvatarEl(ch, 'ch-detail-av'),
-          el('div', { className: 'ch-detail-info' }, [
-            el('div', { className: 'ch-detail-name' }, [ch.name]),
-            el('div', { className: 'ch-detail-meta' }, metaNodes),
-            ch.note ? el('div', { className: 'ch-detail-note' }, [ch.note]) : null
-          ])
-        ]),
-        el('div', { className: 'ch-detail-acts' }, [refreshBtn, ytBtn, editBtn])
-      ])
+      el('div', { className: 'ch-detail-left' }, [
+        el('div', { className: 'ch-detail-av', style: `background:${col}` }, [(ch.name || 'K').charAt(0).toUpperCase()]),
+        el('div', { className: 'ch-detail-info' }, [
+          el('div', { className: 'ch-detail-name' }, [ch.name]),
+          el('div', { className: 'ch-detail-meta' }, [
+            el('span', { className: 'ch-folder-tag' }, [getFolderName(ch.folderId)]),
+            el('span', {}, [`${items.length} превью`])
+          ]),
+          ch.note ? el('div', { className: 'ch-detail-note' }, [ch.note]) : null
+        ])
+      ]),
+      el('div', { className: 'ch-detail-acts' }, [ytBtn, editBtn])
     ]));
 
     const addInp = el('input', { type: 'text', className: 'ch-detail-inp', placeholder: 'Вставьте ссылки на ролики YouTube (или Cmd+V для скрина)...' });
@@ -13877,13 +14271,7 @@ const TwitterPlanner = (() => {
       return;
     }
 
-    const flatForLb = items.map(it => ({
-      ...it,
-      channelName: ch.name,
-      channelId: ch.id,
-      channelAvatar: ch.avatarUrl || '',
-      channelSubs: ch.subs || ''
-    }));
+    const flatForLb = items.map(it => ({ ...it, channelName: ch.name, channelId: ch.id }));
     const grid = el('div', { className: 'ch-wall-grid' });
     items.forEach((it, idx) => {
       const delBtn = el('button', { type: 'button', className: 'ch-thumb-del', title: 'Удалить превью', 'aria-label': 'Удалить превью' });
@@ -13961,7 +14349,6 @@ const TwitterPlanner = (() => {
 
   function openChannelDrawer(chId = null) {
     editChannelId = chId;
-    drawerFetchedMeta = null;
     const ch = chId ? chState.channels.find(c => c.id === chId) : null;
     const sel = document.getElementById('ch-f-folder');
     if (sel) {
@@ -13972,12 +14359,10 @@ const TwitterPlanner = (() => {
 
     setText('ch-dr-title', ch ? 'Редактирование канала' : 'Новый канал');
     const nameEl = document.getElementById('ch-f-name');
-    const subsEl = document.getElementById('ch-f-subs');
     const urlEl = document.getElementById('ch-f-url');
     const noteEl = document.getElementById('ch-f-note');
     const vidsEl = document.getElementById('ch-f-videos');
     if (nameEl) { nameEl.value = ch ? ch.name : ''; nameEl.style.borderColor = ''; }
-    if (subsEl) subsEl.value = ch ? (ch.subs || '') : '';
     if (urlEl) urlEl.value = ch ? (ch.url || '') : '';
     if (noteEl) noteEl.value = ch ? (ch.note || '') : '';
     if (vidsEl) {
@@ -13988,7 +14373,7 @@ const TwitterPlanner = (() => {
     updateDrawerVidCount();
 
     const fh = document.getElementById('ch-feed-hint');
-    if (fh) { fh.textContent = 'Вставьте ссылку на канал или ролик — подтянем аватар и подписчиков.'; fh.className = 'ahint'; }
+    if (fh) { fh.textContent = 'Вставьте ссылку на ролик или канал YouTube.'; fh.className = 'ahint'; }
 
     document.getElementById('ch-dr-del')?.classList.toggle('is-hidden', !ch);
     document.getElementById('ch-mov')?.classList.add('on');
@@ -13998,20 +14383,18 @@ const TwitterPlanner = (() => {
 
   function closeChannelDrawer() {
     editChannelId = null;
-    drawerFetchedMeta = null;
     document.getElementById('ch-mov')?.classList.remove('on');
   }
 
   async function saveDrawerChannel() {
     const nameInp = document.getElementById('ch-f-name');
-    const subsVal = formatCompactSubs(document.getElementById('ch-f-subs')?.value || '');
     const rawUrlVal = (document.getElementById('ch-f-url')?.value || '').trim();
     const folderId = document.getElementById('ch-f-folder')?.value || getTargetFolderId();
     const noteVal = (document.getElementById('ch-f-note')?.value || '').trim();
     const vidsRaw = document.getElementById('ch-f-videos')?.value || '';
     const ytIds = extractYouTubeVideoIds(vidsRaw);
 
-    let urlVal = rawUrlVal ? normalizeYouTubeChannelUrl(rawUrlVal) : '';
+    let urlVal = rawUrlVal ? (rawUrlVal.startsWith('@') ? `https://www.youtube.com/${rawUrlVal}` : normalizeExternalUrl(rawUrlVal)) : '';
     let name = (nameInp?.value || '').trim();
     if ((!name || !urlVal) && ytIds.length > 0) {
       const m = await fetchVideoMetaNoApi(ytIds[0]);
@@ -14049,58 +14432,34 @@ const TwitterPlanner = (() => {
     }));
     const finalItems = [...ytItems, ...localItems];
     const now = Date.now();
-    let targetChId = null;
-    let shouldEnrichUrl = '';
 
     if (existingCh) {
-      const urlChanged = urlVal && urlVal !== existingCh.url;
       existingCh.name = name;
       existingCh.url = urlVal;
       existingCh.folderId = folderId;
-      existingCh.subs = subsVal;
       existingCh.note = noteVal;
       existingCh.items = finalItems;
-      if (drawerFetchedMeta) {
-        if (drawerFetchedMeta.avatarUrl) existingCh.avatarUrl = drawerFetchedMeta.avatarUrl;
-        if (drawerFetchedMeta.handle) existingCh.handle = drawerFetchedMeta.handle;
-        if (drawerFetchedMeta.bannerUrl) existingCh.bannerUrl = drawerFetchedMeta.bannerUrl;
-      }
       existingCh.updatedAt = now;
-      targetChId = existingCh.id;
-      if (urlVal && (!existingCh.avatarUrl || urlChanged) && !drawerFetchedMeta) {
-        shouldEnrichUrl = urlVal;
-      }
     } else {
-      const newCh = {
+      chState.channels.unshift({
         id: makeId('ch'),
         folderId,
         name,
         url: urlVal,
-        handle: drawerFetchedMeta?.handle || '',
-        avatarUrl: drawerFetchedMeta?.avatarUrl || '',
-        subs: subsVal || drawerFetchedMeta?.subs || '',
-        bannerUrl: drawerFetchedMeta?.bannerUrl || '',
         note: noteVal,
         items: finalItems,
         createdAt: now,
         updatedAt: now
-      };
-      chState.channels.unshift(newCh);
-      targetChId = newCh.id;
-      if (urlVal && !newCh.avatarUrl) shouldEnrichUrl = urlVal;
+      });
     }
 
     saveChannelsState();
     closeChannelDrawer();
     renderChannelsView();
     showToast(existingCh ? 'Канал обновлён' : `Канал «${name}» добавлен`);
-
-    if (shouldEnrichUrl && targetChId) {
-      enrichChannelProfileInBackground(targetChId, shouldEnrichUrl);
-    }
   }
 
-  /* LIGHTBOX (FULL HD + YOUTUBE FEED CARD PREVIEW, NO B&W) */
+  /* LIGHTBOX (FULL HD + YOUTUBE FEED CARD PREVIEW) */
   function openLightbox(items, idx) {
     lbItems = items;
     lbIndex = idx;
@@ -14142,24 +14501,13 @@ const TwitterPlanner = (() => {
       else feedImg.src = localBlobUrls.get(it.imgId) || '';
     }
 
-    // Feed card mock metadata
     const feedAv = document.getElementById('ch-lb-feed-av');
     if (feedAv) {
-      feedAv.innerHTML = '';
       feedAv.style.background = colorForChannel(it.channelName);
-      if (it.channelAvatar) {
-        const avImg = document.createElement('img');
-        avImg.alt = it.channelName || '';
-        avImg.referrerPolicy = 'no-referrer';
-        avImg.onerror = () => { avImg.remove(); feedAv.textContent = (it.channelName || 'K').charAt(0).toUpperCase(); };
-        avImg.src = it.channelAvatar;
-        feedAv.appendChild(avImg);
-      } else {
-        feedAv.textContent = (it.channelName || 'K').charAt(0).toUpperCase();
-      }
+      feedAv.textContent = (it.channelName || 'K').charAt(0).toUpperCase();
     }
     setText('ch-lb-feed-title', it.title || 'Название ролика на YouTube');
-    setText('ch-lb-feed-ch', it.channelSubs ? `${it.channelName} · ${it.channelSubs} подп.` : (it.channelName || ''));
+    setText('ch-lb-feed-ch', it.channelName || '');
 
     const ytLink = document.getElementById('ch-lb-yt');
     const cpyBtn = document.getElementById('ch-lb-copy');
@@ -14256,62 +14604,47 @@ const TwitterPlanner = (() => {
       });
     });
 
+    // Zero-proxy helper button: extracts channel name/url & video link from any YouTube video URL via noembed
     document.getElementById('ch-btn-fetch-feed')?.addEventListener('click', async () => {
       const urlInp = document.getElementById('ch-f-url');
       const nameEl = document.getElementById('ch-f-name');
-      const subsEl = document.getElementById('ch-f-subs');
       const vidBox = document.getElementById('ch-f-videos');
       const btn = document.getElementById('ch-btn-fetch-feed');
       const hint = document.getElementById('ch-feed-hint');
       const raw = (urlInp?.value || '').trim();
       if (!raw) { showToast('Сначала вставьте ссылку'); return; }
 
+      const vIds = extractYouTubeVideoIds(raw);
+      if (!vIds.length) {
+        const cleanName = raw.replace(/^https?:\/\/(www\.|m\.)?youtube\.com\//i, '').replace(/\/+$/, '').replace(/^@/, '');
+        if (cleanName && nameEl && !nameEl.value.trim()) nameEl.value = cleanName;
+        if (hint) {
+          hint.textContent = 'Вставьте ссылки на 3–4 нужных ролика в поле ниже — название канала определится само.';
+          hint.className = 'ahint';
+        }
+        return;
+      }
+
       btn.disabled = true;
       btn.innerHTML = '<span class="ch-spinner"></span>';
-      if (hint) { hint.textContent = 'Подтягиваю профиль канала без API...'; hint.className = 'ahint'; }
-
       try {
-        let targetChannelUrl = raw;
-        const vIds = extractYouTubeVideoIds(raw);
-        if (vIds.length > 0 && /watch|youtu\.be|shorts|live/i.test(raw)) {
-          const meta = await fetchVideoMetaNoApi(vIds[0]);
-          if (meta?.authorName && nameEl && !nameEl.value.trim()) nameEl.value = meta.authorName;
-          if (meta?.authorUrl) {
-            targetChannelUrl = meta.authorUrl;
-            if (urlInp) urlInp.value = meta.authorUrl;
-          }
-          if (vidBox) {
-            const existing = new Set(extractYouTubeVideoIds(vidBox.value));
-            const toAdd = vIds.filter(id => !existing.has(id));
-            if (toAdd.length) {
-              const prefix = vidBox.value.trim() ? vidBox.value.trim() + '\n' : '';
-              vidBox.value = prefix + toAdd.map(id => `https://youtu.be/${id}`).join('\n');
-              updateDrawerVidCount();
-            }
+        const meta = await fetchVideoMetaNoApi(vIds[0]);
+        if (meta?.authorName && nameEl && !nameEl.value.trim()) nameEl.value = meta.authorName;
+        if (meta?.authorUrl && urlInp) urlInp.value = meta.authorUrl;
+        if (vidBox) {
+          const existing = new Set(extractYouTubeVideoIds(vidBox.value));
+          const toAdd = vIds.filter(id => !existing.has(id));
+          if (toAdd.length) {
+            const prefix = vidBox.value.trim() ? vidBox.value.trim() + '\n' : '';
+            vidBox.value = prefix + toAdd.map(id => `https://youtu.be/${id}`).join('\n');
+            updateDrawerVidCount();
           }
         }
-
-        const res = await fetchChannelProfileNoApi(targetChannelUrl);
-        if (res.ok && res.profile) {
-          drawerFetchedMeta = res.profile;
-          if (res.profile.name && nameEl && !nameEl.value.trim()) nameEl.value = res.profile.name;
-          if (res.profile.subs && subsEl) subsEl.value = res.profile.subs;
-          if (res.profile.url && urlInp) urlInp.value = res.profile.url;
-          const gotParts = [];
-          if (res.profile.avatarUrl) gotParts.push('аватар');
-          if (res.profile.subs) gotParts.push(`${res.profile.subs} подп.`);
-          if (res.profile.bannerUrl) gotParts.push('обложка');
-          if (hint) {
-            hint.textContent = gotParts.length
-              ? `Подтянуто: ${gotParts.join(', ')}`
-              : 'Название определено — сохраните и добавьте нужные ролики.';
-            hint.className = 'ahint smart';
-          }
-        } else if (hint) {
-          hint.textContent = vIds.length > 0
-            ? 'Ролик добавлен, но профиль канала не ответил через прокси.'
-            : 'Не удалось прочитать профиль через прокси — укажите название вручную.';
-          hint.className = 'ahint err';
+        if (hint) {
+          hint.textContent = meta?.authorName
+            ? `Определён канал «${meta.authorName}» и добавлено видео (${vIds.length})`
+            : `Добавлено ссылок на видео: ${vIds.length}`;
+          hint.className = 'ahint smart';
         }
       } finally {
         btn.disabled = false;
@@ -14381,5 +14714,428 @@ const TwitterPlanner = (() => {
     window.bootAppCloudSync();
   }
 })();</script>
+<script id="preview-script">
+/* ══════════════════════════════════════════════════════════════════
+   THUMBNAIL PREVIEWER MODULE (ПРИМЕРКА — 100% LOCAL, ZERO API)
+══════════════════════════════════════════════════════════════════ */
+(() => {
+  const LS_META = 'ff_pv_meta_v1';
+  const IDB_NAME = 'InvoePreviewLocalDB';
+  const IDB_STORE = 'pv_blobs';
+
+  let pvState = {
+    title: '',
+    channel: '',
+    duration: '12:34',
+    ytDark: false,
+    imgUrl: '',
+    imgName: '',
+    imgW: 0,
+    imgH: 0,
+    imgBytes: 0,
+    avUrl: ''
+  };
+
+  try {
+    const saved = JSON.parse(lsG(LS_META) || 'null');
+    if (saved && typeof saved === 'object') {
+      if (typeof saved.title === 'string') pvState.title = saved.title;
+      if (typeof saved.channel === 'string') pvState.channel = saved.channel;
+      if (typeof saved.duration === 'string') pvState.duration = saved.duration;
+      if (typeof saved.ytDark === 'boolean') pvState.ytDark = saved.ytDark;
+    }
+  } catch (e) {}
+
+  let _dbP = null;
+  function openPvDB() {
+    if (_dbP) return _dbP;
+    _dbP = new Promise((resolve, reject) => {
+      if (!window.indexedDB) return reject('No IDB');
+      const req = indexedDB.open(IDB_NAME, 1);
+      req.onupgradeneeded = () => {
+        if (!req.result.objectStoreNames.contains(IDB_STORE)) {
+          req.result.createObjectStore(IDB_STORE);
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => { _dbP = null; reject(req.error); };
+    });
+    return _dbP;
+  }
+
+  async function savePvBlob(key, blob, metaName = '') {
+    try {
+      const db = await openPvDB();
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      if (blob) tx.objectStore(IDB_STORE).put({ blob, name: metaName || blob.name || '' }, key);
+      else tx.objectStore(IDB_STORE).delete(key);
+    } catch (e) {}
+  }
+
+  function savePvMeta() {
+    lsS(LS_META, JSON.stringify({
+      title: pvState.title,
+      channel: pvState.channel,
+      duration: pvState.duration,
+      ytDark: pvState.ytDark
+    }));
+  }
+
+  function measureImageUrl(url) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve({ w: img.naturalWidth || 0, h: img.naturalHeight || 0 });
+      img.onerror = () => resolve({ w: 0, h: 0 });
+      img.src = url;
+    });
+  }
+
+  async function loadThumbFile(file, persist = true) {
+    if (!file || !file.type || !file.type.startsWith('image/')) {
+      showToast('Выберите изображение (PNG, JPG, WebP)');
+      return;
+    }
+    const nextUrl = URL.createObjectURL(file);
+    const dims = await measureImageUrl(nextUrl);
+    if (pvState.imgUrl) URL.revokeObjectURL(pvState.imgUrl);
+
+    pvState.imgUrl = nextUrl;
+    pvState.imgName = file.name || 'Превью из буфера';
+    pvState.imgW = dims.w;
+    pvState.imgH = dims.h;
+    pvState.imgBytes = file.size || 0;
+
+    if (persist) {
+      await savePvBlob('main_thumb', file, pvState.imgName);
+    }
+    renderPreviewView();
+    if (persist) showToast('Превью загружено в примерку');
+  }
+
+  async function loadAvatarFile(file, persist = true) {
+    if (!file || !file.type || !file.type.startsWith('image/')) {
+      showToast('Выберите изображение для аватара');
+      return;
+    }
+    const nextUrl = URL.createObjectURL(file);
+    if (pvState.avUrl) URL.revokeObjectURL(pvState.avUrl);
+    pvState.avUrl = nextUrl;
+    if (persist) {
+      await savePvBlob('channel_avatar', file, file.name || 'avatar');
+    }
+    renderPreviewView();
+    if (persist) showToast('Аватар канала обновлён');
+  }
+
+  async function clearThumb() {
+    if (pvState.imgUrl) URL.revokeObjectURL(pvState.imgUrl);
+    pvState.imgUrl = '';
+    pvState.imgName = '';
+    pvState.imgW = 0;
+    pvState.imgH = 0;
+    pvState.imgBytes = 0;
+    await savePvBlob('main_thumb', null);
+    renderPreviewView();
+    showToast('Превью сброшено');
+  }
+
+  async function hydrateFromDB() {
+    try {
+      const db = await openPvDB();
+      const tx = db.transaction(IDB_STORE, 'readonly');
+      const store = tx.objectStore(IDB_STORE);
+
+      const getRec = key => new Promise(res => {
+        const r = store.get(key);
+        r.onsuccess = () => res(r.result || null);
+        r.onerror = () => res(null);
+      });
+
+      const [thumbRec, avRec] = await Promise.all([getRec('main_thumb'), getRec('channel_avatar')]);
+      if (thumbRec && thumbRec.blob instanceof Blob) {
+        const url = URL.createObjectURL(thumbRec.blob);
+        const dims = await measureImageUrl(url);
+        pvState.imgUrl = url;
+        pvState.imgName = thumbRec.name || 'Последнее превью';
+        pvState.imgW = dims.w;
+        pvState.imgH = dims.h;
+        pvState.imgBytes = thumbRec.blob.size || 0;
+      }
+      if (avRec && avRec.blob instanceof Blob) {
+        pvState.avUrl = URL.createObjectURL(avRec.blob);
+      }
+      renderPreviewView();
+    } catch (e) {}
+  }
+
+  function renderPreviewView() {
+    const surface = document.getElementById('pv-yt-surface');
+    if (surface) surface.classList.toggle('is-yt-dark', pvState.ytDark);
+    document.getElementById('pv-yt-light')?.classList.toggle('on', !pvState.ytDark);
+    document.getElementById('pv-yt-dark')?.classList.toggle('on', pvState.ytDark);
+
+    const hasImg = Boolean(pvState.imgUrl);
+    document.getElementById('pv-btn-clear')?.classList.toggle('is-hidden', !hasImg);
+
+    const dz = document.getElementById('pv-dropzone');
+    if (dz) dz.classList.toggle('has-img', hasImg);
+    const miniImg = document.getElementById('pv-dz-mini-img');
+    if (miniImg && hasImg) miniImg.src = pvState.imgUrl;
+    setText('pv-dz-fname', pvState.imgName || 'Превью загружено');
+
+    const specsEl = document.getElementById('pv-dz-specs');
+    if (specsEl) {
+      specsEl.innerHTML = '';
+      if (pvState.imgW > 0 && pvState.imgH > 0) {
+        const ratio = pvState.imgW / pvState.imgH;
+        const is169 = Math.abs(ratio - (16 / 9)) < 0.04;
+        const sizeStr = pvState.imgBytes > 0 ? formatBytesRu(pvState.imgBytes) : '';
+        specsEl.appendChild(document.createTextNode(`${pvState.imgW}×${pvState.imgH}${sizeStr ? ' · ' + sizeStr : ''}`));
+
+        if (pvState.imgW >= 3840) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-ok' }, ['4K']));
+        } else if (pvState.imgW >= 2560) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-ok' }, ['2K']));
+        } else if (pvState.imgW >= 1920) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-ok' }, ['FHD']));
+        } else if (pvState.imgW >= 1280) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-neutral' }, ['HD']));
+        } else if (pvState.imgW >= 640) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-warn' }, ['Ниже HD 1280px']));
+        } else {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-err' }, ['Меньше 640px']));
+        }
+
+        if (!is169) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-warn' }, ['Не 16:9']));
+        }
+
+        const MB = 1024 * 1024;
+        if (pvState.imgBytes > 50 * MB) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-err' }, ['> 50 МБ — лимит YouTube']));
+        } else if (pvState.imgBytes > 2 * MB) {
+          specsEl.appendChild(el('span', { className: 'pv-spec-badge pv-spec-warn' }, ['> 2 МБ — только с ПК']));
+        }
+      }
+    }
+
+    const tInp = document.getElementById('pv-inp-title');
+    if (tInp && document.activeElement !== tInp) tInp.value = pvState.title;
+    const cInp = document.getElementById('pv-inp-channel');
+    if (cInp && document.activeElement !== cInp) cInp.value = pvState.channel;
+    const dInp = document.getElementById('pv-inp-dur');
+    if (dInp && document.activeElement !== dInp) dInp.value = pvState.duration;
+
+    const displayTitle = (pvState.title || '').trim() || 'Enter your title to see it tested below';
+    const displayChannel = (pvState.channel || '').trim() || 'Your Channel';
+    const displayDur = (pvState.duration || '').trim();
+    const initial = displayChannel.charAt(0).toUpperCase() || 'C';
+
+    const avBtn = document.getElementById('pv-av-btn');
+    if (avBtn) {
+      avBtn.innerHTML = '';
+      if (pvState.avUrl) {
+        const img = document.createElement('img');
+        img.src = pvState.avUrl;
+        img.alt = displayChannel;
+        avBtn.appendChild(img);
+      } else {
+        avBtn.textContent = initial;
+      }
+    }
+
+    document.querySelectorAll('#preview-view [data-pv-av]').forEach(node => {
+      node.innerHTML = '';
+      if (pvState.avUrl) {
+        const img = document.createElement('img');
+        img.src = pvState.avUrl;
+        img.alt = displayChannel;
+        node.appendChild(img);
+      } else {
+        node.textContent = initial;
+      }
+    });
+
+    document.querySelectorAll('#preview-view [data-pv-title]').forEach(n => { n.textContent = displayTitle; });
+    document.querySelectorAll('#preview-view [data-pv-ch]').forEach(n => { n.textContent = displayChannel; });
+    document.querySelectorAll('#preview-view [data-pv-ch-views]').forEach(n => { n.textContent = `${displayChannel} · 128K views`; });
+    document.querySelectorAll('#preview-view [data-pv-ch-full]').forEach(n => { n.textContent = `${displayChannel} · 128K views · 3 hours ago`; });
+
+    document.querySelectorAll('#preview-view [data-pv-slot]').forEach(slot => {
+      slot.innerHTML = '';
+      if (hasImg) {
+        const img = document.createElement('img');
+        img.src = pvState.imgUrl;
+        img.alt = displayTitle;
+        slot.appendChild(img);
+      } else {
+        slot.appendChild(el('span', { className: 'pv-tbox-ph' }, ['16:9']));
+      }
+      if (displayDur) {
+        slot.appendChild(el('span', { className: 'pv-dur' }, [displayDur]));
+      }
+    });
+
+    const origWrap = document.getElementById('pv-orig-wrap');
+    const origSub = document.getElementById('pv-orig-sub');
+    if (origWrap) {
+      origWrap.innerHTML = '';
+      origWrap.classList.toggle('is-empty', !hasImg);
+      if (hasImg) {
+        const img = document.createElement('img');
+        img.src = pvState.imgUrl;
+        img.alt = displayTitle;
+        origWrap.appendChild(img);
+      } else {
+        origWrap.appendChild(el('span', { className: 'pv-tbox-ph' }, ['Загрузите превью или вставьте через Cmd+V']));
+      }
+    }
+    if (origSub) {
+      origSub.textContent = hasImg && pvState.imgW > 0
+        ? `${pvState.imgW}×${pvState.imgH} · Нажмите, чтобы открыть на весь экран`
+        : 'Нажмите на изображение, чтобы открыть на весь экран';
+    }
+  }
+  window.renderPreviewView = renderPreviewView;
+
+  function openOrigLightbox() {
+    if (!pvState.imgUrl) {
+      document.getElementById('pv-file-inp')?.click();
+      return;
+    }
+    const lbImg = document.getElementById('pv-lb-img');
+    if (lbImg) lbImg.src = pvState.imgUrl;
+    document.getElementById('pv-lb-ov')?.classList.add('on');
+  }
+
+  function closeOrigLightbox() {
+    document.getElementById('pv-lb-ov')?.classList.remove('on');
+  }
+
+  function bindPreviewEvents() {
+    document.getElementById('pv-yt-light')?.addEventListener('click', () => {
+      pvState.ytDark = false; savePvMeta(); renderPreviewView();
+    });
+    document.getElementById('pv-yt-dark')?.addEventListener('click', () => {
+      pvState.ytDark = true; savePvMeta(); renderPreviewView();
+    });
+
+    document.getElementById('pv-btn-upload')?.addEventListener('click', () => {
+      document.getElementById('pv-file-inp')?.click();
+    });
+    document.getElementById('pv-btn-clear')?.addEventListener('click', clearThumb);
+
+    const fileInp = document.getElementById('pv-file-inp');
+    fileInp?.addEventListener('change', e => {
+      const f = e.target.files?.[0];
+      if (f) loadThumbFile(f, true);
+      e.target.value = '';
+    });
+
+    const avBtn = document.getElementById('pv-av-btn');
+    const avInp = document.getElementById('pv-av-inp');
+    avBtn?.addEventListener('click', () => avInp?.click());
+    avBtn?.addEventListener('contextmenu', async e => {
+      e.preventDefault();
+      if (!pvState.avUrl) return;
+      URL.revokeObjectURL(pvState.avUrl);
+      pvState.avUrl = '';
+      await savePvBlob('channel_avatar', null);
+      renderPreviewView();
+      showToast('Аватар канала сброшен');
+    });
+    avInp?.addEventListener('change', e => {
+      const f = e.target.files?.[0];
+      if (f) loadAvatarFile(f, true);
+      e.target.value = '';
+    });
+
+    const dz = document.getElementById('pv-dropzone');
+    dz?.addEventListener('click', () => fileInp?.click());
+    dz?.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInp?.click(); }
+    });
+
+    const pvPane = document.getElementById('preview-view');
+    let pvDragCnt = 0;
+    pvPane?.addEventListener('dragenter', e => {
+      if (!document.body.classList.contains('preview-mode')) return;
+      e.preventDefault();
+      pvDragCnt++;
+      dz?.classList.add('is-drag');
+    });
+    pvPane?.addEventListener('dragover', e => {
+      if (!document.body.classList.contains('preview-mode')) return;
+      e.preventDefault();
+    });
+    pvPane?.addEventListener('dragleave', e => {
+      if (!document.body.classList.contains('preview-mode')) return;
+      e.preventDefault();
+      pvDragCnt--;
+      if (pvDragCnt <= 0) { pvDragCnt = 0; dz?.classList.remove('is-drag'); }
+    });
+    pvPane?.addEventListener('drop', e => {
+      if (!document.body.classList.contains('preview-mode')) return;
+      e.preventDefault();
+      pvDragCnt = 0;
+      dz?.classList.remove('is-drag');
+      const f = [...(e.dataTransfer?.files || [])].find(x => x.type && x.type.startsWith('image/'));
+      if (f) loadThumbFile(f, true);
+      else showToast('Перетащите файл изображения (PNG, JPG, WebP)');
+    });
+
+    document.getElementById('pv-inp-title')?.addEventListener('input', e => {
+      pvState.title = e.target.value;
+      savePvMeta();
+      renderPreviewView();
+    });
+    document.getElementById('pv-inp-channel')?.addEventListener('input', e => {
+      pvState.channel = e.target.value;
+      savePvMeta();
+      renderPreviewView();
+    });
+    document.getElementById('pv-inp-dur')?.addEventListener('input', e => {
+      pvState.duration = e.target.value;
+      savePvMeta();
+      renderPreviewView();
+    });
+
+    document.getElementById('pv-orig-wrap')?.addEventListener('click', openOrigLightbox);
+    document.getElementById('pv-orig-wrap')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openOrigLightbox(); }
+    });
+    document.getElementById('pv-lb-ov')?.addEventListener('click', closeOrigLightbox);
+
+    document.addEventListener('paste', e => {
+      if (!document.body.classList.contains('preview-mode')) return;
+      if (document.getElementById('sov')?.classList.contains('on')) return;
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (const it of items) {
+        if (it.type && it.type.startsWith('image/')) {
+          const f = it.getAsFile();
+          if (f) {
+            e.preventDefault();
+            loadThumbFile(f, true);
+            return;
+          }
+        }
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!document.body.classList.contains('preview-mode')) return;
+      if (e.key === 'Escape' && document.getElementById('pv-lb-ov')?.classList.contains('on')) {
+        e.preventDefault();
+        closeOrigLightbox();
+      }
+    });
+  }
+
+  bindPreviewEvents();
+  renderPreviewView();
+  hydrateFromDB();
+})();
+</script>
 </body>
 </html>
