@@ -1758,7 +1758,8 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
 }
 
 .xp-preset-pop{
-  position:fixed;z-index:9910;width:368px;max-width:calc(100vw - 24px);
+  position:fixed;z-index:9910;width:392px;max-width:calc(100vw - 24px);
+  max-height:min(540px, calc(100dvh - 32px));overflow-y:auto;
   background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r-card);
   box-shadow:var(--shadow-md);padding:12px;display:none;flex-direction:column;gap:10px;
   animation:popIn .14s var(--ease);
@@ -1986,7 +1987,7 @@ html[data-theme="dark"] input[type=date]::-webkit-calendar-picker-indicator{filt
   .view-toolbar{height:auto;min-height:0;padding:10px 14px;background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none;}
   .vt-inner{gap:8px;flex-wrap:wrap;}
   .vt-left{width:100%;}
-  .ord-sub-sw{width:100%;display:grid;grid-template-columns:1fr 1fr;}
+  .ord-sub-sw{width:100%;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;}
   .ord-sub-btn{width:100%;text-align:center;}
   .vt-title{display:none;}
   .view-toolbar .mo-title-wrap{display:none;}
@@ -2779,6 +2780,214 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
   .pv-history{flex-direction:column;}
   .pv-history .pv-tbox{width:100%;max-width:100%;}
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   CLIENTS SUB-TAB (ORDERS WORKSPACE)
+══════════════════════════════════════════════════════════════════ */
+.cl-topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.cl-topbar-meta{font-size:12.5px;font-weight:500;color:var(--text3);}
+.cl-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(330px, 1fr));
+  gap:14px;
+  width:100%;
+}
+.cl-card{
+  background:var(--surface);border:0.5px solid var(--border);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0;
+  transition:border-color .16s var(--ease);
+}
+.cl-card:hover{border-color:var(--border2);}
+.cl-card-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;}
+.cl-card-id{display:flex;align-items:center;gap:9px;min-width:0;flex:1;}
+.cl-card-name{
+  font-size:15px;font-weight:700;letter-spacing:-0.015em;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.cl-lang-tag{
+  font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;
+  background:var(--surface2);color:var(--text2);text-transform:uppercase;flex-shrink:0;
+}
+.cl-stats{
+  display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px;
+  padding:10px 12px;border-radius:var(--r);background:var(--surface2);
+}
+.cl-stat{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.cl-stat-lbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;}
+.cl-stat-val{font-size:13.5px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cl-stat-val.warn{color:var(--warning);}
+.cl-links{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.cl-links:empty{display:none;}
+.cl-link-pill{
+  display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;
+  border-radius:var(--r-xs);background:var(--surface2);color:var(--text2);
+  font-size:11.5px;font-weight:600;text-decoration:none;
+  transition:background-color .14s, color .14s;
+}
+.cl-link-pill:hover{background:var(--blue-bg);color:var(--blue);}
+.cl-note{
+  font-size:12.5px;color:var(--text2);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.cl-card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  margin-top:auto;padding-top:4px;border-top:0.5px solid var(--border);
+}
+.cl-foot-left{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.cl-act-btn{
+  height:28px;padding:0 10px;border:none;border-radius:var(--r-xs);
+  background:var(--surface2);color:var(--text2);font-size:11.5px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.cl-act-btn:hover{background:var(--surface3);color:var(--text);}
+.cl-act-btn.primary{background:var(--blue-bg);color:var(--blue);}
+.cl-act-btn.primary:hover{background:var(--blue);color:#fff;}
+
+/* ══════════════════════════════════════════════════════════════════
+   PREVIEWER: COMPETITOR FEED (3x3) + SAFE ZONES OVERLAY
+══════════════════════════════════════════════════════════════════ */
+.pv-feed-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1px solid var(--yt-divider);
+}
+.pv-feed-folders{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;flex:1;}
+.pv-feed-pill{
+  height:30px;padding:0 12px;border-radius:8px;border:none;
+  background:var(--yt-card-bg);color:var(--yt-text);
+  font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;
+  transition:background-color .14s, color .14s, opacity .14s;
+}
+.pv-feed-pill:hover{opacity:0.86;}
+.pv-feed-pill.on{background:var(--yt-text);color:var(--yt-bg);}
+.pv-feed-acts{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.pv-feed-btn{
+  height:30px;padding:0 11px;border-radius:8px;border:0.5px solid var(--yt-divider);
+  background:transparent;color:var(--yt-text);font-size:12px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.pv-feed-btn:hover{background:var(--yt-card-bg);}
+.pv-feed-btn.on{background:var(--blue-bg);color:var(--blue);border-color:var(--blue);}
+
+.pv-comp-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:24px 16px;
+  width:100%;
+}
+.pv-comp-card{display:flex;flex-direction:column;min-width:0;}
+.pv-comp-card .pv-tbox{width:100%;border-radius:12px;}
+.pv-comp-card.is-mine-hl .pv-tbox{box-shadow:0 0 0 2.5px var(--blue);}
+.pv-comp-card .pv-info{display:flex;gap:11px;margin-top:11px;}
+.pv-comp-card .pv-yt-av{width:34px;height:34px;font-size:13px;}
+.pv-comp-card .pv-yt-title{font-size:14.5px;line-height:1.34;margin-bottom:3px;}
+.pv-comp-card .pv-yt-meta{font-size:12.5px;}
+.pv-comp-empty{
+  padding:28px 20px;border-radius:12px;background:var(--yt-card-bg);
+  text-align:center;color:var(--yt-text2);font-size:13px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+
+/* Safe Zones Overlay on Original Image & Fullscreen Lightbox */
+.pv-orig-wrap{position:relative;}
+.pv-orig-acts{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.pv-safe-overlay{
+  position:absolute;inset:0;pointer-events:none;z-index:6;display:none;
+}
+.pv-orig-wrap.show-safe .pv-safe-overlay,
+.pv-lb-stage-wrap.show-safe .pv-safe-overlay{display:block;}
+.pv-sz-corners{
+  position:absolute;inset:0;border-radius:3.2% / 5.7%;
+  border:1.5px dashed rgba(255,255,255,0.62);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.45);
+}
+.pv-sz-time{
+  position:absolute;right:1.4%;bottom:3.6%;width:13.5%;height:11.5%;
+  border-radius:6px;background:rgba(255,59,48,0.42);
+  border:1.5px solid rgba(255,95,86,0.92);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:11px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,0.8);
+}
+.pv-sz-prog{
+  position:absolute;left:0;right:0;bottom:0;height:2.8%;
+  background:rgba(255,45,35,0.68);
+  border-top:1px solid rgba(255,140,130,0.85);
+}
+.pv-sz-hover{
+  position:absolute;top:3.4%;right:1.4%;width:7.2%;height:24%;
+  border-radius:6px;background:rgba(255,159,10,0.34);
+  border:1.5px solid rgba(255,179,64,0.9);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:10px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,0.8);
+}
+.pv-lb-stage-wrap{
+  position:relative;display:inline-flex;max-width:100%;max-height:100%;
+}
+.pv-lb-stage-wrap img{max-width:100%;max-height:calc(100dvh - 48px);object-fit:contain;border-radius:8px;box-shadow:0 24px 64px rgba(0,0,0,0.6);display:block;}
+
+/* ══════════════════════════════════════════════════════════════════
+   X SHOWCASE: EXTRA BAR CONTROLS FOR NEW PRESETS (GIF, SPLIT, A/B/C)
+══════════════════════════════════════════════════════════════════ */
+.xp-extra-row{
+  display:flex;align-items:center;gap:6px;width:100%;flex-wrap:wrap;
+  background:var(--surface2);border-radius:var(--r);padding:5px 8px;
+}
+.xp-extra-seg{
+  display:inline-flex;align-items:center;gap:2px;background:var(--surface);
+  padding:2px;border-radius:var(--r-xs);
+}
+.xp-extra-seg-btn{
+  height:24px;padding:0 9px;border:none;border-radius:5px;background:transparent;
+  color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+.xp-extra-seg-btn:hover{color:var(--text);}
+.xp-extra-seg-btn.on{background:var(--blue-bg);color:var(--blue);}
+.xp-extra-slider{
+  flex:1;min-width:96px;height:4px;accent-color:var(--blue);cursor:pointer;
+}
+.xp-extra-val{
+  font-size:11px;font-weight:700;color:var(--text2);min-width:32px;text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.xp-extra-act{
+  height:26px;padding:0 10px;border:none;border-radius:var(--r-xs);
+  background:var(--blue);color:#fff;font-size:11px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  margin-left:auto;
+}
+.xp-extra-act:hover{opacity:0.9;}
+.xp-extra-act:disabled{opacity:0.55;cursor:default;}
+.xp-ab-grid{
+  display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:6px;width:100%;
+}
+.xp-ab-cell{
+  display:flex;align-items:center;gap:4px;background:var(--surface2);
+  border-radius:var(--r-xs);padding:3px 4px 3px 7px;
+}
+.xp-ab-cell input{
+  flex:1;min-width:0;height:22px;border:none;background:transparent;
+  color:var(--text);font-size:11.5px;font-weight:600;outline:none;
+  user-select:text;-webkit-user-select:text;
+}
+.xp-ab-win-btn{
+  height:22px;padding:0 6px;border:none;border-radius:5px;
+  background:var(--surface);color:var(--text3);font-size:10px;font-weight:700;
+  cursor:pointer;flex-shrink:0;
+}
+.xp-ab-win-btn:hover{color:var(--text);}
+.xp-ab-win-btn.on{background:var(--success-bg);color:var(--success);}
+
+@media(max-width:1024px){
+  .pv-comp-grid{grid-template-columns:repeat(2, minmax(0, 1fr));}
+}
+@media(max-width:768px){
+  .cl-grid{grid-template-columns:1fr;}
+  .pv-comp-grid{grid-template-columns:1fr;}
+  .xp-ab-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 <body>
@@ -2931,6 +3140,7 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
         <div class="ord-sub-sw" role="tablist" aria-label="Вид раздела Заказы">
           <button type="button" class="ord-sub-btn on" id="ord-sub-list" role="tab" aria-selected="true">Заказы</button>
           <button type="button" class="ord-sub-btn" id="ord-sub-analytics" role="tab" aria-selected="false">Аналитика</button>
+          <button type="button" class="ord-sub-btn" id="ord-sub-clients" role="tab" aria-selected="false">Клиенты</button>
         </div>
       </div>
 
@@ -3100,6 +3310,15 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
             <div class="sc-clients-wrap" id="sc-clients-wrap"></div>
           </div>
         </div>
+      </div>
+
+      <!-- SUB-VIEW 3: CLIENTS DIRECTORY -->
+      <div class="ord-pane is-hidden" id="ord-pane-clients">
+        <div class="cl-topbar">
+          <span class="cl-topbar-meta" id="cl-count-meta">Клиентов: 0</span>
+          <button type="button" class="ch-btn-ghost" id="btn-cl-add">+ Новый клиент</button>
+        </div>
+        <div class="cl-grid" id="cl-cards-grid"></div>
       </div>
     </div>
   </div>
@@ -3371,13 +3590,17 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
     <div class="vt-inner">
       <div class="vt-left">
         <h1 class="vt-title">Примерка</h1>
-        <div class="ord-sub-sw" role="group" aria-label="Тема ленты YouTube">
-          <button type="button" class="ord-sub-btn on" id="pv-yt-light">Светлый YT</button>
-          <button type="button" class="ord-sub-btn" id="pv-yt-dark">Тёмный YT</button>
+        <div class="ord-sub-sw" role="tablist" aria-label="Режим примерки">
+          <button type="button" class="ord-sub-btn on" id="pv-sub-formats" role="tab" aria-selected="true">Форматы</button>
+          <button type="button" class="ord-sub-btn" id="pv-sub-feed" role="tab" aria-selected="false">В ленте ниши</button>
         </div>
       </div>
 
       <div class="vt-right">
+        <div class="ord-sub-sw" role="group" aria-label="Тема ленты YouTube">
+          <button type="button" class="ord-sub-btn on" id="pv-yt-light">Светлый YT</button>
+          <button type="button" class="ord-sub-btn" id="pv-yt-dark">Тёмный YT</button>
+        </div>
         <button type="button" class="ch-btn-ghost is-hidden" id="pv-btn-clear">Сбросить</button>
         <button class="add-order-btn" id="pv-btn-upload" type="button" title="Выбрать файл превью">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -3422,6 +3645,20 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
         </div>
       </div>
 
+      <!-- SUB-VIEW B: COMPETITOR NICHE FEED (3x3 FROM CHANNELS) -->
+      <div class="pv-yt-surface is-hidden" id="pv-feed-surface">
+        <div class="pv-feed-bar">
+          <div class="pv-feed-folders" id="pv-feed-folders"></div>
+          <div class="pv-feed-acts">
+            <button type="button" class="pv-feed-btn" id="pv-btn-hl-mine" title="Показать рамку вокруг вашего превью">Подсветить моё</button>
+            <button type="button" class="pv-feed-btn" id="pv-btn-shuffle" title="Случайно перемешать соседей и позицию">Перемешать</button>
+          </div>
+        </div>
+        <div class="pv-comp-grid" id="pv-comp-grid"></div>
+      </div>
+
+      <!-- SUB-VIEW A: ALL YOUTUBE FORMATS -->
+      <div class="ord-pane" id="pv-pane-formats">
       <!-- YouTube Web & Mobile Stage (2026 Actual Dimensions) -->
       <div class="pv-yt-surface" id="pv-yt-surface">
         <div>
@@ -3607,15 +3844,21 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
         </div>
       </div>
 
-      <!-- Original Full-Size Image -->
+      <!-- Original Full-Size Image + Safe Zones Overlay -->
       <div class="pv-orig-card">
         <div class="pv-orig-hdr">
-          <span class="pv-orig-title">Original Image</span>
-          <span class="pv-orig-sub" id="pv-orig-sub">Нажмите на изображение, чтобы открыть на весь экран</span>
+          <div>
+            <span class="pv-orig-title">Original Image</span>
+            <div class="pv-orig-sub" id="pv-orig-sub">Нажмите на изображение, чтобы открыть на весь экран</div>
+          </div>
+          <div class="pv-orig-acts">
+            <button type="button" class="ch-btn-ghost" id="pv-btn-safezones" title="Показать зоны перекрытия YouTube (время, полоса прогресса, ховер-кнопки, скругления)">Опасные зоны</button>
+          </div>
         </div>
         <div class="pv-orig-wrap is-empty" id="pv-orig-wrap" role="button" tabindex="0">
           <span class="pv-tbox-ph">Нет загруженного превью</span>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -3623,7 +3866,15 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
 
 <!-- Fullscreen Lightbox for Preview Original Image -->
 <div class="pv-lb-ov" id="pv-lb-ov" role="dialog" aria-modal="true" aria-label="Полноэкранный просмотр превью">
-  <img id="pv-lb-img" alt="Оригинал превью"/>
+  <div class="pv-lb-stage-wrap" id="pv-lb-stage-wrap">
+    <img id="pv-lb-img" alt="Оригинал превью"/>
+    <div class="pv-safe-overlay" aria-hidden="true">
+      <div class="pv-sz-corners"></div>
+      <div class="pv-sz-hover">Ховер</div>
+      <div class="pv-sz-time">Время</div>
+      <div class="pv-sz-prog"></div>
+    </div>
+  </div>
 </div>
 <input type="file" id="pv-file-inp" accept="image/*" class="is-hidden"/>
 <input type="file" id="pv-av-inp" accept="image/*" class="is-hidden"/>
@@ -3752,6 +4003,87 @@ html[data-theme="dark"] .ch-pin-btn:hover{background:rgba(255,55,95,0.15);color:
       <button class="bsubmit" id="bsub" type="button">+ Добавить</button>
       <button class="bcancel danger is-hidden" id="bdel-ord" type="button">Удалить</button>
       <button class="bcancel is-hidden" id="bcan" type="button">Отмена</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Drawer: Add / Edit Client Profile -->
+<div class="moverlay drawer-mode" id="cl-mov" role="dialog" aria-modal="true" aria-labelledby="cl-dr-title">
+  <div class="modal">
+    <div class="sheet-handle"></div>
+    <div class="mhdr">
+      <span class="mtitle" id="cl-dr-title">Карточка клиента</span>
+      <button class="mclose" id="cl-dr-close" type="button" aria-label="Закрыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="cl-f-name">Имя клиента / Канал</label>
+          <input type="text" id="cl-f-name" placeholder="Ник или название канала" autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="fgrid">
+        <div class="ff">
+          <label for="cl-f-price">Базовая ставка</label>
+          <div class="amt-cur-combo">
+            <input type="text" id="cl-f-price" placeholder="70" inputmode="decimal"/>
+            <select id="cl-f-cur" aria-label="Валюта ставки">
+              <option>₽</option><option>$</option><option>€</option>
+            </select>
+          </div>
+        </div>
+        <div class="ff">
+          <label for="cl-f-fee">Комиссия (%)</label>
+          <div class="amt-cur-combo">
+            <input type="text" id="cl-f-fee" placeholder="0" inputmode="decimal"/>
+            <span class="combo-cur-lbl">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fstatus-row">
+        <span class="fstatus-lbl">Язык инвойса</span>
+        <div class="fstatus-toggle" role="group">
+          <button class="fst-btn active-sent" id="cl-lang-ru" type="button">RU</button>
+          <button class="fst-btn" id="cl-lang-en" type="button">EN</button>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="cl-f-yt">YouTube канал</label>
+          <input type="url" id="cl-f-yt" placeholder="https://youtube.com/@channel" autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="cl-f-drive">Google Диск / Исходники</label>
+          <input type="url" id="cl-f-drive" placeholder="https://drive.google.com/..." autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="cl-f-figma">Файл Figma</label>
+          <input type="url" id="cl-f-figma" placeholder="https://figma.com/file/..." autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="fgrid single-col">
+        <div class="ff">
+          <label for="cl-f-note">Заметка по стилю, шрифтам и правкам</label>
+          <textarea class="drawer-textarea" id="cl-f-note" rows="3" placeholder="Любит чистый контраст, шрифт Montserrat ExtraBold, без красных стрелок..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="fbtns">
+      <button class="bsubmit" id="cl-dr-save" type="button">Сохранить</button>
+      <button class="bcancel danger is-hidden" id="cl-dr-del" type="button">Удалить</button>
     </div>
   </div>
 </div>
@@ -4336,6 +4668,64 @@ function serializeClientFeesForCloud(map) {
   return Object.keys(clean).sort((a, b) => a.localeCompare(b, 'ru')).map(name => ({ name, pct: clean[name] }));
 }
 
+function normalizeClientUrl(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return '';
+  if (/^https?:\/\//i.test(s)) return s;
+  return 'https://' + s.replace(/^\/+/, '');
+}
+
+function normalizeClientProfiles(raw) {
+  const out = {};
+  if (!raw) return out;
+  const list = Array.isArray(raw)
+    ? raw
+    : (typeof raw === 'object' ? Object.entries(raw).map(([name, val]) => ({ ...(val || {}), name: (val && val.name) || name })) : []);
+  list.forEach(item => {
+    if (!item || typeof item !== 'object') return;
+    const name = String(item.name || '').trim();
+    if (!name) return;
+    const priceNum = Number(item.price);
+    const cur = CURS.includes(item.currency) ? item.currency : '';
+    const lang = item.invLang === 'en' ? 'en' : 'ru';
+    const prof = {
+      name,
+      price: (isFinite(priceNum) && priceNum > 0) ? Math.round(priceNum * 100) / 100 : 0,
+      currency: cur,
+      invLang: lang,
+      youtubeUrl: normalizeClientUrl(item.youtubeUrl || ''),
+      driveUrl: normalizeClientUrl(item.driveUrl || ''),
+      figmaUrl: normalizeClientUrl(item.figmaUrl || ''),
+      note: String(item.note || '').trim(),
+      updatedAt: Number(item.updatedAt) || 0
+    };
+    out[name] = prof;
+  });
+  return out;
+}
+
+function serializeClientProfilesForCloud(map) {
+  const clean = normalizeClientProfiles(map);
+  return Object.keys(clean).sort((a, b) => a.localeCompare(b, 'ru')).map(name => clean[name]);
+}
+
+function mergeClientProfilesMap(localMap, cloudRaw, preferLocalOnTie = false) {
+  const loc = normalizeClientProfiles(localMap);
+  const cld = normalizeClientProfiles(cloudRaw);
+  const names = new Set([...Object.keys(loc), ...Object.keys(cld)]);
+  const out = {};
+  names.forEach(n => {
+    const a = loc[n], b = cld[n];
+    if (a && !b) { out[n] = a; return; }
+    if (!a && b) { out[n] = b; return; }
+    const ta = Number(a.updatedAt) || 0, tb = Number(b.updatedAt) || 0;
+    if (ta > tb) out[n] = a;
+    else if (tb > ta) out[n] = b;
+    else out[n] = preferLocalOnTie ? a : b;
+  });
+  return out;
+}
+
 function cleanEntriesForStorage(list) {
   return list.map(e => {
     const st = getEntryStatus(e);
@@ -4467,6 +4857,7 @@ async function saveToSafariVault() {
       fbUrl: fbUrl || '',
       fbSec: fbSec || '',
       clientFees: serializeClientFeesForCloud(clientFees),
+      clientProfiles: serializeClientProfilesForCloud(clientProfiles),
       baseCur, rates, theme, accent, tone, density, updatedAt: Date.now()
     }, 'main_state');
   } catch(e) {}
@@ -4497,6 +4888,10 @@ async function restoreFromSafariVaultIfEmpty() {
       if (data.clientFees) {
         clientFees = { ...normalizeClientFees(data.clientFees), ...clientFees };
         lsS('ff_client_fees', JSON.stringify(clientFees));
+      }
+      if (data.clientProfiles) {
+        clientProfiles = mergeClientProfilesMap(clientProfiles, data.clientProfiles, true);
+        lsS('ff_client_profiles', JSON.stringify(clientProfiles));
       }
       if (typeof window._restoreBudgetFromVault === 'function') {
         window._restoreBudgetFromVault(data.budgetEntries, data.budgetRecurring);
@@ -4631,13 +5026,15 @@ function computeDataFingerprint(
   targetBudget = (window._budgetEntries || []),
   targetRecur = (window._budgetRecurring || []),
   targetClientFees = clientFees,
-  targetChData = (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData() : { folders: [], channels: [] })
+  targetChData = (typeof window._getCloudChannelsData === 'function' ? window._getCloudChannelsData() : { folders: [], channels: [] }),
+  targetClientProfiles = clientProfiles
 ) {
   const nb = normalizeXpNotebook(targetNb);
   return JSON.stringify({
     baseCur: targetCur,
     rates: sanitizeRatesObject(targetRates),
     clientFees: serializeClientFeesForCloud(targetClientFees),
+    clientProfiles: serializeClientProfilesForCloud(targetClientProfiles),
     entries: cleanEntriesForStorage(targetEntries),
     xpNotebook: { hooks: nb.hooks, outros: nb.outros, del: nb.del },
     budgetEntries: targetBudget,
@@ -4738,6 +5135,7 @@ async function updateStorageMetrics() {
     baseCur,
     rates: sanitizeRatesObject(rates),
     clientFees: serializeClientFeesForCloud(clientFees),
+    clientProfiles: serializeClientProfilesForCloud(clientProfiles),
     delIds: [...deletedIds].slice(-300),
     xpNotebook: normalizeXpNotebook(xpNotebook),
     budgetEntries: window._budgetEntries || [],
@@ -4810,6 +5208,7 @@ async function pushToFirebaseNow(showSuccessToast = false, useKeepalive = false)
     baseCur,
     rates,
     clientFees: serializeClientFeesForCloud(clientFees),
+    clientProfiles: serializeClientProfilesForCloud(clientProfiles),
     delIds: [...deletedIds].slice(-300),
     xpNotebook: normalizeXpNotebook(xpNotebook),
     budgetEntries: window._budgetEntries || [],
@@ -4952,6 +5351,10 @@ async function safeSyncWithFirebase(manual = false) {
         clientFees = { ...normalizeClientFees(data.clientFees), ...clientFees };
         lsS('ff_client_fees', JSON.stringify(clientFees));
       }
+      if (data && data.clientProfiles) {
+        clientProfiles = mergeClientProfilesMap(clientProfiles, data.clientProfiles, true);
+        lsS('ff_client_profiles', JSON.stringify(clientProfiles));
+      }
       if (typeof window._mergeCloudBudget === 'function' && data) {
         window._mergeCloudBudget(data.budgetEntries, data.budgetRecurring, [...cloudDelSet], true);
       }
@@ -4978,8 +5381,9 @@ async function safeSyncWithFirebase(manual = false) {
       const cloudCur = (data.baseCur && CURS.includes(data.baseCur)) ? data.baseCur : baseCur;
       const cloudRates = (data.rates && typeof data.rates === 'object') ? sanitizeRatesObject(data.rates) : rates;
       const cloudClientFees = data.clientFees ? normalizeClientFees(data.clientFees) : clientFees;
-      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], cloudClientFees, nextChData);
-      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], clientFees, prevChData);
+      const cloudClientProfiles = data.clientProfiles ? normalizeClientProfiles(data.clientProfiles) : clientProfiles;
+      const incomingFp = computeDataFingerprint(cloudEntries, cloudCur, cloudRates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], cloudClientFees, nextChData, cloudClientProfiles);
+      const localFp = computeDataFingerprint(entries, baseCur, rates, xpNotebook, window._budgetEntries || [], window._budgetRecurring || [], clientFees, prevChData, clientProfiles);
 
       if (incomingFp === localFp && !wasSkel) {
         _lastSyncedFingerprint = incomingFp;
@@ -4995,11 +5399,13 @@ async function safeSyncWithFirebase(manual = false) {
       baseCur = cloudCur;
       rates = cloudRates;
       clientFees = cloudClientFees;
+      clientProfiles = cloudClientProfiles;
 
       lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
       lsS('ff_cur', baseCur);
       lsS('ff_rates', JSON.stringify(rates));
       lsS('ff_client_fees', JSON.stringify(clientFees));
+      lsS('ff_client_profiles', JSON.stringify(clientProfiles));
       _lastSyncedFingerprint = incomingFp;
       lsS('ff_last_fp', incomingFp);
       saveToSafariVault();
@@ -5079,6 +5485,10 @@ async function forcePullFromFirebase() {
     if (data.clientFees) {
       clientFees = normalizeClientFees(data.clientFees);
       lsS('ff_client_fees', JSON.stringify(clientFees));
+    }
+    if (data.clientProfiles) {
+      clientProfiles = normalizeClientProfiles(data.clientProfiles);
+      lsS('ff_client_profiles', JSON.stringify(clientProfiles));
     }
 
     if (data.xpNotebook) {
@@ -5170,6 +5580,13 @@ let clientFees = {};
 try {
   clientFees = normalizeClientFees(JSON.parse(lsG('ff_client_fees') || '{}'));
 } catch(e) { clientFees = {}; }
+
+let clientProfiles = {};
+try {
+  clientProfiles = normalizeClientProfiles(JSON.parse(lsG('ff_client_profiles') || '{}'));
+} catch(e) { clientProfiles = {}; }
+let editClientKey = null;
+let clFormLang = 'ru';
 
 function getSavedClientFee(name) {
   const clean = (name || '').trim();
@@ -5389,26 +5806,30 @@ function trySmartAutoPrice() {
   const curEl = document.getElementById('f-cur');
   const h = document.getElementById('ahint');
 
-  if (!desc) {
-    if (_amtAutoFilled) {
-      if (amtEl) amtEl.value = '';
-      if (h) { h.textContent = ''; h.className = 'ahint'; }
-      _amtAutoFilled = false;
-    }
-    return;
-  }
+  const rawName = (document.getElementById('f-name')?.value || '').trim();
+  const prof = rawName ? clientProfiles[rawName] : null;
 
   let match = null;
-  if (name) {
-    match = entries.find(e => (e.desc||'').toLowerCase() === desc && (e.name||'').toLowerCase() === name);
+  if (desc) {
+    if (name) {
+      match = entries.find(e => (e.desc||'').toLowerCase() === desc && (e.name||'').toLowerCase() === name);
+    }
+    if (!match) {
+      match = entries.find(e => (e.desc||'').toLowerCase() === desc);
+    }
   }
-  if (!match) {
-    match = entries.find(e => (e.desc||'').toLowerCase() === desc);
-  }
+
   if (match && match.amount > 0) {
     if (amtEl) amtEl.value = match.amount;
     if (curEl && CURS.includes(match.currency)) curEl.value = match.currency;
     if (h) { h.textContent = 'Цена из истории'; h.className = 'ahint smart'; }
+    _amtAutoFilled = true;
+    syncNetCurLabel();
+    recalcNetFromGrossAndFee();
+  } else if (prof && prof.price > 0) {
+    if (amtEl) amtEl.value = prof.price;
+    if (curEl && CURS.includes(prof.currency)) curEl.value = prof.currency;
+    if (h) { h.textContent = 'Ставка клиента'; h.className = 'ahint smart'; }
     _amtAutoFilled = true;
     syncNetCurLabel();
     recalcNetFromGrossAndFee();
@@ -5840,17 +6261,21 @@ let _scRafPending = false;
 let _scCachedState = null;
 
 function switchOrdersSubView(sub) {
-  ordSubView = sub === 'analytics' ? 'analytics' : 'list';
+  ordSubView = (sub === 'analytics' || sub === 'clients') ? sub : 'list';
   const paneList = document.getElementById('ord-pane-list');
   const paneAn = document.getElementById('ord-pane-analytics');
+  const paneCl = document.getElementById('ord-pane-clients');
   const btnList = document.getElementById('ord-sub-list');
   const btnAn = document.getElementById('ord-sub-analytics');
+  const btnCl = document.getElementById('ord-sub-clients');
 
   paneList?.classList.toggle('is-hidden', ordSubView !== 'list');
   paneAn?.classList.toggle('is-hidden', ordSubView !== 'analytics');
+  paneCl?.classList.toggle('is-hidden', ordSubView !== 'clients');
 
   if (btnList) { btnList.classList.toggle('on', ordSubView === 'list'); btnList.setAttribute('aria-selected', String(ordSubView === 'list')); }
   if (btnAn) { btnAn.classList.toggle('on', ordSubView === 'analytics'); btnAn.setAttribute('aria-selected', String(ordSubView === 'analytics')); }
+  if (btnCl) { btnCl.classList.toggle('on', ordSubView === 'clients'); btnCl.setAttribute('aria-selected', String(ordSubView === 'clients')); }
 
   if (ordSubView === 'analytics') {
     clearSel();
@@ -5858,7 +6283,262 @@ function switchOrdersSubView(sub) {
       renderMiniStockChart();
       renderClientRevenueBreakdown();
     });
+  } else if (ordSubView === 'clients') {
+    clearSel();
+    renderClientsTab();
   }
+}
+
+function getAllClientNamesUnion() {
+  const set = new Set();
+  entries.forEach(e => { const n = (e.name || '').trim(); if (n) set.add(n); });
+  Object.keys(clientProfiles).forEach(n => { if (n.trim()) set.add(n.trim()); });
+  return [...set];
+}
+
+function setClientDrawerLang(lang) {
+  clFormLang = lang === 'en' ? 'en' : 'ru';
+  document.getElementById('cl-lang-ru').className = 'fst-btn' + (clFormLang === 'ru' ? ' active-sent' : '');
+  document.getElementById('cl-lang-en').className = 'fst-btn' + (clFormLang === 'en' ? ' active-sent' : '');
+}
+
+function openClientDrawer(clientName = null) {
+  editClientKey = clientName ? String(clientName).trim() : null;
+  const prof = editClientKey ? (clientProfiles[editClientKey] || null) : null;
+
+  const nameEl = document.getElementById('cl-f-name');
+  const priceEl = document.getElementById('cl-f-price');
+  const curEl = document.getElementById('cl-f-cur');
+  const feeEl = document.getElementById('cl-f-fee');
+  const ytEl = document.getElementById('cl-f-yt');
+  const drEl = document.getElementById('cl-f-drive');
+  const fgEl = document.getElementById('cl-f-figma');
+  const noteEl = document.getElementById('cl-f-note');
+
+  const recentOrder = editClientKey ? entries.find(e => (e.name || '').trim() === editClientKey) : null;
+  const savedFee = editClientKey ? getSavedClientFee(editClientKey) : 0;
+
+  setText('cl-dr-title', editClientKey ? `Клиент · ${editClientKey}` : 'Новый клиент');
+  if (nameEl) { nameEl.value = editClientKey || ''; nameEl.style.borderColor = ''; }
+  if (priceEl) priceEl.value = prof && prof.price > 0 ? String(prof.price) : '';
+  if (curEl) curEl.value = (prof && CURS.includes(prof.currency)) ? prof.currency : (recentOrder && CURS.includes(recentOrder.currency) ? recentOrder.currency : baseCur);
+  if (feeEl) { feeEl.value = savedFee > 0 ? formatFeePct(savedFee) : ''; feeEl.style.borderColor = ''; }
+  setClientDrawerLang(prof ? prof.invLang : 'ru');
+  if (ytEl) ytEl.value = prof?.youtubeUrl || '';
+  if (drEl) drEl.value = prof?.driveUrl || '';
+  if (fgEl) fgEl.value = prof?.figmaUrl || '';
+  if (noteEl) noteEl.value = prof?.note || '';
+
+  document.getElementById('cl-dr-del')?.classList.toggle('is-hidden', !prof);
+  document.getElementById('cl-mov')?.classList.add('on');
+  setTimeout(() => (editClientKey ? priceEl : nameEl)?.focus(), 80);
+}
+
+function closeClientDrawer() {
+  editClientKey = null;
+  document.getElementById('cl-mov')?.classList.remove('on');
+}
+
+function saveClientDrawer() {
+  const nameEl = document.getElementById('cl-f-name');
+  const priceEl = document.getElementById('cl-f-price');
+  const curEl = document.getElementById('cl-f-cur');
+  const feeEl = document.getElementById('cl-f-fee');
+
+  const name = (nameEl?.value || '').trim();
+  if (!name) {
+    if (nameEl) nameEl.style.borderColor = 'var(--danger)';
+    showToast('Укажите имя клиента');
+    return;
+  }
+  if (nameEl) nameEl.style.borderColor = '';
+
+  const rawPrice = (priceEl?.value || '').trim();
+  const parsedPrice = rawPrice ? pAmt(rawPrice) : 0;
+  if (rawPrice && (isNaN(parsedPrice) || parsedPrice < 0)) {
+    if (priceEl) priceEl.style.borderColor = 'var(--danger)';
+    showToast('Некорректная ставка');
+    return;
+  }
+  if (priceEl) priceEl.style.borderColor = '';
+
+  const pct = parseFeePct(feeEl?.value || '');
+  if (isNaN(pct) || pct < 0 || pct >= 100) {
+    if (feeEl) feeEl.style.borderColor = 'var(--danger)';
+    showToast('Комиссия должна быть от 0 до 99.99%');
+    return;
+  }
+  if (feeEl) feeEl.style.borderColor = '';
+
+  if (editClientKey && editClientKey !== name && clientProfiles[editClientKey]) {
+    delete clientProfiles[editClientKey];
+  }
+
+  clientProfiles[name] = {
+    name,
+    price: parsedPrice > 0 ? parsedPrice : 0,
+    currency: CURS.includes(curEl?.value) ? curEl.value : baseCur,
+    invLang: clFormLang,
+    youtubeUrl: normalizeClientUrl(document.getElementById('cl-f-yt')?.value || ''),
+    driveUrl: normalizeClientUrl(document.getElementById('cl-f-drive')?.value || ''),
+    figmaUrl: normalizeClientUrl(document.getElementById('cl-f-figma')?.value || ''),
+    note: (document.getElementById('cl-f-note')?.value || '').trim(),
+    updatedAt: Date.now()
+  };
+  setSavedClientFee(name, pct);
+
+  save();
+  closeClientDrawer();
+  renderClientsTab();
+  renderOrderSuggestionChips();
+  showToast(`Карточка «${name}» сохранена`);
+}
+
+async function deleteClientDrawer() {
+  if (!editClientKey || !clientProfiles[editClientKey]) return;
+  const targetName = editClientKey;
+  const hasOrders = entries.some(e => (e.name || '').trim() === targetName);
+  const msg = hasOrders
+    ? `Очистить сохранённые данные и ссылки клиента «${targetName}»? Его заказы останутся в истории.`
+    : `Удалить карточку клиента «${targetName}»?`;
+  if (!(await showConfirm('Удалить карточку клиента', msg))) return;
+
+  delete clientProfiles[targetName];
+  save();
+  closeClientDrawer();
+  renderClientsTab();
+  showToast(`Карточка «${targetName}» очищена`);
+}
+
+function renderClientsTab() {
+  const grid = document.getElementById('cl-cards-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  const q = (document.getElementById('search')?.value || '').trim().toLowerCase();
+  const names = getAllClientNamesUnion();
+
+  const rows = names.map(name => {
+    const prof = clientProfiles[name] || null;
+    const cEntries = entries.filter(e => (e.name || '').trim() === name);
+    const paidEntries = cEntries.filter(e => e.paid);
+    const unpaidEntries = cEntries.filter(e => !e.paid);
+    const paidTot = totB(paidEntries);
+    const revBase = paidTot !== null
+      ? paidTot
+      : Math.round(paidEntries.reduce((s, e) => s + (toB(getEntryNetAmount(e), e.currency) ?? getEntryNetAmount(e)), 0) * 100) / 100;
+    const feePct = getSavedClientFee(name);
+    return { name, prof, cEntries, paidEntries, unpaidEntries, revBase, feePct };
+  }).filter(item => {
+    if (!q) return true;
+    return item.name.toLowerCase().includes(q) || (item.prof?.note || '').toLowerCase().includes(q);
+  }).sort((a, b) => {
+    if (b.unpaidEntries.length !== a.unpaidEntries.length) return b.unpaidEntries.length - a.unpaidEntries.length;
+    if (b.revBase !== a.revBase) return b.revBase - a.revBase;
+    return a.name.localeCompare(b.name, 'ru');
+  });
+
+  setText('cl-count-meta', `Клиентов: ${rows.length}`);
+
+  if (!rows.length) {
+    const empty = el('div', { className: 'empty' });
+    empty.appendChild(el('div', { className: 'empty-title' }, [q ? 'Клиенты не найдены' : 'Пока нет клиентов']));
+    empty.appendChild(el('div', { className: 'empty-sub' }, [
+      q ? 'Попробуйте изменить поисковый запрос.' : 'Добавьте карточку постоянного клиента или создайте первый заказ.'
+    ]));
+    if (!q) {
+      const btn = el('button', { className: 'empty-btn', type: 'button' }, ['+ Новый клиент']);
+      btn.addEventListener('click', () => openClientDrawer(null));
+      empty.appendChild(btn);
+    }
+    grid.appendChild(empty);
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  rows.forEach(item => {
+    const { name, prof, cEntries, unpaidEntries, revBase, feePct } = item;
+    const col = getClientColor(name);
+    const invLang = prof?.invLang || 'ru';
+
+    const editIco = el('button', { type: 'button', className: 'ch-ico-btn', title: 'Редактировать клиента', 'aria-label': 'Редактировать клиента' });
+    editIco.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>';
+    editIco.addEventListener('click', () => openClientDrawer(name));
+
+    const hdr = el('div', { className: 'cl-card-hdr' }, [
+      el('div', { className: 'cl-card-id' }, [
+        el('span', { className: 'eclient-dot', style: `background:${col};width:8px;height:8px;` }),
+        el('span', { className: 'cl-card-name' }, [name]),
+        el('span', { className: 'cl-lang-tag', title: 'Язык инвойса' }, [invLang.toUpperCase()])
+      ]),
+      editIco
+    ]);
+
+    const rateParts = [];
+    if (prof && prof.price > 0) rateParts.push(fmtCur(prof.price, prof.currency || baseCur));
+    if (feePct > 0) rateParts.push(`−${formatFeePct(feePct)}%`);
+    const rateTxt = rateParts.length ? rateParts.join(' · ') : '—';
+
+    const stats = el('div', { className: 'cl-stats' }, [
+      el('div', { className: 'cl-stat' }, [
+        el('span', { className: 'cl-stat-lbl' }, ['Оплачено']),
+        el('span', { className: 'cl-stat-val' }, [fmtB(revBase)])
+      ]),
+      el('div', { className: 'cl-stat' }, [
+        el('span', { className: 'cl-stat-lbl' }, ['Заказов']),
+        el('span', { className: 'cl-stat-val' + (unpaidEntries.length ? ' warn' : '') }, [
+          unpaidEntries.length ? `${cEntries.length} (ждёт ${unpaidEntries.length})` : String(cEntries.length)
+        ])
+      ]),
+      el('div', { className: 'cl-stat' }, [
+        el('span', { className: 'cl-stat-lbl' }, ['Ставка']),
+        el('span', { className: 'cl-stat-val' }, [rateTxt])
+      ])
+    ]);
+
+    const linksWrap = el('div', { className: 'cl-links' });
+    if (prof?.youtubeUrl) linksWrap.appendChild(el('a', { className: 'cl-link-pill', href: prof.youtubeUrl, target: '_blank', rel: 'noopener noreferrer' }, ['YouTube']));
+    if (prof?.driveUrl) linksWrap.appendChild(el('a', { className: 'cl-link-pill', href: prof.driveUrl, target: '_blank', rel: 'noopener noreferrer' }, ['Google Диск']));
+    if (prof?.figmaUrl) linksWrap.appendChild(el('a', { className: 'cl-link-pill', href: prof.figmaUrl, target: '_blank', rel: 'noopener noreferrer' }, ['Figma']));
+
+    const btnOrd = el('button', { type: 'button', className: 'cl-act-btn' }, ['Заказы']);
+    btnOrd.addEventListener('click', () => {
+      activeClientFilter = name;
+      pruneHiddenSelections();
+      buildFilterTags();
+      updateFilterState();
+      renderList();
+      switchOrdersSubView('list');
+    });
+
+    const footLeft = el('div', { className: 'cl-foot-left' }, [btnOrd]);
+    if (unpaidEntries.length > 0) {
+      const btnInv = el('button', { type: 'button', className: 'cl-act-btn primary' }, [`Инвойс (${invLang.toUpperCase()})`]);
+      btnInv.addEventListener('click', () => copyInv(name, invLang));
+      footLeft.appendChild(btnInv);
+    }
+
+    const btnNewOrd = el('button', { type: 'button', className: 'cl-act-btn', title: 'Создать заказ для этого клиента' }, ['+ Заказ']);
+    btnNewOrd.addEventListener('click', () => {
+      clearForm();
+      const fn = document.getElementById('f-name');
+      if (fn) fn.value = name;
+      updateClientClearBtn();
+      trySmartAutoClientFee(true);
+      trySmartAutoPrice();
+      openModal();
+    });
+
+    const card = el('article', { className: 'cl-card' }, [
+      hdr,
+      stats,
+      linksWrap,
+      prof?.note ? el('div', { className: 'cl-note' }, [prof.note]) : null,
+      el('div', { className: 'cl-card-foot' }, [footLeft, btnNewOrd])
+    ]);
+    frag.appendChild(card);
+  });
+  grid.appendChild(frag);
 }
 
 const CHART_TF_META = [
@@ -6606,6 +7286,7 @@ function save() {
   lsS('ff_v1', JSON.stringify(cleanEntriesForStorage(entries)));
   lsS('ff_cur', baseCur);
   lsS('ff_rates', JSON.stringify(rates));
+  lsS('ff_client_profiles', JSON.stringify(clientProfiles));
   _chartDirty = true;
   saveToSafariVault();
   scheduleSmartFirebaseSync();
@@ -6650,6 +7331,7 @@ function onSearch() {
     pruneHiddenSelections();
     updateStatusTabCounts();
     renderList();
+    if (ordSubView === 'clients') renderClientsTab();
   }, 90);
 }
 
@@ -7121,6 +7803,7 @@ function render() {
   updateFilterState();
   updateStatsAndAnalytics();
   renderList();
+  if (ordSubView === 'clients') renderClientsTab();
   if (typeof window.renderBudgetView === 'function') window.renderBudgetView();
 }
 
@@ -7984,6 +8667,7 @@ function exportData() {
     baseCur,
     rates: sanitizeRatesObject(rates),
     clientFees: serializeClientFeesForCloud(clientFees),
+    clientProfiles: serializeClientProfilesForCloud(clientProfiles),
     xpNotebook: normalizeXpNotebook(xpNotebook),
     budgetEntries: window._budgetEntries || [],
     budgetRecurring: window._budgetRecurring || [],
@@ -8023,6 +8707,7 @@ function applyImportedPayload(raw, replaceMode = true) {
   if (!Array.isArray(raw) && raw.baseCur && CURS.includes(raw.baseCur)) baseCur = raw.baseCur;
   if (!Array.isArray(raw) && raw.rates && typeof raw.rates === 'object') rates = sanitizeRatesObject({...rates, ...raw.rates});
   if (!Array.isArray(raw) && raw.clientFees) clientFees = replaceMode ? normalizeClientFees(raw.clientFees) : { ...clientFees, ...normalizeClientFees(raw.clientFees) };
+  if (!Array.isArray(raw) && raw.clientProfiles) clientProfiles = replaceMode ? normalizeClientProfiles(raw.clientProfiles) : mergeClientProfilesMap(clientProfiles, raw.clientProfiles, false);
   if (!Array.isArray(raw) && raw.xpNotebook && typeof raw.xpNotebook === 'object') {
     xpNotebook = replaceMode ? normalizeXpNotebook(raw.xpNotebook) : mergeXpNotebooks(xpNotebook, raw.xpNotebook);
     lsS('ff_xp_notebook', JSON.stringify(xpNotebook));
@@ -8130,9 +8815,20 @@ function bindEvents() {
   document.getElementById('m-period-btn').addEventListener('click', openPeriodSheet);
   document.getElementById('m-inv-btn')?.addEventListener('click', openInvSheet);
 
-  // Orders sub-view switch ([ Заказы | Аналитика ])
+  // Orders sub-view switch ([ Заказы | Аналитика | Клиенты ])
   document.getElementById('ord-sub-list')?.addEventListener('click', () => switchOrdersSubView('list'));
   document.getElementById('ord-sub-analytics')?.addEventListener('click', () => switchOrdersSubView('analytics'));
+  document.getElementById('ord-sub-clients')?.addEventListener('click', () => switchOrdersSubView('clients'));
+  document.getElementById('btn-cl-add')?.addEventListener('click', () => openClientDrawer(null));
+  document.getElementById('cl-dr-close')?.addEventListener('click', closeClientDrawer);
+  document.getElementById('cl-mov')?.addEventListener('click', e => { if (e.target === document.getElementById('cl-mov')) closeClientDrawer(); });
+  document.getElementById('cl-lang-ru')?.addEventListener('click', () => setClientDrawerLang('ru'));
+  document.getElementById('cl-lang-en')?.addEventListener('click', () => setClientDrawerLang('en'));
+  document.getElementById('cl-dr-save')?.addEventListener('click', saveClientDrawer);
+  document.getElementById('cl-dr-del')?.addEventListener('click', deleteClientDrawer);
+  document.getElementById('cl-mov')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); saveClientDrawer(); }
+  });
 
   // KPI Card interactions
   document.getElementById('kpi-await-card')?.addEventListener('click', e => {
@@ -8454,6 +9150,7 @@ function bindEvents() {
       if (document.getElementById('bg-mov')?.classList.contains('on') || document.getElementById('bg-adj-mov')?.classList.contains('on')) return;
       if (typeof window._cancelLasso === 'function') window._cancelLasso();
       if (document.getElementById('fee-bulk-mov')?.classList.contains('on')) { closeBulkFeeModal(); return; }
+      if (document.getElementById('cl-mov')?.classList.contains('on')) { closeClientDrawer(); return; }
       if (document.getElementById('inv-sheet-ov').classList.contains('on')) { closeInvSheet(); return; }
       if (document.getElementById('period-sheet-ov').classList.contains('on')) { closePeriodSheet(); return; }
       closeFP(); closeInvDd(); closeAllPeriodDds();
@@ -8496,6 +9193,7 @@ function bindEvents() {
       document.getElementById('bg-adj-mov')?.classList.contains('on') ||
       document.getElementById('sov').classList.contains('on') ||
       document.getElementById('fee-bulk-mov')?.classList.contains('on') ||
+      document.getElementById('cl-mov')?.classList.contains('on') ||
       document.getElementById('inv-sheet-ov').classList.contains('on') ||
       document.getElementById('period-sheet-ov').classList.contains('on');
 
@@ -13525,6 +14223,37 @@ const TwitterPlanner = (() => {
     return { folders, channels, pinterestUrl: chState.pinterestUrl || '' };
   }
   window._getCloudChannelsData = getCloudChannelsData;
+  window._getChannelsForPreview = () => {
+    const folders = chState.folders.map(f => ({ id: f.id, name: f.name }));
+    const items = [];
+    chState.channels.forEach(ch => {
+      const col = colorForChannel(ch.name);
+      (ch.items || []).forEach(it => {
+        if (it.kind === 'yt' && it.videoId) {
+          items.push({
+            id: it.id,
+            kind: 'yt',
+            videoId: it.videoId,
+            title: it.title || ch.name,
+            channelName: ch.name,
+            folderId: ch.folderId,
+            color: col
+          });
+        } else if (it.kind === 'local' && it.imgId && localBlobUrls.has(it.imgId)) {
+          items.push({
+            id: it.id,
+            kind: 'local',
+            imgUrl: localBlobUrls.get(it.imgId),
+            title: it.title || ch.name,
+            channelName: ch.name,
+            folderId: ch.folderId,
+            color: col
+          });
+        }
+      });
+    });
+    return { folders, items };
+  };
 
   function syncPinterestSettingsInput() {
     const inp = document.getElementById('ch-set-pinterest');
@@ -14716,7 +15445,7 @@ const TwitterPlanner = (() => {
 })();</script>
 <script id="preview-script">
 /* ══════════════════════════════════════════════════════════════════
-   THUMBNAIL PREVIEWER MODULE (ПРИМЕРКА — 100% LOCAL, ZERO API)
+   THUMBNAIL PREVIEWER MODULE (ПРИМЕРКА + ЛЕНТА НИШИ + ОПАСНЫЕ ЗОНЫ)
 ══════════════════════════════════════════════════════════════════ */
 (() => {
   const LS_META = 'ff_pv_meta_v1';
@@ -14728,6 +15457,10 @@ const TwitterPlanner = (() => {
     channel: '',
     duration: '12:34',
     ytDark: false,
+    subMode: 'formats', // 'formats' | 'feed'
+    safeZones: false,
+    feedFolderId: 'all',
+    hlMine: false,
     imgUrl: '',
     imgName: '',
     imgW: 0,
@@ -14736,6 +15469,8 @@ const TwitterPlanner = (() => {
     avUrl: ''
   };
 
+  let _feedSeed = Math.floor(Math.random() * 100000);
+
   try {
     const saved = JSON.parse(lsG(LS_META) || 'null');
     if (saved && typeof saved === 'object') {
@@ -14743,6 +15478,8 @@ const TwitterPlanner = (() => {
       if (typeof saved.channel === 'string') pvState.channel = saved.channel;
       if (typeof saved.duration === 'string') pvState.duration = saved.duration;
       if (typeof saved.ytDark === 'boolean') pvState.ytDark = saved.ytDark;
+      if (typeof saved.safeZones === 'boolean') pvState.safeZones = saved.safeZones;
+      if (typeof saved.hlMine === 'boolean') pvState.hlMine = saved.hlMine;
     }
   } catch (e) {}
 
@@ -14777,7 +15514,9 @@ const TwitterPlanner = (() => {
       title: pvState.title,
       channel: pvState.channel,
       duration: pvState.duration,
-      ytDark: pvState.ytDark
+      ytDark: pvState.ytDark,
+      safeZones: pvState.safeZones,
+      hlMine: pvState.hlMine
     }));
   }
 
@@ -14788,6 +15527,56 @@ const TwitterPlanner = (() => {
       img.onerror = () => resolve({ w: 0, h: 0 });
       img.src = url;
     });
+  }
+
+  function seededRand(seed) {
+    let s = (seed >>> 0) || 1;
+    return () => {
+      s = (s * 1664525 + 1013904223) >>> 0;
+      return s / 4294967296;
+    };
+  }
+
+  function hashStr(str) {
+    let h = 2166136261;
+    const s = String(str || '');
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
+  function fakeMetaForComp(id) {
+    const h = hashStr(id);
+    const viewsList = ['42K', '89K', '156K', '234K', '412K', '680K', '1.1M', '2.4M'];
+    const agoList = ['2 hours ago', '5 hours ago', '1 day ago', '2 days ago', '4 days ago', '1 week ago'];
+    const mins = 6 + (h % 24);
+    const secs = String((h >>> 5) % 60).padStart(2, '0');
+    return {
+      views: `${viewsList[h % viewsList.length]} views · ${agoList[(h >>> 3) % agoList.length]}`,
+      dur: `${mins}:${secs}`
+    };
+  }
+
+  function attachCompetitorThumbImg(imgEl, videoId) {
+    const order = ['maxresdefault', 'sddefault', 'hqdefault'];
+    let step = 0;
+    imgEl.loading = 'lazy';
+    imgEl.decoding = 'async';
+    imgEl.onload = () => {
+      if (imgEl.naturalWidth <= 120 && step < order.length - 1) {
+        step++;
+        imgEl.src = `https://i.ytimg.com/vi/${videoId}/${order[step]}.jpg`;
+      }
+    };
+    imgEl.onerror = () => {
+      if (step < order.length - 1) {
+        step++;
+        imgEl.src = `https://i.ytimg.com/vi/${videoId}/${order[step]}.jpg`;
+      }
+    };
+    imgEl.src = `https://i.ytimg.com/vi/${videoId}/${order[0]}.jpg`;
   }
 
   async function loadThumbFile(file, persist = true) {
@@ -14868,9 +15657,159 @@ const TwitterPlanner = (() => {
     } catch (e) {}
   }
 
+  function renderCompetitorFeed() {
+    const foldersWrap = document.getElementById('pv-feed-folders');
+    const grid = document.getElementById('pv-comp-grid');
+    if (!foldersWrap || !grid) return;
+
+    const src = typeof window._getChannelsForPreview === 'function'
+      ? window._getChannelsForPreview()
+      : { folders: [], items: [] };
+
+    if (pvState.feedFolderId !== 'all' && !src.folders.some(f => f.id === pvState.feedFolderId)) {
+      pvState.feedFolderId = 'all';
+    }
+
+    foldersWrap.innerHTML = '';
+    const allPill = el('button', {
+      type: 'button',
+      className: 'pv-feed-pill' + (pvState.feedFolderId === 'all' ? ' on' : '')
+    }, [`Все каналы (${src.items.length})`]);
+    allPill.addEventListener('click', () => {
+      pvState.feedFolderId = 'all';
+      renderCompetitorFeed();
+    });
+    foldersWrap.appendChild(allPill);
+
+    src.folders.forEach(f => {
+      const cnt = src.items.filter(it => it.folderId === f.id).length;
+      const p = el('button', {
+        type: 'button',
+        className: 'pv-feed-pill' + (pvState.feedFolderId === f.id ? ' on' : '')
+      }, [`${f.name} (${cnt})`]);
+      p.addEventListener('click', () => {
+        pvState.feedFolderId = f.id;
+        renderCompetitorFeed();
+      });
+      foldersWrap.appendChild(p);
+    });
+
+    document.getElementById('pv-btn-hl-mine')?.classList.toggle('on', pvState.hlMine);
+
+    const pool = pvState.feedFolderId === 'all'
+      ? [...src.items]
+      : src.items.filter(it => it.folderId === pvState.feedFolderId);
+
+    grid.innerHTML = '';
+
+    if (!pool.length) {
+      const goBtn = el('button', { type: 'button', className: 'add-order-btn' }, ['Перейти в «Каналы»']);
+      goBtn.addEventListener('click', () => {
+        if (typeof TwitterPlanner !== 'undefined' && TwitterPlanner.switchView) {
+          TwitterPlanner.switchView('channels');
+          updateMobileNavState('channels');
+        }
+      });
+      grid.appendChild(el('div', { className: 'pv-comp-empty', style: 'grid-column:1 / -1;' }, [
+        el('div', {}, ['В этой папке пока нет сохранённых превью конкурентов. Добавьте 5–8 роликов во вкладке «Каналы», чтобы проверять своё превью в реальной ленте ниши.']),
+        goBtn
+      ]));
+      return;
+    }
+
+    // Deterministic shuffle from _feedSeed so typing title doesn't scramble positions
+    const rng = seededRand(_feedSeed);
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    const chosen = pool.slice(0, 8);
+    const totalSlots = chosen.length + 1;
+    const myPos = Math.floor(rng() * totalSlots);
+
+    const displayTitle = (pvState.title || '').trim() || 'Enter your title to see it tested below';
+    const displayChannel = (pvState.channel || '').trim() || 'Your Channel';
+    const displayDur = (pvState.duration || '').trim();
+    const myInitial = displayChannel.charAt(0).toUpperCase() || 'C';
+
+    const buildCard = (cardData, isMine) => {
+      const tbox = el('div', { className: 'pv-tbox' });
+      if (isMine) {
+        if (pvState.imgUrl) {
+          const img = document.createElement('img');
+          img.src = pvState.imgUrl;
+          img.alt = displayTitle;
+          tbox.appendChild(img);
+        } else {
+          tbox.appendChild(el('span', { className: 'pv-tbox-ph' }, ['Ваше превью (Cmd+V)']));
+        }
+        if (displayDur) tbox.appendChild(el('span', { className: 'pv-dur' }, [displayDur]));
+      } else {
+        const img = document.createElement('img');
+        img.alt = cardData.title || 'Превью';
+        if (cardData.kind === 'yt') attachCompetitorThumbImg(img, cardData.videoId);
+        else img.src = cardData.imgUrl || '';
+        tbox.appendChild(img);
+        const fMeta = fakeMetaForComp(cardData.id);
+        tbox.appendChild(el('span', { className: 'pv-dur' }, [fMeta.dur]));
+      }
+
+      const av = el('div', { className: 'pv-yt-av' });
+      if (isMine) {
+        if (pvState.avUrl) {
+          const aImg = document.createElement('img');
+          aImg.src = pvState.avUrl;
+          aImg.alt = displayChannel;
+          av.appendChild(aImg);
+        } else {
+          av.textContent = myInitial;
+        }
+      } else {
+        av.style.background = cardData.color || '#5e5ce6';
+        av.textContent = (cardData.channelName || 'C').charAt(0).toUpperCase();
+      }
+
+      const metaTxt = isMine ? '128K views · 3 hours ago' : fakeMetaForComp(cardData.id).views;
+      const card = el('div', {
+        className: 'pv-comp-card' + (isMine && pvState.hlMine ? ' is-mine-hl' : '')
+      }, [
+        tbox,
+        el('div', { className: 'pv-info' }, [
+          av,
+          el('div', { style: 'min-width:0;flex:1;' }, [
+            el('div', { className: 'pv-yt-title' }, [isMine ? displayTitle : (cardData.title || cardData.channelName)]),
+            el('div', { className: 'pv-yt-meta' }, [isMine ? displayChannel : cardData.channelName]),
+            el('div', { className: 'pv-yt-meta' }, [metaTxt])
+          ])
+        ])
+      ]);
+      return card;
+    };
+
+    const frag = document.createDocumentFragment();
+    let compCursor = 0;
+    for (let slotIdx = 0; slotIdx < totalSlots; slotIdx++) {
+      if (slotIdx === myPos) {
+        frag.appendChild(buildCard(null, true));
+      } else {
+        frag.appendChild(buildCard(chosen[compCursor++], false));
+      }
+    }
+    grid.appendChild(frag);
+  }
+
   function renderPreviewView() {
-    const surface = document.getElementById('pv-yt-surface');
-    if (surface) surface.classList.toggle('is-yt-dark', pvState.ytDark);
+    const isFeed = pvState.subMode === 'feed';
+    document.getElementById('pv-sub-formats')?.classList.toggle('on', !isFeed);
+    document.getElementById('pv-sub-formats')?.setAttribute('aria-selected', String(!isFeed));
+    document.getElementById('pv-sub-feed')?.classList.toggle('on', isFeed);
+    document.getElementById('pv-sub-feed')?.setAttribute('aria-selected', String(isFeed));
+
+    document.getElementById('pv-pane-formats')?.classList.toggle('is-hidden', isFeed);
+    document.getElementById('pv-feed-surface')?.classList.toggle('is-hidden', !isFeed);
+
+    document.getElementById('pv-yt-surface')?.classList.toggle('is-yt-dark', pvState.ytDark);
+    document.getElementById('pv-feed-surface')?.classList.toggle('is-yt-dark', pvState.ytDark);
     document.getElementById('pv-yt-light')?.classList.toggle('on', !pvState.ytDark);
     document.getElementById('pv-yt-dark')?.classList.toggle('on', pvState.ytDark);
 
@@ -14944,7 +15883,12 @@ const TwitterPlanner = (() => {
       }
     }
 
-    document.querySelectorAll('#preview-view [data-pv-av]').forEach(node => {
+    if (isFeed) {
+      renderCompetitorFeed();
+      return;
+    }
+
+    document.querySelectorAll('#pv-pane-formats [data-pv-av]').forEach(node => {
       node.innerHTML = '';
       if (pvState.avUrl) {
         const img = document.createElement('img');
@@ -14956,12 +15900,12 @@ const TwitterPlanner = (() => {
       }
     });
 
-    document.querySelectorAll('#preview-view [data-pv-title]').forEach(n => { n.textContent = displayTitle; });
-    document.querySelectorAll('#preview-view [data-pv-ch]').forEach(n => { n.textContent = displayChannel; });
-    document.querySelectorAll('#preview-view [data-pv-ch-views]').forEach(n => { n.textContent = `${displayChannel} · 128K views`; });
-    document.querySelectorAll('#preview-view [data-pv-ch-full]').forEach(n => { n.textContent = `${displayChannel} · 128K views · 3 hours ago`; });
+    document.querySelectorAll('#pv-pane-formats [data-pv-title]').forEach(n => { n.textContent = displayTitle; });
+    document.querySelectorAll('#pv-pane-formats [data-pv-ch]').forEach(n => { n.textContent = displayChannel; });
+    document.querySelectorAll('#pv-pane-formats [data-pv-ch-views]').forEach(n => { n.textContent = `${displayChannel} · 128K views`; });
+    document.querySelectorAll('#pv-pane-formats [data-pv-ch-full]').forEach(n => { n.textContent = `${displayChannel} · 128K views · 3 hours ago`; });
 
-    document.querySelectorAll('#preview-view [data-pv-slot]').forEach(slot => {
+    document.querySelectorAll('#pv-pane-formats [data-pv-slot]').forEach(slot => {
       slot.innerHTML = '';
       if (hasImg) {
         const img = document.createElement('img');
@@ -14976,11 +15920,15 @@ const TwitterPlanner = (() => {
       }
     });
 
+    const szBtn = document.getElementById('pv-btn-safezones');
+    if (szBtn) szBtn.classList.toggle('on', pvState.safeZones);
+
     const origWrap = document.getElementById('pv-orig-wrap');
     const origSub = document.getElementById('pv-orig-sub');
     if (origWrap) {
       origWrap.innerHTML = '';
       origWrap.classList.toggle('is-empty', !hasImg);
+      origWrap.classList.toggle('show-safe', pvState.safeZones);
       if (hasImg) {
         const img = document.createElement('img');
         img.src = pvState.imgUrl;
@@ -14989,6 +15937,19 @@ const TwitterPlanner = (() => {
       } else {
         origWrap.appendChild(el('span', { className: 'pv-tbox-ph' }, ['Загрузите превью или вставьте через Cmd+V']));
       }
+      const overlay = el('div', { className: 'pv-safe-overlay', aria: { hidden: 'true' } }, [
+        el('div', { className: 'pv-sz-corners' }),
+        el('div', { className: 'pv-sz-hover' }, ['Ховер']),
+        el('div', { className: 'pv-sz-time' }, [displayDur || 'Время']),
+        el('div', { className: 'pv-sz-prog' })
+      ]);
+      origWrap.appendChild(overlay);
+    }
+    const lbStageWrap = document.getElementById('pv-lb-stage-wrap');
+    if (lbStageWrap) {
+      lbStageWrap.classList.toggle('show-safe', pvState.safeZones);
+      const lbTime = lbStageWrap.querySelector('.pv-sz-time');
+      if (lbTime) lbTime.textContent = displayDur || 'Время';
     }
     if (origSub) {
       origSub.textContent = hasImg && pvState.imgW > 0
@@ -15005,6 +15966,7 @@ const TwitterPlanner = (() => {
     }
     const lbImg = document.getElementById('pv-lb-img');
     if (lbImg) lbImg.src = pvState.imgUrl;
+    document.getElementById('pv-lb-stage-wrap')?.classList.toggle('show-safe', pvState.safeZones);
     document.getElementById('pv-lb-ov')?.classList.add('on');
   }
 
@@ -15013,11 +15975,35 @@ const TwitterPlanner = (() => {
   }
 
   function bindPreviewEvents() {
+    document.getElementById('pv-sub-formats')?.addEventListener('click', () => {
+      pvState.subMode = 'formats'; renderPreviewView();
+    });
+    document.getElementById('pv-sub-feed')?.addEventListener('click', () => {
+      pvState.subMode = 'feed'; renderPreviewView();
+    });
+
     document.getElementById('pv-yt-light')?.addEventListener('click', () => {
       pvState.ytDark = false; savePvMeta(); renderPreviewView();
     });
     document.getElementById('pv-yt-dark')?.addEventListener('click', () => {
       pvState.ytDark = true; savePvMeta(); renderPreviewView();
+    });
+
+    document.getElementById('pv-btn-safezones')?.addEventListener('click', () => {
+      pvState.safeZones = !pvState.safeZones;
+      savePvMeta();
+      renderPreviewView();
+    });
+
+    document.getElementById('pv-btn-hl-mine')?.addEventListener('click', () => {
+      pvState.hlMine = !pvState.hlMine;
+      savePvMeta();
+      renderCompetitorFeed();
+    });
+
+    document.getElementById('pv-btn-shuffle')?.addEventListener('click', () => {
+      _feedSeed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
+      renderCompetitorFeed();
     });
 
     document.getElementById('pv-btn-upload')?.addEventListener('click', () => {
@@ -15135,7 +16121,6 @@ const TwitterPlanner = (() => {
   bindPreviewEvents();
   renderPreviewView();
   hydrateFromDB();
-})();
-</script>
+})();</script>
 </body>
 </html>
